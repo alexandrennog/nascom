@@ -1,0 +1,560 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class fClienteCrediarioParcelasForm
+  Inherits System.Windows.Forms.Form
+
+  'Form overrides dispose to clean up the component list.
+  <System.Diagnostics.DebuggerNonUserCode()> _
+  Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+    Try
+      If disposing AndAlso components IsNot Nothing Then
+        components.Dispose()
+      End If
+    Finally
+      MyBase.Dispose(disposing)
+    End Try
+  End Sub
+
+  'Required by the Windows Form Designer
+  Private components As System.ComponentModel.IContainer
+
+  'NOTE: The following procedure is required by the Windows Form Designer
+  'It can be modified using the Windows Form Designer.  
+  'Do not modify it using the code editor.
+  <System.Diagnostics.DebuggerStepThrough()> _
+  Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fClienteCrediarioParcelasForm))
+        Me.lblCliCadastro = New System.Windows.Forms.Label()
+        Me.txtControle = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtLimite = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.txtDisponivel = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.dgvCrediario = New System.Windows.Forms.DataGridView()
+        Me.lblVendedor = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.txtCliente = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.lblTotal = New System.Windows.Forms.Label()
+        Me.lblLoja = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.btoIncluirItem = New System.Windows.Forms.Button()
+        Me.btoExcluirItem = New System.Windows.Forms.Button()
+        Me.btoEtiqueta = New System.Windows.Forms.Button()
+        Me.imgCliLogo = New System.Windows.Forms.PictureBox()
+        Me.btoSalvar = New System.Windows.Forms.Button()
+        Me.lblFalta = New System.Windows.Forms.Label()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnPagamentos = New System.Windows.Forms.Button()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Codigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataEmissao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Vencimento = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ValorParcela = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.valorPago = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.datapagamento = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.observacao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.situacao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'lblCliCadastro
+        '
+        Me.lblCliCadastro.AutoSize = True
+        Me.lblCliCadastro.Font = New System.Drawing.Font("Arial", 15.75!, System.Drawing.FontStyle.Bold)
+        Me.lblCliCadastro.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblCliCadastro.Location = New System.Drawing.Point(64, 8)
+        Me.lblCliCadastro.Name = "lblCliCadastro"
+        Me.lblCliCadastro.Size = New System.Drawing.Size(207, 24)
+        Me.lblCliCadastro.TabIndex = 230
+        Me.lblCliCadastro.Text = "Crediário - Parcelas"
+        '
+        'txtControle
+        '
+        Me.txtControle.BackColor = System.Drawing.Color.White
+        Me.txtControle.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtControle.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.txtControle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.txtControle.Location = New System.Drawing.Point(143, 109)
+        Me.txtControle.Name = "txtControle"
+        Me.txtControle.Size = New System.Drawing.Size(174, 18)
+        Me.txtControle.TabIndex = 1
+        Me.txtControle.TabStop = False
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label3.ForeColor = System.Drawing.Color.Black
+        Me.Label3.Location = New System.Drawing.Point(62, 109)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(70, 18)
+        Me.Label3.TabIndex = 176
+        Me.Label3.Text = "Controle"
+        '
+        'txtLimite
+        '
+        Me.txtLimite.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtLimite.Location = New System.Drawing.Point(143, 136)
+        Me.txtLimite.Name = "txtLimite"
+        Me.txtLimite.ReadOnly = True
+        Me.txtLimite.Size = New System.Drawing.Size(174, 18)
+        Me.txtLimite.TabIndex = 2
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label18.Location = New System.Drawing.Point(58, 137)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(74, 18)
+        Me.Label18.TabIndex = 272
+        Me.Label18.Text = "Limite R$"
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(27, 166)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(105, 18)
+        Me.Label23.TabIndex = 289
+        Me.Label23.Text = "Valor Total R$"
+        '
+        'txtDisponivel
+        '
+        Me.txtDisponivel.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtDisponivel.Location = New System.Drawing.Point(471, 136)
+        Me.txtDisponivel.Name = "txtDisponivel"
+        Me.txtDisponivel.ReadOnly = True
+        Me.txtDisponivel.Size = New System.Drawing.Size(184, 18)
+        Me.txtDisponivel.TabIndex = 3
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label1.Location = New System.Drawing.Point(354, 136)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(107, 18)
+        Me.Label1.TabIndex = 291
+        Me.Label1.Text = "Disponível R$"
+        '
+        'dgvCrediario
+        '
+        Me.dgvCrediario.AllowUserToAddRows = False
+        Me.dgvCrediario.AllowUserToResizeColumns = False
+        Me.dgvCrediario.AllowUserToResizeRows = False
+        Me.dgvCrediario.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.dgvCrediario.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.dgvCrediario.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.dgvCrediario.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
+        Me.dgvCrediario.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvCrediario.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Codigo, Me.DataEmissao, Me.Vencimento, Me.ValorParcela, Me.valorPago, Me.datapagamento, Me.observacao, Me.situacao})
+        Me.dgvCrediario.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.dgvCrediario.Location = New System.Drawing.Point(11, 204)
+        Me.dgvCrediario.Name = "dgvCrediario"
+        Me.dgvCrediario.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
+        Me.dgvCrediario.RowHeadersVisible = False
+        Me.dgvCrediario.Size = New System.Drawing.Size(776, 310)
+        Me.dgvCrediario.TabIndex = 5
+        '
+        'lblVendedor
+        '
+        Me.lblVendedor.AutoSize = True
+        Me.lblVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVendedor.ForeColor = System.Drawing.Color.Blue
+        Me.lblVendedor.Location = New System.Drawing.Point(143, 78)
+        Me.lblVendedor.Name = "lblVendedor"
+        Me.lblVendedor.Size = New System.Drawing.Size(30, 19)
+        Me.lblVendedor.TabIndex = 300
+        Me.lblVendedor.Text = "Eu"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(49, 78)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(83, 19)
+        Me.Label5.TabIndex = 299
+        Me.Label5.Text = "Vendedor"
+        '
+        'txtCliente
+        '
+        Me.txtCliente.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.txtCliente.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtCliente.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.txtCliente.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.txtCliente.Location = New System.Drawing.Point(471, 108)
+        Me.txtCliente.Name = "txtCliente"
+        Me.txtCliente.ReadOnly = True
+        Me.txtCliente.Size = New System.Drawing.Size(184, 18)
+        Me.txtCliente.TabIndex = 298
+        Me.txtCliente.TabStop = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label2.ForeColor = System.Drawing.Color.Gray
+        Me.Label2.Location = New System.Drawing.Point(402, 108)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(59, 18)
+        Me.Label2.TabIndex = 297
+        Me.Label2.Text = "Cliente"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(390, 164)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(71, 19)
+        Me.Label13.TabIndex = 294
+        Me.Label13.Text = "Falta R$"
+        '
+        'lblTotal
+        '
+        Me.lblTotal.AutoSize = True
+        Me.lblTotal.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotal.ForeColor = System.Drawing.Color.Blue
+        Me.lblTotal.Location = New System.Drawing.Point(143, 164)
+        Me.lblTotal.Name = "lblTotal"
+        Me.lblTotal.Size = New System.Drawing.Size(87, 19)
+        Me.lblTotal.TabIndex = 293
+        Me.lblTotal.Text = "111.000,00"
+        '
+        'lblLoja
+        '
+        Me.lblLoja.AutoSize = True
+        Me.lblLoja.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLoja.ForeColor = System.Drawing.Color.Blue
+        Me.lblLoja.Location = New System.Drawing.Point(471, 77)
+        Me.lblLoja.Name = "lblLoja"
+        Me.lblLoja.Size = New System.Drawing.Size(41, 19)
+        Me.lblLoja.TabIndex = 302
+        Me.lblLoja.Text = "ADJ"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(419, 77)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(42, 19)
+        Me.Label9.TabIndex = 301
+        Me.Label9.Text = "Loja"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.Transparent
+        Me.Label4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(70, 554)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(94, 14)
+        Me.Label4.TabIndex = 307
+        Me.Label4.Text = "Excluir Item [F2]"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(70, 523)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(92, 14)
+        Me.Label6.TabIndex = 306
+        Me.Label6.Text = "Incluir Item [F1]"
+        '
+        'btoSair
+        '
+        Me.btoSair.BackColor = System.Drawing.Color.Transparent
+        Me.btoSair.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoSair.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btoSair.FlatAppearance.BorderSize = 0
+        Me.btoSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoSair.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoSair.ForeColor = System.Drawing.Color.Black
+        Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
+        Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoSair.Location = New System.Drawing.Point(692, 8)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.btoSair.Name = "btoSair"
+        Me.btoSair.Size = New System.Drawing.Size(100, 72)
+        Me.btoSair.TabIndex = 8
+        Me.btoSair.Text = "Fechar <Esc>"
+        Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoSair.UseVisualStyleBackColor = False
+        '
+        'btoIncluirItem
+        '
+        Me.btoIncluirItem.BackColor = System.Drawing.Color.Transparent
+        Me.btoIncluirItem.BackgroundImage = CType(resources.GetObject("btoIncluirItem.BackgroundImage"), System.Drawing.Image)
+        Me.btoIncluirItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoIncluirItem.FlatAppearance.BorderSize = 0
+        Me.btoIncluirItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoIncluirItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoIncluirItem.ForeColor = System.Drawing.Color.White
+        Me.btoIncluirItem.Location = New System.Drawing.Point(39, 518)
+        Me.btoIncluirItem.Name = "btoIncluirItem"
+        Me.btoIncluirItem.Size = New System.Drawing.Size(25, 25)
+        Me.btoIncluirItem.TabIndex = 304
+        Me.btoIncluirItem.TabStop = False
+        Me.btoIncluirItem.UseVisualStyleBackColor = False
+        '
+        'btoExcluirItem
+        '
+        Me.btoExcluirItem.BackColor = System.Drawing.Color.Transparent
+        Me.btoExcluirItem.BackgroundImage = CType(resources.GetObject("btoExcluirItem.BackgroundImage"), System.Drawing.Image)
+        Me.btoExcluirItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoExcluirItem.FlatAppearance.BorderSize = 0
+        Me.btoExcluirItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoExcluirItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoExcluirItem.ForeColor = System.Drawing.Color.White
+        Me.btoExcluirItem.Location = New System.Drawing.Point(39, 549)
+        Me.btoExcluirItem.Name = "btoExcluirItem"
+        Me.btoExcluirItem.Size = New System.Drawing.Size(25, 25)
+        Me.btoExcluirItem.TabIndex = 305
+        Me.btoExcluirItem.TabStop = False
+        Me.btoExcluirItem.UseVisualStyleBackColor = False
+        '
+        'btoEtiqueta
+        '
+        Me.btoEtiqueta.BackColor = System.Drawing.Color.Transparent
+        Me.btoEtiqueta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoEtiqueta.FlatAppearance.BorderSize = 0
+        Me.btoEtiqueta.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoEtiqueta.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoEtiqueta.ForeColor = System.Drawing.Color.Black
+        Me.btoEtiqueta.Image = Global.nascomercio.My.Resources.Resources.print_design
+        Me.btoEtiqueta.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoEtiqueta.Location = New System.Drawing.Point(692, 84)
+        Me.btoEtiqueta.Margin = New System.Windows.Forms.Padding(0)
+        Me.btoEtiqueta.Name = "btoEtiqueta"
+        Me.btoEtiqueta.Size = New System.Drawing.Size(100, 72)
+        Me.btoEtiqueta.TabIndex = 303
+        Me.btoEtiqueta.TabStop = False
+        Me.btoEtiqueta.Text = "Etiquetas <F7>"
+        Me.btoEtiqueta.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoEtiqueta.UseVisualStyleBackColor = False
+        '
+        'imgCliLogo
+        '
+        Me.imgCliLogo.BackColor = System.Drawing.Color.Transparent
+        Me.imgCliLogo.Image = Global.nascomercio.My.Resources.Resources.pagamento
+        Me.imgCliLogo.Location = New System.Drawing.Point(8, 8)
+        Me.imgCliLogo.Name = "imgCliLogo"
+        Me.imgCliLogo.Size = New System.Drawing.Size(50, 50)
+        Me.imgCliLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.imgCliLogo.TabIndex = 211
+        Me.imgCliLogo.TabStop = False
+        '
+        'btoSalvar
+        '
+        Me.btoSalvar.BackColor = System.Drawing.Color.Transparent
+        Me.btoSalvar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoSalvar.FlatAppearance.BorderSize = 0
+        Me.btoSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoSalvar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoSalvar.ForeColor = System.Drawing.Color.Black
+        Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
+        Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoSalvar.Location = New System.Drawing.Point(340, 548)
+        Me.btoSalvar.Name = "btoSalvar"
+        Me.btoSalvar.Size = New System.Drawing.Size(118, 70)
+        Me.btoSalvar.TabIndex = 6
+        Me.btoSalvar.Text = "Confirmar <Enter>"
+        Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoSalvar.UseVisualStyleBackColor = False
+        '
+        'lblFalta
+        '
+        Me.lblFalta.AutoSize = True
+        Me.lblFalta.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFalta.ForeColor = System.Drawing.Color.Red
+        Me.lblFalta.Location = New System.Drawing.Point(471, 164)
+        Me.lblFalta.Name = "lblFalta"
+        Me.lblFalta.Size = New System.Drawing.Size(79, 19)
+        Me.lblFalta.TabIndex = 295
+        Me.lblFalta.Text = "11.123,45"
+        '
+        'Panel1
+        '
+        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.btoIncluirItem)
+        Me.Panel1.Controls.Add(Me.btnPagamentos)
+        Me.Panel1.Controls.Add(Me.btoExcluirItem)
+        Me.Panel1.Controls.Add(Me.Label4)
+        Me.Panel1.Controls.Add(Me.lblFalta)
+        Me.Panel1.Controls.Add(Me.Label7)
+        Me.Panel1.Controls.Add(Me.Label6)
+        Me.Panel1.Controls.Add(Me.Label13)
+        Me.Panel1.Controls.Add(Me.lblTotal)
+        Me.Panel1.Controls.Add(Me.txtLimite)
+        Me.Panel1.Controls.Add(Me.Label1)
+        Me.Panel1.Controls.Add(Me.Label9)
+        Me.Panel1.Controls.Add(Me.lblLoja)
+        Me.Panel1.Controls.Add(Me.txtDisponivel)
+        Me.Panel1.Controls.Add(Me.txtCliente)
+        Me.Panel1.Controls.Add(Me.Label2)
+        Me.Panel1.Controls.Add(Me.dgvCrediario)
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(800, 626)
+        Me.Panel1.TabIndex = 308
+        '
+        'btnPagamentos
+        '
+        Me.btnPagamentos.BackColor = System.Drawing.Color.Transparent
+        Me.btnPagamentos.BackgroundImage = Global.nascomercio.My.Resources.Resources.confirmar32
+        Me.btnPagamentos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnPagamentos.FlatAppearance.BorderSize = 0
+        Me.btnPagamentos.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnPagamentos.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPagamentos.ForeColor = System.Drawing.Color.White
+        Me.btnPagamentos.Location = New System.Drawing.Point(39, 580)
+        Me.btnPagamentos.Name = "btnPagamentos"
+        Me.btnPagamentos.Size = New System.Drawing.Size(25, 25)
+        Me.btnPagamentos.TabIndex = 309
+        Me.btnPagamentos.TabStop = False
+        Me.btnPagamentos.UseVisualStyleBackColor = False
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(70, 585)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(99, 14)
+        Me.Label7.TabIndex = 310
+        Me.Label7.Text = "Pagamentos [F3]"
+        '
+        'Codigo
+        '
+        Me.Codigo.HeaderText = "Codigo"
+        Me.Codigo.Name = "Codigo"
+        Me.Codigo.ReadOnly = True
+        Me.Codigo.Width = 84
+        '
+        'DataEmissao
+        '
+        Me.DataEmissao.HeaderText = "Data Emissão"
+        Me.DataEmissao.Name = "DataEmissao"
+        Me.DataEmissao.ReadOnly = True
+        Me.DataEmissao.Width = 128
+        '
+        'Vencimento
+        '
+        Me.Vencimento.HeaderText = "Vencimento"
+        Me.Vencimento.Name = "Vencimento"
+        Me.Vencimento.Width = 115
+        '
+        'ValorParcela
+        '
+        Me.ValorParcela.HeaderText = "Valor Parcela"
+        Me.ValorParcela.Name = "ValorParcela"
+        Me.ValorParcela.Width = 125
+        '
+        'valorPago
+        '
+        Me.valorPago.HeaderText = "Valor Pago"
+        Me.valorPago.Name = "valorPago"
+        Me.valorPago.Width = 108
+        '
+        'datapagamento
+        '
+        Me.datapagamento.HeaderText = "Data Pagamento"
+        Me.datapagamento.Name = "datapagamento"
+        Me.datapagamento.Width = 135
+        '
+        'observacao
+        '
+        Me.observacao.HeaderText = "Obs."
+        Me.observacao.Name = "observacao"
+        Me.observacao.Width = 66
+        '
+        'situacao
+        '
+        Me.situacao.HeaderText = "Situação"
+        Me.situacao.Name = "situacao"
+        Me.situacao.Visible = False
+        Me.situacao.Width = 94
+        '
+        'fClienteCrediarioParcelasForm
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.ClientSize = New System.Drawing.Size(800, 626)
+        Me.Controls.Add(Me.btoEtiqueta)
+        Me.Controls.Add(Me.lblVendedor)
+        Me.Controls.Add(Me.Label23)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.lblCliCadastro)
+        Me.Controls.Add(Me.imgCliLogo)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.Label18)
+        Me.Controls.Add(Me.btoSair)
+        Me.Controls.Add(Me.txtControle)
+        Me.Controls.Add(Me.btoSalvar)
+        Me.Controls.Add(Me.Panel1)
+        Me.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.KeyPreview = True
+        Me.Margin = New System.Windows.Forms.Padding(4)
+        Me.Name = "fClienteCrediarioParcelasForm"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Clientes - Financeiro"
+        CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+  Friend WithEvents lblCliCadastro As System.Windows.Forms.Label
+  Friend WithEvents btoSalvar As System.Windows.Forms.Button
+  Friend WithEvents imgCliLogo As System.Windows.Forms.PictureBox
+  Friend WithEvents txtControle As System.Windows.Forms.TextBox
+  Friend WithEvents Label3 As System.Windows.Forms.Label
+  Friend WithEvents btoSair As System.Windows.Forms.Button
+  Friend WithEvents txtLimite As System.Windows.Forms.TextBox
+  Friend WithEvents Label18 As System.Windows.Forms.Label
+  Friend WithEvents Label23 As System.Windows.Forms.Label
+  Friend WithEvents txtDisponivel As System.Windows.Forms.TextBox
+  Friend WithEvents Label1 As System.Windows.Forms.Label
+  Friend WithEvents dgvCrediario As System.Windows.Forms.DataGridView
+  Friend WithEvents lblTotal As System.Windows.Forms.Label
+  Friend WithEvents Label13 As System.Windows.Forms.Label
+  Friend WithEvents Label2 As System.Windows.Forms.Label
+  Friend WithEvents txtCliente As System.Windows.Forms.TextBox
+  Friend WithEvents Label5 As System.Windows.Forms.Label
+  Friend WithEvents lblVendedor As System.Windows.Forms.Label
+  Friend WithEvents lblLoja As System.Windows.Forms.Label
+  Friend WithEvents Label9 As System.Windows.Forms.Label
+  Friend WithEvents btoEtiqueta As System.Windows.Forms.Button
+  Friend WithEvents btoIncluirItem As System.Windows.Forms.Button
+  Friend WithEvents Label4 As System.Windows.Forms.Label
+  Friend WithEvents btoExcluirItem As System.Windows.Forms.Button
+  Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents lblFalta As System.Windows.Forms.Label
+  Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents btnPagamentos As System.Windows.Forms.Button
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents Codigo As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents DataEmissao As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Vencimento As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents ValorParcela As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents valorPago As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents datapagamento As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents observacao As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents situacao As System.Windows.Forms.DataGridViewTextBoxColumn
+End Class
