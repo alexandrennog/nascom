@@ -293,15 +293,15 @@ Public Class fRelatorioGrade
                 totalGeral = totalGeral + totalRef
               End If
 
-              rtbGrade.AppendText(" TOTAL = " & totalRef.ToString())
-              rtbGrade.AppendText(vbCrLf)
+                            rtbGrade.AppendText(" TOTAL = " & cFuncoes.FormatarTextoDecimal(totalRef.ToString(), ehDecimal))
+                            rtbGrade.AppendText(vbCrLf)
               rtbGrade.AppendText(vbCrLf)
               Application.DoEvents()
             Next
             pbGrade.Hide()
 
-            rtbGrade.AppendText(" TOTAL GERAL = " & totalGeral.ToString())
-            rtbGrade.AppendText(vbCrLf)
+                        rtbGrade.AppendText(" TOTAL GERAL = " & cFuncoes.FormatarTextoDecimal(totalGeral.ToString(), ehDecimal))
+                        rtbGrade.AppendText(vbCrLf)
             rtbGrade.AppendText(vbCrLf)
           End If
 
