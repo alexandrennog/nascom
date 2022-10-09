@@ -92,6 +92,7 @@ Public Class mdiPrincipal
         Dim mensagem As String = String.Empty
         Dim emExecucao As Boolean
         Dim regraParametro As New rParametro
+        Dim dadosParametro As dParametro
 
         '1- verificando quantos elementos o array possui , se possuir mais de um então existe duas instâncias
         emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length > 1
@@ -110,8 +111,12 @@ Public Class mdiPrincipal
             Dim cripto As New ncComum.criptografia()
 
             dadosUsuario.usuario = fAcesso.txtUsuario.Text.Trim()
-            dadosUsuario.senha = cripto.Criptografar(fAcesso.txtSenha.Text.Trim())
-
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Secure)
+            If dadosParametro.valor = "0" Then
+                dadosUsuario.senha = fAcesso.txtSenha.Text.Trim()
+            Else
+                dadosUsuario.senha = cripto.Criptografar(fAcesso.txtSenha.Text.Trim())
+            End If
             retorno = regrasUsuario.Consultar(dadosUsuario)
 
             If IsNothing(retorno) Then

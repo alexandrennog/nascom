@@ -98,7 +98,7 @@ Public Class fUsuarioForm
                     dados.descontoProduto = cFuncoes.TratarDecimal(txtDescontoProduto.Text)
                     dados.descontoPedido = cFuncoes.TratarDecimal(txtDescontoPedido.Text)
                     dados.comissao = cFuncoes.TratarDecimal(txtComissao.Text)
-
+                    dados.Email = cFuncoes.TratarTexto(txtEmail.Text)
                     If tipoAcao.Equals("i") Then
             novoCID = regras.Incluir(dados)
 
@@ -240,8 +240,9 @@ Public Class fUsuarioForm
             txtConfirmacao.Text = cFuncoes.RetornarTexto(dados.senha)
             txtDescontoProduto.Text = cFuncoes.RetornarTexto(dados.descontoProduto)
             txtDescontoPedido.Text = cFuncoes.RetornarTexto(dados.descontoPedido)
-            txtComissao.Text = cFuncoes.RetornarTexto(dados.comissao)
-            If cboPerfil.Items.Count > 0 Then
+                        txtComissao.Text = cFuncoes.RetornarTexto(dados.comissao)
+                        txtEmail.Text = cFuncoes.RetornarTexto(dados.Email)
+                        If cboPerfil.Items.Count > 0 Then
               cboPerfil.SelectedIndex = 0
             End If
             If cFuncoes.ValidarValor(dados.usuarioPerfil_cid) Then
@@ -275,8 +276,9 @@ Public Class fUsuarioForm
     txtConfirmacao.Text = String.Empty
     txtDescontoPedido.Text = String.Empty
     txtDescontoProduto.Text = String.Empty
-    txtComissao.Text = String.Empty
-    If cboPerfil.Items.Count > 0 Then
+        txtComissao.Text = String.Empty
+        txtEmail.Text = String.Empty
+        If cboPerfil.Items.Count > 0 Then
       cboPerfil.SelectedIndex = 0
     End If
     If cboSituacao.Items.Count > 0 Then

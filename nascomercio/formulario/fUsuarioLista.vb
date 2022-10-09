@@ -101,4 +101,7 @@ Public Class fUsuarioLista
     SelecionarItem()
   End Sub
 
+    Private Sub dgvUsuario_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvUsuario.CellContentClick
+
+    End Sub
 End Class

@@ -93,16 +93,17 @@ Namespace nsUsuario
 
             retorno = New dUsuario()
 
-            retorno.cid = cFuncoes.RetornarInteiro(item.cid)
-            retorno.nomeCompleto = cFuncoes.RetornarTexto(item.nomeCompleto)
-            retorno.senha = cFuncoes.RetornarTexto(item.senha)
-            retorno.situacao = cFuncoes.RetornarTexto(item.situacao)
-            retorno.usuario = cFuncoes.RetornarTexto(item.usuario)
-            retorno.descontoProduto = cFuncoes.RetornarDecimal(item.descontoProduto)
-            retorno.descontoPedido = cFuncoes.RetornarDecimal(item.descontoPedido)
-            retorno.comissao = cFuncoes.RetornarDecimal(item.comissao)
-            retorno.usuarioPerfil_cid = cFuncoes.RetornarInteiro(item.usuarioPerfil_cid)
-          Else
+                        retorno.cid = cFuncoes.RetornarInteiro(item.cid)
+                        retorno.nomeCompleto = cFuncoes.RetornarTexto(item.nomeCompleto)
+                        retorno.senha = cFuncoes.RetornarTexto(item.senha)
+                        retorno.situacao = cFuncoes.RetornarTexto(item.situacao)
+                        retorno.usuario = cFuncoes.RetornarTexto(item.usuario)
+                        retorno.descontoProduto = cFuncoes.RetornarDecimal(item.descontoProduto)
+                        retorno.descontoPedido = cFuncoes.RetornarDecimal(item.descontoPedido)
+                        retorno.comissao = cFuncoes.RetornarDecimal(item.comissao)
+                        retorno.usuarioPerfil_cid = cFuncoes.RetornarInteiro(item.usuarioPerfil_cid)
+                        retorno.Email = cFuncoes.RetornarTexto(item.Email)
+                    Else
             retorno = Nothing
           End If
         Else

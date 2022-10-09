@@ -253,20 +253,21 @@ Namespace nsUsuario
         acessoBanco = New cAcessoBD
 
 
-        comandoSQL = " INSERT INTO " & _
-            " usuarios (usuario, senha, nomeCompleto, situacao, descontoProduto, descontoPedido, " & _
-            " comissao, usuarioPerfil_cid) " & _
-            " VALUES (" & _
-            cFuncoes.PersistirTexto(dados.usuario) & "," & _
-            cFuncoes.PersistirTexto(dados.senha) & "," & _
-            cFuncoes.PersistirTexto(dados.nomeCompleto) & "," & _
-            cFuncoes.PersistirTexto(dados.situacao) & "," & _
-            cFuncoes.PersistirDecimal(dados.descontoProduto) & "," & _
-            cFuncoes.PersistirDecimal(dados.descontoPedido) & "," & _
-            cFuncoes.PersistirDecimal(dados.comissao) & "," & _
+                comandoSQL = " INSERT INTO " &
+            " usuarios (usuario, senha, nomeCompleto, situacao, descontoProduto, descontoPedido, " &
+            " comissao, email, usuarioPerfil_cid) " &
+            " VALUES (" &
+            cFuncoes.PersistirTexto(dados.usuario) & "," &
+            cFuncoes.PersistirTexto(dados.senha) & "," &
+            cFuncoes.PersistirTexto(dados.nomeCompleto) & "," &
+            cFuncoes.PersistirTexto(dados.situacao) & "," &
+            cFuncoes.PersistirDecimal(dados.descontoProduto) & "," &
+            cFuncoes.PersistirDecimal(dados.descontoPedido) & "," &
+            cFuncoes.PersistirDecimal(dados.comissao) & "," &
+            cFuncoes.PersistirTexto(dados.Email) & "," &
             cFuncoes.PersistirInteiro(dados.usuarioPerfil_cid) & ")"
 
-        retorno = acessoBanco.ExecutarCID(comandoSQL)
+                retorno = acessoBanco.ExecutarCID(comandoSQL)
 
       Catch ex As Exception
 
@@ -291,19 +292,20 @@ Namespace nsUsuario
         acessoBanco = New cAcessoBD
 
 
-        comandoSQL = " UPDATE usuarios SET " & _
-            " usuario = " & cFuncoes.PersistirTexto(dados.usuario) & "," & _
-            " senha = " & cFuncoes.PersistirTexto(dados.senha) & "," & _
-            " nomeCompleto = " & cFuncoes.PersistirTexto(dados.nomeCompleto) & "," & _
-            " situacao = " & cFuncoes.PersistirTexto(dados.situacao) & "," & _
-            " descontoProduto = " & cFuncoes.PersistirDecimal(dados.descontoProduto) & "," & _
-            " descontoPedido = " & cFuncoes.PersistirDecimal(dados.descontoPedido) & "," & _
-            " comissao = " & cFuncoes.PersistirDecimal(dados.comissao) & "," & _
-            " usuarioPerfil_cid = " & cFuncoes.PersistirInteiro(dados.usuarioPerfil_cid) & _
-            " WHERE " & _
+                comandoSQL = " UPDATE usuarios SET " &
+            " usuario = " & cFuncoes.PersistirTexto(dados.usuario) & "," &
+            " senha = " & cFuncoes.PersistirTexto(dados.senha) & "," &
+            " nomeCompleto = " & cFuncoes.PersistirTexto(dados.nomeCompleto) & "," &
+            " situacao = " & cFuncoes.PersistirTexto(dados.situacao) & "," &
+            " descontoProduto = " & cFuncoes.PersistirDecimal(dados.descontoProduto) & "," &
+            " descontoPedido = " & cFuncoes.PersistirDecimal(dados.descontoPedido) & "," &
+            " comissao = " & cFuncoes.PersistirDecimal(dados.comissao) & "," &
+            " usuarioPerfil_cid = " & cFuncoes.PersistirInteiro(dados.usuarioPerfil_cid) & "," &
+            " email = " & cFuncoes.PersistirTexto(dados.Email) &
+            " WHERE " &
             " cid = " & dados.cid.ToString()
 
-        retorno = acessoBanco.ExecutarINT(comandoSQL)
+                retorno = acessoBanco.ExecutarINT(comandoSQL)
 
       Catch ex As Exception
 
