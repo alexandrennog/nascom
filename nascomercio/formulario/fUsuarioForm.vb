@@ -51,9 +51,10 @@ Public Class fUsuarioForm
     Dim tipoAcao As String = String.Empty
     Dim novoCID As Integer
     Dim colecao As ColecaoUsuario
-    Dim existeUsuario As Boolean = False
+        Dim existeUsuario As Boolean = False
+        Dim cripto As New ncComum.criptografia()
 
-    Try
+        Try
 
       tipoMsg = "INCLUSÃO"
       tipoAcao = "i"
@@ -88,17 +89,17 @@ Public Class fUsuarioForm
           dados = New dUsuario
           regras = New rUsuario
 
-          dados.cid = Me.cid
-          dados.nomeCompleto = cFuncoes.TratarTexto(txtNomeCompleto.Text)
-          dados.usuario = cFuncoes.TratarTexto(txtUsuario.Text)
-          dados.senha = cFuncoes.TratarTexto(txtSenha.Text)
-          dados.usuarioPerfil_cid = cFuncoes.TratarInteiro(cboPerfil.SelectedValue)
-          dados.situacao = cFuncoes.TratarTexto(cboSituacao.SelectedValue)
-          dados.descontoProduto = cFuncoes.TratarDecimal(txtDescontoProduto.Text)
-          dados.descontoPedido = cFuncoes.TratarDecimal(txtDescontoPedido.Text)
-          dados.comissao = cFuncoes.TratarDecimal(txtComissao.Text)
+                    dados.cid = Me.cid
+                    dados.nomeCompleto = cFuncoes.TratarTexto(txtNomeCompleto.Text)
+                    dados.usuario = cFuncoes.TratarTexto(txtUsuario.Text)
+                    dados.senha = cripto.Criptografar(cFuncoes.TratarTexto(txtSenha.Text))
+                    dados.usuarioPerfil_cid = cFuncoes.TratarInteiro(cboPerfil.SelectedValue)
+                    dados.situacao = cFuncoes.TratarTexto(cboSituacao.SelectedValue)
+                    dados.descontoProduto = cFuncoes.TratarDecimal(txtDescontoProduto.Text)
+                    dados.descontoPedido = cFuncoes.TratarDecimal(txtDescontoPedido.Text)
+                    dados.comissao = cFuncoes.TratarDecimal(txtComissao.Text)
 
-          If tipoAcao.Equals("i") Then
+                    If tipoAcao.Equals("i") Then
             novoCID = regras.Incluir(dados)
 
             Me.cid = novoCID

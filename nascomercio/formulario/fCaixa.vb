@@ -12,6 +12,13 @@ Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
 Imports ncComum.nsLog.cLog
 Imports ncComum.DFW
+Imports ncComum.nsEmail
+Imports ncDados
+Imports ncRegras.nsUsuario
+Imports ncDados.nsUsuario
+Imports ncRegras.nsUsuarioPerfil
+Imports ncDados.nsUsuarioPerfil
+Imports System.Configuration
 
 Public Class fCaixa
 
@@ -1099,6 +1106,17 @@ Public Class fCaixa
         Dim regraCaixa As New rCaixa()
         Dim dadosCaixa As New dCaixa()
         Dim consultaCaixa As New ColecaoCaixa()
+        Dim consultaCaixaFechamento As dCaixaFechamento
+        Dim regrasUsuario As rUsuario
+        Dim dadosUsuario As dUsuario
+        Dim retorno As ColecaoUsuario
+        Dim strPerfil As String
+
+        regrasUsuario = New rUsuario
+        dadosUsuario = New dUsuario
+        strPerfil = ConfigurationManager.AppSettings("perfilGestor")
+
+        retorno = regrasUsuario.fConsultarADM(strPerfil)
 
         dadosCaixa.nome = System.Configuration.ConfigurationManager.AppSettings("NOME_TERMINAL")
         dadosCaixa.usuario = mdiPrincipal.gUsuario.usuario
@@ -1115,6 +1133,9 @@ Public Class fCaixa
             regraCaixa.Incluir(dadosCaixa)
         End If
 
+        consultaCaixaFechamento = regraCaixa.ConsultarFechamento(dadosCaixa)
+
+        EnviarEmail(consultaCaixaFechamento, retorno)
 
         If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ECF" Then
             Declaracoes.iRetorno = Declaracoes.iLeituraX_ECF_Daruma()
@@ -1125,7 +1146,26 @@ Public Class fCaixa
 
         Me.lblMsg.Text = "CAIXA FECHADO"
     End Sub
+    Private Sub EnviarEmail(ByVal dados As dCaixaFechamento, colecao As ColecaoUsuario)
 
+        Dim corpo As String = String.Empty
+        Dim usuario As New dUsuario
+
+        For Each usuario In colecao
+
+            corpo += $"{usuario.usuario}: " & vbCrLf
+            corpo += "Segue o email com os dados de fechamento de caixa " & vbCrLf
+            corpo += $"Data: {dados.Data}" & vbCrLf
+            corpo += $"Fechado por: {dados.nome}" & vbCrLf
+            corpo += $"Valor: R$ {dados.valor}" & vbCrLf
+            corpo += $"Quantidade de vendas: {dados.quantidade}" & vbCrLf
+
+            Dim sendMailService As New SendMailService(ConfigurationManager.AppSettings("nascomercioMail"), usuario.Email, ConfigurationManager.AppSettings("nascomercioPass"), "Fechamento de caixa", corpo)
+            sendMailService.Send()
+
+        Next
+
+    End Sub
     Private Sub FecharTela()
         If MessageBox.Show("Deseja sair da tela?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
             If dtgProdutos.Rows.Count > 0 Then

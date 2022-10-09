@@ -2,6 +2,7 @@ Imports ncDados.nsCaixa
 Imports ncComum.nsAcessoBD
 Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncDados
 
 Namespace nsCaixa
 
@@ -136,6 +137,57 @@ Namespace nsCaixa
             End Try
 
             Consultar = retorno
+
+        End Function
+        Public Function ConsultarFechamento(ByVal dados As dCaixa) As dCaixaFechamento
+
+            Dim retorno As ColecaoCaixaFechamento
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim item As dCaixaFechamento
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+
+                sqlSelect = " Select cid, nome, situacao, data, valor, quantidade "
+                sqlWhere = String.Empty
+                sqlFrom = " From v_fechamento "
+
+                '-- cid
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.cid, "cid")
+
+                '-- situacao
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Data.ToString("yyyy-MM-dd"), $"DATE_FORMAT(data,'%Y-%m-%d')")
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere & " Order By nome")
+
+                item = New dCaixaFechamento
+
+                item.cid = cFuncoes.RetornarInteiro(ds.Tables(0).Rows(0).Item("cid"))
+                item.nome = cFuncoes.RetornarTexto(ds.Tables(0).Rows(0).Item("nome"))
+                item.situacao = cFuncoes.RetornarTexto(ds.Tables(0).Rows(0).Item("situacao"))
+                item.Data = cFuncoes.RetornarData(ds.Tables(0).Rows(0).Item("data"))
+                item.valor = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("valor"))
+                item.quantidade = cFuncoes.RetornarInteiro(ds.Tables(0).Rows(0).Item("quantidade"))
+
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Fechamento do Caixa [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ConsultarFechamento = item
 
         End Function
 

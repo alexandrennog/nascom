@@ -12,12 +12,13 @@ Namespace nsUsuario
     Private _nomeCompleto As String
     Private _situacao As String
     Private _usuarioPerfil_cid As Nullable(Of Integer)
-    Private _usuarioPerfil_codigo As String
-    Private _descontoProduto As Nullable(Of Decimal)
+        Private _usuarioPerfil_codigo As String
+        Private _descontoProduto As Nullable(Of Decimal)
     Private _descontoPedido As Nullable(Of Decimal)
-    Private _comissao As Nullable(Of Decimal)
+        Private _comissao As Nullable(Of Decimal)
+        Private _email As String
 
-    Public Property cid() As Nullable(Of Integer)
+        Public Property cid() As Nullable(Of Integer)
       Get
         Return _cid
       End Get
@@ -71,16 +72,16 @@ Namespace nsUsuario
       End Set
     End Property
 
-    Public Property usuarioPerfil_codigo() As String
-      Get
-        Return _usuarioPerfil_codigo
-      End Get
-      Set(ByVal value As String)
-        _usuarioPerfil_codigo = value
-      End Set
-    End Property
+        Public Property usuarioPerfil_codigo() As String
+            Get
+                Return _usuarioPerfil_codigo
+            End Get
+            Set(ByVal value As String)
+                _usuarioPerfil_codigo = value
+            End Set
+        End Property
 
-    Public Property descontoProduto() As Nullable(Of Decimal)
+        Public Property descontoProduto() As Nullable(Of Decimal)
       Get
         Return _descontoProduto
       End Get
@@ -98,15 +99,23 @@ Namespace nsUsuario
       End Set
     End Property
 
-    Public Property comissao() As Nullable(Of Decimal)
-      Get
-        Return _comissao
-      End Get
-      Set(ByVal value As Nullable(Of Decimal))
-        _comissao = value
-      End Set
-    End Property
+        Public Property comissao() As Nullable(Of Decimal)
+            Get
+                Return _comissao
+            End Get
+            Set(ByVal value As Nullable(Of Decimal))
+                _comissao = value
+            End Set
+        End Property
+        Public Property Email() As String
+            Get
+                Return _email
+            End Get
+            Set(ByVal value As String)
+                _email = value
+            End Set
+        End Property
 
-  End Class
+    End Class
 
 End Namespace

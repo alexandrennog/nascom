@@ -30,27 +30,46 @@ Namespace nsUsuario
 
     End Function
 
-    Public Function Consultar(ByVal dados As dUsuario) As colecaoUsuario
+        Public Function Consultar(ByVal dados As dUsuario) As colecaoUsuario
 
-      Dim retorno As colecaoUsuario
+            Dim retorno As colecaoUsuario
 
-      Try
+            Try
 
-        retorno = fConsultar(dados)
+                retorno = fConsultar(dados)
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw ex
-        Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw ex
+                Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Consultar = retorno
+            Consultar = retorno
 
-    End Function
+        End Function
 
-    Public Function ConsultarPorCid(ByVal cid As Integer) As dUsuario
+        Public Function ConsultarPorADM(ByVal dados As dUsuario) As ColecaoUsuario
+
+            Dim retorno As ColecaoUsuario
+
+            Try
+
+                retorno = fConsultar(dados)
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw ex
+                Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ConsultarPorADM = retorno
+
+        End Function
+        Public Function ConsultarPorCid(ByVal cid As Integer) As dUsuario
 
       Dim retorno As dUsuario
       Dim dados As dUsuario
@@ -237,8 +256,41 @@ Namespace nsUsuario
       fConsultar = retorno
 
     End Function
+        Public Function fConsultarADM(ByVal perfil As String) As ColecaoUsuario
 
-    Public Function fIncluir(ByVal dados As dUsuario) As Integer
+            Dim retorno As ColecaoUsuario
+            Dim persistencia As pUsuario
+            Dim retornoPersistencia As ColecaoUsuario
+
+            Try
+
+                retorno = New ColecaoUsuario
+
+                persistencia = New pUsuario
+                retornoPersistencia = persistencia.ConsultarADM(perfil)
+
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw ex
+                Throw New ExcecaoNascomercio("Erro em fConsultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            fConsultarADM = retorno
+
+        End Function
+        Public Function fIncluir(ByVal dados As dUsuario) As Integer
 
       Dim retorno As Integer
       Dim persistencia As pUsuario

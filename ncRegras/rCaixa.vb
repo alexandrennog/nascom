@@ -4,6 +4,7 @@ Imports ncDados.nsCaixa
 Imports ncPersistencia.nsCaixa
 Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncDados
 
 Namespace nsCaixa
 
@@ -50,6 +51,28 @@ Namespace nsCaixa
             End Try
 
             Consultar = retorno
+
+        End Function
+        Public Function ConsultarFechamento(ByVal dados As dCaixa) As dCaixaFechamento
+
+            Dim retorno As dCaixaFechamento
+
+            Try
+
+                retorno = fConsultarFechamento(dados)
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw nex
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Caixa [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ConsultarFechamento = retorno
 
         End Function
 
@@ -241,6 +264,39 @@ Namespace nsCaixa
             End Try
 
             fConsultar = retorno
+
+        End Function
+        Public Function fConsultarFechamento(ByVal dados As dCaixa) As dCaixaFechamento
+
+            Dim retorno As dCaixaFechamento
+            Dim persistencia As pCaixa
+            Dim retornoPersistencia As dCaixaFechamento
+
+            Try
+
+                retorno = New dCaixaFechamento
+
+                persistencia = New pCaixa
+                retornoPersistencia = persistencia.ConsultarFechamento(dados)
+
+                If Not retornoPersistencia Is Nothing Then
+                    retorno = retornoPersistencia
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw nex
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em fConsultar Caixa [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            fConsultarFechamento = retorno
 
         End Function
 

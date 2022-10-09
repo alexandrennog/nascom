@@ -22,10 +22,10 @@ Namespace nsUsuario
         acessoBanco = New cAcessoBD
 
 
-                comandoSQL = " Select cid, nomeCompleto, senha, situacao, usuario, descontoProduto, descontoPedido, " & _
-                    " comissao From usuarios where situacao like 'A'"
+                comandoSQL = " Select cid, nomeCompleto, senha, situacao, usuario, descontoProduto, descontoPedido, " &
+                    " comissao, usuarioPerfil_cid, email From usuarios where situacao like 'A'"
 
-        ds = acessoBanco.ExecutarDS(comandoSQL)
+                ds = acessoBanco.ExecutarDS(comandoSQL)
 
         If Not ds Is Nothing Then
           If ds.Tables.Count > 0 Then
@@ -37,18 +37,19 @@ Namespace nsUsuario
               For Each row In dt.Rows
                 item = New dUsuario
 
-                item.cid = cFuncoes.RetornarInteiro(row("cid"))
-                item.nomeCompleto = cFuncoes.RetornarTexto(row("nomeCompleto"))
-                item.senha = cFuncoes.RetornarTexto(row("senha"))
-                item.situacao = cFuncoes.RetornarTexto(row("situacao"))
-                item.usuario = cFuncoes.RetornarTexto(row("usuario"))
-                item.descontoProduto = cFuncoes.RetornarDecimal(row("descontoProduto"))
-                item.descontoPedido = cFuncoes.RetornarDecimal(row("descontoPedido"))
-                item.comissao = cFuncoes.RetornarDecimal(row("comissao"))
-
-                retorno.Add(item)
-              Next
-            Else
+                                item.cid = cFuncoes.RetornarInteiro(row("cid"))
+                                item.nomeCompleto = cFuncoes.RetornarTexto(row("nomeCompleto"))
+                                item.senha = cFuncoes.RetornarTexto(row("senha"))
+                                item.situacao = cFuncoes.RetornarTexto(row("situacao"))
+                                item.usuario = cFuncoes.RetornarTexto(row("usuario"))
+                                item.descontoProduto = cFuncoes.RetornarDecimal(row("descontoProduto"))
+                                item.descontoPedido = cFuncoes.RetornarDecimal(row("descontoPedido"))
+                                item.comissao = cFuncoes.RetornarDecimal(row("comissao"))
+                                item.usuarioPerfil_cid = cFuncoes.RetornarInteiro(row("usuarioPerfil_cid"))
+                                item.Email = cFuncoes.RetornarTexto(row("email"))
+                                retorno.Add(item)
+                            Next
+                        Else
               retorno = Nothing
             End If
           Else
@@ -85,9 +86,9 @@ Namespace nsUsuario
 
         acessoBanco = New cAcessoBD
 
-        sqlSelect = " Select u.cid, u.nomeCompleto, u.senha, u.situacao, u.usuario, u.usuarioPerfil_cid, " & _
-            " up.codigo, u.descontoPedido, u.descontoProduto, u.comissao "
-        sqlWhere = String.Empty
+                sqlSelect = " Select u.cid, u.nomeCompleto, u.senha, u.situacao, u.usuario, u.usuarioPerfil_cid, " &
+            " up.codigo, u.descontoPedido, u.descontoProduto, u.comissao, email "
+                sqlWhere = String.Empty
         sqlFrom = " From usuarios u INNER JOIN usuarioperfil up " & _
             " ON up.cid = u.usuarioPerfil_cid "
 
@@ -132,21 +133,20 @@ Namespace nsUsuario
               retorno = New ColecaoUsuario
 
               For Each row In dt.Rows
-                item = New dUsuario
-
-                item.cid = cFuncoes.RetornarInteiro(row("cid"))
-                item.nomeCompleto = cFuncoes.RetornarTexto(row("nomeCompleto"))
-                item.senha = cFuncoes.RetornarTexto(row("senha"))
-                item.situacao = cFuncoes.RetornarTexto(row("situacao"))
-                item.usuario = cFuncoes.RetornarTexto(row("usuario"))
-                item.usuarioPerfil_cid = cFuncoes.RetornarInteiro(row("usuarioPerfil_cid"))
-                item.usuarioPerfil_codigo = cFuncoes.RetornarTexto(row("codigo"))
-                item.descontoProduto = cFuncoes.RetornarDecimal(row("descontoProduto"))
-                item.descontoPedido = cFuncoes.RetornarDecimal(row("descontoPedido"))
-                item.comissao = cFuncoes.RetornarDecimal(row("comissao"))
-
-                retorno.Add(item)
-              Next
+                                item = New dUsuario
+                                item.cid = cFuncoes.RetornarInteiro(row("cid"))
+                                item.nomeCompleto = cFuncoes.RetornarTexto(row("nomeCompleto"))
+                                item.senha = cFuncoes.RetornarTexto(row("senha"))
+                                item.situacao = cFuncoes.RetornarTexto(row("situacao"))
+                                item.usuario = cFuncoes.RetornarTexto(row("usuario"))
+                                item.usuarioPerfil_cid = cFuncoes.RetornarInteiro(row("usuarioPerfil_cid"))
+                                item.usuarioPerfil_codigo = cFuncoes.RetornarTexto(row("codigo"))
+                                item.descontoProduto = cFuncoes.RetornarDecimal(row("descontoProduto"))
+                                item.descontoPedido = cFuncoes.RetornarDecimal(row("descontoPedido"))
+                                item.comissao = cFuncoes.RetornarDecimal(row("comissao"))
+                                item.Email = cFuncoes.RetornarTexto(row("email"))
+                                retorno.Add(item)
+                            Next
             Else
               retorno = Nothing
             End If
@@ -167,8 +167,81 @@ Namespace nsUsuario
       Consultar = retorno
 
     End Function
+        Public Function ConsultarADM(ByVal perfil As String) As ColecaoUsuario
 
-    Public Function Incluir(ByVal dados As dUsuario) As Integer
+            Dim retorno As ColecaoUsuario
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dUsuario
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+
+            Try
+
+
+                acessoBanco = New cAcessoBD
+
+                sqlSelect = " Select u.cid, u.nomeCompleto, u.senha, u.situacao, u.usuario, u.usuarioPerfil_cid, " &
+                " up.codigo, u.descontoPedido, u.descontoProduto, u.comissao, u.email "
+                sqlWhere = String.Empty
+                sqlFrom = " From usuarios u INNER JOIN usuarioperfil up " &
+                " ON up.cid = u.usuarioPerfil_cid " &
+                $"where up.nome = '{perfil}'" &
+                "and u.email IS NOT NULL;"
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoUsuario
+
+                            For Each row In dt.Rows
+                                item = New dUsuario
+                                item.cid = cFuncoes.RetornarInteiro(row("cid"))
+                                item.nomeCompleto = cFuncoes.RetornarTexto(row("nomeCompleto"))
+                                item.senha = cFuncoes.RetornarTexto(row("senha"))
+                                item.situacao = cFuncoes.RetornarTexto(row("situacao"))
+                                item.usuario = cFuncoes.RetornarTexto(row("usuario"))
+                                item.usuarioPerfil_cid = cFuncoes.RetornarInteiro(row("usuarioPerfil_cid"))
+                                item.usuarioPerfil_codigo = cFuncoes.RetornarInteiro(row("codigo"))
+                                item.descontoProduto = cFuncoes.RetornarDecimal(row("descontoProduto"))
+                                item.descontoPedido = cFuncoes.RetornarDecimal(row("descontoPedido"))
+                                item.comissao = cFuncoes.RetornarDecimal(row("comissao"))
+                                item.Email = cFuncoes.RetornarTexto(row("email"))
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+                retorno = Nothing
+                Throw ex
+                Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ConsultarADM = retorno
+
+        End Function
+        Public Function Incluir(ByVal dados As dUsuario) As Integer
 
       Dim retorno As Integer
       Dim acessoBanco As cAcessoBD

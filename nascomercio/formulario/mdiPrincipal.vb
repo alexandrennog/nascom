@@ -91,8 +91,7 @@ Public Class mdiPrincipal
         Dim valido As Boolean = False
         Dim mensagem As String = String.Empty
         Dim emExecucao As Boolean
-
-
+        Dim regraParametro As New rParametro
 
         '1- verificando quantos elementos o array possui , se possuir mais de um então existe duas instâncias
         emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length > 1
@@ -108,9 +107,10 @@ Public Class mdiPrincipal
 
             regrasUsuario = New rUsuario
             dadosUsuario = New dUsuario
+            Dim cripto As New ncComum.criptografia()
 
             dadosUsuario.usuario = fAcesso.txtUsuario.Text.Trim()
-            dadosUsuario.senha = fAcesso.txtSenha.Text.Trim()
+            dadosUsuario.senha = cripto.Criptografar(fAcesso.txtSenha.Text.Trim())
 
             retorno = regrasUsuario.Consultar(dadosUsuario)
 
@@ -125,6 +125,9 @@ Public Class mdiPrincipal
                     GravarLog("", "Tentativa de acesso inválido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
                 Else
                     valido = True
+
+                    'Encripta asenhas de usuários caso ainda não tenham sido encriptadas
+                    EncriptarSenhas()
                 End If
             End If
 
@@ -191,6 +194,38 @@ Public Class mdiPrincipal
         End Try
 
     End Function
+    Private Sub EncriptarSenhas()
+        Dim dadosParametro As dParametro
+        Dim dUsuario As dUsuario
+        Dim regrasUsuario As rUsuario
+        Dim dadosUsuario As dUsuario
+        Dim regraParametro As New rParametro
+
+        regrasUsuario = New rUsuario
+        dadosUsuario = New dUsuario
+
+        Dim cripto As New ncComum.criptografia()
+
+        Try
+
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Secure)
+            If dadosParametro.valor = "0" Then
+                Dim retUsuarios = regrasUsuario.Listar()
+                For Each dUsuario In retUsuarios
+                    If Not dUsuario.senha Is Nothing Then
+                        dUsuario.senha = cripto.Criptografar(dUsuario.senha)
+                        regrasUsuario.Alterar(dUsuario)
+                    End If
+                Next
+
+                dadosParametro.valor = "1"
+                regraParametro.Alterar(dadosParametro)
+
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Ao atualizar o esquema de criptografia ocorreu um erro")
+        End Try
+    End Sub
 
     Public Sub IniciarCaixa(ByVal vendadireta As Boolean)
         CarregarCaixa(vendadireta)

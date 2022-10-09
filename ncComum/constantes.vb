@@ -28,6 +28,7 @@ Namespace nsConstantes
             OrdemServico
             DiretorioFoto
             IsDecimal
+            Secure
         End Enum
 
     End Class
