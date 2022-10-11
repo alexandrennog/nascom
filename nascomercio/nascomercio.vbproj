@@ -1327,6 +1327,7 @@
     <None Include="Resources\usuarios.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ico-pass.ico" />
     <None Include="backup\backup.bat" />
     <None Include="backup\restore.bat" />
     <None Include="nascomercioDataSet.xsc">

@@ -3,6 +3,11 @@ Imports ncComum.nsExcecao
 Imports ncRegras.nsParametro
 Imports ncDados.nsParametro
 Imports ncComum.nsConstantes
+Imports ncRegras.nsCaixa
+Imports ncComum.nsEmail
+Imports System.Configuration
+Imports System.Text.RegularExpressions
+Imports ncDados.nsUsuario
 
 Public Class fAcesso
 
@@ -109,4 +114,88 @@ Public Class fAcesso
 
     End Sub
 
+    Private Sub Label3_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    'Private Sub chkRecSenha_CheckedChanged(sender As Object, e As EventArgs) Handles chkRecSenha.CheckedChanged
+    '    Dim regraCaixa As New rCaixa()
+    '    Dim emailAddress As String
+    '    Dim corpo As String = String.Empty
+    '    Dim regraUsuario As New ncRegras.nsUsuario.rUsuario
+    '    Dim ret As dUsuario
+
+    '    emailAddress = InputBox("Informe o Email", "recuperação de senha", "")
+
+    '    If emailAddress = "" Then
+
+    '        MessageBox.Show("É preciso informar um email")
+    '        chkRecSenha.CheckState = CheckState.Unchecked
+    '        Exit Sub
+    '    End If
+
+    '    If ValidarEmail(emailAddress) Then
+
+    '        ret = regraUsuario.ConsultarPorEmail(emailAddress)
+
+    '        Dim cripto As New ncComum.criptografia()
+    '        ret.senha = cripto.Descriptografar(ret.senha)
+
+    '        corpo += $"Olá: {ret.nomeCompleto}. Segue a sua senha: {ret.senha}" & vbCrLf
+    '        Dim sendMailService As New SendMailService(ConfigurationManager.AppSettings("nascomercioMail"), emailAddress, ConfigurationManager.AppSettings("nascomercioPass"), "Recuperação de Senha", corpo)
+    '        sendMailService.Send()
+
+    '        MessageBox.Show($"A sua senha foi enviada para o email {emailAddress}")
+    '    Else
+    '        MessageBox.Show("É preciso informar um email válido")
+    '    End If
+    '    chkRecSenha.CheckState = CheckState.Unchecked
+    'End Sub
+    Private Function ValidarEmail(ByVal emailAddress As String) As Boolean
+        ' Pattern ou mascara de verificação
+        Dim pattern As String = "^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"
+
+        ' Verifica se o email corresponde a pattern/mascara
+        Dim emailAddressMatch As Match = Regex.Match(emailAddress, pattern)
+
+        ValidarEmail = emailAddressMatch.Success
+
+    End Function
+
+    Private Sub btnRecSenha_Click(sender As Object, e As EventArgs) Handles btnRecSenha.Click
+        Dim regraCaixa As New rCaixa()
+        Dim emailAddress As String
+        Dim corpo As String = String.Empty
+        Dim regraUsuario As New ncRegras.nsUsuario.rUsuario
+        Dim ret As dUsuario
+
+        emailAddress = InputBox("Informe o Email", "recuperação de senha", "")
+
+        If emailAddress = "" Then
+
+            MessageBox.Show("É preciso informar um email")
+            Exit Sub
+        End If
+
+        If ValidarEmail(emailAddress) Then
+
+            ret = regraUsuario.ConsultarPorEmail(emailAddress)
+            If ret Is Nothing Then
+                MessageBox.Show("Email não encontrado na base de usuários")
+                Exit Sub
+            End If
+
+
+            Dim cripto As New ncComum.criptografia()
+            ret.senha = cripto.Descriptografar(ret.senha)
+
+            corpo += $"Olá: {ret.nomeCompleto}. Segue a sua senha: {ret.senha}" & vbCrLf
+            Dim sendMailService As New SendMailService(ConfigurationManager.AppSettings("nascomercioMail"), emailAddress, ConfigurationManager.AppSettings("nascomercioPass"), "Recuperação de Senha", corpo)
+            sendMailService.Send()
+
+            MessageBox.Show($"A sua senha foi enviada para o email {emailAddress}")
+        Else
+            MessageBox.Show("É preciso informar um email válido")
+        End If
+    End Sub
 End Class

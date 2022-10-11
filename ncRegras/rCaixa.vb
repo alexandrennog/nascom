@@ -5,6 +5,9 @@ Imports ncPersistencia.nsCaixa
 Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
 Imports ncDados
+Imports ncDados.nsUsuario
+Imports ncComum.nsEmail
+Imports System.Configuration
 
 Namespace nsCaixa
 
@@ -53,9 +56,9 @@ Namespace nsCaixa
             Consultar = retorno
 
         End Function
-        Public Function ConsultarFechamento(ByVal dados As dCaixa) As dCaixaFechamento
+        Public Function ConsultarFechamento(ByVal dados As dCaixa) As ColecaoFechamento
 
-            Dim retorno As dCaixaFechamento
+            Dim retorno As ColecaoFechamento
 
             Try
 
@@ -75,7 +78,57 @@ Namespace nsCaixa
             ConsultarFechamento = retorno
 
         End Function
+        Public Sub EnviarEmailCaixa(ByVal colecaoFechamento As ColecaoFechamento, colecao As ColecaoUsuario)
+            Dim corpo As String = String.Empty
+            Dim usuario As New dUsuario
+            Dim dados As New dFechamento
 
+
+            Try
+
+                For Each usuario In colecao
+
+                    For Each dados In colecaoFechamento
+
+                        corpo += $"Data: {dados.data}" & vbCrLf
+                        corpo += $"dinheiro: {dados.dinheiro}" & vbCrLf
+                        corpo += $"cheque: {dados.cheque}" & vbCrLf
+                        corpo += $"chequePre: {dados.chequePre}" & vbCrLf
+                        corpo += $"cartaoDebito: {dados.cartaoDebito}" & vbCrLf
+                        corpo += $"cartaoCredito: {dados.cartaoCredito}" & vbCrLf
+                        corpo += $"crediario: {dados.crediario}" & vbCrLf
+                        corpo += $"desconto: {dados.desconto}" & vbCrLf
+                        corpo += $"recebido: {dados.recebido}" & vbCrLf
+                        corpo += $"troco: {dados.troco}" & vbCrLf
+                        corpo += $"total: {dados.total}" & vbCrLf
+                        corpo += $"troca: {dados.troca}" & vbCrLf
+                        corpo += $"vale: {dados.vale}" & vbCrLf
+                        corpo += $"defeito: {dados.defeito}" & vbCrLf
+                        corpo += $"retirada: {dados.retirada}" & vbCrLf
+                        corpo += $"valeEmitido: {dados.valeEmitido}" & vbCrLf
+                        corpo += $"caixa: {dados.caixa}" & vbCrLf
+                        corpo += $"crediarioPagamento: {dados.crediarioPagamento}" & vbCrLf
+
+                        Dim sendMailService As New SendMailService(ConfigurationManager.AppSettings("nascomercioMail"), usuario.Email, ConfigurationManager.AppSettings("nascomercioPass"), "Fechamento de caixa", corpo)
+                        sendMailService.Send()
+
+                    Next
+                Next
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw nex
+
+            Catch ex As Exception
+
+
+
+            End Try
+
+
+
+
+        End Sub
         Public Function Consultar(ByVal cid As Integer) As dCaixa
 
             Dim retorno As dCaixa
@@ -266,15 +319,15 @@ Namespace nsCaixa
             fConsultar = retorno
 
         End Function
-        Public Function fConsultarFechamento(ByVal dados As dCaixa) As dCaixaFechamento
+        Public Function fConsultarFechamento(ByVal dados As dCaixa) As ColecaoFechamento
 
-            Dim retorno As dCaixaFechamento
+            Dim retorno As ColecaoFechamento
             Dim persistencia As pCaixa
-            Dim retornoPersistencia As dCaixaFechamento
+            Dim retornoPersistencia As ColecaoFechamento
 
             Try
 
-                retorno = New dCaixaFechamento
+                retorno = New ColecaoFechamento
 
                 persistencia = New pCaixa
                 retornoPersistencia = persistencia.ConsultarFechamento(dados)

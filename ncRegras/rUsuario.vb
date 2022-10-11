@@ -71,27 +71,27 @@ Namespace nsUsuario
         End Function
         Public Function ConsultarPorCid(ByVal cid As Integer) As dUsuario
 
-      Dim retorno As dUsuario
-      Dim dados As dUsuario
-      Dim colecao As ColecaoUsuario
+            Dim retorno As dUsuario
+            Dim dados As dUsuario
+            Dim colecao As ColecaoUsuario
 
 
-      Try
+            Try
 
-        dados = New dUsuario()
+                dados = New dUsuario()
 
 
-        dados.cid = cid
+                dados.cid = cid
 
-        colecao = fConsultar(dados)
+                colecao = fConsultar(dados)
 
-        If Not colecao Is Nothing Then
-          If colecao.Count > 0 Then
-            Dim item As dUsuario
+                If Not colecao Is Nothing Then
+                    If colecao.Count > 0 Then
+                        Dim item As dUsuario
 
-            item = colecao(0)
+                        item = colecao(0)
 
-            retorno = New dUsuario()
+                        retorno = New dUsuario()
 
                         retorno.cid = cFuncoes.RetornarInteiro(item.cid)
                         retorno.nomeCompleto = cFuncoes.RetornarTexto(item.nomeCompleto)
@@ -104,24 +104,74 @@ Namespace nsUsuario
                         retorno.usuarioPerfil_cid = cFuncoes.RetornarInteiro(item.usuarioPerfil_cid)
                         retorno.Email = cFuncoes.RetornarTexto(item.Email)
                     Else
-            retorno = Nothing
-          End If
-        Else
-          retorno = Nothing
-        End If
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Return retorno
+            Return retorno
 
-    End Function
+        End Function
+        Public Function ConsultarPorEmail(ByVal email As String) As dUsuario
 
-    Public Function Incluir(ByVal dados As dUsuario) As Integer
+            Dim retorno As dUsuario
+            Dim dados As dUsuario
+            Dim colecao As ColecaoUsuario
+
+
+            Try
+
+                dados = New dUsuario()
+
+                dados.Email = email
+
+                colecao = fConsultar(dados)
+
+                If Not colecao Is Nothing Then
+                    If colecao.Count > 0 Then
+                        Dim item As dUsuario
+
+                        item = colecao(0)
+
+                        retorno = New dUsuario()
+
+                        retorno.cid = cFuncoes.RetornarInteiro(item.cid)
+                        retorno.nomeCompleto = cFuncoes.RetornarTexto(item.nomeCompleto)
+                        retorno.senha = cFuncoes.RetornarTexto(item.senha)
+                        retorno.situacao = cFuncoes.RetornarTexto(item.situacao)
+                        retorno.usuario = cFuncoes.RetornarTexto(item.usuario)
+                        retorno.descontoProduto = cFuncoes.RetornarDecimal(item.descontoProduto)
+                        retorno.descontoPedido = cFuncoes.RetornarDecimal(item.descontoPedido)
+                        retorno.comissao = cFuncoes.RetornarDecimal(item.comissao)
+                        retorno.usuarioPerfil_cid = cFuncoes.RetornarInteiro(item.usuarioPerfil_cid)
+                        retorno.Email = cFuncoes.RetornarTexto(item.Email)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+
+        Public Function Incluir(ByVal dados As dUsuario) As Integer
 
       Dim retorno As Integer
 

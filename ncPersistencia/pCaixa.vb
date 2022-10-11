@@ -139,12 +139,64 @@ Namespace nsCaixa
             Consultar = retorno
 
         End Function
-        Public Function ConsultarFechamento(ByVal dados As dCaixa) As dCaixaFechamento
+        'Public Function ConsultarFechamento(ByVal dados As dCaixa) As dCaixaFechamento
 
-            Dim retorno As ColecaoCaixaFechamento
+        '    Dim retorno As ColecaoCaixaFechamento
+        '    Dim acessoBanco As cAcessoBD
+        '    Dim ds As DataSet
+        '    Dim item As dCaixaFechamento
+        '    Dim sqlSelect As String
+        '    Dim sqlWhere As String
+        '    Dim sqlFrom As String
+
+        '    Try
+
+        '        acessoBanco = New cAcessoBD
+
+        '        sqlSelect = " Select cid, nome, situacao, data, valor, quantidade "
+        '        sqlWhere = String.Empty
+        '        sqlFrom = " From v_fechamento "
+
+        '        '-- cid
+        '        sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.cid, "cid")
+
+        '        '-- situacao
+        '        sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Data.ToString("yyyy-MM-dd"), $"DATE_FORMAT(data,'%Y-%m-%d')")
+
+        '        If Not sqlWhere.Equals(String.Empty) Then
+        '            sqlWhere = " WHERE " & sqlWhere
+        '        End If
+
+        '        ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere & " Order By nome")
+
+        '        item = New dCaixaFechamento
+
+        '        item.cid = cFuncoes.RetornarInteiro(ds.Tables(0).Rows(0).Item("cid"))
+        '        item.nome = cFuncoes.RetornarTexto(ds.Tables(0).Rows(0).Item("nome"))
+        '        item.situacao = cFuncoes.RetornarTexto(ds.Tables(0).Rows(0).Item("situacao"))
+        '        item.Data = cFuncoes.RetornarData(ds.Tables(0).Rows(0).Item("data"))
+        '        item.valor = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("valor"))
+        '        item.quantidade = cFuncoes.RetornarInteiro(ds.Tables(0).Rows(0).Item("quantidade"))
+
+
+        '    Catch ex As Exception
+
+        '        retorno = Nothing
+        '        Throw New ExcecaoNascomercio("Erro em Consultar Fechamento do Caixa [" & Me.ToString() & "] - " & ex.Message)
+
+        '    End Try
+
+        '    ConsultarFechamento = item
+
+        'End Function
+        Public Function ConsultarFechamento(ByVal dados As dCaixa) As ColecaoFechamento
+
+            Dim retorno As ColecaoFechamento
             Dim acessoBanco As cAcessoBD
             Dim ds As DataSet
-            Dim item As dCaixaFechamento
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dFechamento
             Dim sqlSelect As String
             Dim sqlWhere As String
             Dim sqlFrom As String
@@ -153,32 +205,63 @@ Namespace nsCaixa
 
                 acessoBanco = New cAcessoBD
 
-
-                sqlSelect = " Select cid, nome, situacao, data, valor, quantidade "
+                sqlSelect = "  SELECT DATE_FORMAT(data,'%Y-%m-%d') as dataF, sum(dinheiro) as dinheiro, sum(cheque) as cheque, sum(chequePre) as chequePre, sum(cartaoDebito) as cartaoDebito, sum(cartaoCredito) as cartaoCredito, sum(crediario) as crediario, sum(desconto) as desconto, sum(recebido) as recebido, sum(troco) as troco, sum(total) as total,  sum(troca) as troca, sum(vale) as vale, sum(defeito) as defeito, sum(retirada) as retirada, sum(valeEmitido) as valeEmitido, caixa, sum(crediarioPagamento) as crediarioPagamento  "
                 sqlWhere = String.Empty
-                sqlFrom = " From v_fechamento "
+                sqlFrom = "  FROM v_fechamento "
 
-                '-- cid
-                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.cid, "cid")
+                '-- caixa
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.nome, "caixa")
 
-                '-- situacao
+                '-- data
                 sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Data.ToString("yyyy-MM-dd"), $"DATE_FORMAT(data,'%Y-%m-%d')")
 
                 If Not sqlWhere.Equals(String.Empty) Then
                     sqlWhere = " WHERE " & sqlWhere
                 End If
 
-                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere & " Order By nome")
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere & " Group By dataF, caixa")
 
-                item = New dCaixaFechamento
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
 
-                item.cid = cFuncoes.RetornarInteiro(ds.Tables(0).Rows(0).Item("cid"))
-                item.nome = cFuncoes.RetornarTexto(ds.Tables(0).Rows(0).Item("nome"))
-                item.situacao = cFuncoes.RetornarTexto(ds.Tables(0).Rows(0).Item("situacao"))
-                item.Data = cFuncoes.RetornarData(ds.Tables(0).Rows(0).Item("data"))
-                item.valor = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("valor"))
-                item.quantidade = cFuncoes.RetornarInteiro(ds.Tables(0).Rows(0).Item("quantidade"))
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoFechamento
 
+                            For Each row In dt.Rows
+
+                                item = New dFechamento
+
+                                item.data = cFuncoes.RetornarData(ds.Tables(0).Rows(0).Item("dataF"))
+                                item.dinheiro = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("dinheiro"))
+                                item.cheque = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("cheque"))
+                                item.chequePre = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("chequePre"))
+                                item.cartaoDebito = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("cartaoDebito"))
+                                item.cartaoCredito = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("cartaoCredito"))
+                                item.crediario = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("crediario"))
+                                item.desconto = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("desconto"))
+                                item.recebido = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("recebido"))
+                                item.troco = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("troco"))
+                                item.total = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("total"))
+                                item.troca = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("troca"))
+                                item.vale = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("vale"))
+                                item.defeito = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("defeito"))
+                                item.retirada = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("retirada"))
+                                item.valeEmitido = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("valeEmitido"))
+                                item.caixa = cFuncoes.RetornarTexto(ds.Tables(0).Rows(0).Item("caixa"))
+                                item.crediarioPagamento = cFuncoes.RetornarDecimal(ds.Tables(0).Rows(0).Item("crediarioPagamento"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
 
             Catch ex As Exception
 
@@ -187,7 +270,7 @@ Namespace nsCaixa
 
             End Try
 
-            ConsultarFechamento = item
+            ConsultarFechamento = retorno
 
         End Function
 

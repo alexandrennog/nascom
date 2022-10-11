@@ -116,10 +116,13 @@ Namespace nsUsuario
         '-- descontoPedido
         sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.descontoPedido, "u.descontoPedido")
 
-        '-- comissao
-        sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.comissao, "u.comissao")
+                '-- comissao
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.comissao, "u.comissao")
 
-        If Not sqlWhere.Equals(String.Empty) Then
+                '-- email
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Email, "u.email")
+
+                If Not sqlWhere.Equals(String.Empty) Then
           sqlWhere = " WHERE " & sqlWhere
         End If
 
@@ -214,7 +217,7 @@ Namespace nsUsuario
                                 item.situacao = cFuncoes.RetornarTexto(row("situacao"))
                                 item.usuario = cFuncoes.RetornarTexto(row("usuario"))
                                 item.usuarioPerfil_cid = cFuncoes.RetornarInteiro(row("usuarioPerfil_cid"))
-                                item.usuarioPerfil_codigo = cFuncoes.RetornarInteiro(row("codigo"))
+                                item.usuarioPerfil_codigo = cFuncoes.RetornarTexto(row("codigo"))
                                 item.descontoProduto = cFuncoes.RetornarDecimal(row("descontoProduto"))
                                 item.descontoPedido = cFuncoes.RetornarDecimal(row("descontoPedido"))
                                 item.comissao = cFuncoes.RetornarDecimal(row("comissao"))
