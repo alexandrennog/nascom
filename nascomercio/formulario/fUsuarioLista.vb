@@ -77,16 +77,12 @@ Public Class fUsuarioLista
     Dim cid As Nullable(Of Integer)
 
     Try
-      If dgvUsuario.Rows.Count > 0 Then
-
-        indice = dgvUsuario.CurrentRow.Index
-
-        linha = dgvUsuario.Rows(indice)
-
-        cid = linha.Cells("cid").Value
-
-      End If
-    Catch ex As Exception
+            If dgvUsuario.Rows.Count > 0 Then
+                indice = dgvUsuario.CurrentRow.Index
+                linha = dgvUsuario.Rows(indice)
+                cid = linha.Cells("cid").Value
+            End If
+        Catch ex As Exception
 
       cid = Nothing
 

@@ -223,8 +223,10 @@ Public Class fUsuarioForm
   Private Sub ExibirInformacoesTela()
     Dim regras As rUsuario
     Dim dados As dUsuario
+        Dim cripto As New ncComum.criptografia()
 
-    Try
+
+        Try
 
       If Not Me.cid.Equals(Nothing) Then
         If Not Me.cid.Equals(0) Then
@@ -236,9 +238,9 @@ Public Class fUsuarioForm
           If Not dados Is Nothing Then
             txtUsuario.Text = cFuncoes.RetornarTexto(dados.usuario)
             txtNomeCompleto.Text = cFuncoes.RetornarTexto(dados.nomeCompleto)
-            txtSenha.Text = cFuncoes.RetornarTexto(dados.senha)
-            txtConfirmacao.Text = cFuncoes.RetornarTexto(dados.senha)
-            txtDescontoProduto.Text = cFuncoes.RetornarTexto(dados.descontoProduto)
+                        txtSenha.Text = cripto.Descriptografar(cFuncoes.RetornarTexto(dados.senha))
+                        txtConfirmacao.Text = cripto.Descriptografar(cFuncoes.RetornarTexto(dados.senha))
+                        txtDescontoProduto.Text = cFuncoes.RetornarTexto(dados.descontoProduto)
             txtDescontoPedido.Text = cFuncoes.RetornarTexto(dados.descontoPedido)
                         txtComissao.Text = cFuncoes.RetornarTexto(dados.comissao)
                         txtEmail.Text = cFuncoes.RetornarTexto(dados.Email)

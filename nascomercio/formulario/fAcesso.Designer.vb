@@ -27,7 +27,7 @@ Partial Class fAcesso
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.btoAcessar = New System.Windows.Forms.Button()
-        Me.btnRecSenha = New System.Windows.Forms.Button()
+        Me.btoRecuperar = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'txtUsuario
@@ -86,14 +86,24 @@ Partial Class fAcesso
         Me.btoAcessar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoAcessar.UseVisualStyleBackColor = False
         '
-        'btnRecSenha
+        'btoRecuperar
         '
-        Me.btnRecSenha.Location = New System.Drawing.Point(22, 102)
-        Me.btnRecSenha.Name = "btnRecSenha"
-        Me.btnRecSenha.Size = New System.Drawing.Size(102, 23)
-        Me.btnRecSenha.TabIndex = 176
-        Me.btnRecSenha.Text = "Recuperar Senha"
-        Me.btnRecSenha.UseVisualStyleBackColor = True
+        Me.btoRecuperar.BackColor = System.Drawing.Color.Transparent
+        Me.btoRecuperar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoRecuperar.FlatAppearance.BorderSize = 0
+        Me.btoRecuperar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoRecuperar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoRecuperar.ForeColor = System.Drawing.Color.Black
+        Me.btoRecuperar.Image = Global.nascomercio.My.Resources.Resources.ico_pass
+        Me.btoRecuperar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoRecuperar.Location = New System.Drawing.Point(19, 92)
+        Me.btoRecuperar.Name = "btoRecuperar"
+        Me.btoRecuperar.Size = New System.Drawing.Size(109, 59)
+        Me.btoRecuperar.TabIndex = 177
+        Me.btoRecuperar.TabStop = False
+        Me.btoRecuperar.Text = "Recuperar Senha"
+        Me.btoRecuperar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoRecuperar.UseVisualStyleBackColor = False
         '
         'fAcesso
         '
@@ -102,7 +112,7 @@ Partial Class fAcesso
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(247, 152)
         Me.ControlBox = False
-        Me.Controls.Add(Me.btnRecSenha)
+        Me.Controls.Add(Me.btoRecuperar)
         Me.Controls.Add(Me.btoAcessar)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
@@ -123,5 +133,5 @@ Partial Class fAcesso
   Friend WithEvents Label1 As System.Windows.Forms.Label
   Friend WithEvents Label2 As System.Windows.Forms.Label
   Friend WithEvents btoAcessar As System.Windows.Forms.Button
-    Friend WithEvents btnRecSenha As Button
+    Friend WithEvents btoRecuperar As Button
 End Class

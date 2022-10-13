@@ -162,7 +162,11 @@ Public Class fAcesso
 
     End Function
 
-    Private Sub btnRecSenha_Click(sender As Object, e As EventArgs) Handles btnRecSenha.Click
+    Private Sub btnRecSenha_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btoRecuperar_Click(sender As Object, e As EventArgs) Handles btoRecuperar.Click
         Dim regraCaixa As New rCaixa()
         Dim emailAddress As String
         Dim corpo As String = String.Empty

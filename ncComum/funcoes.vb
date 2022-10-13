@@ -239,7 +239,7 @@ Namespace nsFuncoes
                         retorno = Nothing
                     Else
                         If ehDecimal = "1" Then
-                            retorno = String.Format("{0:n2}", Convert.ToInt32(valor.ToString().Trim()))
+                            retorno = String.Format("{0:n2}", valor.ToString().Trim())
                         Else
                             retorno = valor.ToString().Trim()
                         End If
