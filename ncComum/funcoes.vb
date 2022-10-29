@@ -1,3 +1,5 @@
+Imports System.Globalization
+
 Namespace nsFuncoes
 
     Public Class cFuncoes
@@ -226,7 +228,7 @@ Namespace nsFuncoes
             TratarTexto = retorno
 
         End Function
-        Public Shared Function FormatarTextoDecimal(ByVal valor As Object, ByVal ehDecimal As String) As String
+        Public Shared Function FormatarTextoDecimal(ByVal valor As String, ByVal ehDecimal As String) As String
 
             Dim retorno As String
 
@@ -239,9 +241,9 @@ Namespace nsFuncoes
                         retorno = Nothing
                     Else
                         If ehDecimal = "1" Then
-                            retorno = String.Format("{0:n2}", valor.ToString().Trim())
+                            retorno = String.Format(CultureInfo.InvariantCulture, "{0:n}", CInt(valor))
                         Else
-                            retorno = valor.ToString().Trim()
+                            retorno = CInt(valor).ToString()
                         End If
 
                     End If
@@ -644,7 +646,7 @@ Namespace nsFuncoes
                         If valor.Length <> 8 Then
                             retorno = False
                         Else
-                            dataFormatada = valor.Substring(4, 4) & "-" & _
+                            dataFormatada = valor.Substring(4, 4) & "-" &
                             valor.Substring(2, 2) & "-" & valor.Substring(0, 2)
 
                             If DateTime.TryParse(dataFormatada, data) Then
@@ -809,11 +811,11 @@ Namespace nsFuncoes
                         If valor.Contains("/") Then
                             dataAux = Convert.ToDateTime(valor).ToString("yyyy-MM-dd")
 
-                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & _
+                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) &
                                 dataAux.Year.ToString().PadLeft(4, "0"c)
-                            dataFormatadaSep = dataAux.Year.ToString().PadLeft(4, "0"c) & "-" & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & "-" & _
+                            dataFormatadaSep = dataAux.Year.ToString().PadLeft(4, "0"c) & "-" &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) & "-" &
                                 dataAux.Day.ToString().PadLeft(2, "0"c)
 
                             If DateTime.TryParse(dataFormatadaSep, data) Then
@@ -867,11 +869,11 @@ Namespace nsFuncoes
                         dataAux = Convert.ToDateTime(valor)
 
                         If DateTime.TryParse(dataAux, data) Then
-                            dataFormatada = dataAux.Year.ToString().PadLeft(4, "0"c) & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & _
-                                dataAux.Day.ToString().PadLeft(2, "0"c) & _
-                                dataAux.Hour.ToString().PadLeft(2, "0"c) & _
-                                dataAux.Minute.ToString().PadLeft(2, "0"c) & _
+                            dataFormatada = dataAux.Year.ToString().PadLeft(4, "0"c) &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) &
+                                dataAux.Day.ToString().PadLeft(2, "0"c) &
+                                dataAux.Hour.ToString().PadLeft(2, "0"c) &
+                                dataAux.Minute.ToString().PadLeft(2, "0"c) &
                                 dataAux.Second.ToString().PadLeft(2, "0"c)
 
                             retorno = dataFormatada
@@ -909,8 +911,8 @@ Namespace nsFuncoes
                         dataAux = Convert.ToDateTime(valor)
 
                         If DateTime.TryParse(dataAux, data) Then
-                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & _
+                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) &
                                 dataAux.Year.ToString().PadLeft(4, "0"c)
 
                             retorno = dataFormatada
@@ -948,8 +950,8 @@ Namespace nsFuncoes
                         If valor.Contains("/") Then
                             dataAux = Convert.ToDateTime(valor).ToString("yyyy-MM-dd")
 
-                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) & "/" & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & "/" & _
+                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) & "/" &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) & "/" &
                                 dataAux.Year.ToString().PadLeft(4, "0"c)
 
                             If DateTime.TryParse(dataFormatada, data) Then
@@ -1002,8 +1004,8 @@ Namespace nsFuncoes
                         If valor.Contains("/") Then
                             dataAux = Convert.ToDateTime(valor).ToString("yyyy-MM-dd")
 
-                            dataFormatada = dataAux.Year.ToString().PadLeft(4, "0"c) & "-" & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & "-" & _
+                            dataFormatada = dataAux.Year.ToString().PadLeft(4, "0"c) & "-" &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) & "-" &
                                 dataAux.Day.ToString().PadLeft(2, "0"c)
 
                             If DateTime.TryParse(dataFormatada, data) Then
@@ -1057,8 +1059,8 @@ Namespace nsFuncoes
                         dataAux = Convert.ToDateTime(valor).ToString("yyyy-MM-dd")
 
                         If DateTime.TryParse(dataAux, data) Then
-                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) & "/" & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & "/" & _
+                            dataFormatada = dataAux.Day.ToString().PadLeft(2, "0"c) & "/" &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) & "/" &
                                 dataAux.Year.ToString().PadLeft(4, "0"c)
 
                             retorno = dataFormatada
@@ -1128,8 +1130,8 @@ Namespace nsFuncoes
                 Else
                     dataAux = Convert.ToDateTime(valor)
 
-                    retorno = dataAux.Day.ToString().PadLeft(2, "0"c) & "/" & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & "/" & _
+                    retorno = dataAux.Day.ToString().PadLeft(2, "0"c) & "/" &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) & "/" &
                                 dataAux.Year.ToString().PadLeft(4, "0"c)
                 End If
 
@@ -1157,8 +1159,8 @@ Namespace nsFuncoes
                 Else
                     dataAux = Convert.ToDateTime(valor)
 
-                    retorno = dataAux.Year.ToString().PadLeft(4, "0"c) & "-" & _
-                                dataAux.Month.ToString().PadLeft(2, "0"c) & "-" & _
+                    retorno = dataAux.Year.ToString().PadLeft(4, "0"c) & "-" &
+                                dataAux.Month.ToString().PadLeft(2, "0"c) & "-" &
                                 dataAux.Day.ToString().PadLeft(2, "0"c)
                 End If
 

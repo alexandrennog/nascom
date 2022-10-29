@@ -20,7 +20,7 @@ Namespace nsEmail
 
         Public Sub Send()
             Dim smtp = New SmtpClient With {
-                .Host = "smtp.gmail.com",
+                .Host = "mail.nascom.com.br",
                 .Port = 587,
                 .DeliveryMethod = SmtpDeliveryMethod.Network,
                 .EnableSsl = True,

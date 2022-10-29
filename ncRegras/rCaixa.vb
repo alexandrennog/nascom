@@ -121,7 +121,7 @@ Namespace nsCaixa
 
             Catch ex As Exception
 
-
+                Throw ex
 
             End Try
 
