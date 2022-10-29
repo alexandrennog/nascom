@@ -1134,7 +1134,9 @@ Public Class fCaixa
         End If
 
         consultaCaixaFechamento = regraCaixa.ConsultarFechamento(dadosCaixa)
-        regraCaixa.EnviarEmailCaixa(consultaCaixaFechamento, retorno)
+        If Not consultaCaixaFechamento Is Nothing Then
+            regraCaixa.EnviarEmailCaixa(consultaCaixaFechamento, retorno)
+        End If
 
         If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ECF" Then
             Declaracoes.iRetorno = Declaracoes.iLeituraX_ECF_Daruma()
