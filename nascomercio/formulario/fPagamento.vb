@@ -8,6 +8,11 @@ Imports ncComum.nsConstantes
 Imports ncComum.DFW
 Imports System.Configuration
 Imports ncComum.nsFuncoes.cFuncoes
+Imports System.Net.Sockets
+Imports System.Text
+Imports ncRegras
+Imports ncPersistencia
+Imports ncDados
 
 Public Class fPagamento
 
@@ -79,12 +84,12 @@ Public Class fPagamento
         formataCampos()
     End Sub
 
-    Private Sub txtDinheiro_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave, _
-                                                                                               txtCartaoCredito.Leave, _
-                                                                                               txtCrediario.Leave, _
-                                                                                               txtChequePre.Leave, _
-                                                                                               txtCheque.Leave, _
-                                                                                               txtCartaoDebito.Leave, _
+    Private Sub txtDinheiro_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave,
+                                                                                               txtCartaoCredito.Leave,
+                                                                                               txtCrediario.Leave,
+                                                                                               txtChequePre.Leave,
+                                                                                               txtCheque.Leave,
+                                                                                               txtCartaoDebito.Leave,
                                                                                                txtVale.Leave
         'Mostra informações de valores recebidos e troco
         verificaCampos()
@@ -877,5 +882,34 @@ Public Class fPagamento
             MessageBox.Show("Erro na consulta dos dados de Condição.")
 
         End Try
+    End Sub
+
+    Private Sub btoGerarEFD_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub Label34_Click(sender As Object, e As EventArgs) Handles Label34.Click
+
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim regras As rPix
+
+        regras = New rPix
+        Dim pagamentos = New ColecaoPix
+        Dim dados As New dPix
+
+        dados.Cpf = txtCPFCNPJ.Text
+        dados.Nome = Me.txtCliente.Tag
+        dados.Original = txtValorPIX.Text
+        dados.Pagador = "Compra de produto"
+        pagamentos = regras.fIncluir(dados)
+
+        txtTxId.Text = ""
+
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
     End Sub
 End Class
