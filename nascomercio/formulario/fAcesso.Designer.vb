@@ -96,9 +96,9 @@ Partial Class fAcesso
         Me.btoRecuperar.ForeColor = System.Drawing.Color.Black
         Me.btoRecuperar.Image = Global.nascomercio.My.Resources.Resources.ico_pass
         Me.btoRecuperar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoRecuperar.Location = New System.Drawing.Point(120, 92)
+        Me.btoRecuperar.Location = New System.Drawing.Point(113, 93)
         Me.btoRecuperar.Name = "btoRecuperar"
-        Me.btoRecuperar.Size = New System.Drawing.Size(109, 59)
+        Me.btoRecuperar.Size = New System.Drawing.Size(116, 58)
         Me.btoRecuperar.TabIndex = 4
         Me.btoRecuperar.TabStop = False
         Me.btoRecuperar.Text = "Recuperar Senha"
