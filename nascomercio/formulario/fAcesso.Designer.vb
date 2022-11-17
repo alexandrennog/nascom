@@ -33,17 +33,19 @@ Partial Class fAcesso
         'txtUsuario
         '
         Me.txtUsuario.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtUsuario.Location = New System.Drawing.Point(92, 15)
+        Me.txtUsuario.Location = New System.Drawing.Point(123, 18)
+        Me.txtUsuario.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtUsuario.Name = "txtUsuario"
-        Me.txtUsuario.Size = New System.Drawing.Size(137, 25)
+        Me.txtUsuario.Size = New System.Drawing.Size(181, 29)
         Me.txtUsuario.TabIndex = 1
         '
         'txtSenha
         '
         Me.txtSenha.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtSenha.Location = New System.Drawing.Point(92, 46)
+        Me.txtSenha.Location = New System.Drawing.Point(123, 57)
+        Me.txtSenha.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtSenha.Name = "txtSenha"
-        Me.txtSenha.Size = New System.Drawing.Size(137, 25)
+        Me.txtSenha.Size = New System.Drawing.Size(181, 29)
         Me.txtSenha.TabIndex = 2
         Me.txtSenha.UseSystemPasswordChar = True
         '
@@ -51,9 +53,10 @@ Partial Class fAcesso
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(19, 15)
+        Me.Label1.Location = New System.Drawing.Point(25, 18)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(63, 18)
+        Me.Label1.Size = New System.Drawing.Size(82, 22)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Usuário"
         '
@@ -61,9 +64,10 @@ Partial Class fAcesso
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label2.Location = New System.Drawing.Point(19, 49)
+        Me.Label2.Location = New System.Drawing.Point(25, 60)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(53, 18)
+        Me.Label2.Size = New System.Drawing.Size(69, 22)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Senha"
         '
@@ -77,9 +81,10 @@ Partial Class fAcesso
         Me.btoAcessar.ForeColor = System.Drawing.Color.Black
         Me.btoAcessar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoAcessar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoAcessar.Location = New System.Drawing.Point(12, 77)
+        Me.btoAcessar.Location = New System.Drawing.Point(101, 94)
+        Me.btoAcessar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btoAcessar.Name = "btoAcessar"
-        Me.btoAcessar.Size = New System.Drawing.Size(95, 74)
+        Me.btoAcessar.Size = New System.Drawing.Size(127, 91)
         Me.btoAcessar.TabIndex = 3
         Me.btoAcessar.TabStop = False
         Me.btoAcessar.Text = " Entrar <Enter>"
@@ -96,9 +101,10 @@ Partial Class fAcesso
         Me.btoRecuperar.ForeColor = System.Drawing.Color.Black
         Me.btoRecuperar.Image = Global.nascomercio.My.Resources.Resources.ico_pass
         Me.btoRecuperar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoRecuperar.Location = New System.Drawing.Point(113, 93)
+        Me.btoRecuperar.Location = New System.Drawing.Point(222, 94)
+        Me.btoRecuperar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btoRecuperar.Name = "btoRecuperar"
-        Me.btoRecuperar.Size = New System.Drawing.Size(116, 58)
+        Me.btoRecuperar.Size = New System.Drawing.Size(118, 91)
         Me.btoRecuperar.TabIndex = 4
         Me.btoRecuperar.TabStop = False
         Me.btoRecuperar.Text = "Recuperar Senha"
@@ -107,10 +113,10 @@ Partial Class fAcesso
         '
         'fAcesso
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(247, 152)
+        Me.ClientSize = New System.Drawing.Size(329, 187)
         Me.ControlBox = False
         Me.Controls.Add(Me.btoRecuperar)
         Me.Controls.Add(Me.btoAcessar)
@@ -119,6 +125,7 @@ Partial Class fAcesso
         Me.Controls.Add(Me.txtSenha)
         Me.Controls.Add(Me.txtUsuario)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "fAcesso"

@@ -55,15 +55,23 @@ Public Class fAcessoGerente
     Dim retorno As ColecaoUsuario
     Dim valido As Boolean = False
     Dim mensagem As String = String.Empty
+    Dim dadosParametro As ncDados.nsParametro.dParametro
+    Dim regraParametro As New ncRegras.nsParametro.rParametro
 
     Try
 
       regrasUsuario = New rUsuario
       dadosUsuario = New dUsuario
+      Dim cripto As New ncComum.criptografia()
 
       dadosUsuario.usuario = Me.txtUsuario.Text.Trim()
-      dadosUsuario.senha = Me.txtSenha.Text.Trim()
 
+      dadosParametro = regraParametro.Consultar(ncComum.nsConstantes.cConstantes.Parametros.Secure)
+      If dadosParametro.valor = "0" Then
+          dadosUsuario.senha = Me.txtSenha.Text.Trim()
+      Else
+          dadosUsuario.senha = cripto.Criptografar(Me.txtSenha.Text.Trim())
+      End If
       retorno = regrasUsuario.Consultar(dadosUsuario)
 
       If IsNothing(retorno) Then

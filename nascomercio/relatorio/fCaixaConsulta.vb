@@ -469,8 +469,12 @@ Public Class fCaixaConsulta
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExcluirUltima.Click
         If System.Configuration.ConfigurationManager.AppSettings("FISCAL") <> "NAO" Then
             Me.txtControle.Text = (mdiPrincipal.RetornaNumeroControle() - 1).ToString()
-            Application.DoEvents()
+            Me.txtControle.Focus()
 
+            Application.DoEvents()
+            SendKeys.Send("{ENTER}")
+
+            Application.DoEvents()
 
             If MessageBox.Show("Deseja Excluir último cupom fiscal? " & txtControle.Text, "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 ExcluirVenda()
@@ -492,7 +496,4 @@ Public Class fCaixaConsulta
 
     End Sub
 
-    Private Sub txtControle_TextChanged(sender As Object, e As EventArgs) Handles txtControle.TextChanged
-        ConsultarVenda()
-    End Sub
 End Class

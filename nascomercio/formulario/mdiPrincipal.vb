@@ -99,10 +99,10 @@ Public Class mdiPrincipal
 
         '2- verificando o limite superior do array , se for  maior que zero então existe duas instâncias
         'emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).GetUpperBound(0) > 0
-        If emExecucao Then
-            MsgBox("Existe mais de um programa aberto, por favor feche o outro antes de continuar.")
-            Me.Close()
-        End If
+        'If emExecucao Then
+        '    MsgBox("Existe mais de um programa aberto, por favor feche o outro antes de continuar.")
+        '    Me.Close()
+        'End If
 
         Try
 
