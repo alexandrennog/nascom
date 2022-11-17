@@ -14,7 +14,7 @@ Imports ncComum.nsConstantes
 
 Public Class mdiPrincipal
 
-    '-- Parâmetros globais
+    '-- Parï¿½metros globais
     Public gUsuario As New dUsuario
     Public gLoja As New dLoja
     Public formulario As New Form
@@ -41,7 +41,7 @@ Public Class mdiPrincipal
         regraParametro = New rParametro()
         dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ChaveSistema)
 
-        ' Verificar se existe chave de acesso/validação
+        ' Verificar se existe chave de acesso/validaï¿½ï¿½o
         If Not IsNothing(dadosParametro) Then
             If Not String.IsNullOrEmpty(dadosParametro.valor) Then
                 If dadosParametro.valor.Trim() <> "" Then
@@ -94,18 +94,22 @@ Public Class mdiPrincipal
         Dim regraParametro As New rParametro
         Dim dadosParametro As dParametro
 
-        '1- verificando quantos elementos o array possui , se possuir mais de um então existe duas instâncias
+        '1- verificando quantos elementos o array possui , se possuir mais de um entï¿½o existe duas instï¿½ncias
         emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length
 
-        '2- verificando o limite superior do array , se for  maior que zero então existe duas instâncias
+        '2- verificando o limite superior do array , se for  maior que zero entï¿½o existe duas instï¿½ncias
         'emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).GetUpperBound(0) > 0
 
         dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Instancias)
 
         If emExecucao > CInt(dadosParametro.valor) Then
-            MsgBox("A quantidade de cópias do sistema executando simultaneamente, atingiu o limite configurado")
+            MsgBox("A quantidade de cï¿½pias do sistema executando simultaneamente, atingiu o limite configurado")
             Me.Close()
         End If
+        'If emExecucao Then
+        '    MsgBox("Existe mais de um programa aberto, por favor feche o outro antes de continuar.")
+        '    Me.Close()
+        'End If
 
         Try
 
@@ -124,17 +128,17 @@ Public Class mdiPrincipal
 
             If IsNothing(retorno) Then
                 valido = False
-                mensagem = "Usuário/Senha inválido(s)."
-                GravarLog("", "Tentativa de acesso inválido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
+                mensagem = "Usuï¿½rio/Senha invï¿½lido(s)."
+                GravarLog("", "Tentativa de acesso invï¿½lido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
             Else
                 If retorno.Count <> 1 Then
                     valido = False
-                    mensagem = "Usuário/Senha inválido(s)."
-                    GravarLog("", "Tentativa de acesso inválido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
+                    mensagem = "Usuï¿½rio/Senha invï¿½lido(s)."
+                    GravarLog("", "Tentativa de acesso invï¿½lido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
                 Else
                     valido = True
 
-                    'Encripta asenhas de usuários caso ainda não tenham sido encriptadas
+                    'Encripta asenhas de usuï¿½rios caso ainda nï¿½o tenham sido encriptadas
                     EncriptarSenhas()
                 End If
             End If
@@ -165,7 +169,7 @@ Public Class mdiPrincipal
                         Case "c", "a", "g"
                             IniciarCaixa(True)
                         Case Else
-                            MessageBox.Show("Tipo de Usuário não encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Tipo de Usuï¿½rio nï¿½o encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
                 Else
                     Select Case gUsuario.usuarioPerfil_codigo
@@ -179,7 +183,7 @@ Public Class mdiPrincipal
                         Case "a"
                             IniciarAdministrador()
                         Case Else
-                            MessageBox.Show("Tipo de Usuário não encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Tipo de Usuï¿½rio nï¿½o encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
                 End If
 
@@ -262,10 +266,10 @@ Public Class mdiPrincipal
         ElseIf System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "VENDAS" Then
             btoCaixa.Text = "Vendas" & vbCrLf & "[F9]"
         Else
-            btoCaixa.Text = "Orçamento" & vbCrLf & "[F9]"
+            btoCaixa.Text = "Orï¿½amento" & vbCrLf & "[F9]"
         End If
 
-        If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVIÇO") = "SIM" Then
+        If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVIï¿½O") = "SIM" Then
             btoOrdemServico.Visible = True
         Else
             btoOrdemServico.Visible = False
@@ -1075,7 +1079,7 @@ Public Class mdiPrincipal
         Try
             Me.BackgroundImage = System.Drawing.Bitmap.FromFile("fundo.jpg")
         Catch ex As Exception
-            MessageBox.Show("Imagem de fundo não encontrada: 'fundo.jpg'.")
+            MessageBox.Show("Imagem de fundo nï¿½o encontrada: 'fundo.jpg'.")
         End Try
     End Sub
 
