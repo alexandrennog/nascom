@@ -360,6 +360,7 @@ Public Class fCaixaConsulta
         Dim condicao As New ncRegras.nsCondicao.rCondicao
 
 
+
         If Integer.TryParse(Me.txtControle.Text, controle) Then
             dadosVenda.controle = controle
             dadosVendaProduto.controle = controle

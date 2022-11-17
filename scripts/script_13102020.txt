@@ -13,3 +13,7 @@ VALUES (21, 'IsDecimal','1');
 
 INSERT INTO parametros (cid, descricao, valor)
 VALUES (22, 'Security','0');
+
+
+INSERT INTO parametros (cid, descricao, valor)
+VALUES (23, 'Instancias','3');
