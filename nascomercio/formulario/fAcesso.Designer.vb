@@ -77,10 +77,10 @@ Partial Class fAcesso
         Me.btoAcessar.ForeColor = System.Drawing.Color.Black
         Me.btoAcessar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoAcessar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoAcessar.Location = New System.Drawing.Point(134, 77)
+        Me.btoAcessar.Location = New System.Drawing.Point(12, 77)
         Me.btoAcessar.Name = "btoAcessar"
         Me.btoAcessar.Size = New System.Drawing.Size(95, 74)
-        Me.btoAcessar.TabIndex = 173
+        Me.btoAcessar.TabIndex = 3
         Me.btoAcessar.TabStop = False
         Me.btoAcessar.Text = " Entrar <Enter>"
         Me.btoAcessar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
@@ -96,10 +96,10 @@ Partial Class fAcesso
         Me.btoRecuperar.ForeColor = System.Drawing.Color.Black
         Me.btoRecuperar.Image = Global.nascomercio.My.Resources.Resources.ico_pass
         Me.btoRecuperar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoRecuperar.Location = New System.Drawing.Point(19, 92)
+        Me.btoRecuperar.Location = New System.Drawing.Point(113, 93)
         Me.btoRecuperar.Name = "btoRecuperar"
-        Me.btoRecuperar.Size = New System.Drawing.Size(109, 59)
-        Me.btoRecuperar.TabIndex = 177
+        Me.btoRecuperar.Size = New System.Drawing.Size(116, 58)
+        Me.btoRecuperar.TabIndex = 4
         Me.btoRecuperar.TabStop = False
         Me.btoRecuperar.Text = "Recuperar Senha"
         Me.btoRecuperar.TextAlign = System.Drawing.ContentAlignment.BottomCenter

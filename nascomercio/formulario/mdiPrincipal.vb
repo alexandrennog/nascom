@@ -90,17 +90,20 @@ Public Class mdiPrincipal
         Dim regrasLoja As rLoja
         Dim valido As Boolean = False
         Dim mensagem As String = String.Empty
-        Dim emExecucao As Boolean
+        Dim emExecucao As Integer
         Dim regraParametro As New rParametro
         Dim dadosParametro As dParametro
 
         '1- verificando quantos elementos o array possui , se possuir mais de um então existe duas instâncias
-        emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length > 1
+        emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length
 
         '2- verificando o limite superior do array , se for  maior que zero então existe duas instâncias
         'emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).GetUpperBound(0) > 0
-        If emExecucao Then
-            MsgBox("Existe mais de um programa aberto, por favor feche o outro antes de continuar.")
+
+        dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Instancias)
+
+        If emExecucao > CInt(dadosParametro.valor) Then
+            MsgBox("A quantidade de cópias do sistema executando simultaneamente, atingiu o limite configurado")
             Me.Close()
         End If
 
