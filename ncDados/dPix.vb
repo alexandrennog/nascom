@@ -1,5 +1,6 @@
 ﻿Public Class dPix
 
+    Private _iD As String
     Private _txId As String
     Private _cliente As Integer
     Private _cpf As String
@@ -7,6 +8,18 @@
     Private _nome As String
     Private _pagador As String
     Private _original As Decimal
+    Private _observacao As String
+    Private _status As String
+
+
+    Public Property ID() As String
+        Get
+            Return _iD
+        End Get
+        Set(ByVal value As String)
+            _iD = value
+        End Set
+    End Property
 
     Public Property TxId() As String
         Get
@@ -71,4 +84,21 @@
         End Set
     End Property
 
+    Public Property Observacao() As String
+        Get
+            Return _observacao
+        End Get
+        Set(ByVal value As String)
+            _observacao = value
+        End Set
+    End Property
+
+    Public Property Status() As String
+        Get
+            Return _status
+        End Get
+        Set(ByVal value As String)
+            _status = value
+        End Set
+    End Property
 End Class

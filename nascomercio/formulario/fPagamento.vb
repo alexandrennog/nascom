@@ -13,6 +13,8 @@ Imports System.Text
 Imports ncRegras
 Imports ncPersistencia
 Imports ncDados
+Imports System.IO
+Imports System.Timers
 
 Public Class fPagamento
 
@@ -22,6 +24,7 @@ Public Class fPagamento
     Public parcelas As String
     Public desconto As String
     Public crediario As String
+    Dim timer As Timer
 
     Private dadosParametro As dParametro
     Private regraParametro As rParametro
@@ -899,17 +902,107 @@ Public Class fPagamento
         Dim pagamentos = New ColecaoPix
         Dim dados As New dPix
 
-        dados.Cpf = txtCPFCNPJ.Text
-        dados.Nome = Me.txtCliente.Tag
         dados.Original = txtValorPIX.Text
-        dados.Pagador = "Compra de produto"
+        dados.Observacao = txtObs.Text
         pagamentos = regras.fIncluir(dados)
 
         txtTxId.Text = ""
+
+
+        timer = New Timer()
+        timer.Interval = 3000
+        AddHandler timer.Elapsed, New ElapsedEventHandler(AddressOf DispararTimer)
+        timer.Start()
+
 
     End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
+    End Sub
+
+    Private Sub chkPIX_CheckedChanged(sender As Object, e As EventArgs) Handles chkPIX.CheckedChanged
+
+
+        If Me.chkPIX.Checked = True Then
+            panelPIX.Visible = True
+            panelLista.Visible = False
+        Else
+            panelLista.Visible = True
+            panelPIX.Visible = False
+        End If
+
+
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs)
+        'Dim id As String = "22137471"
+
+    End Sub
+    Public Shared Function ResizeImage(ByVal InputImage As Image) As Image
+        Return New Bitmap(InputImage, New Size(200, 200))
+    End Function
+    Private Function BuscarMaisRecente(folder As String, status As String) As String
+
+        Dim files() As String = IO.Directory.GetFiles(folder)
+        Dim dteDate As Date
+        Dim nomeFile As String
+
+
+        If status = "CONCLUIDA" Then
+            BuscarMaisRecente = folder + "\pago.png"
+            Exit Function
+        End If
+
+        For Each sFile As String In files
+            If sFile.Contains("pago.png") Then
+
+                Continue For
+            End If
+
+            Dim fileCreatedDate As DateTime = File.GetCreationTime(sFile)
+            If dteDate < fileCreatedDate Then
+                dteDate = fileCreatedDate
+                nomeFile = sFile
+            End If
+        Next
+
+        BuscarMaisRecente = nomeFile
+
+    End Function
+
+    Private Sub txtPix_KeyUp(sender As Object, e As KeyEventArgs) Handles txtPix.KeyUp
+        txtValorPIX.Text = txtPix.Text
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        'Declare um variável do tipo Timer: 
+        Dim tempo As New System.Timers.Timer(50000) '5000 = 5 segundos
+
+        'Adicione um handler para capturar o evento tick do timer: 
+        AddHandler tempo.Elapsed, AddressOf DispararTimer
+
+        'Adicione a sub que representa o evento tick do timer:
+
+
+        'Por último, no load do formulário, habilite o timer:
+        tempo.Enabled = True
+    End Sub
+
+    Public Sub DispararTimer(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs)
+        Dim regras As New rPix
+        Dim pix As dPix
+        pix = regras.Consultar()
+
+        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
+        Dim filename As String = BuscarMaisRecente(folder, pix.Status)
+        If String.IsNullOrEmpty(filename) Then
+            Exit Sub
+        End If
+        picQRCode.Image = ResizeImage(Image.FromFile(filename))
+
+        If pix.Status = "CONCLUIDA" Then
+            Timer1.Enabled = False
+        End If
     End Sub
 End Class

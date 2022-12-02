@@ -29,28 +29,19 @@ Public Class rPix
 
     End Function
 
-    Public Function fConsultar(ByVal dados As dPix) As ColecaoPix
+    Public Function fConsultar() As dPix
 
-        Dim retorno As ColecaoPix
+        Dim retorno As dPix
         Dim persistencia As pPix
-        Dim retornoPersistencia As ColecaoPix
+        Dim retornoPersistencia As dPix
 
         Try
 
-            retorno = New ColecaoPix
+            retorno = New dPix
 
             persistencia = New pPix
-            retornoPersistencia = persistencia.Consultar(dados)
-
-            If Not retornoPersistencia Is Nothing Then
-                If retornoPersistencia.Count > 0 Then
-                    retorno.AddRange(retornoPersistencia)
-                Else
-                    retorno = Nothing
-                End If
-            Else
-                retorno = Nothing
-            End If
+            retornoPersistencia = persistencia.Consultar()
+            retorno = retornoPersistencia
 
         Catch ex As Exception
 
@@ -63,15 +54,13 @@ Public Class rPix
 
     End Function
 
-    Public Function Consultar(ByVal txId As String) As ColecaoPix
+    Public Function Consultar() As dPix
 
-        Dim retorno As ColecaoPix
+        Dim retorno As dPix
 
         Try
-            Dim dados As New dPix
-            dados.TxId = txId
 
-            retorno = fConsultar(dados)
+            retorno = fConsultar()
 
         Catch ex As Exception
 
