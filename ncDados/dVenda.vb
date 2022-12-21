@@ -13,6 +13,7 @@ Namespace nsVenda
         Private _data As DateTime
         Private _dataFim As DateTime
         Private _dinheiro As Decimal
+        Private _pix As Decimal
         Private _cheque As Decimal
         Private _chequePre As Decimal
         Private _cartaoDebito As Decimal
@@ -96,6 +97,15 @@ Namespace nsVenda
             End Get
             Set(ByVal value As Decimal)
                 _dinheiro = value
+            End Set
+        End Property
+
+        Public Property Pix() As Decimal
+            Get
+                Return _pix
+            End Get
+            Set(ByVal value As Decimal)
+                _pix = value
             End Set
         End Property
 

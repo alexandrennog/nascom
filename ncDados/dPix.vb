@@ -10,6 +10,7 @@
     Private _original As Decimal
     Private _observacao As String
     Private _status As String
+    Private _dataHora As DateTime
 
 
     Public Property ID() As String
@@ -92,13 +93,20 @@
             _observacao = value
         End Set
     End Property
-
     Public Property Status() As String
         Get
             Return _status
         End Get
         Set(ByVal value As String)
             _status = value
+        End Set
+    End Property
+    Public Property DataHora() As String
+        Get
+            Return _dataHora
+        End Get
+        Set(ByVal value As String)
+            _dataHora = value
         End Set
     End Property
 End Class

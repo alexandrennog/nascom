@@ -14,7 +14,7 @@ Imports ncRegras
 Imports ncPersistencia
 Imports ncDados
 Imports System.IO
-Imports System.Timers
+Imports System.Threading
 
 Public Class fPagamento
 
@@ -24,8 +24,6 @@ Public Class fPagamento
     Public parcelas As String
     Public desconto As String
     Public crediario As String
-    Dim timer As Timer
-
     Private dadosParametro As dParametro
     Private regraParametro As rParametro
 
@@ -37,7 +35,8 @@ Public Class fPagamento
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
-
+        btnPix.Text = "Cobrar"
+        txtTxId.Tag = 0
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
@@ -49,7 +48,7 @@ Public Class fPagamento
     ''' <remarks></remarks>
     Private Sub calculaRecebido()
         ' Soma recebidos
-        lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
+        lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtPix.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
         + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
         + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDefeitos.Text)).ToString("N")
 
@@ -83,7 +82,6 @@ Public Class fPagamento
         End If
 
         calculaRecebido()
-
         formataCampos()
     End Sub
 
@@ -102,6 +100,7 @@ Public Class fPagamento
 
     Private Sub formataCampos()
         txtDinheiro.Text = CDec(txtDinheiro.Text).ToString("N")
+        txtPix.Text = CDec(txtPix.Text).ToString("N")
         txtCheque.Text = CDec(txtCheque.Text).ToString("N")
         txtChequePre.Text = CDec(txtChequePre.Text).ToString("N")
         txtCartaoCredito.Text = CDec(txtCartaoCredito.Text).ToString("N")
@@ -113,6 +112,9 @@ Public Class fPagamento
     Private Sub verificaCampos()
         If txtDinheiro.Text.Trim().Equals("") Then
             txtDinheiro.Text = 0.ToString("N")
+        End If
+        If txtPix.Text.Trim().Equals("") Then
+            txtPix.Text = 0.ToString("N")
         End If
         If txtCheque.Text.Trim().Equals("") Then
             txtCheque.Text = 0.ToString("N")
@@ -379,6 +381,7 @@ Public Class fPagamento
         dadosVenda.clienteId = Me.txtCliente.Tag
         dadosVenda.Data = Now
         dadosVenda.Dinheiro = Me.txtDinheiro.Text
+        dadosVenda.Pix = Me.txtPix.Text
         dadosVenda.Cheque = Me.txtCheque.Text
         dadosVenda.ChequePre = Me.txtChequePre.Text
         dadosVenda.CartaoDebito = Me.txtCartaoDebito.Text
@@ -571,6 +574,10 @@ Public Class fPagamento
                         Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Dinheiro", txtDinheiro.Text)
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
                     End If
+                    If CDec(txtPix.Text) > 0.001 Then
+                        Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Pix", txtPix.Text)
+                        Declaracoes.TrataRetorno(Declaracoes.iRetorno)
+                    End If
                     If CDec(txtCheque.Text) > 0.001 Then
                         Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Cheque", txtCheque.Text)
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
@@ -703,6 +710,14 @@ Public Class fPagamento
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
                         End If
+                        If CDec(txtPix.Text) > 0.001 Then
+                            '06 - Pix
+                            Dim pix As String = txtPix.Text.Replace(".", "")
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("pix", pix, "")
+                            If Declaracoes.iRetorno <> 1 Then
+                                MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
+                            End If
+                        End If
                         If CDec(txtTroca.Text) > 0.001 Then
                             '99 - Outros (Troca)
                             Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Outros", txtTroca.Text.Replace(".", ""), "")
@@ -766,6 +781,9 @@ Public Class fPagamento
                         objImpressao.Write("------------------------------------------------")
                         If CDec(txtDinheiro.Text) > 0.001 Then
                             objImpressao.Write("DINHEIRO  : " & CDec(txtDinheiro.Text).ToString("C"))
+                        End If
+                        If CDec(txtPix.Text) > 0.001 Then
+                            objImpressao.Write("PIX  : " & CDec(txtPix.Text).ToString("C"))
                         End If
                         If CDec(txtCheque.Text) > 0.001 Then
                             objImpressao.Write("CHEQUE    : " & CDec(txtCheque.Text).ToString("C"))
@@ -891,28 +909,64 @@ Public Class fPagamento
 
     End Sub
 
-    Private Sub Label34_Click(sender As Object, e As EventArgs) Handles Label34.Click
+    Private Sub Label34_Click(sender As Object, e As EventArgs) 
 
     End Sub
+    Private Sub Consultar()
+        Dim regras As New rPix
+        Dim pix As dPix
+        pix = regras.Consultar()
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        If IsNothing(pix) Then
+            Exit Sub
+        End If
+
+        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
+        Dim filename As String = BuscarImagem(folder, pix)
+        If String.IsNullOrEmpty(filename) Then
+            Exit Sub
+        End If
+
+        txtTxId.Text = pix.TxId
+
+        Select Case pix.Status
+            Case "ATIVA"
+                txtStatus.Text = "Criada"
+            Case "CONCLUIDA"
+                txtStatus.Text = "Pago"
+            Case "REMOVIDA_PELO_USUARIO_RECEBEDOR"
+                txtStatus.Text = "Removida User"
+            Case "REMOVIDA_PELO_PSP"
+                txtStatus.Text = "Removida PSP"
+        End Select
+
+        txtObs.Text = pix.Observacao + " Controle:" + Me.lblControle.Text + "  " + pix.DataHora
+        picQRCode.Image = ResizeImage(Image.FromFile(filename))
+
+    End Sub
+    Private Sub Cadastrar()
         Dim regras As rPix
 
         regras = New rPix
         Dim pagamentos = New ColecaoPix
         Dim dados As New dPix
 
-        dados.Original = txtValorPIX.Text
-        dados.Observacao = txtObs.Text
-        pagamentos = regras.fIncluir(dados)
 
-        txtTxId.Text = ""
+        Try
+            dados.Original = txtValorPIX.Text
+            dados.Observacao = txtObs.Text
+            pagamentos = regras.fIncluir(dados)
+            txtTxId.Text = "PIX Cadastrado!"
+            txtStatus.Text = "A Cobrar"
 
+        Catch ex As Exception
 
-        timer = New Timer()
-        timer.Interval = 3000
-        AddHandler timer.Elapsed, New ElapsedEventHandler(AddressOf DispararTimer)
-        timer.Start()
+            Throw New ExcecaoNascomercio("Erro em fIncluir pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+    End Sub
+    Private Sub Button3_Click(sender As Object, e As EventArgs) 
+
 
 
     End Sub
@@ -942,32 +996,35 @@ Public Class fPagamento
     Public Shared Function ResizeImage(ByVal InputImage As Image) As Image
         Return New Bitmap(InputImage, New Size(200, 200))
     End Function
-    Private Function BuscarMaisRecente(folder As String, status As String) As String
+    Private Function BuscarImagem(folder As String, pix As dPix) As String
 
-        Dim files() As String = IO.Directory.GetFiles(folder)
-        Dim dteDate As Date
+        Dim filter As String
+
+        If String.IsNullOrEmpty(pix.TxId) Then
+            Exit Function
+        End If
+
+        If Not String.IsNullOrEmpty(pix.TxId) Then
+            filter = $"{pix.TxId}.png"
+        Else
+            filter = "*.png"
+        End If
+
+        Dim files() As String = IO.Directory.GetFiles(folder, filter)
         Dim nomeFile As String
 
-
-        If status = "CONCLUIDA" Then
-            BuscarMaisRecente = folder + "\pago.png"
+        If pix.Status = "CONCLUIDA" Then
+            BuscarImagem = folder + "\pago.png"
             Exit Function
         End If
 
         For Each sFile As String In files
-            If sFile.Contains("pago.png") Then
-
-                Continue For
-            End If
-
-            Dim fileCreatedDate As DateTime = File.GetCreationTime(sFile)
-            If dteDate < fileCreatedDate Then
-                dteDate = fileCreatedDate
+            If sFile.Contains(pix.TxId) Then
                 nomeFile = sFile
             End If
         Next
 
-        BuscarMaisRecente = nomeFile
+        BuscarImagem = nomeFile
 
     End Function
 
@@ -975,7 +1032,7 @@ Public Class fPagamento
         txtValorPIX.Text = txtPix.Text
     End Sub
 
-    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs)
         'Declare um variável do tipo Timer: 
         Dim tempo As New System.Timers.Timer(50000) '5000 = 5 segundos
 
@@ -989,20 +1046,41 @@ Public Class fPagamento
         tempo.Enabled = True
     End Sub
 
-    Public Sub DispararTimer(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs)
-        Dim regras As New rPix
-        Dim pix As dPix
-        pix = regras.Consultar()
+    Public Sub DispararTimer()
 
-        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
-        Dim filename As String = BuscarMaisRecente(folder, pix.Status)
-        If String.IsNullOrEmpty(filename) Then
-            Exit Sub
-        End If
-        picQRCode.Image = ResizeImage(Image.FromFile(filename))
+    End Sub
 
-        If pix.Status = "CONCLUIDA" Then
-            Timer1.Enabled = False
+    Private Sub txtPix_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPix.KeyPress
+        e.Handled = ncComum.nsFuncoes.cFuncoes.SoNumero(e.KeyChar)
+    End Sub
+
+    Private Sub txtPix_Leave(sender As Object, e As EventArgs) Handles txtPix.Leave,
+                                                                txtDinheiro.Leave,
+                                                                txtCartaoCredito.Leave,
+                                                                txtCrediario.Leave,
+                                                                txtChequePre.Leave,
+                                                                txtCheque.Leave,
+                                                                txtCartaoDebito.Leave,
+                                                                txtVale.Leave,
+                                                                txtPix.Leave
+
+
+        'Mostra informações de valores recebidos e troco
+        verificaCampos()
+        calculaRecebido()
+        formataCampos()
+    End Sub
+
+    Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
+        If btnPix.Text = "Cobrar" Then
+            Cadastrar()
+            btnPix.Text = "Consultar"
+            txtTxId.Tag = 1
+        Else
+            If txtTxId.Text.Length <> 36 Then
+                txtTxId.Text = "Consulte Novamente..."
+            End If
+            Consultar()
         End If
     End Sub
 End Class

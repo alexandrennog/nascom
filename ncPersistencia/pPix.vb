@@ -98,7 +98,7 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status   "
+            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status, Observacao, DataHora   "
 
             sqlWhere = " order by DataHora desc LIMIT 1;"
             sqlFrom = " From PIX "
@@ -119,7 +119,8 @@ Public Class pPix
                             item.TxId = cFuncoes.RetornarTexto(row("TxId"))
                             item.Original = cFuncoes.RetornarDecimal(row("Original"))
                             item.Status = cFuncoes.RetornarTexto(row("status"))
-
+                            item.DataHora = cFuncoes.RetornarData(row("DataHora"))
+                            item.Observacao = cFuncoes.RetornarTexto(row("Observacao"))
                             retorno = item
                         Next
                     Else
@@ -212,10 +213,9 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            comandoSQL = " INSERT INTO PIX (ID, SolicitacaoPagador, Original, DataHora, Observacao, Status)  VALUES ("
+            comandoSQL = " INSERT INTO PIX (ID, SolicitacaoPagador, Original, DataHora, Observacao)  VALUES ("
             comandoSQL += cFuncoes.PersistirTexto(DateTime.Now.ToString("yyyyMMddHHmmss")) + "," + cFuncoes.PersistirTexto(dados.Pagador) & "," & cFuncoes.PersistirDecimal(dados.Original)
-            comandoSQL += "," & cFuncoes.PersistirDataHora(DateTime.Now.ToString("dd/MM/yyyy")) & "," & cFuncoes.PersistirTexto(dados.Observacao)
-            comandoSQL += ",'ATIVA')"
+            comandoSQL += "," & cFuncoes.PersistirDataHora(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")) & "," & cFuncoes.PersistirTexto(dados.Observacao) + ")"
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
 
