@@ -97,19 +97,18 @@ FROM         v_estoque</CommandText>
           </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="v_fechamentoTableAdapter" GeneratorDataComponentClassName="v_fechamentoTableAdapter" Name="v_fechamento" UserDataComponentName="v_fechamentoTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT `controle`, `clienteId`, `usuarioId`, `data`, `dinheiro`, `cheque`, `chequePre`, `cartaoDebito`, `cartaoCredito`, `crediario`, `parcelas`, `desconto`, `condicao`, `recebido`, `troco`, `total`, `troca`, `vale`, `defeito`, `terminal`, `retirada`, `valeEmitido`, `vendedor`, `caixa`, `crediarioPagamento` FROM `v_fechamento`</CommandText>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        controle, clienteId, usuarioId, data, dinheiro, pix, cheque, chequePre, cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, 
+                         caixa, crediarioPagamento
+FROM            v_fechamento</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
             </MainSource>
             <Mappings>
-              <Mapping SourceColumn="controle" DataSetColumn="controle" />
-              <Mapping SourceColumn="clienteId" DataSetColumn="clienteId" />
-              <Mapping SourceColumn="usuarioId" DataSetColumn="usuarioId" />
               <Mapping SourceColumn="data" DataSetColumn="data" />
               <Mapping SourceColumn="dinheiro" DataSetColumn="dinheiro" />
               <Mapping SourceColumn="cheque" DataSetColumn="cheque" />
@@ -117,9 +116,7 @@ FROM         v_estoque</CommandText>
               <Mapping SourceColumn="cartaoDebito" DataSetColumn="cartaoDebito" />
               <Mapping SourceColumn="cartaoCredito" DataSetColumn="cartaoCredito" />
               <Mapping SourceColumn="crediario" DataSetColumn="crediario" />
-              <Mapping SourceColumn="parcelas" DataSetColumn="parcelas" />
               <Mapping SourceColumn="desconto" DataSetColumn="desconto" />
-              <Mapping SourceColumn="condicao" DataSetColumn="condicao" />
               <Mapping SourceColumn="recebido" DataSetColumn="recebido" />
               <Mapping SourceColumn="troco" DataSetColumn="troco" />
               <Mapping SourceColumn="total" DataSetColumn="total" />
@@ -132,6 +129,12 @@ FROM         v_estoque</CommandText>
               <Mapping SourceColumn="vendedor" DataSetColumn="vendedor" />
               <Mapping SourceColumn="caixa" DataSetColumn="caixa" />
               <Mapping SourceColumn="crediarioPagamento" DataSetColumn="crediarioPagamento" />
+              <Mapping SourceColumn="controle" DataSetColumn="controle1" />
+              <Mapping SourceColumn="clienteId" DataSetColumn="clienteId1" />
+              <Mapping SourceColumn="usuarioId" DataSetColumn="usuarioId1" />
+              <Mapping SourceColumn="pix" DataSetColumn="pix" />
+              <Mapping SourceColumn="parcelas" DataSetColumn="parcelas1" />
+              <Mapping SourceColumn="condicao" DataSetColumn="condicao1" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -701,6 +704,12 @@ FROM            v_balanco</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="crediarioPagamento" msprop:Generator_ColumnVarNameInTable="columncrediarioPagamento" msprop:Generator_ColumnPropNameInRow="crediarioPagamento" msprop:Generator_ColumnPropNameInTable="crediarioPagamentoColumn" msprop:Generator_UserColumnName="crediarioPagamento" type="xs:decimal" minOccurs="0" />
+              <xs:element name="controle1" msdata:Caption="controle" msprop:Generator_ColumnVarNameInTable="columncontrole1" msprop:Generator_ColumnPropNameInRow="controle1" msprop:Generator_ColumnPropNameInTable="controle1Column" msprop:Generator_UserColumnName="controle1" type="xs:long" />
+              <xs:element name="clienteId1" msdata:Caption="clienteId" msprop:Generator_ColumnVarNameInTable="columnclienteId1" msprop:Generator_ColumnPropNameInRow="clienteId1" msprop:Generator_ColumnPropNameInTable="clienteId1Column" msprop:Generator_UserColumnName="clienteId1" type="xs:long" />
+              <xs:element name="usuarioId1" msdata:Caption="usuarioId" msprop:Generator_ColumnVarNameInTable="columnusuarioId1" msprop:Generator_ColumnPropNameInRow="usuarioId1" msprop:Generator_ColumnPropNameInTable="usuarioId1Column" msprop:Generator_UserColumnName="usuarioId1" type="xs:long" />
+              <xs:element name="pix" msprop:Generator_ColumnVarNameInTable="columnpix" msprop:Generator_ColumnPropNameInRow="pix" msprop:Generator_ColumnPropNameInTable="pixColumn" msprop:Generator_UserColumnName="pix" type="xs:decimal" minOccurs="0" />
+              <xs:element name="parcelas1" msdata:Caption="parcelas" msprop:Generator_ColumnVarNameInTable="columnparcelas1" msprop:Generator_ColumnPropNameInRow="parcelas1" msprop:Generator_ColumnPropNameInTable="parcelas1Column" msprop:Generator_UserColumnName="parcelas1" type="xs:long" />
+              <xs:element name="condicao1" msdata:Caption="condicao" msprop:Generator_ColumnVarNameInTable="columncondicao1" msprop:Generator_ColumnPropNameInRow="condicao1" msprop:Generator_ColumnPropNameInTable="condicao1Column" msprop:Generator_UserColumnName="condicao1" type="xs:long" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -1011,7 +1020,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_transferencia" msprop:Generator_TableClassName="v_transferenciaDataTable" msprop:Generator_RowEvArgName="v_transferenciaRowChangeEvent" msprop:Generator_TableVarName="tablev_transferencia" msprop:Generator_TablePropName="v_transferencia" msprop:Generator_RowDeletingName="v_transferenciaRowDeleting" msprop:Generator_RowChangingName="v_transferenciaRowChanging" msprop:Generator_RowEvHandlerName="v_transferenciaRowChangeEventHandler" msprop:Generator_RowDeletedName="v_transferenciaRowDeleted" msprop:Generator_UserTableName="v_transferencia" msprop:Generator_RowChangedName="v_transferenciaRowChanged" msprop:Generator_RowClassName="v_transferenciaRow">
+        <xs:element name="v_transferencia" msprop:Generator_TableClassName="v_transferenciaDataTable" msprop:Generator_RowEvArgName="v_transferenciaRowChangeEvent" msprop:Generator_TableVarName="tablev_transferencia" msprop:Generator_TablePropName="v_transferencia" msprop:Generator_RowDeletingName="v_transferenciaRowDeleting" msprop:Generator_RowChangingName="v_transferenciaRowChanging" msprop:Generator_RowEvHandlerName="v_transferenciaRowChangeEventHandler" msprop:Generator_RowDeletedName="v_transferenciaRowDeleted" msprop:Generator_RowChangedName="v_transferenciaRowChanged" msprop:Generator_UserTableName="v_transferencia" msprop:Generator_RowClassName="v_transferenciaRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="data" msprop:Generator_ColumnVarNameInTable="columndata" msprop:Generator_ColumnPropNameInRow="data" msprop:Generator_ColumnPropNameInTable="dataColumn" msprop:Generator_UserColumnName="data" type="xs:dateTime" minOccurs="0" />
@@ -1061,7 +1070,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_balanco" msprop:Generator_TableClassName="v_balancoDataTable" msprop:Generator_TableVarName="tablev_balanco" msprop:Generator_TablePropName="v_balanco" msprop:Generator_RowDeletingName="v_balancoRowDeleting" msprop:Generator_RowChangingName="v_balancoRowChanging" msprop:Generator_RowEvHandlerName="v_balancoRowChangeEventHandler" msprop:Generator_RowDeletedName="v_balancoRowDeleted" msprop:Generator_UserTableName="v_balanco" msprop:Generator_RowChangedName="v_balancoRowChanged" msprop:Generator_RowEvArgName="v_balancoRowChangeEvent" msprop:Generator_RowClassName="v_balancoRow">
+        <xs:element name="v_balanco" msprop:Generator_TableClassName="v_balancoDataTable" msprop:Generator_TableVarName="tablev_balanco" msprop:Generator_RowChangedName="v_balancoRowChanged" msprop:Generator_TablePropName="v_balanco" msprop:Generator_RowDeletingName="v_balancoRowDeleting" msprop:Generator_RowChangingName="v_balancoRowChanging" msprop:Generator_RowEvHandlerName="v_balancoRowChangeEventHandler" msprop:Generator_RowDeletedName="v_balancoRowDeleted" msprop:Generator_RowClassName="v_balancoRow" msprop:Generator_UserTableName="v_balanco" msprop:Generator_RowEvArgName="v_balancoRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="codigoBarras" msprop:Generator_ColumnVarNameInTable="columncodigoBarras" msprop:Generator_ColumnPropNameInRow="codigoBarras" msprop:Generator_ColumnPropNameInTable="codigoBarrasColumn" msprop:Generator_UserColumnName="codigoBarras" minOccurs="0">
