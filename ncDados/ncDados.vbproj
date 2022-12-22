@@ -57,6 +57,8 @@
     <Compile Include="dFechamento.vb" />
     <Compile Include="dNotaFiscalItem.vb" />
     <Compile Include="dOrdemServico.vb" />
+    <Compile Include="dPix.vb" />
+    <Compile Include="dPixConfig.vb" />
     <Compile Include="dVeiculos.vb">
       <CustomToolNamespace>Usuario</CustomToolNamespace>
     </Compile>

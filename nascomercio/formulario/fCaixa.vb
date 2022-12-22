@@ -511,11 +511,13 @@ Public Class fCaixa
                     If Not IsNothing(vendas) Then
                         For Each dadosVenda In vendas
                             janela.txtDinheiro.Text = dadosVenda.Dinheiro.ToString("N")
+                            janela.txtPix.Text = dadosVenda.Pix.ToString("N")
                             janela.txtCheque.Text = dadosVenda.Cheque.ToString("N")
                             janela.txtChequePre.Text = dadosVenda.ChequePre.ToString("N")
                             janela.txtCartaoDebito.Text = dadosVenda.CartaoDebito.ToString("N")
                             janela.txtCartaoCredito.Text = dadosVenda.CartaoCredito.ToString("N")
                             janela.crediario = dadosVenda.Crediario.ToString("N")
+
                         Next
                     End If
                 Catch ex As Exception
@@ -622,6 +624,7 @@ Public Class fCaixa
                 If Not IsNothing(vendas) Then
                     For Each dadosVenda2 In vendas
                         dadosVenda.Dinheiro = dadosVenda2.Dinheiro
+                        dadosVenda.Pix = dadosVenda2.Pix
                         dadosVenda.Cheque = dadosVenda2.Cheque
                         dadosVenda.ChequePre = dadosVenda2.ChequePre
                         dadosVenda.CartaoDebito = dadosVenda2.CartaoDebito

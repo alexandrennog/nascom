@@ -148,6 +148,12 @@
     <Compile Include="formulario\fClientePagamentos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="formulario\Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="formulario\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="formulario\fVeiculoLista.Designer.vb">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>
     </Compile>
@@ -852,6 +858,9 @@
       <DependentUpon>fClientePagamentos.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="formulario\Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="formulario\fVeiculoLista.resx">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -1416,6 +1425,10 @@
     <ProjectReference Include="..\ncEfd\ncEfd.vbproj">
       <Project>{F4FB9F91-7859-4422-A3CE-4CAC14441AA6}</Project>
       <Name>ncEfd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ncPersistencia\ncPersistencia.vbproj">
+      <Project>{7F978C05-01F9-4E79-A676-FC43A994324E}</Project>
+      <Name>ncPersistencia</Name>
     </ProjectReference>
     <ProjectReference Include="..\ncRegras\ncRegras.vbproj">
       <Project>{2B44C5E3-B539-4254-AE44-D556FE0ADADD}</Project>
