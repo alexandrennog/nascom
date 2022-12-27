@@ -143,7 +143,7 @@ Public Class fPagamento
         Dim acessoGerente As fAcessoGerente
 
         If CDec(lblRecebido.Text) >= CDec(lblTotal.Text) Then
-            If CDec(lblTroco.Text) > 0 And CDec(txtDinheiro.Text) <= 0 And CDec(txtTroca.Text) <= 0 And CDec(txtVale.Text) <= 0 And CDec(txtDefeitos.Text) <= 0 Then
+            If CDec(lblTroco.Text) > 0 And CDec(txtDinheiro.Text) <= 0 And CDec(txtPix.Text) <= 0 And CDec(txtTroca.Text) <= 0 And CDec(txtVale.Text) <= 0 And CDec(txtDefeitos.Text) <= 0 Then
                 MessageBox.Show("Para pagamentos sem dinheiro informe o valor exato!")
                 Exit Sub
             End If

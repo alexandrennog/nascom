@@ -202,6 +202,12 @@
     <Compile Include="relatorio\fRelatorioFechamentoSAT.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="relatorio\fRelatorioPix.Designer.vb">
+      <DependentUpon>fRelatorioPix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioPix.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="relatorio\fRelatorioVendasVendedor.Designer.vb">
       <DependentUpon>fRelatorioVendasVendedor.vb</DependentUpon>
     </Compile>
@@ -887,11 +893,15 @@
       <DependentUpon>fRelatorioFechamentoSAT.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioPix.resx">
+      <DependentUpon>fRelatorioPix.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioVendasVendedor.resx">
       <DependentUpon>fRelatorioVendasVendedor.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="relatorio\Balanco.rdlc" />
+    <EmbeddedResource Include="relatorio\RelatorioPix.rdlc" />
     <EmbeddedResource Include="relatorio\VendasVendedor.rdlc" />
     <EmbeddedResource Include="relatorio\Transferencias.rdlc" />
     <EmbeddedResource Include="relatorio\fRelatorioTransferencia.resx">

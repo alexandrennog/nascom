@@ -49,6 +49,7 @@ Partial Class fRelatorio
         Me.rbtCategoria = New System.Windows.Forms.RadioButton()
         Me.rbtBalanco = New System.Windows.Forms.RadioButton()
         Me.rbtSAT = New System.Windows.Forms.RadioButton()
+        Me.rbtPix = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -254,7 +255,7 @@ Partial Class fRelatorio
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(341, 441)
+        Me.btoFiltro.Location = New System.Drawing.Point(651, 441)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
         Me.btoFiltro.Size = New System.Drawing.Size(78, 88)
@@ -390,12 +391,25 @@ Partial Class fRelatorio
         Me.rbtSAT.Text = "Vendas SAT"
         Me.rbtSAT.UseVisualStyleBackColor = True
         '
+        'rbtPix
+        '
+        Me.rbtPix.AutoSize = True
+        Me.rbtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtPix.Location = New System.Drawing.Point(310, 423)
+        Me.rbtPix.Name = "rbtPix"
+        Me.rbtPix.Size = New System.Drawing.Size(149, 23)
+        Me.rbtPix.TabIndex = 104
+        Me.rbtPix.TabStop = True
+        Me.rbtPix.Text = "Vendas com Pix"
+        Me.rbtPix.UseVisualStyleBackColor = True
+        '
         'fRelatorio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(763, 538)
+        Me.Controls.Add(Me.rbtPix)
         Me.Controls.Add(Me.rbtSAT)
         Me.Controls.Add(Me.rbtBalanco)
         Me.Controls.Add(Me.rbtCategoria)
@@ -464,4 +478,5 @@ Partial Class fRelatorio
     Friend WithEvents rbtCategoria As System.Windows.Forms.RadioButton
     Friend WithEvents rbtBalanco As System.Windows.Forms.RadioButton
     Friend WithEvents rbtSAT As System.Windows.Forms.RadioButton
+    Friend WithEvents rbtPix As RadioButton
 End Class

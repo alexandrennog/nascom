@@ -99,9 +99,9 @@ Namespace nsVenda
                 acessoBanco = New cAcessoBD
 
 
-                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " & _
-                             "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " & _
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico "
+                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -152,6 +152,7 @@ Namespace nsVenda
                                 item.Defeito = cFuncoes.RetornarDecimal(row("defeito"))
                                 item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
+                                item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
 
                                 retorno.Add(item)
