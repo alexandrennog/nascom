@@ -1,6 +1,7 @@
 Imports ncRegras.nsFabricante
 Imports ncDados.nsFabricante
 Imports ncComum.nsExcecao
+Imports System.Data.SqlClient
 
 Public Class fRelatorioPix
 
@@ -42,10 +43,15 @@ Public Class fRelatorioPix
     End Sub
 
     Private Sub fFabricanteLista_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
+        Dim dtb As New DataTable
+        Dim dad As SqlDataAdapter
 
         Try
-
+            'cnn.Open()
+            'dad = New SqlDataAdapter(strSql, cnn)
+            'dad.Fill(dtb)
+            'cnn.Close()
+            'dad.Dispose()
             Me.v_fechamentoTableAdapter.Fill(Me.nascomercioDataSet.v_fechamento)
 
         Catch nex As ExcecaoNascomercio
