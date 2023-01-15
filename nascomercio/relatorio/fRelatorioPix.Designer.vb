@@ -22,38 +22,19 @@ Partial Class fRelatorioPix
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim ReportDataSource1 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource
-        Me.v_fechamentoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.nascomercioDataSet = New nascomercio.nascomercioDataSet
-        Me.lblSubTitulo = New System.Windows.Forms.Label
-        Me.lblTitulo = New System.Windows.Forms.Label
-        Me.btoFiltro = New System.Windows.Forms.Button
-        Me.imgLogo = New System.Windows.Forms.PictureBox
-        Me.btoSair = New System.Windows.Forms.Button
-        Me.rptFechamento = New Microsoft.Reporting.WinForms.ReportViewer
-        Me.txtDataInicial = New System.Windows.Forms.MaskedTextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.txtDataFinal = New System.Windows.Forms.MaskedTextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtCaixa = New System.Windows.Forms.TextBox
-        Me.lblProduto = New System.Windows.Forms.Label
-        Me.v_fechamentoTableAdapter = New nascomercio.nascomercioDataSetTableAdapters.v_fechamentoTableAdapter
-        CType(Me.v_fechamentoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblSubTitulo = New System.Windows.Forms.Label()
+        Me.lblTitulo = New System.Windows.Forms.Label()
+        Me.btoFiltro = New System.Windows.Forms.Button()
+        Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.txtDataInicial = New System.Windows.Forms.MaskedTextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.txtDataFinal = New System.Windows.Forms.MaskedTextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtCaixa = New System.Windows.Forms.TextBox()
+        Me.lblProduto = New System.Windows.Forms.Label()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'v_fechamentoBindingSource
-        '
-        Me.v_fechamentoBindingSource.DataMember = "v_fechamento"
-        Me.v_fechamentoBindingSource.DataSource = Me.nascomercioDataSet
-        '
-        'nascomercioDataSet
-        '
-        Me.nascomercioDataSet.DataSetName = "nascomercioDataSet"
-        Me.nascomercioDataSet.EnforceConstraints = False
-        Me.nascomercioDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'lblSubTitulo
         '
@@ -63,7 +44,7 @@ Partial Class fRelatorioPix
         Me.lblSubTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblSubTitulo.Location = New System.Drawing.Point(64, 34)
         Me.lblSubTitulo.Name = "lblSubTitulo"
-        Me.lblSubTitulo.Size = New System.Drawing.Size(39, 14)
+        Me.lblSubTitulo.Size = New System.Drawing.Size(38, 14)
         Me.lblSubTitulo.TabIndex = 138
         Me.lblSubTitulo.Text = "LISTA"
         '
@@ -75,9 +56,9 @@ Partial Class fRelatorioPix
         Me.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblTitulo.Location = New System.Drawing.Point(64, 10)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(357, 24)
+        Me.lblTitulo.Size = New System.Drawing.Size(168, 24)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "Relatório de Fechamento do Caixa"
+        Me.lblTitulo.Text = "Relatório de Pix"
         '
         'btoFiltro
         '
@@ -126,17 +107,6 @@ Partial Class fRelatorioPix
         Me.btoSair.Text = "Fechar <Esc>"
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSair.UseVisualStyleBackColor = False
-        '
-        'rptFechamento
-        '
-        ReportDataSource1.Name = "nascomercioDataSet_v_fechamento"
-        ReportDataSource1.Value = Me.v_fechamentoBindingSource
-        Me.rptFechamento.LocalReport.DataSources.Add(ReportDataSource1)
-        Me.rptFechamento.LocalReport.ReportEmbeddedResource = "nascomercio.Fechamento.rdlc"
-        Me.rptFechamento.Location = New System.Drawing.Point(3, 106)
-        Me.rptFechamento.Name = "rptFechamento"
-        Me.rptFechamento.Size = New System.Drawing.Size(1010, 489)
-        Me.rptFechamento.TabIndex = 140
         '
         'txtDataInicial
         '
@@ -205,10 +175,6 @@ Partial Class fRelatorioPix
         Me.lblProduto.TabIndex = 209
         Me.lblProduto.Text = "Caixa:"
         '
-        'v_fechamentoTableAdapter
-        '
-        Me.v_fechamentoTableAdapter.ClearBeforeFill = True
-        '
         'fRelatorioPix
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -221,7 +187,6 @@ Partial Class fRelatorioPix
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtDataInicial)
         Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.rptFechamento)
         Me.Controls.Add(Me.lblSubTitulo)
         Me.Controls.Add(Me.btoFiltro)
         Me.Controls.Add(Me.lblTitulo)
@@ -236,8 +201,6 @@ Partial Class fRelatorioPix
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "fFabricanteLista"
-        CType(Me.v_fechamentoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -248,14 +211,10 @@ Partial Class fRelatorioPix
     Friend WithEvents lblTitulo As System.Windows.Forms.Label
     Friend WithEvents imgLogo As System.Windows.Forms.PictureBox
     Friend WithEvents btoSair As System.Windows.Forms.Button
-    Friend WithEvents rptFechamento As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents txtDataInicial As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents txtDataFinal As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtCaixa As System.Windows.Forms.TextBox
     Friend WithEvents lblProduto As System.Windows.Forms.Label
-    Friend WithEvents v_fechamentoBindingSource As System.Windows.Forms.BindingSource
-    Friend WithEvents nascomercioDataSet As nascomercio.nascomercioDataSet
-    Friend WithEvents v_fechamentoTableAdapter As nascomercio.nascomercioDataSetTableAdapters.v_fechamentoTableAdapter
 End Class

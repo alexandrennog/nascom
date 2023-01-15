@@ -21,8 +21,8 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-                comandoSQL = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " & _
-                             "chequePre, cartaoDebito, cartaoCredito, crediario, " & _
+                comandoSQL = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, " &
                              "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total From Vendas"
 
                 ds = acessoBanco.ExecutarDS(comandoSQL)
@@ -81,6 +81,7 @@ Namespace nsVenda
 
         End Function
 
+
         Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda
@@ -106,11 +107,15 @@ Namespace nsVenda
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
 
-                '-- controle
-                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.controle, "controle")
 
-                '-- usuarioId
-                'sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.usuarioId, "usuarioId")
+                '-- data
+                sqlWhere = sqlWhere & " data between '" & cFuncoes.FormatarDataUniversal(dados.Data) & "' AND '" & cFuncoes.FormatarDataUniversal(dados.DataFim) & "'"
+
+                '-- terminal
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Caixa, "caixa")
+
+                '-- data
+                sqlWhere = sqlWhere & " AND  Original > 0 "
 
                 '-- clienteId
                 'sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.clienteId, "clienteId")
