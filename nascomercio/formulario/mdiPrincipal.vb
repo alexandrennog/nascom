@@ -968,6 +968,11 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
 
+    Public Sub CarregarRelPix()
+        FecharTela()
+        formulario = fRelatorioPix
+        AbrirTela()
+    End Sub
     Public Sub CarregarProdutoEntradaSaidaTransferencia()
         FecharTela()
         formulario = fProdutoEntradaSaidaTransferencia

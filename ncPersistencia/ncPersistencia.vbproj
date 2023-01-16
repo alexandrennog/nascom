@@ -58,6 +58,7 @@
     <Compile Include="pCaixa.vb" />
     <Compile Include="pCategoria.vb" />
     <Compile Include="pOrdemServico.vb" />
+    <Compile Include="pPix.vb" />
     <Compile Include="pVeiculos.vb" />
     <Compile Include="pCondicao.vb" />
     <Compile Include="pServico.vb" />

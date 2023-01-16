@@ -255,11 +255,14 @@ Public Class fCaixaConsulta
                     If Not IsNothing(vendas) Then
                         For Each dadosVenda In vendas
                             janela.txtDinheiro.Text = dadosVenda.Dinheiro.ToString("N")
+                            janela.txtPix.Text = dadosVenda.Pix.ToString("N")
                             janela.txtCheque.Text = dadosVenda.Cheque.ToString("N")
                             janela.txtChequePre.Text = dadosVenda.ChequePre.ToString("N")
                             janela.txtCartaoDebito.Text = dadosVenda.CartaoDebito.ToString("N")
                             janela.txtCartaoCredito.Text = dadosVenda.CartaoCredito.ToString("N")
                             janela.crediario = dadosVenda.Crediario.ToString("N")
+                            janela.lblRecebido.Text = dadosVenda.Recebido.ToString("N")
+                            janela.lblTroco.Text = dadosVenda.Troco.ToString("N")
                         Next
                     End If
                 Catch ex As Exception
@@ -497,4 +500,11 @@ Public Class fCaixaConsulta
 
     End Sub
 
+<<<<<<< HEAD
+=======
+    Private Sub txtControle_TextChanged(sender As Object, e As EventArgs) Handles txtControle.TextChanged
+
+        'ConsultarVenda()
+    End Sub
+>>>>>>> develop
 End Class

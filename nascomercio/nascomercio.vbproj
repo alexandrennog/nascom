@@ -78,6 +78,14 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.ReportViewer.Common.10.0.40219.1\lib\Microsoft.ReportViewer.Common.dll</HintPath>
@@ -148,6 +156,12 @@
     <Compile Include="formulario\fClientePagamentos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="formulario\Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="formulario\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="formulario\fVeiculoLista.Designer.vb">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>
     </Compile>
@@ -194,6 +208,12 @@
       <DependentUpon>fRelatorioFechamentoSAT.vb</DependentUpon>
     </Compile>
     <Compile Include="relatorio\fRelatorioFechamentoSAT.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioPix.Designer.vb">
+      <DependentUpon>fRelatorioPix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioPix.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="relatorio\fRelatorioVendasVendedor.Designer.vb">
@@ -846,6 +866,9 @@
       <DependentUpon>fClientePagamentos.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="formulario\Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="formulario\fVeiculoLista.resx">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -878,11 +901,15 @@
       <DependentUpon>fRelatorioFechamentoSAT.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioPix.resx">
+      <DependentUpon>fRelatorioPix.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioVendasVendedor.resx">
       <DependentUpon>fRelatorioVendasVendedor.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="relatorio\Balanco.rdlc" />
+    <EmbeddedResource Include="relatorio\RelatorioPix.rdlc" />
     <EmbeddedResource Include="relatorio\VendasVendedor.rdlc" />
     <EmbeddedResource Include="relatorio\Transferencias.rdlc" />
     <EmbeddedResource Include="relatorio\fRelatorioTransferencia.resx">
@@ -1406,6 +1433,10 @@
     <ProjectReference Include="..\ncEfd\ncEfd.vbproj">
       <Project>{F4FB9F91-7859-4422-A3CE-4CAC14441AA6}</Project>
       <Name>ncEfd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ncPersistencia\ncPersistencia.vbproj">
+      <Project>{7F978C05-01F9-4E79-A676-FC43A994324E}</Project>
+      <Name>ncPersistencia</Name>
     </ProjectReference>
     <ProjectReference Include="..\ncRegras\ncRegras.vbproj">
       <Project>{2B44C5E3-B539-4254-AE44-D556FE0ADADD}</Project>

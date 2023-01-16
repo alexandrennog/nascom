@@ -68,6 +68,8 @@ Public Class fRelatorio
             End If
         ElseIf rbtSAT.Checked Then
             mdiPrincipal.CarregarVendaSAT()
+        ElseIf rbtPix.Checked Then
+            mdiPrincipal.CarregarRelPix()
         End If
     End Sub
 
