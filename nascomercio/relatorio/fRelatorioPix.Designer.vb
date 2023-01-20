@@ -33,6 +33,8 @@ Partial Class fRelatorioPix
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtCaixa = New System.Windows.Forms.TextBox()
         Me.lblProduto = New System.Windows.Forms.Label()
+        Me.lstPix = New System.Windows.Forms.ListView()
+        Me.btnPrint = New System.Windows.Forms.Button()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -70,7 +72,7 @@ Partial Class fRelatorioPix
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(867, 16)
+        Me.btoFiltro.Location = New System.Drawing.Point(783, 16)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
         Me.btoFiltro.Size = New System.Drawing.Size(72, 84)
@@ -175,12 +177,41 @@ Partial Class fRelatorioPix
         Me.lblProduto.TabIndex = 209
         Me.lblProduto.Text = "Caixa:"
         '
+        'lstPix
+        '
+        Me.lstPix.Location = New System.Drawing.Point(68, 140)
+        Me.lstPix.Name = "lstPix"
+        Me.lstPix.Size = New System.Drawing.Size(630, 295)
+        Me.lstPix.TabIndex = 210
+        Me.lstPix.UseCompatibleStateImageBehavior = False
+        '
+        'btnPrint
+        '
+        Me.btnPrint.BackColor = System.Drawing.Color.Transparent
+        Me.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnPrint.FlatAppearance.BorderSize = 0
+        Me.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.ForeColor = System.Drawing.Color.Black
+        Me.btnPrint.Image = Global.nascomercio.My.Resources.Resources.print_design
+        Me.btnPrint.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnPrint.Location = New System.Drawing.Point(867, 16)
+        Me.btnPrint.Margin = New System.Windows.Forms.Padding(0)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(72, 84)
+        Me.btnPrint.TabIndex = 211
+        Me.btnPrint.Text = "Imprimir [F8]"
+        Me.btnPrint.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnPrint.UseVisualStyleBackColor = False
+        '
         'fRelatorioPix
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1016, 598)
+        Me.Controls.Add(Me.btnPrint)
+        Me.Controls.Add(Me.lstPix)
         Me.Controls.Add(Me.txtCaixa)
         Me.Controls.Add(Me.lblProduto)
         Me.Controls.Add(Me.txtDataFinal)
@@ -217,4 +248,6 @@ Partial Class fRelatorioPix
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtCaixa As System.Windows.Forms.TextBox
     Friend WithEvents lblProduto As System.Windows.Forms.Label
+    Friend WithEvents lstPix As ListView
+    Friend WithEvents btnPrint As Button
 End Class
