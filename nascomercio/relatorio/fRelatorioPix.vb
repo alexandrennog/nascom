@@ -33,17 +33,67 @@ Public Class fRelatorioPix
         parametros(3).Values.Add(Me.txtCaixa.Text)
         dadosVenda.Caixa = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtCaixa.Text)
 
-        Try
-            ConfigurarRelatorio(dadosVenda)
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
+        Dim objVenda As New ncRegras.nsVenda.rVenda
+        Dim vendas As ncDados.nsVenda.ColecaoVenda
+        Me.lstPix.View = View.Details
+
+        Dim otherItems As String() = {"Data", "Terminal", "Total", "PIX"}
+        Me.lstPix.View = View.Details
+        Me.lstPix.GridLines = True
+        Me.lstPix.FullRowSelect = True
+        Me.lstPix.Columns.Clear()
+        Me.lstPix.Items.Clear()
+
+        Me.lstPix.Columns.Add("Controle")
+        Me.lstPix.Columns.Add("Data").Width = 80
+        Me.lstPix.Columns.Add("Terminal").Width = 80
+        Me.lstPix.Columns.Add("Total")
+        Me.lstPix.Columns.Add("PIX")
+
+        vendas = objVenda.Consultar(dadosVenda)
+
+        If vendas Is Nothing Then
+            Exit Sub
+        End If
+
+        Dim li As ListViewItem
+
+        Dim totTotal As Decimal
+        Dim totPIX As Decimal
+
+        For Each item As dVenda In vendas
+            li = New ListViewItem
+            li.Text = item.controle.ToString
+            li.SubItems.Add(item.Data.ToString("dd/MM/yyyy"))
+            li.SubItems.Add(item.Terminal)
+            li.SubItems.Add(item.Total.ToString())
+            li.SubItems.Add(item.Pix.ToString())
+            Me.lstPix.Items.Add(li)
+            totTotal = totTotal + item.Total
+            totPIX = totPIX + item.Pix
+        Next
+
+        li = New ListViewItem
+        li.Text = ""
+        li.SubItems.Add("")
+        li.SubItems.Add("Total:")
+        li.SubItems.Add(totTotal.ToString())
+        li.SubItems.Add(totPIX.ToString())
+        Me.lstPix.Items.Add(li)
+
+        ConfigurarRelatorio(vendas)
+
+        'Try
+        '    ConfigurarRelatorio(dadosVenda)
+        'Catch ex As Exception
+        '    MessageBox.Show(ex.Message)
+        'End Try
     End Sub
-    Private Sub ConfigurarRelatorio(ByVal dadosVenda As dVenda)
+    Private Sub ConfigurarRelatorio(ByVal vendas As ncDados.nsVenda.ColecaoVenda)
 
         Dim hoje As DateTime = DateTime.Now
 
-        Dim arquivoPDF = "RelatorioPix001" & ".pdf"
+        Dim arquivoPDF = "RelatorioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
 
         If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
             System.IO.File.Delete(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
@@ -67,105 +117,79 @@ Public Class fRelatorioPix
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
-        Dim table As New PdfPTable(7)
+        Dim table As New PdfPTable(5)
 
         Dim cell1 As New PdfPCell
-        Dim cell2 As New PdfPCell
-        Dim cell3 As New PdfPCell
+        'Dim cell2 As New PdfPCell
+        'Dim cell3 As New PdfPCell
         Dim cell4 As New PdfPCell
         Dim cell5 As New PdfPCell
         Dim cell6 As New PdfPCell
         Dim cell7 As New PdfPCell
-
+        Dim cells As New List(Of PdfPCell)
 
         Dim fonte As Font
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Controle", fonte)
-        Dim coluna2 As New Paragraph("usuarioId", fonte)
-        Dim coluna3 As New Paragraph("clienteId", fonte)
+        'Dim coluna2 As New Paragraph("usuarioId", fonte)
+        'Dim coluna3 As New Paragraph("clienteId", fonte)
         Dim coluna4 As New Paragraph("data", fonte)
         Dim coluna5 As New Paragraph("terminal", fonte)
         Dim coluna6 As New Paragraph("total", fonte)
-        Dim coluna7 As New Paragraph("Original", fonte)
+        Dim coluna7 As New Paragraph("PIX", fonte)
 
         cell1.AddElement(coluna1)
-        cell2.AddElement(coluna2)
-        cell3.AddElement(coluna3)
+        'cell2.AddElement(coluna2)
+        'cell3.AddElement(coluna3)
         cell4.AddElement(coluna4)
         cell5.AddElement(coluna5)
         cell6.AddElement(coluna6)
         cell7.AddElement(coluna7)
 
         table.AddCell(cell1)
-        table.AddCell(cell2)
-        table.AddCell(cell3)
+        'table.AddCell(cell2)
+        'table.AddCell(cell3)
         table.AddCell(cell4)
         table.AddCell(cell5)
         table.AddCell(cell6)
         table.AddCell(cell7)
 
+        Dim totTotal As Decimal
+        Dim totPIX As Decimal
 
-        Dim objVenda As New ncRegras.nsVenda.rVenda
-        Dim vendas As ncDados.nsVenda.ColecaoVenda
-
-        vendas = objVenda.Consultar(dadosVenda)
 
         For Each item As dVenda In vendas
 
-            Dim controle As New Phrase(item.controle.ToString())
-            Dim cell As New PdfPCell(controle)
-            cell.Border = PdfPCell.NO_BORDER
-            table.AddCell(cell)
-
-            Dim usuarioid As New Phrase(item.usuarioId.ToString())
-            cell = New PdfPCell(usuarioid)
-            cell.Border = PdfPCell.NO_BORDER
-            table.AddCell(cell)
-
-            Dim clienteid As New Phrase(item.clienteId.ToString())
-            cell = New PdfPCell(clienteid)
-            cell.Border = PdfPCell.NO_BORDER
-            table.AddCell(cell)
-
-            Dim data As New Phrase(item.Data.ToString("dd/MM/yyyy"))
-            cell = New PdfPCell(data)
-            cell.Border = PdfPCell.NO_BORDER
-            table.AddCell(cell)
-
-            Dim terminal As New Phrase(item.Terminal)
-            cell = New PdfPCell(terminal)
-            cell.Border = PdfPCell.NO_BORDER
-            table.AddCell(cell)
-
-            Dim total As New Phrase(item.Total.ToString())
-            cell = New PdfPCell(total)
-            cell.Border = PdfPCell.NO_BORDER
-            table.AddCell(cell)
-
-            Dim original As New Phrase(item.Pix.ToString())
-            cell = New PdfPCell(original)
-            cell.Border = PdfPCell.NO_BORDER
-            table.AddCell(cell)
+            'cells.Add(New PdfPCell(New Phrase(item.controle)))
+            table.AddCell(New PdfPCell(New Phrase(item.controle.ToString())))
+            'cells.Add(New PdfPCell(New Phrase(item.Data)))
+            table.AddCell(New PdfPCell(New Phrase(item.Data)))
+            'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
+            table.AddCell(New PdfPCell(New Phrase(item.Terminal)))
+            'cells.Add(New PdfPCell(New Phrase(item.Total)))
+            table.AddCell(New PdfPCell(New Phrase(item.Total.ToString())))
+            'cells.Add(New PdfPCell(New Phrase(item.Pix)))
+            table.AddCell(New PdfPCell(New Phrase(item.Pix.ToString())))
+            totTotal = totTotal + item.Total
+            totPIX = totPIX + item.Pix
         Next
+
+        table.AddCell(New PdfPCell(New Phrase("")))
+        'cells.Add(New PdfPCell(New Phrase(item.Data)))
+        table.AddCell(New PdfPCell(New Phrase("")))
+        'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
+        table.AddCell(New PdfPCell(New Phrase("Total: ")))
+        'cells.Add(New PdfPCell(New Phrase(item.Total)))
+        table.AddCell(New PdfPCell(New Phrase(totTotal.ToString())))
+        'cells.Add(New PdfPCell(New Phrase(item.Pix)))
+        table.AddCell(New PdfPCell(New Phrase(totPIX.ToString())))
+
 
         If Not vendas Is Nothing Then
             doc.Add(table)
         End If
         doc.Close()
-
-        Dim ProcessApplication As String = "AcroRd32"
-
-        If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
-            Dim MyPDF As New ProcessStartInfo(ProcessApplication)
-            MyPDF.Arguments = ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF
-
-            Process.Start(MyPDF)
-        End If
-
-
-
-
 
 
 
@@ -208,7 +232,6 @@ Public Class fRelatorioPix
                 Me.txtCaixa.ReadOnly = True
         End Select
 
-        Filtrar()
 
     End Sub
 
@@ -218,7 +241,23 @@ Public Class fRelatorioPix
                 mdiPrincipal.FecharTela()
             Case Keys.F5
                 Filtrar()
+            Case Keys.F8
+                Imprimir()
         End Select
     End Sub
 
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+
+        Imprimir()
+
+    End Sub
+
+    Private Sub Imprimir()
+        Dim arquivoPDF = "RelatorioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+        Dim ProcessApplication As String = "AcroRd32"
+
+        If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
+            Process.Start(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
+        End If
+    End Sub
 End Class
