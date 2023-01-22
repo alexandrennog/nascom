@@ -500,11 +500,5 @@ Public Class fCaixaConsulta
 
     End Sub
 
-<<<<<<< HEAD
-=======
-    Private Sub txtControle_TextChanged(sender As Object, e As EventArgs) Handles txtControle.TextChanged
 
-        'ConsultarVenda()
-    End Sub
->>>>>>> develop
 End Class
