@@ -71,6 +71,7 @@ Partial Class fPagamento
         Me.txtPix = New System.Windows.Forms.TextBox()
         Me.Label47 = New System.Windows.Forms.Label()
         Me.panelPIX = New System.Windows.Forms.Panel()
+        Me.btnPix = New System.Windows.Forms.Button()
         Me.txtStatus = New System.Windows.Forms.TextBox()
         Me.Label35 = New System.Windows.Forms.Label()
         Me.txtTxId = New System.Windows.Forms.TextBox()
@@ -110,7 +111,6 @@ Partial Class fPagamento
         Me.Label43 = New System.Windows.Forms.Label()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoCliente = New System.Windows.Forms.Button()
-        Me.btnPix = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.panelPIX.SuspendLayout()
         CType(Me.picQRCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -658,6 +658,25 @@ Partial Class fPagamento
         Me.panelPIX.TabIndex = 322
         Me.panelPIX.Visible = False
         '
+        'btnPix
+        '
+        Me.btnPix.BackColor = System.Drawing.Color.Transparent
+        Me.btnPix.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnPix.FlatAppearance.BorderSize = 0
+        Me.btnPix.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnPix.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPix.ForeColor = System.Drawing.Color.Black
+        Me.btnPix.Image = Global.nascomercio.My.Resources.Resources.confirmar
+        Me.btnPix.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnPix.Location = New System.Drawing.Point(315, 1)
+        Me.btnPix.Name = "btnPix"
+        Me.btnPix.Size = New System.Drawing.Size(144, 66)
+        Me.btnPix.TabIndex = 337
+        Me.btnPix.TabStop = False
+        Me.btnPix.Text = "Cobrar <Enter>"
+        Me.btnPix.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnPix.UseVisualStyleBackColor = False
+        '
         'txtStatus
         '
         Me.txtStatus.BackColor = System.Drawing.SystemColors.ScrollBar
@@ -864,7 +883,7 @@ Partial Class fPagamento
         '
         Me.chkPIX.AutoSize = True
         Me.chkPIX.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkPIX.Location = New System.Drawing.Point(302, 143)
+        Me.chkPIX.Location = New System.Drawing.Point(302, 179)
         Me.chkPIX.Name = "chkPIX"
         Me.chkPIX.Size = New System.Drawing.Size(45, 19)
         Me.chkPIX.TabIndex = 174
@@ -1109,25 +1128,6 @@ Partial Class fPagamento
         Me.btoCliente.TabIndex = 161
         Me.btoCliente.TabStop = False
         Me.btoCliente.UseVisualStyleBackColor = False
-        '
-        'btnPix
-        '
-        Me.btnPix.BackColor = System.Drawing.Color.Transparent
-        Me.btnPix.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnPix.FlatAppearance.BorderSize = 0
-        Me.btnPix.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnPix.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPix.ForeColor = System.Drawing.Color.Black
-        Me.btnPix.Image = Global.nascomercio.My.Resources.Resources.confirmar
-        Me.btnPix.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnPix.Location = New System.Drawing.Point(315, 1)
-        Me.btnPix.Name = "btnPix"
-        Me.btnPix.Size = New System.Drawing.Size(144, 66)
-        Me.btnPix.TabIndex = 337
-        Me.btnPix.TabStop = False
-        Me.btnPix.Text = "Cobrar <Enter>"
-        Me.btnPix.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btnPix.UseVisualStyleBackColor = False
         '
         'fPagamento
         '
