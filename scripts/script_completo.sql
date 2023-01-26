@@ -39,6 +39,9 @@ ALTER TABLE `credpag` ADD `Original` decimal(5,2) NOT NULL DEFAULT 0;
 ALTER TABLE `prevendas` ADD `Original` decimal(5,2) NOT NULL DEFAULT 0;
 ALTER TABLE `vales` ADD `Original` decimal(5,2) NOT NULL DEFAULT 0;
 ALTER TABLE `vendas` ADD `Original` decimal(5,2) NOT NULL DEFAULT 0; 
+ALTER TABLE `pix` ADD `controle` int(10) unsigned NOT NULL;
+
+  
   
  
 DROP VIEW IF EXISTS `nascomercio`.`v_fechamento`;
@@ -82,7 +85,13 @@ select `vales`.`controle` AS `controle`,`vales`.`data` AS `data`,`produtos`.`des
 
 
 
-****************************
-DROP VIEW IF EXISTS `nascomercio`.`v_pix`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW  `nascomercio`.`v_pix` AS select `v`.`controle` AS `controle`,`v`.`clienteId` AS `clienteId`,`v`.`usuarioId` AS `usuarioId`,`v`.`data` AS `data`,`v`.`dinheiro` AS `dinheiro`,`v`.`pix` AS `pix`,`v`.`cheque` AS `cheque`,`v`.`chequePre` AS `chequePre`,`v`.`cartaoDebito` AS `cartaoDebito`,`v`.`cartaoCredito` AS `cartaoCredito`,`v`.`crediario` AS `crediario`,`v`.`parcelas` AS `parcelas`,`v`.`desconto` AS `desconto`,`v`.`condicao` AS `condicao`,`v`.`recebido` AS `recebido`,`v`.`troco` AS `troco`,`v`.`total` AS `total`,`v`.`troca` AS `troca`,`v`.`vale` AS `vale`,`v`.`defeito` AS `defeito`,`v`.`terminal` AS `terminal`,`v`.`retirada` AS `retirada`,`v`.`valeEmitido` AS `valeEmitido`,`v`.`vendedor` AS `vendedor`,`v`.`caixa` AS `caixa`,`v`.`crediarioPagamento` AS `crediarioPagamento`, `vendas`.`Original` AS `pix` from `v_fechamento` `v` where (`v`.`pix` > 0);
+INSERT INTO parametros(cid, descricao, valor)
+select 21, 'IsDecimal', 1
 
+
+INSERT INTO parametros(cid, descricao, valor)
+select 22, 'Security', 1
+
+
+INSERT INTO parametros(cid, descricao, valor)
+select 23, 'Instancias', 3

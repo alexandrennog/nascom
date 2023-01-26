@@ -25,7 +25,7 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select txID, Cliente, Cpf, Cnpj, Nome, SolicitacaoPagador, Original "
+            sqlSelect = " Select txID, Observacao, SolicitacaoPagador as pagador, Original, controle "
 
             sqlWhere = String.Empty
             sqlFrom = " From PIX "
@@ -33,6 +33,11 @@ Public Class pPix
             '-- TxId
             If dados.TxId <> 0 Then
                 sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.TxId, "TxId")
+            End If
+
+            '-- TxId
+            If dados.Controle <> 0 Then
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Controle, "controle")
             End If
 
 
@@ -53,12 +58,13 @@ Public Class pPix
                         For Each row In dt.Rows
                             item = New dPix
                             item.TxId = cFuncoes.RetornarTexto(row("TxId"))
-                            item.Cliente = cFuncoes.RetornarTexto(row("Cliente"))
-                            item.Cpf = cFuncoes.RetornarTexto(row("Cpf"))
-                            item.Cnpj = cFuncoes.RetornarTexto(row("Cnpj"))
-                            item.Nome = cFuncoes.RetornarTexto(row("Nome"))
-                            item.Pagador = cFuncoes.RetornarTexto(row("Pagador"))
+                            'item.Cliente = cFuncoes.RetornarTexto(row("Cliente"))
+                            'item.Cpf = cFuncoes.RetornarTexto(row("Cpf"))
+                            'item.Cnpj = cFuncoes.RetornarTexto(row("Cnpj"))
+                            item.Observacao = cFuncoes.RetornarTexto(row("Observacao"))
+                            item.Pagador = cFuncoes.RetornarTexto(row("pagador"))
                             item.Original = cFuncoes.RetornarDecimal(row("Original"))
+                            item.Controle = cFuncoes.RetornarInteiro(row("controle"))
                             retorno.Add(item)
                         Next
                     Else
@@ -82,6 +88,7 @@ Public Class pPix
 
     End Function
 
+
     Public Function Consultar() As dPix
 
         Dim retorno As dPix
@@ -98,7 +105,7 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status, Observacao, DataHora   "
+            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status, Observacao, DataHora, controle   "
 
             sqlWhere = " order by DataHora desc LIMIT 1;"
             sqlFrom = " From PIX "
@@ -121,6 +128,7 @@ Public Class pPix
                             item.Status = cFuncoes.RetornarTexto(row("status"))
                             item.DataHora = cFuncoes.RetornarData(row("DataHora"))
                             item.Observacao = cFuncoes.RetornarTexto(row("Observacao"))
+                            item.Controle = cFuncoes.RetornarInteiro(row("controle"))
                             retorno = item
                         Next
                     Else
@@ -213,9 +221,9 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            comandoSQL = " INSERT INTO PIX (ID, SolicitacaoPagador, Original, DataHora, Observacao)  VALUES ("
+            comandoSQL = " INSERT INTO PIX (ID, SolicitacaoPagador, Original, DataHora, Observacao, controle)  VALUES ("
             comandoSQL += cFuncoes.PersistirTexto(DateTime.Now.ToString("yyyyMMddHHmmss")) + "," + cFuncoes.PersistirTexto(dados.Pagador) & "," & cFuncoes.PersistirDecimal(dados.Original)
-            comandoSQL += "," & cFuncoes.PersistirDataHora(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")) & "," & cFuncoes.PersistirTexto(dados.Observacao) + ")"
+            comandoSQL += "," & cFuncoes.PersistirDataHora(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")) & "," & cFuncoes.PersistirTexto(dados.Observacao) & "," & cFuncoes.PersistirInteiro(dados.Controle) + ")"
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
 

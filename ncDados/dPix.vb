@@ -11,6 +11,7 @@
     Private _observacao As String
     Private _status As String
     Private _dataHora As DateTime
+    Private _controle As Integer
 
 
     Public Property ID() As String
@@ -107,6 +108,14 @@
         End Get
         Set(ByVal value As String)
             _dataHora = value
+        End Set
+    End Property
+    Public Property Controle() As Integer
+        Get
+            Return _controle
+        End Get
+        Set(ByVal value As Integer)
+            _controle = value
         End Set
     End Property
 End Class

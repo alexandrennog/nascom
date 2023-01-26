@@ -15,6 +15,9 @@ Imports ncPersistencia
 Imports ncDados
 Imports System.IO
 Imports System.Threading
+Imports System
+Imports System.Linq
+
 
 Public Class fPagamento
 
@@ -83,6 +86,8 @@ Public Class fPagamento
 
         calculaRecebido()
         formataCampos()
+
+        RecuperarDadosPix()
     End Sub
 
     Private Sub txtDinheiro_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave,
@@ -909,7 +914,7 @@ Public Class fPagamento
 
     End Sub
 
-    Private Sub Label34_Click(sender As Object, e As EventArgs) 
+    Private Sub Label34_Click(sender As Object, e As EventArgs)
 
     End Sub
     Private Sub Consultar()
@@ -955,6 +960,7 @@ Public Class fPagamento
         Try
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
+            dados.Controle = lblControle.Text
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
@@ -965,7 +971,37 @@ Public Class fPagamento
 
         End Try
     End Sub
-    Private Sub Button3_Click(sender As Object, e As EventArgs) 
+    Private Sub RecuperarDadosPix()
+        Dim regras As rPix
+        regras = New rPix
+        Dim dados As New dPix
+        Dim _dados As New dPix
+        Dim colecaoPIX As List(Of dPix) = New List(Of dPix)
+
+        Try
+            dados.Original = txtValorPIX.Text
+            dados.Observacao = txtObs.Text
+            dados.Controle = lblControle.Text
+            Dim arPix = regras.Consultar(dados)
+
+            If Not arPix Is Nothing Then
+                arPix = arPix.ToArray()
+                dados = arPix(0)
+                txtPix.Text = dados.Original
+                txtValorPIX.Text = dados.Original
+                txtObs.Text = dados.Observacao
+                txtTxId.Text = "PIX Cadastrado!"
+                txtStatus.Text = "A Cobrar"
+            End If
+
+        Catch ex As Exception
+
+            Throw New ExcecaoNascomercio("Erro em recuperar dados do pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs)
 
 
 
@@ -1082,5 +1118,9 @@ Public Class fPagamento
             End If
             Consultar()
         End If
+    End Sub
+
+    Private Sub fPagamento_HandleDestroyed(sender As Object, e As EventArgs) Handles Me.HandleDestroyed
+
     End Sub
 End Class

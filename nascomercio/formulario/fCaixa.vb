@@ -1361,4 +1361,8 @@ Public Class fCaixa
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 
     End Sub
+
+    Private Sub txtControle_TextChanged(sender As Object, e As EventArgs) Handles txtControle.TextChanged
+
+    End Sub
 End Class

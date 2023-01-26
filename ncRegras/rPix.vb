@@ -53,6 +53,29 @@ Public Class rPix
         fConsultar = retorno
 
     End Function
+    Public Function fConsultar(ByVal dados As dPix) As ColecaoPix
+
+        Dim retorno As dPix
+        Dim persistencia As pPix
+        Dim retornoPersistencia As ColecaoPix
+
+        Try
+
+            retorno = New dPix
+
+            persistencia = New pPix
+            retornoPersistencia = persistencia.Consultar(dados)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em fConsultar Pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        fConsultar = retornoPersistencia
+
+    End Function
 
     Public Function Consultar() As dPix
 
@@ -61,6 +84,24 @@ Public Class rPix
         Try
 
             retorno = fConsultar()
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Consultar Pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        Consultar = retorno
+
+    End Function
+    Public Function Consultar(ByVal dados As dPix) As ColecaoPix
+
+        Dim retorno As ColecaoPix
+        Try
+
+            retorno = fConsultar(dados)
+
 
         Catch ex As Exception
 

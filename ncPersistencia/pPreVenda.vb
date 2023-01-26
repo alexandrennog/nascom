@@ -312,7 +312,7 @@ Namespace nsVenda
                     " vale = " & cFuncoes.PersistirDecimal(dados.Vale) & "," &
                     " defeito = " & cFuncoes.PersistirDecimal(dados.Defeito) & "," &
                     " vendedor = " & cFuncoes.PersistirTexto(dados.Vendedor) & "," &
-                     " Original = " & cFuncoes.PersistirTexto(dados.Pix) & "," &
+                     " Original = " & cFuncoes.PersistirDecimal(dados.Pix) & "," &
                     " total = " & cFuncoes.PersistirDecimal(dados.Total) &
                     " WHERE " &
                     " controle = " & dados.controle.ToString()
