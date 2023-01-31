@@ -436,4 +436,8 @@ Public Class fProdutoFiltro
     Private Sub btoNF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoNF.Click
         mdiPrincipal.CarregarNotaFiscalFornecedorLista(Nothing)
     End Sub
+
+    Private Sub dgvProduto_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvProduto.CellContentClick
+
+    End Sub
 End Class
