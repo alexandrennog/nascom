@@ -23,6 +23,10 @@ Imports ncDados.nsUsuario
 Imports ncDados.nsLoja
 Imports ncDados.nsCategoria
 Imports ncRegras.nsCategoria
+Imports ncRegras.nsParametro
+Imports ncDados.nsParametro
+Imports ncComum.nsConstantes
+Imports System.Globalization
 
 Public Class fProdutoForm
 
@@ -30,6 +34,7 @@ Public Class fProdutoForm
     Public produto As dProduto
     Private colecaoProdutoTipoCaracteristica As ColecaoProdutoTipoCaracteristica
     Private estoqueTotal As Integer
+    Private estoqueTotaldec As Integer
     Private gUsuario As New dUsuario
     Private gLoja As New dLoja
     Public abrirTela As Boolean = False
@@ -695,8 +700,18 @@ Public Class fProdutoForm
         Dim dadosC As dCaracteristica
         Dim dadosEstoque As String
         Dim estoque As Integer
+        Dim estoqueDec As Decimal
+        Dim dadosParametro As dParametro
+        Dim regraParametro As rParametro
+        Dim ehDecimal As String = Nothing
 
         Try
+
+            regraParametro = New rParametro()
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.IsDecimal)
+            If Not IsNothing(dadosParametro) Then
+                ehDecimal = dadosParametro.valor
+            End If
 
             estoqueTotal = 0
 
@@ -722,32 +737,45 @@ Public Class fProdutoForm
                                             '-- Verifica se tem o campo cadastrado pro item
                                             For Each item In colecao
 
-                                                If (celula.OwningColumn.Tag.ToString().Equals(item.caracteristicas_cid.ToString())) And _
+                                                If (celula.OwningColumn.Tag.ToString().Equals(item.caracteristicas_cid.ToString())) And
                                                     (item.item.Equals(itemQtde.item)) Then
                                                     dadosC = regraC.ConsultarPorCID(item.caracteristicas_cid)
 
                                                     If dadosC.codigo.ToLower().Equals("codigobarras") Then
                                                         novaLinha.Cells("codigobarrasatual").Value = item.valor
+                                                        celula.Value = item.valor
                                                     End If
-                                                    celula.Value = item.valor
+
 
                                                     If dadosC.codigo.ToLower().Equals("estoque") Then
-                                                        dadosEstoque = item.valor
 
-                                                        If Not dadosEstoque = Nothing Then
-                                                            If Not dadosEstoque.Trim().Equals(String.Empty) Then
-                                                                If Integer.TryParse(dadosEstoque.Trim(), estoque) Then
-                                                                    estoqueTotal = estoqueTotal + estoque
+                                                        If ehDecimal = "0" Then
+                                                            dadosEstoque = Convert.ToInt32(Decimal.Parse(item.valor, CultureInfo.InvariantCulture))
+                                                            If Not dadosEstoque = Nothing Then
+                                                                If Not dadosEstoque.Trim().Equals(String.Empty) Then
+                                                                    If Integer.TryParse(dadosEstoque.Trim(), estoque) Then
+                                                                        estoqueTotal = estoqueTotal + estoque
+                                                                    End If
+                                                                End If
+                                                            End If
+                                                        Else
+                                                            dadosEstoque = String.Format("{0:0.00}", Convert.ToDecimal(item.valor))
+                                                            If Not dadosEstoque = Nothing Then
+                                                                If Not dadosEstoque.Trim().Equals(String.Empty) Then
+                                                                    If Decimal.TryParse(dadosEstoque.Trim(), estoqueDec) Then
+                                                                        estoqueTotaldec = estoqueTotaldec + estoqueDec
+                                                                    End If
                                                                 End If
                                                             End If
                                                         End If
+                                                        celula.Value = dadosEstoque
+
                                                     End If
 
                                                     Exit For
                                                 End If
                                             Next
                                         Next
-
                                     Next
                                 End If
 
@@ -757,7 +785,12 @@ Public Class fProdutoForm
                 End If
             End If
 
-            txtEstoqueTotal.Text = estoqueTotal.ToString()
+            If ehDecimal = "0" Then
+                txtEstoqueTotal.Text = estoqueTotal.ToString()
+            Else
+                txtEstoqueTotal.Text = String.Format("{0:0.00}", Convert.ToDecimal(estoqueTotaldec))
+            End If
+
 
         Catch nex As ExcecaoNascomercio
 

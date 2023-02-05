@@ -22,45 +22,45 @@ Partial Class fProdutoFiltro
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblReferencia = New System.Windows.Forms.Label
-        Me.dgvProduto = New System.Windows.Forms.DataGridView
-        Me.txtValorVenda = New System.Windows.Forms.TextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.txtValorCompra = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.lblFabricante = New System.Windows.Forms.Label
-        Me.cboFabricante = New System.Windows.Forms.ComboBox
-        Me.lblFornecedor = New System.Windows.Forms.Label
-        Me.cboFornecedor = New System.Windows.Forms.ComboBox
-        Me.txtDescricao = New System.Windows.Forms.TextBox
-        Me.txtCodigo = New System.Windows.Forms.TextBox
-        Me.lblTipo = New System.Windows.Forms.Label
-        Me.lblSubTitulo = New System.Windows.Forms.Label
-        Me.cboTipo = New System.Windows.Forms.ComboBox
-        Me.cboSituacao = New System.Windows.Forms.ComboBox
-        Me.lblSituacao = New System.Windows.Forms.Label
-        Me.lblTitulo = New System.Windows.Forms.Label
-        Me.lblNome = New System.Windows.Forms.Label
-        Me.lblCodigo = New System.Windows.Forms.Label
-        Me.btoCadastro = New System.Windows.Forms.Button
-        Me.btoPesquisar = New System.Windows.Forms.Button
-        Me.btoSair = New System.Windows.Forms.Button
-        Me.imgLogo = New System.Windows.Forms.PictureBox
-        Me.txtReferencia = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtEstoqueMinimo = New System.Windows.Forms.MaskedTextBox
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.cboGrupo = New System.Windows.Forms.ComboBox
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.cboCor = New System.Windows.Forms.ComboBox
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.btoEtiquetaES = New System.Windows.Forms.Button
-        Me.btoFabricantes = New System.Windows.Forms.Button
-        Me.btoFornecedores = New System.Windows.Forms.Button
-        Me.txtAliquota = New System.Windows.Forms.MaskedTextBox
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.btoNF = New System.Windows.Forms.Button
+        Me.lblReferencia = New System.Windows.Forms.Label()
+        Me.dgvProduto = New System.Windows.Forms.DataGridView()
+        Me.txtValorVenda = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtValorCompra = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.lblFabricante = New System.Windows.Forms.Label()
+        Me.cboFabricante = New System.Windows.Forms.ComboBox()
+        Me.lblFornecedor = New System.Windows.Forms.Label()
+        Me.cboFornecedor = New System.Windows.Forms.ComboBox()
+        Me.txtDescricao = New System.Windows.Forms.TextBox()
+        Me.txtCodigo = New System.Windows.Forms.TextBox()
+        Me.lblTipo = New System.Windows.Forms.Label()
+        Me.lblSubTitulo = New System.Windows.Forms.Label()
+        Me.cboTipo = New System.Windows.Forms.ComboBox()
+        Me.cboSituacao = New System.Windows.Forms.ComboBox()
+        Me.lblSituacao = New System.Windows.Forms.Label()
+        Me.lblTitulo = New System.Windows.Forms.Label()
+        Me.lblNome = New System.Windows.Forms.Label()
+        Me.lblCodigo = New System.Windows.Forms.Label()
+        Me.btoCadastro = New System.Windows.Forms.Button()
+        Me.btoPesquisar = New System.Windows.Forms.Button()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.txtReferencia = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtEstoqueMinimo = New System.Windows.Forms.MaskedTextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.cboGrupo = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.cboCor = New System.Windows.Forms.ComboBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.btoEtiquetaES = New System.Windows.Forms.Button()
+        Me.btoFabricantes = New System.Windows.Forms.Button()
+        Me.btoFornecedores = New System.Windows.Forms.Button()
+        Me.txtAliquota = New System.Windows.Forms.MaskedTextBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btoNF = New System.Windows.Forms.Button()
         CType(Me.dgvProduto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -616,7 +616,7 @@ Partial Class fProdutoFiltro
         Me.PerformLayout()
 
     End Sub
-  Friend WithEvents lblReferencia As System.Windows.Forms.Label
+    Friend WithEvents lblReferencia As System.Windows.Forms.Label
   Friend WithEvents dgvProduto As System.Windows.Forms.DataGridView
   Friend WithEvents txtValorVenda As System.Windows.Forms.TextBox
   Friend WithEvents Label3 As System.Windows.Forms.Label
