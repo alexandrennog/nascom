@@ -86,10 +86,31 @@ Public Class fPagamento
 
         calculaRecebido()
         formataCampos()
+        If HabilitarPix() Then
+            RecuperarDadosPix()
+            chkPIX.Enabled = True
+        Else
+            chkPIX.Enabled = False
+        End If
 
-        RecuperarDadosPix()
     End Sub
+    Private Function HabilitarPix() As Boolean
+        ' Habilitar uso do PIX?
 
+        Dim retorno As Boolean
+
+        regraParametro = New rParametro()
+        dadosParametro = regraParametro.Consultar(cConstantes.Parametros.UsarPIX)
+        If Not IsNothing(dadosParametro) Then
+            If dadosParametro.valor = "1" Then
+                retorno = True
+            Else
+                retorno = False
+            End If
+        End If
+
+        HabilitarPix = retorno
+    End Function
     Private Sub txtDinheiro_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave,
                                                                                                txtCartaoCredito.Leave,
                                                                                                txtCrediario.Leave,

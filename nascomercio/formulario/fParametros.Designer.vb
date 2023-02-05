@@ -42,6 +42,8 @@ Partial Class fParametros
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cboQuantidade = New System.Windows.Forms.ComboBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.cboEhDecimal = New System.Windows.Forms.ComboBox()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.cboTamanho = New System.Windows.Forms.ComboBox()
         Me.Label12 = New System.Windows.Forms.Label()
@@ -58,8 +60,12 @@ Partial Class fParametros
         Me.Label7 = New System.Windows.Forms.Label()
         Me.cboLojaGrande = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.cboEhDecimal = New System.Windows.Forms.ComboBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.cboCriptografia = New System.Windows.Forms.ComboBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.txtNInstancias = New System.Windows.Forms.TextBox()
+        Me.cboPIX = New System.Windows.Forms.ComboBox()
+        Me.Label17 = New System.Windows.Forms.Label()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -182,7 +188,7 @@ Partial Class fParametros
         Me.btoSalvar.ForeColor = System.Drawing.Color.Black
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(330, 422)
+        Me.btoSalvar.Location = New System.Drawing.Point(626, 416)
         Me.btoSalvar.Name = "btoSalvar"
         Me.btoSalvar.Size = New System.Drawing.Size(92, 72)
         Me.btoSalvar.TabIndex = 99
@@ -300,6 +306,12 @@ Partial Class fParametros
         'Panel2
         '
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Controls.Add(Me.cboPIX)
+        Me.Panel2.Controls.Add(Me.Label17)
+        Me.Panel2.Controls.Add(Me.txtNInstancias)
+        Me.Panel2.Controls.Add(Me.Label15)
+        Me.Panel2.Controls.Add(Me.cboCriptografia)
+        Me.Panel2.Controls.Add(Me.Label16)
         Me.Panel2.Controls.Add(Me.Label14)
         Me.Panel2.Controls.Add(Me.cboEhDecimal)
         Me.Panel2.Controls.Add(Me.Label13)
@@ -325,6 +337,29 @@ Partial Class fParametros
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(761, 499)
         Me.Panel2.TabIndex = 108
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.BackColor = System.Drawing.Color.Transparent
+        Me.Label14.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label14.Location = New System.Drawing.Point(71, 332)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(91, 18)
+        Me.Label14.TabIndex = 128
+        Me.Label14.Text = "Eh Decimal:"
+        '
+        'cboEhDecimal
+        '
+        Me.cboEhDecimal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboEhDecimal.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboEhDecimal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.cboEhDecimal.FormattingEnabled = True
+        Me.cboEhDecimal.Items.AddRange(New Object() {"Sim", "Não"})
+        Me.cboEhDecimal.Location = New System.Drawing.Point(179, 332)
+        Me.cboEhDecimal.Name = "cboEhDecimal"
+        Me.cboEhDecimal.Size = New System.Drawing.Size(130, 26)
+        Me.cboEhDecimal.TabIndex = 127
         '
         'Label13
         '
@@ -445,11 +480,11 @@ Partial Class fParametros
         '
         Me.txtMensagem.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtMensagem.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMensagem.Location = New System.Drawing.Point(64, 358)
+        Me.txtMensagem.Location = New System.Drawing.Point(67, 416)
         Me.txtMensagem.MaxLength = 250
         Me.txtMensagem.Multiline = True
         Me.txtMensagem.Name = "txtMensagem"
-        Me.txtMensagem.Size = New System.Drawing.Size(626, 58)
+        Me.txtMensagem.Size = New System.Drawing.Size(525, 58)
         Me.txtMensagem.TabIndex = 115
         '
         'Label9
@@ -457,7 +492,7 @@ Partial Class fParametros
         Me.Label9.AutoSize = True
         Me.Label9.BackColor = System.Drawing.Color.Transparent
         Me.Label9.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label9.Location = New System.Drawing.Point(64, 337)
+        Me.Label9.Location = New System.Drawing.Point(64, 395)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(166, 18)
         Me.Label9.TabIndex = 116
@@ -509,28 +544,72 @@ Partial Class fParametros
         Me.Label5.TabIndex = 109
         Me.Label5.Text = "Loja com terminal de venda:"
         '
-        'Label14
+        'Label15
         '
-        Me.Label14.AutoSize = True
-        Me.Label14.BackColor = System.Drawing.Color.Transparent
-        Me.Label14.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label14.Location = New System.Drawing.Point(315, 332)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(91, 18)
-        Me.Label14.TabIndex = 128
-        Me.Label14.Text = "Eh Decimal:"
+        Me.Label15.AutoSize = True
+        Me.Label15.BackColor = System.Drawing.Color.Transparent
+        Me.Label15.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label15.Location = New System.Drawing.Point(492, 335)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(83, 18)
+        Me.Label15.TabIndex = 131
+        Me.Label15.Text = "Instâncias:"
         '
-        'cboEhDecimal
+        'cboCriptografia
         '
-        Me.cboEhDecimal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboEhDecimal.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.cboEhDecimal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.cboEhDecimal.FormattingEnabled = True
-        Me.cboEhDecimal.Items.AddRange(New Object() {"Sim", "Não"})
-        Me.cboEhDecimal.Location = New System.Drawing.Point(459, 324)
-        Me.cboEhDecimal.Name = "cboEhDecimal"
-        Me.cboEhDecimal.Size = New System.Drawing.Size(130, 26)
-        Me.cboEhDecimal.TabIndex = 127
+        Me.cboCriptografia.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboCriptografia.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboCriptografia.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.cboCriptografia.FormattingEnabled = True
+        Me.cboCriptografia.Items.AddRange(New Object() {"Sim", "Não"})
+        Me.cboCriptografia.Location = New System.Drawing.Point(424, 332)
+        Me.cboCriptografia.Name = "cboCriptografia"
+        Me.cboCriptografia.Size = New System.Drawing.Size(62, 26)
+        Me.cboCriptografia.TabIndex = 130
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.BackColor = System.Drawing.Color.Transparent
+        Me.Label16.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label16.Location = New System.Drawing.Point(318, 335)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(96, 18)
+        Me.Label16.TabIndex = 129
+        Me.Label16.Text = "Criptografia:"
+        '
+        'txtNInstancias
+        '
+        Me.txtNInstancias.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtNInstancias.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtNInstancias.Location = New System.Drawing.Point(595, 335)
+        Me.txtNInstancias.MaxLength = 20
+        Me.txtNInstancias.Name = "txtNInstancias"
+        Me.txtNInstancias.Size = New System.Drawing.Size(48, 18)
+        Me.txtNInstancias.TabIndex = 132
+        '
+        'cboPIX
+        '
+        Me.cboPIX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPIX.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboPIX.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.cboPIX.FormattingEnabled = True
+        Me.cboPIX.Items.AddRange(New Object() {"Sim", "Não"})
+        Me.cboPIX.Location = New System.Drawing.Point(595, 375)
+        Me.cboPIX.Name = "cboPIX"
+        Me.cboPIX.Size = New System.Drawing.Size(62, 26)
+        Me.cboPIX.TabIndex = 134
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.BackColor = System.Drawing.Color.Transparent
+        Me.Label17.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label17.Location = New System.Drawing.Point(489, 378)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(64, 18)
+        Me.Label17.TabIndex = 133
+        Me.Label17.Text = "Hab PIX"
         '
         'fParametros
         '
@@ -601,4 +680,10 @@ Partial Class fParametros
     Friend WithEvents cboTamanho As System.Windows.Forms.ComboBox
     Friend WithEvents Label14 As Label
     Friend WithEvents cboEhDecimal As ComboBox
+    Friend WithEvents Label15 As Label
+    Friend WithEvents cboCriptografia As ComboBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents txtNInstancias As TextBox
+    Friend WithEvents cboPIX As ComboBox
+    Friend WithEvents Label17 As Label
 End Class

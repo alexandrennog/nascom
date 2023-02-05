@@ -95,3 +95,10 @@ select 22, 'Security', 1
 
 INSERT INTO parametros(cid, descricao, valor)
 select 23, 'Instancias', 3
+
+
+INSERT INTO parametros(cid, descricao, valor)
+select 24, 'UsarPIX', 1
+
+
+

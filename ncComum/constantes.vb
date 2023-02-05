@@ -30,6 +30,7 @@ Namespace nsConstantes
             IsDecimal
             Secure
             Instancias
+            UsarPIX
         End Enum
 
     End Class

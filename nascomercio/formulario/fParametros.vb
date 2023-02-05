@@ -243,6 +243,67 @@ Public Class fParametros
                     regraParametro.Alterar(dadosParametro)
                 End If
 
+                ' Criptografia
+                dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Secure)
+                If IsNothing(dadosParametro) Then
+                    dadosParametro = New dParametro()
+                    dadosParametro.cid = cConstantes.Parametros.Secure
+                    dadosParametro.descricao = "Tamanho Etiqueta"
+
+                    If cboCriptografia.SelectedText = "Sim" Then
+                        dadosParametro.valor = "1"
+                    Else
+                        dadosParametro.valor = "0"
+                    End If
+                    regraParametro.Incluir(dadosParametro)
+                Else
+                    dadosParametro.cid = cConstantes.Parametros.Secure
+                    If cboCriptografia.Text = "Sim" Then
+                        dadosParametro.valor = "1"
+                    Else
+                        dadosParametro.valor = "0"
+                    End If
+                    regraParametro.Alterar(dadosParametro)
+                End If
+
+
+                ' n instancias
+                dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Instancias)
+                If IsNothing(dadosParametro) Then
+                    dadosParametro = New dParametro()
+                    dadosParametro.cid = cConstantes.Parametros.Instancias
+                    dadosParametro.descricao = "Tamanho Etiqueta"
+                    dadosParametro.valor = txtNInstancias.Text
+                    regraParametro.Incluir(dadosParametro)
+                Else
+                    dadosParametro.cid = cConstantes.Parametros.Instancias
+                    dadosParametro.valor = txtNInstancias.Text
+                    regraParametro.Alterar(dadosParametro)
+                End If
+
+                ' PIX
+                dadosParametro = regraParametro.Consultar(cConstantes.Parametros.UsarPIX)
+                If IsNothing(dadosParametro) Then
+                    dadosParametro = New dParametro()
+                    dadosParametro.cid = cConstantes.Parametros.UsarPIX
+                    dadosParametro.descricao = "Tamanho Etiqueta"
+
+                    If cboPIX.Text = "Sim" Then
+                        dadosParametro.valor = "1"
+                    Else
+                        dadosParametro.valor = "0"
+                    End If
+                    regraParametro.Incluir(dadosParametro)
+                Else
+                    dadosParametro.cid = cConstantes.Parametros.UsarPIX
+                    If cboPIX.Text = "Sim" Then
+                        dadosParametro.valor = "1"
+                    Else
+                        dadosParametro.valor = "0"
+                    End If
+                    regraParametro.Alterar(dadosParametro)
+                End If
+
                 '' Chave sistema
                 'dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ChaveSistema)
                 'If IsNothing(dadosParametro) Then
@@ -337,6 +398,47 @@ Public Class fParametros
             If Not IsNothing(dadosParametro) Then
                 Me.cboVenda.Text = dadosParametro.valor
             End If
+
+            ' Criptografia
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Secure)
+            If Not IsNothing(dadosParametro) Then
+                If dadosParametro.valor = "1" Then
+                    Me.cboPIX.Text = "Sim"
+                Else
+                    Me.cboPIX.Text = "Não"
+                End If
+            End If
+
+
+            ' Criptografia
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Secure)
+            If Not IsNothing(dadosParametro) Then
+                If dadosParametro.valor = "1" Then
+                    Me.cboCriptografia.Text = "Sim"
+                Else
+                    Me.cboCriptografia.Text = "Não"
+                End If
+            End If
+
+
+            ' Usar pix?
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.UsarPIX)
+            If Not IsNothing(dadosParametro) Then
+                If dadosParametro.valor = "1" Then
+                    Me.cboPIX.Text = "Sim"
+                Else
+                    Me.cboPIX.Text = "Não"
+                End If
+            End If
+
+
+            ' Numero de instâncias
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Instancias)
+            If Not IsNothing(dadosParametro) Then
+                Me.txtNInstancias.Text = dadosParametro.valor
+            End If
+
+
 
             '' Chave sistema
             'dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ChaveSistema)
