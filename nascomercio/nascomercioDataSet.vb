@@ -1,4 +1,7 @@
 ﻿Partial Class nascomercioDataSet
+    Partial Public Class v_fechamentoDataTable
+    End Class
+
     Partial Class v_balancoDataTable
 
     End Class

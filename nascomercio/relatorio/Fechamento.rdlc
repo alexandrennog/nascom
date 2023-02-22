@@ -151,6 +151,10 @@
           <DataField>chequePre</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
         </Field>
+        <Field Name="pix">
+          <DataField>pix</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
         <Field Name="cartaoDebito">
           <DataField>cartaoDebito</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
@@ -236,7 +240,7 @@
       </Filters>
       <Query>
         <DataSourceName>nascomercioConnectionString</DataSourceName>
-        <CommandText>SELECT `controle`, `clienteId`, `usuarioId`, `data`, `dinheiro`, `cheque`, `chequePre`, `cartaoDebito`, `cartaoCredito`, `crediario`, `parcelas`, `desconto`, `condicao`, `recebido`, `troco`, `total`, `troca`, `vale`, `defeito`, `terminal`, `retirada`, `valeEmitido`, `vendedor`, `caixa`, `crediarioPagamento` FROM `nascomercio`.`v_fechamento`</CommandText>
+        <CommandText>SELECT `controle`, `clienteId`, `usuarioId`, `data`, `dinheiro`, `cheque`, `chequePre`, `cartaoDebito`, `cartaoCredito`, `crediario`, `parcelas`, `desconto`, `condicao`, `recebido`, `troco`, `total`, `troca`, `vale`, `defeito`, `terminal`, `retirada`, `valeEmitido`, `vendedor`, `caixa`, `crediarioPagamento`, `pix` FROM `nascomercio`.`v_fechamento`</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
       <rd:DataSetInfo>
@@ -375,7 +379,7 @@
                           </Style>
                           <ZIndex>4</ZIndex>
                           <CanGrow>true</CanGrow>
-                          <Value>=Sum(Fields!crediario.Value) + Sum(Fields!dinheiro.Value) + Sum(Fields!cheque.Value) +Sum(Fields!chequePre.Value) + Sum(Fields!cartaoDebito.Value)+ Sum(Fields!cartaoCredito.Value)-Sum(Fields!troco.Value)</Value>
+                          <Value>=Sum(Fields!crediario.Value) + Sum(Fields!dinheiro.Value) + Sum(Fields!cheque.Value) +Sum(Fields!chequePre.Value) +Sum(Fields!pix.Value) + Sum(Fields!cartaoDebito.Value)+ Sum(Fields!cartaoCredito.Value)-Sum(Fields!troco.Value)</Value>
                         </Textbox>
                       </ReportItems>
                     </TableCell>
@@ -511,14 +515,14 @@
                           </Style>
                           <ZIndex>60</ZIndex>
                           <CanGrow>true</CanGrow>
-                          <Value>=Sum(Fields!cheque.Value)</Value>
+                          <Value>=Sum(Fields!cheque.Value)+Sum(Fields!chequePre.Value)</Value>
                         </Textbox>
                       </ReportItems>
                     </TableCell>
                     <TableCell>
                       <ReportItems>
-                        <Textbox Name="chequePre_1">
-                          <rd:DefaultName>chequePre_1</rd:DefaultName>
+                        <Textbox Name="pix_1">
+                          <rd:DefaultName>pix_1</rd:DefaultName>
                           <Style>
                             <TextAlign>Right</TextAlign>
                             <PaddingLeft>2pt</PaddingLeft>
@@ -528,7 +532,7 @@
                           </Style>
                           <ZIndex>59</ZIndex>
                           <CanGrow>true</CanGrow>
-                          <Value>=Sum(Fields!chequePre.Value)</Value>
+                          <Value>=Sum(Fields!pix.Value)</Value>
                         </Textbox>
                       </ReportItems>
                     </TableCell>
@@ -777,7 +781,7 @@
                       </Style>
                       <ZIndex>73</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>Cheque Pre</Value>
+                      <Value>Pix</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>
@@ -1319,7 +1323,7 @@
                       </Style>
                       <ZIndex>35</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>=Sum(Fields!cheque.Value)</Value>
+                      <Value>=Sum(Fields!cheque.Value)+Sum(Fields!chequePre.Value)</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>
@@ -1336,7 +1340,7 @@
                       </Style>
                       <ZIndex>34</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>=Sum(Fields!chequePre.Value)</Value>
+                      <Value>=Sum(Fields!pix.Value)</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>
@@ -1635,7 +1639,7 @@
                       </Style>
                       <ZIndex>42</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>=Sum(Fields!crediario.Value) + Sum(Fields!dinheiro.Value) + Sum(Fields!cheque.Value) +Sum(Fields!chequePre.Value) + Sum(Fields!cartaoDebito.Value)+ Sum(Fields!cartaoCredito.Value)-Sum(Fields!troco.Value)</Value>
+                      <Value>=Sum(Fields!crediario.Value) + Sum(Fields!dinheiro.Value) + Sum(Fields!cheque.Value) +Sum(Fields!chequePre.Value) +Sum(Fields!pix.Value) + Sum(Fields!cartaoDebito.Value)+ Sum(Fields!cartaoCredito.Value)-Sum(Fields!troco.Value)</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>

@@ -1804,9 +1804,11 @@ Partial Public Class nascomercioDataSet
         Private columndata As Global.System.Data.DataColumn
         
         Private columndinheiro As Global.System.Data.DataColumn
-        
+
+        Private columnpix As Global.System.Data.DataColumn
+
         Private columncheque As Global.System.Data.DataColumn
-        
+
         Private columnchequePre As Global.System.Data.DataColumn
         
         Private columncartaoDebito As Global.System.Data.DataColumn
@@ -1911,14 +1913,21 @@ Partial Public Class nascomercioDataSet
                 Return Me.columndinheiro
             End Get
         End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>
+        Public ReadOnly Property pixColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnpix
+            End Get
+        End Property
+
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>
         Public ReadOnly Property chequeColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columncheque
             End Get
         End Property
-        
+
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
         Public ReadOnly Property chequePreColumn() As Global.System.Data.DataColumn
             Get
@@ -2079,41 +2088,42 @@ Partial Public Class nascomercioDataSet
         Public Overloads Sub Addv_fechamentoRow(ByVal row As v_fechamentoRow)
             Me.Rows.Add(row)
         End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public Overloads Function Addv_fechamentoRow( _
-                    ByVal controle As UInteger,  _
-                    ByVal clienteId As UInteger,  _
-                    ByVal usuarioId As UInteger,  _
-                    ByVal data As Date,  _
-                    ByVal dinheiro As Decimal,  _
-                    ByVal cheque As Decimal,  _
-                    ByVal chequePre As Decimal,  _
-                    ByVal cartaoDebito As Decimal,  _
-                    ByVal cartaoCredito As Decimal,  _
-                    ByVal crediario As Decimal,  _
-                    ByVal parcelas As UInteger,  _
-                    ByVal desconto As Decimal,  _
-                    ByVal condicao As UInteger,  _
-                    ByVal recebido As Decimal,  _
-                    ByVal troco As Decimal,  _
-                    ByVal total As Decimal,  _
-                    ByVal troca As Decimal,  _
-                    ByVal vale As Decimal,  _
-                    ByVal defeito As Decimal,  _
-                    ByVal terminal As String,  _
-                    ByVal retirada As Decimal,  _
-                    ByVal valeEmitido As Decimal,  _
-                    ByVal vendedor As String,  _
-                    ByVal caixa As String,  _
+
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>
+        Public Overloads Function Addv_fechamentoRow(
+                    ByVal controle As UInteger,
+                    ByVal clienteId As UInteger,
+                    ByVal usuarioId As UInteger,
+                    ByVal data As Date,
+                    ByVal dinheiro As Decimal,
+                    ByVal pix As Decimal,
+                    ByVal cheque As Decimal,
+                    ByVal chequePre As Decimal,
+                    ByVal cartaoDebito As Decimal,
+                    ByVal cartaoCredito As Decimal,
+                    ByVal crediario As Decimal,
+                    ByVal parcelas As UInteger,
+                    ByVal desconto As Decimal,
+                    ByVal condicao As UInteger,
+                    ByVal recebido As Decimal,
+                    ByVal troco As Decimal,
+                    ByVal total As Decimal,
+                    ByVal troca As Decimal,
+                    ByVal vale As Decimal,
+                    ByVal defeito As Decimal,
+                    ByVal terminal As String,
+                    ByVal retirada As Decimal,
+                    ByVal valeEmitido As Decimal,
+                    ByVal vendedor As String,
+                    ByVal caixa As String,
                     ByVal crediarioPagamento As Decimal) As v_fechamentoRow
-            Dim rowv_fechamentoRow As v_fechamentoRow = CType(Me.NewRow,v_fechamentoRow)
-            Dim columnValuesArray() As Object = New Object() {controle, clienteId, usuarioId, data, dinheiro, cheque, chequePre, cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, crediarioPagamento}
+            Dim rowv_fechamentoRow As v_fechamentoRow = CType(Me.NewRow, v_fechamentoRow)
+            Dim columnValuesArray() As Object = New Object() {controle, clienteId, usuarioId, data, dinheiro, cheque, chequePre, cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, crediarioPagamento, pix}
             rowv_fechamentoRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowv_fechamentoRow)
             Return rowv_fechamentoRow
         End Function
-        
+
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
         Public Overridable Function GetEnumerator() As Global.System.Collections.IEnumerator Implements Global.System.Collections.IEnumerable.GetEnumerator
             Return Me.Rows.GetEnumerator
@@ -2138,6 +2148,7 @@ Partial Public Class nascomercioDataSet
             Me.columnusuarioId = MyBase.Columns("usuarioId")
             Me.columndata = MyBase.Columns("data")
             Me.columndinheiro = MyBase.Columns("dinheiro")
+            Me.columnpix = MyBase.Columns("pix")
             Me.columncheque = MyBase.Columns("cheque")
             Me.columnchequePre = MyBase.Columns("chequePre")
             Me.columncartaoDebito = MyBase.Columns("cartaoDebito")
@@ -2172,6 +2183,8 @@ Partial Public Class nascomercioDataSet
             MyBase.Columns.Add(Me.columndata)
             Me.columndinheiro = New Global.System.Data.DataColumn("dinheiro", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columndinheiro)
+            Me.columnpix = New Global.System.Data.DataColumn("pix", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnpix)
             Me.columncheque = New Global.System.Data.DataColumn("cheque", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columncheque)
             Me.columnchequePre = New Global.System.Data.DataColumn("chequePre", GetType(Decimal), Nothing, Global.System.Data.MappingType.Element)
@@ -2216,9 +2229,10 @@ Partial Public Class nascomercioDataSet
             Me.columnclienteId.AllowDBNull = false
             Me.columnusuarioId.AllowDBNull = false
             Me.columndata.AllowDBNull = false
-            Me.columndinheiro.AllowDBNull = false
-            Me.columncheque.AllowDBNull = false
-            Me.columnchequePre.AllowDBNull = false
+            Me.columndinheiro.AllowDBNull = False
+            Me.columnpix.AllowDBNull = False
+            Me.columncheque.AllowDBNull = False
+            Me.columnchequePre.AllowDBNull = False
             Me.columncartaoDebito.AllowDBNull = false
             Me.columncartaoCredito.AllowDBNull = false
             Me.columncrediario.AllowDBNull = false
@@ -6100,17 +6114,26 @@ Partial Public Class nascomercioDataSet
                 Me(Me.tablev_fechamento.dinheiroColumn) = value
             End Set
         End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
-        Public Property cheque() As Decimal
+
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>
+        Public Property pix() As Decimal
             Get
-                Return CType(Me(Me.tablev_fechamento.chequeColumn),Decimal)
+                Return CType(Me(Me.tablev_fechamento.pixColumn), Decimal)
             End Get
             Set
-                Me(Me.tablev_fechamento.chequeColumn) = value
+                Me(Me.tablev_fechamento.pixColumn) = Value
             End Set
         End Property
-        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>
+        Public Property cheque() As Decimal
+            Get
+                Return CType(Me(Me.tablev_fechamento.chequeColumn), Decimal)
+            End Get
+            Set
+                Me(Me.tablev_fechamento.chequeColumn) = Value
+            End Set
+        End Property
+
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
         Public Property chequePre() As Decimal
             Get
@@ -8827,6 +8850,7 @@ Namespace nascomercioDataSetTableAdapters
             tableMapping.ColumnMappings.Add("usuarioId", "usuarioId")
             tableMapping.ColumnMappings.Add("data", "data")
             tableMapping.ColumnMappings.Add("dinheiro", "dinheiro")
+            tableMapping.ColumnMappings.Add("pix", "pix")
             tableMapping.ColumnMappings.Add("cheque", "cheque")
             tableMapping.ColumnMappings.Add("chequePre", "chequePre")
             tableMapping.ColumnMappings.Add("cartaoDebito", "cartaoDebito")
@@ -8861,10 +8885,10 @@ Namespace nascomercioDataSetTableAdapters
             Me._commandCollection = New Global.MySql.Data.MySqlClient.MySqlCommand(0) {}
             Me._commandCollection(0) = New Global.MySql.Data.MySqlClient.MySqlCommand
             Me._commandCollection(0).Connection = Me.Connection
-            Me._commandCollection(0).CommandText = "SELECT `controle`, `clienteId`, `usuarioId`, `data`, `dinheiro`, `cheque`, `chequ"& _ 
-                "ePre`, `cartaoDebito`, `cartaoCredito`, `crediario`, `parcelas`, `desconto`, `co"& _ 
-                "ndicao`, `recebido`, `troco`, `total`, `troca`, `vale`, `defeito`, `terminal`, `"& _ 
-                "retirada`, `valeEmitido`, `vendedor`, `caixa`, `crediarioPagamento` FROM `v_fech"& _ 
+            Me._commandCollection(0).CommandText = "SELECT `controle`, `clienteId`, `usuarioId`, `data`, `dinheiro`, `cheque`, `chequ" &
+                "ePre`, `cartaoDebito`, `cartaoCredito`, `crediario`, `parcelas`, `desconto`, `co" &
+                "ndicao`, `recebido`, `troco`, `total`, `troca`, `vale`, `defeito`, `terminal`, `" &
+                "retirada`, `valeEmitido`, `vendedor`, `caixa`, `crediarioPagamento`, `pix` FROM `v_fech" &
                 "amento`"
             Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
         End Sub

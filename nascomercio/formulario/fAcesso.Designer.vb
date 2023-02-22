@@ -34,7 +34,7 @@ Partial Class fAcesso
         '
         Me.txtUsuario.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtUsuario.Location = New System.Drawing.Point(123, 18)
-        Me.txtUsuario.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtUsuario.Margin = New System.Windows.Forms.Padding(4)
         Me.txtUsuario.Name = "txtUsuario"
         Me.txtUsuario.Size = New System.Drawing.Size(181, 29)
         Me.txtUsuario.TabIndex = 1
@@ -43,7 +43,7 @@ Partial Class fAcesso
         '
         Me.txtSenha.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtSenha.Location = New System.Drawing.Point(123, 57)
-        Me.txtSenha.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtSenha.Margin = New System.Windows.Forms.Padding(4)
         Me.txtSenha.Name = "txtSenha"
         Me.txtSenha.Size = New System.Drawing.Size(181, 29)
         Me.txtSenha.TabIndex = 2
@@ -82,7 +82,7 @@ Partial Class fAcesso
         Me.btoAcessar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoAcessar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoAcessar.Location = New System.Drawing.Point(101, 94)
-        Me.btoAcessar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoAcessar.Margin = New System.Windows.Forms.Padding(4)
         Me.btoAcessar.Name = "btoAcessar"
         Me.btoAcessar.Size = New System.Drawing.Size(127, 91)
         Me.btoAcessar.TabIndex = 3
@@ -102,7 +102,7 @@ Partial Class fAcesso
         Me.btoRecuperar.Image = Global.nascomercio.My.Resources.Resources.ico_pass
         Me.btoRecuperar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoRecuperar.Location = New System.Drawing.Point(222, 94)
-        Me.btoRecuperar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoRecuperar.Margin = New System.Windows.Forms.Padding(4)
         Me.btoRecuperar.Name = "btoRecuperar"
         Me.btoRecuperar.Size = New System.Drawing.Size(118, 91)
         Me.btoRecuperar.TabIndex = 4
@@ -116,7 +116,7 @@ Partial Class fAcesso
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(329, 187)
+        Me.ClientSize = New System.Drawing.Size(343, 205)
         Me.ControlBox = False
         Me.Controls.Add(Me.btoRecuperar)
         Me.Controls.Add(Me.btoAcessar)
@@ -125,7 +125,7 @@ Partial Class fAcesso
         Me.Controls.Add(Me.txtSenha)
         Me.Controls.Add(Me.txtUsuario)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "fAcesso"

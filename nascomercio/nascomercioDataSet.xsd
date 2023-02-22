@@ -95,49 +95,6 @@ FROM         v_estoque</CommandText>
             </Mappings>
             <Sources />
           </TableAdapter>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="v_fechamentoTableAdapter" GeneratorDataComponentClassName="v_fechamentoTableAdapter" Name="v_fechamento" UserDataComponentName="v_fechamentoTableAdapter">
-            <MainSource>
-              <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        controle, clienteId, usuarioId, data, dinheiro, pix, cheque, chequePre, cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, 
-                         caixa, crediarioPagamento
-FROM            v_fechamento</CommandText>
-                    <Parameters />
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </MainSource>
-            <Mappings>
-              <Mapping SourceColumn="data" DataSetColumn="data" />
-              <Mapping SourceColumn="dinheiro" DataSetColumn="dinheiro" />
-              <Mapping SourceColumn="cheque" DataSetColumn="cheque" />
-              <Mapping SourceColumn="chequePre" DataSetColumn="chequePre" />
-              <Mapping SourceColumn="cartaoDebito" DataSetColumn="cartaoDebito" />
-              <Mapping SourceColumn="cartaoCredito" DataSetColumn="cartaoCredito" />
-              <Mapping SourceColumn="crediario" DataSetColumn="crediario" />
-              <Mapping SourceColumn="desconto" DataSetColumn="desconto" />
-              <Mapping SourceColumn="recebido" DataSetColumn="recebido" />
-              <Mapping SourceColumn="troco" DataSetColumn="troco" />
-              <Mapping SourceColumn="total" DataSetColumn="total" />
-              <Mapping SourceColumn="troca" DataSetColumn="troca" />
-              <Mapping SourceColumn="vale" DataSetColumn="vale" />
-              <Mapping SourceColumn="defeito" DataSetColumn="defeito" />
-              <Mapping SourceColumn="terminal" DataSetColumn="terminal" />
-              <Mapping SourceColumn="retirada" DataSetColumn="retirada" />
-              <Mapping SourceColumn="valeEmitido" DataSetColumn="valeEmitido" />
-              <Mapping SourceColumn="vendedor" DataSetColumn="vendedor" />
-              <Mapping SourceColumn="caixa" DataSetColumn="caixa" />
-              <Mapping SourceColumn="crediarioPagamento" DataSetColumn="crediarioPagamento" />
-              <Mapping SourceColumn="controle" DataSetColumn="controle1" />
-              <Mapping SourceColumn="clienteId" DataSetColumn="clienteId1" />
-              <Mapping SourceColumn="usuarioId" DataSetColumn="usuarioId1" />
-              <Mapping SourceColumn="pix" DataSetColumn="pix" />
-              <Mapping SourceColumn="parcelas" DataSetColumn="parcelas1" />
-              <Mapping SourceColumn="condicao" DataSetColumn="condicao1" />
-            </Mappings>
-            <Sources />
-          </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="v_vendasTableAdapter" GeneratorDataComponentClassName="v_vendasTableAdapter" Name="v_vendas" UserDataComponentName="v_vendasTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
@@ -502,6 +459,48 @@ FROM            v_balanco</CommandText>
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="v_fechamentoTableAdapter" GeneratorDataComponentClassName="v_fechamentoTableAdapter" Name="v_fechamento" UserDataComponentName="v_fechamentoTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT v_fechamento.*
+FROM     v_fechamento</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="controle" DataSetColumn="controle" />
+              <Mapping SourceColumn="clienteId" DataSetColumn="clienteId" />
+              <Mapping SourceColumn="usuarioId" DataSetColumn="usuarioId" />
+              <Mapping SourceColumn="data" DataSetColumn="data" />
+              <Mapping SourceColumn="dinheiro" DataSetColumn="dinheiro" />
+              <Mapping SourceColumn="pix" DataSetColumn="pix" />
+              <Mapping SourceColumn="cheque" DataSetColumn="cheque" />
+              <Mapping SourceColumn="chequePre" DataSetColumn="chequePre" />
+              <Mapping SourceColumn="cartaoDebito" DataSetColumn="cartaoDebito" />
+              <Mapping SourceColumn="cartaoCredito" DataSetColumn="cartaoCredito" />
+              <Mapping SourceColumn="crediario" DataSetColumn="crediario" />
+              <Mapping SourceColumn="parcelas" DataSetColumn="parcelas" />
+              <Mapping SourceColumn="desconto" DataSetColumn="desconto" />
+              <Mapping SourceColumn="condicao" DataSetColumn="condicao" />
+              <Mapping SourceColumn="recebido" DataSetColumn="recebido" />
+              <Mapping SourceColumn="troco" DataSetColumn="troco" />
+              <Mapping SourceColumn="total" DataSetColumn="total" />
+              <Mapping SourceColumn="troca" DataSetColumn="troca" />
+              <Mapping SourceColumn="vale" DataSetColumn="vale" />
+              <Mapping SourceColumn="defeito" DataSetColumn="defeito" />
+              <Mapping SourceColumn="terminal" DataSetColumn="terminal" />
+              <Mapping SourceColumn="retirada" DataSetColumn="retirada" />
+              <Mapping SourceColumn="valeEmitido" DataSetColumn="valeEmitido" />
+              <Mapping SourceColumn="vendedor" DataSetColumn="vendedor" />
+              <Mapping SourceColumn="caixa" DataSetColumn="caixa" />
+              <Mapping SourceColumn="crediarioPagamento" DataSetColumn="crediarioPagamento" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -510,7 +509,7 @@ FROM            v_balanco</CommandText>
   <xs:element name="nascomercioDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msdata:EnforceConstraints="False" msprop:Generator_DataSetName="nascomercioDataSet" msprop:Generator_UserDSName="nascomercioDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="v_cheques" msprop:Generator_UserTableName="v_cheques" msprop:Generator_RowEvArgName="v_chequesRowChangeEvent" msprop:Generator_TableVarName="tablev_cheques" msprop:Generator_TablePropName="v_cheques" msprop:Generator_RowDeletingName="v_chequesRowDeleting" msprop:Generator_RowChangingName="v_chequesRowChanging" msprop:Generator_RowDeletedName="v_chequesRowDeleted" msprop:Generator_RowEvHandlerName="v_chequesRowChangeEventHandler" msprop:Generator_TableClassName="v_chequesDataTable" msprop:Generator_RowChangedName="v_chequesRowChanged" msprop:Generator_RowClassName="v_chequesRow">
+        <xs:element name="v_cheques" msprop:Generator_UserTableName="v_cheques" msprop:Generator_RowEvArgName="v_chequesRowChangeEvent" msprop:Generator_TableVarName="tablev_cheques" msprop:Generator_TablePropName="v_cheques" msprop:Generator_RowDeletingName="v_chequesRowDeleting" msprop:Generator_RowChangingName="v_chequesRowChanging" msprop:Generator_RowEvHandlerName="v_chequesRowChangeEventHandler" msprop:Generator_RowDeletedName="v_chequesRowDeleted" msprop:Generator_TableClassName="v_chequesDataTable" msprop:Generator_RowChangedName="v_chequesRowChanged" msprop:Generator_RowClassName="v_chequesRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="cid" msprop:Generator_ColumnVarNameInTable="columncid" msprop:Generator_ColumnPropNameInRow="cid" msprop:Generator_ColumnPropNameInTable="cidColumn" msprop:Generator_UserColumnName="cid" type="xs:unsignedInt" />
@@ -562,7 +561,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_crediario" msprop:Generator_UserTableName="v_crediario" msprop:Generator_RowEvArgName="v_crediarioRowChangeEvent" msprop:Generator_TableVarName="tablev_crediario" msprop:Generator_TablePropName="v_crediario" msprop:Generator_RowDeletingName="v_crediarioRowDeleting" msprop:Generator_RowChangingName="v_crediarioRowChanging" msprop:Generator_RowDeletedName="v_crediarioRowDeleted" msprop:Generator_RowEvHandlerName="v_crediarioRowChangeEventHandler" msprop:Generator_TableClassName="v_crediarioDataTable" msprop:Generator_RowChangedName="v_crediarioRowChanged" msprop:Generator_RowClassName="v_crediarioRow">
+        <xs:element name="v_crediario" msprop:Generator_UserTableName="v_crediario" msprop:Generator_RowEvArgName="v_crediarioRowChangeEvent" msprop:Generator_TableVarName="tablev_crediario" msprop:Generator_TablePropName="v_crediario" msprop:Generator_RowDeletingName="v_crediarioRowDeleting" msprop:Generator_RowChangingName="v_crediarioRowChanging" msprop:Generator_RowEvHandlerName="v_crediarioRowChangeEventHandler" msprop:Generator_RowDeletedName="v_crediarioRowDeleted" msprop:Generator_TableClassName="v_crediarioDataTable" msprop:Generator_RowChangedName="v_crediarioRowChanged" msprop:Generator_RowClassName="v_crediarioRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="codigobarras" msprop:Generator_ColumnVarNameInTable="columncodigobarras" msprop:Generator_ColumnPropNameInRow="codigobarras" msprop:Generator_ColumnPropNameInTable="codigobarrasColumn" msprop:Generator_UserColumnName="codigobarras" minOccurs="0">
@@ -596,7 +595,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_estoque" msprop:Generator_UserTableName="v_estoque" msprop:Generator_RowEvArgName="v_estoqueRowChangeEvent" msprop:Generator_TableVarName="tablev_estoque" msprop:Generator_TablePropName="v_estoque" msprop:Generator_RowDeletingName="v_estoqueRowDeleting" msprop:Generator_RowChangingName="v_estoqueRowChanging" msprop:Generator_RowDeletedName="v_estoqueRowDeleted" msprop:Generator_RowEvHandlerName="v_estoqueRowChangeEventHandler" msprop:Generator_TableClassName="v_estoqueDataTable" msprop:Generator_RowChangedName="v_estoqueRowChanged" msprop:Generator_RowClassName="v_estoqueRow">
+        <xs:element name="v_estoque" msprop:Generator_UserTableName="v_estoque" msprop:Generator_RowEvArgName="v_estoqueRowChangeEvent" msprop:Generator_TableVarName="tablev_estoque" msprop:Generator_TablePropName="v_estoque" msprop:Generator_RowDeletingName="v_estoqueRowDeleting" msprop:Generator_RowChangingName="v_estoqueRowChanging" msprop:Generator_RowEvHandlerName="v_estoqueRowChangeEventHandler" msprop:Generator_RowDeletedName="v_estoqueRowDeleted" msprop:Generator_TableClassName="v_estoqueDataTable" msprop:Generator_RowChangedName="v_estoqueRowChanged" msprop:Generator_RowClassName="v_estoqueRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="cid" msprop:Generator_ColumnVarNameInTable="columncid" msprop:Generator_ColumnPropNameInRow="cid" msprop:Generator_ColumnPropNameInTable="cidColumn" msprop:Generator_UserColumnName="cid" type="xs:unsignedInt" />
@@ -658,62 +657,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_fechamento" msprop:Generator_UserTableName="v_fechamento" msprop:Generator_RowEvArgName="v_fechamentoRowChangeEvent" msprop:Generator_TableVarName="tablev_fechamento" msprop:Generator_TablePropName="v_fechamento" msprop:Generator_RowDeletingName="v_fechamentoRowDeleting" msprop:Generator_RowChangingName="v_fechamentoRowChanging" msprop:Generator_RowDeletedName="v_fechamentoRowDeleted" msprop:Generator_RowEvHandlerName="v_fechamentoRowChangeEventHandler" msprop:Generator_TableClassName="v_fechamentoDataTable" msprop:Generator_RowChangedName="v_fechamentoRowChanged" msprop:Generator_RowClassName="v_fechamentoRow">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="controle" msprop:Generator_ColumnVarNameInTable="columncontrole" msprop:Generator_ColumnPropNameInRow="controle" msprop:Generator_ColumnPropNameInTable="controleColumn" msprop:Generator_UserColumnName="controle" type="xs:unsignedInt" />
-              <xs:element name="clienteId" msprop:Generator_ColumnVarNameInTable="columnclienteId" msprop:Generator_ColumnPropNameInRow="clienteId" msprop:Generator_ColumnPropNameInTable="clienteIdColumn" msprop:Generator_UserColumnName="clienteId" type="xs:unsignedInt" />
-              <xs:element name="usuarioId" msprop:Generator_ColumnVarNameInTable="columnusuarioId" msprop:Generator_ColumnPropNameInRow="usuarioId" msprop:Generator_ColumnPropNameInTable="usuarioIdColumn" msprop:Generator_UserColumnName="usuarioId" type="xs:unsignedInt" />
-              <xs:element name="data" msprop:Generator_ColumnVarNameInTable="columndata" msprop:Generator_ColumnPropNameInRow="data" msprop:Generator_ColumnPropNameInTable="dataColumn" msprop:Generator_UserColumnName="data" type="xs:dateTime" />
-              <xs:element name="dinheiro" msprop:Generator_ColumnVarNameInTable="columndinheiro" msprop:Generator_ColumnPropNameInRow="dinheiro" msprop:Generator_ColumnPropNameInTable="dinheiroColumn" msprop:Generator_UserColumnName="dinheiro" type="xs:decimal" />
-              <xs:element name="cheque" msprop:Generator_ColumnVarNameInTable="columncheque" msprop:Generator_ColumnPropNameInRow="cheque" msprop:Generator_ColumnPropNameInTable="chequeColumn" msprop:Generator_UserColumnName="cheque" type="xs:decimal" />
-              <xs:element name="chequePre" msprop:Generator_ColumnVarNameInTable="columnchequePre" msprop:Generator_ColumnPropNameInRow="chequePre" msprop:Generator_ColumnPropNameInTable="chequePreColumn" msprop:Generator_UserColumnName="chequePre" type="xs:decimal" />
-              <xs:element name="cartaoDebito" msprop:Generator_ColumnVarNameInTable="columncartaoDebito" msprop:Generator_ColumnPropNameInRow="cartaoDebito" msprop:Generator_ColumnPropNameInTable="cartaoDebitoColumn" msprop:Generator_UserColumnName="cartaoDebito" type="xs:decimal" />
-              <xs:element name="cartaoCredito" msprop:Generator_ColumnVarNameInTable="columncartaoCredito" msprop:Generator_ColumnPropNameInRow="cartaoCredito" msprop:Generator_ColumnPropNameInTable="cartaoCreditoColumn" msprop:Generator_UserColumnName="cartaoCredito" type="xs:decimal" />
-              <xs:element name="crediario" msprop:Generator_ColumnVarNameInTable="columncrediario" msprop:Generator_ColumnPropNameInRow="crediario" msprop:Generator_ColumnPropNameInTable="crediarioColumn" msprop:Generator_UserColumnName="crediario" type="xs:decimal" />
-              <xs:element name="parcelas" msprop:Generator_ColumnVarNameInTable="columnparcelas" msprop:Generator_ColumnPropNameInRow="parcelas" msprop:Generator_ColumnPropNameInTable="parcelasColumn" msprop:Generator_UserColumnName="parcelas" type="xs:unsignedInt" />
-              <xs:element name="desconto" msprop:Generator_ColumnVarNameInTable="columndesconto" msprop:Generator_ColumnPropNameInRow="desconto" msprop:Generator_ColumnPropNameInTable="descontoColumn" msprop:Generator_UserColumnName="desconto" type="xs:decimal" />
-              <xs:element name="condicao" msprop:Generator_ColumnVarNameInTable="columncondicao" msprop:Generator_ColumnPropNameInRow="condicao" msprop:Generator_ColumnPropNameInTable="condicaoColumn" msprop:Generator_UserColumnName="condicao" type="xs:unsignedInt" />
-              <xs:element name="recebido" msprop:Generator_ColumnVarNameInTable="columnrecebido" msprop:Generator_ColumnPropNameInRow="recebido" msprop:Generator_ColumnPropNameInTable="recebidoColumn" msprop:Generator_UserColumnName="recebido" type="xs:decimal" />
-              <xs:element name="troco" msprop:Generator_ColumnVarNameInTable="columntroco" msprop:Generator_ColumnPropNameInRow="troco" msprop:Generator_ColumnPropNameInTable="trocoColumn" msprop:Generator_UserColumnName="troco" type="xs:decimal" />
-              <xs:element name="total" msprop:Generator_ColumnVarNameInTable="columntotal" msprop:Generator_ColumnPropNameInRow="total" msprop:Generator_ColumnPropNameInTable="totalColumn" msprop:Generator_UserColumnName="total" type="xs:decimal" />
-              <xs:element name="troca" msprop:Generator_ColumnVarNameInTable="columntroca" msprop:Generator_ColumnPropNameInRow="troca" msprop:Generator_ColumnPropNameInTable="trocaColumn" msprop:Generator_UserColumnName="troca" type="xs:decimal" />
-              <xs:element name="vale" msprop:Generator_ColumnVarNameInTable="columnvale" msprop:Generator_ColumnPropNameInRow="vale" msprop:Generator_ColumnPropNameInTable="valeColumn" msprop:Generator_UserColumnName="vale" type="xs:decimal" />
-              <xs:element name="defeito" msprop:Generator_ColumnVarNameInTable="columndefeito" msprop:Generator_ColumnPropNameInRow="defeito" msprop:Generator_ColumnPropNameInTable="defeitoColumn" msprop:Generator_UserColumnName="defeito" type="xs:decimal" />
-              <xs:element name="terminal" msprop:Generator_ColumnVarNameInTable="columnterminal" msprop:Generator_ColumnPropNameInRow="terminal" msprop:Generator_ColumnPropNameInTable="terminalColumn" msprop:Generator_UserColumnName="terminal">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="18" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="retirada" msprop:Generator_ColumnVarNameInTable="columnretirada" msprop:Generator_ColumnPropNameInRow="retirada" msprop:Generator_ColumnPropNameInTable="retiradaColumn" msprop:Generator_UserColumnName="retirada" type="xs:decimal" />
-              <xs:element name="valeEmitido" msprop:Generator_ColumnVarNameInTable="columnvaleEmitido" msprop:Generator_ColumnPropNameInRow="valeEmitido" msprop:Generator_ColumnPropNameInTable="valeEmitidoColumn" msprop:Generator_UserColumnName="valeEmitido" type="xs:decimal" minOccurs="0" />
-              <xs:element name="vendedor" msprop:Generator_ColumnVarNameInTable="columnvendedor" msprop:Generator_ColumnPropNameInRow="vendedor" msprop:Generator_ColumnPropNameInTable="vendedorColumn" msprop:Generator_UserColumnName="vendedor" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="15" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="caixa" msprop:Generator_ColumnVarNameInTable="columncaixa" msprop:Generator_ColumnPropNameInRow="caixa" msprop:Generator_ColumnPropNameInTable="caixaColumn" msprop:Generator_UserColumnName="caixa" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="15" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="crediarioPagamento" msprop:Generator_ColumnVarNameInTable="columncrediarioPagamento" msprop:Generator_ColumnPropNameInRow="crediarioPagamento" msprop:Generator_ColumnPropNameInTable="crediarioPagamentoColumn" msprop:Generator_UserColumnName="crediarioPagamento" type="xs:decimal" minOccurs="0" />
-              <xs:element name="controle1" msdata:Caption="controle" msprop:Generator_ColumnVarNameInTable="columncontrole1" msprop:Generator_ColumnPropNameInRow="controle1" msprop:Generator_ColumnPropNameInTable="controle1Column" msprop:Generator_UserColumnName="controle1" type="xs:long" />
-              <xs:element name="clienteId1" msdata:Caption="clienteId" msprop:Generator_ColumnVarNameInTable="columnclienteId1" msprop:Generator_ColumnPropNameInRow="clienteId1" msprop:Generator_ColumnPropNameInTable="clienteId1Column" msprop:Generator_UserColumnName="clienteId1" type="xs:long" />
-              <xs:element name="usuarioId1" msdata:Caption="usuarioId" msprop:Generator_ColumnVarNameInTable="columnusuarioId1" msprop:Generator_ColumnPropNameInRow="usuarioId1" msprop:Generator_ColumnPropNameInTable="usuarioId1Column" msprop:Generator_UserColumnName="usuarioId1" type="xs:long" />
-              <xs:element name="pix" msprop:Generator_ColumnVarNameInTable="columnpix" msprop:Generator_ColumnPropNameInRow="pix" msprop:Generator_ColumnPropNameInTable="pixColumn" msprop:Generator_UserColumnName="pix" type="xs:decimal" minOccurs="0" />
-              <xs:element name="parcelas1" msdata:Caption="parcelas" msprop:Generator_ColumnVarNameInTable="columnparcelas1" msprop:Generator_ColumnPropNameInRow="parcelas1" msprop:Generator_ColumnPropNameInTable="parcelas1Column" msprop:Generator_UserColumnName="parcelas1" type="xs:long" />
-              <xs:element name="condicao1" msdata:Caption="condicao" msprop:Generator_ColumnVarNameInTable="columncondicao1" msprop:Generator_ColumnPropNameInRow="condicao1" msprop:Generator_ColumnPropNameInTable="condicao1Column" msprop:Generator_UserColumnName="condicao1" type="xs:long" />
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="v_vendas" msprop:Generator_UserTableName="v_vendas" msprop:Generator_RowEvArgName="v_vendasRowChangeEvent" msprop:Generator_TableVarName="tablev_vendas" msprop:Generator_TablePropName="v_vendas" msprop:Generator_RowDeletingName="v_vendasRowDeleting" msprop:Generator_RowChangingName="v_vendasRowChanging" msprop:Generator_RowDeletedName="v_vendasRowDeleted" msprop:Generator_RowEvHandlerName="v_vendasRowChangeEventHandler" msprop:Generator_TableClassName="v_vendasDataTable" msprop:Generator_RowChangedName="v_vendasRowChanged" msprop:Generator_RowClassName="v_vendasRow">
+        <xs:element name="v_vendas" msprop:Generator_UserTableName="v_vendas" msprop:Generator_RowEvArgName="v_vendasRowChangeEvent" msprop:Generator_TableVarName="tablev_vendas" msprop:Generator_TablePropName="v_vendas" msprop:Generator_RowDeletingName="v_vendasRowDeleting" msprop:Generator_RowChangingName="v_vendasRowChanging" msprop:Generator_RowEvHandlerName="v_vendasRowChangeEventHandler" msprop:Generator_RowDeletedName="v_vendasRowDeleted" msprop:Generator_TableClassName="v_vendasDataTable" msprop:Generator_RowChangedName="v_vendasRowChanged" msprop:Generator_RowClassName="v_vendasRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="controle" msprop:Generator_ColumnVarNameInTable="columncontrole" msprop:Generator_ColumnPropNameInRow="controle" msprop:Generator_ColumnPropNameInTable="controleColumn" msprop:Generator_UserColumnName="controle" type="xs:unsignedInt" />
@@ -760,7 +704,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_vendasfornecedor" msprop:Generator_UserTableName="v_vendasfornecedor" msprop:Generator_RowEvArgName="v_vendasfornecedorRowChangeEvent" msprop:Generator_TableVarName="tablev_vendasfornecedor" msprop:Generator_TablePropName="v_vendasfornecedor" msprop:Generator_RowDeletingName="v_vendasfornecedorRowDeleting" msprop:Generator_RowChangingName="v_vendasfornecedorRowChanging" msprop:Generator_RowDeletedName="v_vendasfornecedorRowDeleted" msprop:Generator_RowEvHandlerName="v_vendasfornecedorRowChangeEventHandler" msprop:Generator_TableClassName="v_vendasfornecedorDataTable" msprop:Generator_RowChangedName="v_vendasfornecedorRowChanged" msprop:Generator_RowClassName="v_vendasfornecedorRow">
+        <xs:element name="v_vendasfornecedor" msprop:Generator_UserTableName="v_vendasfornecedor" msprop:Generator_RowEvArgName="v_vendasfornecedorRowChangeEvent" msprop:Generator_TableVarName="tablev_vendasfornecedor" msprop:Generator_TablePropName="v_vendasfornecedor" msprop:Generator_RowDeletingName="v_vendasfornecedorRowDeleting" msprop:Generator_RowChangingName="v_vendasfornecedorRowChanging" msprop:Generator_RowEvHandlerName="v_vendasfornecedorRowChangeEventHandler" msprop:Generator_RowDeletedName="v_vendasfornecedorRowDeleted" msprop:Generator_TableClassName="v_vendasfornecedorDataTable" msprop:Generator_RowChangedName="v_vendasfornecedorRowChanged" msprop:Generator_RowClassName="v_vendasfornecedorRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="codigo" msprop:Generator_ColumnVarNameInTable="columncodigo" msprop:Generator_ColumnPropNameInRow="codigo" msprop:Generator_ColumnPropNameInTable="codigoColumn" msprop:Generator_UserColumnName="codigo" type="xs:unsignedInt" />
@@ -801,7 +745,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_vendasgrupo" msprop:Generator_UserTableName="v_vendasgrupo" msprop:Generator_RowEvArgName="v_vendasgrupoRowChangeEvent" msprop:Generator_TableVarName="tablev_vendasgrupo" msprop:Generator_TablePropName="v_vendasgrupo" msprop:Generator_RowDeletingName="v_vendasgrupoRowDeleting" msprop:Generator_RowChangingName="v_vendasgrupoRowChanging" msprop:Generator_RowDeletedName="v_vendasgrupoRowDeleted" msprop:Generator_RowEvHandlerName="v_vendasgrupoRowChangeEventHandler" msprop:Generator_TableClassName="v_vendasgrupoDataTable" msprop:Generator_RowChangedName="v_vendasgrupoRowChanged" msprop:Generator_RowClassName="v_vendasgrupoRow">
+        <xs:element name="v_vendasgrupo" msprop:Generator_UserTableName="v_vendasgrupo" msprop:Generator_RowEvArgName="v_vendasgrupoRowChangeEvent" msprop:Generator_TableVarName="tablev_vendasgrupo" msprop:Generator_TablePropName="v_vendasgrupo" msprop:Generator_RowDeletingName="v_vendasgrupoRowDeleting" msprop:Generator_RowChangingName="v_vendasgrupoRowChanging" msprop:Generator_RowEvHandlerName="v_vendasgrupoRowChangeEventHandler" msprop:Generator_RowDeletedName="v_vendasgrupoRowDeleted" msprop:Generator_TableClassName="v_vendasgrupoDataTable" msprop:Generator_RowChangedName="v_vendasgrupoRowChanged" msprop:Generator_RowClassName="v_vendasgrupoRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="codigo" msprop:Generator_ColumnVarNameInTable="columncodigo" msprop:Generator_ColumnPropNameInRow="codigo" msprop:Generator_ColumnPropNameInTable="codigoColumn" msprop:Generator_UserColumnName="codigo" type="xs:unsignedInt" />
@@ -841,7 +785,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_vendaspendentes" msprop:Generator_UserTableName="v_vendaspendentes" msprop:Generator_RowEvArgName="v_vendaspendentesRowChangeEvent" msprop:Generator_TableVarName="tablev_vendaspendentes" msprop:Generator_TablePropName="v_vendaspendentes" msprop:Generator_RowDeletingName="v_vendaspendentesRowDeleting" msprop:Generator_RowChangingName="v_vendaspendentesRowChanging" msprop:Generator_RowDeletedName="v_vendaspendentesRowDeleted" msprop:Generator_RowEvHandlerName="v_vendaspendentesRowChangeEventHandler" msprop:Generator_TableClassName="v_vendaspendentesDataTable" msprop:Generator_RowChangedName="v_vendaspendentesRowChanged" msprop:Generator_RowClassName="v_vendaspendentesRow">
+        <xs:element name="v_vendaspendentes" msprop:Generator_UserTableName="v_vendaspendentes" msprop:Generator_RowEvArgName="v_vendaspendentesRowChangeEvent" msprop:Generator_TableVarName="tablev_vendaspendentes" msprop:Generator_TablePropName="v_vendaspendentes" msprop:Generator_RowDeletingName="v_vendaspendentesRowDeleting" msprop:Generator_RowChangingName="v_vendaspendentesRowChanging" msprop:Generator_RowEvHandlerName="v_vendaspendentesRowChangeEventHandler" msprop:Generator_RowDeletedName="v_vendaspendentesRowDeleted" msprop:Generator_TableClassName="v_vendaspendentesDataTable" msprop:Generator_RowChangedName="v_vendaspendentesRowChanged" msprop:Generator_RowClassName="v_vendaspendentesRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="controle" msprop:Generator_ColumnVarNameInTable="columncontrole" msprop:Generator_ColumnPropNameInRow="controle" msprop:Generator_ColumnPropNameInTable="controleColumn" msprop:Generator_UserColumnName="controle" type="xs:unsignedInt" />
@@ -874,7 +818,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="clientes" msprop:Generator_UserTableName="clientes" msprop:Generator_RowEvArgName="clientesRowChangeEvent" msprop:Generator_TableVarName="tableclientes" msprop:Generator_TablePropName="clientes" msprop:Generator_RowDeletingName="clientesRowDeleting" msprop:Generator_RowChangingName="clientesRowChanging" msprop:Generator_RowDeletedName="clientesRowDeleted" msprop:Generator_RowEvHandlerName="clientesRowChangeEventHandler" msprop:Generator_TableClassName="clientesDataTable" msprop:Generator_RowChangedName="clientesRowChanged" msprop:Generator_RowClassName="clientesRow">
+        <xs:element name="clientes" msprop:Generator_UserTableName="clientes" msprop:Generator_RowEvArgName="clientesRowChangeEvent" msprop:Generator_TableVarName="tableclientes" msprop:Generator_TablePropName="clientes" msprop:Generator_RowDeletingName="clientesRowDeleting" msprop:Generator_RowChangingName="clientesRowChanging" msprop:Generator_RowEvHandlerName="clientesRowChangeEventHandler" msprop:Generator_RowDeletedName="clientesRowDeleted" msprop:Generator_TableClassName="clientesDataTable" msprop:Generator_RowChangedName="clientesRowChanged" msprop:Generator_RowClassName="clientesRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="cid" msprop:Generator_ColumnVarNameInTable="columncid" msprop:Generator_ColumnPropNameInRow="cid" msprop:Generator_ColumnPropNameInTable="cidColumn" msprop:Generator_UserColumnName="cid" type="xs:unsignedInt" />
@@ -971,7 +915,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="log" msprop:Generator_UserTableName="log" msprop:Generator_RowEvArgName="logRowChangeEvent" msprop:Generator_TableVarName="tablelog" msprop:Generator_TablePropName="log" msprop:Generator_RowDeletingName="logRowDeleting" msprop:Generator_RowChangingName="logRowChanging" msprop:Generator_RowDeletedName="logRowDeleted" msprop:Generator_RowEvHandlerName="logRowChangeEventHandler" msprop:Generator_TableClassName="logDataTable" msprop:Generator_RowChangedName="logRowChanged" msprop:Generator_RowClassName="logRow">
+        <xs:element name="log" msprop:Generator_UserTableName="log" msprop:Generator_RowEvArgName="logRowChangeEvent" msprop:Generator_TableVarName="tablelog" msprop:Generator_TablePropName="log" msprop:Generator_RowDeletingName="logRowDeleting" msprop:Generator_RowChangingName="logRowChanging" msprop:Generator_RowEvHandlerName="logRowChangeEventHandler" msprop:Generator_RowDeletedName="logRowDeleted" msprop:Generator_TableClassName="logDataTable" msprop:Generator_RowChangedName="logRowChanged" msprop:Generator_RowClassName="logRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="data" msprop:Generator_ColumnVarNameInTable="columndata" msprop:Generator_ColumnPropNameInRow="data" msprop:Generator_ColumnPropNameInTable="dataColumn" msprop:Generator_UserColumnName="data" type="xs:dateTime" minOccurs="0" />
@@ -992,7 +936,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_vendassintetico" msprop:Generator_UserTableName="v_vendassintetico" msprop:Generator_RowEvArgName="v_vendassinteticoRowChangeEvent" msprop:Generator_TableVarName="tablev_vendassintetico" msprop:Generator_TablePropName="v_vendassintetico" msprop:Generator_RowDeletingName="v_vendassinteticoRowDeleting" msprop:Generator_RowChangingName="v_vendassinteticoRowChanging" msprop:Generator_RowDeletedName="v_vendassinteticoRowDeleted" msprop:Generator_RowEvHandlerName="v_vendassinteticoRowChangeEventHandler" msprop:Generator_TableClassName="v_vendassinteticoDataTable" msprop:Generator_RowChangedName="v_vendassinteticoRowChanged" msprop:Generator_RowClassName="v_vendassinteticoRow">
+        <xs:element name="v_vendassintetico" msprop:Generator_UserTableName="v_vendassintetico" msprop:Generator_RowEvArgName="v_vendassinteticoRowChangeEvent" msprop:Generator_TableVarName="tablev_vendassintetico" msprop:Generator_TablePropName="v_vendassintetico" msprop:Generator_RowDeletingName="v_vendassinteticoRowDeleting" msprop:Generator_RowChangingName="v_vendassinteticoRowChanging" msprop:Generator_RowEvHandlerName="v_vendassinteticoRowChangeEventHandler" msprop:Generator_RowDeletedName="v_vendassinteticoRowDeleted" msprop:Generator_TableClassName="v_vendassinteticoDataTable" msprop:Generator_RowChangedName="v_vendassinteticoRowChanged" msprop:Generator_RowClassName="v_vendassinteticoRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="controle" msprop:Generator_ColumnVarNameInTable="columncontrole" msprop:Generator_ColumnPropNameInRow="controle" msprop:Generator_ColumnPropNameInTable="controleColumn" msprop:Generator_UserColumnName="controle" type="xs:unsignedInt" />
@@ -1070,7 +1014,7 @@ FROM            v_balanco</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="v_balanco" msprop:Generator_TableClassName="v_balancoDataTable" msprop:Generator_TableVarName="tablev_balanco" msprop:Generator_RowChangedName="v_balancoRowChanged" msprop:Generator_TablePropName="v_balanco" msprop:Generator_RowDeletingName="v_balancoRowDeleting" msprop:Generator_RowChangingName="v_balancoRowChanging" msprop:Generator_RowEvHandlerName="v_balancoRowChangeEventHandler" msprop:Generator_RowDeletedName="v_balancoRowDeleted" msprop:Generator_RowClassName="v_balancoRow" msprop:Generator_UserTableName="v_balanco" msprop:Generator_RowEvArgName="v_balancoRowChangeEvent">
+        <xs:element name="v_balanco" msprop:Generator_TableClassName="v_balancoDataTable" msprop:Generator_RowEvArgName="v_balancoRowChangeEvent" msprop:Generator_TableVarName="tablev_balanco" msprop:Generator_TablePropName="v_balanco" msprop:Generator_RowDeletingName="v_balancoRowDeleting" msprop:Generator_RowChangingName="v_balancoRowChanging" msprop:Generator_RowDeletedName="v_balancoRowDeleted" msprop:Generator_RowEvHandlerName="v_balancoRowChangeEventHandler" msprop:Generator_RowChangedName="v_balancoRowChanged" msprop:Generator_UserTableName="v_balanco" msprop:Generator_RowClassName="v_balancoRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="codigoBarras" msprop:Generator_ColumnVarNameInTable="columncodigoBarras" msprop:Generator_ColumnPropNameInRow="codigoBarras" msprop:Generator_ColumnPropNameInTable="codigoBarrasColumn" msprop:Generator_UserColumnName="codigoBarras" minOccurs="0">
@@ -1083,6 +1027,56 @@ FROM            v_balanco</CommandText>
               <xs:element name="dataBalanco" msprop:Generator_ColumnVarNameInTable="columndataBalanco" msprop:Generator_ColumnPropNameInRow="dataBalanco" msprop:Generator_ColumnPropNameInTable="dataBalancoColumn" msprop:Generator_UserColumnName="dataBalanco" type="xs:dateTime" minOccurs="0" />
               <xs:element name="quantidadeEstoque" msprop:Generator_ColumnVarNameInTable="columnquantidadeEstoque" msprop:Generator_ColumnPropNameInRow="quantidadeEstoque" msprop:Generator_ColumnPropNameInTable="quantidadeEstoqueColumn" msprop:Generator_UserColumnName="quantidadeEstoque" type="xs:long" minOccurs="0" />
               <xs:element name="quantidadeAtualizacao" msprop:Generator_ColumnVarNameInTable="columnquantidadeAtualizacao" msprop:Generator_ColumnPropNameInRow="quantidadeAtualizacao" msprop:Generator_ColumnPropNameInTable="quantidadeAtualizacaoColumn" msprop:Generator_UserColumnName="quantidadeAtualizacao" type="xs:long" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="v_fechamento" msprop:Generator_TableClassName="v_fechamentoDataTable" msprop:Generator_TableVarName="tablev_fechamento" msprop:Generator_TablePropName="v_fechamento" msprop:Generator_RowDeletingName="v_fechamentoRowDeleting" msprop:Generator_RowChangingName="v_fechamentoRowChanging" msprop:Generator_RowEvHandlerName="v_fechamentoRowChangeEventHandler" msprop:Generator_RowDeletedName="v_fechamentoRowDeleted" msprop:Generator_UserTableName="v_fechamento" msprop:Generator_RowChangedName="v_fechamentoRowChanged" msprop:Generator_RowEvArgName="v_fechamentoRowChangeEvent" msprop:Generator_RowClassName="v_fechamentoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="controle" msprop:Generator_ColumnVarNameInTable="columncontrole" msprop:Generator_ColumnPropNameInRow="controle" msprop:Generator_ColumnPropNameInTable="controleColumn" msprop:Generator_UserColumnName="controle" type="xs:long" />
+              <xs:element name="clienteId" msprop:Generator_ColumnVarNameInTable="columnclienteId" msprop:Generator_ColumnPropNameInRow="clienteId" msprop:Generator_ColumnPropNameInTable="clienteIdColumn" msprop:Generator_UserColumnName="clienteId" type="xs:long" />
+              <xs:element name="usuarioId" msprop:Generator_ColumnVarNameInTable="columnusuarioId" msprop:Generator_ColumnPropNameInRow="usuarioId" msprop:Generator_ColumnPropNameInTable="usuarioIdColumn" msprop:Generator_UserColumnName="usuarioId" type="xs:long" />
+              <xs:element name="data" msprop:Generator_ColumnVarNameInTable="columndata" msprop:Generator_ColumnPropNameInRow="data" msprop:Generator_ColumnPropNameInTable="dataColumn" msprop:Generator_UserColumnName="data" type="xs:dateTime" />
+              <xs:element name="dinheiro" msprop:Generator_ColumnVarNameInTable="columndinheiro" msprop:Generator_ColumnPropNameInRow="dinheiro" msprop:Generator_ColumnPropNameInTable="dinheiroColumn" msprop:Generator_UserColumnName="dinheiro" type="xs:decimal" />
+              <xs:element name="pix" msprop:Generator_ColumnVarNameInTable="columnpix" msprop:Generator_ColumnPropNameInRow="pix" msprop:Generator_ColumnPropNameInTable="pixColumn" msprop:Generator_UserColumnName="pix" type="xs:decimal" />
+              <xs:element name="cheque" msprop:Generator_ColumnVarNameInTable="columncheque" msprop:Generator_ColumnPropNameInRow="cheque" msprop:Generator_ColumnPropNameInTable="chequeColumn" msprop:Generator_UserColumnName="cheque" type="xs:decimal" />
+              <xs:element name="chequePre" msprop:Generator_ColumnVarNameInTable="columnchequePre" msprop:Generator_ColumnPropNameInRow="chequePre" msprop:Generator_ColumnPropNameInTable="chequePreColumn" msprop:Generator_UserColumnName="chequePre" type="xs:decimal" />
+              <xs:element name="cartaoDebito" msprop:Generator_ColumnVarNameInTable="columncartaoDebito" msprop:Generator_ColumnPropNameInRow="cartaoDebito" msprop:Generator_ColumnPropNameInTable="cartaoDebitoColumn" msprop:Generator_UserColumnName="cartaoDebito" type="xs:decimal" />
+              <xs:element name="cartaoCredito" msprop:Generator_ColumnVarNameInTable="columncartaoCredito" msprop:Generator_ColumnPropNameInRow="cartaoCredito" msprop:Generator_ColumnPropNameInTable="cartaoCreditoColumn" msprop:Generator_UserColumnName="cartaoCredito" type="xs:decimal" />
+              <xs:element name="crediario" msprop:Generator_ColumnVarNameInTable="columncrediario" msprop:Generator_ColumnPropNameInRow="crediario" msprop:Generator_ColumnPropNameInTable="crediarioColumn" msprop:Generator_UserColumnName="crediario" type="xs:decimal" />
+              <xs:element name="parcelas" msprop:Generator_ColumnVarNameInTable="columnparcelas" msprop:Generator_ColumnPropNameInRow="parcelas" msprop:Generator_ColumnPropNameInTable="parcelasColumn" msprop:Generator_UserColumnName="parcelas" type="xs:long" />
+              <xs:element name="desconto" msprop:Generator_ColumnVarNameInTable="columndesconto" msprop:Generator_ColumnPropNameInRow="desconto" msprop:Generator_ColumnPropNameInTable="descontoColumn" msprop:Generator_UserColumnName="desconto" type="xs:decimal" />
+              <xs:element name="condicao" msprop:Generator_ColumnVarNameInTable="columncondicao" msprop:Generator_ColumnPropNameInRow="condicao" msprop:Generator_ColumnPropNameInTable="condicaoColumn" msprop:Generator_UserColumnName="condicao" type="xs:long" />
+              <xs:element name="recebido" msprop:Generator_ColumnVarNameInTable="columnrecebido" msprop:Generator_ColumnPropNameInRow="recebido" msprop:Generator_ColumnPropNameInTable="recebidoColumn" msprop:Generator_UserColumnName="recebido" type="xs:decimal" />
+              <xs:element name="troco" msprop:Generator_ColumnVarNameInTable="columntroco" msprop:Generator_ColumnPropNameInRow="troco" msprop:Generator_ColumnPropNameInTable="trocoColumn" msprop:Generator_UserColumnName="troco" type="xs:decimal" />
+              <xs:element name="total" msprop:Generator_ColumnVarNameInTable="columntotal" msprop:Generator_ColumnPropNameInRow="total" msprop:Generator_ColumnPropNameInTable="totalColumn" msprop:Generator_UserColumnName="total" type="xs:decimal" />
+              <xs:element name="troca" msprop:Generator_ColumnVarNameInTable="columntroca" msprop:Generator_ColumnPropNameInRow="troca" msprop:Generator_ColumnPropNameInTable="trocaColumn" msprop:Generator_UserColumnName="troca" type="xs:decimal" />
+              <xs:element name="vale" msprop:Generator_ColumnVarNameInTable="columnvale" msprop:Generator_ColumnPropNameInRow="vale" msprop:Generator_ColumnPropNameInTable="valeColumn" msprop:Generator_UserColumnName="vale" type="xs:decimal" />
+              <xs:element name="defeito" msprop:Generator_ColumnVarNameInTable="columndefeito" msprop:Generator_ColumnPropNameInRow="defeito" msprop:Generator_ColumnPropNameInTable="defeitoColumn" msprop:Generator_UserColumnName="defeito" type="xs:decimal" />
+              <xs:element name="terminal" msprop:Generator_ColumnVarNameInTable="columnterminal" msprop:Generator_ColumnPropNameInRow="terminal" msprop:Generator_ColumnPropNameInTable="terminalColumn" msprop:Generator_UserColumnName="terminal">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="75" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="retirada" msprop:Generator_ColumnVarNameInTable="columnretirada" msprop:Generator_ColumnPropNameInRow="retirada" msprop:Generator_ColumnPropNameInTable="retiradaColumn" msprop:Generator_UserColumnName="retirada" type="xs:decimal" />
+              <xs:element name="valeEmitido" msprop:Generator_ColumnVarNameInTable="columnvaleEmitido" msprop:Generator_ColumnPropNameInRow="valeEmitido" msprop:Generator_ColumnPropNameInTable="valeEmitidoColumn" msprop:Generator_UserColumnName="valeEmitido" type="xs:decimal" minOccurs="0" />
+              <xs:element name="vendedor" msprop:Generator_ColumnVarNameInTable="columnvendedor" msprop:Generator_ColumnPropNameInRow="vendedor" msprop:Generator_ColumnPropNameInTable="vendedorColumn" msprop:Generator_UserColumnName="vendedor" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="caixa" msprop:Generator_ColumnVarNameInTable="columncaixa" msprop:Generator_ColumnPropNameInRow="caixa" msprop:Generator_ColumnPropNameInTable="caixaColumn" msprop:Generator_UserColumnName="caixa" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="60" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="crediarioPagamento" msprop:Generator_ColumnVarNameInTable="columncrediarioPagamento" msprop:Generator_ColumnPropNameInRow="crediarioPagamento" msprop:Generator_ColumnPropNameInTable="crediarioPagamentoColumn" msprop:Generator_UserColumnName="crediarioPagamento" type="xs:decimal" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
