@@ -50,7 +50,7 @@ Public Class fRelatorioPix
         Me.lstPix.Columns.Add("Total")
         Me.lstPix.Columns.Add("PIX")
 
-        vendas = objVenda.Consultar(dadosVenda)
+        vendas = objVenda.ConsultarPix(dadosVenda)
 
         If vendas Is Nothing Then
             Exit Sub

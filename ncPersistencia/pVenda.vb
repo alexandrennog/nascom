@@ -81,8 +81,103 @@ Namespace nsVenda
 
         End Function
 
-
         Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
+
+            Dim retorno As ColecaoVenda
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVenda
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+
+                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico "
+
+                sqlWhere = String.Empty
+                sqlFrom = " From vendas "
+
+                '-- controle
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.controle, "controle")
+
+                '-- usuarioId
+                'sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.usuarioId, "usuarioId")
+
+                '-- clienteId
+                'sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.clienteId, "clienteId")
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVenda
+
+                            For Each row In dt.Rows
+                                item = New dVenda
+
+                                item.controle = cFuncoes.RetornarInteiro(row("controle"))
+                                item.usuarioId = cFuncoes.RetornarInteiro(row("usuarioId"))
+                                item.clienteId = cFuncoes.RetornarInteiro(row("clienteId"))
+                                item.Vendedor = cFuncoes.RetornarTexto(row("vendedor"))
+                                item.Data = cFuncoes.RetornarTexto(row("data"))
+                                item.Dinheiro = cFuncoes.RetornarDecimal(row("dinheiro"))
+                                item.Cheque = cFuncoes.RetornarDecimal(row("cheque"))
+                                item.ChequePre = cFuncoes.RetornarDecimal(row("chequepre"))
+                                item.CartaoDebito = cFuncoes.RetornarDecimal(row("cartaodebito"))
+                                item.CartaoCredito = cFuncoes.RetornarDecimal(row("cartaocredito"))
+                                item.Crediario = cFuncoes.RetornarDecimal(row("crediario"))
+                                item.Parcelas = cFuncoes.RetornarInteiro(row("parcelas"))
+                                item.Desconto = cFuncoes.RetornarDecimal(row("desconto"))
+                                item.Condicao = cFuncoes.RetornarInteiro(row("condicao"))
+                                item.Recebido = cFuncoes.RetornarDecimal(row("recebido"))
+                                item.Troco = cFuncoes.RetornarDecimal(row("troco"))
+                                item.Troca = cFuncoes.RetornarDecimal(row("troca"))
+                                item.Vale = cFuncoes.RetornarDecimal(row("vale"))
+                                item.Defeito = cFuncoes.RetornarDecimal(row("defeito"))
+                                item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
+                                item.Total = cFuncoes.RetornarDecimal(row("total"))
+                                item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+
+        Public Function ConsultarPix(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda
             Dim acessoBanco As cAcessoBD

@@ -78,8 +78,40 @@ Namespace nsVenda
       Return retorno
 
     End Function
+        Public Function ConsultarPix(ByVal dados As dVenda) As ColecaoVenda
 
-    Public Function ConsultarTroca(ByVal dados As dVenda) As ColecaoVenda
+            Dim retorno As ColecaoVenda
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaoVenda
+
+            Try
+
+                retorno = New ColecaoVenda
+
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.ConsultarPix(dados)
+
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarTroca(ByVal dados As dVenda) As ColecaoVenda
 
       Dim retorno As ColecaoVenda
       Dim persistencia As pVenda
