@@ -500,5 +500,4 @@ Public Class fCaixaConsulta
 
     End Sub
 
-
 End Class
