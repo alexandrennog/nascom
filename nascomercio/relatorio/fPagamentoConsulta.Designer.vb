@@ -70,10 +70,10 @@ Partial Class fPagamentoConsulta
         Me.Label9 = New System.Windows.Forms.Label()
         Me.lblLoja = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.lblVale = New System.Windows.Forms.Label()
         Me.txtPix = New System.Windows.Forms.TextBox()
         Me.Label47 = New System.Windows.Forms.Label()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.lblVale = New System.Windows.Forms.Label()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -629,6 +629,26 @@ Partial Class fPagamentoConsulta
         Me.Panel1.Size = New System.Drawing.Size(912, 637)
         Me.Panel1.TabIndex = 170
         '
+        'txtPix
+        '
+        Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPix.Location = New System.Drawing.Point(160, 175)
+        Me.txtPix.Name = "txtPix"
+        Me.txtPix.ReadOnly = True
+        Me.txtPix.Size = New System.Drawing.Size(135, 26)
+        Me.txtPix.TabIndex = 325
+        Me.txtPix.Text = "0,00"
+        '
+        'Label47
+        '
+        Me.Label47.AutoSize = True
+        Me.Label47.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label47.Location = New System.Drawing.Point(84, 175)
+        Me.Label47.Name = "Label47"
+        Me.Label47.Size = New System.Drawing.Size(66, 19)
+        Me.Label47.TabIndex = 326
+        Me.Label47.Text = "PIX: R$"
+        '
         'Label22
         '
         Me.Label22.AutoSize = True
@@ -649,25 +669,6 @@ Partial Class fPagamentoConsulta
         Me.lblVale.Size = New System.Drawing.Size(81, 19)
         Me.lblVale.TabIndex = 122
         Me.lblVale.Text = "11.000,00"
-        '
-        'txtPix
-        '
-        Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPix.Location = New System.Drawing.Point(160, 175)
-        Me.txtPix.Name = "txtPix"
-        Me.txtPix.Size = New System.Drawing.Size(135, 26)
-        Me.txtPix.TabIndex = 325
-        Me.txtPix.Text = "0,00"
-        '
-        'Label47
-        '
-        Me.Label47.AutoSize = True
-        Me.Label47.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label47.Location = New System.Drawing.Point(84, 175)
-        Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(66, 19)
-        Me.Label47.TabIndex = 326
-        Me.Label47.Text = "PIX: R$"
         '
         'fPagamentoConsulta
         '

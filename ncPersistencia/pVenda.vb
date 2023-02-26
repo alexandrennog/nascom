@@ -23,7 +23,7 @@ Namespace nsVenda
 
                 comandoSQL = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total From Vendas"
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, Original From Vendas"
 
                 ds = acessoBanco.ExecutarDS(comandoSQL)
 
@@ -57,7 +57,7 @@ Namespace nsVenda
                                 item.Defeito = cFuncoes.RetornarDecimal(row("defeito"))
                                 item.Terminal = cFuncoes.RetornarDecimal(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
-
+                                item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 retorno.Add(item)
                             Next
                         Else
@@ -101,7 +101,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -152,6 +152,7 @@ Namespace nsVenda
                                 item.Defeito = cFuncoes.RetornarDecimal(row("defeito"))
                                 item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
+                                item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
 
                                 retorno.Add(item)
@@ -349,7 +350,6 @@ Namespace nsVenda
                                 item.Defeito = cFuncoes.RetornarDecimal(row("defeito"))
                                 item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
-
                                 retorno.Add(item)
                             Next
                         Else

@@ -5,6 +5,8 @@ Imports ncComum.nsLog.cLog
 Imports ncRegras.nsParametro
 Imports ncDados.nsParametro
 Imports ncComum.nsConstantes
+Imports ncRegras
+Imports ncDados
 
 Public Class fPagamentoConsulta
 
@@ -13,6 +15,8 @@ Public Class fPagamentoConsulta
     Public parcelas As String
     Public desconto As String
     Public crediario As String
+    Private dadosParametro As dParametro
+    Private regraParametro As rParametro
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
@@ -36,7 +40,7 @@ Public Class fPagamentoConsulta
         ' Soma recebidos
         lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
         + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
-        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDefeitos.Text)).ToString("N")
+        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtPix.Text) + CDec(txtDefeitos.Text)).ToString("N")
 
         If CDec(lblRecebido.Text) <= CDec(lblTotal.Text) Then
             lblFalta.Text = CDec(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
@@ -95,6 +99,7 @@ Public Class fPagamentoConsulta
         txtCartaoDebito.Text = CDec(txtCartaoDebito.Text).ToString("N")
         txtCrediario.Text = CDec(txtCrediario.Text).ToString("N")
         txtVale.Text = CDec(txtVale.Text).ToString("N")
+        txtPix.Text = CDec(txtPix.Text).ToString("N")
     End Sub
 
     Private Sub verificaCampos()
@@ -118,6 +123,9 @@ Public Class fPagamentoConsulta
         End If
         If txtVale.Text.Trim().Equals("") Then
             txtVale.Text = 0.ToString("N")
+        End If
+        If txtPix.Text.Trim().Equals("") Then
+            txtPix.Text = 0.ToString("N")
         End If
     End Sub
 
