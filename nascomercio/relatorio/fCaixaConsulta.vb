@@ -336,7 +336,6 @@ Public Class fCaixaConsulta
         End Select
     End Sub
 
-
     Private Sub ConsultarVenda()
 
         Dim controle As Integer
