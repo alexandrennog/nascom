@@ -1,12 +1,4 @@
-
-DROP TABLE IF EXISTS `nascomercio`.`pix`;
-
-DROP TABLE IF EXISTS `nascomercio`.`pixconfig`;
-
-
-
-
-
+﻿
 DROP TABLE IF EXISTS `nascomercio`.`pix`;
 CREATE TABLE  `nascomercio`.`pix` (
   `ID` varchar(22) DEFAULT NULL,
@@ -84,21 +76,7 @@ union all
 select `vales`.`controle` AS `controle`,`vales`.`data` AS `data`,`produtos`.`descricao` AS `descricao`,`vendasprodutos`.`quantidade` AS `quantidade`,`produtos`.`valorCompra` AS `valorcompra`,`vendasprodutos`.`valor` AS `valorvenda`,`vales`.`desconto` AS `desconto`,`vales`.`vendedor` AS `vendedor`,`clientes`.`nome` AS `nome`,`vales`.`troca` AS `troca`,`fabricantes`.`nome` AS `fabricante`,`produtos`.`referencia` AS `referencia` from ((((`vendasprodutos` join `produtos` on((`vendasprodutos`.`produto` = `produtos`.`cid`))) join `vales` on((`vendasprodutos`.`controle` = `vales`.`controle`))) join `clientes` on((`vales`.`clienteId` = `clientes`.`cid`))) join `fabricantes` on((`produtos`.`fabricante_cid` = `fabricantes`.`cid`)));
 
 
-
-INSERT INTO parametros(cid, descricao, valor)
-select 21, 'IsDecimal', 1
-
-
-INSERT INTO parametros(cid, descricao, valor)
-select 22, 'Security', 1
-
-
-INSERT INTO parametros(cid, descricao, valor)
-select 23, 'Instancias', 3
-
-
 INSERT INTO parametros(cid, descricao, valor)
 select 24, 'UsarPIX', 1
-
 
 
