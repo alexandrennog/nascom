@@ -87,7 +87,7 @@ Public Class fCaixaConsulta
         Dim dadosVenda As New ncDados.nsVenda.dVenda
         Dim regrasItem As rProdutoItem
 
-        If dtgProdutos.Rows.Count <= 0 OrElse _
+        If dtgProdutos.Rows.Count <= 0 OrElse
             MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
 
             If txtControle.Text.Equals("") Then
@@ -210,9 +210,9 @@ Public Class fCaixaConsulta
         '                        "123456789012345678901234567890123456789012345678")
 
         For Each linha As DataGridViewRow In dtgProdutos.Rows
-            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(22) & _
-               linha.Cells(4).Value.ToString().PadRight(5) & _
-               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) & _
+            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(22) &
+               linha.Cells(4).Value.ToString().PadRight(5) &
+               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) &
                CDec(linha.Cells(5).Value).ToString("N").PadRight(11))
             produto = New dVendaProduto
             produto.itemId = linha.Cells(1).Tag
@@ -498,6 +498,5 @@ Public Class fCaixaConsulta
         End If
 
     End Sub
-
 
 End Class
