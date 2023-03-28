@@ -95,7 +95,6 @@ Partial Class fPagamento
         Me.Label22 = New System.Windows.Forms.Label()
         Me.lblVale = New System.Windows.Forms.Label()
         Me.btoSalvar = New System.Windows.Forms.Button()
-        Me.txtDisponivel = New System.Windows.Forms.TextBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.panelLista = New System.Windows.Forms.Panel()
         Me.lstFita = New System.Windows.Forms.ListBox()
@@ -586,7 +585,6 @@ Partial Class fPagamento
         Me.Panel1.Controls.Add(Me.Label4)
         Me.Panel1.Controls.Add(Me.Label14)
         Me.Panel1.Controls.Add(Me.txtCheque)
-        Me.Panel1.Controls.Add(Me.txtDisponivel)
         Me.Panel1.Controls.Add(Me.Label23)
         Me.Panel1.Controls.Add(Me.txtCartaoDebito)
         Me.Panel1.Controls.Add(Me.Label21)
@@ -930,16 +928,6 @@ Partial Class fPagamento
         Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSalvar.UseVisualStyleBackColor = False
         '
-        'txtDisponivel
-        '
-        Me.txtDisponivel.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtDisponivel.Location = New System.Drawing.Point(759, 281)
-        Me.txtDisponivel.Name = "txtDisponivel"
-        Me.txtDisponivel.ReadOnly = True
-        Me.txtDisponivel.Size = New System.Drawing.Size(184, 13)
-        Me.txtDisponivel.TabIndex = 3
-        Me.txtDisponivel.TabStop = False
-        '
         'btoSair
         '
         Me.btoSair.BackColor = System.Drawing.Color.Transparent
@@ -1225,7 +1213,6 @@ Partial Class fPagamento
     Friend WithEvents picQRCode As PictureBox
     Friend WithEvents Label24 As Label
     Friend WithEvents Label25 As Label
-    Friend WithEvents txtDisponivel As TextBox
     Friend WithEvents Label26 As Label
     Friend WithEvents Label27 As Label
     Friend WithEvents Label28 As Label
