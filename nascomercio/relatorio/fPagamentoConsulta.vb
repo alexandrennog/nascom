@@ -225,6 +225,9 @@ Public Class fPagamentoConsulta
                 If CDec(txtDinheiro.Text) > 0.001 Then
                     objImpressao.Write("DINHEIRO  : " & CDec(txtDinheiro.Text).ToString("C"))
                 End If
+                If CDec(txtPix.Text) > 0.001 Then
+                    objImpressao.Write("PIX       : " & CDec(txtPix.Text).ToString("C"))
+                End If
                 If CDec(txtCheque.Text) > 0.001 Then
                     objImpressao.Write("CHEQUE    : " & CDec(txtCheque.Text).ToString("C"))
                 End If
