@@ -95,7 +95,6 @@ Partial Class fPagamento
         Me.Label22 = New System.Windows.Forms.Label()
         Me.lblVale = New System.Windows.Forms.Label()
         Me.btoSalvar = New System.Windows.Forms.Button()
-        Me.txtDisponivel = New System.Windows.Forms.TextBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.panelLista = New System.Windows.Forms.Panel()
         Me.lstFita = New System.Windows.Forms.ListBox()
@@ -155,9 +154,9 @@ Partial Class fPagamento
         Me.Label7.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.Location = New System.Drawing.Point(232, 106)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(85, 19)
+        Me.Label7.Size = New System.Drawing.Size(84, 19)
         Me.Label7.TabIndex = 30
-        Me.Label7.Text = "Emissão :"
+        Me.Label7.Text = "Emissï¿½o :"
         '
         'lblEmissao
         '
@@ -346,9 +345,9 @@ Partial Class fPagamento
         Me.Label6.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.Location = New System.Drawing.Point(10, 275)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(145, 19)
+        Me.Label6.Size = New System.Drawing.Size(143, 19)
         Me.Label6.TabIndex = 54
-        Me.Label6.Text = "Cartão Débito: R$"
+        Me.Label6.Text = "Cartï¿½o Dï¿½bito: R$"
         '
         'txtChequePre
         '
@@ -365,9 +364,9 @@ Partial Class fPagamento
         Me.Label8.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.Location = New System.Drawing.Point(25, 243)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(130, 19)
+        Me.Label8.Size = New System.Drawing.Size(129, 19)
         Me.Label8.TabIndex = 56
-        Me.Label8.Text = "Cheque Pré: R$"
+        Me.Label8.Text = "Cheque Prï¿½: R$"
         '
         'txtCartaoCredito
         '
@@ -384,9 +383,9 @@ Partial Class fPagamento
         Me.Label10.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label10.Location = New System.Drawing.Point(4, 307)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(151, 19)
+        Me.Label10.Size = New System.Drawing.Size(149, 19)
         Me.Label10.TabIndex = 58
-        Me.Label10.Text = "Cartão Crédito: R$"
+        Me.Label10.Text = "Cartï¿½o Crï¿½dito: R$"
         '
         'txtCrediario
         '
@@ -403,9 +402,9 @@ Partial Class fPagamento
         Me.Label11.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.Location = New System.Drawing.Point(45, 405)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(110, 19)
+        Me.Label11.Size = New System.Drawing.Size(109, 19)
         Me.Label11.TabIndex = 60
-        Me.Label11.Text = "Crediário: R$"
+        Me.Label11.Text = "Crediï¿½rio: R$"
         '
         'cboCondicao
         '
@@ -586,7 +585,6 @@ Partial Class fPagamento
         Me.Panel1.Controls.Add(Me.Label4)
         Me.Panel1.Controls.Add(Me.Label14)
         Me.Panel1.Controls.Add(Me.txtCheque)
-        Me.Panel1.Controls.Add(Me.txtDisponivel)
         Me.Panel1.Controls.Add(Me.Label23)
         Me.Panel1.Controls.Add(Me.txtCartaoDebito)
         Me.Panel1.Controls.Add(Me.Label21)
@@ -607,7 +605,7 @@ Partial Class fPagamento
         Me.Panel1.Controls.Add(Me.panelLista)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(912, 680)
+        Me.Panel1.Size = New System.Drawing.Size(907, 680)
         Me.Panel1.TabIndex = 170
         '
         'txtPix
@@ -623,7 +621,7 @@ Partial Class fPagamento
         '
         Me.Label47.AutoSize = True
         Me.Label47.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label47.Location = New System.Drawing.Point(55, 178)
+        Me.Label47.Location = New System.Drawing.Point(86, 179)
         Me.Label47.Name = "Label47"
         Me.Label47.Size = New System.Drawing.Size(66, 19)
         Me.Label47.TabIndex = 324
@@ -633,6 +631,7 @@ Partial Class fPagamento
         '
         Me.panelPIX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.panelPIX.Controls.Add(Me.btnPix)
+        Me.panelPIX.Controls.Add(Me.TextBox3)
         Me.panelPIX.Controls.Add(Me.txtStatus)
         Me.panelPIX.Controls.Add(Me.Label35)
         Me.panelPIX.Controls.Add(Me.txtTxId)
@@ -930,16 +929,6 @@ Partial Class fPagamento
         Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSalvar.UseVisualStyleBackColor = False
         '
-        'txtDisponivel
-        '
-        Me.txtDisponivel.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtDisponivel.Location = New System.Drawing.Point(759, 281)
-        Me.txtDisponivel.Name = "txtDisponivel"
-        Me.txtDisponivel.ReadOnly = True
-        Me.txtDisponivel.Size = New System.Drawing.Size(184, 13)
-        Me.txtDisponivel.TabIndex = 3
-        Me.txtDisponivel.TabStop = False
-        '
         'btoSair
         '
         Me.btoSair.BackColor = System.Drawing.Color.Transparent
@@ -963,7 +952,6 @@ Partial Class fPagamento
         '
         Me.panelLista.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.panelLista.Controls.Add(Me.lstFita)
-        Me.panelLista.Controls.Add(Me.TextBox3)
         Me.panelLista.Controls.Add(Me.Label36)
         Me.panelLista.Controls.Add(Me.Label37)
         Me.panelLista.Controls.Add(Me.Label38)
@@ -991,7 +979,7 @@ Partial Class fPagamento
         'TextBox3
         '
         Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBox3.Location = New System.Drawing.Point(439, 136)
+        Me.TextBox3.Location = New System.Drawing.Point(154, 135)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.ReadOnly = True
         Me.TextBox3.Size = New System.Drawing.Size(184, 13)
@@ -1136,7 +1124,7 @@ Partial Class fPagamento
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.CancelButton = Me.btoSair
-        Me.ClientSize = New System.Drawing.Size(913, 680)
+        Me.ClientSize = New System.Drawing.Size(905, 680)
         Me.Controls.Add(Me.imgLogo)
         Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.btoCliente)
@@ -1225,7 +1213,6 @@ Partial Class fPagamento
     Friend WithEvents picQRCode As PictureBox
     Friend WithEvents Label24 As Label
     Friend WithEvents Label25 As Label
-    Friend WithEvents txtDisponivel As TextBox
     Friend WithEvents Label26 As Label
     Friend WithEvents Label27 As Label
     Friend WithEvents Label28 As Label
