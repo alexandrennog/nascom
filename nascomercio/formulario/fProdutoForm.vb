@@ -743,9 +743,9 @@ Public Class fProdutoForm
 
                                                     If dadosC.codigo.ToLower().Equals("codigobarras") Then
                                                         novaLinha.Cells("codigobarrasatual").Value = item.valor
-                                                        celula.Value = item.valor
                                                     End If
 
+                                                    celula.Value = item.valor
 
                                                     If dadosC.codigo.ToLower().Equals("estoque") Then
 
