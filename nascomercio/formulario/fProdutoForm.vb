@@ -772,6 +772,16 @@ Public Class fProdutoForm
 
                                                     End If
 
+                                                    If dadosC.codigo.ToLower().Equals("tamanho") Then
+
+                                                        If item.valor Is Nothing Then
+                                                            celula.Value = ""
+                                                        Else
+                                                            celula.Value = item.valor
+                                                        End If
+
+                                                    End If
+
                                                     Exit For
                                                 End If
                                             Next
