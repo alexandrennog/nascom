@@ -750,7 +750,7 @@ Public Class fProdutoForm
                                                     If dadosC.codigo.ToLower().Equals("estoque") Then
 
                                                         If ehDecimal = "0" Then
-                                                            dadosEstoque = Convert.ToInt32(Decimal.Parse(item.valor, CultureInfo.InvariantCulture))
+                                                            dadosEstoque = Convert.ToInt32(Decimal.Parse(item.valor.Replace(",", "."), CultureInfo.InvariantCulture))
                                                             If Not dadosEstoque = Nothing Then
                                                                 If Not dadosEstoque.Trim().Equals(String.Empty) Then
                                                                     If Integer.TryParse(dadosEstoque.Trim(), estoque) Then
