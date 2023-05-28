@@ -444,7 +444,7 @@ Public Class fProdutoForm
                                             Else
                                                 estoqueAux = "0"
                                             End If
-                                            Integer.TryParse(estoqueAux, estoqueAtual)
+                                            Decimal.TryParse(estoqueAux, estoqueAtual)
                                             If estoqueNovo > 0 Then
                                                 estoqueAtual = estoqueAtual + estoqueNovo
                                             End If
