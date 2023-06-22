@@ -536,7 +536,7 @@ Public Class fProdutoBalancoForm
         End If
 
         Dim doc As New Document(PageSize.A4.Rotate())
-        doc.SetMargins(3, 2, 3, 2)
+        doc.SetMargins(3, 2, 6, 6)
         PdfWriter.GetInstance(doc, New FileStream(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF, FileMode.Create))
 
         doc.Open()
@@ -544,7 +544,7 @@ Public Class fProdutoBalancoForm
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relat�rio de Balanço", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relatório de Balanço", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 10
         paragrafoTitulo.SpacingAfter = 10
@@ -592,9 +592,9 @@ Public Class fProdutoBalancoForm
 
         'table.DefaultCell.Border = Rectangle.NO_BORDER
 
-        table.DefaultCell.HasBorder(Rectangle.NO_BORDER)
-        table.DefaultCell.BorderColor = BaseColor.WHITE
-        table.DefaultCell.BorderWidth = 0
+        'table.DefaultCell.HasBorder(Rectangle.NO_BORDER)
+        'table.DefaultCell.BorderColor = BaseColor.WHITE
+        'table.DefaultCell.BorderWidth = 0
 
         table.AddCell(cell1)
         table.AddCell(cell2)
@@ -606,65 +606,63 @@ Public Class fProdutoBalancoForm
         table.AddCell(cell8)
         table.AddCell(cell9)
 
-        Dim totTotal As Decimal
-        Dim totPIX As Decimal
 
         For Each row As DataRow In dtGridSource.Rows
 
 
             Dim cell01 = New PdfPCell(New Phrase(row(1).ToString(), fonte))
-            cell01.HasBorder(Rectangle.NO_BORDER)
-            cell01.BorderColor = BaseColor.WHITE
-            cell01.BorderWidth = 0
+            'cell01.HasBorder(Rectangle.NO_BORDER)
+            'cell01.BorderColor = BaseColor.WHITE
+            'cell01.BorderWidth = 0
             table.AddCell(cell01)
 
 
             Dim cell02 = New PdfPCell(New Phrase(row(2).ToString(), fonte))
-            cell02.HasBorder(Rectangle.NO_BORDER)
-            cell02.BorderColor = BaseColor.WHITE
-            cell02.BorderWidth = 0
+            'cell02.HasBorder(Rectangle.NO_BORDER)
+            'cell02.BorderColor = BaseColor.WHITE
+            'cell02.BorderWidth = 0
             table.AddCell(cell02)
 
             Dim cell03 = New PdfPCell(New Phrase(row(3).ToString(), fonte))
-            cell03.HasBorder(Rectangle.NO_BORDER)
-            cell03.BorderColor = BaseColor.WHITE
-            cell03.BorderWidth = 0
+            'cell03.HasBorder(Rectangle.NO_BORDER)
+            'cell03.BorderColor = BaseColor.WHITE
+            'cell03.BorderWidth = 0
             table.AddCell(cell03)
 
             Dim cell04 = New PdfPCell(New Phrase(row(4).ToString(), fonte))
-            cell04.HasBorder(Rectangle.NO_BORDER)
-            cell04.BorderColor = BaseColor.WHITE
-            cell04.BorderWidth = 0
+            'cell04.HasBorder(Rectangle.NO_BORDER)
+            'cell04.BorderColor = BaseColor.WHITE
+            'cell04.BorderWidth = 0
             table.AddCell(cell04)
 
             Dim cell05 = New PdfPCell(New Phrase(row(5).ToString(), fonte))
-            cell05.HasBorder(Rectangle.NO_BORDER)
-            cell05.BorderColor = BaseColor.WHITE
-            cell05.BorderWidth = 0
+            'cell05.HasBorder(Rectangle.NO_BORDER)
+            'cell05.BorderColor = BaseColor.WHITE
+            'cell05.BorderWidth = 0
             table.AddCell(cell05)
 
             Dim cell06 = New PdfPCell(New Phrase(row(7).ToString(), fonte))
-            cell06.HasBorder(Rectangle.NO_BORDER)
-            cell06.BorderColor = BaseColor.WHITE
-            cell06.BorderWidth = 0
+            'cell06.HasBorder(Rectangle.NO_BORDER)
+            'cell06.BorderColor = BaseColor.WHITE
+            'cell06.BorderWidth = 0
             table.AddCell(cell06)
 
             Dim cell07 = New PdfPCell(New Phrase(row(8).ToString(), fonte))
-            cell07.HasBorder(Rectangle.NO_BORDER)
-            cell07.BorderColor = BaseColor.WHITE
-            cell07.BorderWidth = 0
+            'cell07.HasBorder(Rectangle.NO_BORDER)
+            'cell07.BorderColor = BaseColor.WHITE
+            'cell07.BorderWidth = 0
             table.AddCell(cell07)
 
             Dim cell08 = New PdfPCell(New Phrase(row(9).ToString(), fonte))
-            cell08.HasBorder(Rectangle.NO_BORDER)
-            cell08.BorderColor = BaseColor.WHITE
-            cell08.BorderWidth = 0
+            'cell08.HasBorder(Rectangle.NO_BORDER)
+            'cell08.BorderColor = BaseColor.WHITE
+            'cell08.BorderWidth = 0
             table.AddCell(cell08)
 
             Dim cell09 = New PdfPCell(New Phrase(row(10).ToString(), fonte))
-            cell09.HasBorder(Rectangle.NO_BORDER)
-            cell09.BorderColor = BaseColor.WHITE
-            cell09.BorderWidth = 0
+            'cell09.HasBorder(Rectangle.NO_BORDER)
+            'cell09.BorderColor = BaseColor.WHITE
+            'cell09.BorderWidth = 0
             table.AddCell(cell09)
 
         Next row
