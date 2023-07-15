@@ -942,6 +942,8 @@ Public Class fPagamento
         Dim regras As New rPix
         Dim pix As dPix
         pix = regras.Consultar()
+        pix.Status = "CONCLUIDA"
+        pix.TxId = "gGBZSGV8YKb14m8Bc17WqK3bNjI2w48hEmn"
 
         If IsNothing(pix) Then
             Exit Sub
@@ -982,9 +984,12 @@ Public Class fPagamento
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
             dados.Controle = lblControle.Text
+            dados.TxId = "gGBZSGV8YKb14m8Bc17WqK3bNjI2w48hEmn"
+            dados.Status = "ATIVA"
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
+            picQRCode.Image = ResizeImage(Image.FromFile("C:\nascomercio\PIX\pix.png"))
 
         Catch ex As Exception
 
