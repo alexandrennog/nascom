@@ -561,10 +561,15 @@ Public Class fPagamento
                     ' ECF - Impressora Fiscal
 
                     'se não informou cpf pergunta
-                    If String.IsNullOrEmpty(Str_CPF) Then
+                    If String.IsNullOrEmpty(Str_CPF) And Len(Str_CPF) = 11 Then
                         Str_CPF = InputBox("Deseja informar o CPF ?").Trim()
                         Do While Not ValidaCpf(Str_CPF)
                             Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
+                        Loop
+                    ElseIf String.IsNullOrEmpty(Str_CPF) And Len(Str_CPF) = 14 Then
+                        Str_CPF = InputBox("Deseja informar o CNPJ ?").Trim()
+                        Do While Not ValidaCnpj(Str_CPF)
+                            Str_CPF = InputBox("CNPJ Incorreto, informe novamente ?").Trim()
                         Loop
 
                     End If
