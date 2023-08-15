@@ -659,11 +659,16 @@ Public Class fPagamento
 
                         'se não informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
-                            Str_CPF = InputBox("Deseja informar o CPF ?").Trim()
-                            Do While Not ValidaCpf(Str_CPF)
-                                Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
-                            Loop
-
+                            Str_CPF = InputBox("Deseja informar o CPF/CNPJ ?").Trim()
+                            If Str_CPF.Length > 11 Then
+                                Do While Not ValidaCnpj(Str_CPF)
+                                    Str_CPF = InputBox("CNPJ Incorreto, informe novamente ?").Trim()
+                                Loop
+                            Else
+                                Do While Not ValidaCpf(Str_CPF)
+                                    Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
+                                Loop
+                            End If
                         End If
 
                         ' Abertura Cupom
