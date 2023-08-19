@@ -156,12 +156,6 @@
     <Compile Include="formulario\fClientePagamentos.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="formulario\Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
-    </Compile>
-    <Compile Include="formulario\Form1.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="formulario\fVeiculoLista.Designer.vb">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>
     </Compile>
@@ -865,9 +859,6 @@
     <EmbeddedResource Include="formulario\fClientePagamentos.resx">
       <DependentUpon>fClientePagamentos.vb</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="formulario\Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="formulario\fVeiculoLista.resx">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>

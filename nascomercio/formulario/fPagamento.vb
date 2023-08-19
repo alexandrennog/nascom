@@ -17,6 +17,7 @@ Imports System.IO
 Imports System.Threading
 Imports System
 Imports System.Linq
+Imports CLPix.Services
 
 
 Public Class fPagamento
@@ -942,8 +943,6 @@ Public Class fPagamento
         Dim regras As New rPix
         Dim pix As dPix
         pix = regras.Consultar()
-        pix.Status = "CONCLUIDA"
-        pix.TxId = "gGBZSGV8YKb14m8Bc17WqK3bNjI2w48hEmn"
 
         If IsNothing(pix) Then
             Exit Sub
@@ -984,12 +983,11 @@ Public Class fPagamento
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
             dados.Controle = lblControle.Text
-            dados.TxId = "gGBZSGV8YKb14m8Bc17WqK3bNjI2w48hEmn"
-            dados.Status = "ATIVA"
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
-            picQRCode.Image = ResizeImage(Image.FromFile("C:\nascomercio\PIX\pix.png"))
+            picQRCode.Tag = pagamentos
+
 
         Catch ex As Exception
 
@@ -1137,7 +1135,7 @@ Public Class fPagamento
         If btnPix.Text = "Cobrar" Then
             Cadastrar()
             btnPix.Text = "Consultar"
-            txtTxId.Tag = 1
+
         Else
             If txtTxId.Text.Length <> 36 Then
                 txtTxId.Text = "Consulte Novamente..."

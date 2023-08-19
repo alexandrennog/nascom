@@ -1,4 +1,5 @@
-﻿Imports ncComum.nsAcessoBD
+﻿Imports ncComum
+Imports ncComum.nsAcessoBD
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
 Imports ncDados
@@ -212,10 +213,16 @@ Public Class pPix
     End Function
 
     Public Function Incluir(ByVal dados As dPix) As Integer
-
+        Dim colecaoPRODCOR As ColecaoPix = Nothing
         Dim retorno As Integer
         Dim acessoBanco As cAcessoBD
         Dim comandoSQL As String
+        Dim ds As DataSet
+        Dim dt As DataTable
+        Dim ColecaoPix As List(Of String)
+        Dim row As DataRow
+        Dim item As String
+        Dim ret As ColecaoPix
 
         Try
 
@@ -226,6 +233,29 @@ Public Class pPix
             comandoSQL += "," & cFuncoes.PersistirDataHora(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")) & "," & cFuncoes.PersistirTexto(dados.Observacao) & "," & cFuncoes.PersistirInteiro(dados.Controle) + ")"
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
+
+            comandoSQL = " SELECT controle FROM pix where ID = (select MAX(ID) from pix);"
+            ds = acessoBanco.ExecutarDS(comandoSQL)
+
+            If Not ds Is Nothing Then
+                If ds.Tables.Count > 0 Then
+                    dt = ds.Tables(0)
+
+                    If dt.Rows.Count > 0 Then
+                        ret = New ColecaoPix()
+
+                        For Each row In dt.Rows
+                            retorno = nsFuncoes.cFuncoes.RetornarTexto(row("controle"))
+                        Next
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+            Else
+                retorno = Nothing
+            End If
 
         Catch ex As Exception
 
