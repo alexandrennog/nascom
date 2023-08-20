@@ -37,6 +37,8 @@ Public Class fConfiguracaoes
             mdiPrincipal.CarregarCategoriaFiltro()
         ElseIf rbtChaveValidacao.Checked Then
             mdiPrincipal.CarregarChaveValidacao()
+        ElseIf rbtPIx.Checked Then
+            mdiPrincipal.CarregarPix()
         End If
     End Sub
 
@@ -45,4 +47,11 @@ Public Class fConfiguracaoes
         SelecionarItem()
     End Sub
 
+    Private Sub rbtCategorias_CheckedChanged(sender As Object, e As EventArgs) Handles rbtCategorias.CheckedChanged
+
+    End Sub
+
+    Private Sub rbtCores_CheckedChanged(sender As Object, e As EventArgs) Handles rbtCores.CheckedChanged
+
+    End Sub
 End Class

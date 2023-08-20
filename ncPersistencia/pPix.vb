@@ -169,7 +169,7 @@ Public Class pPix
         Try
 
             acessoBanco = New cAcessoBD
-            sqlSelect = " SELECT Cliente, Cpf, Cnpj, Nome, Chave "
+            sqlSelect = " SELECT Cliente, Cpf, Cnpj, Nome, Chave, Appkey, Client_id, client_secret, PathCertificate, PassCertificate"
             sqlWhere = String.Empty
             sqlFrom = "  FROM pixconfig "
 
@@ -189,6 +189,11 @@ Public Class pPix
                             item.Cnpj = cFuncoes.RetornarTexto(row("Cnpj"))
                             item.Nome = cFuncoes.RetornarTexto(row("Nome"))
                             item.Chave = cFuncoes.RetornarTexto(row("Chave"))
+                            item.AppKey = cFuncoes.RetornarTexto(row("Appkey"))
+                            item.ClientID = cFuncoes.RetornarTexto(row("Client_id"))
+                            item.ClientSecret = cFuncoes.RetornarTexto(row("client_secret"))
+                            item.CertPath = cFuncoes.RetornarTexto(row("PathCertificate"))
+                            item.CertPass = cFuncoes.RetornarTexto(row("PassCertificate"))
                         Next
                         retorno = item
                     Else
@@ -265,6 +270,33 @@ Public Class pPix
         End Try
 
         Incluir = retorno
+
+    End Function
+
+
+    Public Function IncluirPixConfig(ByVal dados As dPixConfig) As Integer
+        Dim colecaoPRODCOR As ColecaoPix = Nothing
+        Dim retorno As Integer
+        Dim acessoBanco As cAcessoBD
+        Dim comandoSQL As String
+
+        Try
+
+            acessoBanco = New cAcessoBD
+
+            comandoSQL = " INSERT INTO pixconfig (Cliente, Cpf, Cnpj, Nome, chave, Appkey, Client_id, client_secret, PathCertificate, PassCertificate)  VALUES ("
+            comandoSQL += cFuncoes.PersistirInteiro(dados.Cliente) & "," & cFuncoes.PersistirTexto(dados.Cpf) & "," & cFuncoes.PersistirTexto(dados.Cnpj) & "," & cFuncoes.PersistirTexto(dados.Nome) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.ClientID) & "," & cFuncoes.PersistirTexto(dados.ClientSecret) & "," & cFuncoes.PersistirTexto(dados.CertPath) & "," & cFuncoes.PersistirTexto(dados.CertPass) & ")"
+
+            retorno = acessoBanco.ExecutarCID(comandoSQL)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Incluir Pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        IncluirPixConfig = retorno
 
     End Function
 

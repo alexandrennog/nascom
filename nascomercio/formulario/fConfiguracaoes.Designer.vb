@@ -38,6 +38,7 @@ Partial Class fConfiguracaoes
         Me.rbtBackup = New System.Windows.Forms.RadioButton()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.rbtPix = New System.Windows.Forms.RadioButton()
         Me.Panel1.SuspendLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -135,6 +136,7 @@ Partial Class fConfiguracaoes
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.rbtPix)
         Me.Panel1.Controls.Add(Me.rbtChaveValidacao)
         Me.Panel1.Controls.Add(Me.btoFiltro)
         Me.Panel1.Controls.Add(Me.rbtCategorias)
@@ -246,6 +248,17 @@ Partial Class fConfiguracaoes
         Me.imgLogo.TabIndex = 90
         Me.imgLogo.TabStop = False
         '
+        'rbtPix
+        '
+        Me.rbtPix.AutoSize = True
+        Me.rbtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtPix.Location = New System.Drawing.Point(66, 387)
+        Me.rbtPix.Name = "rbtPix"
+        Me.rbtPix.Size = New System.Drawing.Size(53, 23)
+        Me.rbtPix.TabIndex = 12
+        Me.rbtPix.Text = "PIX"
+        Me.rbtPix.UseVisualStyleBackColor = True
+        '
         'fConfiguracaoes
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -289,4 +302,5 @@ Partial Class fConfiguracaoes
     Friend WithEvents rbtFabricantes As System.Windows.Forms.RadioButton
     Friend WithEvents rbtCategorias As System.Windows.Forms.RadioButton
     Friend WithEvents rbtChaveValidacao As System.Windows.Forms.RadioButton
+    Friend WithEvents rbtPix As RadioButton
 End Class

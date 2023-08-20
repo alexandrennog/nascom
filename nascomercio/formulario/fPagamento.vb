@@ -882,6 +882,10 @@ Public Class fPagamento
         End If
 
     End Sub
+    Private Sub Configuracao_Pix()
+        Dim formPixConfig As New fConfigPix
+        formPixConfig.ShowDialog()
+    End Sub
 
     Private Sub txtCliente_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtCliente.KeyDown
         If e.KeyCode = Keys.F1 Then
@@ -1155,6 +1159,14 @@ Public Class fPagamento
     End Sub
 
     Private Sub fPagamento_HandleDestroyed(sender As Object, e As EventArgs) Handles Me.HandleDestroyed
+
+    End Sub
+
+    Private Sub Label20_Click(sender As Object, e As EventArgs) Handles Label20.Click
+
+    End Sub
+
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
 
     End Sub
 End Class

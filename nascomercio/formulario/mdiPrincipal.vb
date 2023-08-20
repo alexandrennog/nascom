@@ -1046,6 +1046,11 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
 
+    Public Sub CarregarPix()
+        FecharTela()
+        formulario = fConfigPix
+        AbrirTela()
+    End Sub
     Public Sub CarregarIdentificacaoSistema()
         FecharTela()
         formulario = fAcesso
