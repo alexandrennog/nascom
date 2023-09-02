@@ -1,4 +1,5 @@
-﻿Imports ncComum.nsAcessoBD
+﻿Imports ncComum
+Imports ncComum.nsAcessoBD
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
 Imports ncDados
@@ -168,7 +169,7 @@ Public Class pPix
         Try
 
             acessoBanco = New cAcessoBD
-            sqlSelect = " SELECT Cliente, Cpf, Cnpj, Nome, Chave "
+            sqlSelect = " SELECT Cliente, Cpf, Cnpj, Nome, Chave, Appkey, Client_id, client_secret, PathCertificate, PassCertificate"
             sqlWhere = String.Empty
             sqlFrom = "  FROM pixconfig "
 
@@ -188,6 +189,11 @@ Public Class pPix
                             item.Cnpj = cFuncoes.RetornarTexto(row("Cnpj"))
                             item.Nome = cFuncoes.RetornarTexto(row("Nome"))
                             item.Chave = cFuncoes.RetornarTexto(row("Chave"))
+                            item.AppKey = cFuncoes.RetornarTexto(row("Appkey"))
+                            item.ClientID = cFuncoes.RetornarTexto(row("Client_id"))
+                            item.ClientSecret = cFuncoes.RetornarTexto(row("client_secret"))
+                            item.CertPath = cFuncoes.RetornarTexto(row("PathCertificate"))
+                            item.CertPass = cFuncoes.RetornarTexto(row("PassCertificate"))
                         Next
                         retorno = item
                     Else
@@ -212,10 +218,16 @@ Public Class pPix
     End Function
 
     Public Function Incluir(ByVal dados As dPix) As Integer
-
+        Dim colecaoPRODCOR As ColecaoPix = Nothing
         Dim retorno As Integer
         Dim acessoBanco As cAcessoBD
         Dim comandoSQL As String
+        Dim ds As DataSet
+        Dim dt As DataTable
+        Dim ColecaoPix As List(Of String)
+        Dim row As DataRow
+        Dim item As String
+        Dim ret As ColecaoPix
 
         Try
 
@@ -227,6 +239,29 @@ Public Class pPix
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
 
+            comandoSQL = " SELECT controle FROM pix where ID = (select MAX(ID) from pix);"
+            ds = acessoBanco.ExecutarDS(comandoSQL)
+
+            If Not ds Is Nothing Then
+                If ds.Tables.Count > 0 Then
+                    dt = ds.Tables(0)
+
+                    If dt.Rows.Count > 0 Then
+                        ret = New ColecaoPix()
+
+                        For Each row In dt.Rows
+                            retorno = nsFuncoes.cFuncoes.RetornarTexto(row("controle"))
+                        Next
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+            Else
+                retorno = Nothing
+            End If
+
         Catch ex As Exception
 
             retorno = Nothing
@@ -235,6 +270,33 @@ Public Class pPix
         End Try
 
         Incluir = retorno
+
+    End Function
+
+
+    Public Function IncluirPixConfig(ByVal dados As dPixConfig) As Integer
+        Dim colecaoPRODCOR As ColecaoPix = Nothing
+        Dim retorno As Integer
+        Dim acessoBanco As cAcessoBD
+        Dim comandoSQL As String
+
+        Try
+
+            acessoBanco = New cAcessoBD
+
+            comandoSQL = " INSERT INTO pixconfig (Cliente, Cpf, Cnpj, Nome, chave, Appkey, Client_id, client_secret, PathCertificate, PassCertificate)  VALUES ("
+            comandoSQL += cFuncoes.PersistirInteiro(dados.Cliente) & "," & cFuncoes.PersistirTexto(dados.Cpf) & "," & cFuncoes.PersistirTexto(dados.Cnpj) & "," & cFuncoes.PersistirTexto(dados.Nome) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.ClientID) & "," & cFuncoes.PersistirTexto(dados.ClientSecret) & "," & cFuncoes.PersistirTexto(dados.CertPath) & "," & cFuncoes.PersistirTexto(dados.CertPass) & ")"
+
+            retorno = acessoBanco.ExecutarCID(comandoSQL)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Incluir Pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        IncluirPixConfig = retorno
 
     End Function
 

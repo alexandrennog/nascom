@@ -17,6 +17,7 @@ Imports System.IO
 Imports System.Threading
 Imports System
 Imports System.Linq
+Imports CLPix.Services
 
 
 Public Class fPagamento
@@ -881,6 +882,10 @@ Public Class fPagamento
         End If
 
     End Sub
+    Private Sub Configuracao_Pix()
+        Dim formPixConfig As New fConfigPix
+        formPixConfig.ShowDialog()
+    End Sub
 
     Private Sub txtCliente_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtCliente.KeyDown
         If e.KeyCode = Keys.F1 Then
@@ -995,6 +1000,8 @@ Public Class fPagamento
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
+            picQRCode.Tag = pagamentos
+
 
         Catch ex As Exception
 
@@ -1142,7 +1149,7 @@ Public Class fPagamento
         If btnPix.Text = "Cobrar" Then
             Cadastrar()
             btnPix.Text = "Consultar"
-            txtTxId.Tag = 1
+
         Else
             If txtTxId.Text.Length <> 36 Then
                 txtTxId.Text = "Consulte Novamente..."
@@ -1152,6 +1159,14 @@ Public Class fPagamento
     End Sub
 
     Private Sub fPagamento_HandleDestroyed(sender As Object, e As EventArgs) Handles Me.HandleDestroyed
+
+    End Sub
+
+    Private Sub Label20_Click(sender As Object, e As EventArgs) Handles Label20.Click
+
+    End Sub
+
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
 
     End Sub
 End Class

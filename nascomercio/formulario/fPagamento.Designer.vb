@@ -1,27 +1,27 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class fPagamento
-   Inherits System.Windows.Forms.Form
+    Inherits System.Windows.Forms.Form
 
-   'Form overrides dispose to clean up the component list.
-   <System.Diagnostics.DebuggerNonUserCode()> _
-   Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-      Try
-         If disposing AndAlso components IsNot Nothing Then
-            components.Dispose()
-         End If
-      Finally
-         MyBase.Dispose(disposing)
-      End Try
-   End Sub
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
 
-   'Required by the Windows Form Designer
-   Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-   'NOTE: The following procedure is required by the Windows Form Designer
-   'It can be modified using the Windows Form Designer.  
-   'Do not modify it using the code editor.
-   <System.Diagnostics.DebuggerStepThrough()> _
-   Private Sub InitializeComponent()
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fPagamento))
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -72,6 +72,7 @@ Partial Class fPagamento
         Me.Label47 = New System.Windows.Forms.Label()
         Me.panelPIX = New System.Windows.Forms.Panel()
         Me.btnPix = New System.Windows.Forms.Button()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.txtStatus = New System.Windows.Forms.TextBox()
         Me.Label35 = New System.Windows.Forms.Label()
         Me.txtTxId = New System.Windows.Forms.TextBox()
@@ -98,7 +99,6 @@ Partial Class fPagamento
         Me.btoSair = New System.Windows.Forms.Button()
         Me.panelLista = New System.Windows.Forms.Panel()
         Me.lstFita = New System.Windows.Forms.ListBox()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Label36 = New System.Windows.Forms.Label()
         Me.Label37 = New System.Windows.Forms.Label()
         Me.Label38 = New System.Windows.Forms.Label()
@@ -533,7 +533,7 @@ Partial Class fPagamento
         Me.Label20.AutoSize = True
         Me.Label20.BackColor = System.Drawing.Color.Transparent
         Me.Label20.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(535, 77)
+        Me.Label20.Location = New System.Drawing.Point(540, 76)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(154, 16)
         Me.Label20.TabIndex = 162
@@ -564,6 +564,7 @@ Partial Class fPagamento
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel1.Controls.Add(Me.txtPix)
+        Me.Panel1.Controls.Add(Me.Label20)
         Me.Panel1.Controls.Add(Me.Label47)
         Me.Panel1.Controls.Add(Me.panelPIX)
         Me.Panel1.Controls.Add(Me.chkPIX)
@@ -653,7 +654,7 @@ Partial Class fPagamento
         Me.panelPIX.Controls.Add(Me.Label33)
         Me.panelPIX.Location = New System.Drawing.Point(365, 143)
         Me.panelPIX.Name = "panelPIX"
-        Me.panelPIX.Size = New System.Drawing.Size(475, 393)
+        Me.panelPIX.Size = New System.Drawing.Size(475, 411)
         Me.panelPIX.TabIndex = 322
         Me.panelPIX.Visible = False
         '
@@ -675,6 +676,16 @@ Partial Class fPagamento
         Me.btnPix.Text = "Cobrar <Enter>"
         Me.btnPix.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btnPix.UseVisualStyleBackColor = False
+        '
+        'TextBox3
+        '
+        Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.TextBox3.Location = New System.Drawing.Point(154, 135)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.ReadOnly = True
+        Me.TextBox3.Size = New System.Drawing.Size(184, 13)
+        Me.TextBox3.TabIndex = 3
+        Me.TextBox3.TabStop = False
         '
         'txtStatus
         '
@@ -976,16 +987,6 @@ Partial Class fPagamento
         Me.lstFita.TabIndex = 315
         Me.lstFita.TabStop = False
         '
-        'TextBox3
-        '
-        Me.TextBox3.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBox3.Location = New System.Drawing.Point(154, 135)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.ReadOnly = True
-        Me.TextBox3.Size = New System.Drawing.Size(184, 13)
-        Me.TextBox3.TabIndex = 3
-        Me.TextBox3.TabStop = False
-        '
         'Label36
         '
         Me.Label36.AutoSize = True
@@ -1126,7 +1127,6 @@ Partial Class fPagamento
         Me.CancelButton = Me.btoSair
         Me.ClientSize = New System.Drawing.Size(905, 680)
         Me.Controls.Add(Me.imgLogo)
-        Me.Controls.Add(Me.Label20)
         Me.Controls.Add(Me.btoCliente)
         Me.Controls.Add(Me.txtCliente)
         Me.Controls.Add(Me.Label2)
@@ -1158,35 +1158,35 @@ Partial Class fPagamento
 
     End Sub
     Friend WithEvents lblTitulo As System.Windows.Forms.Label
-  Friend WithEvents Label3 As System.Windows.Forms.Label
-  Friend WithEvents Label5 As System.Windows.Forms.Label
-  Friend WithEvents Label7 As System.Windows.Forms.Label
-  Friend WithEvents lblEmissao As System.Windows.Forms.Label
-  Friend WithEvents lblFalta As System.Windows.Forms.Label
-  Friend WithEvents Label13 As System.Windows.Forms.Label
-  Friend WithEvents lblTotal As System.Windows.Forms.Label
-  Friend WithEvents Label17 As System.Windows.Forms.Label
-  Friend WithEvents Label19 As System.Windows.Forms.Label
-  Friend WithEvents Label21 As System.Windows.Forms.Label
-  Friend WithEvents Label23 As System.Windows.Forms.Label
-  Friend WithEvents btoSair As System.Windows.Forms.Button
-  Friend WithEvents txtDesconto As System.Windows.Forms.TextBox
-  Friend WithEvents txtParcelas As System.Windows.Forms.TextBox
-  Friend WithEvents lblVendedor As System.Windows.Forms.Label
-  Friend WithEvents Label1 As System.Windows.Forms.Label
-  Friend WithEvents lblControle As System.Windows.Forms.Label
-  Friend WithEvents Label2 As System.Windows.Forms.Label
-  Friend WithEvents txtDinheiro As System.Windows.Forms.TextBox
-  Friend WithEvents txtCheque As System.Windows.Forms.TextBox
-  Friend WithEvents Label4 As System.Windows.Forms.Label
-  Friend WithEvents txtCartaoDebito As System.Windows.Forms.TextBox
-  Friend WithEvents Label6 As System.Windows.Forms.Label
-  Friend WithEvents txtChequePre As System.Windows.Forms.TextBox
-  Friend WithEvents Label8 As System.Windows.Forms.Label
-  Friend WithEvents txtCartaoCredito As System.Windows.Forms.TextBox
-  Friend WithEvents Label10 As System.Windows.Forms.Label
-  Friend WithEvents txtCrediario As System.Windows.Forms.TextBox
-  Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents lblEmissao As System.Windows.Forms.Label
+    Friend WithEvents lblFalta As System.Windows.Forms.Label
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents lblTotal As System.Windows.Forms.Label
+    Friend WithEvents Label17 As System.Windows.Forms.Label
+    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents Label21 As System.Windows.Forms.Label
+    Friend WithEvents Label23 As System.Windows.Forms.Label
+    Friend WithEvents btoSair As System.Windows.Forms.Button
+    Friend WithEvents txtDesconto As System.Windows.Forms.TextBox
+    Friend WithEvents txtParcelas As System.Windows.Forms.TextBox
+    Friend WithEvents lblVendedor As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lblControle As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents txtDinheiro As System.Windows.Forms.TextBox
+    Friend WithEvents txtCheque As System.Windows.Forms.TextBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents txtCartaoDebito As System.Windows.Forms.TextBox
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents txtChequePre As System.Windows.Forms.TextBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents txtCartaoCredito As System.Windows.Forms.TextBox
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents txtCrediario As System.Windows.Forms.TextBox
+    Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents cboCondicao As System.Windows.Forms.ComboBox
     Friend WithEvents btoSalvar As System.Windows.Forms.Button
     Friend WithEvents lblTroco As System.Windows.Forms.Label

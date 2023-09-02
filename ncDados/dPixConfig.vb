@@ -5,6 +5,11 @@
     Private _cnpj As String
     Private _nome As String
     Private _chave As String
+    Private _appKey As String
+    Private _ClientID As String
+    Private _ClientSecret As String
+    Private _certPath As String
+    Private _certPass As String
 
 
     Public Property Cliente() As Integer
@@ -42,13 +47,55 @@
             _nome = value
         End Set
     End Property
-
+    Public Property AppKey() As String
+        Get
+            Return _appKey
+        End Get
+        Set(ByVal value As String)
+            _appKey = value
+        End Set
+    End Property
     Public Property Chave() As String
         Get
             Return _chave
         End Get
         Set(ByVal value As String)
             _chave = value
+        End Set
+    End Property
+
+    Public Property ClientID() As String
+        Get
+            Return _ClientID
+        End Get
+        Set(ByVal value As String)
+            _ClientID = value
+        End Set
+    End Property
+    Public Property ClientSecret() As String
+        Get
+            Return _ClientSecret
+        End Get
+        Set(ByVal value As String)
+            _ClientSecret = value
+        End Set
+    End Property
+
+    Public Property CertPath() As String
+        Get
+            Return _certPath
+        End Get
+        Set(ByVal value As String)
+            _certPath = value
+        End Set
+    End Property
+
+    Public Property CertPass() As String
+        Get
+            Return _certPass
+        End Get
+        Set(ByVal value As String)
+            _certPass = value
         End Set
     End Property
 
