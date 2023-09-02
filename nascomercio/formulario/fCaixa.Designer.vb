@@ -22,9 +22,9 @@ Partial Class fCaixa
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fCaixa))
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.dtgProdutos = New System.Windows.Forms.DataGridView()
@@ -113,31 +113,31 @@ Partial Class fCaixa
         Me.dtgProdutos.AllowUserToAddRows = False
         Me.dtgProdutos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dtgProdutos.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle13.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle13
         Me.dtgProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dtgProdutos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colReferencia, Me.colValorUnitario, Me.colQuantidade, Me.colValorTotal})
         Me.dtgProdutos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
         Me.dtgProdutos.Location = New System.Drawing.Point(21, 233)
-        Me.dtgProdutos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.dtgProdutos.Margin = New System.Windows.Forms.Padding(4)
         Me.dtgProdutos.Name = "dtgProdutos"
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle14.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle14
         Me.dtgProdutos.RowHeadersWidth = 51
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle15.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle15
         Me.dtgProdutos.Size = New System.Drawing.Size(1163, 348)
         Me.dtgProdutos.TabIndex = 8
         '
@@ -327,7 +327,7 @@ Partial Class fCaixa
         Me.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCodigo.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCodigo.Location = New System.Drawing.Point(21, 191)
-        Me.txtCodigo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCodigo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCodigo.MaxLength = 20
         Me.txtCodigo.Name = "txtCodigo"
         Me.txtCodigo.Size = New System.Drawing.Size(392, 35)
@@ -337,7 +337,7 @@ Partial Class fCaixa
         '
         Me.txtCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCliente.Location = New System.Drawing.Point(137, 124)
-        Me.txtCliente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCliente.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCliente.Name = "txtCliente"
         Me.txtCliente.ReadOnly = True
         Me.txtCliente.Size = New System.Drawing.Size(389, 30)
@@ -382,7 +382,7 @@ Partial Class fCaixa
         '
         Me.txtDesconto.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDesconto.Location = New System.Drawing.Point(493, 634)
-        Me.txtDesconto.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtDesconto.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDesconto.Name = "txtDesconto"
         Me.txtDesconto.Size = New System.Drawing.Size(185, 30)
         Me.txtDesconto.TabIndex = 6
@@ -394,7 +394,7 @@ Partial Class fCaixa
         Me.cboCondicao.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboCondicao.FormattingEnabled = True
         Me.cboCondicao.Location = New System.Drawing.Point(493, 593)
-        Me.cboCondicao.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboCondicao.Margin = New System.Windows.Forms.Padding(4)
         Me.cboCondicao.Name = "cboCondicao"
         Me.cboCondicao.Size = New System.Drawing.Size(185, 32)
         Me.cboCondicao.TabIndex = 5
@@ -404,7 +404,7 @@ Partial Class fCaixa
         Me.txtParcelas.Enabled = False
         Me.txtParcelas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtParcelas.Location = New System.Drawing.Point(493, 673)
-        Me.txtParcelas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtParcelas.Margin = New System.Windows.Forms.Padding(4)
         Me.txtParcelas.Name = "txtParcelas"
         Me.txtParcelas.Size = New System.Drawing.Size(185, 30)
         Me.txtParcelas.TabIndex = 7
@@ -483,7 +483,7 @@ Partial Class fCaixa
         '
         Me.txtControle.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtControle.Location = New System.Drawing.Point(137, 85)
-        Me.txtControle.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtControle.Margin = New System.Windows.Forms.Padding(4)
         Me.txtControle.MaxLength = 8
         Me.txtControle.Name = "txtControle"
         Me.txtControle.Size = New System.Drawing.Size(197, 30)
@@ -613,7 +613,7 @@ Partial Class fCaixa
         Me.txtQuantidade.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtQuantidade.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtQuantidade.Location = New System.Drawing.Point(427, 191)
-        Me.txtQuantidade.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtQuantidade.Margin = New System.Windows.Forms.Padding(4)
         Me.txtQuantidade.MaxLength = 20
         Me.txtQuantidade.Name = "txtQuantidade"
         Me.txtQuantidade.Size = New System.Drawing.Size(64, 35)
@@ -657,9 +657,9 @@ Partial Class fCaixa
         Me.Panel1.Controls.Add(Me.lblLoja)
         Me.Panel1.Controls.Add(Me.Label7)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1199, 807)
+        Me.Panel1.Size = New System.Drawing.Size(1198, 815)
         Me.Panel1.TabIndex = 179
         '
         'lblAbrirFechar
@@ -684,7 +684,7 @@ Partial Class fCaixa
         Me.Button3.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button3.ForeColor = System.Drawing.Color.White
         Me.Button3.Location = New System.Drawing.Point(987, 770)
-        Me.Button3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(4)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(33, 31)
         Me.Button3.TabIndex = 185
@@ -725,7 +725,7 @@ Partial Class fCaixa
         Me.btnOS.Image = Global.nascomercio.My.Resources.Resources.cliente_financeiro
         Me.btnOS.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btnOS.Location = New System.Drawing.Point(1068, 90)
-        Me.btnOS.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnOS.Margin = New System.Windows.Forms.Padding(4)
         Me.btnOS.Name = "btnOS"
         Me.btnOS.Size = New System.Drawing.Size(115, 90)
         Me.btnOS.TabIndex = 182
@@ -739,7 +739,7 @@ Partial Class fCaixa
         Me.cboVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboVendedor.FormattingEnabled = True
         Me.cboVendedor.Location = New System.Drawing.Point(932, 191)
-        Me.cboVendedor.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboVendedor.Margin = New System.Windows.Forms.Padding(4)
         Me.cboVendedor.Name = "cboVendedor"
         Me.cboVendedor.Size = New System.Drawing.Size(249, 32)
         Me.cboVendedor.TabIndex = 3
@@ -754,7 +754,7 @@ Partial Class fCaixa
         Me.Button6.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button6.ForeColor = System.Drawing.Color.White
         Me.Button6.Location = New System.Drawing.Point(725, 770)
-        Me.Button6.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button6.Margin = New System.Windows.Forms.Padding(4)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(33, 31)
         Me.Button6.TabIndex = 177
@@ -783,7 +783,7 @@ Partial Class fCaixa
         Me.Button7.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button7.ForeColor = System.Drawing.Color.White
         Me.Button7.Location = New System.Drawing.Point(871, 770)
-        Me.Button7.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button7.Margin = New System.Windows.Forms.Padding(4)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(33, 31)
         Me.Button7.TabIndex = 180
@@ -812,7 +812,7 @@ Partial Class fCaixa
         Me.Button4.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button4.ForeColor = System.Drawing.Color.White
         Me.Button4.Location = New System.Drawing.Point(15, 770)
-        Me.Button4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button4.Margin = New System.Windows.Forms.Padding(4)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(33, 31)
         Me.Button4.TabIndex = 169
@@ -830,7 +830,7 @@ Partial Class fCaixa
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoSalvar.Location = New System.Drawing.Point(452, 711)
-        Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSalvar.Name = "btoSalvar"
         Me.btoSalvar.Size = New System.Drawing.Size(265, 90)
         Me.btoSalvar.TabIndex = 9
@@ -849,7 +849,7 @@ Partial Class fCaixa
         Me.Button1.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.Color.White
         Me.Button1.Location = New System.Drawing.Point(157, 770)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(33, 31)
         Me.Button1.TabIndex = 161
@@ -866,7 +866,7 @@ Partial Class fCaixa
         Me.Button2.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.ForeColor = System.Drawing.Color.White
         Me.Button2.Location = New System.Drawing.Point(283, 770)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(4)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(33, 31)
         Me.Button2.TabIndex = 163
@@ -884,7 +884,7 @@ Partial Class fCaixa
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoSair.Location = New System.Drawing.Point(1068, 4)
-        Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(115, 84)
         Me.btoSair.TabIndex = 10
@@ -902,7 +902,7 @@ Partial Class fCaixa
         Me.Button5.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button5.ForeColor = System.Drawing.Color.White
         Me.Button5.Location = New System.Drawing.Point(536, 122)
-        Me.Button5.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button5.Margin = New System.Windows.Forms.Padding(4)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(33, 31)
         Me.Button5.TabIndex = 173
@@ -914,7 +914,7 @@ Partial Class fCaixa
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
         Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.caixa
         Me.imgLogo.Location = New System.Drawing.Point(16, 15)
-        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(67, 62)
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -931,7 +931,7 @@ Partial Class fCaixa
         Me.btoIncluirItem.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btoIncluirItem.ForeColor = System.Drawing.Color.White
         Me.btoIncluirItem.Location = New System.Drawing.Point(501, 191)
-        Me.btoIncluirItem.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoIncluirItem.Margin = New System.Windows.Forms.Padding(4)
         Me.btoIncluirItem.Name = "btoIncluirItem"
         Me.btoIncluirItem.Size = New System.Drawing.Size(33, 31)
         Me.btoIncluirItem.TabIndex = 159
@@ -942,8 +942,9 @@ Partial Class fCaixa
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSize = True
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1200, 807)
+        Me.ClientSize = New System.Drawing.Size(1200, 817)
         Me.Controls.Add(Me.txtQuantidade)
         Me.Controls.Add(Me.txtControle)
         Me.Controls.Add(Me.txtCliente)
@@ -973,8 +974,9 @@ Partial Class fCaixa
         Me.Controls.Add(Me.lblTitulo)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "fCaixa"
+        Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "fCaixa"
         CType(Me.dtgProdutos, System.ComponentModel.ISupportInitialize).EndInit()
