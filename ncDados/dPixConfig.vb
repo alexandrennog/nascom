@@ -1,5 +1,6 @@
 ﻿Public Class dPixConfig
 
+    Private _banco As String
     Private _cliente As Integer
     Private _cpf As String
     Private _cnpj As String
@@ -11,6 +12,14 @@
     Private _certPath As String
     Private _certPass As String
 
+    Public Property Banco() As String
+        Get
+            Return _banco
+        End Get
+        Set(ByVal value As String)
+            _banco = value
+        End Set
+    End Property
 
     Public Property Cliente() As Integer
         Get

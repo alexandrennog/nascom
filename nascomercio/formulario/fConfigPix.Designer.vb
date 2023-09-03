@@ -42,6 +42,9 @@ Partial Class fConfigPix
         Me.Label3 = New System.Windows.Forms.Label()
         Me.btoSalvar = New System.Windows.Forms.Button()
         Me.btoSair = New System.Windows.Forms.Button()
+        Me.cboBancos = New System.Windows.Forms.ComboBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -50,7 +53,7 @@ Partial Class fConfigPix
         Me.lblSituacao.AutoSize = True
         Me.lblSituacao.BackColor = System.Drawing.Color.Transparent
         Me.lblSituacao.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.lblSituacao.Location = New System.Drawing.Point(24, 44)
+        Me.lblSituacao.Location = New System.Drawing.Point(23, 122)
         Me.lblSituacao.Name = "lblSituacao"
         Me.lblSituacao.Size = New System.Drawing.Size(48, 18)
         Me.lblSituacao.TabIndex = 127
@@ -60,7 +63,7 @@ Partial Class fConfigPix
         '
         Me.txtCpf.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCpf.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCpf.Location = New System.Drawing.Point(100, 9)
+        Me.txtCpf.Location = New System.Drawing.Point(99, 87)
         Me.txtCpf.MaxLength = 100
         Me.txtCpf.Name = "txtCpf"
         Me.txtCpf.Size = New System.Drawing.Size(177, 18)
@@ -71,7 +74,7 @@ Partial Class fConfigPix
         Me.lblNome.AutoSize = True
         Me.lblNome.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.lblNome.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.lblNome.Location = New System.Drawing.Point(24, 9)
+        Me.lblNome.Location = New System.Drawing.Point(23, 87)
         Me.lblNome.Name = "lblNome"
         Me.lblNome.Size = New System.Drawing.Size(38, 18)
         Me.lblNome.TabIndex = 128
@@ -81,7 +84,7 @@ Partial Class fConfigPix
         '
         Me.txtCnpj.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCnpj.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCnpj.Location = New System.Drawing.Point(100, 44)
+        Me.txtCnpj.Location = New System.Drawing.Point(99, 122)
         Me.txtCnpj.MaxLength = 100
         Me.txtCnpj.Name = "txtCnpj"
         Me.txtCnpj.Size = New System.Drawing.Size(200, 18)
@@ -91,7 +94,7 @@ Partial Class fConfigPix
         '
         Me.txtNome.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNome.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtNome.Location = New System.Drawing.Point(100, 79)
+        Me.txtNome.Location = New System.Drawing.Point(99, 157)
         Me.txtNome.MaxLength = 100
         Me.txtNome.Name = "txtNome"
         Me.txtNome.Size = New System.Drawing.Size(253, 18)
@@ -102,7 +105,7 @@ Partial Class fConfigPix
         Me.Label2.AutoSize = True
         Me.Label2.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Label2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label2.Location = New System.Drawing.Point(24, 79)
+        Me.Label2.Location = New System.Drawing.Point(23, 157)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(49, 18)
         Me.Label2.TabIndex = 132
@@ -112,7 +115,7 @@ Partial Class fConfigPix
         '
         Me.txtSecret.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtSecret.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSecret.Location = New System.Drawing.Point(100, 182)
+        Me.txtSecret.Location = New System.Drawing.Point(99, 260)
         Me.txtSecret.MaxLength = 100
         Me.txtSecret.Name = "txtSecret"
         Me.txtSecret.Size = New System.Drawing.Size(253, 18)
@@ -123,17 +126,17 @@ Partial Class fConfigPix
         Me.Label4.AutoSize = True
         Me.Label4.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Label4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label4.Location = New System.Drawing.Point(24, 182)
+        Me.Label4.Location = New System.Drawing.Point(19, 260)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(55, 18)
+        Me.Label4.Size = New System.Drawing.Size(74, 18)
         Me.Label4.TabIndex = 140
-        Me.Label4.Text = "Secret"
+        Me.Label4.Text = "Secret ID"
         '
         'txtClientID
         '
         Me.txtClientID.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtClientID.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtClientID.Location = New System.Drawing.Point(100, 147)
+        Me.txtClientID.Location = New System.Drawing.Point(99, 225)
         Me.txtClientID.MaxLength = 100
         Me.txtClientID.Name = "txtClientID"
         Me.txtClientID.Size = New System.Drawing.Size(253, 18)
@@ -144,7 +147,7 @@ Partial Class fConfigPix
         Me.Label5.AutoSize = True
         Me.Label5.BackColor = System.Drawing.Color.Transparent
         Me.Label5.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label5.Location = New System.Drawing.Point(24, 147)
+        Me.Label5.Location = New System.Drawing.Point(23, 225)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(69, 18)
         Me.Label5.TabIndex = 135
@@ -154,7 +157,7 @@ Partial Class fConfigPix
         '
         Me.txtAppKey.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtAppKey.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAppKey.Location = New System.Drawing.Point(100, 112)
+        Me.txtAppKey.Location = New System.Drawing.Point(99, 190)
         Me.txtAppKey.MaxLength = 100
         Me.txtAppKey.Name = "txtAppKey"
         Me.txtAppKey.Size = New System.Drawing.Size(253, 18)
@@ -165,7 +168,7 @@ Partial Class fConfigPix
         Me.Label6.AutoSize = True
         Me.Label6.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.Label6.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label6.Location = New System.Drawing.Point(24, 112)
+        Me.Label6.Location = New System.Drawing.Point(23, 190)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(66, 18)
         Me.Label6.TabIndex = 136
@@ -179,7 +182,7 @@ Partial Class fConfigPix
         Me.Panel1.Controls.Add(Me.Label7)
         Me.Panel1.Controls.Add(Me.txtCertPath)
         Me.Panel1.Controls.Add(Me.Label3)
-        Me.Panel1.Location = New System.Drawing.Point(27, 217)
+        Me.Panel1.Location = New System.Drawing.Point(26, 295)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(411, 132)
         Me.Panel1.TabIndex = 144
@@ -202,6 +205,7 @@ Partial Class fConfigPix
         Me.txtCertPass.Location = New System.Drawing.Point(99, 90)
         Me.txtCertPass.MaxLength = 100
         Me.txtCertPass.Name = "txtCertPass"
+        Me.txtCertPass.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtCertPass.Size = New System.Drawing.Size(191, 18)
         Me.txtCertPass.TabIndex = 147
         '
@@ -231,11 +235,11 @@ Partial Class fConfigPix
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.Transparent
         Me.Label3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label3.Location = New System.Drawing.Point(34, 55)
+        Me.Label3.Location = New System.Drawing.Point(23, 55)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(47, 18)
+        Me.Label3.Size = New System.Drawing.Size(70, 18)
         Me.Label3.TabIndex = 144
-        Me.Label3.Text = "Pasta"
+        Me.Label3.Text = "Caminho"
         '
         'btoSalvar
         '
@@ -247,7 +251,7 @@ Partial Class fConfigPix
         Me.btoSalvar.ForeColor = System.Drawing.Color.Black
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(390, 25)
+        Me.btoSalvar.Location = New System.Drawing.Point(389, 103)
         Me.btoSalvar.Name = "btoSalvar"
         Me.btoSalvar.Size = New System.Drawing.Size(92, 72)
         Me.btoSalvar.TabIndex = 145
@@ -267,7 +271,7 @@ Partial Class fConfigPix
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(390, 112)
+        Me.btoSair.Location = New System.Drawing.Point(389, 190)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(88, 72)
         Me.btoSair.TabIndex = 146
@@ -275,12 +279,47 @@ Partial Class fConfigPix
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSair.UseVisualStyleBackColor = False
         '
+        'cboBancos
+        '
+        Me.cboBancos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBancos.FormattingEnabled = True
+        Me.cboBancos.Items.AddRange(New Object() {"Santander", "BB", "Itau", "Sicoob"})
+        Me.cboBancos.Location = New System.Drawing.Point(99, 52)
+        Me.cboBancos.Name = "cboBancos"
+        Me.cboBancos.Size = New System.Drawing.Size(177, 21)
+        Me.cboBancos.TabIndex = 147
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Label8.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label8.Location = New System.Drawing.Point(23, 52)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(53, 18)
+        Me.Label8.TabIndex = 148
+        Me.Label8.Text = "Banco"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.FlatStyle = System.Windows.Forms.FlatStyle.System
+        Me.Label9.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(96, 9)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(172, 22)
+        Me.Label9.TabIndex = 149
+        Me.Label9.Text = "Configuração PIX"
+        '
         'fConfigPix
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(503, 385)
+        Me.ClientSize = New System.Drawing.Size(505, 453)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.cboBancos)
         Me.Controls.Add(Me.btoSair)
         Me.Controls.Add(Me.btoSalvar)
         Me.Controls.Add(Me.Panel1)
@@ -326,4 +365,7 @@ Partial Class fConfigPix
     Friend WithEvents Label1 As Label
     Friend WithEvents btoSalvar As Button
     Friend WithEvents btoSair As Button
+    Friend WithEvents cboBancos As ComboBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Label9 As Label
 End Class
