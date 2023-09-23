@@ -28,38 +28,44 @@ Public Class fConfigPix
     Private Function Validar() As Boolean
         Try
 
-            If String.IsNullOrEmpty(txtCpf.Text.Trim()) & String.IsNullOrEmpty(txtCnpj.Text.Trim()) Then
+
+            If cboBancos.SelectedIndex = -1 Then
+                MessageBox.Show("É necessário informar um banco!")
+                Return False
+            End If
+
+            If String.IsNullOrEmpty(txtCpf.Text) And String.IsNullOrEmpty(txtCnpj.Text) Then
                 MessageBox.Show("É necessário informar o CPF ou o CNPJ!")
                 Return False
             End If
 
 
-            If String.IsNullOrEmpty(txtNome.Text.Trim()) Then
+            If String.IsNullOrEmpty(txtNome.Text) Then
                 MessageBox.Show("É necessário informar o Nome!")
                 Return False
             End If
 
-            If String.IsNullOrEmpty(txtAppKey.Text.Trim()) Then
+            If String.IsNullOrEmpty(txtAppKey.Text) Then
                 MessageBox.Show("É necessário informar o App Key!")
                 Return False
             End If
 
-            If String.IsNullOrEmpty(txtClientID.Text.Trim()) Then
+            If String.IsNullOrEmpty(txtClientID.Text) Then
                 MessageBox.Show("É necessário informar o Client ID!")
                 Return False
             End If
 
-            If String.IsNullOrEmpty(txtSecret.Text.Trim()) Then
+            If String.IsNullOrEmpty(txtSecret.Text) Then
                 MessageBox.Show("É necessário informar a Secret!")
                 Return False
             End If
 
-            If String.IsNullOrEmpty(txtCertPath.Text.Trim()) Then
+            If String.IsNullOrEmpty(txtCertPath.Text) Then
                 MessageBox.Show("É necessário informar o Caminho do certificado!")
                 Return False
             End If
 
-            If String.IsNullOrEmpty(txtCertPass.Text.Trim()) Then
+            If String.IsNullOrEmpty(txtCertPass.Text) Then
                 MessageBox.Show("É necessário informar a senha do certificado!")
                 Return False
             End If
@@ -90,6 +96,7 @@ Public Class fConfigPix
                 regras = New rPix
                 dados = New dPixConfig
 
+                dados.Banco = cboBancos.Text
                 dados.Cliente = 0
                 dados.Cpf = txtCpf.Text
                 dados.Cnpj = txtCnpj.Text
@@ -105,9 +112,10 @@ Public Class fConfigPix
                     If IsNothing(regras.fConsultarConfig()) Then
                         novoCID = regras.fIncluirConfig(dados)
                     Else
-                        MessageBox.Show("Cor já cadastrada.")
+                        novoCID = regras.fAlterarConfig(dados)
                     End If
-
+                    MessageBox.Show("Configuração cadastrada!")
+                    Me.Close()
 
                 End If
 

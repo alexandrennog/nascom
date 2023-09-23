@@ -169,7 +169,7 @@ Public Class pPix
         Try
 
             acessoBanco = New cAcessoBD
-            sqlSelect = " SELECT Cliente, Cpf, Cnpj, Nome, Chave, Appkey, Client_id, client_secret, PathCertificate, PassCertificate"
+            sqlSelect = " SELECT Banco, Cliente, Cpf, Cnpj, Nome, Chave, Client_id, client_secret, PathCertificate, PassCertificate"
             sqlWhere = String.Empty
             sqlFrom = "  FROM pixconfig "
 
@@ -184,12 +184,12 @@ Public Class pPix
 
                         For Each row In dt.Rows
                             item = New dPixConfig
+                            item.Banco = cFuncoes.RetornarTexto(row("Banco"))
                             item.Cliente = cFuncoes.RetornarTexto(row("Cliente"))
                             item.Cpf = cFuncoes.RetornarTexto(row("Cpf"))
                             item.Cnpj = cFuncoes.RetornarTexto(row("Cnpj"))
                             item.Nome = cFuncoes.RetornarTexto(row("Nome"))
                             item.Chave = cFuncoes.RetornarTexto(row("Chave"))
-                            item.AppKey = cFuncoes.RetornarTexto(row("Appkey"))
                             item.ClientID = cFuncoes.RetornarTexto(row("Client_id"))
                             item.ClientSecret = cFuncoes.RetornarTexto(row("client_secret"))
                             item.CertPath = cFuncoes.RetornarTexto(row("PathCertificate"))
@@ -284,8 +284,8 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            comandoSQL = " INSERT INTO pixconfig (Cliente, Cpf, Cnpj, Nome, chave, Appkey, Client_id, client_secret, PathCertificate, PassCertificate)  VALUES ("
-            comandoSQL += cFuncoes.PersistirInteiro(dados.Cliente) & "," & cFuncoes.PersistirTexto(dados.Cpf) & "," & cFuncoes.PersistirTexto(dados.Cnpj) & "," & cFuncoes.PersistirTexto(dados.Nome) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.ClientID) & "," & cFuncoes.PersistirTexto(dados.ClientSecret) & "," & cFuncoes.PersistirTexto(dados.CertPath) & "," & cFuncoes.PersistirTexto(dados.CertPass) & ")"
+            comandoSQL = " INSERT INTO pixconfig (Banco, Cliente, Cpf, Cnpj, Nome, chave, Client_id, client_secret, PathCertificate, PassCertificate)  VALUES ("
+            comandoSQL += cFuncoes.PersistirTexto(dados.Banco) & "," & cFuncoes.PersistirInteiro(dados.Cliente) & "," & cFuncoes.PersistirTexto(dados.Cpf) & "," & cFuncoes.PersistirTexto(dados.Cnpj) & "," & cFuncoes.PersistirTexto(dados.Nome) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.ClientID) & "," & cFuncoes.PersistirTexto(dados.ClientSecret) & "," & cFuncoes.PersistirTexto(dados.CertPath) & "," & cFuncoes.PersistirTexto(dados.CertPass) & ")"
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
 
@@ -300,4 +300,38 @@ Public Class pPix
 
     End Function
 
+
+    Public Function AlterarPixConfig(ByVal dados As dPixConfig) As Integer
+
+        Dim retorno As Integer
+        Dim acessoBanco As cAcessoBD
+        Dim comandoSQL As String
+
+        Try
+
+            acessoBanco = New cAcessoBD
+
+            comandoSQL = " UPDATE pixconfig SET " &
+                " Banco = " & cFuncoes.PersistirTexto(dados.Banco) & "," &
+                " Cpf = " & cFuncoes.PersistirTexto(dados.Cpf) & "," &
+                " Cnpj = " & cFuncoes.PersistirTexto(dados.Cnpj) & "," &
+                " Nome = " & cFuncoes.PersistirTexto(dados.Nome) & "," &
+                " chave = " & cFuncoes.PersistirTexto(dados.Chave) & "," &
+                " Client_id = " & cFuncoes.PersistirData(dados.ClientID) & "," &
+                " client_secret = " & cFuncoes.PersistirTexto(dados.ClientSecret) & "," &
+                " PathCertificate = " & cFuncoes.PersistirTexto(dados.CertPath) & "," &
+                " PassCertificate = " & cFuncoes.PersistirTexto(dados.CertPass)
+
+            retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Alterar Configuração pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        AlterarPixConfig = retorno
+
+    End Function
 End Class
