@@ -300,4 +300,38 @@ Public Class pPix
 
     End Function
 
+
+    Public Function AlterarPixConfig(ByVal dados As dPixConfig) As Integer
+
+        Dim retorno As Integer
+        Dim acessoBanco As cAcessoBD
+        Dim comandoSQL As String
+
+        Try
+
+            acessoBanco = New cAcessoBD
+
+            comandoSQL = " UPDATE pixconfig SET " &
+                " Banco = " & cFuncoes.PersistirTexto(dados.Banco) & "," &
+                " Cpf = " & cFuncoes.PersistirTexto(dados.Cpf) & "," &
+                " Cnpj = " & cFuncoes.PersistirTexto(dados.Cnpj) & "," &
+                " Nome = " & cFuncoes.PersistirTexto(dados.Nome) & "," &
+                " chave = " & cFuncoes.PersistirTexto(dados.Chave) & "," &
+                " Client_id = " & cFuncoes.PersistirData(dados.ClientID) & "," &
+                " client_secret = " & cFuncoes.PersistirTexto(dados.ClientSecret) & "," &
+                " PathCertificate = " & cFuncoes.PersistirTexto(dados.CertPath) & "," &
+                " PassCertificate = " & cFuncoes.PersistirTexto(dados.CertPass)
+
+            retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Alterar Configuração pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        AlterarPixConfig = retorno
+
+    End Function
 End Class

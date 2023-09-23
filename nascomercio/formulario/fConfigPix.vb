@@ -111,12 +111,11 @@ Public Class fConfigPix
                 If tipoAcao.Equals("i") Then
                     If IsNothing(regras.fConsultarConfig()) Then
                         novoCID = regras.fIncluirConfig(dados)
-                        MessageBox.Show("Configuração cadastrada!")
-                        Me.Close()
                     Else
-                        MessageBox.Show("Configuração já cadastrada.")
+                        novoCID = regras.fAlterarConfig(dados)
                     End If
-
+                    MessageBox.Show("Configuração cadastrada!")
+                    Me.Close()
 
                 End If
 
