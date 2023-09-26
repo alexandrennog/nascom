@@ -79,7 +79,7 @@ Public Class rPix
 
     End Function
 
-    Public Function fConsultar() As dPix
+    Public Function fConsultar(tx As String) As dPix
 
         Dim retorno As dPix
         Dim persistencia As pPix
@@ -90,7 +90,7 @@ Public Class rPix
             retorno = New dPix
 
             persistencia = New pPix
-            retornoPersistencia = persistencia.Consultar()
+            retornoPersistencia = persistencia.Consultar(tx)
             retorno = retornoPersistencia
 
         Catch ex As Exception
@@ -152,13 +152,13 @@ Public Class rPix
 
     End Function
 
-    Public Function Consultar() As dPix
+    Public Function Consultar(tx As String) As dPix
 
         Dim retorno As dPix
 
         Try
 
-            retorno = fConsultar()
+            retorno = fConsultar(tx)
 
         Catch ex As Exception
 

@@ -170,9 +170,9 @@ Partial Class fConfigPix
         Me.Label6.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.Label6.Location = New System.Drawing.Point(23, 190)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(66, 18)
+        Me.Label6.Size = New System.Drawing.Size(54, 18)
         Me.Label6.TabIndex = 136
-        Me.Label6.Text = "App Key"
+        Me.Label6.Text = "Chave"
         '
         'Panel1
         '

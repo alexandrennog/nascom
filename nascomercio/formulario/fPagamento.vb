@@ -88,7 +88,7 @@ Public Class fPagamento
         calculaRecebido()
         formataCampos()
         If HabilitarPix() Then
-            RecuperarDadosPix()
+            'RecuperarDadosPix()
             chkPIX.Enabled = True
         Else
             chkPIX.Enabled = False
@@ -953,36 +953,72 @@ Public Class fPagamento
     Private Sub Label34_Click(sender As Object, e As EventArgs)
 
     End Sub
-    Private Sub Consultar()
+    Private Sub Consultar(tx As String)
         Dim regras As New rPix
         Dim pix As dPix
-        pix = regras.Consultar()
+
+
+        pix = regras.Consultar(tx)
 
         If IsNothing(pix) Then
             Exit Sub
         End If
 
-        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
-        Dim filename As String = BuscarImagem(folder, pix)
-        If String.IsNullOrEmpty(filename) Then
-            Exit Sub
+
+        txtValorPIX.Text = pix.Original
+        If pix.Status = Nothing Then
+            txtStatus.Text = "Cobrar"
+            pix.Status = "NOVA"
+        Else
+            txtStatus.Text = pix.Status
         End If
 
         txtTxId.Text = pix.TxId
+        picQRCode.Image = Nothing
+        btnPix.Image = Nothing
+        btnPix.Text = ""
 
+        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
+        Dim filename As String = BuscarImagem(folder, pix)
+        If String.IsNullOrEmpty(filename) And folder = "" Then
+            Exit Sub
+        End If
+
+
+
+        btnPix.Image = nascomercio.My.Resources.Resources.cobrar
         Select Case pix.Status
+            Case "NOVA"
+                txtStatus.Text = ""
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
             Case "ATIVA"
                 txtStatus.Text = "Criada"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
+                picQRCode.Image = ResizeImage(Image.FromFile(filename))
             Case "CONCLUIDA"
                 txtStatus.Text = "Pago"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = ""
+                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
             Case "REMOVIDA_PELO_USUARIO_RECEBEDOR"
                 txtStatus.Text = "Removida User"
+                btnPix.Text = ""
             Case "REMOVIDA_PELO_PSP"
                 txtStatus.Text = "Removida PSP"
+                btnPix.Text = ""
+            Case "EXPIRADA"
+                txtStatus.Text = "Expirada"
+                btnPix.Text = ""
+
         End Select
 
-        txtObs.Text = pix.Observacao + " Controle:" + Me.lblControle.Text + "  " + pix.DataHora
-        picQRCode.Image = ResizeImage(Image.FromFile(filename))
+        txtObs.Text = String.Format($"{pix.Observacao} Controle:  {Me.lblControle.Text} {pix.DataHora}")
+
+        txtUrlPix.Text = pix.UrlPix
+
+
 
     End Sub
     Private Sub Cadastrar()
@@ -1085,16 +1121,12 @@ Public Class fPagamento
         End If
 
         Dim files() As String = IO.Directory.GetFiles(folder, filter)
-        Dim nomeFile As String
-
-        If pix.Status = "CONCLUIDA" Then
-            BuscarImagem = folder + "\pago.png"
-            Exit Function
-        End If
+        Dim nomeFile As String = String.Empty
 
         For Each sFile As String In files
             If sFile.Contains(pix.TxId) Then
                 nomeFile = sFile
+                Exit For
             End If
         Next
 
@@ -1146,15 +1178,30 @@ Public Class fPagamento
     End Sub
 
     Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
+
         If btnPix.Text = "Cobrar" Then
             Cadastrar()
             btnPix.Text = "Consultar"
+            btnPix.Image = nascomercio.My.Resources.Resources.consultar
+
+        ElseIf btnPix.Text = "Nova Cobrança" Then
+            Cadastrar()
+            btnPix.Text = "Cobrar"
+            btnPix.Image = nascomercio.My.Resources.Resources.cobrar
+
+            txtPix.Text = ""
+            txtValorPIX.Text = ""
+            txtObs.Text = ""
+            txtTxId.Text = ""
+            txtStatus.Text = ""
+            txtUrlPix.Text = ""
+            picQRCode.Image = Nothing
 
         Else
             If txtTxId.Text.Length <> 36 Then
                 txtTxId.Text = "Consulte Novamente..."
             End If
-            Consultar()
+            Consultar("")
         End If
     End Sub
 
@@ -1168,5 +1215,126 @@ Public Class fPagamento
 
     Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
 
+    End Sub
+
+    Private Sub btnCopiar_Click(sender As Object, e As EventArgs) Handles btnCopiar.Click
+        Clipboard.SetText(txtUrlPix.Text)
+    End Sub
+
+    Private Sub picQRCode_Click(sender As Object, e As EventArgs) Handles picQRCode.Click
+
+    End Sub
+
+    Private Sub panelPIX_Paint(sender As Object, e As PaintEventArgs) Handles panelPIX.Paint
+
+    End Sub
+
+    Private Sub Label24_Click(sender As Object, e As EventArgs)
+
+    End Sub
+    Private Sub LimparControles()
+        txtValorPIX.Text = ""
+        txtStatus.Text = ""
+        txtTxId.Text = ""
+        txtObs.Text = ""
+        txtUrlPix.Text = ""
+    End Sub
+    Private Sub btnListar_Click(sender As Object, e As EventArgs) Handles btnListar.Click
+
+        PanelListPix.Visible = True
+        panelPIX.Visible = False
+        panelLista.Visible = False
+
+        Dim regras As rPix
+        regras = New rPix
+        Dim dados As New dPix
+        Dim _dados As New dPix
+        Dim colecaoPIX As List(Of dPix) = New List(Of dPix)
+        Dim li As ListViewItem
+
+        Try
+
+            LimparControles()
+            Dim otherItems As String() = {"TX", "Valor", "Status"}
+            Me.lstPix.View = View.Details
+            Me.lstPix.GridLines = True
+            Me.lstPix.FullRowSelect = True
+            Me.lstPix.Columns.Clear()
+            Me.lstPix.Items.Clear()
+
+            Me.lstPix.Columns.Add("TX").Width = 220
+            Me.lstPix.Columns.Add("Valor").Width = 60
+            Me.lstPix.Columns.Add("Status").Width = 200
+
+
+            colecaoPIX = regras.Consultar(dados)
+
+            If colecaoPIX Is Nothing Then
+                MessageBox.Show("Não há ítens na lista.")
+                Exit Sub
+            End If
+
+            For Each item As dPix In colecaoPIX
+                li = New ListViewItem
+                li.Text = item.TxId
+                li.SubItems.Add(item.Original)
+                li.SubItems.Add(item.Status)
+                Me.lstPix.Items.Add(li)
+            Next
+
+        Catch ex As Exception
+
+            Throw New ExcecaoNascomercio("Erro em recuperar dados do pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+
+
+
+
+
+
+    End Sub
+
+    Private Sub lstPix_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstPix.SelectedIndexChanged
+
+
+    End Sub
+
+    Private Sub lstPix_DoubleClick(sender As Object, e As EventArgs) Handles lstPix.DoubleClick
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+        Dim haSelecionado As Boolean = False
+
+        haSelecionado = Me.lstPix.SelectedItems.Count > 0
+
+        Dim tx As String
+
+        If haSelecionado = True Then
+            tx = Me.lstPix.SelectedItems.Item(0).Text
+            Consultar(tx)
+        Else
+            Consultar("")
+        End If
+
+
+
+
+    End Sub
+
+    Private Sub btnFechar_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnOut_Click(sender As Object, e As EventArgs)
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+        panelLista.Visible = False
+    End Sub
+
+    Private Sub btnSair_Click(sender As Object, e As EventArgs) Handles btnSair.Click
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+        panelLista.Visible = False
     End Sub
 End Class

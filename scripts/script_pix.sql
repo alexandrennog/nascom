@@ -6,6 +6,7 @@ CREATE TABLE  `nascomercio`.`pixconfig` (
   `Cnpj` varchar(15) DEFAULT NULL,
   `Nome` varchar(80) DEFAULT NULL,
   `chave` varchar(40) DEFAULT NULL,
+  `UrlPix` varchar(255) DEFAULT NULL
   `Client_id` varchar(134) DEFAULT NULL,
   `client_secret` varchar(234) DEFAULT NULL,
   `PathCertificate` varchar(255) DEFAULT NULL,

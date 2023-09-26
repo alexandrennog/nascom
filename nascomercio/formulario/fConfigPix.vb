@@ -55,10 +55,6 @@ Public Class fConfigPix
                 Return False
             End If
 
-            If String.IsNullOrEmpty(txtSecret.Text) Then
-                MessageBox.Show("É necessário informar a Secret!")
-                Return False
-            End If
 
             If String.IsNullOrEmpty(txtCertPath.Text) Then
                 MessageBox.Show("É necessário informar o Caminho do certificado!")
@@ -82,6 +78,7 @@ Public Class fConfigPix
         Dim tipoMsg As String = String.Empty
         Dim tipoAcao As String = String.Empty
         Dim novoCID As Integer
+        Dim strPath As String = String.Empty
 
         Try
 
@@ -105,6 +102,11 @@ Public Class fConfigPix
                 dados.AppKey = txtAppKey.Text
                 dados.ClientID = txtClientID.Text
                 dados.ClientSecret = txtSecret.Text
+                If txtCertPath.Text.ToString().IndexOf("\\") = -1 Then
+                    strPath = txtCertPath.Text
+                    strPath = strPath.Replace("\", "\\")
+                    txtCertPath.Text = strPath
+                End If
                 dados.CertPath = txtCertPath.Text
                 dados.CertPass = txtCertPass.Text
 

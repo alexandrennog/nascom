@@ -26,10 +26,10 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select txID, Observacao, SolicitacaoPagador as pagador, Original, controle "
+            sqlSelect = " Select txID, Observacao, SolicitacaoPagador as pagador, Original, controle, Status "
 
-            sqlWhere = String.Empty
             sqlFrom = " From PIX "
+            sqlWhere = String.Empty
 
             '-- TxId
             If dados.TxId <> 0 Then
@@ -45,6 +45,8 @@ Public Class pPix
             If Not sqlWhere.Equals(String.Empty) Then
                 sqlWhere = " WHERE " & sqlWhere
             End If
+
+            sqlWhere = sqlWhere + " order by DataHora desc "
 
             ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
 
@@ -66,6 +68,7 @@ Public Class pPix
                             item.Pagador = cFuncoes.RetornarTexto(row("pagador"))
                             item.Original = cFuncoes.RetornarDecimal(row("Original"))
                             item.Controle = cFuncoes.RetornarInteiro(row("controle"))
+                            item.Status = cFuncoes.RetornarTexto(row("Status"))
                             retorno.Add(item)
                         Next
                     Else
@@ -90,7 +93,7 @@ Public Class pPix
     End Function
 
 
-    Public Function Consultar() As dPix
+    Public Function Consultar(tx As String) As dPix
 
         Dim retorno As dPix
         Dim acessoBanco As cAcessoBD
@@ -99,16 +102,20 @@ Public Class pPix
         Dim row As DataRow
         Dim item As dPix
         Dim sqlSelect As String
-        Dim sqlWhere As String
+        Dim sqlWhere As String = ""
         Dim sqlFrom As String
 
         Try
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status, Observacao, DataHora, controle   "
+            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status, Observacao, DataHora, controle, UrlPix   "
 
-            sqlWhere = " order by DataHora desc LIMIT 1;"
+            If String.IsNullOrEmpty(tx) = False Then
+                sqlWhere = $" WHERE txID = '{tx}'"
+            End If
+
+            sqlWhere = sqlWhere + " order by DataHora desc LIMIT 1;"
             sqlFrom = " From PIX "
 
             ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
@@ -130,6 +137,7 @@ Public Class pPix
                             item.DataHora = cFuncoes.RetornarData(row("DataHora"))
                             item.Observacao = cFuncoes.RetornarTexto(row("Observacao"))
                             item.Controle = cFuncoes.RetornarInteiro(row("controle"))
+                            item.UrlPix = cFuncoes.RetornarTexto(row("UrlPix"))
                             retorno = item
                         Next
                     Else

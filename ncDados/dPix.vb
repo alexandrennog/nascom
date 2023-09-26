@@ -12,6 +12,7 @@
     Private _status As String
     Private _dataHora As DateTime
     Private _controle As Integer
+    Private _urlPix As String
 
 
     Public Property ID() As String
@@ -108,6 +109,14 @@
         End Get
         Set(ByVal value As String)
             _dataHora = value
+        End Set
+    End Property
+    Public Property UrlPix() As String
+        Get
+            Return _urlPix
+        End Get
+        Set(ByVal value As String)
+            _urlPix = value
         End Set
     End Property
     Public Property Controle() As Integer
