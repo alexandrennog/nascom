@@ -69,12 +69,6 @@ Partial Class fPagamento
         Me.lblLoja = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.txtPix = New System.Windows.Forms.TextBox()
-        Me.Label47 = New System.Windows.Forms.Label()
-        Me.chkPIX = New System.Windows.Forms.CheckBox()
-        Me.Label22 = New System.Windows.Forms.Label()
-        Me.lblVale = New System.Windows.Forms.Label()
-        Me.btoSalvar = New System.Windows.Forms.Button()
-        Me.btoSair = New System.Windows.Forms.Button()
         Me.panelPIX = New System.Windows.Forms.Panel()
         Me.btnListar = New System.Windows.Forms.Button()
         Me.txtUrlPix = New System.Windows.Forms.TextBox()
@@ -99,6 +93,12 @@ Partial Class fPagamento
         Me.Label32 = New System.Windows.Forms.Label()
         Me.Label33 = New System.Windows.Forms.Label()
         Me.btnCopiar = New System.Windows.Forms.Button()
+        Me.Label47 = New System.Windows.Forms.Label()
+        Me.chkPIX = New System.Windows.Forms.CheckBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.lblVale = New System.Windows.Forms.Label()
+        Me.btoSalvar = New System.Windows.Forms.Button()
+        Me.btoSair = New System.Windows.Forms.Button()
         Me.PanelListPix = New System.Windows.Forms.Panel()
         Me.btnSair = New System.Windows.Forms.Button()
         Me.lstPix = New System.Windows.Forms.ListView()
@@ -115,6 +115,7 @@ Partial Class fPagamento
         Me.Label43 = New System.Windows.Forms.Label()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoCliente = New System.Windows.Forms.Button()
+        Me.Label24 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.panelPIX.SuspendLayout()
         CType(Me.picQRCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -625,86 +626,6 @@ Partial Class fPagamento
         Me.txtPix.TabIndex = 2
         Me.txtPix.Text = "0,00"
         '
-        'Label47
-        '
-        Me.Label47.AutoSize = True
-        Me.Label47.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label47.Location = New System.Drawing.Point(86, 179)
-        Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(66, 19)
-        Me.Label47.TabIndex = 324
-        Me.Label47.Text = "PIX: R$"
-        '
-        'chkPIX
-        '
-        Me.chkPIX.AutoSize = True
-        Me.chkPIX.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkPIX.Location = New System.Drawing.Point(302, 179)
-        Me.chkPIX.Name = "chkPIX"
-        Me.chkPIX.Size = New System.Drawing.Size(45, 19)
-        Me.chkPIX.TabIndex = 174
-        Me.chkPIX.Text = "PIX"
-        Me.chkPIX.UseVisualStyleBackColor = True
-        '
-        'Label22
-        '
-        Me.Label22.AutoSize = True
-        Me.Label22.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(569, 647)
-        Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(73, 19)
-        Me.Label22.TabIndex = 121
-        Me.Label22.Text = "Vale: R$"
-        '
-        'lblVale
-        '
-        Me.lblVale.AutoSize = True
-        Me.lblVale.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVale.ForeColor = System.Drawing.Color.Blue
-        Me.lblVale.Location = New System.Drawing.Point(649, 647)
-        Me.lblVale.Name = "lblVale"
-        Me.lblVale.Size = New System.Drawing.Size(81, 19)
-        Me.lblVale.TabIndex = 122
-        Me.lblVale.Text = "11.000,00"
-        '
-        'btoSalvar
-        '
-        Me.btoSalvar.BackColor = System.Drawing.Color.Transparent
-        Me.btoSalvar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btoSalvar.FlatAppearance.BorderSize = 0
-        Me.btoSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btoSalvar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btoSalvar.ForeColor = System.Drawing.Color.Black
-        Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
-        Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(741, 560)
-        Me.btoSalvar.Name = "btoSalvar"
-        Me.btoSalvar.Size = New System.Drawing.Size(144, 72)
-        Me.btoSalvar.TabIndex = 13
-        Me.btoSalvar.TabStop = False
-        Me.btoSalvar.Text = "Finalizar Venda <Enter>"
-        Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btoSalvar.UseVisualStyleBackColor = False
-        '
-        'btoSair
-        '
-        Me.btoSair.BackColor = System.Drawing.Color.Transparent
-        Me.btoSair.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btoSair.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btoSair.FlatAppearance.BorderSize = 0
-        Me.btoSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btoSair.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btoSair.ForeColor = System.Drawing.Color.Black
-        Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
-        Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(812, 11)
-        Me.btoSair.Name = "btoSair"
-        Me.btoSair.Size = New System.Drawing.Size(88, 72)
-        Me.btoSair.TabIndex = 14
-        Me.btoSair.Text = "Fechar <Esc>"
-        Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btoSair.UseVisualStyleBackColor = False
-        '
         'panelPIX
         '
         Me.panelPIX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -1003,9 +924,90 @@ Partial Class fPagamento
         Me.btnCopiar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btnCopiar.UseVisualStyleBackColor = False
         '
+        'Label47
+        '
+        Me.Label47.AutoSize = True
+        Me.Label47.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label47.Location = New System.Drawing.Point(86, 179)
+        Me.Label47.Name = "Label47"
+        Me.Label47.Size = New System.Drawing.Size(66, 19)
+        Me.Label47.TabIndex = 324
+        Me.Label47.Text = "PIX: R$"
+        '
+        'chkPIX
+        '
+        Me.chkPIX.AutoSize = True
+        Me.chkPIX.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkPIX.Location = New System.Drawing.Point(302, 179)
+        Me.chkPIX.Name = "chkPIX"
+        Me.chkPIX.Size = New System.Drawing.Size(45, 19)
+        Me.chkPIX.TabIndex = 174
+        Me.chkPIX.Text = "PIX"
+        Me.chkPIX.UseVisualStyleBackColor = True
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label22.Location = New System.Drawing.Point(569, 647)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(73, 19)
+        Me.Label22.TabIndex = 121
+        Me.Label22.Text = "Vale: R$"
+        '
+        'lblVale
+        '
+        Me.lblVale.AutoSize = True
+        Me.lblVale.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVale.ForeColor = System.Drawing.Color.Blue
+        Me.lblVale.Location = New System.Drawing.Point(649, 647)
+        Me.lblVale.Name = "lblVale"
+        Me.lblVale.Size = New System.Drawing.Size(81, 19)
+        Me.lblVale.TabIndex = 122
+        Me.lblVale.Text = "11.000,00"
+        '
+        'btoSalvar
+        '
+        Me.btoSalvar.BackColor = System.Drawing.Color.Transparent
+        Me.btoSalvar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoSalvar.FlatAppearance.BorderSize = 0
+        Me.btoSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoSalvar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoSalvar.ForeColor = System.Drawing.Color.Black
+        Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
+        Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoSalvar.Location = New System.Drawing.Point(741, 560)
+        Me.btoSalvar.Name = "btoSalvar"
+        Me.btoSalvar.Size = New System.Drawing.Size(144, 72)
+        Me.btoSalvar.TabIndex = 13
+        Me.btoSalvar.TabStop = False
+        Me.btoSalvar.Text = "Finalizar Venda <Enter>"
+        Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoSalvar.UseVisualStyleBackColor = False
+        '
+        'btoSair
+        '
+        Me.btoSair.BackColor = System.Drawing.Color.Transparent
+        Me.btoSair.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoSair.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btoSair.FlatAppearance.BorderSize = 0
+        Me.btoSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoSair.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoSair.ForeColor = System.Drawing.Color.Black
+        Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
+        Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoSair.Location = New System.Drawing.Point(812, 11)
+        Me.btoSair.Name = "btoSair"
+        Me.btoSair.Size = New System.Drawing.Size(88, 72)
+        Me.btoSair.TabIndex = 14
+        Me.btoSair.Text = "Fechar <Esc>"
+        Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoSair.UseVisualStyleBackColor = False
+        '
         'PanelListPix
         '
         Me.PanelListPix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PanelListPix.Controls.Add(Me.Label24)
         Me.PanelListPix.Controls.Add(Me.btnSair)
         Me.PanelListPix.Controls.Add(Me.lstPix)
         Me.PanelListPix.Location = New System.Drawing.Point(365, 143)
@@ -1024,7 +1026,7 @@ Partial Class fPagamento
         Me.btnSair.ForeColor = System.Drawing.Color.Black
         Me.btnSair.Image = Global.nascomercio.My.Resources.Resources.sair
         Me.btnSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnSair.Location = New System.Drawing.Point(420, 306)
+        Me.btnSair.Location = New System.Drawing.Point(420, 338)
         Me.btnSair.Name = "btnSair"
         Me.btnSair.Size = New System.Drawing.Size(88, 60)
         Me.btnSair.TabIndex = 342
@@ -1037,7 +1039,7 @@ Partial Class fPagamento
         Me.lstPix.HideSelection = False
         Me.lstPix.Location = New System.Drawing.Point(13, 31)
         Me.lstPix.Name = "lstPix"
-        Me.lstPix.Size = New System.Drawing.Size(509, 251)
+        Me.lstPix.Size = New System.Drawing.Size(495, 301)
         Me.lstPix.TabIndex = 211
         Me.lstPix.UseCompatibleStateImageBehavior = False
         '
@@ -1200,6 +1202,16 @@ Partial Class fPagamento
         Me.btoCliente.TabStop = False
         Me.btoCliente.UseVisualStyleBackColor = False
         '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label24.Location = New System.Drawing.Point(17, 6)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(133, 19)
+        Me.Label24.TabIndex = 343
+        Me.Label24.Text = "Cobranças PIX :"
+        '
         'fPagamento
         '
         Me.AcceptButton = Me.btoSalvar
@@ -1233,6 +1245,7 @@ Partial Class fPagamento
         Me.panelPIX.PerformLayout()
         CType(Me.picQRCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelListPix.ResumeLayout(False)
+        Me.PanelListPix.PerformLayout()
         Me.panelLista.ResumeLayout(False)
         Me.panelLista.PerformLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1332,4 +1345,5 @@ Partial Class fPagamento
     Friend WithEvents lstPix As ListView
     Friend WithEvents btnListar As Button
     Friend WithEvents btnSair As Button
+    Friend WithEvents Label24 As Label
 End Class

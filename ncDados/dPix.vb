@@ -103,11 +103,11 @@
             _status = value
         End Set
     End Property
-    Public Property DataHora() As String
+    Public Property DataHora() As DateTime
         Get
             Return _dataHora
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As DateTime)
             _dataHora = value
         End Set
     End Property

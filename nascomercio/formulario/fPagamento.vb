@@ -966,6 +966,8 @@ Public Class fPagamento
 
 
         txtValorPIX.Text = pix.Original
+        txtPix.Text = pix.Original
+
         If pix.Status = Nothing Then
             txtStatus.Text = "Cobrar"
             pix.Status = "NOVA"
@@ -1096,6 +1098,10 @@ Public Class fPagamento
             panelPIX.Visible = False
         End If
 
+        txtStatus.Text = ""
+        txtTxId.Text = ""
+        txtObs.Text = ""
+        txtUrlPix.Text = ""
 
     End Sub
 
@@ -1255,7 +1261,6 @@ Public Class fPagamento
         Try
 
             LimparControles()
-            Dim otherItems As String() = {"TX", "Valor", "Status"}
             Me.lstPix.View = View.Details
             Me.lstPix.GridLines = True
             Me.lstPix.FullRowSelect = True
@@ -1264,8 +1269,8 @@ Public Class fPagamento
 
             Me.lstPix.Columns.Add("TX").Width = 220
             Me.lstPix.Columns.Add("Valor").Width = 60
-            Me.lstPix.Columns.Add("Status").Width = 200
-
+            Me.lstPix.Columns.Add("Data").Width = 100
+            Me.lstPix.Columns.Add("Status").Width = 100
 
             colecaoPIX = regras.Consultar(dados)
 
@@ -1278,6 +1283,11 @@ Public Class fPagamento
                 li = New ListViewItem
                 li.Text = item.TxId
                 li.SubItems.Add(item.Original)
+                li.SubItems.Add(item.DataHora.ToString("dd/MM/yy HH:mm"))
+                If item.Status = "CONCLUIDA" Then
+                    item.Status = "PAGO"
+                End If
+
                 li.SubItems.Add(item.Status)
                 Me.lstPix.Items.Add(li)
             Next

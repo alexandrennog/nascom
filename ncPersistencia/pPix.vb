@@ -26,7 +26,7 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select txID, Observacao, SolicitacaoPagador as pagador, Original, controle, Status "
+            sqlSelect = " Select txID, Observacao, SolicitacaoPagador as pagador, DataHora, Original, controle, Status "
 
             sqlFrom = " From PIX "
             sqlWhere = String.Empty
@@ -69,6 +69,7 @@ Public Class pPix
                             item.Original = cFuncoes.RetornarDecimal(row("Original"))
                             item.Controle = cFuncoes.RetornarInteiro(row("controle"))
                             item.Status = cFuncoes.RetornarTexto(row("Status"))
+                            item.DataHora = cFuncoes.RetornarData(row("DataHora"))
                             retorno.Add(item)
                         Next
                     Else
@@ -247,7 +248,7 @@ Public Class pPix
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
 
-            comandoSQL = " SELECT controle FROM pix where ID = (select MAX(ID) from pix);"
+            comandoSQL = " SELECT controle FROM pix where datahora = (select MAX(datahora) from pix);"
             ds = acessoBanco.ExecutarDS(comandoSQL)
 
             If Not ds Is Nothing Then
