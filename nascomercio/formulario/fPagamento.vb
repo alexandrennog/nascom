@@ -1186,9 +1186,16 @@ Public Class fPagamento
     Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
 
         If btnPix.Text = "Cobrar" Then
-            Cadastrar()
-            btnPix.Text = "Consultar"
-            btnPix.Image = nascomercio.My.Resources.Resources.consultar
+
+            If txtPix.Text = "0,00" Or txtPix.Text = "0" Then
+                MessageBox.Show("É preciso informar um valor para a cobrança")
+                txtPix.Select()
+            Else
+                Cadastrar()
+                btnPix.Text = "Consultar"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+            End If
+
 
         ElseIf btnPix.Text = "Nova Cobrança" Then
             Cadastrar()

@@ -164,6 +164,12 @@
     <Compile Include="formulario\fConfigPix.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="formulario\fPix.Designer.vb">
+      <DependentUpon>fPix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="formulario\fPix.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="formulario\fVeiculoLista.Designer.vb">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>
     </Compile>
@@ -870,6 +876,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="formulario\fConfigPix.resx">
       <DependentUpon>fConfigPix.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formulario\fPix.resx">
+      <DependentUpon>fPix.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="formulario\fVeiculoLista.resx">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>

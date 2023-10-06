@@ -664,7 +664,24 @@ Public Class fCrediarioPagamento
         End If
 
     End Sub
+    Private Sub valorParcelasSelecioadas()
+        'lblTotal.Text = 0.ToString("N")
 
+        'For Each linha As DataGridViewRow In dgvCrediario.Rows
+
+        '    If linha.DataGridView.  = True Then
+        '        chk.Value = chk.FalseValue
+        '    Else
+        '        chk.Value = chk.TrueValue
+        '    End If
+
+        '    If linha.Cells("selecao").Value = True Then
+        '        lblTotal.Text = (CDec(lblTotal.Text) + CDec(linha.Cells(5).Value)).ToString("N")
+        '    End If
+        'Next
+
+        'txtDinheiro_Leave(Nothing, Nothing)
+    End Sub
 
     Private Sub valorParcelas()
         lblTotal.Text = 0.ToString("N")
@@ -690,7 +707,7 @@ Public Class fCrediarioPagamento
         End If
     End Sub
 
-    Private Sub dgvCrediario_CellValueChanged(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvCrediario.CellValueChanged
+    Private Sub dgvCrediario_CellValueChanged(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvCrediario.CellValueChanged, dgvCrediario.CellClick
         If dgvCrediario.Columns(e.ColumnIndex).Name = "selecao" Then
             valorParcelas()
         End If
@@ -698,5 +715,9 @@ Public Class fCrediarioPagamento
 
     Private Sub btoIncluirCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoIncluirCliente.Click
         ConsultarCliente()
+    End Sub
+
+    Private Sub dgvCrediario_Click(sender As Object, e As EventArgs) Handles dgvCrediario.Click
+        'valorParcelasSelecioadas()
     End Sub
 End Class

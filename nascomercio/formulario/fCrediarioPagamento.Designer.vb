@@ -23,48 +23,48 @@ Partial Class fCrediarioPagamento
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fCrediarioPagamento))
-        Me.lblCliCadastro = New System.Windows.Forms.Label
-        Me.txtControle = New System.Windows.Forms.TextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.btoSalvar = New System.Windows.Forms.Button
-        Me.imgCliLogo = New System.Windows.Forms.PictureBox
-        Me.btoSair = New System.Windows.Forms.Button
-        Me.txtLimite = New System.Windows.Forms.TextBox
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.txtDisponivel = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.dgvCrediario = New System.Windows.Forms.DataGridView
-        Me.selecao = New System.Windows.Forms.DataGridViewCheckBoxColumn
-        Me.Codigo = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.DataEmissao = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.Vencimento = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.ValorParcela = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.valorreceber = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.valorpago = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.DiasAtrazo = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.lblVendedor = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.txtCodigo = New System.Windows.Forms.TextBox
-        Me.txtDinheiro = New System.Windows.Forms.TextBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.lblTroco = New System.Windows.Forms.Label
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.lblRecebido = New System.Windows.Forms.Label
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.lblTotal = New System.Windows.Forms.Label
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.lblFalta = New System.Windows.Forms.Label
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.btoEtiqueta = New System.Windows.Forms.Button
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.btoIncluirCliente = New System.Windows.Forms.Button
-        Me.txtCliente = New System.Windows.Forms.TextBox
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Panel1 = New System.Windows.Forms.Panel
-        CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblCliCadastro = New System.Windows.Forms.Label()
+        Me.txtControle = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtLimite = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.txtDisponivel = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.dgvCrediario = New System.Windows.Forms.DataGridView()
+        Me.selecao = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.Codigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataEmissao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Vencimento = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ValorParcela = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.valorreceber = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.valorpago = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DiasAtrazo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lblVendedor = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.txtCodigo = New System.Windows.Forms.TextBox()
+        Me.txtDinheiro = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.lblTroco = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.lblRecebido = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.lblTotal = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.lblFalta = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.txtCliente = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btoIncluirCliente = New System.Windows.Forms.Button()
+        Me.btoEtiqueta = New System.Windows.Forms.Button()
+        Me.imgCliLogo = New System.Windows.Forms.PictureBox()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.btoSalvar = New System.Windows.Forms.Button()
         CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblCliCadastro
@@ -101,55 +101,6 @@ Partial Class fCrediarioPagamento
         Me.Label3.Size = New System.Drawing.Size(70, 18)
         Me.Label3.TabIndex = 176
         Me.Label3.Text = "Controle"
-        '
-        'btoSalvar
-        '
-        Me.btoSalvar.BackColor = System.Drawing.Color.Transparent
-        Me.btoSalvar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btoSalvar.FlatAppearance.BorderSize = 0
-        Me.btoSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btoSalvar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btoSalvar.ForeColor = System.Drawing.Color.Black
-        Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
-        Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(348, 600)
-        Me.btoSalvar.Name = "btoSalvar"
-        Me.btoSalvar.Size = New System.Drawing.Size(116, 72)
-        Me.btoSalvar.TabIndex = 6
-        Me.btoSalvar.Text = "Confirmar <Enter>"
-        Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btoSalvar.UseVisualStyleBackColor = False
-        '
-        'imgCliLogo
-        '
-        Me.imgCliLogo.BackColor = System.Drawing.Color.Transparent
-        Me.imgCliLogo.Image = Global.nascomercio.My.Resources.Resources.pagamento
-        Me.imgCliLogo.Location = New System.Drawing.Point(8, 8)
-        Me.imgCliLogo.Name = "imgCliLogo"
-        Me.imgCliLogo.Size = New System.Drawing.Size(50, 50)
-        Me.imgCliLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.imgCliLogo.TabIndex = 211
-        Me.imgCliLogo.TabStop = False
-        '
-        'btoSair
-        '
-        Me.btoSair.BackColor = System.Drawing.Color.Transparent
-        Me.btoSair.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btoSair.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btoSair.FlatAppearance.BorderSize = 0
-        Me.btoSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btoSair.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btoSair.ForeColor = System.Drawing.Color.Black
-        Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
-        Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(700, 8)
-        Me.btoSair.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.btoSair.Name = "btoSair"
-        Me.btoSair.Size = New System.Drawing.Size(96, 72)
-        Me.btoSair.TabIndex = 8
-        Me.btoSair.Text = "Fechar <Esc>"
-        Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btoSair.UseVisualStyleBackColor = False
         '
         'txtLimite
         '
@@ -209,6 +160,7 @@ Partial Class fCrediarioPagamento
         Me.dgvCrediario.Name = "dgvCrediario"
         Me.dgvCrediario.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
         Me.dgvCrediario.RowHeadersVisible = False
+        Me.dgvCrediario.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgvCrediario.Size = New System.Drawing.Size(810, 245)
         Me.dgvCrediario.TabIndex = 5
         '
@@ -247,14 +199,14 @@ Partial Class fCrediarioPagamento
         Me.ValorParcela.FillWeight = 80.0!
         Me.ValorParcela.HeaderText = "Valor Parcela"
         Me.ValorParcela.Name = "ValorParcela"
-        Me.ValorParcela.Width = 115
+        Me.ValorParcela.Width = 114
         '
         'valorreceber
         '
         Me.valorreceber.FillWeight = 80.0!
         Me.valorreceber.HeaderText = "Valor a Receber"
         Me.valorreceber.Name = "valorreceber"
-        Me.valorreceber.Width = 133
+        Me.valorreceber.Width = 132
         '
         'valorpago
         '
@@ -413,26 +365,6 @@ Partial Class fCrediarioPagamento
         Me.Label13.TabIndex = 307
         Me.Label13.Text = "Falta: R$"
         '
-        'btoEtiqueta
-        '
-        Me.btoEtiqueta.BackColor = System.Drawing.Color.Transparent
-        Me.btoEtiqueta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btoEtiqueta.FlatAppearance.BorderSize = 0
-        Me.btoEtiqueta.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btoEtiqueta.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btoEtiqueta.ForeColor = System.Drawing.Color.Black
-        Me.btoEtiqueta.Image = Global.nascomercio.My.Resources.Resources.print_design
-        Me.btoEtiqueta.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoEtiqueta.Location = New System.Drawing.Point(700, 84)
-        Me.btoEtiqueta.Margin = New System.Windows.Forms.Padding(0)
-        Me.btoEtiqueta.Name = "btoEtiqueta"
-        Me.btoEtiqueta.Size = New System.Drawing.Size(96, 72)
-        Me.btoEtiqueta.TabIndex = 315
-        Me.btoEtiqueta.TabStop = False
-        Me.btoEtiqueta.Text = "Etiquetas <F7>"
-        Me.btoEtiqueta.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btoEtiqueta.UseVisualStyleBackColor = False
-        '
         'Label20
         '
         Me.Label20.AutoSize = True
@@ -443,22 +375,6 @@ Partial Class fCrediarioPagamento
         Me.Label20.Size = New System.Drawing.Size(146, 16)
         Me.Label20.TabIndex = 319
         Me.Label20.Text = "Pesquisar Cliente [F1]"
-        '
-        'btoIncluirCliente
-        '
-        Me.btoIncluirCliente.BackColor = System.Drawing.Color.Transparent
-        Me.btoIncluirCliente.BackgroundImage = CType(resources.GetObject("btoIncluirCliente.BackgroundImage"), System.Drawing.Image)
-        Me.btoIncluirCliente.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btoIncluirCliente.FlatAppearance.BorderSize = 0
-        Me.btoIncluirCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btoIncluirCliente.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btoIncluirCliente.ForeColor = System.Drawing.Color.White
-        Me.btoIncluirCliente.Location = New System.Drawing.Point(517, 162)
-        Me.btoIncluirCliente.Name = "btoIncluirCliente"
-        Me.btoIncluirCliente.Size = New System.Drawing.Size(25, 25)
-        Me.btoIncluirCliente.TabIndex = 318
-        Me.btoIncluirCliente.TabStop = False
-        Me.btoIncluirCliente.UseVisualStyleBackColor = False
         '
         'txtCliente
         '
@@ -502,6 +418,91 @@ Partial Class fCrediarioPagamento
         Me.Panel1.Size = New System.Drawing.Size(827, 680)
         Me.Panel1.TabIndex = 320
         '
+        'btoIncluirCliente
+        '
+        Me.btoIncluirCliente.BackColor = System.Drawing.Color.Transparent
+        Me.btoIncluirCliente.BackgroundImage = CType(resources.GetObject("btoIncluirCliente.BackgroundImage"), System.Drawing.Image)
+        Me.btoIncluirCliente.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoIncluirCliente.FlatAppearance.BorderSize = 0
+        Me.btoIncluirCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoIncluirCliente.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoIncluirCliente.ForeColor = System.Drawing.Color.White
+        Me.btoIncluirCliente.Location = New System.Drawing.Point(517, 162)
+        Me.btoIncluirCliente.Name = "btoIncluirCliente"
+        Me.btoIncluirCliente.Size = New System.Drawing.Size(25, 25)
+        Me.btoIncluirCliente.TabIndex = 318
+        Me.btoIncluirCliente.TabStop = False
+        Me.btoIncluirCliente.UseVisualStyleBackColor = False
+        '
+        'btoEtiqueta
+        '
+        Me.btoEtiqueta.BackColor = System.Drawing.Color.Transparent
+        Me.btoEtiqueta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoEtiqueta.FlatAppearance.BorderSize = 0
+        Me.btoEtiqueta.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoEtiqueta.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoEtiqueta.ForeColor = System.Drawing.Color.Black
+        Me.btoEtiqueta.Image = Global.nascomercio.My.Resources.Resources.print_design
+        Me.btoEtiqueta.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoEtiqueta.Location = New System.Drawing.Point(700, 84)
+        Me.btoEtiqueta.Margin = New System.Windows.Forms.Padding(0)
+        Me.btoEtiqueta.Name = "btoEtiqueta"
+        Me.btoEtiqueta.Size = New System.Drawing.Size(96, 72)
+        Me.btoEtiqueta.TabIndex = 315
+        Me.btoEtiqueta.TabStop = False
+        Me.btoEtiqueta.Text = "Etiquetas <F7>"
+        Me.btoEtiqueta.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoEtiqueta.UseVisualStyleBackColor = False
+        '
+        'imgCliLogo
+        '
+        Me.imgCliLogo.BackColor = System.Drawing.Color.Transparent
+        Me.imgCliLogo.Image = Global.nascomercio.My.Resources.Resources.pagamento
+        Me.imgCliLogo.Location = New System.Drawing.Point(8, 8)
+        Me.imgCliLogo.Name = "imgCliLogo"
+        Me.imgCliLogo.Size = New System.Drawing.Size(50, 50)
+        Me.imgCliLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.imgCliLogo.TabIndex = 211
+        Me.imgCliLogo.TabStop = False
+        '
+        'btoSair
+        '
+        Me.btoSair.BackColor = System.Drawing.Color.Transparent
+        Me.btoSair.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoSair.DialogResult = System.Windows.Forms.DialogResult.Cancel
+        Me.btoSair.FlatAppearance.BorderSize = 0
+        Me.btoSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoSair.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoSair.ForeColor = System.Drawing.Color.Black
+        Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
+        Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoSair.Location = New System.Drawing.Point(700, 8)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.btoSair.Name = "btoSair"
+        Me.btoSair.Size = New System.Drawing.Size(96, 72)
+        Me.btoSair.TabIndex = 8
+        Me.btoSair.Text = "Fechar <Esc>"
+        Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoSair.UseVisualStyleBackColor = False
+        '
+        'btoSalvar
+        '
+        Me.btoSalvar.BackColor = System.Drawing.Color.Transparent
+        Me.btoSalvar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoSalvar.FlatAppearance.BorderSize = 0
+        Me.btoSalvar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoSalvar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoSalvar.ForeColor = System.Drawing.Color.Black
+        Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
+        Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoSalvar.Location = New System.Drawing.Point(348, 600)
+        Me.btoSalvar.Name = "btoSalvar"
+        Me.btoSalvar.Size = New System.Drawing.Size(116, 72)
+        Me.btoSalvar.TabIndex = 6
+        Me.btoSalvar.Text = "Confirmar <Enter>"
+        Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoSalvar.UseVisualStyleBackColor = False
+        '
         'fCrediarioPagamento
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
@@ -532,10 +533,10 @@ Partial Class fCrediarioPagamento
         Me.Name = "fCrediarioPagamento"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Clientes - Financeiro"
-        CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
