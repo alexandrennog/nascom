@@ -722,14 +722,12 @@ Public Class fCrediarioPagamento
         'valorParcelasSelecioadas()
     End Sub
 
-    Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
-        ''mdiPrincipal.CarregarPixForm()
+    'Private Sub btnPix_Click(sender As Object, e As EventArgs)
 
-        Dim formPix As fPix
-        formPix = New fPix()
-        formPix.ShowDialog()
 
-    End Sub
+
+
+    'End Sub
 
     Private Sub AbrirTelaModal()
         tela = False
@@ -746,5 +744,21 @@ Public Class fCrediarioPagamento
         End If
 
         tela = True
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+    Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
+        If Me.lblTotal.Text = "0,00" Or Me.lblTotal.Text = "0.00" Then
+            MessageBox.Show("É preciso informar um valor a pagar.", "Pagar com PIX!")
+            Exit Sub
+        End If
+
+        Dim formPix As fPix
+        formPix = New fPix()
+        formPix.txtValorPIX.Text = Me.lblTotal.Text
+        formPix.ShowDialog()
     End Sub
 End Class

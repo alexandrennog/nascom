@@ -57,12 +57,12 @@ Partial Class fCrediarioPagamento
         Me.txtCliente = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnPix = New System.Windows.Forms.Button()
         Me.btoIncluirCliente = New System.Windows.Forms.Button()
         Me.btoEtiqueta = New System.Windows.Forms.Button()
         Me.imgCliLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.btoSalvar = New System.Windows.Forms.Button()
-        Me.btnPix = New System.Windows.Forms.Button()
         CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -420,6 +420,24 @@ Partial Class fCrediarioPagamento
         Me.Panel1.Size = New System.Drawing.Size(827, 680)
         Me.Panel1.TabIndex = 320
         '
+        'btnPix
+        '
+        Me.btnPix.BackColor = System.Drawing.Color.Transparent
+        Me.btnPix.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnPix.FlatAppearance.BorderSize = 0
+        Me.btnPix.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnPix.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPix.ForeColor = System.Drawing.Color.Black
+        Me.btnPix.Image = Global.nascomercio.My.Resources.Resources.pix1
+        Me.btnPix.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnPix.Location = New System.Drawing.Point(268, 599)
+        Me.btnPix.Name = "btnPix"
+        Me.btnPix.Size = New System.Drawing.Size(73, 72)
+        Me.btnPix.TabIndex = 316
+        Me.btnPix.Text = "PIX"
+        Me.btnPix.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnPix.UseVisualStyleBackColor = False
+        '
         'btoIncluirCliente
         '
         Me.btoIncluirCliente.BackColor = System.Drawing.Color.Transparent
@@ -504,15 +522,6 @@ Partial Class fCrediarioPagamento
         Me.btoSalvar.Text = "Confirmar <Enter>"
         Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSalvar.UseVisualStyleBackColor = False
-        '
-        'btnPix
-        '
-        Me.btnPix.Location = New System.Drawing.Point(516, 599)
-        Me.btnPix.Name = "btnPix"
-        Me.btnPix.Size = New System.Drawing.Size(75, 23)
-        Me.btnPix.TabIndex = 315
-        Me.btnPix.Text = "PIX"
-        Me.btnPix.UseVisualStyleBackColor = True
         '
         'fCrediarioPagamento
         '

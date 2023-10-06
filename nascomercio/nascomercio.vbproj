@@ -1366,6 +1366,8 @@
     <None Include="Resources\usuarios.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\pix.bmp" />
+    <Content Include="Resources\pix.png" />
     <None Include="Resources\novo.png" />
     <None Include="Resources\sair.jpg" />
     <None Include="Resources\lista.png" />

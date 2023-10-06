@@ -6,17 +6,10 @@ Imports ncRegras
 
 Public Class fPix
     Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
-        If btnPix.Text = "Cobrar" Then
-
-            If fPagamento.txtPix.Text = "0,00" Or fPagamento.txtPix.Text = "0" Then
-                MessageBox.Show("É preciso informar um valor para a cobrança")
-                fPagamento.Select()
-            Else
-                Cadastrar()
-                btnPix.Text = "Consultar"
-                btnPix.Image = nascomercio.My.Resources.Resources.consultar
-            End If
-
+        If btnPix.Text = "Cobrar <Enter>" Then
+            Cadastrar()
+            btnPix.Text = "Consultar"
+            btnPix.Image = nascomercio.My.Resources.Resources.consultar
 
         ElseIf btnPix.Text = "Nova Cobrança" Then
             Cadastrar()
@@ -31,10 +24,7 @@ Public Class fPix
             picQRCode.Image = Nothing
 
         Else
-            If txtTxId.Text.Length <> 36 Then
-                txtTxId.Text = "Consulte Novamente..."
-            End If
-            Consultar("")
+            Consultar(txtTxId.Text)
         End If
     End Sub
 
@@ -50,7 +40,8 @@ Public Class fPix
 
     Private Sub btnListar_Click(sender As Object, e As EventArgs) Handles btnListar.Click
 
-
+        PanelListPix.Visible = True
+        panelPIX.Visible = False
 
         Dim regras As rPix
         regras = New rPix
@@ -112,7 +103,6 @@ Public Class fPix
         Dim regras As New rPix
         Dim pix As dPix
 
-
         pix = regras.Consultar(tx)
 
         If IsNothing(pix) Then
@@ -121,7 +111,6 @@ Public Class fPix
 
 
         txtValorPIX.Text = pix.Original
-        fPagamento.txtPix.Text = pix.Original
 
         If pix.Status = Nothing Then
             txtStatus.Text = "Cobrar"
@@ -220,7 +209,7 @@ Public Class fPix
         Try
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
-            dados.Controle = fPagamento.lblControle.Text
+            dados.Controle = mdiPrincipal.RetornaNumeroControle().ToString()
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
@@ -249,7 +238,6 @@ Public Class fPix
             If Not arPix Is Nothing Then
                 arPix = arPix.ToArray()
                 dados = arPix(0)
-                fPagamento.txtPix.Text = dados.Original
                 txtValorPIX.Text = dados.Original
                 txtObs.Text = dados.Observacao
                 txtTxId.Text = "PIX Cadastrado!"
@@ -261,5 +249,42 @@ Public Class fPix
             Throw New ExcecaoNascomercio("Erro em recuperar dados do pix [" & Me.ToString() & "] - " & ex.Message)
 
         End Try
+    End Sub
+
+    Private Sub fPix_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'txtValorPIX.Text = fCrediarioPagamento.Tag
+    End Sub
+
+    Private Sub fPix_CursorChanged(sender As Object, e As EventArgs) Handles Me.CursorChanged
+
+    End Sub
+
+    Private Sub btnSair_Click(sender As Object, e As EventArgs) Handles btnSair.Click
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+    End Sub
+
+    Private Sub lstPix_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstPix.SelectedIndexChanged
+
+    End Sub
+
+    Private Sub lstPix_DoubleClick(sender As Object, e As EventArgs) Handles lstPix.DoubleClick
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+        Dim haSelecionado As Boolean = False
+
+        haSelecionado = Me.lstPix.SelectedItems.Count > 0
+
+        Dim tx As String
+
+        If haSelecionado = True Then
+            tx = Me.lstPix.SelectedItems.Item(0).Text
+            Consultar(tx)
+        Else
+            Consultar("")
+        End If
+
+
+
     End Sub
 End Class
