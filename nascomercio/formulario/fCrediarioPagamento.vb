@@ -142,6 +142,7 @@ Public Class fCrediarioPagamento
                         dadosVenda.Vendedor = Me.lblVendedor.Text
                         dadosVenda.CrediarioPagamento = (recebido - CDec(lblTroco.Text)).ToString("N")
                         dadosVenda.Total = recebido.ToString("N")
+                        dadosVenda.Pix = txtPix.Text
                         GravarLog(mdiPrincipal.gUsuario.usuario, "Pagamento de Crediário. Vendedor: " & Me.lblVendedor.Text)
                         regraVenda.IncluirCrediarioPagamento(dadosVenda)
 

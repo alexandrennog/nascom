@@ -24,6 +24,11 @@ Public Class fPix
             picQRCode.Image = Nothing
 
         Else
+
+            If txtTxId.Text = "PIX Cadastrado!" Then
+                txtTxId.Text = ""
+            End If
+
             Consultar(txtTxId.Text)
         End If
     End Sub
@@ -144,6 +149,10 @@ Public Class fPix
                 btnPix.Text = "Consultar"
                 picQRCode.Image = ResizeImage(Image.FromFile(filename))
             Case "CONCLUIDA"
+                If Me.Tag = pix.Controle Then
+                    fCrediarioPagamento.txtPix.Text = pix.Original
+                End If
+
                 txtStatus.Text = "Pago"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = ""
@@ -163,6 +172,8 @@ Public Class fPix
         txtObs.Text = String.Format($"{pix.Observacao} Controle:  {fPagamento.lblControle.Text} {pix.DataHora}")
 
         txtUrlPix.Text = pix.UrlPix
+
+
 
 
 
@@ -205,11 +216,10 @@ Public Class fPix
         Dim pagamentos = New ColecaoPix
         Dim dados As New dPix
 
-
         Try
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
-            dados.Controle = mdiPrincipal.RetornaNumeroControle().ToString()
+            dados.Controle = Me.Tag
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
@@ -252,7 +262,7 @@ Public Class fPix
     End Sub
 
     Private Sub fPix_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'txtValorPIX.Text = fCrediarioPagamento.Tag
+        Me.Tag = mdiPrincipal.RetornaNumeroControle().ToString()
     End Sub
 
     Private Sub fPix_CursorChanged(sender As Object, e As EventArgs) Handles Me.CursorChanged

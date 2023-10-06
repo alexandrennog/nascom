@@ -641,36 +641,37 @@ Namespace nsVenda
                 acessoBanco = New cAcessoBD
 
 
-                comandoSQL = " INSERT INTO " & _
-                    " credpag (usuarioId, clienteId, data, dinheiro, cheque, " & _
-                             "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " & _
-                             "parcelas, desconto, condicao, recebido, troco, troca, " & _
-                             "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total ) " & _
-                    " VALUES (" & _
-                            cFuncoes.PersistirTexto(dados.usuarioId) & "," & _
-                            cFuncoes.PersistirTexto(dados.clienteId) & "," & _
-                            cFuncoes.PersistirDataHora(dados.Data) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Dinheiro) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Cheque) & "," & _
-                            cFuncoes.PersistirDecimal(dados.ChequePre) & "," & _
-                            cFuncoes.PersistirDecimal(dados.CartaoDebito) & "," & _
-                            cFuncoes.PersistirDecimal(dados.CartaoCredito) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Crediario) & "," & _
-                            cFuncoes.PersistirDecimal(dados.CrediarioPagamento) & "," & _
-                            cFuncoes.PersistirInteiro(dados.Parcelas) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Desconto) & "," & _
-                            cFuncoes.PersistirInteiro(dados.Condicao) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Recebido) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Troco) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Troca) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Vale) & "," & _
-                            cFuncoes.PersistirDecimal(dados.ValeEmitido) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Defeito) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Retirada) & "," & _
-                            cFuncoes.PersistirTexto(dados.Terminal) & "," & _
-                            cFuncoes.PersistirTexto(dados.Vendedor) & "," & _
-                            cFuncoes.PersistirTexto(dados.Caixa) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Total) & ")"
+                comandoSQL = " INSERT INTO " &
+                    " credpag (usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " &
+                             "parcelas, desconto, condicao, recebido, troco, troca, " &
+                             "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total ) " &
+                    " VALUES (" &
+                            cFuncoes.PersistirTexto(dados.usuarioId) & "," &
+                            cFuncoes.PersistirTexto(dados.clienteId) & "," &
+                            cFuncoes.PersistirDataHora(dados.Data) & "," &
+                            cFuncoes.PersistirDecimal(dados.Dinheiro) & "," &
+                            cFuncoes.PersistirDecimal(dados.Cheque) & "," &
+                            cFuncoes.PersistirDecimal(dados.ChequePre) & "," &
+                            cFuncoes.PersistirDecimal(dados.CartaoDebito) & "," &
+                            cFuncoes.PersistirDecimal(dados.CartaoCredito) & "," &
+                            cFuncoes.PersistirDecimal(dados.Crediario) & "," &
+                            cFuncoes.PersistirDecimal(dados.CrediarioPagamento) & "," &
+                            cFuncoes.PersistirInteiro(dados.Parcelas) & "," &
+                            cFuncoes.PersistirDecimal(dados.Desconto) & "," &
+                            cFuncoes.PersistirInteiro(dados.Condicao) & "," &
+                            cFuncoes.PersistirDecimal(dados.Recebido) & "," &
+                            cFuncoes.PersistirDecimal(dados.Troco) & "," &
+                            cFuncoes.PersistirDecimal(dados.Troca) & "," &
+                            cFuncoes.PersistirDecimal(dados.Vale) & "," &
+                            cFuncoes.PersistirDecimal(dados.ValeEmitido) & "," &
+                            cFuncoes.PersistirDecimal(dados.Defeito) & "," &
+                            cFuncoes.PersistirDecimal(dados.Retirada) & "," &
+                            cFuncoes.PersistirTexto(dados.Terminal) & "," &
+                            cFuncoes.PersistirTexto(dados.Vendedor) & "," &
+                            cFuncoes.PersistirTexto(dados.Caixa) & "," &
+                            cFuncoes.PersistirDecimal(dados.Total) & "," &
+                            cFuncoes.PersistirDecimal(dados.Pix) & ")"
 
                 retorno = acessoBanco.ExecutarCID(comandoSQL)
 

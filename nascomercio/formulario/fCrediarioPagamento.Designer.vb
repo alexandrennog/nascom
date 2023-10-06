@@ -63,6 +63,8 @@ Partial Class fCrediarioPagamento
         Me.imgCliLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.btoSalvar = New System.Windows.Forms.Button()
+        Me.lblPix = New System.Windows.Forms.Label()
+        Me.txtPix = New System.Windows.Forms.TextBox()
         CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -400,6 +402,8 @@ Partial Class fCrediarioPagamento
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.lblPix)
+        Me.Panel1.Controls.Add(Me.txtPix)
         Me.Panel1.Controls.Add(Me.btnPix)
         Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.txtDinheiro)
@@ -523,6 +527,25 @@ Partial Class fCrediarioPagamento
         Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSalvar.UseVisualStyleBackColor = False
         '
+        'lblPix
+        '
+        Me.lblPix.AutoSize = True
+        Me.lblPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPix.Location = New System.Drawing.Point(264, 458)
+        Me.lblPix.Name = "lblPix"
+        Me.lblPix.Size = New System.Drawing.Size(64, 19)
+        Me.lblPix.TabIndex = 318
+        Me.lblPix.Text = "Pìx: R$"
+        '
+        'txtPix
+        '
+        Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPix.Location = New System.Drawing.Point(375, 455)
+        Me.txtPix.Name = "txtPix"
+        Me.txtPix.Size = New System.Drawing.Size(101, 26)
+        Me.txtPix.TabIndex = 317
+        Me.txtPix.Text = "0,00"
+        '
         'fCrediarioPagamento
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
@@ -601,4 +624,6 @@ Partial Class fCrediarioPagamento
   Friend WithEvents valorpago As System.Windows.Forms.DataGridViewTextBoxColumn
   Friend WithEvents DiasAtrazo As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents btnPix As Button
+    Friend WithEvents lblPix As Label
+    Friend WithEvents txtPix As TextBox
 End Class
