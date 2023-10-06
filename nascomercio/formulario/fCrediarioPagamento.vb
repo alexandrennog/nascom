@@ -12,7 +12,8 @@ Imports ncRegras.nsParametro
 Imports ncDados.nsParametro
 
 Public Class fCrediarioPagamento
-
+    Public formularioModal As New Form
+    Private tela As Boolean = True
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
@@ -719,5 +720,31 @@ Public Class fCrediarioPagamento
 
     Private Sub dgvCrediario_Click(sender As Object, e As EventArgs) Handles dgvCrediario.Click
         'valorParcelasSelecioadas()
+    End Sub
+
+    Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
+        ''mdiPrincipal.CarregarPixForm()
+
+        Dim formPix As fPix
+        formPix = New fPix()
+        formPix.ShowDialog()
+
+    End Sub
+
+    Private Sub AbrirTelaModal()
+        tela = False
+
+        formularioModal.MdiParent = Me
+        formularioModal.Show()
+        formularioModal.BringToFront()
+    End Sub
+
+    Private Sub FecharTelaModal()
+        If Not formularioModal Is Nothing Then
+            formularioModal.Close()
+            formularioModal = Nothing
+        End If
+
+        tela = True
     End Sub
 End Class

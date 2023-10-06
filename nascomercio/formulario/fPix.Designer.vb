@@ -36,15 +36,7 @@ Partial Class fPix
         Me.picQRCode = New System.Windows.Forms.PictureBox()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.txtValorPIX = New System.Windows.Forms.TextBox()
-        Me.Label26 = New System.Windows.Forms.Label()
-        Me.Label27 = New System.Windows.Forms.Label()
-        Me.Label28 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.Label33 = New System.Windows.Forms.Label()
         Me.btnCopiar = New System.Windows.Forms.Button()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.PanelListPix = New System.Windows.Forms.Panel()
@@ -85,6 +77,7 @@ Partial Class fPix
         'panelPIX
         '
         Me.panelPIX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.panelPIX.Controls.Add(Me.PanelListPix)
         Me.panelPIX.Controls.Add(Me.btnListar)
         Me.panelPIX.Controls.Add(Me.txtUrlPix)
         Me.panelPIX.Controls.Add(Me.Label34)
@@ -98,21 +91,12 @@ Partial Class fPix
         Me.panelPIX.Controls.Add(Me.picQRCode)
         Me.panelPIX.Controls.Add(Me.Label25)
         Me.panelPIX.Controls.Add(Me.txtValorPIX)
-        Me.panelPIX.Controls.Add(Me.Label26)
-        Me.panelPIX.Controls.Add(Me.Label27)
-        Me.panelPIX.Controls.Add(Me.Label28)
         Me.panelPIX.Controls.Add(Me.Button1)
-        Me.panelPIX.Controls.Add(Me.Label29)
-        Me.panelPIX.Controls.Add(Me.Label30)
-        Me.panelPIX.Controls.Add(Me.Label31)
-        Me.panelPIX.Controls.Add(Me.Label32)
-        Me.panelPIX.Controls.Add(Me.Label33)
         Me.panelPIX.Controls.Add(Me.btnCopiar)
-        Me.panelPIX.Location = New System.Drawing.Point(21, 12)
+        Me.panelPIX.Location = New System.Drawing.Point(12, 12)
         Me.panelPIX.Name = "panelPIX"
-        Me.panelPIX.Size = New System.Drawing.Size(527, 411)
+        Me.panelPIX.Size = New System.Drawing.Size(752, 484)
         Me.panelPIX.TabIndex = 323
-        Me.panelPIX.Visible = False
         '
         'btnListar
         '
@@ -258,38 +242,6 @@ Partial Class fPix
         Me.txtValorPIX.TabIndex = 321
         Me.txtValorPIX.Text = "0,00"
         '
-        'Label26
-        '
-        Me.Label26.AutoSize = True
-        Me.Label26.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.ForeColor = System.Drawing.Color.Blue
-        Me.Label26.Location = New System.Drawing.Point(651, 503)
-        Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(79, 19)
-        Me.Label26.TabIndex = 310
-        Me.Label26.Text = "11.000,00"
-        '
-        'Label27
-        '
-        Me.Label27.AutoSize = True
-        Me.Label27.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.ForeColor = System.Drawing.Color.Blue
-        Me.Label27.Location = New System.Drawing.Point(481, 503)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(79, 19)
-        Me.Label27.TabIndex = 314
-        Me.Label27.Text = "11.000,00"
-        '
-        'Label28
-        '
-        Me.Label28.AutoSize = True
-        Me.Label28.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(567, 503)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(77, 19)
-        Me.Label28.TabIndex = 309
-        Me.Label28.Text = "Total: R$"
-        '
         'Button1
         '
         Me.Button1.BackColor = System.Drawing.Color.Transparent
@@ -301,7 +253,7 @@ Partial Class fPix
         Me.Button1.ForeColor = System.Drawing.Color.Black
         Me.Button1.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.Button1.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.Button1.Location = New System.Drawing.Point(692, 12)
+        Me.Button1.Location = New System.Drawing.Point(629, 12)
         Me.Button1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(96, 72)
@@ -309,58 +261,6 @@ Partial Class fPix
         Me.Button1.Text = "Fechar <Esc>"
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.Button1.UseVisualStyleBackColor = False
-        '
-        'Label29
-        '
-        Me.Label29.AutoSize = True
-        Me.Label29.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label29.ForeColor = System.Drawing.Color.Blue
-        Me.Label29.Location = New System.Drawing.Point(132, 503)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(79, 19)
-        Me.Label29.TabIndex = 312
-        Me.Label29.Text = "11.123,45"
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.Location = New System.Drawing.Point(390, 503)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(84, 19)
-        Me.Label30.TabIndex = 313
-        Me.Label30.Text = "Troco: R$"
-        '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.Location = New System.Drawing.Point(17, 503)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(113, 19)
-        Me.Label31.TabIndex = 311
-        Me.Label31.Text = "Recebido: R$"
-        '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(221, 503)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(77, 19)
-        Me.Label32.TabIndex = 307
-        Me.Label32.Text = "Falta: R$"
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label33.ForeColor = System.Drawing.Color.Blue
-        Me.Label33.Location = New System.Drawing.Point(304, 503)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(79, 19)
-        Me.Label33.TabIndex = 308
-        Me.Label33.Text = "11.123,45"
         '
         'btnCopiar
         '
@@ -390,7 +290,7 @@ Partial Class fPix
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(545, 12)
+        Me.btoSair.Location = New System.Drawing.Point(673, 12)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(88, 72)
         Me.btoSair.TabIndex = 324
@@ -406,9 +306,9 @@ Partial Class fPix
         Me.PanelListPix.Controls.Add(Me.btnSair)
         Me.PanelListPix.Controls.Add(Me.Panel1)
         Me.PanelListPix.Controls.Add(Me.lstPix)
-        Me.PanelListPix.Location = New System.Drawing.Point(17, 12)
+        Me.PanelListPix.Location = New System.Drawing.Point(6, 189)
         Me.PanelListPix.Name = "PanelListPix"
-        Me.PanelListPix.Size = New System.Drawing.Size(522, 403)
+        Me.PanelListPix.Size = New System.Drawing.Size(752, 466)
         Me.PanelListPix.TabIndex = 326
         Me.PanelListPix.Visible = False
         '
@@ -466,9 +366,9 @@ Partial Class fPix
         Me.Panel1.Controls.Add(Me.Label12)
         Me.Panel1.Controls.Add(Me.Label13)
         Me.Panel1.Controls.Add(Me.Button5)
-        Me.Panel1.Location = New System.Drawing.Point(64, 12)
+        Me.Panel1.Location = New System.Drawing.Point(301, 101)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(527, 411)
+        Me.Panel1.Size = New System.Drawing.Size(744, 449)
         Me.Panel1.TabIndex = 322
         Me.Panel1.Visible = False
         '
@@ -659,7 +559,7 @@ Partial Class fPix
         Me.Button4.ForeColor = System.Drawing.Color.Black
         Me.Button4.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.Button4.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.Button4.Location = New System.Drawing.Point(692, 12)
+        Me.Button4.Location = New System.Drawing.Point(602, 4)
         Me.Button4.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(96, 72)
@@ -752,10 +652,9 @@ Partial Class fPix
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(650, 450)
+        Me.ClientSize = New System.Drawing.Size(827, 680)
         Me.Controls.Add(Me.btoSair)
         Me.Controls.Add(Me.panelPIX)
-        Me.Controls.Add(Me.PanelListPix)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.KeyPreview = True
         Me.MaximizeBox = False
@@ -791,15 +690,7 @@ Partial Class fPix
     Friend WithEvents picQRCode As PictureBox
     Friend WithEvents Label25 As Label
     Friend WithEvents txtValorPIX As TextBox
-    Friend WithEvents Label26 As Label
-    Friend WithEvents Label27 As Label
-    Friend WithEvents Label28 As Label
     Friend WithEvents Button1 As Button
-    Friend WithEvents Label29 As Label
-    Friend WithEvents Label30 As Label
-    Friend WithEvents Label31 As Label
-    Friend WithEvents Label32 As Label
-    Friend WithEvents Label33 As Label
     Friend WithEvents btnCopiar As Button
     Friend WithEvents btoSair As Button
     Friend WithEvents PanelListPix As Panel

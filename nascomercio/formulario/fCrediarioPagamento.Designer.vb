@@ -62,6 +62,7 @@ Partial Class fCrediarioPagamento
         Me.imgCliLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.btoSalvar = New System.Windows.Forms.Button()
+        Me.btnPix = New System.Windows.Forms.Button()
         CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -399,6 +400,7 @@ Partial Class fCrediarioPagamento
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.btnPix)
         Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.txtDinheiro)
         Me.Panel1.Controls.Add(Me.Label18)
@@ -503,6 +505,15 @@ Partial Class fCrediarioPagamento
         Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSalvar.UseVisualStyleBackColor = False
         '
+        'btnPix
+        '
+        Me.btnPix.Location = New System.Drawing.Point(516, 599)
+        Me.btnPix.Name = "btnPix"
+        Me.btnPix.Size = New System.Drawing.Size(75, 23)
+        Me.btnPix.TabIndex = 315
+        Me.btnPix.Text = "PIX"
+        Me.btnPix.UseVisualStyleBackColor = True
+        '
         'fCrediarioPagamento
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
@@ -580,4 +591,5 @@ Partial Class fCrediarioPagamento
   Friend WithEvents valorreceber As System.Windows.Forms.DataGridViewTextBoxColumn
   Friend WithEvents valorpago As System.Windows.Forms.DataGridViewTextBoxColumn
   Friend WithEvents DiasAtrazo As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents btnPix As Button
 End Class

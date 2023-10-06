@@ -442,6 +442,7 @@ Public Class mdiPrincipal
 
     Public Sub FecharTela()
 
+        fCrediarioPagamento.Visible = True
         If Not formulario Is Nothing Then
             If formulario.Equals(fCaixa) Then
                 pnlMenu.Visible = True
@@ -495,6 +496,12 @@ Public Class mdiPrincipal
     Public Sub CarregarFornecedorForm()
         FecharTela()
         formulario = fFornecedorForm
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarPixForm()
+        FecharTela()
+        formulario = fPix
         AbrirTela()
     End Sub
 

@@ -43,12 +43,14 @@ Public Class fPix
     End Sub
 
     Private Sub btoSair_Click(sender As Object, e As EventArgs) Handles btoSair.Click
-        mdiPrincipal.FecharTela()
+        fCrediarioPagamento.Visible = True
+        Me.Close()
+
     End Sub
 
     Private Sub btnListar_Click(sender As Object, e As EventArgs) Handles btnListar.Click
 
-        panelPIX.Visible = False
+
 
         Dim regras As rPix
         regras = New rPix
