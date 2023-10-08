@@ -973,7 +973,11 @@ Public Class mdiPrincipal
         formulario = fRelatorioCrediario
         AbrirTela()
     End Sub
-
+    Public Sub CarregarRelCrediPix()
+        FecharTela()
+        formulario = fRelatorioCrediarioPix
+        AbrirTela()
+    End Sub
     Public Sub CarregarRelPix()
         FecharTela()
         formulario = fRelatorioPix

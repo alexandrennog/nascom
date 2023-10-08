@@ -70,7 +70,11 @@ Public Class fRelatorio
             mdiPrincipal.CarregarVendaSAT()
         ElseIf rbtPix.Checked Then
             mdiPrincipal.CarregarRelPix()
+        ElseIf rbtCrediarioPix.Checked Then
+            mdiPrincipal.CarregarRelCrediPix()
         End If
+
+
     End Sub
 
 
@@ -138,4 +142,7 @@ Public Class fRelatorio
         End Select
     End Sub
 
+    Private Sub rbtPix_CheckedChanged(sender As Object, e As EventArgs) Handles rbtPix.CheckedChanged
+
+    End Sub
 End Class

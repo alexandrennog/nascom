@@ -1,4 +1,4 @@
-Imports ncRegras.nsFabricante
+﻿Imports ncRegras.nsFabricante
 Imports ncDados.nsFabricante
 Imports ncComum.nsExcecao
 Imports iTextSharp.text
@@ -7,7 +7,11 @@ Imports System.IO
 Imports ncDados.nsVenda
 Imports System.Configuration
 
-Public Class fRelatorioPix
+
+Public Class fRelatorioCrediarioPix
+    Private Sub btoFiltro_Click(sender As Object, e As EventArgs) Handles btoFiltro.Click
+        Filtrar()
+    End Sub
 
     Private Sub Filtrar()
         Dim dadosVenda As New dVenda
@@ -37,7 +41,7 @@ Public Class fRelatorioPix
         Dim vendas As ncDados.nsVenda.ColecaoVenda
         Me.lstPix.View = View.Details
 
-        Dim otherItems As String() = {"Data", "Terminal", "Total", "PIX"}
+        Dim otherItems As String() = {"Data", "Terminal", "Dinheiro", "PIX"}
         Me.lstPix.View = View.Details
         Me.lstPix.GridLines = True
         Me.lstPix.FullRowSelect = True
@@ -47,10 +51,10 @@ Public Class fRelatorioPix
         Me.lstPix.Columns.Add("Controle")
         Me.lstPix.Columns.Add("Data").Width = 80
         Me.lstPix.Columns.Add("Terminal").Width = 80
-        Me.lstPix.Columns.Add("Total")
+        Me.lstPix.Columns.Add("Dinheiro")
         Me.lstPix.Columns.Add("PIX")
 
-        vendas = objVenda.ConsultarPix(dadosVenda)
+        vendas = objVenda.ConsultarCrediarioPix(dadosVenda)
 
         If vendas Is Nothing Then
             Exit Sub
@@ -93,7 +97,7 @@ Public Class fRelatorioPix
 
         Dim hoje As DateTime = DateTime.Now
 
-        Dim arquivoPDF = "RelatorioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+        Dim arquivoPDF = "RelatorioCrediarioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
 
         If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
             System.IO.File.Delete(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
@@ -108,7 +112,7 @@ Public Class fRelatorioPix
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relatório de Fechamento em PIX", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relatório de Crediário Pagos com PIX", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -136,7 +140,7 @@ Public Class fRelatorioPix
         'Dim coluna3 As New Paragraph("clienteId", fonte)
         Dim coluna4 As New Paragraph("data", fonte)
         Dim coluna5 As New Paragraph("terminal", fonte)
-        Dim coluna6 As New Paragraph("total", fonte)
+        Dim coluna6 As New Paragraph("Dinheiro", fonte)
         Dim coluna7 As New Paragraph("PIX", fonte)
 
         cell1.AddElement(coluna1)
@@ -195,65 +199,16 @@ Public Class fRelatorioPix
 
 
     End Sub
-    Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
+
+    Private Sub btoSair_Click(sender As Object, e As EventArgs) Handles btoSair.Click
         Me.Close()
     End Sub
 
-
-    Private Sub btoFiltro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFiltro.Click
-        Filtrar()
-    End Sub
-
-    Private Sub fFabricanteLista_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-
-        Try
-
-            'Me.v_fechamentoTableAdapter.Fill(Me.nascomercioDataSet.v_fechamento)
-
-        Catch nex As ExcecaoNascomercio
-
-            MessageBox.Show(nex.Message)
-
-        Catch ex As Exception
-
-            MessageBox.Show("Erro na consulta do Fabricante [" & Me.ToString() & "]")
-
-        End Try
-
-        Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
-        Me.txtDataFinal.Text = DateAdd(DateInterval.Day, 1, Today).ToString("dd/MM/yyyy")
-        Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
-            Case "a", "g"
-                Me.txtCaixa.Text = ""
-                Me.txtCaixa.ReadOnly = False
-            Case "c"
-                Me.txtCaixa.Text = mdiPrincipal.gUsuario.usuario
-                Me.txtCaixa.ReadOnly = True
-        End Select
-
-
-    End Sub
-
-    Private Sub fFabricanteLista_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-        Select Case e.KeyCode
-            Case Keys.Escape
-                mdiPrincipal.FecharTela()
-            Case Keys.F5
-                Filtrar()
-            Case Keys.F8
-                Imprimir()
-        End Select
-    End Sub
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-
         Imprimir()
-
     End Sub
-
     Private Sub Imprimir()
-        Dim arquivoPDF = "RelatorioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+        Dim arquivoPDF = "RelatorioCrediarioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
         Dim ProcessApplication As String = "AcroRd32"
 
         If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
