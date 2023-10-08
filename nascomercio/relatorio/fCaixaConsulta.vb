@@ -76,7 +76,7 @@ Public Class fCaixaConsulta
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Condi��o.")
+            MessageBox.Show("Erro na consulta dos dados de Condição.")
 
         End Try
     End Sub
@@ -88,10 +88,10 @@ Public Class fCaixaConsulta
         Dim regrasItem As rProdutoItem
 
         If dtgProdutos.Rows.Count <= 0 OrElse
-            MessageBox.Show("Confirma EXCLUS�O das informa��es?", "EXCLUS�O", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+            MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
 
             If txtControle.Text.Equals("") Then
-                MessageBox.Show("Digite o n�mero da venda para excluir!", "Nascomercio")
+                MessageBox.Show("Digite o número da venda para excluir!", "Nascomercio")
             Else
                 Dim acessoGerente As New fAcessoGerente()
                 acessoGerente.ShowDialog()
@@ -111,8 +111,8 @@ Public Class fCaixaConsulta
                             objVendaProduto.ExcluirControleTroca(dadosVenda.controle)
                             objVenda.ExcluirVale(dadosVenda)
                             If dtgProdutos.Rows.Count > 0 Then
-                                MessageBox.Show("Troca exclu�da: " & txtControle.Text)
-                                GravarLog(mdiPrincipal.gUsuario.usuario, "Troca exclu�da: " & txtControle.Text & " - Valor:" & lblTotal.Text)
+                                MessageBox.Show("Troca excluída: " & txtControle.Text)
+                                GravarLog(mdiPrincipal.gUsuario.usuario, "Troca excluída: " & txtControle.Text & " - Valor:" & lblTotal.Text)
                             End If
                         Else
                             ' exclui venda e seus produtos
@@ -121,8 +121,8 @@ Public Class fCaixaConsulta
                             objVendaProduto.ExcluirControle(dadosVenda.controle)
                             objVenda.Excluir(dadosVenda)
                             If dtgProdutos.Rows.Count > 0 Then
-                                MessageBox.Show("Venda exclu�da: " & txtControle.Text)
-                                GravarLog(mdiPrincipal.gUsuario.usuario, "Venda exclu�da: " & txtControle.Text & " - Valor:" & lblTotal.Text)
+                                MessageBox.Show("Venda excluída: " & txtControle.Text)
+                                GravarLog(mdiPrincipal.gUsuario.usuario, "Venda excluída: " & txtControle.Text & " - Valor:" & lblTotal.Text)
                             End If
                         End If
 
@@ -156,7 +156,7 @@ Public Class fCaixaConsulta
 
         If lblMsg.Text = "TROCA" Then
             lblTroca.Text = 0.ToString("N")
-        ElseIf lblMsg.Text = "DEVOLU��O" Then
+        ElseIf lblMsg.Text = "DEVOLUÇÃO" Then
             lblDefeitos.Text = 0.ToString("N")
         End If
 
@@ -178,7 +178,7 @@ Public Class fCaixaConsulta
                     ' troca
                     lblTroca.Text = CDec(CDec(lblTroca.Text) + linha.Cells(5).Value).ToString("N")
                     ' Entra estoque
-                ElseIf lblMsg.Text = "DEVOLU��O" Then
+                ElseIf lblMsg.Text = "DEVOLUÇÃO" Then
                     ' devolucao
                     lblDefeitos.Text = CDec(CDec(lblDefeitos.Text) + linha.Cells(5).Value).ToString("N")
                     ' Sai Estoque
@@ -300,11 +300,11 @@ Public Class fCaixaConsulta
 
 
     Private Sub FinalizaVenda()
-        If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLU��O" Then
+        If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLUÇÃO" Then
             If Me.Tag = True Then
                 Me.lblMsg.Text = "VENDA DIRETA"
             Else
-                Me.lblMsg.Text = "PR� VENDA"
+                Me.lblMsg.Text = "PRÉ VENDA"
             End If
             Me.dtgProdutos.Rows.Clear()
         Else
@@ -315,7 +315,7 @@ Public Class fCaixaConsulta
                 If Me.Tag = True Then
                     Me.lblMsg.Text = "VENDA DIRETA"
                 Else
-                    Me.lblMsg.Text = "PR� VENDA"
+                    Me.lblMsg.Text = "PRÉ VENDA"
                 End If
                 ' MessageBox.Show("Nenhum produto vendido")
             End If
@@ -357,7 +357,7 @@ Public Class fCaixaConsulta
         ' Vendedor
         Dim dadosVendedor As New ncDados.nsUsuario.dUsuario
         Dim vendedor As New ncRegras.nsUsuario.rUsuario
-        ' Condi��o 
+        ' Condição 
         Dim dadosCondicao As New ncDados.nsCondicao.dCondicao
         Dim condicao As New ncRegras.nsCondicao.rCondicao
 
@@ -372,7 +372,7 @@ Public Class fCaixaConsulta
                 trocas = objVenda.ConsultarTroca(dadosVenda)
                 vendas = objVenda.Consultar(dadosVenda)
                 If Not IsNothing(trocas) And Not IsNothing(vendas) Then
-                    If MessageBox.Show("Existe uma troca com o mesmo n�mero de controle deseja consultar?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    If MessageBox.Show("Existe uma troca com o mesmo número de controle deseja consultar?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                         vendas = trocas
                         vendasProdutos = objVendaProduto.ConsultarTroca(dadosVendaProduto)
                     End If
@@ -479,7 +479,7 @@ Public Class fCaixaConsulta
 
             Application.DoEvents()
 
-            If MessageBox.Show("Deseja Excluir �ltimo cupom fiscal? " & txtControle.Text, "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If MessageBox.Show("Deseja Excluir último cupom fiscal? " & txtControle.Text, "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 ExcluirVenda()
 
                 If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ECF" Then

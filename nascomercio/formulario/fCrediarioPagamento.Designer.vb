@@ -57,14 +57,14 @@ Partial Class fCrediarioPagamento
         Me.txtCliente = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblPix = New System.Windows.Forms.Label()
+        Me.txtPix = New System.Windows.Forms.TextBox()
         Me.btnPix = New System.Windows.Forms.Button()
         Me.btoIncluirCliente = New System.Windows.Forms.Button()
         Me.btoEtiqueta = New System.Windows.Forms.Button()
         Me.imgCliLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.btoSalvar = New System.Windows.Forms.Button()
-        Me.lblPix = New System.Windows.Forms.Label()
-        Me.txtPix = New System.Windows.Forms.TextBox()
         CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -424,6 +424,25 @@ Partial Class fCrediarioPagamento
         Me.Panel1.Size = New System.Drawing.Size(827, 680)
         Me.Panel1.TabIndex = 320
         '
+        'lblPix
+        '
+        Me.lblPix.AutoSize = True
+        Me.lblPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPix.Location = New System.Drawing.Point(264, 458)
+        Me.lblPix.Name = "lblPix"
+        Me.lblPix.Size = New System.Drawing.Size(64, 19)
+        Me.lblPix.TabIndex = 318
+        Me.lblPix.Text = "Pìx: R$"
+        '
+        'txtPix
+        '
+        Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPix.Location = New System.Drawing.Point(375, 455)
+        Me.txtPix.Name = "txtPix"
+        Me.txtPix.Size = New System.Drawing.Size(101, 26)
+        Me.txtPix.TabIndex = 317
+        Me.txtPix.Text = "0,00"
+        '
         'btnPix
         '
         Me.btnPix.BackColor = System.Drawing.Color.Transparent
@@ -526,25 +545,6 @@ Partial Class fCrediarioPagamento
         Me.btoSalvar.Text = "Confirmar <Enter>"
         Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSalvar.UseVisualStyleBackColor = False
-        '
-        'lblPix
-        '
-        Me.lblPix.AutoSize = True
-        Me.lblPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPix.Location = New System.Drawing.Point(264, 458)
-        Me.lblPix.Name = "lblPix"
-        Me.lblPix.Size = New System.Drawing.Size(64, 19)
-        Me.lblPix.TabIndex = 318
-        Me.lblPix.Text = "Pìx: R$"
-        '
-        'txtPix
-        '
-        Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPix.Location = New System.Drawing.Point(375, 455)
-        Me.txtPix.Name = "txtPix"
-        Me.txtPix.Size = New System.Drawing.Size(101, 26)
-        Me.txtPix.TabIndex = 317
-        Me.txtPix.Text = "0,00"
         '
         'fCrediarioPagamento
         '

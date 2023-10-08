@@ -163,7 +163,7 @@ Partial Class fPagamento
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(84, 19)
         Me.Label7.TabIndex = 30
-        Me.Label7.Text = "Emiss�o :"
+        Me.Label7.Text = "Emissão :"
         '
         'lblEmissao
         '
@@ -354,7 +354,7 @@ Partial Class fPagamento
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(143, 19)
         Me.Label6.TabIndex = 54
-        Me.Label6.Text = "Cart�o D�bito: R$"
+        Me.Label6.Text = "Cartão Débito: R$"
         '
         'txtChequePre
         '
@@ -373,7 +373,7 @@ Partial Class fPagamento
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(129, 19)
         Me.Label8.TabIndex = 56
-        Me.Label8.Text = "Cheque Pr�: R$"
+        Me.Label8.Text = "Cheque Pré: R$"
         '
         'txtCartaoCredito
         '
@@ -392,7 +392,7 @@ Partial Class fPagamento
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(149, 19)
         Me.Label10.TabIndex = 58
-        Me.Label10.Text = "Cart�o Cr�dito: R$"
+        Me.Label10.Text = "Cartão Crédito: R$"
         '
         'txtCrediario
         '
@@ -411,7 +411,7 @@ Partial Class fPagamento
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(109, 19)
         Me.Label11.TabIndex = 60
-        Me.Label11.Text = "Credi�rio: R$"
+        Me.Label11.Text = "Crediário: R$"
         '
         'cboCondicao
         '

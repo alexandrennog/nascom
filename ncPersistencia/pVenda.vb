@@ -645,7 +645,7 @@ Namespace nsVenda
                     " credpag (usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " &
                              "parcelas, desconto, condicao, recebido, troco, troca, " &
-                             "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total ) " &
+                             "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total, Original ) " &
                     " VALUES (" &
                             cFuncoes.PersistirTexto(dados.usuarioId) & "," &
                             cFuncoes.PersistirTexto(dados.clienteId) & "," &

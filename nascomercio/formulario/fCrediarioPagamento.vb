@@ -424,7 +424,10 @@ Public Class fCrediarioPagamento
 
     Private Sub txtDinheiro_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave
         If txtDinheiro.Text <> "" Then
-            lblRecebido.Text = CDec(txtDinheiro.Text).ToString("N")
+            Dim valorRecebidoTotal As Decimal
+            valorRecebidoTotal = CDec(txtDinheiro.Text) + CDec(txtPix.Text)
+
+            lblRecebido.Text = CDec(valorRecebidoTotal).ToString("N")
             If (CDec(lblTotal.Text) - CDec(lblRecebido.Text)) < 0 Then
                 lblTroco.Text = Math.Abs(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
                 lblFalta.Text = 0.ToString("N")
@@ -761,5 +764,21 @@ Public Class fCrediarioPagamento
         formPix = New fPix()
         formPix.txtValorPIX.Text = Me.lblTotal.Text
         formPix.ShowDialog()
+    End Sub
+
+    Private Sub txtPix_Leave(sender As Object, e As EventArgs) Handles txtPix.Leave
+        If txtDinheiro.Text <> "" Then
+            Dim valorRecebidoTotal As Decimal
+            valorRecebidoTotal = CDec(txtDinheiro.Text) + CDec(txtPix.Text)
+
+            lblRecebido.Text = CDec(valorRecebidoTotal).ToString("N")
+            If (CDec(lblTotal.Text) - CDec(lblRecebido.Text)) < 0 Then
+                lblTroco.Text = Math.Abs(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
+                lblFalta.Text = 0.ToString("N")
+            Else
+                lblTroco.Text = 0.ToString("N")
+                lblFalta.Text = (CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
+            End If
+        End If
     End Sub
 End Class
