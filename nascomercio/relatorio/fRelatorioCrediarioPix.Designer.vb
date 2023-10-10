@@ -172,9 +172,9 @@ Partial Class fRelatorioCrediarioPix
         Me.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblTitulo.Location = New System.Drawing.Point(65, 9)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(234, 24)
+        Me.lblTitulo.Size = New System.Drawing.Size(318, 24)
         Me.lblTitulo.TabIndex = 213
-        Me.lblTitulo.Text = "Relatório Crediário Pix"
+        Me.lblTitulo.Text = "Relatório Crediário Pagamento"
         '
         'imgLogo
         '

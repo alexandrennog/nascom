@@ -311,7 +311,7 @@ Namespace nsVenda
                 sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Caixa, "caixa")
 
                 '-- data
-                sqlWhere = sqlWhere & " AND  Original > 0 "
+                ' sqlWhere = sqlWhere & " AND  Original > 0 "
 
                 '-- clienteId
                 'sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.clienteId, "clienteId")

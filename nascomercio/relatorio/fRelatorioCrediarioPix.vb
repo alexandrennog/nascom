@@ -41,7 +41,7 @@ Public Class fRelatorioCrediarioPix
         Dim vendas As ncDados.nsVenda.ColecaoVenda
         Me.lstPix.View = View.Details
 
-        Dim otherItems As String() = {"Data", "Terminal", "Dinheiro", "PIX"}
+        'Dim otherItems As String() = {"Data", "Terminal", "Dinheiro", "PIX"}
         Me.lstPix.View = View.Details
         Me.lstPix.GridLines = True
         Me.lstPix.FullRowSelect = True
@@ -51,6 +51,7 @@ Public Class fRelatorioCrediarioPix
         Me.lstPix.Columns.Add("Controle")
         Me.lstPix.Columns.Add("Data").Width = 80
         Me.lstPix.Columns.Add("Terminal").Width = 80
+        Me.lstPix.Columns.Add("Total").Width = 100
         Me.lstPix.Columns.Add("Dinheiro")
         Me.lstPix.Columns.Add("PIX")
 
@@ -63,6 +64,7 @@ Public Class fRelatorioCrediarioPix
         Dim li As ListViewItem
 
         Dim totTotal As Decimal
+        Dim totCrediarioPagamento As Decimal
         Dim totPIX As Decimal
 
         For Each item As dVenda In vendas
@@ -71,17 +73,20 @@ Public Class fRelatorioCrediarioPix
             li.SubItems.Add(item.Data.ToString("dd/MM/yyyy"))
             li.SubItems.Add(item.Terminal)
             li.SubItems.Add(item.Total.ToString())
+            li.SubItems.Add((item.Total - item.Pix).ToString())
             li.SubItems.Add(item.Pix.ToString())
             Me.lstPix.Items.Add(li)
             totTotal = totTotal + item.Total
+            totCrediarioPagamento = totCrediarioPagamento + (item.Total - item.CrediarioPagamento)
             totPIX = totPIX + item.Pix
         Next
 
         li = New ListViewItem
         li.Text = ""
         li.SubItems.Add("")
-        li.SubItems.Add("Total:")
-        li.SubItems.Add(totTotal.ToString())
+        li.SubItems.Add("")
+        li.SubItems.Add("Total:" + totTotal.ToString())
+        li.SubItems.Add((totTotal - totPIX).ToString())
         li.SubItems.Add(totPIX.ToString())
         Me.lstPix.Items.Add(li)
 
@@ -112,7 +117,7 @@ Public Class fRelatorioCrediarioPix
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relatório de Crediário Pagos com PIX", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Crediário Pagamento", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -130,6 +135,7 @@ Public Class fRelatorioCrediarioPix
         Dim cell5 As New PdfPCell
         Dim cell6 As New PdfPCell
         Dim cell7 As New PdfPCell
+        Dim cell8 As New PdfPCell
         Dim cells As New List(Of PdfPCell)
 
         Dim fonte As Font
@@ -140,8 +146,9 @@ Public Class fRelatorioCrediarioPix
         'Dim coluna3 As New Paragraph("clienteId", fonte)
         Dim coluna4 As New Paragraph("data", fonte)
         Dim coluna5 As New Paragraph("terminal", fonte)
-        Dim coluna6 As New Paragraph("Dinheiro", fonte)
-        Dim coluna7 As New Paragraph("PIX", fonte)
+        Dim coluna6 As New Paragraph("Total", fonte)
+        Dim coluna7 As New Paragraph("Dinheiro", fonte)
+        Dim coluna8 As New Paragraph("PIX", fonte)
 
         cell1.AddElement(coluna1)
         'cell2.AddElement(coluna2)
@@ -150,6 +157,7 @@ Public Class fRelatorioCrediarioPix
         cell5.AddElement(coluna5)
         cell6.AddElement(coluna6)
         cell7.AddElement(coluna7)
+        cell8.AddElement(coluna8)
 
         table.AddCell(cell1)
         'table.AddCell(cell2)
@@ -158,10 +166,11 @@ Public Class fRelatorioCrediarioPix
         table.AddCell(cell5)
         table.AddCell(cell6)
         table.AddCell(cell7)
+        table.AddCell(cell8)
 
         Dim totTotal As Decimal
+        Dim totDinheiro As Decimal
         Dim totPIX As Decimal
-
 
         For Each item As dVenda In vendas
 
@@ -173,8 +182,10 @@ Public Class fRelatorioCrediarioPix
             table.AddCell(New PdfPCell(New Phrase(item.Terminal)))
             'cells.Add(New PdfPCell(New Phrase(item.Total)))
             table.AddCell(New PdfPCell(New Phrase(item.Total.ToString())))
+            table.AddCell(New PdfPCell(New Phrase((item.Total - item.CrediarioPagamento).ToString())))
             'cells.Add(New PdfPCell(New Phrase(item.Pix)))
             table.AddCell(New PdfPCell(New Phrase(item.Pix.ToString())))
+            totDinheiro = totDinheiro + (item.Total - item.CrediarioPagamento)
             totTotal = totTotal + item.Total
             totPIX = totPIX + item.Pix
         Next
@@ -183,9 +194,9 @@ Public Class fRelatorioCrediarioPix
         'cells.Add(New PdfPCell(New Phrase(item.Data)))
         table.AddCell(New PdfPCell(New Phrase("")))
         'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
-        table.AddCell(New PdfPCell(New Phrase("Total: ")))
+        table.AddCell(New PdfPCell(New Phrase("Total: " + totTotal.ToString())))
         'cells.Add(New PdfPCell(New Phrase(item.Total)))
-        table.AddCell(New PdfPCell(New Phrase(totTotal.ToString())))
+        table.AddCell(New PdfPCell(New Phrase((totTotal - totDinheiro).ToString())))
         'cells.Add(New PdfPCell(New Phrase(item.Pix)))
         table.AddCell(New PdfPCell(New Phrase(totPIX.ToString())))
 
@@ -214,5 +225,12 @@ Public Class fRelatorioCrediarioPix
         If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
             Process.Start(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
         End If
+    End Sub
+
+    Private Sub fRelatorioCrediarioPix_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        txtDataInicial.Text = DateTime.Now.ToString("dd/MM/yyyy")
+        txtDataFinal.Text = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy")
+
     End Sub
 End Class

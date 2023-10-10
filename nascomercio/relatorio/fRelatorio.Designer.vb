@@ -410,10 +410,10 @@ Partial Class fRelatorio
         Me.rbtCrediarioPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rbtCrediarioPix.Location = New System.Drawing.Point(310, 462)
         Me.rbtCrediarioPix.Name = "rbtCrediarioPix"
-        Me.rbtCrediarioPix.Size = New System.Drawing.Size(206, 23)
+        Me.rbtCrediarioPix.Size = New System.Drawing.Size(188, 23)
         Me.rbtCrediarioPix.TabIndex = 105
         Me.rbtCrediarioPix.TabStop = True
-        Me.rbtCrediarioPix.Text = "Crediário Pago com Pix"
+        Me.rbtCrediarioPix.Text = "Crediário Pagamento"
         Me.rbtCrediarioPix.UseVisualStyleBackColor = True
         '
         'fRelatorio
