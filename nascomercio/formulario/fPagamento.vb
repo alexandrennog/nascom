@@ -90,9 +90,17 @@ Public Class fPagamento
         If HabilitarPix() Then
             'RecuperarDadosPix()
             chkPIX.Enabled = True
+
         Else
             chkPIX.Enabled = False
         End If
+
+        txtValorPIX.Text = "0,00"
+        txtObs.Text = ""
+        txtTxId.Text = ""
+        txtStatus.Text = ""
+        txtUrlPix.Text = ""
+        txtPix.Text = "0,00"
 
     End Sub
     Private Function HabilitarPix() As Boolean
@@ -1202,8 +1210,8 @@ Public Class fPagamento
             btnPix.Text = "Cobrar"
             btnPix.Image = nascomercio.My.Resources.Resources.cobrar
 
-            txtPix.Text = ""
-            txtValorPIX.Text = ""
+            txtPix.Text = "0,00"
+            txtValorPIX.Text = "0,00"
             txtObs.Text = ""
             txtTxId.Text = ""
             txtStatus.Text = ""
