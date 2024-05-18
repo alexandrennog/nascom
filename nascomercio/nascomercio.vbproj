@@ -111,6 +111,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\componentes\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.1\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -118,6 +126,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -209,6 +218,7 @@
     <Compile Include="formulario\fOrdemServico.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="formulario\PayloadCobranca.vb" />
     <Compile Include="relatorio\fRelatorioBalanco.Designer.vb">
       <DependentUpon>fRelatorioBalanco.vb</DependentUpon>
     </Compile>
@@ -1455,6 +1465,10 @@
     <None Include="Resources\fundo_supermercado.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\PixLib\LibPix\LibPix.csproj">
+      <Project>{421e0810-a515-4b65-b527-9606ee45e7d9}</Project>
+      <Name>LibPix</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ncComum\ncComum.vbproj">
       <Project>{20D12D44-BB71-457A-90BA-19357108B3C0}</Project>
       <Name>ncComum</Name>

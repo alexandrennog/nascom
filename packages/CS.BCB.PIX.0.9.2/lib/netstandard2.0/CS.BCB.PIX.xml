@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CS.BCB.PIX</name>
+    </assembly>
+    <members>
+        <member name="P:CS.BCB.PIX.Models.CalendarioImadiataCriacao.expiracao">
+            <summary>
+            Tempo de vida da cobrança, especificado em segundos a partir da data de criação
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.ConsultaPaginacao.paginaAtual">
+            <summary>
+            Página a trazida
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.ConsultaPaginacao.itensPorPagina">
+            <summary>
+            Quantidade de produtos por página
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.ConsultaCpfCnpj.cpf">
+            <summary>
+            Indica CPF para fazer a consulta
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.ConsultaCpfCnpj.cnpj">
+            <summary>
+            Indica CNPJ para fazer a consulta
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.Consulta.inicio">
+            <summary>
+            Data inicial da busca
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.Consulta.fim">
+            <summary>
+            Data final (inlusive) da busca
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.Consulta.paginacao">
+            <summary>
+            Informação sobre paginação de resultados
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.CobrancaImediata.status">
+            <summary>
+            ATIVA, CONCLUIDA, REMOVIDA_PELO_USUARIO_RECEBEDOR, REMOVIDA_PELO_PSP
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.ConsultarPix.txid">
+            <summary>
+            Informa um id de transação a ser consultado
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.ConsultarPix.txIdPresente">
+            <summary>
+            Filtra apenas transações com ou sem id de transação.
+            NULL: Todos; true: Apenas com TxId; false: Apenas sem TxId
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.ConsultarPix.devolucaoPresente">
+            <summary>
+            Filtra apenas transações com ou sem devolução.
+            NULL: Todos; true: Apenas com devoluções; false: Apenas sem devoluções
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.PixDevolucao.status">
+            <summary>
+            EM_PROCESSAMENTO, DEVOLVIDO, NAO_REALIZADO
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.PixRecebido.nomePagador">
+            <summary>
+            Disponível em apenas alguns PSPs
+            </summary>
+        </member>
+        <member name="P:CS.BCB.PIX.Models.PixRecebido.pagador">
+            <summary>
+            Disponível em apenas alguns PSPs
+            </summary>
+        </member>
+        <member name="T:CS.BCB.PIX.Validadores.ValidacaoChaves">
+            <summary>
+            Valida chaves de acordo com https://www.bcb.gov.br/content/estabilidadefinanceira/pix/API-DICT.html#tag/Key
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoChaves.CHAVE_CPF_PATTERN">
+            <summary>
+            Pattern usado na validação de CPF
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoChaves.CHAVE_CNPJ_PATTERN">
+            <summary>
+            Pattern usado na validação de CNPJ
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoChaves.CHAVE_PHONE_PATTERN">
+            <summary>
+            Pattern usado na validação de Celular
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoChaves.CHAVE_EMAIL_PATTERN">
+            <summary>
+            Pattern usado na validação de e-mail
+            No manual, o pattern está bugado na grade, usarei o pattern no HTML5
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoChaves.CHAVE_EVP_PATTERN">
+            <summary>
+            Pattern usado na validação de chaves EVP (Endereço Virtual de Pagamento)
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoChaves.ValidaChave_CPF(System.String)">
+            <summary>
+            Valida chaves de CPF
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoChaves.ValidaChave_CNPJ(System.String)">
+            <summary>
+            Valida chaves de CNPJ
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoChaves.ValidaChave_PHONE(System.String)">
+            <summary>
+            Valida chave de celular
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoChaves.ValidaChave_EMAIL(System.String)">
+            <summary>
+            Valida chave de e-mail
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoChaves.ValidaChave_EVP(System.String)">
+            <summary>
+            Valida chave aleatória (EVP: Endereço Virtual de Pagamento)
+            </summary>
+        </member>
+        <member name="T:CS.BCB.PIX.Validadores.ValidacaoIdentificadores">
+            <summary>
+            Valida identificadores de acordo com https://bacen.github.io/pix-api/index.html#/
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ID_TRANSACAO_PATTERN">
+            <summary>
+            Pattern usado na validação de TxId
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ID_TRANSACAO_E2E_PATTERN">
+            <summary>
+            Pattern usado na validação do EndToEndIdentification que transita na PACS002, PACS004 e PACS008
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ID_TRANSACAO_DEVOLUCAO">
+            <summary>
+            Pattern usado na validação do id gerado pelo cliente para representar unicamente uma devolução
+            </summary>
+        </member>
+        <member name="F:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ID_RETURN_IDENTIFICATION">
+            <summary>
+            Pattern usado na validação do ReturnIdentification que transita na PACS004
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaTransactionId(System.String)">
+            <summary>
+            Valida id de transação
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaIdDevolucao(System.String)">
+            <summary>
+            Valida id de transação de devolução
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaIdE2E(System.String)">
+            <summary>
+            Valida id de fim-a-fim
+            </summary>
+        </member>
+        <member name="M:CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaIdRetorno(System.String)">
+            <summary>
+            Valida rtrId (Return Identification) que transita na PACS004
+            </summary>
+        </member>
+    </members>
+</doc>

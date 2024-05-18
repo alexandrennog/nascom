@@ -78,6 +78,31 @@ Public Class rPix
         fAlterarConfig = retorno
 
     End Function
+    Public Function AlterarPix(ByVal dados As dPix) As Integer
+
+        Dim retorno As Integer
+        Dim persistencia As pPix
+
+        Try
+
+            persistencia = New pPix
+            'If dados.cid.Value > 0 Then
+            'retorno = persistencia.IncluirCid(dados)
+            'Else
+            retorno = persistencia.AlterarPix(dados)
+            'End If
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em fAlterarConfig[" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        AlterarPix = retorno
+
+    End Function
+
 
     Public Function fConsultar(tx As String) As dPix
 

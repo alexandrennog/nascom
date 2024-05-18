@@ -18,6 +18,10 @@ Imports System.Threading
 Imports System
 Imports System.Linq
 Imports CLPix.Services
+Imports LibPix.Config
+Imports LibPix.Impl.Bancos
+Imports LibPix.Impl
+Imports QRCoder
 
 
 Public Class fPagamento
@@ -30,6 +34,10 @@ Public Class fPagamento
     Public crediario As String
     Private dadosParametro As dParametro
     Private regraParametro As rParametro
+    Private _configuracao As Configuracao
+    Private Banco As String
+    Private config As dPixConfig
+    Private regras As New rPix
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
@@ -41,6 +49,10 @@ Public Class fPagamento
         InitializeComponent()
         btnPix.Text = "Cobrar"
         txtTxId.Tag = 0
+        config = regras.fConsultarConfig()
+        Banco = ConfigurationManager.AppSettings("Banco")
+        _configuracao = New Configuracao(config.ClientID, config.ClientSecret, config.CertPath, config.CertPass, config.AppKey)
+
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
@@ -1055,6 +1067,79 @@ Public Class fPagamento
 
         End Try
     End Sub
+    Private Sub CriarCobranca()
+
+        Dim client As FabricaDeBancos
+        Dim dados As New dPix
+        Dim criarCobrancaResponseModel As CriarCobrancaModelGet
+
+
+        client = New FabricaDeBancos()
+        client.CriarBanco("Sicoob", _configuracao, EnvironmentType.Production)
+        Dim pix As dPix
+        pix = regras.Consultar("")
+
+        If IsNothing(pix) Then
+            Exit Sub
+        End If
+
+        Dim chave = config.Chave
+        Dim cobranca = New Cobranca(chave)
+        Dim devedor = New Devedor(pix.Cpf, pix.Nome)
+        Dim valor = New Valor(pix.Original)
+        Dim payloadCobranca = New PayloadCobranca() With {
+                .Cpf = config.Cpf,
+                .Cnpj = config.Cnpj,
+                .Nome = config.Nome,
+                .Original = pix.Original,
+                .Chave = config.Chave
+         }
+        Dim ret = ObterCobrancaValida(payloadCobranca)
+        criarCobrancaResponseModel = Criar(ret)
+        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
+        dados.ID = pix.ID
+        dados.TxId = criarCobrancaResponseModel.TxtId
+        dados.Status = criarCobrancaResponseModel.Status
+        dados.UrlPix = criarCobrancaResponseModel.PayloadQRCode
+        dados.DataHora = DateTime.Now
+
+
+        Dim imagem = GerarQrCodeEmPng(criarCobrancaResponseModel.PayloadQRCode)
+        Dim folderExists = Directory.Exists($"{folder}")
+        If folderExists = False Then
+            Directory.CreateDirectory($"{folder}")
+        End If
+
+        File.WriteAllBytes($"{folder}{criarCobrancaResponseModel.TxtId}.png", imagem)
+
+        regras.AlterarPix(dados)
+
+    End Sub
+    Private Function ObterCobrancaValida(ByVal payloadCobranca As PayloadCobranca) As CriarCobrancaModelPost
+        Dim cobranca = New Cobranca(payloadCobranca.Chave)
+        Dim devedor = New LibPix.Impl.Devedor(payloadCobranca.Cpf, payloadCobranca.Nome)
+        Dim valor = New LibPix.Impl.Valor(payloadCobranca.Original)
+        Dim calendario = New LibPix.Impl.Calendario(3600)
+        Dim post As CriarCobrancaModelPost = New CriarCobrancaModelPost(cobranca, valor, calendario)
+        Return post
+    End Function
+    Private Function Criar(Of T As Class)(ByVal payloadCobranca As T) As CriarCobrancaModelGet
+        Try
+            Dim client = New FabricaDeBancos().CriarBanco(Banco, _configuracao, EnvironmentType.Production)
+            Dim cob = client.CriarCobranca(payloadCobranca)
+            Return cob
+        Catch ex As Exception
+            Throw ex
+        End Try
+    End Function
+
+    Public Shared Function GerarQrCodeEmPng(ByVal textoImagemQrCode As String) As Byte()
+        Dim qrCodeGenerator As New QRCodeGenerator()
+        Dim qrCodeData = qrCodeGenerator.CreateQrCode(textoImagemQrCode, QRCodeGenerator.ECCLevel.Q)
+        Dim qrCodePng = New PngByteQRCode(qrCodeData)
+        Return qrCodePng.GetGraphic(20)
+    End Function
+
     Private Sub RecuperarDadosPix()
         Dim regras As rPix
         regras = New rPix
@@ -1200,6 +1285,7 @@ Public Class fPagamento
                 txtPix.Select()
             Else
                 Cadastrar()
+                CriarCobranca()
                 btnPix.Text = "Consultar"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
             End If
@@ -1207,6 +1293,7 @@ Public Class fPagamento
 
         ElseIf btnPix.Text = "Nova Cobrança" Then
             Cadastrar()
+            CriarCobranca()
             btnPix.Text = "Cobrar"
             btnPix.Image = nascomercio.My.Resources.Resources.cobrar
 
@@ -1234,7 +1321,7 @@ Public Class fPagamento
 
     End Sub
 
-    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs)
 
     End Sub
 

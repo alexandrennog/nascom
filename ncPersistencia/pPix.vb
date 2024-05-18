@@ -1,4 +1,5 @@
-﻿Imports ncComum
+﻿Imports MySql.Data.MySqlClient
+Imports ncComum
 Imports ncComum.nsAcessoBD
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
@@ -93,6 +94,47 @@ Public Class pPix
 
     End Function
 
+    Public Function AlterarPix(ByVal requisicao As dPix) As Integer
+
+        Dim retorno As Integer
+        Dim acessoBanco As cAcessoBD
+        Dim comandoSQL As String
+
+        Try
+
+            acessoBanco = New cAcessoBD
+
+            comandoSQL = " UPDATE PIX SET "
+
+            If Not requisicao.TxId Is Nothing Then
+                comandoSQL += " txID = " & cFuncoes.PersistirTexto(requisicao.TxId) & ","
+            End If
+
+            If Not requisicao.Status Is Nothing Then
+                comandoSQL += " Status = " & cFuncoes.PersistirTexto(requisicao.Status) & ","
+            End If
+
+            If Not requisicao.Status Is Nothing Then
+                comandoSQL += " UrlPix = " & cFuncoes.PersistirTexto(requisicao.UrlPix) & ","
+            End If
+
+            If requisicao.DataHora <> Nothing Then
+                comandoSQL += " DataHora = " & cFuncoes.PersistirDataHora(requisicao.DataHora)
+            End If
+
+            comandoSQL += " WHERE ID = " & cFuncoes.PersistirTexto(requisicao.ID)
+
+            retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Alterar Configuração pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+
+    End Function
 
     Public Function Consultar(tx As String) As dPix
 
