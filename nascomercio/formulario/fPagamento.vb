@@ -1110,7 +1110,7 @@ Public Class fPagamento
             Directory.CreateDirectory($"{folder}")
         End If
 
-        File.WriteAllBytes($"{folder}{criarCobrancaResponseModel.TxtId}.png", imagem)
+        File.WriteAllBytes($"{folder}\{criarCobrancaResponseModel.TxtId}.png", imagem)
 
         regras.AlterarPix(dados)
 
