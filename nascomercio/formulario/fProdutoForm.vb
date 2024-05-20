@@ -294,26 +294,26 @@ Public Class fProdutoForm
             txtAliquota.Text = txtAliquota.Text.Trim().ToUpper()
             listaAliquota = "|FF|II|NN|SS|"
             Dim aux As Double = 0
-            If Not txtAliquota.Text.Trim().Equals(String.Empty) Then
-                If Not listaAliquota.Contains("|" & txtAliquota.Text.ToUpper() & "|") Then
-                    If Not Double.TryParse(txtAliquota.Text, aux) Then
-                        MessageBox.Show("Alíquota inválida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        txtAliquota.Focus()
-                        retorno = False
-                    Else
-                        txtAliquota.Text = aux.ToString("00.00")
-                        If (Convert.ToDouble(txtAliquota.Text) <= 0) Or (Convert.ToDouble(txtAliquota.Text) >= 100) Then
-                            MessageBox.Show("Alíquota inválida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                            txtAliquota.Focus()
-                            retorno = False
-                        End If
-                    End If
-                End If
-            Else
-                MessageBox.Show("Informe a Alíquota", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                txtAliquota.Focus()
-                retorno = False
-            End If
+            'If Not txtAliquota.Text.Trim().Equals(String.Empty) Then
+            '    If Not listaAliquota.Contains("|" & txtAliquota.Text.ToUpper() & "|") Then
+            '        If Not Double.TryParse(txtAliquota.Text, aux) Then
+            '            MessageBox.Show("Alíquota inválida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '            txtAliquota.Focus()
+            '            retorno = False
+            '        Else
+            '            txtAliquota.Text = aux.ToString("00.00")
+            '            If (Convert.ToDouble(txtAliquota.Text) <= 0) Or (Convert.ToDouble(txtAliquota.Text) >= 100) Then
+            '                MessageBox.Show("Alíquota inválida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '                txtAliquota.Focus()
+            '                retorno = False
+            '            End If
+            '        End If
+            '    End If
+            'Else
+            '    MessageBox.Show("Informe a Alíquota", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '    txtAliquota.Focus()
+            '    retorno = False
+            'End If
 
         Catch ex As Exception
             retorno = False
