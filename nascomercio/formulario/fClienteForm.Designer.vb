@@ -517,7 +517,7 @@ Partial Class fClienteForm
         Me.btnLoadImage.Size = New System.Drawing.Size(96, 20)
         Me.btnLoadImage.TabIndex = 311
         Me.btnLoadImage.TabStop = False
-        Me.btnLoadImage.Text = "Foto <F1>"
+        Me.btnLoadImage.Text = "Foto <F2>"
         Me.btnLoadImage.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btnLoadImage.UseVisualStyleBackColor = False
         '

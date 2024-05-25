@@ -629,7 +629,7 @@ Public Class fClienteForm
                 End If
             Case Keys.F1
                 CarregarCamera()
-            Case Keys.F1
+            Case Keys.F2
                 CarregarFoto()
             Case Keys.F3
                 'ConfigurarRelatorio()
