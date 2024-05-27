@@ -18,6 +18,7 @@ Imports System.IO
 Imports LibPix.Impl
 Imports QRCoder.PayloadGenerator.SwissQrCode
 Imports System.Security.Cryptography
+Imports Newtonsoft.Json.Linq
 
 Public Class fRelatorioEstoque
 
@@ -189,6 +190,7 @@ Public Class fRelatorioEstoque
         End If
         Dim li As ListViewItem
 
+
         For Each item As dEstoque In dadosParametro
             li = New ListViewItem
             li.Text = item.Fabricante.ToString
@@ -233,6 +235,16 @@ Public Class fRelatorioEstoque
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
+
+
+        Dim valorCompraSoma As Double = 0
+        Dim valorVendaSoma As Double = 0
+        Dim estoqueSoma As Integer = 0
+
+        Dim tableHeader As New PdfPTable(6)
+        tableHeader.DefaultCell.Border = Rectangle.NO_BORDER
+
+
 
         doc.Add(paragrafoTitulo)
         doc.Add(Chunk.NEWLINE)
@@ -283,6 +295,10 @@ Public Class fRelatorioEstoque
         'new Chunk(expStringBuilder1.ToString(), infoFont2)
         Dim infoFont2 = FontFactory.GetFont("Kalinga", 8, New iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000")))
 
+
+
+
+
         For Each item As dEstoque In dadosParametro
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Fabricante.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.CID.ToString(), infoFont2))))
@@ -292,18 +308,30 @@ Public Class fRelatorioEstoque
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorCompra.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorVenda.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Valor.ToString(), infoFont2))))
+
+            valorCompraSoma += item.ValorCompra
+            valorVendaSoma += item.ValorVenda
+            estoqueSoma += item.Valor
+
         Next
 
-        'table.AddCell(New PdfPCell(New Phrase("")))
-        ''cells.Add(New PdfPCell(New Phrase(item.Data)))
-        'table.AddCell(New PdfPCell(New Phrase("")))
-        ''cells.Add(New PdfPCell(New Phrase(item.Terminal)))
-        'table.AddCell(New PdfPCell(New Phrase("Total: ")))
-        ''cells.Add(New PdfPCell(New Phrase(item.Total)))
-        'table.AddCell(New PdfPCell(New Phrase(totTotal.ToString())))
-        ''cells.Add(New PdfPCell(New Phrase(item.Pix)))
-        'table.AddCell(New PdfPCell(New Phrase(totPIX.ToString())))
+        tableHeader.AddCell("")
+        tableHeader.AddCell("")
+        tableHeader.AddCell("")
+        tableHeader.AddCell("Valor Compra")
+        tableHeader.AddCell("Valor Venda")
+        tableHeader.AddCell("Estoque")
 
+        tableHeader.AddCell("")
+        tableHeader.AddCell("")
+        tableHeader.AddCell("Total em Estoque:")
+        tableHeader.AddCell(String.Format("{0:n}", valorCompraSoma))
+        tableHeader.AddCell(String.Format("{0:n}", valorVendaSoma))
+        tableHeader.AddCell(estoqueSoma.ToString())
+
+
+        doc.Add(tableHeader)
+        doc.Add(Chunk.NEWLINE)
 
         If Not dadosParametro Is Nothing Then
             doc.Add(table)
