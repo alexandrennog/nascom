@@ -25,9 +25,12 @@ Namespace nsLoja
     Private _situacao As String
     Private _spc_codigo_associado As String
     Private _spc_nome_informante As String
-    Private _spc_controle_informante As String
+        Private _spc_controle_informante As String
+        Private _inscestadual As String
 
-    Public Property cid() As Nullable(Of Integer)
+
+
+        Public Property cid() As Nullable(Of Integer)
       Get
         Return _cid
       End Get
@@ -198,15 +201,28 @@ Namespace nsLoja
       End Set
     End Property
 
-    Public Property spc_controle_informante() As String
-      Get
-        Return _spc_controle_informante
-      End Get
-      Set(ByVal value As String)
-        _spc_controle_informante = value
-      End Set
-    End Property
+        Public Property spc_controle_informante() As String
+            Get
+                Return _spc_controle_informante
+            End Get
+            Set(ByVal value As String)
+                _spc_controle_informante = value
+            End Set
+        End Property
+        Public Property Inscestadual() As String
+            Get
+                Return _inscestadual
+            End Get
+            Set(ByVal value As String)
+                _inscestadual = value
+            End Set
+        End Property
 
-  End Class
+
+
+
+
+
+    End Class
 
 End Namespace

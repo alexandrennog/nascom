@@ -21,11 +21,11 @@ Namespace nsLoja
 
         acessoBanco = New cAcessoBD
 
-        comandoSQL = " Select cid, nomeFantasia, logradouro, numero, complemento, bairro, cidade, estado_cid, " & _
-            " cep, cnpj, ddd, telefone, ramal, nomeContato, codigo, situacao, razaoSocial, " & _
-            " spc_codigo_associado, spc_controle_informante, spc_nome_informante From lojas"
+                comandoSQL = " Select cid, nomeFantasia, logradouro, numero, complemento, bairro, cidade, estado_cid, " &
+            " cep, cnpj, ddd, telefone, ramal, nomeContato, codigo, situacao, razaoSocial, " &
+            " spc_codigo_associado, spc_controle_informante, spc_nome_informante, inscestadual From lojas"
 
-        ds = acessoBanco.ExecutarDS(comandoSQL)
+                ds = acessoBanco.ExecutarDS(comandoSQL)
 
         If Not ds Is Nothing Then
           If ds.Tables.Count > 0 Then
@@ -56,9 +56,10 @@ Namespace nsLoja
                 item.situacao = cFuncoes.RetornarTexto(row("situacao"))
                 item.spc_codigo_associado = cFuncoes.RetornarTexto(row("spc_codigo_associado"))
                 item.spc_controle_informante = cFuncoes.RetornarTexto(row("spc_controle_informante"))
-                item.spc_nome_informante = cFuncoes.RetornarTexto(row("spc_nome_informante"))
+                                item.spc_nome_informante = cFuncoes.RetornarTexto(row("spc_nome_informante"))
+                                item.Inscestadual = cFuncoes.RetornarTexto(row("inscestadual"))
 
-                retorno.Add(item)
+                                retorno.Add(item)
               Next
             Else
               retorno = Nothing

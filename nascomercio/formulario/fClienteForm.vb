@@ -22,6 +22,8 @@ Imports ncComum.nsFuncoes
 Imports ncDados
 Imports ncRegras
 Imports System.Globalization
+Imports ncRegras.nsLoja
+Imports ncDados.nsLoja
 
 Public Class fClienteForm
 
@@ -151,20 +153,24 @@ Public Class fClienteForm
             ' Step 5: Add content to the document
             AddBody(doc, dados)
 
-            If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
-                Process.Start(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
+            If doc IsNot Nothing Then
+                doc.Close()
             End If
+
+            ImprimirContrato(arquivoPDF)
 
         Catch ex As Exception
             Console.WriteLine("Error: " & ex.Message)
         Finally
             ' Step 6: Close the Document
-            If doc IsNot Nothing Then
-                doc.Close()
-            End If
+
         End Try
     End Sub
-
+    Private Sub ImprimirContrato(arquivoPDF As String)
+        If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
+            Process.Start(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
+        End If
+    End Sub
     Private Sub AddBody(documento As Document, dados As dCliente)
         ' Define a font for the body text
         Dim bodyFont As Font = FontFactory.GetFont(FontFactory.HELVETICA, 8, BaseColor.BLACK)
@@ -174,6 +180,15 @@ Public Class fClienteForm
         Dim frase As New Phrase
         Dim regrasEndereco As New rClienteEndereco()
         Dim dadosEndereco As New dClienteEndereco()
+
+        Dim regras As rLoja
+        Dim colecaoLoja As ColecaoLoja
+        Dim loja As New dLoja
+
+        regras = New rLoja
+        colecaoLoja = regras.Listar()
+        loja = colecaoLoja.FirstOrDefault(Function(s) s.cid = 1)
+
         Dim regrasEstado As rEstado
         Dim colecaoEstado As ColecaoEstado
         regrasEstado = New rEstado()
@@ -201,7 +216,7 @@ Public Class fClienteForm
         documento.Add(paragrap4)
         documento.Add(paragrap41)
 
-        Dim dados0 As String = "DE UM LADO COMO CONTRATANTE A LOJA DE CALÇADOS E BOLSAS LTDA-Me SOB INCRIÇÃO ESTADUAL 623.332.070.110 Me e CGC 01.782.048/001-61, situada a Av Itamarati, 1641 - VL Curuça, Santo André-SP. "
+        Dim dados0 As String = $"DE UM LADO COMO CONTRATANTE A {If(cFuncoes.RetornarTexto(loja.nomeFantasia) Is Nothing, "", cFuncoes.RetornarTexto(loja.nomeFantasia).ToString())} SOB INCRIÇÃO ESTADUAL  {If(cFuncoes.RetornarTexto(loja.Inscestadual) Is Nothing, "", cFuncoes.RetornarTexto(loja.Inscestadual).ToString())}  e CGC {If(cFuncoes.RetornarTexto(loja.cnpj) Is Nothing, "", cFuncoes.RetornarTexto(loja.cnpj).ToString())}, situada a {If(cFuncoes.RetornarTexto(loja.logradouro) Is Nothing, "", cFuncoes.RetornarTexto(loja.logradouro).ToString())},{If(cFuncoes.RetornarTexto(loja.numero) Is Nothing, "", cFuncoes.RetornarTexto(loja.numero).ToString())} - {If(cFuncoes.RetornarTexto(loja.bairro) Is Nothing, "", cFuncoes.RetornarTexto(loja.bairro).ToString())}, {If(cFuncoes.RetornarTexto(loja.cidade) Is Nothing, "", cFuncoes.RetornarTexto(loja.cidade).ToString())}{If(cFuncoes.RetornarTexto(loja.estado_cid) Is Nothing, "", cFuncoes.RetornarTexto(loja.estado_cid).ToString())}. "
         Dim paragrafo0 As New Paragraph(dados0, bodyFont)
         documento.Add(paragrafo0)
         documento.Add(New Paragraph(" "))
