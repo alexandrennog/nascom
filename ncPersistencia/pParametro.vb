@@ -2,6 +2,9 @@ Imports ncDados.nsParametro
 Imports ncComum.nsAcessoBD
 Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncDados.nsdParametroEstoque
+Imports ncDados
+Imports System.Security.Cryptography
 
 Namespace nsParametro
 
@@ -138,6 +141,103 @@ Namespace nsParametro
             End Try
 
             Consultar = retorno
+
+        End Function
+
+        Public Function ConsultarEstoque(ByVal dados As dParametroEstoque) As ColecaoParametroEstoque
+
+            Dim retorno As ColecaoParametroEstoque
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dEstoque
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+
+                sqlSelect = " SELECT e.fabricante, e.cid, p.descricao, e.referencia, e.item, e.valorCompra, e.valorVenda, e.valor"
+
+                sqlWhere = String.Empty
+                sqlFrom = " FROM nascomercio.produtos as p "
+                sqlFrom += "  INNER JOIN nascomercio.v_estoque as e ON e.cid = p.cid "
+
+                If dados.valor = 1 Then
+                    sqlWhere = sqlWhere + " e.valor > 0"
+                Else
+                    sqlWhere = sqlWhere + " e.valor = 0"
+                End If
+
+                If dados.cidGrupo > 0 Then
+                    sqlWhere = sqlWhere + " AND p.grupo_cid = " + dados.cidGrupo.ToString
+                End If
+
+                If dados.cidFornecedor > 0 Then
+                    sqlWhere = sqlWhere + " AND e.fornecedor_cid = " + dados.cidFornecedor.ToString
+                End If
+
+                If dados.cidFabricante > 0 Then
+                    sqlWhere = sqlWhere + " AND e.fabricante_cid = " + dados.cidFabricante.ToString
+                End If
+
+                If Not String.IsNullOrEmpty(dados.descricao) Then
+                    sqlWhere = sqlWhere + "AND descricao = '" + dados.descricao + "'"
+                End If
+
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoParametroEstoque
+
+                            For Each row In dt.Rows
+                                item = New dEstoque
+                                item.Fabricante = cFuncoes.RetornarTexto(row("fabricante"))
+                                item.CID = cFuncoes.RetornarTexto(row("cid"))
+                                item.Descricao = cFuncoes.RetornarTexto(row("descricao"))
+                                item.Referencia = cFuncoes.RetornarTexto(row("referencia"))
+                                item.Item = cFuncoes.RetornarTexto(row("item"))
+                                item.ValorCompra = cFuncoes.RetornarDecimal(row("valorCompra"))
+                                item.ValorVenda = cFuncoes.RetornarDecimal(row("valorVenda"))
+                                item.Descricao = cFuncoes.RetornarTexto(row("descricao"))
+                                item.Valor = cFuncoes.RetornarDecimal(row("valor"))
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw nex
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ConsultarEstoque = retorno
 
         End Function
 

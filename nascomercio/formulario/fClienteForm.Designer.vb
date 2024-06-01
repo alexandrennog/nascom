@@ -1,85 +1,88 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class fClienteForm
-  Inherits System.Windows.Forms.Form
+    Inherits System.Windows.Forms.Form
 
-  'Form overrides dispose to clean up the component list.
-  <System.Diagnostics.DebuggerNonUserCode()> _
-  Protected Overrides Sub Dispose(ByVal disposing As Boolean)
-    Try
-      If disposing AndAlso components IsNot Nothing Then
-        components.Dispose()
-      End If
-    Finally
-      MyBase.Dispose(disposing)
-    End Try
-  End Sub
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
 
-  'Required by the Windows Form Designer
-  Private components As System.ComponentModel.IContainer
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
 
-  'NOTE: The following procedure is required by the Windows Form Designer
-  'It can be modified using the Windows Form Designer.  
-  'Do not modify it using the code editor.
-  <System.Diagnostics.DebuggerStepThrough()> _
-  Private Sub InitializeComponent()
-        Me.lblCliCadastro = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.Label15 = New System.Windows.Forms.Label
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.txtCPF = New System.Windows.Forms.MaskedTextBox
-        Me.txtNome = New System.Windows.Forms.TextBox
-        Me.txtNacionalidade = New System.Windows.Forms.TextBox
-        Me.txtNaturalidade = New System.Windows.Forms.TextBox
-        Me.txtRG = New System.Windows.Forms.MaskedTextBox
-        Me.txtOrgaoEmissor = New System.Windows.Forms.TextBox
-        Me.cboEstado = New System.Windows.Forms.ComboBox
-        Me.txtNomePai = New System.Windows.Forms.TextBox
-        Me.txtNomeMae = New System.Windows.Forms.TextBox
-        Me.txtCarteiraProfissional = New System.Windows.Forms.TextBox
-        Me.cboEstadoCivil = New System.Windows.Forms.ComboBox
-        Me.cboSexo = New System.Windows.Forms.ComboBox
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.Label26 = New System.Windows.Forms.Label
-        Me.txtDDD = New System.Windows.Forms.MaskedTextBox
-        Me.txtTelefone = New System.Windows.Forms.MaskedTextBox
-        Me.lblCliSubTitulo = New System.Windows.Forms.Label
-        Me.cboSituacao = New System.Windows.Forms.ComboBox
-        Me.txtEmail = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtDataNascimento = New System.Windows.Forms.MaskedTextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Label25 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.btoCamera = New System.Windows.Forms.Button
-        Me.txtCodigo = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.btoVeiculos = New System.Windows.Forms.Button
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.txtDddCelular = New System.Windows.Forms.MaskedTextBox
-        Me.txtCelular = New System.Windows.Forms.MaskedTextBox
-        Me.Label19 = New System.Windows.Forms.Label
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.btoVendas = New System.Windows.Forms.Button
-        Me.btoCheques = New System.Windows.Forms.Button
-        Me.btoSalvar = New System.Windows.Forms.Button
-        Me.btoExcluir = New System.Windows.Forms.Button
-        Me.btoCrediario = New System.Windows.Forms.Button
-        Me.btoFinanceiro = New System.Windows.Forms.Button
-        Me.btoProfissional = New System.Windows.Forms.Button
-        Me.btoEndereco = New System.Windows.Forms.Button
-        Me.picImagem = New System.Windows.Forms.PictureBox
-        Me.btoFiltro = New System.Windows.Forms.Button
-        Me.imgCliLogo = New System.Windows.Forms.PictureBox
-        Me.btoSair = New System.Windows.Forms.Button
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.lblCliCadastro = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.txtCPF = New System.Windows.Forms.MaskedTextBox()
+        Me.txtNome = New System.Windows.Forms.TextBox()
+        Me.txtNacionalidade = New System.Windows.Forms.TextBox()
+        Me.txtNaturalidade = New System.Windows.Forms.TextBox()
+        Me.txtRG = New System.Windows.Forms.MaskedTextBox()
+        Me.txtOrgaoEmissor = New System.Windows.Forms.TextBox()
+        Me.cboEstado = New System.Windows.Forms.ComboBox()
+        Me.txtNomePai = New System.Windows.Forms.TextBox()
+        Me.txtNomeMae = New System.Windows.Forms.TextBox()
+        Me.txtCarteiraProfissional = New System.Windows.Forms.TextBox()
+        Me.cboEstadoCivil = New System.Windows.Forms.ComboBox()
+        Me.cboSexo = New System.Windows.Forms.ComboBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.txtDDD = New System.Windows.Forms.MaskedTextBox()
+        Me.txtTelefone = New System.Windows.Forms.MaskedTextBox()
+        Me.lblCliSubTitulo = New System.Windows.Forms.Label()
+        Me.cboSituacao = New System.Windows.Forms.ComboBox()
+        Me.txtEmail = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtDataNascimento = New System.Windows.Forms.MaskedTextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.btoCamera = New System.Windows.Forms.Button()
+        Me.txtCodigo = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnLoadImage = New System.Windows.Forms.Button()
+        Me.btoContrato = New System.Windows.Forms.Button()
+        Me.btoVeiculos = New System.Windows.Forms.Button()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.txtDddCelular = New System.Windows.Forms.MaskedTextBox()
+        Me.txtCelular = New System.Windows.Forms.MaskedTextBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.btoVendas = New System.Windows.Forms.Button()
+        Me.btoCheques = New System.Windows.Forms.Button()
+        Me.btoSalvar = New System.Windows.Forms.Button()
+        Me.btoExcluir = New System.Windows.Forms.Button()
+        Me.btoCrediario = New System.Windows.Forms.Button()
+        Me.btoFinanceiro = New System.Windows.Forms.Button()
+        Me.btoProfissional = New System.Windows.Forms.Button()
+        Me.btoEndereco = New System.Windows.Forms.Button()
+        Me.picImagem = New System.Windows.Forms.PictureBox()
+        Me.btoFiltro = New System.Windows.Forms.Button()
+        Me.imgCliLogo = New System.Windows.Forms.PictureBox()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.Panel1.SuspendLayout()
         CType(Me.picImagem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,7 +185,7 @@ Partial Class fClienteForm
         Me.Label14.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.Label14.Location = New System.Drawing.Point(64, 198)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(50, 18)
+        Me.Label14.Size = New System.Drawing.Size(46, 18)
         Me.Label14.TabIndex = 1
         Me.Label14.Text = "C.P.F."
         '
@@ -325,7 +328,7 @@ Partial Class fClienteForm
         Me.Label26.AutoSize = True
         Me.Label26.Location = New System.Drawing.Point(188, 348)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(72, 18)
+        Me.Label26.Size = New System.Drawing.Size(71, 18)
         Me.Label26.TabIndex = 87
         Me.Label26.Text = "Telefone"
         '
@@ -453,7 +456,7 @@ Partial Class fClienteForm
         Me.btoCamera.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btoCamera.ForeColor = System.Drawing.Color.Black
         Me.btoCamera.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoCamera.Location = New System.Drawing.Point(532, 330)
+        Me.btoCamera.Location = New System.Drawing.Point(475, 325)
         Me.btoCamera.Name = "btoCamera"
         Me.btoCamera.Size = New System.Drawing.Size(96, 20)
         Me.btoCamera.TabIndex = 122
@@ -487,6 +490,9 @@ Partial Class fClienteForm
         '
         Me.Panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.Window
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.btnLoadImage)
+        Me.Panel1.Controls.Add(Me.btoContrato)
+        Me.Panel1.Controls.Add(Me.btoCamera)
         Me.Panel1.Controls.Add(Me.btoVeiculos)
         Me.Panel1.Controls.Add(Me.Label18)
         Me.Panel1.Controls.Add(Me.txtDddCelular)
@@ -496,6 +502,44 @@ Partial Class fClienteForm
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(830, 550)
         Me.Panel1.TabIndex = 303
+        '
+        'btnLoadImage
+        '
+        Me.btnLoadImage.BackColor = System.Drawing.Color.Transparent
+        Me.btnLoadImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnLoadImage.FlatAppearance.BorderSize = 0
+        Me.btnLoadImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnLoadImage.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnLoadImage.ForeColor = System.Drawing.Color.Black
+        Me.btnLoadImage.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnLoadImage.Location = New System.Drawing.Point(577, 325)
+        Me.btnLoadImage.Name = "btnLoadImage"
+        Me.btnLoadImage.Size = New System.Drawing.Size(96, 20)
+        Me.btnLoadImage.TabIndex = 311
+        Me.btnLoadImage.TabStop = False
+        Me.btnLoadImage.Text = "Foto <F2>"
+        Me.btnLoadImage.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnLoadImage.UseVisualStyleBackColor = False
+        '
+        'btoContrato
+        '
+        Me.btoContrato.BackColor = System.Drawing.Color.Transparent
+        Me.btoContrato.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoContrato.FlatAppearance.BorderSize = 0
+        Me.btoContrato.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btoContrato.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btoContrato.ForeColor = System.Drawing.Color.Black
+        Me.btoContrato.Image = Global.nascomercio.My.Resources.Resources.novo
+        Me.btoContrato.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoContrato.Location = New System.Drawing.Point(475, 470)
+        Me.btoContrato.Margin = New System.Windows.Forms.Padding(0)
+        Me.btoContrato.Name = "btoContrato"
+        Me.btoContrato.Size = New System.Drawing.Size(112, 70)
+        Me.btoContrato.TabIndex = 310
+        Me.btoContrato.TabStop = False
+        Me.btoContrato.Text = "Contrato <F3>"
+        Me.btoContrato.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoContrato.UseVisualStyleBackColor = False
         '
         'btoVeiculos
         '
@@ -796,6 +840,10 @@ Partial Class fClienteForm
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSair.UseVisualStyleBackColor = False
         '
+        'SaveFileDialog1
+        '
+        Me.SaveFileDialog1.CheckPathExists = False
+        '
         'fClienteForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
@@ -804,7 +852,6 @@ Partial Class fClienteForm
         Me.ClientSize = New System.Drawing.Size(830, 550)
         Me.Controls.Add(Me.txtCodigo)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.btoCamera)
         Me.Controls.Add(Me.txtDataNascimento)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label7)
@@ -928,4 +975,7 @@ Partial Class fClienteForm
     Friend WithEvents txtCelular As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents btoVeiculos As System.Windows.Forms.Button
+    Friend WithEvents btoContrato As Button
+    Friend WithEvents SaveFileDialog1 As SaveFileDialog
+    Friend WithEvents btnLoadImage As Button
 End Class

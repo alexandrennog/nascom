@@ -8,6 +8,21 @@ Imports ncComum.nsFuncoes.cFuncoes
 Imports ncComum.nsExcecao
 Imports System.Configuration
 Imports System.IO
+Imports iTextSharp.text.pdf
+Imports iTextSharp.text
+Imports com.itextpdf.text
+Imports iTextSharp.text.pdf.qrcode
+Imports Imagem = System.Drawing.Image
+Imports ImagemFormato = System.Drawing.Imaging
+Imports System.Drawing.Imaging
+Imports System.Security.Cryptography
+Imports iTextSharp.text.pdf.draw
+Imports ncComum.nsFuncoes
+Imports ncDados
+Imports ncRegras
+Imports System.Globalization
+Imports ncRegras.nsLoja
+Imports ncDados.nsLoja
 
 Public Class fClienteForm
 
@@ -81,6 +96,302 @@ Public Class fClienteForm
             Exit Sub
         End Try
     End Sub
+    Private Sub CarregarFoto()
+        Dim dirFotos As String
+
+        Dim image As Imagem
+        image = picImagem.Image
+
+        SaveFileDialog1.Filter = "JPEG Image|*.jpg|PNG Image|*.png|BMP Image|*.bmp"
+        SaveFileDialog1.CheckFileExists = False
+        SaveFileDialog1.RestoreDirectory = False
+        SaveFileDialog1.CreatePrompt = True
+        SaveFileDialog1.OverwritePrompt = False
+
+        If dirRaiz <> "" Then
+            dirFotos = dirRaiz & "\" & dirFoto
+        Else
+            dirFotos = dirFoto
+        End If
+
+        If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
+            picImagem.ImageLocation = SaveFileDialog1.FileName
+            picImagem.Tag = SaveFileDialog1.FileName
+        End If
+        ' End Using
+    End Sub
+
+
+    Public Function CreatePDF() As Boolean
+
+        CreatePDF = False
+        Dim retBody As Boolean = False
+
+        Try
+
+            Dim doc As New Document(PageSize.A4, 40, 40, 40, 40)
+            Dim dados As New dCliente
+            Dim regras As rCliente
+
+            regras = New rCliente()
+            dados = regras.ConsultarPorCID(Me.cid)
+
+            Dim arquivoPDF = "RelatorioContrato" & dados.nome.Replace(" ", "_") & ".pdf"
+
+            Using ms As New MemoryStream()
+
+                If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & "\" & arquivoPDF) Then
+                    System.IO.File.Delete(ConfigurationManager.AppSettings("pathRelatorio") & "\" & arquivoPDF)
+                End If
+
+                Dim File = New FileStream(ConfigurationManager.AppSettings("pathRelatorio") & "\" & arquivoPDF, FileMode.Create)
+
+                Dim writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, File)
+                doc.Open()
+
+                ' Step 5: Add content to the document
+                retBody = AddBody(doc, dados)
+
+                doc.Close()
+
+            End Using
+
+            CreatePDF = retBody
+        Catch ex As Exception
+            Console.WriteLine("Error: " & ex.Message)
+
+        Finally
+            ' Step 6: Close the Document
+
+        End Try
+    End Function
+    Private Sub ImprimirContrato()
+
+        Dim dados As New dCliente
+        Dim regras As rCliente
+
+        regras = New rCliente()
+        dados = regras.ConsultarPorCID(Me.cid)
+
+        Dim arquivoPDF = "RelatorioContrato" & dados.nome.Replace(" ", "_") & ".pdf"
+
+        Using ms As New MemoryStream()
+
+            If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & "\" & arquivoPDF) Then
+                Process.Start(ConfigurationManager.AppSettings("pathRelatorio") & "\" & arquivoPDF)
+            End If
+
+        End Using
+
+    End Sub
+    Private Function AddBody(documento As Document, dados As dCliente) As Boolean
+
+        AddBody = False
+
+        ' Define a font for the body text
+        Dim bodyFont As Font = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 8, BaseColor.BLACK)
+
+        Dim bodyFont2 As Font = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 8, BaseColor.BLACK)
+
+        Dim frase As New Phrase
+        Dim regrasEndereco As New rClienteEndereco()
+        Dim dadosEndereco As New dClienteEndereco()
+
+        Dim regras As rLoja
+        Dim colecaoLoja As ColecaoLoja
+        Dim loja As New dLoja
+
+        regras = New rLoja
+        colecaoLoja = regras.Listar()
+
+        loja = colecaoLoja.Find(Function(s) s.cid = 1)
+
+        If loja Is Nothing Then
+            MessageBox.Show("É necessário informar os dados da loja matriz para continuar")
+            Exit Function
+        End If
+
+        Dim regrasEstado As rEstado
+        Dim colecaoEstado As ColecaoEstado
+        regrasEstado = New rEstado()
+        colecaoEstado = regrasEstado.Listar()
+
+        dadosEndereco.cliente_cid = Me.cid
+        Dim dadosEnderecos As New ColecaoClienteEndereco
+
+        dadosEnderecos = regrasEndereco.Consultar(dadosEndereco)
+        If dadosEnderecos Is Nothing Then
+            MessageBox.Show("É necessário informar o endereço para contnuar")
+            Exit Function
+        End If
+
+
+        dadosEndereco = dadosEnderecos(0)
+        Dim nomeEstado = colecaoEstado.Find(Function(s) s.cid = dadosEndereco.estado_cid).nome
+        Dim contents As New Paragraph()
+        contents.Alignment = Element.ALIGN_CENTER
+
+        Dim paragrap1 As New Paragraph("CÓDIGO CLIENTE", bodyFont)
+        paragrap1.Alignment = Element.ALIGN_CENTER
+        documento.Add(paragrap1)
+
+
+        Dim paragrap2 As New Paragraph("CONTRATO DE CREDITO DA LOJA DE CALÇADOS E BOLSAS SAPATEK", bodyFont)
+        paragrap2.Alignment = Element.ALIGN_CENTER
+        documento.Add(paragrap2)
+        Dim paragrap3 As New Paragraph("CONDIÇES GERAIS", bodyFont)
+        paragrap3.Alignment = Element.ALIGN_CENTER
+        documento.Add(paragrap3)
+        Dim paragrap4 As New Paragraph("  ")
+        Dim paragrap41 As New Paragraph("  ")
+        documento.Add(paragrap4)
+        documento.Add(paragrap41)
+
+        Dim dados0 As String = $"DE UM LADO COMO CONTRATANTE A {If(cFuncoes.RetornarTexto(loja.nomeFantasia) Is Nothing, "", cFuncoes.RetornarTexto(loja.nomeFantasia).ToString())} SOB INCRIÇÃO ESTADUAL  {If(cFuncoes.RetornarTexto(loja.Inscestadual) Is Nothing, "", cFuncoes.RetornarTexto(loja.Inscestadual).ToString())}  e CGC {If(cFuncoes.RetornarTexto(loja.cnpj) Is Nothing, "", cFuncoes.RetornarTexto(loja.cnpj).ToString())}, situada a {If(cFuncoes.RetornarTexto(loja.logradouro) Is Nothing, "", cFuncoes.RetornarTexto(loja.logradouro).ToString())},{If(cFuncoes.RetornarTexto(loja.numero) Is Nothing, "", cFuncoes.RetornarTexto(loja.numero).ToString())} - {If(cFuncoes.RetornarTexto(loja.bairro) Is Nothing, "", cFuncoes.RetornarTexto(loja.bairro).ToString())}, {If(cFuncoes.RetornarTexto(loja.cidade) Is Nothing, "", cFuncoes.RetornarTexto(loja.cidade).ToString())}{If(cFuncoes.RetornarTexto(loja.estado_cid) Is Nothing, "", cFuncoes.RetornarTexto(loja.estado_cid).ToString())}. "
+        Dim paragrafo0 As New Paragraph(dados0, bodyFont)
+        documento.Add(paragrafo0)
+        documento.Add(New Paragraph(" "))
+
+        Dim dados00 As String = "De um lado como contratado "
+        Dim paragrafo00 As New Paragraph(dados00, bodyFont)
+        documento.Add(paragrafo00)
+        documento.Add(New Paragraph(" "))
+        Dim dados01 As String = "Nome:   " & If(dados.nome Is Nothing, "", dados.nome.ToString())
+        Dim paragrafo01 As New Paragraph(dados01, bodyFont2)
+        documento.Add(paragrafo01)
+        documento.Add(New Paragraph(" "))
+        Dim dados02 As String = "Endereço : " & " " & If(cFuncoes.RetornarTexto(dadosEndereco.logradouro) Is Nothing, "", cFuncoes.RetornarTexto(dadosEndereco.logradouro).ToString()) & " " & If(cFuncoes.RetornarTexto(dadosEndereco.numero) Is Nothing, "", cFuncoes.RetornarTexto(dadosEndereco.numero).ToString()) & " " & If(cFuncoes.RetornarTexto(dadosEndereco.complemento) Is Nothing, "", cFuncoes.RetornarTexto(dadosEndereco.complemento).ToString())
+        dados02 = dados02 & "            CEP: " & If(dadosEndereco.cep Is Nothing, "", dadosEndereco.cep)
+        Dim paragrafo02 As New Paragraph(dados02, bodyFont2)
+        documento.Add(paragrafo02)
+        documento.Add(New Paragraph(" "))
+
+        Dim dados03 As String = "Cidade: " & If(cFuncoes.RetornarTexto(dadosEndereco.cidade) Is Nothing, "", cFuncoes.RetornarTexto(dadosEndereco.cidade).ToString()) & "           " & "                                        Estado : " & If(nomeEstado Is Nothing, "", nomeEstado.ToString())
+        Dim paragrafo03 As New Paragraph(dados03, bodyFont2)
+        documento.Add(paragrafo03)
+        documento.Add(New Paragraph(" "))
+
+        documento.Add(New Paragraph("Telefone: " & If(dados.telefone Is Nothing, "", dados.telefone.ToString()), bodyFont2))
+        documento.Add(New Paragraph(" "))
+        Dim texto As String = "Data de Nascimento: " & If(dados.dataNascimento Is Nothing, "", dados.dataNascimento.ToString()) & "            Estado: " & If(nomeEstado Is Nothing, "", nomeEstado)
+        documento.Add(New Paragraph(texto, bodyFont2))
+        documento.Add(New Paragraph("Natural De " & If(dados.naturalidade Is Nothing, "", dados.naturalidade.ToString()), bodyFont2))
+        documento.Add(New Paragraph(" "))
+        documento.Add(New Paragraph("CPF: " & If(dados.cpf Is Nothing, "", dados.cpf.ToString()), bodyFont2))
+        documento.Add(New Paragraph(" "))
+        documento.Add(New Paragraph("RG: " & If(dados.rg Is Nothing, "", dados.rg.ToString()), bodyFont2))
+        documento.Add(New Paragraph(" "))
+        Dim clausula1 As String = "1-A pessoa física será responsável pelas contas lançadas ao seu crédito."
+        Dim paragrafo1 As New Paragraph(clausula1, bodyFont2)
+        paragrafo1.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo1)
+        documento.Add(New Paragraph(" "))
+        Dim clausula2 As String = "2-No ato da compra o contratado ira assinar uma declaração de compra na loja física, onde constara as parcelas e vencimentos definidos entre as partes, no caso da compra online as conversas em nosso WhatsApp servirão como prova da referida compra."
+        Dim paragrafo2 As New Paragraph(clausula2, bodyFont2)
+        paragrafo2.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo2)
+        documento.Add(New Paragraph(" "))
+        Dim clausula3 As String = "3-O contratado terá 3 (três) dias de carência após o vencimento para quitação de suas parcelas sem nenhum acréscimo, após (três) dias, a correção diária é de 0,50% ao dia e o pagamento só poderá ser efetuado em dinheiro ou pix."
+        Dim paragrafo3 As New Paragraph(clausula3, bodyFont2)
+        paragrafo3.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo3)
+        documento.Add(New Paragraph(" "))
+        Dim clausula4 As String = "4-Em caso de falta de pagamento até o respectivo vencimento incidira em cobrança amigável ou judicial."
+        Dim paragrafo4 As New Paragraph(clausula4, bodyFont2)
+        paragrafo4.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo4)
+        documento.Add(New Paragraph(" "))
+        Dim clausula5 As String = "5-No ato da abertura do crediário online o contratado se compromete a enviar uma foto sua segurando o seu documento de identidade, para salvaguardar que realmente é o contratante que está efetuando a compra a fim de evitar fraudes, e a contratada ira se comprometer a guardar o documento enviado de acordo com a lei geral de proteção de dados. "
+        Dim paragrafo5 As New Paragraph(clausula5, bodyFont2)
+        paragrafo5.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo5)
+        documento.Add(New Paragraph(" "))
+        Dim clausula6 As String = "6-Este caso tem prazo indeterminado a sua extinção ocorre tão somente com a quitação das obrigações assumidas e obedecidas as disposições contratuais."
+        Dim paragrafo6 As New Paragraph(clausula6, bodyFont2)
+        paragrafo6.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo6)
+        documento.Add(New Paragraph(" "))
+        Dim clausula7 As String = "Parágrafo único: o documento ficara guardado com a contratada pelo período que vigorar este contrato, após a contratante se comprometer a descartar de forma segura o documento de acordo com LEI Geral de Proteção de Dados."
+        Dim paragrafo7 As New Paragraph(clausula7, bodyFont2)
+        paragrafo7.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo7)
+        documento.Add(New Paragraph(" "))
+
+
+        Dim monthName As String = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date.Now.Month)
+
+        Dim clausula8 As String = "Santo André, " & Date.Now.Day.ToString() & " de " & monthName & "  de  " & Date.Now.Year.ToString()
+        Dim paragrafo8 As New Paragraph(clausula8, bodyFont2)
+        paragrafo8.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo8)
+        documento.Add(New Paragraph(" "))
+        Dim clausula9 As String = "Assinatura:__________________________________________"
+        Dim paragrafo9 As New Paragraph(clausula9, bodyFont2)
+        paragrafo9.Alignment = Element.ALIGN_JUSTIFIED
+        documento.Add(paragrafo9)
+
+        AddBody = True
+
+    End Function
+
+    ' Custom PageEventHandler class to handle header and footer
+    Public Class PageEventHandler
+        Inherits PdfPageEventHelper
+
+        Public Overrides Sub OnEndPage(writer As PdfWriter, document As Document)
+            AddHeader(writer, document)
+            AddFooter(writer, document)
+        End Sub
+
+        Private Sub AddHeader(writer As PdfWriter, document As Document)
+            ' Define a font for the header
+            Dim headerFont As Font = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 14, BaseColor.BLACK)
+
+            ' Create a paragraph for the header
+            Dim header As New Paragraph("CÓDIGO CLIENTE\n\r CONTRATO DE CREDITO DA LOJA DE CALÇADOS E BOLSAS SAPATEK\n\r CONDIÇES GERAIS", headerFont)
+            header.Alignment = Element.ALIGN_CENTER
+
+            ' Get the content byte for the writer
+            Dim cb As PdfContentByte = writer.DirectContent
+            ' Create a rectangle for the header
+            Dim rect As New Rectangle(0, document.PageSize.Height - 50, document.PageSize.Width, document.PageSize.Height - 30)
+
+            ' Begin text
+            cb.BeginText()
+            ' Move the header to the correct position
+            cb.ShowTextAligned(Element.ALIGN_CENTER, header.Content, rect.Width / 2, rect.Top - 20, 0)
+            ' End text
+            cb.EndText()
+
+            ' Add a line separator
+            Dim line As New LineSeparator(1.0F, 100.0F, BaseColor.BLACK, Element.ALIGN_CENTER, 1)
+            Dim lineChunk As New Chunk(line)
+            lineChunk.SetHorizontalScaling(1)
+            document.Add(lineChunk)
+        End Sub
+
+        Private Sub AddFooter(writer As PdfWriter, document As Document)
+            ' Define a font for the footer
+            Dim footerFont As Font = FontFactory.GetFont(FontFactory.TIMES_ROMAN, 10, BaseColor.GRAY)
+
+            ' Add footer text
+            Dim footer As New Paragraph("Santo André,     02        de    Maio                              de  2024.\n\r Assinatura:__________________________________________", footerFont)
+
+            footer.Alignment = Element.ALIGN_CENTER
+
+            ' Get the content byte for the writer
+            Dim cb As PdfContentByte = writer.DirectContent
+            ' Create a rectangle for the footer
+            Dim rect As New Rectangle(0, 0, document.PageSize.Width, 50)
+
+            ' Begin text
+            cb.BeginText()
+            ' Move the footer to the correct position
+            cb.ShowTextAligned(Element.ALIGN_CENTER, footer.Content, rect.Width / 2, rect.Bottom + 20, 0)
+            ' End text
+            cb.EndText()
+        End Sub
+    End Class
 
     Private Sub MaskClirg_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRG.LostFocus
         Dim valor(8) As UShort
@@ -268,13 +579,14 @@ Public Class fClienteForm
                 dados.celular = TratarTexto(txtCelular.Text)
                 dados.situacao = TratarTexto(cboSituacao.SelectedValue)
 
+
                 If tipoAcao.Equals("i") Then
                     novoCID = regras.Incluir(dados)
 
                     Me.cid = novoCID
 
                     '-- Foto
-                    If salvar_foto = True Then
+                    If ExisteFoto() Then
                         SalvarFoto()
                     End If
 
@@ -283,7 +595,7 @@ Public Class fClienteForm
                     regras.Alterar(dados)
 
                     '-- Foto
-                    If salvar_foto = True Then
+                    If ExisteFoto() Then
                         SalvarFoto()
                     End If
 
@@ -301,7 +613,16 @@ Public Class fClienteForm
 
         End Try
     End Sub
+    Private Function ExisteFoto()
 
+        Dim res = ""
+        If picImagem.ImageLocation.Length > 5 Then
+            res = picImagem.ImageLocation.Split(".")(1)
+        End If
+
+        ExisteFoto = SaveFileDialog1.Filter.Contains(res)
+
+    End Function
     Private Sub SalvarFoto()
         Dim bmap As Bitmap
         Dim dirFotos As String
@@ -356,6 +677,10 @@ Public Class fClienteForm
                 End If
             Case Keys.F1
                 CarregarCamera()
+            Case Keys.F2
+                CarregarFoto()
+            Case Keys.F3
+                CriarContrato()
             Case Keys.F5
                 Filtrar()
             Case Keys.F6
@@ -497,6 +822,8 @@ Public Class fClienteForm
         CarregarComboEstado()
         CarregarComboEstadoCivil()
         ExibirInformacoesTela()
+
+
     End Sub
 
     Private Sub CarregarComboSituacao()
@@ -710,8 +1037,49 @@ Public Class fClienteForm
         End Try
     End Sub
 
-   
+
     Private Sub btoVeiculos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoVeiculos.Click
         CarregarVeiculos()
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+    Private Sub btoContrato_Click(sender As Object, e As EventArgs) Handles btoContrato.Click
+        CriarContrato()
+    End Sub
+
+    Private Sub btnSalvar_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnLoadImage_Click(sender As Object, e As EventArgs) Handles btnLoadImage.Click
+        CarregarFoto()
+    End Sub
+
+
+    Private Sub CriarContrato()
+
+        If Me.cid.ToString() = "" Then
+            MessageBox.Show("É necesssário informar um cliente")
+            Exit Sub
+        End If
+
+        If btoContrato.Text = "Imprimir <F3>" Then
+            ImprimirContrato()
+            btoContrato.Text = "Contrato <F3>"
+            Exit Sub
+        End If
+
+        If CreatePDF() = True Then
+            btoContrato.Text = "Imprimir <F3>"
+        End If
+
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
+        ImprimirContrato()
     End Sub
 End Class
