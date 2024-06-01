@@ -92,8 +92,9 @@ Namespace nsLoja
             retorno.situacao = cFuncoes.RetornarTexto(item.situacao)
             retorno.spc_codigo_associado = cFuncoes.RetornarTexto(item.spc_codigo_associado)
             retorno.spc_controle_informante = cFuncoes.RetornarTexto(item.spc_controle_informante)
-            retorno.spc_nome_informante = cFuncoes.RetornarTexto(item.spc_nome_informante)
-          Else
+                        retorno.spc_nome_informante = cFuncoes.RetornarTexto(item.spc_nome_informante)
+                        retorno.Inscestadual = cFuncoes.RetornarTexto(item.Inscestadual)
+                    Else
             retorno = Nothing
           End If
         Else

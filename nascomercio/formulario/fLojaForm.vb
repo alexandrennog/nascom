@@ -115,14 +115,14 @@ Public Class fLojaForm
         dados.spc_controle_informante = cFuncoes.TratarTexto(txtSpcControleInformante.Text)
         dados.spc_nome_informante = cFuncoes.TratarTexto(txtSpcNomeInformante.Text)
         dados.situacao = cFuncoes.TratarTexto(cboSituacao.SelectedValue)
+                dados.Inscestadual = cFuncoes.RetornarTexto(txtInscEstadual.Text)
+                If tipoAcao.Equals("i") Then
+                    novoCID = regras.Incluir(dados)
 
-        If tipoAcao.Equals("i") Then
-          novoCID = regras.Incluir(dados)
-
-          Me.cid = novoCID
-          ExibirInformacoesTela()
-        ElseIf tipoAcao.Equals("a") Then
-          regras.Alterar(dados)
+                    Me.cid = novoCID
+                    ExibirInformacoesTela()
+                ElseIf tipoAcao.Equals("a") Then
+                    regras.Alterar(dados)
 
           ExibirInformacoesTela()
         End If
@@ -160,8 +160,9 @@ Public Class fLojaForm
     txtContato.Text = String.Empty
     txtSpcCodigoAssociado.Text = String.Empty
     txtSpcControleInformante.Text = String.Empty
-    txtSpcNomeInformante.Text = String.Empty
-    If cboEstado.Items.Count > 0 Then
+        txtSpcNomeInformante.Text = String.Empty
+        txtInscEstadual.Text = String.Empty
+        If cboEstado.Items.Count > 0 Then
       cboEstado.SelectedIndex = 0
     End If
     If cboSituacao.Items.Count > 0 Then
@@ -199,9 +200,10 @@ Public Class fLojaForm
             txtContato.Text = cFuncoes.RetornarTexto(dados.nomeContato)
             txtSpcCodigoAssociado.Text = cFuncoes.RetornarTexto(dados.spc_codigo_associado)
             txtSpcControleInformante.Text = cFuncoes.RetornarTexto(dados.spc_controle_informante)
-            txtSpcNomeInformante.Text = cFuncoes.RetornarTexto(dados.spc_nome_informante)
+                        txtSpcNomeInformante.Text = cFuncoes.RetornarTexto(dados.spc_nome_informante)
+                        txtInscEstadual.Text = cFuncoes.RetornarTexto(dados.Inscestadual)
 
-            If cboEstado.Items.Count > 0 Then
+                        If cboEstado.Items.Count > 0 Then
               cboEstado.SelectedIndex = 0
             End If
             If cFuncoes.ValidarValor(dados.estado_cid) Then
@@ -330,4 +332,7 @@ Public Class fLojaForm
     Filtrar()
   End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
 End Class
