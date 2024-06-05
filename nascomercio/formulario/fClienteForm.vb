@@ -271,7 +271,16 @@ Public Class fClienteForm
         documento.Add(paragrafo03)
         documento.Add(New Paragraph(" "))
 
-        documento.Add(New Paragraph("Telefone: " & If(dados.telefone Is Nothing, "", dados.telefone.ToString()), bodyFont2))
+        Dim _celular As String = ""
+
+        If (Not dados.dddcel Is Nothing) Then
+            _celular = If(dados.dddcel Is Nothing, "", dados.dddcel.ToString()) & "-" & If(dados.celular Is Nothing, "", dados.celular.ToString())
+        Else
+            _celular = If(dados.celular Is Nothing, "", dados.celular.ToString())
+        End If
+
+
+        documento.Add(New Paragraph("Celular: " & If(_celular Is Nothing, "", _celular.ToString()), bodyFont2))
         documento.Add(New Paragraph(" "))
         Dim texto As String = "Data de Nascimento: " & If(dados.dataNascimento Is Nothing, "", dados.dataNascimento.ToString()) & "            Estado: " & If(nomeEstado Is Nothing, "", nomeEstado)
         documento.Add(New Paragraph(texto, bodyFont2))
@@ -613,7 +622,11 @@ Public Class fClienteForm
 
         End Try
     End Sub
-    Private Function ExisteFoto()
+    Private Function ExisteFoto() As Boolean
+
+        If picImagem.ImageLocation Is Nothing Then
+            Return False
+        End If
 
         Dim res = ""
         If picImagem.ImageLocation.Length > 5 Then
