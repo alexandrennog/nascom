@@ -11,6 +11,7 @@
     Private _ClientSecret As String
     Private _certPath As String
     Private _certPass As String
+    Private _email As String
 
     Public Property Banco() As String
         Get
@@ -105,6 +106,15 @@
         End Get
         Set(ByVal value As String)
             _certPass = value
+        End Set
+    End Property
+
+    Public Property Email() As String
+        Get
+            Return _email
+        End Get
+        Set(ByVal value As String)
+            _email = value
         End Set
     End Property
 

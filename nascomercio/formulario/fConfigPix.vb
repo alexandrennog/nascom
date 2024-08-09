@@ -109,6 +109,7 @@ Public Class fConfigPix
                 End If
                 dados.CertPath = txtCertPath.Text
                 dados.CertPass = txtCertPass.Text
+                dados.Email = txtEmail.Text
 
                 If tipoAcao.Equals("i") Then
                     If IsNothing(regras.fConsultarConfig()) Then
@@ -136,5 +137,41 @@ Public Class fConfigPix
 
     Private Sub btoSair_Click_1(sender As Object, e As EventArgs) Handles btoSair.Click
         Me.Close()
+    End Sub
+
+    Private Sub fConfigPix_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim regras As New rPix
+        Dim tipoMsg As String = String.Empty
+        Dim tipoAcao As String = String.Empty
+        Dim strPath As String = String.Empty
+        Dim config As New dPixConfig
+
+
+        Try
+
+            config = regras.fConsultarConfig()
+            If Not config Is Nothing Then
+                cboBancos.Text = config.Banco
+                config.Cliente = 0
+                txtCpf.Text = config.Cpf
+                txtCnpj.Text = config.Cnpj
+                txtAppKey.Text = config.Chave
+                txtNome.Text = config.Nome
+                txtClientID.Text = config.ClientID
+                txtSecret.Text = config.ClientSecret
+                txtCertPath.Text = config.CertPath
+                txtCertPass.Text = config.CertPass
+                txtEmail.Text = config.Email
+            End If
+
+        Catch nex As ExcecaoNascomercio
+
+            MessageBox.Show(nex.Message)
+
+        Catch ex As Exception
+
+            MessageBox.Show("Erro na " & tipoMsg.ToLower() & " dos dados da Cor.")
+
+        End Try
     End Sub
 End Class

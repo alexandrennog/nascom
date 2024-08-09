@@ -1007,7 +1007,17 @@ Public Class fPagamento
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
                 picQRCode.Image = ResizeImage(Image.FromFile(filename))
+            Case "pending"
+                txtStatus.Text = "Criada"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
+                picQRCode.Image = ResizeImage(Image.FromFile(filename))
             Case "CONCLUIDA"
+                txtStatus.Text = "Pago"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = ""
+                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
+            Case "APPROVED"
                 txtStatus.Text = "Pago"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = ""
@@ -1027,8 +1037,6 @@ Public Class fPagamento
         txtObs.Text = String.Format($"{pix.Observacao} Controle:  {Me.lblControle.Text} {pix.DataHora}")
 
         txtUrlPix.Text = pix.UrlPix
-
-
 
     End Sub
     Private Sub Cadastrar()
@@ -1239,7 +1247,9 @@ Public Class fPagamento
     End Sub
 
     Private Sub btnCopiar_Click(sender As Object, e As EventArgs) Handles btnCopiar.Click
-        Clipboard.SetText(txtUrlPix.Text)
+        If txtUrlPix.Text.Trim() <> "" Then
+            Clipboard.SetText(txtUrlPix.Text)
+        End If
     End Sub
 
     Private Sub picQRCode_Click(sender As Object, e As EventArgs) Handles picQRCode.Click

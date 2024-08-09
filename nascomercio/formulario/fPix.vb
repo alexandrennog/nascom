@@ -148,6 +148,11 @@ Public Class fPix
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
                 picQRCode.Image = ResizeImage(Image.FromFile(filename))
+            Case "pending"
+                txtStatus.Text = "Criada"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
+                picQRCode.Image = ResizeImage(Image.FromFile(filename))
             Case "CONCLUIDA"
                 If Me.Tag = pix.Controle Then
                     fCrediarioPagamento.txtPix.Text = pix.Original

@@ -11,6 +11,7 @@ CREATE TABLE  `nascomercio`.`pixconfig` (
   `client_secret` varchar(234) DEFAULT NULL,
   `PathCertificate` varchar(255) DEFAULT NULL,
   `PassCertificate` varchar(255) DEFAULT NULL
+  `Email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -26,3 +27,7 @@ CREATE TABLE  `nascomercio`.`pix` (
   `Status` varchar(32) DEFAULT NULL,
   `controle` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+ALTER TABLE pixconfig ADD COLUMN `Email` varchar(255) DEFAULT NULL;
