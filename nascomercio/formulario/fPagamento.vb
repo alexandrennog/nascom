@@ -997,7 +997,8 @@ Public Class fPagamento
 
 
         btnPix.Image = nascomercio.My.Resources.Resources.cobrar
-        Select Case pix.Status
+        Select Case pix.Status.ToUpper()
+
             Case "NOVA"
                 txtStatus.Text = ""
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
@@ -1007,7 +1008,7 @@ Public Class fPagamento
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
                 picQRCode.Image = ResizeImage(Image.FromFile(filename))
-            Case "pending"
+            Case "PENDING"
                 txtStatus.Text = "Criada"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
