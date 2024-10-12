@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="pCaixa.vb" />
     <Compile Include="pCategoria.vb" />
+    <Compile Include="pCobranca.vb" />
     <Compile Include="pOrdemServico.vb" />
     <Compile Include="pPix.vb" />
     <Compile Include="pVeiculos.vb" />

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="rCaixa.vb" />
     <Compile Include="rCategoria.vb" />
+    <Compile Include="rCobranca.vb" />
     <Compile Include="rOrdemServico.vb" />
     <Compile Include="rPix.vb" />
     <Compile Include="rPixConfig.vb" />
