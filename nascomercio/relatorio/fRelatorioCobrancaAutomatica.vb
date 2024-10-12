@@ -15,7 +15,7 @@ Public Class fRelatorioCobrancaAutomatica
 
 
     Private Sub btoSair_Click(sender As Object, e As EventArgs) Handles btoSair.Click
-
+        Me.Close()
     End Sub
     Private Sub Filtrar()
         Dim dadosVenda As New dCobrancaAutomatica
@@ -29,8 +29,6 @@ Public Class fRelatorioCobrancaAutomatica
 
         Dim objCrediario As New ncRegras.nsCobranca.rCobranca
         Dim cobrancas As ncDados.nsCobranca.ColecaoCobranca
-
-        Me.lstCobrancaPix.View = View.Details
 
         'Dim otherItems As String() = {"Data", "Terminal", "Dinheiro", "PIX"}
         Me.lstCobrancaPix.View = View.Details
@@ -46,7 +44,7 @@ Public Class fRelatorioCobrancaAutomatica
         Me.lstCobrancaPix.Columns.Add("Nome").Width = 220
         Me.lstCobrancaPix.Columns.Add("DDDCel").Width = 0
         Me.lstCobrancaPix.Columns.Add("Celular").Width = 90
-        Me.lstCobrancaPix.Columns.Add("Sucesso").Width = 0
+        Me.lstCobrancaPix.Columns.Add("Pago").Width = 50
         Me.lstCobrancaPix.Columns.Add("PixCode").Width = 0
         Me.lstCobrancaPix.Columns.Add("Cobranca").Width = 90
         Me.lstCobrancaPix.Columns.Add("Vencimento").Width = 90
@@ -67,7 +65,7 @@ Public Class fRelatorioCobrancaAutomatica
             li.Text = item.CodigoCliente
             li.SubItems.Add(item.CrediarioId)
             li.SubItems.Add(item.ParcelaIdId)
-            li.SubItems.Add((item.Nome))
+            li.SubItems.Add((item.Nome.ToUpper))
             li.SubItems.Add(item.DDDCel)
             li.SubItems.Add(item.Celular + item.DDDCel)
             li.SubItems.Add(item.Sucesso)
@@ -75,11 +73,19 @@ Public Class fRelatorioCobrancaAutomatica
             li.SubItems.Add(item.DataCobranca.ToString("dd/MM/yyyy"))
             li.SubItems.Add(item.DataVencimento.ToString("dd/MM/yyyy"))
             li.SubItems.Add(item.Valor.ToString())
+
+            If item.Sucesso = "S" Then
+                li.ForeColor = Color.Green
+                totTotal = totTotal + item.Valor
+            Else
+                li.ForeColor = Color.Red
+            End If
+
             Me.lstCobrancaPix.Items.Add(li)
-            totTotal = totTotal + item.Valor
+
         Next
 
-        lblTotal.Text = "Total: " + totTotal.ToString()
+        lblTotal.Text = "Total Recebido: " + totTotal.ToString()
         ConfigurarRelatorio(cobrancas)
     End Sub
 
@@ -100,7 +106,7 @@ Public Class fRelatorioCobrancaAutomatica
         doc.Open()
 
         Dim fonteTitulo As Font
-        fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 8)
+        fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim paragrafoTitulo As New Paragraph("Crediário Cobrança PIX", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
@@ -151,7 +157,9 @@ Public Class fRelatorioCobrancaAutomatica
             table.AddCell(New PdfPCell(New Phrase(item.DataCobranca.ToString("dd/MM/yyyy"))))
             table.AddCell(New PdfPCell(New Phrase(item.DataVencimento.ToString("dd/MM/yyyy"))))
             table.AddCell(New PdfPCell(New Phrase(item.Valor.ToString(""))))
-            totTotal = totTotal + item.Valor
+            If item.Sucesso = "S" Then
+                totTotal = totTotal + item.Valor
+            End If
         Next
 
         table.AddCell(New PdfPCell(New Phrase("")))
