@@ -14,7 +14,7 @@ FROM nascomercio.credpag as cr
 INNER join nascomercio.clientes as cl ON cl.cid = cr.clienteId
 WHERE DATE_FORMAT(data, '%d/%m/%Y') = DATE_FORMAT('2024-05-27', '%d/%m/%Y')
 and cl.celular is not null
-INTO OUTFILE 'D:\\Projetos0\\orders.csv'
+INTO OUTFILE 'D:/Projetos0/orders.csv'
 		FIELDS TERMINATED BY ','
 		ENCLOSED BY '"'
 		LINES TERMINATED BY '\n';
