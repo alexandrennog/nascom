@@ -34,6 +34,7 @@ Namespace nsVenda
         Private _valeEmitido As Decimal
         Private _vendedor As String
         Private _caixa As String
+        Private _txID As String
         Private _valorProduto As Nullable(Of Decimal)
         Private _valorCusto As Nullable(Of Decimal)
 
@@ -286,6 +287,15 @@ Namespace nsVenda
             End Get
             Set(ByVal value As String)
                 _caixa = value
+            End Set
+        End Property
+
+        Public Property TXID() As String
+            Get
+                Return _txID
+            End Get
+            Set(ByVal value As String)
+                _txID = value
             End Set
         End Property
 

@@ -435,6 +435,7 @@ Public Class fPagamento
         dadosVenda.Total = Me.lblTotal.Text
         dadosVenda.controle = Me.lblControle.Text
         dadosVenda.ordemServicoId = Me.lblControle.Tag
+        dadosVenda.TXID = Me.txtTxId.Text
         ' Verifica se emite Vale
         If (dadosVenda.Troca > 0.0 Or dadosVenda.Defeito > 0.0 Or dadosVenda.Vale > 0.0) And dadosVenda.Troco > 0.0 Then
             ' Verifica se troco provem de troca
@@ -975,6 +976,8 @@ Public Class fPagamento
 
         txtValorPIX.Text = pix.Original
         txtPix.Text = pix.Original
+
+
 
         If pix.Status = Nothing Then
             txtStatus.Text = "Cobrar"

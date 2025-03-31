@@ -1,15 +1,14 @@
 DELIMITER $$
 
-CREATE PROCEDURE sp_update_controle()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_update_controle`()
 BEGIN
 
-  
-INSERT INTO nascomercio.cobrancas_automaticas (codigocliente, crediarioid, parcelaidid, valor, nome, dddcel, celular, datavencimento)
-SELECT c.cid, p.crediarioid, p.cid, p.valor, c.nome as SolicitacaoPagador, dddcel, celular, DATE_ADD(CURDATE(), INTERVAL 1 DAY) as data_vencimento
+INSERT INTO nascomercio.cobrancas_automaticas (codigocliente, crediarioid, parcelaidid, valor, nome, email, celular, datavencimento)
+SELECT c.cid, p.crediarioid, p.cid, p.valor, c.nome as SolicitacaoPagador,  email, concat(dddcel, celular) as celular, DATE_ADD(CURDATE(), INTERVAL 1 DAY) as data_vencimento
 FROM nascomercio.crediario as cr 
    inner join clientes as c on cr.clienteid = c.cid
    inner join parcelas as p on p.crediarioid = cr.cid
-WHERE DATE_FORMAT(p.datavencimento, '%d/%m/%Y') = DATE_FORMAT('2023-08-02', '%d/%m/%Y')
+WHERE DATE_FORMAT(p.datavencimento, '%d/%m/%Y') = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), '%d/%m/%Y')
 AND dddcel is not null
 AND p.valorPago = 0.00;
 
@@ -24,10 +23,11 @@ SELECT p.cid, c.nome as SolicitacaoPagador, p.valor, DATE_ADD(CURDATE(), INTERVA
 FROM nascomercio.crediario as cr 
    inner join clientes as c on cr.clienteid = c.cid
    inner join parcelas as p on p.crediarioid = cr.cid
-WHERE DATE_FORMAT(p.datavencimento, '%d/%m/%Y') = DATE_FORMAT('2023-08-02', '%d/%m/%Y')
+WHERE DATE_FORMAT(p.datavencimento, '%d/%m/%Y') = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), '%d/%m/%Y')
 AND dddcel is not null
 AND p.valorPago = 0.00
 ) as lista;
+
 
 END$$
 

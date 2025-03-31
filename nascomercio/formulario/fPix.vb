@@ -116,6 +116,7 @@ Public Class fPix
 
 
         txtValorPIX.Text = pix.Original
+        txtTxId.Text = pix.TxId
 
         If pix.Status = Nothing Then
             txtStatus.Text = "Cobrar"
@@ -225,6 +226,7 @@ Public Class fPix
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
             dados.Controle = Me.Tag
+            dados.TxId = txtTxId.Text
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
@@ -246,6 +248,7 @@ Public Class fPix
 
         Try
             dados.Original = txtValorPIX.Text
+            dados.TxId = txtTxId.Text
             dados.Observacao = txtObs.Text
             dados.Controle = fPagamento.lblControle.Text
             Dim arPix = regras.Consultar(dados)
@@ -254,6 +257,7 @@ Public Class fPix
                 arPix = arPix.ToArray()
                 dados = arPix(0)
                 txtValorPIX.Text = dados.Original
+                txtTxId.Text = dados.TxId
                 txtObs.Text = dados.Observacao
                 txtTxId.Text = "PIX Cadastrado!"
                 txtStatus.Text = "A Cobrar"

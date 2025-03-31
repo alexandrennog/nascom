@@ -1,5 +1,12 @@
 SET GLOBAL event_scheduler = ON;
 
+ALTER TABLE `pixconfig` 
+MODIFY COLUMN `chave` varchar(60) DEFAULT NULL;
+
+
+alter table pixconfig ADD COLUMN   `Email` varchar(255) DEFAULT NULL
+
+
 
 CREATE TABLE `cobrancas_automaticas` (
   `codigocliente` int(10) DEFAULT NULL,
@@ -7,13 +14,14 @@ CREATE TABLE `cobrancas_automaticas` (
   `parcelaidid` int(10) DEFAULT NULL,
   `valor` decimal(10,2) DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,
-  `dddcel` varchar(10) DEFAULT NULL,
-  `celular` varchar(20) DEFAULT NULL,
+  `celular` varchar(80) DEFAULT NULL,
+  `email` varchar(80) DEFAULT NULL,  
   `sucesso` varchar(1) DEFAULT NULL,
   `pix_code` varchar(255) DEFAULT NULL,
   `data_cobranca` date DEFAULT NULL,
   `datavencimento` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 CREATE TABLE `zapconfig` (
