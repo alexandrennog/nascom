@@ -37,6 +37,7 @@ Namespace nsVenda
         Private _txID As String
         Private _valorProduto As Nullable(Of Decimal)
         Private _valorCusto As Nullable(Of Decimal)
+        Private _original As Decimal
 
         Public Property controle() As Integer
             Get
@@ -314,6 +315,15 @@ Namespace nsVenda
             End Get
             Set(ByVal value As Nullable(Of Decimal))
                 _valorCusto = value
+            End Set
+        End Property
+
+        Public Property valorOriginal() As Decimal
+            Get
+                Return _original
+            End Get
+            Set(ByVal value As Decimal)
+                _original = value
             End Set
         End Property
 

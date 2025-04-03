@@ -911,7 +911,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, txID "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, txID, Original "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -962,6 +962,7 @@ Namespace nsVenda
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
                                 item.TXID = cFuncoes.RetornarTexto(row("txID"))
+                                item.valorOriginal = cFuncoes.RetornarDecimal(row("Original"))
 
                                 retorno.Add(item)
                             Next

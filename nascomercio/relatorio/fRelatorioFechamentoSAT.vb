@@ -34,7 +34,7 @@ Partial Public Class fRelatorioFechamentoSAT
             Else
                 rtbGrade.AppendText(vbCrLf)
                 For Each itemRef As dVenda In colVenda
-                    rtbGrade.AppendText(" Venda: " & itemRef.Data & " Valor: R$" & itemRef.Total.ToString("N"))
+                    rtbGrade.AppendText(itemRef.Data & " Dinheiro: R$" & itemRef.Dinheiro.ToString("N") & " Cheque: R$" & itemRef.Cheque.ToString("N") & " PIX: R$" & itemRef.valorOriginal.ToString("N") & " Débito: R$" & itemRef.CartaoDebito.ToString("N") & " Crédito: R$" & itemRef.CartaoCredito.ToString("N") & " Crediário: R$" & itemRef.Crediario.ToString("N") & " Valor: R$" & itemRef.Total.ToString("N"))
                     rtbGrade.AppendText(vbCrLf)
                     somaTotal += itemRef.Total
                 Next
@@ -138,6 +138,12 @@ Partial Public Class fRelatorioFechamentoSAT
         Else
             e.HasMorePages = True
         End If
+
+
+
     End Sub
 
+    Private Sub PrintDocument1_BeginPrint(sender As Object, e As Printing.PrintEventArgs) Handles PrintDocument1.BeginPrint
+        PrintDocument1.DefaultPageSettings.Landscape = True
+    End Sub
 End Class
