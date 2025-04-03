@@ -1365,4 +1365,8 @@ Public Class fCaixa
     Private Sub txtControle_TextChanged(sender As Object, e As EventArgs) Handles txtControle.TextChanged
 
     End Sub
+
+    Private Sub Panel1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles Panel1.PreviewKeyDown
+
+    End Sub
 End Class
