@@ -22,18 +22,12 @@ Partial Class fCaixa
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fCaixa))
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.dtgProdutos = New System.Windows.Forms.DataGridView()
-        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colReferencia = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colValorUnitario = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colQuantidade = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colValorTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -91,6 +85,12 @@ Partial Class fCaixa
         Me.Button5 = New System.Windows.Forms.Button()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoIncluirItem = New System.Windows.Forms.Button()
+        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colReferencia = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colValorUnitario = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colQuantidade = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colValorTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.dtgProdutos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,78 +113,34 @@ Partial Class fCaixa
         Me.dtgProdutos.AllowUserToAddRows = False
         Me.dtgProdutos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dtgProdutos.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dtgProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dtgProdutos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colReferencia, Me.colValorUnitario, Me.colQuantidade, Me.colValorTotal})
         Me.dtgProdutos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.dtgProdutos.Location = New System.Drawing.Point(21, 233)
-        Me.dtgProdutos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.dtgProdutos.Margin = New System.Windows.Forms.Padding(4)
         Me.dtgProdutos.Name = "dtgProdutos"
-        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dtgProdutos.RowHeadersWidth = 51
-        DataGridViewCellStyle9.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle9
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle3
+        Me.dtgProdutos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dtgProdutos.Size = New System.Drawing.Size(1163, 348)
         Me.dtgProdutos.TabIndex = 8
-        '
-        'colCodigo
-        '
-        Me.colCodigo.HeaderText = "Código"
-        Me.colCodigo.MinimumWidth = 6
-        Me.colCodigo.Name = "colCodigo"
-        Me.colCodigo.ReadOnly = True
-        '
-        'colDescricao
-        '
-        Me.colDescricao.FillWeight = 140.0!
-        Me.colDescricao.HeaderText = "Descrição"
-        Me.colDescricao.MinimumWidth = 6
-        Me.colDescricao.Name = "colDescricao"
-        Me.colDescricao.ReadOnly = True
-        '
-        'colReferencia
-        '
-        Me.colReferencia.FillWeight = 110.0!
-        Me.colReferencia.HeaderText = "Referência"
-        Me.colReferencia.MinimumWidth = 6
-        Me.colReferencia.Name = "colReferencia"
-        Me.colReferencia.ReadOnly = True
-        '
-        'colValorUnitario
-        '
-        Me.colValorUnitario.FillWeight = 90.0!
-        Me.colValorUnitario.HeaderText = "Valor Unitário"
-        Me.colValorUnitario.MinimumWidth = 6
-        Me.colValorUnitario.Name = "colValorUnitario"
-        '
-        'colQuantidade
-        '
-        Me.colQuantidade.FillWeight = 80.0!
-        Me.colQuantidade.HeaderText = "Quantidade"
-        Me.colQuantidade.MinimumWidth = 6
-        Me.colQuantidade.Name = "colQuantidade"
-        '
-        'colValorTotal
-        '
-        Me.colValorTotal.FillWeight = 90.0!
-        Me.colValorTotal.HeaderText = "Valor Total"
-        Me.colValorTotal.MinimumWidth = 6
-        Me.colValorTotal.Name = "colValorTotal"
-        Me.colValorTotal.ReadOnly = True
         '
         'Label1
         '
@@ -327,7 +283,7 @@ Partial Class fCaixa
         Me.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCodigo.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCodigo.Location = New System.Drawing.Point(21, 191)
-        Me.txtCodigo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCodigo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCodigo.MaxLength = 20
         Me.txtCodigo.Name = "txtCodigo"
         Me.txtCodigo.Size = New System.Drawing.Size(392, 35)
@@ -337,7 +293,7 @@ Partial Class fCaixa
         '
         Me.txtCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCliente.Location = New System.Drawing.Point(137, 124)
-        Me.txtCliente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCliente.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCliente.Name = "txtCliente"
         Me.txtCliente.ReadOnly = True
         Me.txtCliente.Size = New System.Drawing.Size(389, 30)
@@ -382,7 +338,7 @@ Partial Class fCaixa
         '
         Me.txtDesconto.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDesconto.Location = New System.Drawing.Point(493, 634)
-        Me.txtDesconto.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtDesconto.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDesconto.Name = "txtDesconto"
         Me.txtDesconto.Size = New System.Drawing.Size(185, 30)
         Me.txtDesconto.TabIndex = 6
@@ -394,7 +350,7 @@ Partial Class fCaixa
         Me.cboCondicao.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboCondicao.FormattingEnabled = True
         Me.cboCondicao.Location = New System.Drawing.Point(493, 593)
-        Me.cboCondicao.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboCondicao.Margin = New System.Windows.Forms.Padding(4)
         Me.cboCondicao.Name = "cboCondicao"
         Me.cboCondicao.Size = New System.Drawing.Size(185, 32)
         Me.cboCondicao.TabIndex = 5
@@ -404,7 +360,7 @@ Partial Class fCaixa
         Me.txtParcelas.Enabled = False
         Me.txtParcelas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtParcelas.Location = New System.Drawing.Point(493, 673)
-        Me.txtParcelas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtParcelas.Margin = New System.Windows.Forms.Padding(4)
         Me.txtParcelas.Name = "txtParcelas"
         Me.txtParcelas.Size = New System.Drawing.Size(185, 30)
         Me.txtParcelas.TabIndex = 7
@@ -483,7 +439,7 @@ Partial Class fCaixa
         '
         Me.txtControle.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtControle.Location = New System.Drawing.Point(137, 85)
-        Me.txtControle.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtControle.Margin = New System.Windows.Forms.Padding(4)
         Me.txtControle.MaxLength = 8
         Me.txtControle.Name = "txtControle"
         Me.txtControle.Size = New System.Drawing.Size(197, 30)
@@ -613,7 +569,7 @@ Partial Class fCaixa
         Me.txtQuantidade.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtQuantidade.Font = New System.Drawing.Font("Arial", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtQuantidade.Location = New System.Drawing.Point(427, 191)
-        Me.txtQuantidade.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtQuantidade.Margin = New System.Windows.Forms.Padding(4)
         Me.txtQuantidade.MaxLength = 20
         Me.txtQuantidade.Name = "txtQuantidade"
         Me.txtQuantidade.Size = New System.Drawing.Size(64, 35)
@@ -657,7 +613,7 @@ Partial Class fCaixa
         Me.Panel1.Controls.Add(Me.lblLoja)
         Me.Panel1.Controls.Add(Me.Label7)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1198, 816)
         Me.Panel1.TabIndex = 179
@@ -684,7 +640,7 @@ Partial Class fCaixa
         Me.Button3.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button3.ForeColor = System.Drawing.Color.White
         Me.Button3.Location = New System.Drawing.Point(987, 770)
-        Me.Button3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(4)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(33, 31)
         Me.Button3.TabIndex = 185
@@ -725,7 +681,7 @@ Partial Class fCaixa
         Me.btnOS.Image = Global.nascomercio.My.Resources.Resources.cliente_financeiro
         Me.btnOS.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btnOS.Location = New System.Drawing.Point(1068, 90)
-        Me.btnOS.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btnOS.Margin = New System.Windows.Forms.Padding(4)
         Me.btnOS.Name = "btnOS"
         Me.btnOS.Size = New System.Drawing.Size(115, 90)
         Me.btnOS.TabIndex = 182
@@ -739,7 +695,7 @@ Partial Class fCaixa
         Me.cboVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboVendedor.FormattingEnabled = True
         Me.cboVendedor.Location = New System.Drawing.Point(932, 191)
-        Me.cboVendedor.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboVendedor.Margin = New System.Windows.Forms.Padding(4)
         Me.cboVendedor.Name = "cboVendedor"
         Me.cboVendedor.Size = New System.Drawing.Size(249, 32)
         Me.cboVendedor.TabIndex = 3
@@ -754,7 +710,7 @@ Partial Class fCaixa
         Me.Button6.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button6.ForeColor = System.Drawing.Color.White
         Me.Button6.Location = New System.Drawing.Point(725, 770)
-        Me.Button6.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button6.Margin = New System.Windows.Forms.Padding(4)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(33, 31)
         Me.Button6.TabIndex = 177
@@ -783,7 +739,7 @@ Partial Class fCaixa
         Me.Button7.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button7.ForeColor = System.Drawing.Color.White
         Me.Button7.Location = New System.Drawing.Point(871, 770)
-        Me.Button7.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button7.Margin = New System.Windows.Forms.Padding(4)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(33, 31)
         Me.Button7.TabIndex = 180
@@ -812,7 +768,7 @@ Partial Class fCaixa
         Me.Button4.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button4.ForeColor = System.Drawing.Color.White
         Me.Button4.Location = New System.Drawing.Point(15, 770)
-        Me.Button4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button4.Margin = New System.Windows.Forms.Padding(4)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(33, 31)
         Me.Button4.TabIndex = 169
@@ -830,7 +786,7 @@ Partial Class fCaixa
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoSalvar.Location = New System.Drawing.Point(452, 711)
-        Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSalvar.Name = "btoSalvar"
         Me.btoSalvar.Size = New System.Drawing.Size(265, 90)
         Me.btoSalvar.TabIndex = 9
@@ -849,7 +805,7 @@ Partial Class fCaixa
         Me.Button1.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.Color.White
         Me.Button1.Location = New System.Drawing.Point(157, 770)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(33, 31)
         Me.Button1.TabIndex = 161
@@ -866,7 +822,7 @@ Partial Class fCaixa
         Me.Button2.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.ForeColor = System.Drawing.Color.White
         Me.Button2.Location = New System.Drawing.Point(283, 770)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(4)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(33, 31)
         Me.Button2.TabIndex = 163
@@ -884,7 +840,7 @@ Partial Class fCaixa
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoSair.Location = New System.Drawing.Point(1068, 4)
-        Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(115, 84)
         Me.btoSair.TabIndex = 10
@@ -902,7 +858,7 @@ Partial Class fCaixa
         Me.Button5.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button5.ForeColor = System.Drawing.Color.White
         Me.Button5.Location = New System.Drawing.Point(536, 122)
-        Me.Button5.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button5.Margin = New System.Windows.Forms.Padding(4)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(33, 31)
         Me.Button5.TabIndex = 173
@@ -914,7 +870,7 @@ Partial Class fCaixa
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
         Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.caixa
         Me.imgLogo.Location = New System.Drawing.Point(16, 15)
-        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(67, 62)
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -931,12 +887,59 @@ Partial Class fCaixa
         Me.btoIncluirItem.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btoIncluirItem.ForeColor = System.Drawing.Color.White
         Me.btoIncluirItem.Location = New System.Drawing.Point(501, 191)
-        Me.btoIncluirItem.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoIncluirItem.Margin = New System.Windows.Forms.Padding(4)
         Me.btoIncluirItem.Name = "btoIncluirItem"
         Me.btoIncluirItem.Size = New System.Drawing.Size(33, 31)
         Me.btoIncluirItem.TabIndex = 159
         Me.btoIncluirItem.TabStop = False
         Me.btoIncluirItem.UseVisualStyleBackColor = False
+        '
+        'colCodigo
+        '
+        Me.colCodigo.FillWeight = 103.9449!
+        Me.colCodigo.HeaderText = "Código"
+        Me.colCodigo.MinimumWidth = 6
+        Me.colCodigo.Name = "colCodigo"
+        Me.colCodigo.ReadOnly = True
+        Me.colCodigo.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        '
+        'colDescricao
+        '
+        Me.colDescricao.FillWeight = 145.5229!
+        Me.colDescricao.HeaderText = "Descrição"
+        Me.colDescricao.MinimumWidth = 6
+        Me.colDescricao.Name = "colDescricao"
+        Me.colDescricao.ReadOnly = True
+        '
+        'colReferencia
+        '
+        Me.colReferencia.FillWeight = 114.3394!
+        Me.colReferencia.HeaderText = "Referência"
+        Me.colReferencia.MinimumWidth = 6
+        Me.colReferencia.Name = "colReferencia"
+        Me.colReferencia.ReadOnly = True
+        '
+        'colValorUnitario
+        '
+        Me.colValorUnitario.FillWeight = 93.55045!
+        Me.colValorUnitario.HeaderText = "Valor Unitário"
+        Me.colValorUnitario.MinimumWidth = 6
+        Me.colValorUnitario.Name = "colValorUnitario"
+        '
+        'colQuantidade
+        '
+        Me.colQuantidade.FillWeight = 83.15595!
+        Me.colQuantidade.HeaderText = "Quantidade"
+        Me.colQuantidade.MinimumWidth = 6
+        Me.colQuantidade.Name = "colQuantidade"
+        '
+        'colValorTotal
+        '
+        Me.colValorTotal.FillWeight = 93.55045!
+        Me.colValorTotal.HeaderText = "Valor Total"
+        Me.colValorTotal.MinimumWidth = 6
+        Me.colValorTotal.Name = "colValorTotal"
+        Me.colValorTotal.ReadOnly = True
         '
         'fCaixa
         '
@@ -975,7 +978,7 @@ Partial Class fCaixa
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "fCaixa"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -1047,10 +1050,10 @@ Partial Class fCaixa
     Friend WithEvents lblOS As System.Windows.Forms.Label
     Friend WithEvents lblAbrirFechar As System.Windows.Forms.Label
     Friend WithEvents Button3 As System.Windows.Forms.Button
-    Friend WithEvents colCodigo As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colDescricao As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colReferencia As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colValorUnitario As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colQuantidade As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colValorTotal As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents colCodigo As DataGridViewTextBoxColumn
+    Friend WithEvents colDescricao As DataGridViewTextBoxColumn
+    Friend WithEvents colReferencia As DataGridViewTextBoxColumn
+    Friend WithEvents colValorUnitario As DataGridViewTextBoxColumn
+    Friend WithEvents colQuantidade As DataGridViewTextBoxColumn
+    Friend WithEvents colValorTotal As DataGridViewTextBoxColumn
 End Class
