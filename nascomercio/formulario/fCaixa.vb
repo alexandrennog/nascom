@@ -22,6 +22,7 @@ Imports System.Configuration
 
 Public Class fCaixa
 
+    Private _excVenda As Int16
     Private _lojaGrande As Boolean
     Private dadosTroca As New ncDados.nsVenda.ColecaoVendaProduto
 
@@ -68,6 +69,12 @@ Public Class fCaixa
                 Else
                     _lojaGrande = False
                 End If
+            End If
+
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ExcVenda)
+            If Not IsNothing(dadosParametro) Then
+                _excVenda = dadosParametro.valor
+                HabilitarGridParaEdicao(_excVenda)
             End If
 
             If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVIÇO") = "SIM" Then
@@ -145,7 +152,9 @@ Public Class fCaixa
 
         NovaVenda()
     End Sub
-
+    Private Sub HabilitarGridParaEdicao(ByVal excVenda As Int16)
+        dtgProdutos.ReadOnly = (excVenda <> 1)
+    End Sub
     Private Sub CarregarComboCondicao()
         Dim regras As ncRegras.nsCondicao.rCondicao
         Dim colecao As ncDados.nsCondicao.ColecaoCondicao

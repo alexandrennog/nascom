@@ -31,6 +31,7 @@ Namespace nsConstantes
             Secure
             Instancias
             UsarPIX
+            ExcVenda
         End Enum
 
     End Class

@@ -28,6 +28,12 @@ Partial Class fCaixa
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fCaixa))
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.dtgProdutos = New System.Windows.Forms.DataGridView()
+        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colReferencia = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colValorUnitario = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colQuantidade = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colValorTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -85,12 +91,6 @@ Partial Class fCaixa
         Me.Button5 = New System.Windows.Forms.Button()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoIncluirItem = New System.Windows.Forms.Button()
-        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colReferencia = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colValorUnitario = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colQuantidade = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colValorTotal = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.dtgProdutos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -126,6 +126,7 @@ Partial Class fCaixa
         Me.dtgProdutos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.dtgProdutos.Location = New System.Drawing.Point(21, 233)
         Me.dtgProdutos.Margin = New System.Windows.Forms.Padding(4)
+        Me.dtgProdutos.MultiSelect = False
         Me.dtgProdutos.Name = "dtgProdutos"
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
@@ -141,6 +142,53 @@ Partial Class fCaixa
         Me.dtgProdutos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dtgProdutos.Size = New System.Drawing.Size(1163, 348)
         Me.dtgProdutos.TabIndex = 8
+        '
+        'colCodigo
+        '
+        Me.colCodigo.FillWeight = 103.9449!
+        Me.colCodigo.HeaderText = "Código"
+        Me.colCodigo.MinimumWidth = 6
+        Me.colCodigo.Name = "colCodigo"
+        Me.colCodigo.ReadOnly = True
+        Me.colCodigo.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        '
+        'colDescricao
+        '
+        Me.colDescricao.FillWeight = 145.5229!
+        Me.colDescricao.HeaderText = "Descrição"
+        Me.colDescricao.MinimumWidth = 6
+        Me.colDescricao.Name = "colDescricao"
+        Me.colDescricao.ReadOnly = True
+        '
+        'colReferencia
+        '
+        Me.colReferencia.FillWeight = 114.3394!
+        Me.colReferencia.HeaderText = "Referência"
+        Me.colReferencia.MinimumWidth = 6
+        Me.colReferencia.Name = "colReferencia"
+        Me.colReferencia.ReadOnly = True
+        '
+        'colValorUnitario
+        '
+        Me.colValorUnitario.FillWeight = 93.55045!
+        Me.colValorUnitario.HeaderText = "Valor Unitário"
+        Me.colValorUnitario.MinimumWidth = 6
+        Me.colValorUnitario.Name = "colValorUnitario"
+        '
+        'colQuantidade
+        '
+        Me.colQuantidade.FillWeight = 83.15595!
+        Me.colQuantidade.HeaderText = "Quantidade"
+        Me.colQuantidade.MinimumWidth = 6
+        Me.colQuantidade.Name = "colQuantidade"
+        '
+        'colValorTotal
+        '
+        Me.colValorTotal.FillWeight = 93.55045!
+        Me.colValorTotal.HeaderText = "Valor Total"
+        Me.colValorTotal.MinimumWidth = 6
+        Me.colValorTotal.Name = "colValorTotal"
+        Me.colValorTotal.ReadOnly = True
         '
         'Label1
         '
@@ -893,53 +941,6 @@ Partial Class fCaixa
         Me.btoIncluirItem.TabIndex = 159
         Me.btoIncluirItem.TabStop = False
         Me.btoIncluirItem.UseVisualStyleBackColor = False
-        '
-        'colCodigo
-        '
-        Me.colCodigo.FillWeight = 103.9449!
-        Me.colCodigo.HeaderText = "Código"
-        Me.colCodigo.MinimumWidth = 6
-        Me.colCodigo.Name = "colCodigo"
-        Me.colCodigo.ReadOnly = True
-        Me.colCodigo.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        '
-        'colDescricao
-        '
-        Me.colDescricao.FillWeight = 145.5229!
-        Me.colDescricao.HeaderText = "Descrição"
-        Me.colDescricao.MinimumWidth = 6
-        Me.colDescricao.Name = "colDescricao"
-        Me.colDescricao.ReadOnly = True
-        '
-        'colReferencia
-        '
-        Me.colReferencia.FillWeight = 114.3394!
-        Me.colReferencia.HeaderText = "Referência"
-        Me.colReferencia.MinimumWidth = 6
-        Me.colReferencia.Name = "colReferencia"
-        Me.colReferencia.ReadOnly = True
-        '
-        'colValorUnitario
-        '
-        Me.colValorUnitario.FillWeight = 93.55045!
-        Me.colValorUnitario.HeaderText = "Valor Unitário"
-        Me.colValorUnitario.MinimumWidth = 6
-        Me.colValorUnitario.Name = "colValorUnitario"
-        '
-        'colQuantidade
-        '
-        Me.colQuantidade.FillWeight = 83.15595!
-        Me.colQuantidade.HeaderText = "Quantidade"
-        Me.colQuantidade.MinimumWidth = 6
-        Me.colQuantidade.Name = "colQuantidade"
-        '
-        'colValorTotal
-        '
-        Me.colValorTotal.FillWeight = 93.55045!
-        Me.colValorTotal.HeaderText = "Valor Total"
-        Me.colValorTotal.MinimumWidth = 6
-        Me.colValorTotal.Name = "colValorTotal"
-        Me.colValorTotal.ReadOnly = True
         '
         'fCaixa
         '

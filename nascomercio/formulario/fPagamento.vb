@@ -54,7 +54,7 @@ Public Class fPagamento
         ' Soma recebidos
         lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtPix.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
         + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
-        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDefeitos.Text)).ToString("N")
+        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDesconto.Text) + CDec(txtDefeitos.Text)).ToString("N")
 
         If CDec(lblRecebido.Text) <= CDec(lblTotal.Text) Then
             lblFalta.Text = CDec(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
@@ -101,6 +101,7 @@ Public Class fPagamento
         txtStatus.Text = ""
         txtUrlPix.Text = ""
         txtPix.Text = "0,00"
+        'txtDesconto.Text = "0,00"
 
     End Sub
     Private Function HabilitarPix() As Boolean
@@ -126,7 +127,8 @@ Public Class fPagamento
                                                                                                txtChequePre.Leave,
                                                                                                txtCheque.Leave,
                                                                                                txtCartaoDebito.Leave,
-                                                                                               txtVale.Leave
+                                                                                               txtVale.Leave,
+                                                                                               txtDesconto.Leave
         'Mostra informações de valores recebidos e troco
         verificaCampos()
         calculaRecebido()
@@ -142,6 +144,7 @@ Public Class fPagamento
         txtCartaoDebito.Text = CDec(txtCartaoDebito.Text).ToString("N")
         txtCrediario.Text = CDec(txtCrediario.Text).ToString("N")
         txtVale.Text = CDec(txtVale.Text).ToString("N")
+        txtDesconto.Text = CDec(txtDesconto.Text).ToString("N")
     End Sub
 
     Private Sub verificaCampos()
@@ -168,6 +171,9 @@ Public Class fPagamento
         End If
         If txtVale.Text.Trim().Equals("") Then
             txtVale.Text = 0.ToString("N")
+        End If
+        If txtDesconto.Text.Trim().Equals("") Then
+            txtDesconto.Text = 0.ToString("N")
         End If
     End Sub
 
@@ -1193,7 +1199,7 @@ Public Class fPagamento
                                                                 txtCheque.Leave,
                                                                 txtCartaoDebito.Leave,
                                                                 txtVale.Leave,
-                                                                txtPix.Leave
+                                                                txtDesconto.Leave
 
 
         'Mostra informações de valores recebidos e troco
@@ -1374,5 +1380,27 @@ Public Class fPagamento
         PanelListPix.Visible = False
         panelPIX.Visible = True
         panelLista.Visible = False
+    End Sub
+
+    Private Sub txtPix_TextChanged(sender As Object, e As EventArgs) Handles txtPix.TextChanged
+
+    End Sub
+
+    Private Sub txtDesconto_Leave(sender As Object, e As EventArgs) Handles txtPix.Leave,
+                                                                txtDinheiro.Leave,
+                                                                txtCartaoCredito.Leave,
+                                                                txtCrediario.Leave,
+                                                                txtChequePre.Leave,
+                                                                txtCheque.Leave,
+                                                                txtCartaoDebito.Leave,
+                                                                txtVale.Leave,
+                                                                txtDesconto.Leave
+
+
+        'Mostra informações de valores recebidos e troco
+        verificaCampos()
+        calculaRecebido()
+        formataCampos()
+
     End Sub
 End Class
