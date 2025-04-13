@@ -1,0 +1,19 @@
+﻿
+
+ALTER TABLE usuarios
+ADD COLUMN email VARCHAR(80) NULL;
+
+ALTER TABLE usuarios
+MODIFY senha
+varchar(50);
+
+INSERT INTO parametros (cid, descricao, valor)
+VALUES (21, 'IsDecimal','0');
+
+
+INSERT INTO parametros (cid, descricao, valor)
+VALUES (22, 'Security','0');
+
+
+INSERT INTO parametros (cid, descricao, valor)
+VALUES (23, 'Instancias','3');

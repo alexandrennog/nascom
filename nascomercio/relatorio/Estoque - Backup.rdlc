@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="nascomercioConnectionString">
+      <rd:DataSourceID>01592a55-9053-4c71-8379-d569ce58c9f5</rd:DataSourceID>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>server=localhost;user id=root;persist security info=True;database=nascomercio;password=</ConnectString>
+      </ConnectionProperties>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>29.7cm</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="Produto">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Produto</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Loja">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Loja</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Fornecedor">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Fornecedor</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Fabricante">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Fabricante</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Estoque">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Estoque</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>21cm</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>2.5cm</RightMargin>
+  <LeftMargin>2.5cm</LeftMargin>
+  <PageHeader>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="textbox10">
+        <rd:DefaultName>textbox10</rd:DefaultName>
+        <Width>3.25cm</Width>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>3</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>17.75cm</Left>
+        <Height>0.63492cm</Height>
+        <Value>="Data: " &amp; Today</Value>
+      </Textbox>
+      <Textbox Name="textbox4">
+        <Width>2.53968cm</Width>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>2</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>21.75cm</Left>
+        <Height>0.63492cm</Height>
+        <Value>="Pag: " &amp; Globals!PageNumber</Value>
+      </Textbox>
+      <Textbox Name="textbox6">
+        <Width>6.75cm</Width>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>10.25cm</Left>
+        <Height>0.63492cm</Height>
+        <Value>="Loja: " &amp; Parameters!Loja.Value</Value>
+      </Textbox>
+      <Textbox Name="textbox18">
+        <rd:DefaultName>textbox18</rd:DefaultName>
+        <Width>7.5cm</Width>
+        <Style>
+          <FontSize>12pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>0.25cm</Left>
+        <Value>Produtos em estoque:</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>0.75cm</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageHeader>
+  <BottomMargin>2.5cm</BottomMargin>
+  <rd:ReportID>b9ec0cf5-9064-4646-8ae1-59bf543f898d</rd:ReportID>
+  <PageWidth>21cm</PageWidth>
+  <DataSets>
+    <DataSet Name="nascomercioDataSet_v_estoque">
+      <Fields>
+        <Field Name="cid">
+          <DataField>cid</DataField>
+          <rd:TypeName>System.UInt32</rd:TypeName>
+        </Field>
+        <Field Name="codigo">
+          <DataField>codigo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="descricao">
+          <DataField>descricao</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="produtoTipo_cid">
+          <DataField>produtoTipo_cid</DataField>
+          <rd:TypeName>System.UInt32</rd:TypeName>
+        </Field>
+        <Field Name="fornecedor_cid">
+          <DataField>fornecedor_cid</DataField>
+          <rd:TypeName>System.UInt32</rd:TypeName>
+        </Field>
+        <Field Name="situacao">
+          <DataField>situacao</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="dataInclusao">
+          <DataField>dataInclusao</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="valorCompra">
+          <DataField>valorCompra</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="valorVenda">
+          <DataField>valorVenda</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="imagem">
+          <DataField>imagem</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="fabricante_cid">
+          <DataField>fabricante_cid</DataField>
+          <rd:TypeName>System.UInt32</rd:TypeName>
+        </Field>
+        <Field Name="referencia">
+          <DataField>referencia</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="produtos_cid">
+          <DataField>produtos_cid</DataField>
+          <rd:TypeName>System.UInt32</rd:TypeName>
+        </Field>
+        <Field Name="item">
+          <DataField>item</DataField>
+          <rd:TypeName>System.UInt32</rd:TypeName>
+        </Field>
+        <Field Name="caracteristicas_cid">
+          <DataField>caracteristicas_cid</DataField>
+          <rd:TypeName>System.UInt32</rd:TypeName>
+        </Field>
+        <Field Name="valor">
+          <DataField>valor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="fabricante">
+          <DataField>fabricante</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="fornecedor">
+          <DataField>fornecedor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>nascomercioConnectionString</DataSourceName>
+        <CommandText>
+          SELECT     cid, codigo, descricao, produtoTipo_cid, fornecedor_cid, situacao, dataInclusao, valorCompra, valorVenda, imagem, fabricante_cid, referencia,
+          produtos_cid, item, caracteristicas_cid, valor, fabricante, fornecedor, IsDecimal
+          FROM         v_estoque</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>nascomercioDataSet</rd:DataSetName>
+        <rd:TableName>v_estoque</rd:TableName>
+        <rd:TableAdapterName>v_estoqueTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <Code />
+  <Width>24.4cm</Width>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Table Name="table1">
+        <DataSetName>nascomercioDataSet_v_estoque</DataSetName>
+        <Filters>
+          <Filter>
+            <FilterExpression>=Fields!descricao.Value</FilterExpression>
+            <Operator>Like</Operator>
+            <FilterValues>
+              <FilterValue>="*" &amp; Parameters!Produto.Value &amp; "*"</FilterValue>
+            </FilterValues>
+          </Filter>
+          <Filter>
+            <FilterExpression>=Fields!fabricante.Value</FilterExpression>
+            <Operator>Like</Operator>
+            <FilterValues>
+              <FilterValue>="*" &amp; Parameters!Fabricante.Value &amp; "*"</FilterValue>
+            </FilterValues>
+          </Filter>
+          <Filter>
+            <FilterExpression>=Fields!fornecedor.Value</FilterExpression>
+            <Operator>Like</Operator>
+            <FilterValues>
+              <FilterValue>="*" &amp; Parameters!Fornecedor.Value &amp; "*"</FilterValue>
+            </FilterValues>
+          </Filter>
+          <Filter>
+            <FilterExpression>=CInt(Fields!valor.Value)</FilterExpression>
+            <Operator>GreaterThan</Operator>
+            <FilterValues>
+              <FilterValue>=Parameters!Estoque.Value</FilterValue>
+            </FilterValues>
+          </Filter>
+        </Filters>
+        <Top>0.25cm</Top>
+        <TableGroups>
+          <TableGroup>
+            <Grouping Name="table1_Group1">
+              <GroupExpressions>
+                <GroupExpression>=Fields!cid.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+            <Header>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox37">
+                          <rd:DefaultName>textbox37</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>6</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=First(Fields!fabricante.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox24">
+                          <rd:DefaultName>textbox24</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>5</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=First(Fields!codigo.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="descricao">
+                          <rd:DefaultName>descricao</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>4</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=First(Fields!descricao.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="referencia">
+                          <rd:DefaultName>referencia</rd:DefaultName>
+                          <Style>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>3</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=First(Fields!referencia.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="valorCompra">
+                          <rd:DefaultName>valorCompra</rd:DefaultName>
+                          <Style>
+                            <Format>C</Format>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>2</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Max(Fields!valorCompra.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="valorVenda">
+                          <rd:DefaultName>valorVenda</rd:DefaultName>
+                          <Style>
+                            <Format>C</Format>
+                            <TextAlign>Right</TextAlign>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>1</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Max(Fields!valorVenda.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="valor">
+                          <rd:DefaultName>valor</rd:DefaultName>
+                          <Style>
+                            <Format>g</Format>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Sum(CDec(Fields!valor.Value))</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.63492cm</Height>
+                </TableRow>
+              </TableRows>
+            </Header>
+          </TableGroup>
+        </TableGroups>
+        <Width>22.65cm</Width>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox12">
+                      <rd:DefaultName>textbox12</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>33</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox5">
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>32</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox13">
+                      <rd:DefaultName>textbox13</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>31</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox19">
+                      <rd:DefaultName>textbox19</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>30</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox1">
+                      <rd:DefaultName>textbox1</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>29</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Valor Compra</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox2">
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>28</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Valor Venda</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox14">
+                      <rd:DefaultName>textbox14</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>27</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Estoque</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.63492cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox28">
+                      <rd:DefaultName>textbox28</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>26</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox26">
+                      <rd:DefaultName>textbox26</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>25</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ColSpan>2</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox9">
+                      <rd:DefaultName>textbox9</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>24</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Total em estoque:</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox16">
+                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <Format>C</Format>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>23</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Sum(Fields!valorCompra.Value*CDec(Fields!valor.Value))</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox39">
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <Format>C</Format>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>22</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Sum(Fields!valorVenda.Value*CDec(Fields!valor.Value))</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="valor_1">
+                      <rd:DefaultName>valor_1</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <Format>g</Format>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>21</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Sum(CDec(Fields!valor.Value))</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.63492cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox44">
+                      <rd:DefaultName>textbox44</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>20</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox43">
+                      <rd:DefaultName>textbox43</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>19</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox30">
+                      <rd:DefaultName>textbox30</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>18</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox34">
+                      <rd:DefaultName>textbox34</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>17</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox40">
+                      <rd:DefaultName>textbox40</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>16</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox41">
+                      <rd:DefaultName>textbox41</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>15</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox42">
+                      <rd:DefaultName>textbox42</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>14</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.63492cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox32">
+                      <rd:DefaultName>textbox32</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>13</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Fabricante</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox36">
+                      <rd:DefaultName>textbox36</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>12</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Código</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox21">
+                      <rd:DefaultName>textbox21</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>11</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Descricao</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox3">
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>10</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Referencia</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox46">
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>9</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Valor Compra</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox47">
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>8</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Valor Venda</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox48">
+                      <Style>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Right</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>7</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Estoque</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.63492cm</Height>
+            </TableRow>
+          </TableRows>
+        </Header>
+        <TableColumns>
+          <TableColumn>
+            <Width>3.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.4cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>5.5cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>3cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>3cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>3cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.25cm</Width>
+          </TableColumn>
+        </TableColumns>
+        <Left>0.25cm</Left>
+      </Table>
+    </ReportItems>
+    <Height>3.4246cm</Height>
+  </Body>
+  <Language>pt-BR</Language>
+  <TopMargin>2.5cm</TopMargin>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

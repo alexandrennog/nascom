@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0989AA3A-D886-427D-A635-355D5B93D95F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ncDados</RootNamespace>
+    <AssemblyName>ncDados</AssemblyName>
+    <MyType>Windows</MyType>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>ncDados.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>ncDados.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="dCaixa.vb" />
+    <Compile Include="dCaixaFechamento.vb" />
+    <Compile Include="dCategoria.vb" />
+    <Compile Include="dCobrancaAutomatica.vb" />
+    <Compile Include="dEstoque.vb" />
+    <Compile Include="dFechamento.vb" />
+    <Compile Include="dNotaFiscalItem.vb" />
+    <Compile Include="dOrdemServico.vb" />
+    <Compile Include="dParametroEstoque.vb" />
+    <Compile Include="dPix.vb" />
+    <Compile Include="dPixConfig.vb" />
+    <Compile Include="dVeiculos.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dServico.vb" />
+    <Compile Include="dFabricante.vb" />
+    <Compile Include="dContasPagar.vb" />
+    <Compile Include="dEfd.vb" />
+    <Compile Include="dEfdArquivo.vb" />
+    <Compile Include="dEfdContabilidade.vb" />
+    <Compile Include="dEfdEnderecoContato.vb" />
+    <Compile Include="dEfdEntidade.vb" />
+    <Compile Include="dEfdFinalidadeArquivo.vb" />
+    <Compile Include="dEfdItem.vb" />
+    <Compile Include="dEfdRegistro.vb" />
+    <Compile Include="dEfdTipoAtividade.vb" />
+    <Compile Include="dEfdTipoPessoa.vb" />
+    <Compile Include="dEfdUnidadeMedida.vb" />
+    <Compile Include="dEtiquetaProdutoImpressao.vb" />
+    <Compile Include="dGiro.vb" />
+    <Compile Include="dGradeEntrada.vb" />
+    <Compile Include="dGradeItem.vb" />
+    <Compile Include="dGrupo.vb" />
+    <Compile Include="dCor.vb" />
+    <Compile Include="dMunicipios.vb" />
+    <Compile Include="dNotaFiscalFornecedor.vb" />
+    <Compile Include="dParametro.vb" />
+    <Compile Include="dCheques.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dParcelas.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dCrediario.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dLoja.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dClienteEndereco.vb" />
+    <Compile Include="dClienteFinanceiro.vb" />
+    <Compile Include="dClienteProfissional.vb" />
+    <Compile Include="dEfdPerfilArquivoFiscal.vb" />
+    <Compile Include="dProdutoEtiqueta.vb" />
+    <Compile Include="dSituacaoNotaFiscal.vb" />
+    <Compile Include="dTipoEmissao.vb" />
+    <Compile Include="dTipoFluxo.vb" />
+    <Compile Include="dTipoFrete.vb" />
+    <Compile Include="dTipoNotaFiscal.vb" />
+    <Compile Include="dTipoPagamento.vb" />
+    <Compile Include="dTipoResidencia.vb" />
+    <Compile Include="dVendaProduto.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dVenda.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dCaracteristica.vb" />
+    <Compile Include="dCaracteristicaItem.vb" />
+    <Compile Include="dCliente.vb" />
+    <Compile Include="dEstado.vb" />
+    <Compile Include="dCondicao.vb" />
+    <Compile Include="dFornecedor.vb" />
+    <Compile Include="dProduto.vb" />
+    <Compile Include="dProdutoItem.vb" />
+    <Compile Include="dProdutoTipo.vb" />
+    <Compile Include="dProdutoTipoCaracteristica.vb" />
+    <Compile Include="dSimNao.vb" />
+    <Compile Include="dSituacao.vb" />
+    <Compile Include="dUsuario.vb">
+      <CustomToolNamespace>Usuario</CustomToolNamespace>
+    </Compile>
+    <Compile Include="dUsuarioPerfil.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="dEstadoCivil.vb" />
+    <Compile Include="dSexo.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

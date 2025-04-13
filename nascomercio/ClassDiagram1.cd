@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="8.25" />
+  <Class Name="nascomercio.fAcesso" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fAcesso.vb</FileName>
+      <HashCode>AAAAAAAAECCABAAAAACAAAACAAAAwEIAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fCaixa" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fCaixa.vb</FileName>
+      <HashCode>AHAJAAAgECAYAAQAAAGQABAKAKCuBkAAEABgIAgARQA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fClientesForm" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fClientesForm.vb</FileName>
+      <HashCode>ABIBEgAwFyAAABAiAYCICAALALH/AAIAAARkCCCAAGk=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fFornecedorFiltro" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fFornecedorFiltro.vb</FileName>
+      <HashCode>YAEQABR0PDwIAAQAQACAEBBKgIASCAQiDmZgKRBCABA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fFornecedorForm" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fFornecedorForm.vb</FileName>
+      <HashCode>YAGQABR0PDwIAAQAQACAEBBCgIACCAQjjkZgKRBCABA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fFornecedorLista" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fFornecedorLista.vb</FileName>
+      <HashCode>AAEAAAAAICCAAAQAEACAAAACAIAAQAQIwABAAEAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fProduto" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fProduto.vb</FileName>
+      <HashCode>AAAAAAAAECAAAAAAAACAAAACAAAAQAAABAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fUsuarioFiltro" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fUsuarioFiltro.vb</FileName>
+      <HashCode>JAEAAIBAECQACAQCIQCEAAIKAYAAAEAAACBAAAAAQAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fUsuarioForm" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fUsuarioForm.vb</FileName>
+      <HashCode>JAGgAIBAICCACASCIQCgEAICAYAAAEQBgABAAAAAQAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.fUsuarioPerfil" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\fUsuarioPerfil.vb</FileName>
+      <HashCode>AACAAABgECAAAAAAAACAEABCAAAQAAAAAAQAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.mdiPrincipal" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>formulario\mdiPrincipal.vb</FileName>
+      <HashCode>IAAEAQAAACIBRIBAAACiICQCIQACQKQAAAAAAAAggAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.My.MyApplication" Collapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="nascomercio.My.MySettings" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAABAAIAAABAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Module Name="nascomercio.My.MySettingsProperty" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="nascomercio.My.Resources.Resources" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAACQAAAAAAAAACACAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+</ClassDiagram>
