@@ -95,17 +95,17 @@ Partial Class fClienteForm
         Me.lblCliCadastro.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblCliCadastro.Location = New System.Drawing.Point(64, 8)
         Me.lblCliCadastro.Name = "lblCliCadastro"
-        Me.lblCliCadastro.Size = New System.Drawing.Size(91, 24)
+        Me.lblCliCadastro.Size = New System.Drawing.Size(121, 32)
         Me.lblCliCadastro.TabIndex = 50
         Me.lblCliCadastro.Text = "Clientes"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label4.Location = New System.Drawing.Point(32, 400)
+        Me.Label4.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label4.Location = New System.Drawing.Point(371, 440)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(83, 18)
+        Me.Label4.Size = New System.Drawing.Size(94, 19)
         Me.Label4.TabIndex = 53
         Me.Label4.Text = "Data Nasc."
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -113,20 +113,20 @@ Partial Class fClienteForm
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label5.Location = New System.Drawing.Point(8, 142)
+        Me.Label5.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(1, 142)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(108, 18)
+        Me.Label5.Size = New System.Drawing.Size(118, 19)
         Me.Label5.TabIndex = 54
         Me.Label5.Text = "Nacionalidade"
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label6.Location = New System.Drawing.Point(16, 118)
+        Me.Label6.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(6, 118)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(98, 18)
+        Me.Label6.Size = New System.Drawing.Size(108, 19)
         Me.Label6.TabIndex = 55
         Me.Label6.Text = "Naturalidade"
         '
@@ -134,19 +134,19 @@ Partial Class fClienteForm
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label8.Location = New System.Drawing.Point(284, 170)
+        Me.Label8.Location = New System.Drawing.Point(279, 173)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(44, 18)
+        Me.Label8.Size = New System.Drawing.Size(57, 22)
         Me.Label8.TabIndex = 57
         Me.Label8.Text = "Sexo"
         '
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label10.Location = New System.Drawing.Point(12, 276)
+        Me.Label10.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(0, 304)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(104, 18)
+        Me.Label10.Size = New System.Drawing.Size(114, 19)
         Me.Label10.TabIndex = 59
         Me.Label10.Text = "Nome da Mãe"
         '
@@ -155,37 +155,37 @@ Partial Class fClienteForm
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(628, 741)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(69, 18)
+        Me.Label12.Size = New System.Drawing.Size(91, 22)
         Me.Label12.TabIndex = 62
         Me.Label12.Text = "Situação"
         '
         'Label15
         '
         Me.Label15.AutoSize = True
-        Me.Label15.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label15.Location = New System.Drawing.Point(36, 252)
+        Me.Label15.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label15.Location = New System.Drawing.Point(23, 280)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(80, 18)
+        Me.Label15.Size = New System.Drawing.Size(91, 19)
         Me.Label15.TabIndex = 2
         Me.Label15.Text = "Cart. Prof."
         '
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label13.Location = New System.Drawing.Point(75, 223)
+        Me.Label13.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(70, 226)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(39, 18)
+        Me.Label13.Size = New System.Drawing.Size(44, 19)
         Me.Label13.TabIndex = 0
         Me.Label13.Text = "R.G."
         '
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label14.Location = New System.Drawing.Point(64, 198)
+        Me.Label14.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label14.Location = New System.Drawing.Point(61, 201)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(46, 18)
+        Me.Label14.Size = New System.Drawing.Size(53, 19)
         Me.Label14.TabIndex = 1
         Me.Label14.Text = "C.P.F."
         '
@@ -194,10 +194,10 @@ Partial Class fClienteForm
         Me.txtCPF.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCPF.Culture = New System.Globalization.CultureInfo("")
         Me.txtCPF.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtCPF.Location = New System.Drawing.Point(120, 198)
+        Me.txtCPF.Location = New System.Drawing.Point(125, 201)
         Me.txtCPF.Mask = "000.000.000-00"
         Me.txtCPF.Name = "txtCPF"
-        Me.txtCPF.Size = New System.Drawing.Size(136, 18)
+        Me.txtCPF.Size = New System.Drawing.Size(136, 22)
         Me.txtCPF.TabIndex = 6
         Me.txtCPF.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
@@ -205,30 +205,30 @@ Partial Class fClienteForm
         '
         Me.txtNome.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNome.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtNome.Location = New System.Drawing.Point(120, 96)
+        Me.txtNome.Location = New System.Drawing.Point(125, 94)
         Me.txtNome.MaxLength = 100
         Me.txtNome.Name = "txtNome"
-        Me.txtNome.Size = New System.Drawing.Size(564, 18)
+        Me.txtNome.Size = New System.Drawing.Size(564, 22)
         Me.txtNome.TabIndex = 1
         '
         'txtNacionalidade
         '
         Me.txtNacionalidade.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNacionalidade.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtNacionalidade.Location = New System.Drawing.Point(120, 142)
+        Me.txtNacionalidade.Location = New System.Drawing.Point(125, 142)
         Me.txtNacionalidade.MaxLength = 100
         Me.txtNacionalidade.Name = "txtNacionalidade"
-        Me.txtNacionalidade.Size = New System.Drawing.Size(348, 18)
+        Me.txtNacionalidade.Size = New System.Drawing.Size(336, 22)
         Me.txtNacionalidade.TabIndex = 3
         '
         'txtNaturalidade
         '
         Me.txtNaturalidade.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNaturalidade.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtNaturalidade.Location = New System.Drawing.Point(120, 119)
+        Me.txtNaturalidade.Location = New System.Drawing.Point(125, 118)
         Me.txtNaturalidade.MaxLength = 100
         Me.txtNaturalidade.Name = "txtNaturalidade"
-        Me.txtNaturalidade.Size = New System.Drawing.Size(348, 18)
+        Me.txtNaturalidade.Size = New System.Drawing.Size(338, 22)
         Me.txtNaturalidade.TabIndex = 2
         '
         'txtRG
@@ -236,10 +236,9 @@ Partial Class fClienteForm
         Me.txtRG.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtRG.Culture = New System.Globalization.CultureInfo("")
         Me.txtRG.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtRG.Location = New System.Drawing.Point(119, 221)
-        Me.txtRG.Mask = "00.000.000-0"
+        Me.txtRG.Location = New System.Drawing.Point(125, 224)
         Me.txtRG.Name = "txtRG"
-        Me.txtRG.Size = New System.Drawing.Size(99, 18)
+        Me.txtRG.Size = New System.Drawing.Size(200, 22)
         Me.txtRG.TabIndex = 7
         Me.txtRG.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
@@ -247,10 +246,10 @@ Partial Class fClienteForm
         '
         Me.txtOrgaoEmissor.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtOrgaoEmissor.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtOrgaoEmissor.Location = New System.Drawing.Point(294, 223)
+        Me.txtOrgaoEmissor.Location = New System.Drawing.Point(125, 248)
         Me.txtOrgaoEmissor.MaxLength = 10
         Me.txtOrgaoEmissor.Name = "txtOrgaoEmissor"
-        Me.txtOrgaoEmissor.Size = New System.Drawing.Size(56, 18)
+        Me.txtOrgaoEmissor.Size = New System.Drawing.Size(56, 22)
         Me.txtOrgaoEmissor.TabIndex = 8
         '
         'cboEstado
@@ -258,39 +257,39 @@ Partial Class fClienteForm
         Me.cboEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboEstado.FormattingEnabled = True
-        Me.cboEstado.Location = New System.Drawing.Point(392, 220)
+        Me.cboEstado.Location = New System.Drawing.Point(379, 214)
         Me.cboEstado.Name = "cboEstado"
-        Me.cboEstado.Size = New System.Drawing.Size(77, 26)
+        Me.cboEstado.Size = New System.Drawing.Size(77, 30)
         Me.cboEstado.TabIndex = 9
         '
         'txtNomePai
         '
         Me.txtNomePai.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNomePai.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtNomePai.Location = New System.Drawing.Point(120, 300)
+        Me.txtNomePai.Location = New System.Drawing.Point(125, 332)
         Me.txtNomePai.MaxLength = 100
         Me.txtNomePai.Name = "txtNomePai"
-        Me.txtNomePai.Size = New System.Drawing.Size(348, 18)
+        Me.txtNomePai.Size = New System.Drawing.Size(340, 22)
         Me.txtNomePai.TabIndex = 12
         '
         'txtNomeMae
         '
         Me.txtNomeMae.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNomeMae.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtNomeMae.Location = New System.Drawing.Point(120, 276)
+        Me.txtNomeMae.Location = New System.Drawing.Point(125, 304)
         Me.txtNomeMae.MaxLength = 100
         Me.txtNomeMae.Name = "txtNomeMae"
-        Me.txtNomeMae.Size = New System.Drawing.Size(348, 18)
+        Me.txtNomeMae.Size = New System.Drawing.Size(338, 22)
         Me.txtNomeMae.TabIndex = 11
         '
         'txtCarteiraProfissional
         '
         Me.txtCarteiraProfissional.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCarteiraProfissional.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtCarteiraProfissional.Location = New System.Drawing.Point(120, 252)
+        Me.txtCarteiraProfissional.Location = New System.Drawing.Point(125, 276)
         Me.txtCarteiraProfissional.MaxLength = 30
         Me.txtCarteiraProfissional.Name = "txtCarteiraProfissional"
-        Me.txtCarteiraProfissional.Size = New System.Drawing.Size(348, 18)
+        Me.txtCarteiraProfissional.Size = New System.Drawing.Size(348, 22)
         Me.txtCarteiraProfissional.TabIndex = 10
         '
         'cboEstadoCivil
@@ -298,9 +297,9 @@ Partial Class fClienteForm
         Me.cboEstadoCivil.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboEstadoCivil.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboEstadoCivil.FormattingEnabled = True
-        Me.cboEstadoCivil.Location = New System.Drawing.Point(120, 166)
+        Me.cboEstadoCivil.Location = New System.Drawing.Point(125, 169)
         Me.cboEstadoCivil.Name = "cboEstadoCivil"
-        Me.cboEstadoCivil.Size = New System.Drawing.Size(138, 26)
+        Me.cboEstadoCivil.Size = New System.Drawing.Size(136, 30)
         Me.cboEstadoCivil.TabIndex = 4
         '
         'cboSexo
@@ -308,27 +307,28 @@ Partial Class fClienteForm
         Me.cboSexo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSexo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboSexo.FormattingEnabled = True
-        Me.cboSexo.Location = New System.Drawing.Point(332, 166)
+        Me.cboSexo.Location = New System.Drawing.Point(340, 169)
         Me.cboSexo.Name = "cboSexo"
-        Me.cboSexo.Size = New System.Drawing.Size(136, 26)
+        Me.cboSexo.Size = New System.Drawing.Size(123, 30)
         Me.cboSexo.TabIndex = 5
         '
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label16.Location = New System.Drawing.Point(295, 404)
+        Me.Label16.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Location = New System.Drawing.Point(384, 407)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(69, 18)
+        Me.Label16.Size = New System.Drawing.Size(77, 19)
         Me.Label16.TabIndex = 77
         Me.Label16.Text = "Situação"
         '
         'Label26
         '
         Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(188, 348)
+        Me.Label26.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label26.Location = New System.Drawing.Point(173, 404)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(71, 18)
+        Me.Label26.Size = New System.Drawing.Size(74, 19)
         Me.Label26.TabIndex = 87
         Me.Label26.Text = "Telefone"
         '
@@ -336,10 +336,10 @@ Partial Class fClienteForm
         '
         Me.txtDDD.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDDD.Culture = New System.Globalization.CultureInfo("")
-        Me.txtDDD.Location = New System.Drawing.Point(120, 348)
+        Me.txtDDD.Location = New System.Drawing.Point(111, 404)
         Me.txtDDD.Mask = "000"
         Me.txtDDD.Name = "txtDDD"
-        Me.txtDDD.Size = New System.Drawing.Size(46, 18)
+        Me.txtDDD.Size = New System.Drawing.Size(46, 22)
         Me.txtDDD.TabIndex = 14
         Me.txtDDD.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
@@ -347,10 +347,10 @@ Partial Class fClienteForm
         '
         Me.txtTelefone.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtTelefone.Culture = New System.Globalization.CultureInfo("")
-        Me.txtTelefone.Location = New System.Drawing.Point(264, 348)
+        Me.txtTelefone.Location = New System.Drawing.Point(255, 404)
         Me.txtTelefone.Mask = "0000-0000"
         Me.txtTelefone.Name = "txtTelefone"
-        Me.txtTelefone.Size = New System.Drawing.Size(96, 18)
+        Me.txtTelefone.Size = New System.Drawing.Size(96, 22)
         Me.txtTelefone.TabIndex = 15
         Me.txtTelefone.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
@@ -362,7 +362,7 @@ Partial Class fClienteForm
         Me.lblCliSubTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblCliSubTitulo.Location = New System.Drawing.Point(64, 32)
         Me.lblCliSubTitulo.Name = "lblCliSubTitulo"
-        Me.lblCliSubTitulo.Size = New System.Drawing.Size(67, 14)
+        Me.lblCliSubTitulo.Size = New System.Drawing.Size(83, 16)
         Me.lblCliSubTitulo.TabIndex = 107
         Me.lblCliSubTitulo.Text = "CADASTRO"
         '
@@ -371,28 +371,28 @@ Partial Class fClienteForm
         Me.cboSituacao.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboSituacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboSituacao.FormattingEnabled = True
-        Me.cboSituacao.Location = New System.Drawing.Point(371, 400)
+        Me.cboSituacao.Location = New System.Drawing.Point(467, 404)
         Me.cboSituacao.Name = "cboSituacao"
-        Me.cboSituacao.Size = New System.Drawing.Size(97, 26)
+        Me.cboSituacao.Size = New System.Drawing.Size(97, 30)
         Me.cboSituacao.TabIndex = 19
         '
         'txtEmail
         '
         Me.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtEmail.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtEmail.Location = New System.Drawing.Point(120, 324)
+        Me.txtEmail.Location = New System.Drawing.Point(125, 360)
         Me.txtEmail.MaxLength = 100
         Me.txtEmail.Name = "txtEmail"
-        Me.txtEmail.Size = New System.Drawing.Size(348, 18)
+        Me.txtEmail.Size = New System.Drawing.Size(340, 22)
         Me.txtEmail.TabIndex = 13
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(64, 324)
+        Me.Label1.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(58, 356)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(52, 18)
+        Me.Label1.Size = New System.Drawing.Size(56, 19)
         Me.Label1.TabIndex = 115
         Me.Label1.Text = "E-Mail"
         '
@@ -401,49 +401,50 @@ Partial Class fClienteForm
         Me.txtDataNascimento.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDataNascimento.Culture = New System.Globalization.CultureInfo("")
         Me.txtDataNascimento.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtDataNascimento.Location = New System.Drawing.Point(120, 400)
+        Me.txtDataNascimento.Location = New System.Drawing.Point(471, 440)
         Me.txtDataNascimento.Mask = "00/00/0000"
         Me.txtDataNascimento.Name = "txtDataNascimento"
-        Me.txtDataNascimento.Size = New System.Drawing.Size(93, 18)
+        Me.txtDataNascimento.Size = New System.Drawing.Size(93, 22)
         Me.txtDataNascimento.TabIndex = 18
         Me.txtDataNascimento.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label3.Location = New System.Drawing.Point(64, 94)
+        Me.Label3.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(60, 94)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(49, 18)
+        Me.Label3.Size = New System.Drawing.Size(54, 19)
         Me.Label3.TabIndex = 118
         Me.Label3.Text = "Nome"
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(20, 170)
+        Me.Label7.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(12, 173)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(93, 18)
+        Me.Label7.Size = New System.Drawing.Size(102, 19)
         Me.Label7.TabIndex = 119
         Me.Label7.Text = "Estado Civil"
         '
         'Label25
         '
         Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(72, 348)
+        Me.Label25.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label25.Location = New System.Drawing.Point(57, 404)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(41, 18)
+        Me.Label25.Size = New System.Drawing.Size(45, 19)
         Me.Label25.TabIndex = 121
         Me.Label25.Text = "DDD"
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label9.Location = New System.Drawing.Point(16, 300)
+        Me.Label9.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.Location = New System.Drawing.Point(6, 332)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(97, 18)
+        Me.Label9.Size = New System.Drawing.Size(108, 19)
         Me.Label9.TabIndex = 120
         Me.Label9.Text = "Nome do Pai"
         '
@@ -470,19 +471,19 @@ Partial Class fClienteForm
         Me.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCodigo.Enabled = False
         Me.txtCodigo.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtCodigo.Location = New System.Drawing.Point(120, 73)
+        Me.txtCodigo.Location = New System.Drawing.Point(125, 67)
         Me.txtCodigo.MaxLength = 100
         Me.txtCodigo.Name = "txtCodigo"
-        Me.txtCodigo.Size = New System.Drawing.Size(91, 18)
+        Me.txtCodigo.Size = New System.Drawing.Size(91, 22)
         Me.txtCodigo.TabIndex = 0
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label2.Location = New System.Drawing.Point(54, 73)
+        Me.Label2.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(49, 67)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(59, 18)
+        Me.Label2.Size = New System.Drawing.Size(65, 19)
         Me.Label2.TabIndex = 124
         Me.Label2.Text = "Código"
         '
@@ -490,14 +491,44 @@ Partial Class fClienteForm
         '
         Me.Panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.Window
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.txtCodigo)
+        Me.Panel1.Controls.Add(Me.Label2)
         Me.Panel1.Controls.Add(Me.btnLoadImage)
         Me.Panel1.Controls.Add(Me.btoContrato)
+        Me.Panel1.Controls.Add(Me.txtDataNascimento)
+        Me.Panel1.Controls.Add(Me.Label7)
         Me.Panel1.Controls.Add(Me.btoCamera)
+        Me.Panel1.Controls.Add(Me.Label9)
+        Me.Panel1.Controls.Add(Me.cboSexo)
+        Me.Panel1.Controls.Add(Me.Label25)
+        Me.Panel1.Controls.Add(Me.cboEstadoCivil)
+        Me.Panel1.Controls.Add(Me.txtEmail)
         Me.Panel1.Controls.Add(Me.btoVeiculos)
+        Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.Label18)
         Me.Panel1.Controls.Add(Me.txtDddCelular)
+        Me.Panel1.Controls.Add(Me.Label14)
         Me.Panel1.Controls.Add(Me.txtCelular)
+        Me.Panel1.Controls.Add(Me.txtCPF)
         Me.Panel1.Controls.Add(Me.Label19)
+        Me.Panel1.Controls.Add(Me.Label13)
+        Me.Panel1.Controls.Add(Me.txtCarteiraProfissional)
+        Me.Panel1.Controls.Add(Me.txtRG)
+        Me.Panel1.Controls.Add(Me.cboEstado)
+        Me.Panel1.Controls.Add(Me.txtOrgaoEmissor)
+        Me.Panel1.Controls.Add(Me.Label17)
+        Me.Panel1.Controls.Add(Me.Label15)
+        Me.Panel1.Controls.Add(Me.txtDDD)
+        Me.Panel1.Controls.Add(Me.txtNomeMae)
+        Me.Panel1.Controls.Add(Me.txtTelefone)
+        Me.Panel1.Controls.Add(Me.Label10)
+        Me.Panel1.Controls.Add(Me.Label26)
+        Me.Panel1.Controls.Add(Me.txtNomePai)
+        Me.Panel1.Controls.Add(Me.cboSituacao)
+        Me.Panel1.Controls.Add(Me.Label16)
+        Me.Panel1.Controls.Add(Me.Label8)
+        Me.Panel1.Controls.Add(Me.Label4)
+        Me.Panel1.Controls.Add(Me.Label11)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(830, 550)
@@ -564,9 +595,10 @@ Partial Class fClienteForm
         'Label18
         '
         Me.Label18.AutoSize = True
-        Me.Label18.Location = New System.Drawing.Point(70, 371)
+        Me.Label18.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label18.Location = New System.Drawing.Point(57, 440)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(41, 18)
+        Me.Label18.Size = New System.Drawing.Size(45, 19)
         Me.Label18.TabIndex = 309
         Me.Label18.Text = "DDD"
         '
@@ -574,10 +606,10 @@ Partial Class fClienteForm
         '
         Me.txtDddCelular.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDddCelular.Culture = New System.Globalization.CultureInfo("")
-        Me.txtDddCelular.Location = New System.Drawing.Point(118, 371)
+        Me.txtDddCelular.Location = New System.Drawing.Point(110, 440)
         Me.txtDddCelular.Mask = "000"
         Me.txtDddCelular.Name = "txtDddCelular"
-        Me.txtDddCelular.Size = New System.Drawing.Size(46, 18)
+        Me.txtDddCelular.Size = New System.Drawing.Size(46, 22)
         Me.txtDddCelular.TabIndex = 16
         Me.txtDddCelular.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
@@ -585,29 +617,30 @@ Partial Class fClienteForm
         '
         Me.txtCelular.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCelular.Culture = New System.Globalization.CultureInfo("")
-        Me.txtCelular.Location = New System.Drawing.Point(262, 371)
+        Me.txtCelular.Location = New System.Drawing.Point(255, 440)
         Me.txtCelular.Mask = "00000-0000"
         Me.txtCelular.Name = "txtCelular"
-        Me.txtCelular.Size = New System.Drawing.Size(96, 18)
+        Me.txtCelular.Size = New System.Drawing.Size(96, 22)
         Me.txtCelular.TabIndex = 17
         Me.txtCelular.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(186, 371)
+        Me.Label19.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label19.Location = New System.Drawing.Point(173, 440)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(59, 18)
+        Me.Label19.Size = New System.Drawing.Size(64, 19)
         Me.Label19.TabIndex = 308
         Me.Label19.Text = "Celular"
         '
         'Label17
         '
         Me.Label17.AutoSize = True
-        Me.Label17.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label17.Location = New System.Drawing.Point(223, 223)
+        Me.Label17.Font = New System.Drawing.Font("Arial", 10.2!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Location = New System.Drawing.Point(41, 244)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(65, 18)
+        Me.Label17.Size = New System.Drawing.Size(73, 19)
         Me.Label17.TabIndex = 305
         Me.Label17.Text = "Emissor"
         '
@@ -615,9 +648,9 @@ Partial Class fClienteForm
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label11.Location = New System.Drawing.Point(356, 223)
+        Me.Label11.Location = New System.Drawing.Point(338, 222)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(28, 18)
+        Me.Label11.Size = New System.Drawing.Size(35, 22)
         Me.Label11.TabIndex = 304
         Me.Label11.Text = "UF"
         '
@@ -846,44 +879,17 @@ Partial Class fClienteForm
         '
         'fClienteForm
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 22.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(830, 550)
-        Me.Controls.Add(Me.txtCodigo)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.txtDataNascimento)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.Label25)
-        Me.Controls.Add(Me.Label9)
-        Me.Controls.Add(Me.txtEmail)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.picImagem)
-        Me.Controls.Add(Me.cboSituacao)
-        Me.Controls.Add(Me.txtTelefone)
-        Me.Controls.Add(Me.txtDDD)
-        Me.Controls.Add(Me.Label26)
-        Me.Controls.Add(Me.cboSexo)
-        Me.Controls.Add(Me.cboEstadoCivil)
-        Me.Controls.Add(Me.txtCarteiraProfissional)
-        Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.txtNomeMae)
-        Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.txtNomePai)
         Me.Controls.Add(Me.txtNaturalidade)
         Me.Controls.Add(Me.txtNacionalidade)
         Me.Controls.Add(Me.txtNome)
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.Label14)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.txtCPF)
-        Me.Controls.Add(Me.Label17)
-        Me.Controls.Add(Me.txtOrgaoEmissor)
-        Me.Controls.Add(Me.cboEstado)
-        Me.Controls.Add(Me.Label13)
-        Me.Controls.Add(Me.txtRG)
         Me.Controls.Add(Me.btoVendas)
         Me.Controls.Add(Me.btoCheques)
         Me.Controls.Add(Me.btoSalvar)
@@ -895,12 +901,9 @@ Partial Class fClienteForm
         Me.Controls.Add(Me.btoFiltro)
         Me.Controls.Add(Me.lblCliSubTitulo)
         Me.Controls.Add(Me.imgCliLogo)
-        Me.Controls.Add(Me.Label16)
-        Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.lblCliCadastro)
         Me.Controls.Add(Me.btoSair)
-        Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Panel1)
         Me.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None

@@ -54,7 +54,7 @@ Public Class fPagamento
         ' Soma recebidos
         lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtPix.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
         + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
-        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDesconto.Text) + CDec(txtDefeitos.Text)).ToString("N")
+        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDefeitos.Text)).ToString("N")
 
         If CDec(lblRecebido.Text) <= CDec(lblTotal.Text) Then
             lblFalta.Text = CDec(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
@@ -63,6 +63,22 @@ Public Class fPagamento
             lblTroco.Text = CDec(CDec(lblRecebido.Text) - CDec(lblTotal.Text)).ToString("N")
             lblFalta.Text = 0.ToString("N")
         End If
+        lblRecebido.Text = CDec(CDec(txtVendas.Text) - CDec(lblFalta.Text)).ToString("N")
+    End Sub
+    Private Sub recalculaRecebido()
+        ' Soma recebidos
+        lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtPix.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
+        + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
+        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDesconto.Text) + CDec(txtDefeitos.Text)).ToString("N")
+
+        If CDec(lblRecebido.Text) <= CDec(txtVendas.Text) Then
+            lblFalta.Text = CDec(CDec(txtVendas.Text) - CDec(lblRecebido.Text)).ToString("N")
+            lblTroco.Text = 0.ToString("N")
+        Else
+            lblTroco.Text = CDec(CDec(lblRecebido.Text) - CDec(txtVendas.Text)).ToString("N")
+            lblFalta.Text = 0.ToString("N")
+        End If
+        lblTotal.Text = lblFalta.Text
     End Sub
 
     Private Sub fPagamento_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -90,7 +106,6 @@ Public Class fPagamento
         If HabilitarPix() Then
             'RecuperarDadosPix()
             chkPIX.Enabled = True
-
         Else
             chkPIX.Enabled = False
         End If
@@ -131,7 +146,7 @@ Public Class fPagamento
                                                                                                txtDesconto.Leave
         'Mostra informações de valores recebidos e troco
         verificaCampos()
-        calculaRecebido()
+        recalculaRecebido()
         formataCampos()
     End Sub
 
@@ -1204,7 +1219,7 @@ Public Class fPagamento
 
         'Mostra informações de valores recebidos e troco
         verificaCampos()
-        calculaRecebido()
+        recalculaRecebido()
         formataCampos()
     End Sub
 
@@ -1399,7 +1414,7 @@ Public Class fPagamento
 
         'Mostra informações de valores recebidos e troco
         verificaCampos()
-        calculaRecebido()
+        recalculaRecebido()
         formataCampos()
 
     End Sub

@@ -207,6 +207,7 @@ Public Class fClienteLista
                         End If
                         linha.Cells("cid").Value = cliente.cid
                         linha.Cells("Nome").Value = cliente.nome
+                        linha.Cells("Endereço").Value = cliente.endereco
                         linha.Cells("Cpf").Value = cliente.cpf
                         linha.Cells("Rg").Value = cliente.rg
                         linha.Cells("Situacao").Value = cliente.situacao
@@ -236,6 +237,7 @@ Public Class fClienteLista
                             End If
                             linha.Cells("cid").Value = cliente.cid
                             linha.Cells("Nome").Value = cliente.nome
+                            linha.Cells("Endereço").Value = cliente.endereco
                             linha.Cells("Cpf").Value = cliente.cpf
                             linha.Cells("Rg").Value = cliente.rg
                             linha.Cells("Situacao").Value = cliente.situacao

@@ -622,6 +622,7 @@ Public Class fClienteForm
 
         End Try
     End Sub
+
     Private Function ExisteFoto() As Boolean
 
         If picImagem.ImageLocation Is Nothing Then
@@ -1094,5 +1095,23 @@ Public Class fClienteForm
 
     Private Sub Button1_Click(sender As Object, e As EventArgs)
         ImprimirContrato()
+    End Sub
+
+    Private Sub txtCPF_Leave(sender As Object, e As EventArgs) Handles txtCPF.Leave
+        If Len(txtCPF.Text.Trim) = 11 Then
+            If Not ValidaCpf(txtCPF.Text) Then
+                MessageBox.Show("CPF inválido")
+                txtCPF.Select()
+            End If
+        End If
+    End Sub
+
+    Private Sub txtCPF_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCPF.KeyUp
+        If Len(txtCPF.Text.Trim) = 11 Then
+            If Not ValidaCpf(txtCPF.Text) Then
+                MessageBox.Show("CPF inválido")
+                txtCPF.SelectAll()
+            End If
+        End If
     End Sub
 End Class
