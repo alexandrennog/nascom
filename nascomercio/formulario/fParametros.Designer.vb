@@ -42,6 +42,8 @@ Partial Class fParametros
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cboQuantidade = New System.Windows.Forms.ComboBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.cboExcVenda = New System.Windows.Forms.ComboBox()
         Me.cboPIX = New System.Windows.Forms.ComboBox()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.txtNInstancias = New System.Windows.Forms.TextBox()
@@ -66,8 +68,6 @@ Partial Class fParametros
         Me.Label7 = New System.Windows.Forms.Label()
         Me.cboLojaGrande = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.Label18 = New System.Windows.Forms.Label()
-        Me.cboExcVenda = New System.Windows.Forms.ComboBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -361,6 +361,31 @@ Partial Class fParametros
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1014, 614)
         Me.Panel2.TabIndex = 108
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.BackColor = System.Drawing.Color.Transparent
+        Me.Label18.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label18.Location = New System.Drawing.Point(332, 457)
+        Me.Label18.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(132, 22)
+        Me.Label18.TabIndex = 136
+        Me.Label18.Text = "Edita Venda?"
+        '
+        'cboExcVenda
+        '
+        Me.cboExcVenda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboExcVenda.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboExcVenda.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.cboExcVenda.FormattingEnabled = True
+        Me.cboExcVenda.Items.AddRange(New Object() {"Sim", "Não"})
+        Me.cboExcVenda.Location = New System.Drawing.Point(474, 457)
+        Me.cboExcVenda.Margin = New System.Windows.Forms.Padding(4)
+        Me.cboExcVenda.Name = "cboExcVenda"
+        Me.cboExcVenda.Size = New System.Drawing.Size(172, 30)
+        Me.cboExcVenda.TabIndex = 135
         '
         'cboPIX
         '
@@ -658,31 +683,6 @@ Partial Class fParametros
         Me.Label5.Size = New System.Drawing.Size(272, 22)
         Me.Label5.TabIndex = 109
         Me.Label5.Text = "Loja com terminal de venda:"
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.BackColor = System.Drawing.Color.Transparent
-        Me.Label18.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label18.Location = New System.Drawing.Point(332, 457)
-        Me.Label18.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(120, 22)
-        Me.Label18.TabIndex = 136
-        Me.Label18.Text = "Exc. Venda:"
-        '
-        'cboExcVenda
-        '
-        Me.cboExcVenda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboExcVenda.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.cboExcVenda.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.cboExcVenda.FormattingEnabled = True
-        Me.cboExcVenda.Items.AddRange(New Object() {"Sim", "Não"})
-        Me.cboExcVenda.Location = New System.Drawing.Point(474, 457)
-        Me.cboExcVenda.Margin = New System.Windows.Forms.Padding(4)
-        Me.cboExcVenda.Name = "cboExcVenda"
-        Me.cboExcVenda.Size = New System.Drawing.Size(172, 30)
-        Me.cboExcVenda.TabIndex = 135
         '
         'fParametros
         '

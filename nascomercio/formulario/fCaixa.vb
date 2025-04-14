@@ -507,6 +507,7 @@ Public Class fCaixa
         janela.txtTroca.Text = Me.lblTroca.Text
         janela.txtVale.Text = Me.lblVale.Text
         janela.txtDefeitos.Text = Me.lblDefeitos.Text
+        janela.txtVendas.Text = Me.lblVendas.Text
 
 
         If txtControle.Tag <> 0 Then

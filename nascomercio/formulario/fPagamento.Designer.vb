@@ -116,6 +116,7 @@ Partial Class fPagamento
         Me.Label43 = New System.Windows.Forms.Label()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoCliente = New System.Windows.Forms.Button()
+        Me.txtVendas = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.panelPIX.SuspendLayout()
         CType(Me.picQRCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -613,6 +614,7 @@ Partial Class fPagamento
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.txtVendas)
         Me.Panel1.Controls.Add(Me.txtPix)
         Me.Panel1.Controls.Add(Me.Label20)
         Me.Panel1.Controls.Add(Me.panelPIX)
@@ -1303,6 +1305,17 @@ Partial Class fPagamento
         Me.btoCliente.TabStop = False
         Me.btoCliente.UseVisualStyleBackColor = False
         '
+        'txtVendas
+        '
+        Me.txtVendas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVendas.Location = New System.Drawing.Point(215, 705)
+        Me.txtVendas.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtVendas.Name = "txtVendas"
+        Me.txtVendas.ReadOnly = True
+        Me.txtVendas.Size = New System.Drawing.Size(179, 30)
+        Me.txtVendas.TabIndex = 326
+        Me.txtVendas.Text = "0,00"
+        '
         'fPagamento
         '
         Me.AcceptButton = Me.btoSalvar
@@ -1438,4 +1451,5 @@ Partial Class fPagamento
     Friend WithEvents btnListar As Button
     Friend WithEvents btnSair As Button
     Friend WithEvents Label24 As Label
+    Friend WithEvents txtVendas As TextBox
 End Class

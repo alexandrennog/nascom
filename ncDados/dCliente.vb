@@ -9,6 +9,7 @@ Namespace nsCliente
         Private _cid As Nullable(Of Integer)
         Private _codigo As String
         Private _nome As String
+        Private _endereco As String
         Private _estadoCivil As String
         Private _sexo As String
         Private _nomePai As String
@@ -55,6 +56,15 @@ Namespace nsCliente
             End Get
             Set(ByVal value As String)
                 _nome = value
+            End Set
+        End Property
+
+        Public Property endereco() As String
+            Get
+                Return _endereco
+            End Get
+            Set(ByVal value As String)
+                _endereco = value
             End Set
         End Property
 
