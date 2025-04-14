@@ -235,11 +235,18 @@ Public Class fProdutoEtiquetaES
         End Try
 
     End Sub
-
+    Private Sub marcarTodos(ByVal mark As Integer)
+        For Each linha As DataGridViewRow In dgvProdutos.Rows
+            linha.Cells("check").Value = mark
+        Next
+    End Sub
     Private Sub btoPesquisar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoPesquisar.Click
         If ValidarCampos() = True Then
             ListarProdutos()
         End If
     End Sub
 
+    Private Sub chkMarcarTodos_CheckedChanged(sender As Object, e As EventArgs) Handles chkMarcarTodos.CheckedChanged
+        marcarTodos(chkMarcarTodos.Checked)
+    End Sub
 End Class
