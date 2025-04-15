@@ -201,6 +201,7 @@ Public Class fProdutoBalancoForm
             coluna = New DataColumn()
             coluna.ColumnName = "estoqueatualizacao"
             tabela.Columns.Add(coluna)
+            itensExibir.Add("estoqueatualizacao")
 
             Application.DoEvents()
 

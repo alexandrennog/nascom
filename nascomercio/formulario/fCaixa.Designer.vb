@@ -22,9 +22,9 @@ Partial Class fCaixa
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fCaixa))
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.dtgProdutos = New System.Windows.Forms.DataGridView()
@@ -113,44 +113,48 @@ Partial Class fCaixa
         Me.dtgProdutos.AllowUserToAddRows = False
         Me.dtgProdutos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dtgProdutos.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle13.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle13
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dtgProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dtgProdutos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colReferencia, Me.colValorUnitario, Me.colQuantidade, Me.colValorTotal})
-        Me.dtgProdutos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
+        Me.dtgProdutos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.dtgProdutos.Location = New System.Drawing.Point(21, 233)
         Me.dtgProdutos.Margin = New System.Windows.Forms.Padding(4)
+        Me.dtgProdutos.MultiSelect = False
         Me.dtgProdutos.Name = "dtgProdutos"
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle14.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle14
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dtgProdutos.RowHeadersWidth = 51
-        DataGridViewCellStyle15.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle15
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle3
+        Me.dtgProdutos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dtgProdutos.Size = New System.Drawing.Size(1163, 348)
         Me.dtgProdutos.TabIndex = 8
         '
         'colCodigo
         '
+        Me.colCodigo.FillWeight = 103.9449!
         Me.colCodigo.HeaderText = "Código"
         Me.colCodigo.MinimumWidth = 6
         Me.colCodigo.Name = "colCodigo"
         Me.colCodigo.ReadOnly = True
+        Me.colCodigo.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
         '
         'colDescricao
         '
-        Me.colDescricao.FillWeight = 140.0!
+        Me.colDescricao.FillWeight = 145.5229!
         Me.colDescricao.HeaderText = "Descrição"
         Me.colDescricao.MinimumWidth = 6
         Me.colDescricao.Name = "colDescricao"
@@ -158,7 +162,7 @@ Partial Class fCaixa
         '
         'colReferencia
         '
-        Me.colReferencia.FillWeight = 110.0!
+        Me.colReferencia.FillWeight = 114.3394!
         Me.colReferencia.HeaderText = "Referência"
         Me.colReferencia.MinimumWidth = 6
         Me.colReferencia.Name = "colReferencia"
@@ -166,21 +170,21 @@ Partial Class fCaixa
         '
         'colValorUnitario
         '
-        Me.colValorUnitario.FillWeight = 90.0!
+        Me.colValorUnitario.FillWeight = 93.55045!
         Me.colValorUnitario.HeaderText = "Valor Unitário"
         Me.colValorUnitario.MinimumWidth = 6
         Me.colValorUnitario.Name = "colValorUnitario"
         '
         'colQuantidade
         '
-        Me.colQuantidade.FillWeight = 80.0!
+        Me.colQuantidade.FillWeight = 83.15595!
         Me.colQuantidade.HeaderText = "Quantidade"
         Me.colQuantidade.MinimumWidth = 6
         Me.colQuantidade.Name = "colQuantidade"
         '
         'colValorTotal
         '
-        Me.colValorTotal.FillWeight = 90.0!
+        Me.colValorTotal.FillWeight = 93.55045!
         Me.colValorTotal.HeaderText = "Valor Total"
         Me.colValorTotal.MinimumWidth = 6
         Me.colValorTotal.Name = "colValorTotal"
@@ -659,7 +663,7 @@ Partial Class fCaixa
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1198, 815)
+        Me.Panel1.Size = New System.Drawing.Size(1198, 816)
         Me.Panel1.TabIndex = 179
         '
         'lblAbrirFechar
@@ -974,6 +978,7 @@ Partial Class fCaixa
         Me.Controls.Add(Me.lblTitulo)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "fCaixa"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
@@ -1046,10 +1051,10 @@ Partial Class fCaixa
     Friend WithEvents lblOS As System.Windows.Forms.Label
     Friend WithEvents lblAbrirFechar As System.Windows.Forms.Label
     Friend WithEvents Button3 As System.Windows.Forms.Button
-    Friend WithEvents colCodigo As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colDescricao As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colReferencia As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colValorUnitario As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colQuantidade As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colValorTotal As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents colCodigo As DataGridViewTextBoxColumn
+    Friend WithEvents colDescricao As DataGridViewTextBoxColumn
+    Friend WithEvents colReferencia As DataGridViewTextBoxColumn
+    Friend WithEvents colValorUnitario As DataGridViewTextBoxColumn
+    Friend WithEvents colQuantidade As DataGridViewTextBoxColumn
+    Friend WithEvents colValorTotal As DataGridViewTextBoxColumn
 End Class

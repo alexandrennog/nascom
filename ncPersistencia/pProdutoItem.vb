@@ -80,7 +80,6 @@ Namespace nsProduto
 
                 acessoBanco = New cAcessoBD
 
-
                 sqlSelect = " Select pi.produtos_cid, pi.item, pi.caracteristicas_cid, pi.valor, c.nome, c.codigo "
                 sqlWhere = String.Empty
                 sqlFrom = " From produtoitem pi Inner Join caracteristicas c " & _

@@ -13,8 +13,10 @@
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        cid, valor, dataemissao, datadeposito, numero, nome, banco, agencia, conta, baixado
-FROM            v_cheques</CommandText>
+                    <CommandText>
+                      SELECT        cid, valor, dataemissao, datadeposito, numero, nome, banco, agencia, conta, baixado
+                      FROM            v_cheques
+                    </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -64,9 +66,11 @@ FROM            v_cheques</CommandText>
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT     cid, codigo, descricao, produtoTipo_cid, fornecedor_cid, situacao, dataInclusao, valorCompra, valorVenda, imagem, fabricante_cid, referencia, 
+                    <CommandText>
+                      SELECT     cid, codigo, descricao, produtoTipo_cid, fornecedor_cid, situacao, dataInclusao, valorCompra, valorVenda, imagem, fabricante_cid, referencia,
                       produtos_cid, item, caracteristicas_cid, valor, fabricante, fornecedor, IsDecimal
-FROM         v_estoque</CommandText>
+                      FROM         v_estoque
+                    </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -100,8 +104,10 @@ FROM         v_estoque</CommandText>
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        controle, data, descricao, quantidade, valorcompra, valorvenda, desconto, vendedor, nome, fabricante, referencia
-FROM            v_vendas</CommandText>
+                    <CommandText>
+                      SELECT        controle, data, descricao, quantidade, valorcompra, valorvenda, desconto, vendedor, nome, fabricante, referencia
+                      FROM            v_vendas
+                    </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -395,8 +401,10 @@ FROM            v_vendas</CommandText>
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        controle, data, valorvenda, desconto, vendedor, nome, troca, defeito, vale, valeEmitido
-FROM            v_vendassintetico</CommandText>
+                    <CommandText>
+                      SELECT        controle, data, valorvenda, desconto, vendedor, nome, troca, defeito, vale, valeEmitido
+                      FROM            v_vendassintetico
+                    </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -420,8 +428,10 @@ FROM            v_vendassintetico</CommandText>
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        v_transferencia.*
-FROM            v_transferencia</CommandText>
+                    <CommandText>
+                      SELECT        v_transferencia.*
+                      FROM            v_transferencia
+                    </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -444,8 +454,10 @@ FROM            v_transferencia</CommandText>
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        codigoBarras, dataBalanco, quantidadeEstoque, quantidadeAtualizacao
-FROM            v_balanco</CommandText>
+                    <CommandText>
+                      SELECT        codigoBarras, dataBalanco, quantidadeEstoque, quantidadeAtualizacao
+                      FROM            v_balanco
+                    </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -464,8 +476,10 @@ FROM            v_balanco</CommandText>
               <DbSource ConnectionRef="ConnectionString (MySettings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT v_fechamento.*
-FROM     v_fechamento</CommandText>
+                    <CommandText>
+                      SELECT v_fechamento.*
+                      FROM     v_fechamento
+                    </CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>

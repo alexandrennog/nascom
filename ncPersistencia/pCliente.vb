@@ -98,19 +98,23 @@ Namespace nsCliente
 
                 acessoBanco = New cAcessoBD
 
-
-                sqlSelect = " Select c.cid, nome, estadoCivil, sexo, nomePai, nomeMae, dataInclusao, " & _
-                    " situacao, rg, cpf, carteiraProfissional, dataNascimento, naturalidade, nacionalidade, email, " & _
+                sqlSelect = " Select c.cid, nome, logradouro, estadoCivil, sexo, nomePai, nomeMae, c.dataInclusao, " &
+                    " situacao, rg, cpf, carteiraProfissional, dataNascimento, naturalidade, nacionalidade, email, " &
                     " foto, ddd, telefone, dddcel, celular, rgOrgaoEmissor, rgUf_cid "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From clientes c left join veiculo v  on  v.clienteid = c.cid "
+
+                sqlFrom += " left join clienteenderecos e on e.cliente_cid = c.cid "
 
                 '-- cid
                 sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.cid, "c.cid")
 
                 '-- nome
                 sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.nome, "nome", True)
+
+                '-- logradouro
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.endereco, "logradouro", True)
 
                 '-- estadoCivil
                 sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.estadoCivil, "estadoCivil")
@@ -181,6 +185,7 @@ Namespace nsCliente
 
                                 item.cid = cFuncoes.RetornarInteiro(row("cid"))
                                 item.nome = cFuncoes.RetornarTexto(row("nome"))
+                                item.endereco = cFuncoes.RetornarTexto(row("logradouro"))
                                 item.estadoCivil = cFuncoes.RetornarTexto(row("estadoCivil"))
                                 item.sexo = cFuncoes.RetornarTexto(row("sexo"))
                                 item.nomePai = cFuncoes.RetornarTexto(row("nomePai"))

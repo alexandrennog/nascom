@@ -63,6 +63,22 @@ Public Class fPagamento
             lblTroco.Text = CDec(CDec(lblRecebido.Text) - CDec(lblTotal.Text)).ToString("N")
             lblFalta.Text = 0.ToString("N")
         End If
+        lblRecebido.Text = CDec(CDec(txtVendas.Text) - CDec(lblFalta.Text)).ToString("N")
+    End Sub
+    Private Sub recalculaRecebido()
+        ' Soma recebidos
+        lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtPix.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
+        + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
+        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDesconto.Text) + CDec(txtDefeitos.Text)).ToString("N")
+
+        If CDec(lblRecebido.Text) <= CDec(txtVendas.Text) Then
+            lblFalta.Text = CDec(CDec(txtVendas.Text) - CDec(lblRecebido.Text)).ToString("N")
+            lblTroco.Text = 0.ToString("N")
+        Else
+            lblTroco.Text = CDec(CDec(lblRecebido.Text) - CDec(txtVendas.Text)).ToString("N")
+            lblFalta.Text = 0.ToString("N")
+        End If
+        lblTotal.Text = lblFalta.Text
     End Sub
 
     Private Sub fPagamento_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -90,7 +106,6 @@ Public Class fPagamento
         If HabilitarPix() Then
             'RecuperarDadosPix()
             chkPIX.Enabled = True
-
         Else
             chkPIX.Enabled = False
         End If
@@ -101,6 +116,7 @@ Public Class fPagamento
         txtStatus.Text = ""
         txtUrlPix.Text = ""
         txtPix.Text = "0,00"
+        'txtDesconto.Text = "0,00"
 
     End Sub
     Private Function HabilitarPix() As Boolean
@@ -126,10 +142,11 @@ Public Class fPagamento
                                                                                                txtChequePre.Leave,
                                                                                                txtCheque.Leave,
                                                                                                txtCartaoDebito.Leave,
-                                                                                               txtVale.Leave
+                                                                                               txtVale.Leave,
+                                                                                               txtDesconto.Leave
         'Mostra informações de valores recebidos e troco
         verificaCampos()
-        calculaRecebido()
+        recalculaRecebido()
         formataCampos()
     End Sub
 
@@ -142,6 +159,7 @@ Public Class fPagamento
         txtCartaoDebito.Text = CDec(txtCartaoDebito.Text).ToString("N")
         txtCrediario.Text = CDec(txtCrediario.Text).ToString("N")
         txtVale.Text = CDec(txtVale.Text).ToString("N")
+        txtDesconto.Text = CDec(txtDesconto.Text).ToString("N")
     End Sub
 
     Private Sub verificaCampos()
@@ -168,6 +186,9 @@ Public Class fPagamento
         End If
         If txtVale.Text.Trim().Equals("") Then
             txtVale.Text = 0.ToString("N")
+        End If
+        If txtDesconto.Text.Trim().Equals("") Then
+            txtDesconto.Text = 0.ToString("N")
         End If
     End Sub
 
@@ -976,6 +997,8 @@ Public Class fPagamento
         txtValorPIX.Text = pix.Original
         txtPix.Text = pix.Original
 
+
+
         If pix.Status = Nothing Then
             txtStatus.Text = "Cobrar"
             pix.Status = "NOVA"
@@ -997,7 +1020,8 @@ Public Class fPagamento
 
 
         btnPix.Image = nascomercio.My.Resources.Resources.cobrar
-        Select Case pix.Status
+        Select Case pix.Status.ToUpper()
+
             Case "NOVA"
                 txtStatus.Text = ""
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
@@ -1007,7 +1031,17 @@ Public Class fPagamento
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
                 picQRCode.Image = ResizeImage(Image.FromFile(filename))
+            Case "PENDING"
+                txtStatus.Text = "Criada"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
+                picQRCode.Image = ResizeImage(Image.FromFile(filename))
             Case "CONCLUIDA"
+                txtStatus.Text = "Pago"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = ""
+                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
+            Case "APPROVED"
                 txtStatus.Text = "Pago"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = ""
@@ -1027,8 +1061,6 @@ Public Class fPagamento
         txtObs.Text = String.Format($"{pix.Observacao} Controle:  {Me.lblControle.Text} {pix.DataHora}")
 
         txtUrlPix.Text = pix.UrlPix
-
-
 
     End Sub
     Private Sub Cadastrar()
@@ -1182,12 +1214,12 @@ Public Class fPagamento
                                                                 txtCheque.Leave,
                                                                 txtCartaoDebito.Leave,
                                                                 txtVale.Leave,
-                                                                txtPix.Leave
+                                                                txtDesconto.Leave
 
 
         'Mostra informações de valores recebidos e troco
         verificaCampos()
-        calculaRecebido()
+        recalculaRecebido()
         formataCampos()
     End Sub
 
@@ -1234,12 +1266,14 @@ Public Class fPagamento
 
     End Sub
 
-    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs)
 
     End Sub
 
     Private Sub btnCopiar_Click(sender As Object, e As EventArgs) Handles btnCopiar.Click
-        Clipboard.SetText(txtUrlPix.Text)
+        If txtUrlPix.Text.Trim() <> "" Then
+            Clipboard.SetText(txtUrlPix.Text)
+        End If
     End Sub
 
     Private Sub picQRCode_Click(sender As Object, e As EventArgs) Handles picQRCode.Click
@@ -1361,5 +1395,27 @@ Public Class fPagamento
         PanelListPix.Visible = False
         panelPIX.Visible = True
         panelLista.Visible = False
+    End Sub
+
+    Private Sub txtPix_TextChanged(sender As Object, e As EventArgs) Handles txtPix.TextChanged
+
+    End Sub
+
+    Private Sub txtDesconto_Leave(sender As Object, e As EventArgs) Handles txtPix.Leave,
+                                                                txtDinheiro.Leave,
+                                                                txtCartaoCredito.Leave,
+                                                                txtCrediario.Leave,
+                                                                txtChequePre.Leave,
+                                                                txtCheque.Leave,
+                                                                txtCartaoDebito.Leave,
+                                                                txtVale.Leave,
+                                                                txtDesconto.Leave
+
+
+        'Mostra informações de valores recebidos e troco
+        verificaCampos()
+        recalculaRecebido()
+        formataCampos()
+
     End Sub
 End Class

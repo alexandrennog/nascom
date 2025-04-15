@@ -313,14 +313,14 @@ Public Class fRelatorioEstoque
 
         Next
 
-        tableHeader.AddCell("")
+        tableHeader.AddCell("Data:")
         tableHeader.AddCell("")
         tableHeader.AddCell("")
         tableHeader.AddCell("Valor Compra")
         tableHeader.AddCell("Valor Venda")
         tableHeader.AddCell("Estoque")
 
-        tableHeader.AddCell("")
+        tableHeader.AddCell(DateTime.Now.ToString("dd/MM/yyyy"))
         tableHeader.AddCell("")
         tableHeader.AddCell("Total em Estoque:")
         tableHeader.AddCell(String.Format("{0:n}", valorCompraSoma))

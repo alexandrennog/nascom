@@ -41,6 +41,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +54,7 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,6 +67,7 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
@@ -209,6 +212,12 @@
       <DependentUpon>fRelatorioBalanco.vb</DependentUpon>
     </Compile>
     <Compile Include="relatorio\fRelatorioBalanco.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioCobrancaAutomatica.Designer.vb">
+      <DependentUpon>fRelatorioCobrancaAutomatica.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioCobrancaAutomatica.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="relatorio\fRelatorioCrediarioPix.Designer.vb">
@@ -912,6 +921,9 @@
     <EmbeddedResource Include="relatorio\fRelatorioBalanco.resx">
       <DependentUpon>fRelatorioBalanco.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioCobrancaAutomatica.resx">
+      <DependentUpon>fRelatorioCobrancaAutomatica.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioCrediarioPix.resx">
       <DependentUpon>fRelatorioCrediarioPix.vb</DependentUpon>

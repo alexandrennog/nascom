@@ -178,7 +178,7 @@ Public Class pPix
         Try
 
             acessoBanco = New cAcessoBD
-            sqlSelect = " SELECT Banco, Cliente, Cpf, Cnpj, Nome, Chave, Client_id, client_secret, PathCertificate, PassCertificate"
+            sqlSelect = " SELECT Banco, Cliente, Cpf, Cnpj, Nome, Chave, Client_id, client_secret, PathCertificate, PassCertificate, Email"
             sqlWhere = String.Empty
             sqlFrom = "  FROM pixconfig "
 
@@ -203,6 +203,7 @@ Public Class pPix
                             item.ClientSecret = cFuncoes.RetornarTexto(row("client_secret"))
                             item.CertPath = cFuncoes.RetornarTexto(row("PathCertificate"))
                             item.CertPass = cFuncoes.RetornarTexto(row("PassCertificate"))
+                            item.Email = cFuncoes.RetornarTexto(row("Email"))
                         Next
                         retorno = item
                     Else
@@ -293,8 +294,11 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            comandoSQL = " INSERT INTO pixconfig (Banco, Cliente, Cpf, Cnpj, Nome, chave, Client_id, client_secret, PathCertificate, PassCertificate)  VALUES ("
-            comandoSQL += cFuncoes.PersistirTexto(dados.Banco) & "," & cFuncoes.PersistirInteiro(dados.Cliente) & "," & cFuncoes.PersistirTexto(dados.Cpf) & "," & cFuncoes.PersistirTexto(dados.Cnpj) & "," & cFuncoes.PersistirTexto(dados.Nome) & "," & cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.ClientID) & "," & cFuncoes.PersistirTexto(dados.ClientSecret) & "," & cFuncoes.PersistirTexto(dados.CertPath) & "," & cFuncoes.PersistirTexto(dados.CertPass) & ")"
+            comandoSQL = " INSERT INTO pixconfig (Banco, Cliente, Cpf, Cnpj, Nome, chave, Client_id, client_secret, PathCertificate, PassCertificate, Email)  VALUES ("
+            comandoSQL += cFuncoes.PersistirTexto(dados.Banco) & "," & cFuncoes.PersistirInteiro(dados.Cliente) & "," &
+            cFuncoes.PersistirTexto(dados.Cpf) & "," & cFuncoes.PersistirTexto(dados.Cnpj) & "," & cFuncoes.PersistirTexto(dados.Nome) & "," &
+            cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.ClientID) & "," & cFuncoes.PersistirTexto(dados.ClientSecret) & "," &
+            cFuncoes.PersistirTexto(dados.CertPath) & "," & cFuncoes.PersistirTexto(dados.CertPass) & "," & cFuncoes.PersistirTexto(dados.Email) & ")"
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
 
