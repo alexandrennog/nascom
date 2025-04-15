@@ -451,7 +451,6 @@ Public Class fCaixa
         End If
     End Sub
 
-
     Private Sub CarregaPagamento()
         Dim janela As fPagamento
         Dim produto As dVendaProduto
