@@ -33,9 +33,9 @@ Partial Class fRelatorioFechamentoSAT
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtCaixa = New System.Windows.Forms.TextBox()
         Me.lblProduto = New System.Windows.Forms.Label()
-        Me.rtbGrade = New System.Windows.Forms.RichTextBox()
         Me.btoImprimir = New System.Windows.Forms.Button()
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
+        Me.lstVendasSAT = New System.Windows.Forms.ListView()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,7 +89,7 @@ Partial Class fRelatorioFechamentoSAT
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
         Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.relatorio
         Me.imgLogo.Location = New System.Drawing.Point(11, 12)
-        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(67, 62)
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -107,7 +107,7 @@ Partial Class fRelatorioFechamentoSAT
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoSair.Location = New System.Drawing.Point(1256, 20)
-        Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(76, 103)
         Me.btoSair.TabIndex = 134
@@ -121,7 +121,7 @@ Partial Class fRelatorioFechamentoSAT
         Me.txtDataInicial.Culture = New System.Globalization.CultureInfo("")
         Me.txtDataInicial.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtDataInicial.Location = New System.Drawing.Point(215, 96)
-        Me.txtDataInicial.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtDataInicial.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDataInicial.Mask = "00/00/0000"
         Me.txtDataInicial.Name = "txtDataInicial"
         Me.txtDataInicial.Size = New System.Drawing.Size(113, 22)
@@ -146,7 +146,7 @@ Partial Class fRelatorioFechamentoSAT
         Me.txtDataFinal.Culture = New System.Globalization.CultureInfo("")
         Me.txtDataFinal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtDataFinal.Location = New System.Drawing.Point(384, 96)
-        Me.txtDataFinal.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtDataFinal.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDataFinal.Mask = "00/00/0000"
         Me.txtDataFinal.Name = "txtDataFinal"
         Me.txtDataFinal.Size = New System.Drawing.Size(113, 22)
@@ -170,7 +170,7 @@ Partial Class fRelatorioFechamentoSAT
         Me.txtCaixa.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCaixa.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCaixa.Location = New System.Drawing.Point(648, 96)
-        Me.txtCaixa.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCaixa.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCaixa.MaxLength = 20
         Me.txtCaixa.Name = "txtCaixa"
         Me.txtCaixa.Size = New System.Drawing.Size(283, 22)
@@ -188,19 +188,6 @@ Partial Class fRelatorioFechamentoSAT
         Me.lblProduto.Size = New System.Drawing.Size(69, 22)
         Me.lblProduto.TabIndex = 209
         Me.lblProduto.Text = "Caixa:"
-        '
-        'rtbGrade
-        '
-        Me.rtbGrade.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtbGrade.DetectUrls = False
-        Me.rtbGrade.Font = New System.Drawing.Font("Courier New", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rtbGrade.Location = New System.Drawing.Point(60, 126)
-        Me.rtbGrade.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
-        Me.rtbGrade.Name = "rtbGrade"
-        Me.rtbGrade.Size = New System.Drawing.Size(1240, 558)
-        Me.rtbGrade.TabIndex = 210
-        Me.rtbGrade.Text = ""
-        Me.rtbGrade.WordWrap = False
         '
         'btoImprimir
         '
@@ -224,14 +211,24 @@ Partial Class fRelatorioFechamentoSAT
         'PrintDocument1
         '
         '
+        'lstVendasSAT
+        '
+        Me.lstVendasSAT.HideSelection = False
+        Me.lstVendasSAT.Location = New System.Drawing.Point(91, 160)
+        Me.lstVendasSAT.Margin = New System.Windows.Forms.Padding(4)
+        Me.lstVendasSAT.Name = "lstVendasSAT"
+        Me.lstVendasSAT.Size = New System.Drawing.Size(1090, 479)
+        Me.lstVendasSAT.TabIndex = 212
+        Me.lstVendasSAT.UseCompatibleStateImageBehavior = False
+        '
         'fRelatorioFechamentoSAT
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1355, 736)
+        Me.Controls.Add(Me.lstVendasSAT)
         Me.Controls.Add(Me.btoImprimir)
-        Me.Controls.Add(Me.rtbGrade)
         Me.Controls.Add(Me.txtCaixa)
         Me.Controls.Add(Me.lblProduto)
         Me.Controls.Add(Me.txtDataFinal)
@@ -245,7 +242,7 @@ Partial Class fRelatorioFechamentoSAT
         Me.Controls.Add(Me.btoSair)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "fRelatorioFechamentoSAT"
@@ -269,7 +266,7 @@ Partial Class fRelatorioFechamentoSAT
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtCaixa As System.Windows.Forms.TextBox
     Friend WithEvents lblProduto As System.Windows.Forms.Label
-    Friend WithEvents rtbGrade As System.Windows.Forms.RichTextBox
     Friend WithEvents btoImprimir As System.Windows.Forms.Button
     Friend WithEvents PrintDocument1 As System.Drawing.Printing.PrintDocument
+    Friend WithEvents lstVendasSAT As ListView
 End Class
