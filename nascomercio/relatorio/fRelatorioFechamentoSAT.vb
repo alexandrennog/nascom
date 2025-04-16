@@ -45,7 +45,7 @@ Partial Public Class fRelatorioFechamentoSAT
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relatório de Vendas SATX", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relatório de Vendas SAT", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -54,7 +54,7 @@ Partial Public Class fRelatorioFechamentoSAT
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
-        Dim table As New PdfPTable(8)
+        Dim table As New PdfPTable(9)
 
         Dim cell1 As New PdfPCell
         Dim cell2 As New PdfPCell
@@ -64,6 +64,7 @@ Partial Public Class fRelatorioFechamentoSAT
         Dim cell6 As New PdfPCell
         Dim cell7 As New PdfPCell
         Dim cell8 As New PdfPCell
+        Dim cell9 As New PdfPCell
         Dim cells As New List(Of PdfPCell)
 
         Dim fonte As Font
@@ -72,11 +73,12 @@ Partial Public Class fRelatorioFechamentoSAT
         Dim coluna1 As New Paragraph("Data", fonte)
         Dim coluna2 As New Paragraph("Dinheiro", fonte)
         Dim coluna3 As New Paragraph("Cheque", fonte)
-        Dim coluna4 As New Paragraph("valorOriginal", fonte)
+        Dim coluna4 As New Paragraph("Pix", fonte)
         Dim coluna5 As New Paragraph("CartaoDebito", fonte)
         Dim coluna6 As New Paragraph("CartaoCredito", fonte)
         Dim coluna7 As New Paragraph("Crediario", fonte)
-        Dim coluna8 As New Paragraph("Total", fonte)
+        Dim coluna8 As New Paragraph("Desconto", fonte)
+        Dim coluna9 As New Paragraph("Total", fonte)
 
         cell1.AddElement(coluna1)
         cell2.AddElement(coluna2)
@@ -86,6 +88,7 @@ Partial Public Class fRelatorioFechamentoSAT
         cell6.AddElement(coluna6)
         cell7.AddElement(coluna7)
         cell8.AddElement(coluna8)
+        cell9.AddElement(coluna9)
 
         table.AddCell(cell1)
         table.AddCell(cell2)
@@ -95,6 +98,7 @@ Partial Public Class fRelatorioFechamentoSAT
         table.AddCell(cell6)
         table.AddCell(cell7)
         table.AddCell(cell8)
+        table.AddCell(cell9)
 
         Dim totTotal As Decimal
 
@@ -124,10 +128,11 @@ Partial Public Class fRelatorioFechamentoSAT
         Me.lstVendasSAT.Columns.Add("Data").Width = 120
         Me.lstVendasSAT.Columns.Add("Dinheiro").Width = 80
         Me.lstVendasSAT.Columns.Add("Cheque").Width = 80
-        Me.lstVendasSAT.Columns.Add("valorOriginal").Width = 80
+        Me.lstVendasSAT.Columns.Add("Pix").Width = 80
         Me.lstVendasSAT.Columns.Add("CartaoDebito").Width = 80
         Me.lstVendasSAT.Columns.Add("CartaoCredito").Width = 80
         Me.lstVendasSAT.Columns.Add("Crediario").Width = 80
+        Me.lstVendasSAT.Columns.Add("Desconto").Width = 80
         Me.lstVendasSAT.Columns.Add("Total").Width = 80
 
 
@@ -148,6 +153,7 @@ Partial Public Class fRelatorioFechamentoSAT
             li.SubItems.Add(item.CartaoDebito.ToString())
             li.SubItems.Add(item.CartaoCredito.ToString())
             li.SubItems.Add(item.Crediario.ToString())
+            li.SubItems.Add(item.Desconto.ToString())
             li.SubItems.Add(item.Total.ToString())
             Me.lstVendasSAT.Items.Add(li)
             totTotalVendas = totTotalVendas + item.Total
@@ -156,6 +162,7 @@ Partial Public Class fRelatorioFechamentoSAT
 
         li = New ListViewItem
         li.Text = ""
+        li.SubItems.Add("")
         li.SubItems.Add("")
         li.SubItems.Add("")
         li.SubItems.Add("")
@@ -173,11 +180,13 @@ Partial Public Class fRelatorioFechamentoSAT
             table.AddCell(New PdfPCell(New Phrase(itemRef.CartaoDebito.ToString("N"))))
             table.AddCell(New PdfPCell(New Phrase(itemRef.CartaoCredito.ToString("N"))))
             table.AddCell(New PdfPCell(New Phrase(itemRef.Crediario.ToString("N"))))
+            table.AddCell(New PdfPCell(New Phrase(itemRef.Desconto.ToString("N"))))
             table.AddCell(New PdfPCell(New Phrase(itemRef.Total.ToString("N"))))
             totTotal = totTotal + itemRef.Total
         Next
 
 
+        table.AddCell(New PdfPCell(New Phrase("")))
         table.AddCell(New PdfPCell(New Phrase("")))
         table.AddCell(New PdfPCell(New Phrase("")))
         table.AddCell(New PdfPCell(New Phrase("")))

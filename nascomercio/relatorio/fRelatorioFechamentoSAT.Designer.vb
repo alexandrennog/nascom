@@ -61,9 +61,9 @@ Partial Class fRelatorioFechamentoSAT
         Me.lblTitulo.Location = New System.Drawing.Point(85, 12)
         Me.lblTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(431, 32)
+        Me.lblTitulo.Size = New System.Drawing.Size(492, 32)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "Relatório de Fechamento Fiscal"
+        Me.lblTitulo.Text = "Relatório de Fechamento Fiscal SAT"
         '
         'btoFiltro
         '
