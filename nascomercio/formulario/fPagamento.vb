@@ -78,7 +78,7 @@ Public Class fPagamento
             lblTroco.Text = CDec(CDec(lblRecebido.Text) - CDec(txtVendas.Text)).ToString("N")
             lblFalta.Text = 0.ToString("N")
         End If
-        lblTotal.Text = lblFalta.Text
+        lblTotal.Text = txtVendas.Text
     End Sub
 
     Private Sub fPagamento_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
