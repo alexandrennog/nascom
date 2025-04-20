@@ -117,6 +117,7 @@ Public Class fPagamento
         txtUrlPix.Text = ""
         txtPix.Text = "0,00"
         'txtDesconto.Text = "0,00"
+        lblTotal.Text = txtVendas.Text
 
     End Sub
     Private Function HabilitarPix() As Boolean
@@ -456,6 +457,7 @@ Public Class fPagamento
         dadosVenda.Total = Me.lblTotal.Text
         dadosVenda.controle = Me.lblControle.Text
         dadosVenda.ordemServicoId = Me.lblControle.Tag
+        dadosVenda.TXID = Me.txtTxId.Text
         ' Verifica se emite Vale
         If (dadosVenda.Troca > 0.0 Or dadosVenda.Defeito > 0.0 Or dadosVenda.Vale > 0.0) And dadosVenda.Troco > 0.0 Then
             ' Verifica se troco provem de troca
@@ -1266,7 +1268,7 @@ Public Class fPagamento
 
     End Sub
 
-    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs)
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
 
     End Sub
 
