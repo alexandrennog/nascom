@@ -117,6 +117,7 @@ Public Class fPagamento
         txtUrlPix.Text = ""
         txtPix.Text = "0,00"
         'txtDesconto.Text = "0,00"
+        lblTotal.Text = txtVendas.Text
 
     End Sub
     Private Function HabilitarPix() As Boolean
