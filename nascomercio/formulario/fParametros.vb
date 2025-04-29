@@ -288,7 +288,7 @@ Public Class fParametros
                 If IsNothing(dadosParametro) Then
                     dadosParametro = New dParametro()
                     dadosParametro.cid = cConstantes.Parametros.UsarPIX
-                    dadosParametro.descricao = "Tamanho Etiqueta"
+                    dadosParametro.descricao = "Ligar PIX"
 
                     If cboPIX.Text = "Sim" Then
                         dadosParametro.valor = "1"
@@ -299,6 +299,29 @@ Public Class fParametros
                 Else
                     dadosParametro.cid = cConstantes.Parametros.UsarPIX
                     If cboPIX.Text = "Sim" Then
+                        dadosParametro.valor = "1"
+                    Else
+                        dadosParametro.valor = "0"
+                    End If
+                    regraParametro.Alterar(dadosParametro)
+                End If
+
+                ' Imprime data etiqueta
+                dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ImprimeDataEtiqueta)
+                If IsNothing(dadosParametro) Then
+                    dadosParametro = New dParametro()
+                    dadosParametro.cid = cConstantes.Parametros.ImprimeDataEtiqueta
+                    dadosParametro.descricao = "Imprime data etiqueta"
+
+                    If cboDataEtiqueta.Text = "Sim" Then
+                        dadosParametro.valor = "1"
+                    Else
+                        dadosParametro.valor = "0"
+                    End If
+                    regraParametro.Incluir(dadosParametro)
+                Else
+                    dadosParametro.cid = cConstantes.Parametros.ImprimeDataEtiqueta
+                    If cboDataEtiqueta.Text = "Sim" Then
                         dadosParametro.valor = "1"
                     Else
                         dadosParametro.valor = "0"
@@ -538,6 +561,15 @@ Public Class fParametros
                     Me.cboExcVenda.Text = "Sim"
                 ElseIf dadosParametro.valor = 0 Then
                     Me.cboExcVenda.Text = "Não"
+                End If
+            End If
+
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ImprimeDataEtiqueta)
+            If Not IsNothing(dadosParametro) Then
+                If dadosParametro.valor = 1 Then
+                    Me.cboDataEtiqueta.Text = "Sim"
+                ElseIf dadosParametro.valor = 0 Then
+                    Me.cboDataEtiqueta.Text = "Não"
                 End If
             End If
 
