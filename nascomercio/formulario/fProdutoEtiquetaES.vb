@@ -121,6 +121,7 @@ Public Class fProdutoEtiquetaES
         Dim dadosParametro As dParametro
         Dim regraParametro As New rParametro
         Dim tamanhoEtiqueta As String
+        Dim imprimeDataEtiqueta As String
         Dim etiqueta As EtiquetaProduto
         Dim regraPE As rProdutoEtiqueta
         Dim colecaoEtiquetas As ColecaoEtiquetaProdutoImpressao = New ColecaoEtiquetaProdutoImpressao()
@@ -214,8 +215,16 @@ Public Class fProdutoEtiquetaES
                     tamanhoEtiqueta = ""
                 End If
 
+                ' Imprime data etiqueta
+                dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ImprimeDataEtiqueta)
+                If Not IsNothing(dadosParametro) Then
+                    imprimeDataEtiqueta = dadosParametro.valor
+                Else
+                    imprimeDataEtiqueta = ""
+                End If
+
                 '-- Imprimir coleção de etiquetas
-                etiqueta.ImprimirColecaoEtiquetaProduto(colecaoEtiquetas, imprimirPreco, tamanhoEtiqueta)
+                etiqueta.ImprimirColecaoEtiquetaProduto(colecaoEtiquetas, imprimirPreco, tamanhoEtiqueta, imprimeDataEtiqueta)
 
                 If MessageBox.Show("As etiquetas foram impressas com sucesso?", "Impressão de Etiquetas", MessageBoxButtons.YesNo, MessageBoxIcon.Information) = Windows.Forms.DialogResult.Yes Then
                     For Each itemEtiqueta As dEtiquetaProdutoImpressao In colecaoEtiquetas

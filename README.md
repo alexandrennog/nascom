@@ -21,3 +21,14 @@ incluir dinheiro, cheque, pix, debito, credito, crediario"
 Para a versão 2.1.2.4 foram incluídas as seguintes funcionalidades
 
 1 - Criação do relatório de vendas SAT
+
+
+Para a versão 2.1.2.5 foram incluídas as seguintes funcionalidades
+
+1 - Ajustar banco de dados vazio adicionar campo txID na tela de pagamento de crediário por Pix
+2 - Recuperar o endereço principal do cliente
+3 - Validar CPF no cadastro do cliente
+4 - Incluir endereço na tela de clientes
+5 - Na telas de venda e crediário Pesquisar por número do cliente
+6 - Não imprimir data na etiqueta
+7 - Bloquear a alteração de valores e datas de parcelar na tela de pagamento de crediário <F3>:

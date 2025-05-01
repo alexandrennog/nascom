@@ -3,6 +3,11 @@ Imports ncDados.nsProduto
 Imports ncDados.nsLoja
 Imports ncDados.nsEtiquetaProdutoImpressao
 Imports ncComum.Impressao
+Imports ncRegras.nsParametro
+Imports ncDados.nsParametro
+Imports ncComum.nsConstantes
+
+
 
 Namespace nsEtiqueta
 
@@ -27,6 +32,8 @@ Namespace nsEtiqueta
         Private _codigoBarras As String
         Private colecaoLinha As ColecaoLinha
         Private colecaoEtiqueta As ColecaoEtiqueta
+
+
 
         Public WriteOnly Property campo1() As String
             Set(ByVal value As String)
@@ -82,11 +89,13 @@ Namespace nsEtiqueta
             End Set
         End Property
 
-        Private Sub MontarCamposEtiquetaProduto(ByVal loja As String, ByVal fabricante As String, _
-              ByVal produto As dProduto, ByVal colecaoItem As ColecaoProdutoItem, ByVal cor As String, ByVal imprimirPreco As Boolean)
+        Private Sub MontarCamposEtiquetaProduto(ByVal loja As String, ByVal fabricante As String,
+              ByVal produto As dProduto, ByVal colecaoItem As ColecaoProdutoItem, ByVal cor As String,
+              ByVal imprimirPreco As Boolean, ByVal imprimeDataEtiqueta As String)
             Dim tamanho As String = String.Empty
             Dim codigoBarras As String = String.Empty
             Dim data As String = String.Empty
+
 
             For Each _item As dProdutoItem In colecaoItem
                 Select Case _item.caracteristicas_codigo
@@ -98,6 +107,12 @@ Namespace nsEtiqueta
             Next
 
             data = Now().Day.ToString().PadLeft(2, "0"c) & Now().Month.ToString().PadLeft(2, "0"c) & Now().Year.ToString().PadLeft(4, "0"c)
+
+            If imprimeDataEtiqueta.Equals("1") Then
+                data = Now().Day.ToString().PadLeft(2, "0"c) & Now().Month.ToString().PadLeft(2, "0"c) & Now().Year.ToString().PadLeft(4, "0"c)
+            Else
+                data = String.Empty
+            End If
 
             '-- Loja
             _campo1 = IIf(loja.Equals(Nothing), String.Empty, loja)
@@ -125,7 +140,7 @@ Namespace nsEtiqueta
 
         End Sub
 
-        Public Sub ImprimirColecaoEtiquetaProduto(ByVal colecao As ColecaoEtiquetaProdutoImpressao, ByVal imprimirPreco As Boolean, ByVal tamanho As String)
+        Public Sub ImprimirColecaoEtiquetaProduto(ByVal colecao As ColecaoEtiquetaProdutoImpressao, ByVal imprimirPreco As Boolean, ByVal tamanho As String, ByVal imprimeDataEtiqueta As String)
 
             Dim impressao As ncComum.Impressao
             Dim linha As String
@@ -139,12 +154,12 @@ Namespace nsEtiqueta
                 For Each itemEtiqueta As dEtiquetaProdutoImpressao In colecao
                     If contador Mod 2 <> 0 Then
                         MontarEtiquetaProdutoInicio()
-                        MontarCamposEtiquetaProduto(itemEtiqueta.loja, itemEtiqueta.fabricante, itemEtiqueta.produto, itemEtiqueta.colecaoProdutoItem, itemEtiqueta.corNome, imprimirPreco)
+                        MontarCamposEtiquetaProduto(itemEtiqueta.loja, itemEtiqueta.fabricante, itemEtiqueta.produto, itemEtiqueta.colecaoProdutoItem, itemEtiqueta.corNome, imprimirPreco, imprimeDataEtiqueta)
                         MontarEtiquetaProdutoEsquerda(tamanho)
                     End If
 
                     If contador Mod 2 = 0 Then
-                        MontarCamposEtiquetaProduto(itemEtiqueta.loja, itemEtiqueta.fabricante, itemEtiqueta.produto, itemEtiqueta.colecaoProdutoItem, itemEtiqueta.corNome, imprimirPreco)
+                        MontarCamposEtiquetaProduto(itemEtiqueta.loja, itemEtiqueta.fabricante, itemEtiqueta.produto, itemEtiqueta.colecaoProdutoItem, itemEtiqueta.corNome, imprimirPreco, imprimeDataEtiqueta)
                         MontarEtiquetaProdutoDireita(tamanho)
                         MontarEtiquetaProdutoFim()
                     End If
@@ -280,16 +295,16 @@ Namespace nsEtiqueta
             colecaoEtiqueta.Add(colecaoLinha)
         End Sub
 
-        Public Sub ImprimirEtiquetaProduto(ByVal loja As String, ByVal fornecedor As String, _
-            ByVal produto As dProduto, ByVal colecaoItem As ColecaoProdutoItem, ByVal quantidade As Integer, _
-            ByVal cor As String, ByVal imprimirPreco As Boolean, ByVal tamanho As String)
+        Public Sub ImprimirEtiquetaProduto(ByVal loja As String, ByVal fornecedor As String,
+            ByVal produto As dProduto, ByVal colecaoItem As ColecaoProdutoItem, ByVal quantidade As Integer,
+            ByVal cor As String, ByVal imprimirPreco As Boolean, ByVal tamanho As String, ByVal imprimeDataEtiqueta As String)
 
             Dim impressao As ncComum.Impressao
             Dim linha As String
 
             impressao = New ncComum.Impressao
 
-            MontarEtiquetaProduto(loja, fornecedor, produto, colecaoItem, quantidade, cor, imprimirPreco, tamanho)
+            MontarEtiquetaProduto(loja, fornecedor, produto, colecaoItem, quantidade, cor, imprimirPreco, tamanho, imprimeDataEtiqueta)
 
             '-- Imprimir etiqueta
             impressao.StartWrite(System.Configuration.ConfigurationManager.AppSettings("ETIQUETA"))
@@ -302,14 +317,14 @@ Namespace nsEtiqueta
 
         End Sub
 
-        Private Sub MontarEtiquetaProduto(ByVal loja As String, ByVal fornecedor As String, _
-            ByVal produto As dProduto, ByVal colecaoItem As ColecaoProdutoItem, ByVal quantidade As Integer, _
-            ByVal cor As String, ByVal imprimirPreco As Boolean, ByVal tamanho As String)
+        Private Sub MontarEtiquetaProduto(ByVal loja As String, ByVal fornecedor As String,
+            ByVal produto As dProduto, ByVal colecaoItem As ColecaoProdutoItem, ByVal quantidade As Integer,
+            ByVal cor As String, ByVal imprimirPreco As Boolean, ByVal tamanho As String, ByVal imprimeDataEtiqueta As String)
             Dim qtdeLinha As Integer
             Dim cont As Integer
             Dim colunaDireita As Boolean
 
-            MontarCamposEtiquetaProduto(loja, fornecedor, produto, colecaoItem, cor, imprimirPreco)
+            MontarCamposEtiquetaProduto(loja, fornecedor, produto, colecaoItem, cor, imprimirPreco, imprimeDataEtiqueta)
 
             cont = 0
             If (quantidade Mod 2) > 0 Then

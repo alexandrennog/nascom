@@ -65,6 +65,7 @@ Partial Class fCrediarioPagamento
         Me.imgCliLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.btoSalvar = New System.Windows.Forms.Button()
+        Me.txtIdCliente = New System.Windows.Forms.TextBox()
         CType(Me.dgvCrediario, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgCliLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,7 +78,7 @@ Partial Class fCrediarioPagamento
         Me.lblCliCadastro.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblCliCadastro.Location = New System.Drawing.Point(64, 8)
         Me.lblCliCadastro.Name = "lblCliCadastro"
-        Me.lblCliCadastro.Size = New System.Drawing.Size(235, 24)
+        Me.lblCliCadastro.Size = New System.Drawing.Size(310, 32)
         Me.lblCliCadastro.TabIndex = 230
         Me.lblCliCadastro.Text = "Crediário - Pagamento"
         '
@@ -87,10 +88,10 @@ Partial Class fCrediarioPagamento
         Me.txtControle.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtControle.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtControle.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.txtControle.Location = New System.Drawing.Point(147, 109)
+        Me.txtControle.Location = New System.Drawing.Point(146, 109)
         Me.txtControle.Name = "txtControle"
         Me.txtControle.ReadOnly = True
-        Me.txtControle.Size = New System.Drawing.Size(174, 18)
+        Me.txtControle.Size = New System.Drawing.Size(174, 22)
         Me.txtControle.TabIndex = 1
         Me.txtControle.TabStop = False
         '
@@ -99,19 +100,19 @@ Partial Class fCrediarioPagamento
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.Label3.ForeColor = System.Drawing.Color.Black
-        Me.Label3.Location = New System.Drawing.Point(71, 109)
+        Me.Label3.Location = New System.Drawing.Point(54, 105)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(70, 18)
+        Me.Label3.Size = New System.Drawing.Size(90, 22)
         Me.Label3.TabIndex = 176
         Me.Label3.Text = "Controle"
         '
         'txtLimite
         '
         Me.txtLimite.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtLimite.Location = New System.Drawing.Point(147, 137)
+        Me.txtLimite.Location = New System.Drawing.Point(146, 137)
         Me.txtLimite.Name = "txtLimite"
         Me.txtLimite.ReadOnly = True
-        Me.txtLimite.Size = New System.Drawing.Size(174, 18)
+        Me.txtLimite.Size = New System.Drawing.Size(174, 22)
         Me.txtLimite.TabIndex = 9
         Me.txtLimite.TabStop = False
         '
@@ -119,9 +120,9 @@ Partial Class fCrediarioPagamento
         '
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label18.Location = New System.Drawing.Point(66, 136)
+        Me.Label18.Location = New System.Drawing.Point(48, 136)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(74, 18)
+        Me.Label18.Size = New System.Drawing.Size(95, 22)
         Me.Label18.TabIndex = 272
         Me.Label18.Text = "Limite R$"
         '
@@ -131,7 +132,7 @@ Partial Class fCrediarioPagamento
         Me.txtDisponivel.Location = New System.Drawing.Point(439, 136)
         Me.txtDisponivel.Name = "txtDisponivel"
         Me.txtDisponivel.ReadOnly = True
-        Me.txtDisponivel.Size = New System.Drawing.Size(184, 18)
+        Me.txtDisponivel.Size = New System.Drawing.Size(184, 22)
         Me.txtDisponivel.TabIndex = 3
         Me.txtDisponivel.TabStop = False
         '
@@ -141,7 +142,7 @@ Partial Class fCrediarioPagamento
         Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.Label1.Location = New System.Drawing.Point(326, 136)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(107, 18)
+        Me.Label1.Size = New System.Drawing.Size(137, 22)
         Me.Label1.TabIndex = 291
         Me.Label1.Text = "Disponível R$"
         '
@@ -163,6 +164,7 @@ Partial Class fCrediarioPagamento
         Me.dgvCrediario.Name = "dgvCrediario"
         Me.dgvCrediario.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
         Me.dgvCrediario.RowHeadersVisible = False
+        Me.dgvCrediario.RowHeadersWidth = 51
         Me.dgvCrediario.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgvCrediario.Size = New System.Drawing.Size(810, 245)
         Me.dgvCrediario.TabIndex = 5
@@ -172,58 +174,66 @@ Partial Class fCrediarioPagamento
         Me.selecao.FalseValue = "False"
         Me.selecao.HeaderText = ""
         Me.selecao.IndeterminateValue = "False"
+        Me.selecao.MinimumWidth = 6
         Me.selecao.Name = "selecao"
         Me.selecao.TrueValue = "True"
-        Me.selecao.Width = 5
+        Me.selecao.Width = 6
         '
         'Codigo
         '
         Me.Codigo.FillWeight = 80.0!
         Me.Codigo.HeaderText = "Codigo"
+        Me.Codigo.MinimumWidth = 6
         Me.Codigo.Name = "Codigo"
-        Me.Codigo.Width = 84
+        Me.Codigo.Width = 106
         '
         'DataEmissao
         '
         Me.DataEmissao.FillWeight = 80.0!
         Me.DataEmissao.HeaderText = "Data Emissão"
+        Me.DataEmissao.MinimumWidth = 6
         Me.DataEmissao.Name = "DataEmissao"
-        Me.DataEmissao.Width = 117
+        Me.DataEmissao.Width = 152
         '
         'Vencimento
         '
         Me.Vencimento.FillWeight = 80.0!
         Me.Vencimento.HeaderText = "Vencimento"
+        Me.Vencimento.MinimumWidth = 6
         Me.Vencimento.Name = "Vencimento"
-        Me.Vencimento.Width = 115
+        Me.Vencimento.Width = 148
         '
         'ValorParcela
         '
         Me.ValorParcela.FillWeight = 80.0!
         Me.ValorParcela.HeaderText = "Valor Parcela"
+        Me.ValorParcela.MinimumWidth = 6
         Me.ValorParcela.Name = "ValorParcela"
-        Me.ValorParcela.Width = 114
+        Me.ValorParcela.Width = 148
         '
         'valorreceber
         '
         Me.valorreceber.FillWeight = 80.0!
         Me.valorreceber.HeaderText = "Valor a Receber"
+        Me.valorreceber.MinimumWidth = 6
         Me.valorreceber.Name = "valorreceber"
-        Me.valorreceber.Width = 132
+        Me.valorreceber.Width = 169
         '
         'valorpago
         '
         Me.valorpago.FillWeight = 80.0!
         Me.valorpago.HeaderText = "Valor Pago"
+        Me.valorpago.MinimumWidth = 6
         Me.valorpago.Name = "valorpago"
-        Me.valorpago.Width = 99
+        Me.valorpago.Width = 128
         '
         'DiasAtrazo
         '
         Me.DiasAtrazo.FillWeight = 80.0!
         Me.DiasAtrazo.HeaderText = "Dias Atraso"
+        Me.DiasAtrazo.MinimumWidth = 6
         Me.DiasAtrazo.Name = "DiasAtrazo"
-        Me.DiasAtrazo.Width = 103
+        Me.DiasAtrazo.Width = 133
         '
         'lblVendedor
         '
@@ -232,7 +242,7 @@ Partial Class fCrediarioPagamento
         Me.lblVendedor.ForeColor = System.Drawing.Color.Blue
         Me.lblVendedor.Location = New System.Drawing.Point(427, 75)
         Me.lblVendedor.Name = "lblVendedor"
-        Me.lblVendedor.Size = New System.Drawing.Size(30, 19)
+        Me.lblVendedor.Size = New System.Drawing.Size(35, 24)
         Me.lblVendedor.TabIndex = 300
         Me.lblVendedor.Text = "Eu"
         '
@@ -242,7 +252,7 @@ Partial Class fCrediarioPagamento
         Me.Label5.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.Location = New System.Drawing.Point(337, 75)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(83, 19)
+        Me.Label5.Size = New System.Drawing.Size(100, 24)
         Me.Label5.TabIndex = 299
         Me.Label5.Text = "Vendedor"
         '
@@ -250,9 +260,9 @@ Partial Class fCrediarioPagamento
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(64, 75)
+        Me.Label4.Location = New System.Drawing.Point(47, 74)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(77, 22)
+        Me.Label4.Size = New System.Drawing.Size(97, 29)
         Me.Label4.TabIndex = 302
         Me.Label4.Text = "Código"
         '
@@ -260,9 +270,9 @@ Partial Class fCrediarioPagamento
         '
         Me.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCodigo.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCodigo.Location = New System.Drawing.Point(147, 75)
+        Me.txtCodigo.Location = New System.Drawing.Point(146, 75)
         Me.txtCodigo.Name = "txtCodigo"
-        Me.txtCodigo.Size = New System.Drawing.Size(184, 22)
+        Me.txtCodigo.Size = New System.Drawing.Size(184, 28)
         Me.txtCodigo.TabIndex = 0
         '
         'txtDinheiro
@@ -270,7 +280,7 @@ Partial Class fCrediarioPagamento
         Me.txtDinheiro.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDinheiro.Location = New System.Drawing.Point(128, 455)
         Me.txtDinheiro.Name = "txtDinheiro"
-        Me.txtDinheiro.Size = New System.Drawing.Size(101, 26)
+        Me.txtDinheiro.Size = New System.Drawing.Size(101, 30)
         Me.txtDinheiro.TabIndex = 2
         Me.txtDinheiro.Text = "0,00"
         '
@@ -280,7 +290,7 @@ Partial Class fCrediarioPagamento
         Me.Label6.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.Location = New System.Drawing.Point(17, 458)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(105, 19)
+        Me.Label6.Size = New System.Drawing.Size(127, 24)
         Me.Label6.TabIndex = 304
         Me.Label6.Text = "Dinheiro: R$"
         '
@@ -291,7 +301,7 @@ Partial Class fCrediarioPagamento
         Me.lblTroco.ForeColor = System.Drawing.Color.Blue
         Me.lblTroco.Location = New System.Drawing.Point(481, 503)
         Me.lblTroco.Name = "lblTroco"
-        Me.lblTroco.Size = New System.Drawing.Size(79, 19)
+        Me.lblTroco.Size = New System.Drawing.Size(98, 24)
         Me.lblTroco.TabIndex = 314
         Me.lblTroco.Text = "11.000,00"
         '
@@ -301,7 +311,7 @@ Partial Class fCrediarioPagamento
         Me.Label14.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label14.Location = New System.Drawing.Point(390, 503)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(84, 19)
+        Me.Label14.Size = New System.Drawing.Size(103, 24)
         Me.Label14.TabIndex = 313
         Me.Label14.Text = "Troco: R$"
         '
@@ -312,7 +322,7 @@ Partial Class fCrediarioPagamento
         Me.lblRecebido.ForeColor = System.Drawing.Color.Blue
         Me.lblRecebido.Location = New System.Drawing.Point(132, 503)
         Me.lblRecebido.Name = "lblRecebido"
-        Me.lblRecebido.Size = New System.Drawing.Size(79, 19)
+        Me.lblRecebido.Size = New System.Drawing.Size(98, 24)
         Me.lblRecebido.TabIndex = 312
         Me.lblRecebido.Text = "11.123,45"
         '
@@ -322,7 +332,7 @@ Partial Class fCrediarioPagamento
         Me.Label16.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label16.Location = New System.Drawing.Point(17, 503)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(113, 19)
+        Me.Label16.Size = New System.Drawing.Size(136, 24)
         Me.Label16.TabIndex = 311
         Me.Label16.Text = "Recebido: R$"
         '
@@ -333,7 +343,7 @@ Partial Class fCrediarioPagamento
         Me.lblTotal.ForeColor = System.Drawing.Color.Blue
         Me.lblTotal.Location = New System.Drawing.Point(651, 503)
         Me.lblTotal.Name = "lblTotal"
-        Me.lblTotal.Size = New System.Drawing.Size(79, 19)
+        Me.lblTotal.Size = New System.Drawing.Size(98, 24)
         Me.lblTotal.TabIndex = 310
         Me.lblTotal.Text = "11.000,00"
         '
@@ -343,7 +353,7 @@ Partial Class fCrediarioPagamento
         Me.Label17.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label17.Location = New System.Drawing.Point(567, 503)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(77, 19)
+        Me.Label17.Size = New System.Drawing.Size(95, 24)
         Me.Label17.TabIndex = 309
         Me.Label17.Text = "Total: R$"
         '
@@ -354,7 +364,7 @@ Partial Class fCrediarioPagamento
         Me.lblFalta.ForeColor = System.Drawing.Color.Blue
         Me.lblFalta.Location = New System.Drawing.Point(304, 503)
         Me.lblFalta.Name = "lblFalta"
-        Me.lblFalta.Size = New System.Drawing.Size(79, 19)
+        Me.lblFalta.Size = New System.Drawing.Size(98, 24)
         Me.lblFalta.TabIndex = 308
         Me.lblFalta.Text = "11.123,45"
         '
@@ -364,7 +374,7 @@ Partial Class fCrediarioPagamento
         Me.Label13.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label13.Location = New System.Drawing.Point(221, 503)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(77, 19)
+        Me.Label13.Size = New System.Drawing.Size(94, 24)
         Me.Label13.TabIndex = 307
         Me.Label13.Text = "Falta: R$"
         '
@@ -373,19 +383,19 @@ Partial Class fCrediarioPagamento
         Me.Label20.AutoSize = True
         Me.Label20.BackColor = System.Drawing.Color.Transparent
         Me.Label20.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(541, 166)
+        Me.Label20.Location = New System.Drawing.Point(623, 167)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(146, 16)
+        Me.Label20.Size = New System.Drawing.Size(182, 19)
         Me.Label20.TabIndex = 319
         Me.Label20.Text = "Pesquisar Cliente [F1]"
         '
         'txtCliente
         '
         Me.txtCliente.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCliente.Location = New System.Drawing.Point(147, 166)
+        Me.txtCliente.Location = New System.Drawing.Point(268, 169)
         Me.txtCliente.Name = "txtCliente"
         Me.txtCliente.ReadOnly = True
-        Me.txtCliente.Size = New System.Drawing.Size(364, 25)
+        Me.txtCliente.Size = New System.Drawing.Size(324, 29)
         Me.txtCliente.TabIndex = 316
         Me.txtCliente.Text = "Consumidor"
         '
@@ -393,15 +403,22 @@ Partial Class fCrediarioPagamento
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(82, 169)
+        Me.Label7.Location = New System.Drawing.Point(70, 171)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(59, 18)
+        Me.Label7.Size = New System.Drawing.Size(74, 22)
         Me.Label7.TabIndex = 317
         Me.Label7.Text = "Cliente"
         '
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.txtIdCliente)
+        Me.Panel1.Controls.Add(Me.Label4)
+        Me.Panel1.Controls.Add(Me.Label7)
+        Me.Panel1.Controls.Add(Me.txtCliente)
+        Me.Panel1.Controls.Add(Me.btoIncluirCliente)
+        Me.Panel1.Controls.Add(Me.Label20)
+        Me.Panel1.Controls.Add(Me.Label3)
         Me.Panel1.Controls.Add(Me.lblPix)
         Me.Panel1.Controls.Add(Me.txtPix)
         Me.Panel1.Controls.Add(Me.btnPix)
@@ -430,7 +447,7 @@ Partial Class fCrediarioPagamento
         Me.lblPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPix.Location = New System.Drawing.Point(264, 458)
         Me.lblPix.Name = "lblPix"
-        Me.lblPix.Size = New System.Drawing.Size(64, 19)
+        Me.lblPix.Size = New System.Drawing.Size(78, 24)
         Me.lblPix.TabIndex = 318
         Me.lblPix.Text = "Pìx: R$"
         '
@@ -439,7 +456,7 @@ Partial Class fCrediarioPagamento
         Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPix.Location = New System.Drawing.Point(375, 455)
         Me.txtPix.Name = "txtPix"
-        Me.txtPix.Size = New System.Drawing.Size(101, 26)
+        Me.txtPix.Size = New System.Drawing.Size(101, 30)
         Me.txtPix.TabIndex = 317
         Me.txtPix.Text = "0,00"
         '
@@ -470,7 +487,7 @@ Partial Class fCrediarioPagamento
         Me.btoIncluirCliente.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btoIncluirCliente.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btoIncluirCliente.ForeColor = System.Drawing.Color.White
-        Me.btoIncluirCliente.Location = New System.Drawing.Point(517, 162)
+        Me.btoIncluirCliente.Location = New System.Drawing.Point(598, 164)
         Me.btoIncluirCliente.Name = "btoIncluirCliente"
         Me.btoIncluirCliente.Size = New System.Drawing.Size(25, 25)
         Me.btoIncluirCliente.TabIndex = 318
@@ -546,24 +563,28 @@ Partial Class fCrediarioPagamento
         Me.btoSalvar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSalvar.UseVisualStyleBackColor = False
         '
+        'txtIdCliente
+        '
+        Me.txtIdCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIdCliente.Location = New System.Drawing.Point(145, 167)
+        Me.txtIdCliente.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtIdCliente.MaxLength = 8
+        Me.txtIdCliente.Name = "txtIdCliente"
+        Me.txtIdCliente.Size = New System.Drawing.Size(111, 30)
+        Me.txtIdCliente.TabIndex = 320
+        '
         'fCrediarioPagamento
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 22.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(828, 680)
-        Me.Controls.Add(Me.Label20)
-        Me.Controls.Add(Me.btoIncluirCliente)
-        Me.Controls.Add(Me.txtCliente)
-        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.btoEtiqueta)
-        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.txtCodigo)
         Me.Controls.Add(Me.lblVendedor)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.lblCliCadastro)
         Me.Controls.Add(Me.imgCliLogo)
-        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.btoSair)
         Me.Controls.Add(Me.txtControle)
         Me.Controls.Add(Me.txtLimite)
@@ -626,4 +647,5 @@ Partial Class fCrediarioPagamento
     Friend WithEvents btnPix As Button
     Friend WithEvents lblPix As Label
     Friend WithEvents txtPix As TextBox
+    Friend WithEvents txtIdCliente As TextBox
 End Class

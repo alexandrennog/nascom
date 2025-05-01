@@ -19,6 +19,10 @@ Imports ncDados.nsUsuario
 Imports ncRegras.nsUsuarioPerfil
 Imports ncDados.nsUsuarioPerfil
 Imports System.Configuration
+Imports ncRegras
+Imports ncDados.nsCliente
+Imports ncComum.nsFuncoes
+Imports ncRegras.nsCliente
 
 Public Class fCaixa
 
@@ -473,9 +477,9 @@ Public Class fCaixa
             tamanhoProd = 22
         End If
         For Each linha As DataGridViewRow In dtgProdutos.Rows
-            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) & _
-               linha.Cells(4).Value.ToString().PadRight(5) & _
-               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) & _
+            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) &
+               linha.Cells(4).Value.ToString().PadRight(5) &
+               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) &
                CDec(linha.Cells(5).Value).ToString("N").PadRight(11))
             produto = New dVendaProduto
             produto.itemId = linha.Cells(1).Tag
@@ -580,9 +584,9 @@ Public Class fCaixa
         End If
 
         For Each linha As DataGridViewRow In dtgProdutos.Rows
-            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) & _
-               linha.Cells(4).Value.ToString().PadRight(5) & _
-               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) & _
+            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) &
+               linha.Cells(4).Value.ToString().PadRight(5) &
+               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) &
                CDec(linha.Cells(5).Value).ToString("N").PadRight(11))
             produto = New dVendaProduto
             produto.itemId = linha.Cells(1).Tag
@@ -662,7 +666,7 @@ Public Class fCaixa
 
     Private Sub ExcluirPreVenda()
 
-        If dtgProdutos.Rows.Count <= 0 OrElse _
+        If dtgProdutos.Rows.Count <= 0 OrElse
             MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
 
             If dtgProdutos.Rows.Count > 0 And System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
@@ -822,6 +826,59 @@ Public Class fCaixa
         Me.txtCliente.BackColor = Color.White
         Me.cboCondicao.SelectedIndex = 1
     End Sub
+    Private Sub FiltrarCliente()
+        Dim filtro As dCliente
+        Dim clientes As ColecaoCliente
+        Dim regras As rCliente
+        filtro = New dCliente
+        clientes = New ColecaoCliente
+
+        If txtIdCliente.Text = "" Then
+            MessageBox.Show("Informe um código")
+            Exit Sub
+        End If
+
+        'fClienteLista.filtro = filtro
+
+        filtro.cid = cFuncoes.TratarInteiro(txtIdCliente.Text)
+        regras = New rCliente
+
+        clientes = regras.Consultar(filtro)
+
+        If clientes Is Nothing Then
+
+            MessageBox.Show("Não existe cliente com esse código!")
+            txtIdCliente.Focus()
+            txtIdCliente.Select()
+            txtIdCliente.Text = ""
+
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+            Exit Sub
+        End If
+
+        filtro = clientes.Item(0)
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            If filtro.cpf <> "" Then
+                Me.txtCliente.Text += ", CPF: " & filtro.cpf
+            End If
+            Me.txtCliente.Tag = filtro.cid
+            If filtro.situacao = "N" Then
+                Me.txtCliente.ForeColor = Color.Red
+                txtCliente.BackColor = Color.Salmon
+            ElseIf filtro.situacao = "O" Then
+                Me.txtCliente.ForeColor = Color.Orange
+                txtCliente.BackColor = Color.Yellow
+            Else
+                Me.txtCliente.ForeColor = Color.Black
+                txtCliente.BackColor = Color.White
+            End If
+        End If
+    End Sub
+
 
     Private Sub SelecionarClientes()
         Dim formCliente As New fClienteLista
@@ -1376,6 +1433,28 @@ Public Class fCaixa
     End Sub
 
     Private Sub Panel1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles Panel1.PreviewKeyDown
+
+    End Sub
+
+    Private Sub txtIdCliente_Enter(sender As Object, e As EventArgs) Handles txtIdCliente.Enter
+
+    End Sub
+
+    Private Sub txtIdCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyDown
+
+        If e.KeyCode = Keys.Enter Then
+            FiltrarCliente()
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_KeyUp(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyUp
+
+        If txtIdCliente.Text = "" Then
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+        End If
+
 
     End Sub
 End Class

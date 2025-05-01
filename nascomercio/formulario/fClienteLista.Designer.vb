@@ -40,8 +40,8 @@ Partial Class fClienteLista
         Me.txtCliente = New System.Windows.Forms.TextBox()
         Me.lblCliente = New System.Windows.Forms.Label()
         Me.cid = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Endereço = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Nome = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Endereço = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Cpf = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Rg = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Situacao = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -153,7 +153,7 @@ Partial Class fClienteLista
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.dgvCliente.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvCliente.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.cid, Me.Endereço, Me.Nome, Me.Cpf, Me.Rg, Me.Situacao, Me.Ddd, Me.Telefone, Me.Dddcel, Me.Celular, Me.Email})
+        Me.dgvCliente.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.cid, Me.Nome, Me.Endereço, Me.Cpf, Me.Rg, Me.Situacao, Me.Ddd, Me.Telefone, Me.Dddcel, Me.Celular, Me.Email})
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle2.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -342,14 +342,6 @@ Partial Class fClienteLista
         Me.cid.ReadOnly = True
         Me.cid.Width = 66
         '
-        'Endereço
-        '
-        Me.Endereço.HeaderText = "Endereço"
-        Me.Endereço.MinimumWidth = 6
-        Me.Endereço.Name = "Endereço"
-        Me.Endereço.ReadOnly = True
-        Me.Endereço.Width = 113
-        '
         'Nome
         '
         Me.Nome.HeaderText = "Nome"
@@ -357,6 +349,14 @@ Partial Class fClienteLista
         Me.Nome.Name = "Nome"
         Me.Nome.ReadOnly = True
         Me.Nome.Width = 83
+        '
+        'Endereço
+        '
+        Me.Endereço.HeaderText = "Endereço"
+        Me.Endereço.MinimumWidth = 6
+        Me.Endereço.Name = "Endereço"
+        Me.Endereço.ReadOnly = True
+        Me.Endereço.Width = 113
         '
         'Cpf
         '
@@ -474,8 +474,8 @@ Partial Class fClienteLista
     Friend WithEvents txtCPF As System.Windows.Forms.TextBox
     Friend WithEvents lblCPF As System.Windows.Forms.Label
     Friend WithEvents cid As DataGridViewTextBoxColumn
-    Friend WithEvents Endereço As DataGridViewTextBoxColumn
     Friend WithEvents Nome As DataGridViewTextBoxColumn
+    Friend WithEvents Endereço As DataGridViewTextBoxColumn
     Friend WithEvents Cpf As DataGridViewTextBoxColumn
     Friend WithEvents Rg As DataGridViewTextBoxColumn
     Friend WithEvents Situacao As DataGridViewTextBoxColumn
