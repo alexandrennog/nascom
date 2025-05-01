@@ -22,9 +22,9 @@ Partial Class fCaixa
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle9 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fCaixa))
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.dtgProdutos = New System.Windows.Forms.DataGridView()
@@ -91,6 +91,7 @@ Partial Class fCaixa
         Me.Button5 = New System.Windows.Forms.Button()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoIncluirItem = New System.Windows.Forms.Button()
+        Me.txtIdCliente = New System.Windows.Forms.TextBox()
         CType(Me.dtgProdutos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,32 +114,32 @@ Partial Class fCaixa
         Me.dtgProdutos.AllowUserToAddRows = False
         Me.dtgProdutos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dtgProdutos.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle7.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
         Me.dtgProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dtgProdutos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colReferencia, Me.colValorUnitario, Me.colQuantidade, Me.colValorTotal})
         Me.dtgProdutos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
-        Me.dtgProdutos.Location = New System.Drawing.Point(21, 233)
+        Me.dtgProdutos.Location = New System.Drawing.Point(4, 231)
         Me.dtgProdutos.Margin = New System.Windows.Forms.Padding(4)
         Me.dtgProdutos.MultiSelect = False
         Me.dtgProdutos.Name = "dtgProdutos"
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle8.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle8
         Me.dtgProdutos.RowHeadersWidth = 51
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle9.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle9
         Me.dtgProdutos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dtgProdutos.Size = New System.Drawing.Size(1163, 348)
         Me.dtgProdutos.TabIndex = 8
@@ -227,7 +228,7 @@ Partial Class fCaixa
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(761, 123)
+        Me.Label7.Location = New System.Drawing.Point(756, 90)
         Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(103, 24)
@@ -239,7 +240,7 @@ Partial Class fCaixa
         Me.lblEmissao.AutoSize = True
         Me.lblEmissao.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmissao.ForeColor = System.Drawing.Color.Blue
-        Me.lblEmissao.Location = New System.Drawing.Point(883, 123)
+        Me.lblEmissao.Location = New System.Drawing.Point(878, 90)
         Me.lblEmissao.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEmissao.Name = "lblEmissao"
         Me.lblEmissao.Size = New System.Drawing.Size(110, 24)
@@ -340,7 +341,7 @@ Partial Class fCaixa
         'txtCliente
         '
         Me.txtCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCliente.Location = New System.Drawing.Point(137, 124)
+        Me.txtCliente.Location = New System.Drawing.Point(255, 122)
         Me.txtCliente.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCliente.Name = "txtCliente"
         Me.txtCliente.ReadOnly = True
@@ -558,7 +559,7 @@ Partial Class fCaixa
         Me.lblMsg.AutoSize = True
         Me.lblMsg.Font = New System.Drawing.Font("Arial", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMsg.ForeColor = System.Drawing.Color.Blue
-        Me.lblMsg.Location = New System.Drawing.Point(761, 84)
+        Me.lblMsg.Location = New System.Drawing.Point(760, 23)
         Me.lblMsg.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblMsg.Name = "lblMsg"
         Me.lblMsg.Size = New System.Drawing.Size(158, 29)
@@ -594,7 +595,7 @@ Partial Class fCaixa
         Me.Label20.AutoSize = True
         Me.Label20.BackColor = System.Drawing.Color.Transparent
         Me.Label20.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(571, 128)
+        Me.Label20.Location = New System.Drawing.Point(762, 132)
         Me.Label20.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label20.Name = "Label20"
         Me.Label20.Size = New System.Drawing.Size(173, 18)
@@ -629,15 +630,20 @@ Partial Class fCaixa
         Me.Panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.Window
         Me.Panel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.txtIdCliente)
         Me.Panel1.Controls.Add(Me.lblAbrirFechar)
         Me.Panel1.Controls.Add(Me.Button3)
+        Me.Panel1.Controls.Add(Me.txtCliente)
         Me.Panel1.Controls.Add(Me.lblOS1)
         Me.Panel1.Controls.Add(Me.lblOS)
+        Me.Panel1.Controls.Add(Me.dtgProdutos)
         Me.Panel1.Controls.Add(Me.btnOS)
         Me.Panel1.Controls.Add(Me.cboVendedor)
         Me.Panel1.Controls.Add(Me.Button6)
+        Me.Panel1.Controls.Add(Me.Button5)
         Me.Panel1.Controls.Add(Me.Label10)
         Me.Panel1.Controls.Add(Me.Button7)
+        Me.Panel1.Controls.Add(Me.Label20)
         Me.Panel1.Controls.Add(Me.Label21)
         Me.Panel1.Controls.Add(Me.Label22)
         Me.Panel1.Controls.Add(Me.Label18)
@@ -905,7 +911,7 @@ Partial Class fCaixa
         Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button5.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button5.ForeColor = System.Drawing.Color.White
-        Me.Button5.Location = New System.Drawing.Point(536, 122)
+        Me.Button5.Location = New System.Drawing.Point(652, 122)
         Me.Button5.Margin = New System.Windows.Forms.Padding(4)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(33, 31)
@@ -942,6 +948,16 @@ Partial Class fCaixa
         Me.btoIncluirItem.TabStop = False
         Me.btoIncluirItem.UseVisualStyleBackColor = False
         '
+        'txtIdCliente
+        '
+        Me.txtIdCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIdCliente.Location = New System.Drawing.Point(136, 122)
+        Me.txtIdCliente.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtIdCliente.MaxLength = 8
+        Me.txtIdCliente.Name = "txtIdCliente"
+        Me.txtIdCliente.Size = New System.Drawing.Size(111, 30)
+        Me.txtIdCliente.TabIndex = 187
+        '
         'fCaixa
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -951,15 +967,11 @@ Partial Class fCaixa
         Me.ClientSize = New System.Drawing.Size(1200, 817)
         Me.Controls.Add(Me.txtQuantidade)
         Me.Controls.Add(Me.txtControle)
-        Me.Controls.Add(Me.txtCliente)
         Me.Controls.Add(Me.txtParcelas)
         Me.Controls.Add(Me.cboCondicao)
         Me.Controls.Add(Me.txtDesconto)
         Me.Controls.Add(Me.txtCodigo)
-        Me.Controls.Add(Me.dtgProdutos)
         Me.Controls.Add(Me.lblQtd)
-        Me.Controls.Add(Me.Label20)
-        Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.Label16)
         Me.Controls.Add(Me.imgLogo)
         Me.Controls.Add(Me.Label2)
@@ -1057,4 +1069,5 @@ Partial Class fCaixa
     Friend WithEvents colValorUnitario As DataGridViewTextBoxColumn
     Friend WithEvents colQuantidade As DataGridViewTextBoxColumn
     Friend WithEvents colValorTotal As DataGridViewTextBoxColumn
+    Friend WithEvents txtIdCliente As TextBox
 End Class
