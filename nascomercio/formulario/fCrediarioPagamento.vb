@@ -14,6 +14,7 @@ Imports ncDados.nsParametro
 Public Class fCrediarioPagamento
     Public formularioModal As New Form
     Private tela As Boolean = True
+    Private _excVenda As Int16
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
@@ -298,12 +299,82 @@ Public Class fCrediarioPagamento
     End Sub
 
     Private Sub fClienteFinanceiroForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        Dim dadosParametro As dParametro
+        Dim regraParametro As New rParametro
+
         LimparCampos()
         ExibirInformacoes()
 
+        dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ExcVenda)
+        If Not IsNothing(dadosParametro) Then
+            _excVenda = dadosParametro.valor
+            HabilitarGridParaEdicao(_excVenda)
+        End If
+
     End Sub
+    Private Sub HabilitarGridParaEdicao(ByVal excVenda As Int16)
+        dgvCrediario.ReadOnly = False
+        For Each column As DataGridViewColumn In dgvCrediario.Columns
+            column.[ReadOnly] = (excVenda <> 1)
+        Next
 
+        dgvCrediario.Columns(0).ReadOnly = False
 
+    End Sub
+    Private Sub FiltrarCliente()
+        Dim filtro As dCliente
+        Dim clientes As ColecaoCliente
+        Dim regras As rCliente
+        filtro = New dCliente
+        clientes = New ColecaoCliente
+
+        If txtIdCliente.Text = "" Then
+            MessageBox.Show("Informe um código")
+            Exit Sub
+        End If
+
+        'fClienteLista.filtro = filtro
+
+        filtro.cid = cFuncoes.TratarInteiro(txtIdCliente.Text)
+        regras = New rCliente
+
+        clientes = regras.Consultar(filtro)
+
+        If clientes Is Nothing Then
+
+            MessageBox.Show("Não existe cliente com esse código!")
+            txtIdCliente.Focus()
+            txtIdCliente.Select()
+            txtIdCliente.Text = ""
+
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+
+            Exit Sub
+        End If
+
+        filtro = clientes.Item(0)
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            If filtro.cpf <> "" Then
+                Me.txtCliente.Text += ", CPF: " & filtro.cpf
+            End If
+            Me.txtCliente.Tag = filtro.cid
+            If filtro.situacao = "N" Then
+                Me.txtCliente.ForeColor = Color.Red
+                txtCliente.BackColor = Color.Salmon
+            ElseIf filtro.situacao = "O" Then
+                Me.txtCliente.ForeColor = Color.Orange
+                txtCliente.BackColor = Color.Yellow
+            Else
+                Me.txtCliente.ForeColor = Color.Black
+                txtCliente.BackColor = Color.White
+            End If
+        End If
+    End Sub
     Private Sub txtCodigo_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCodigo.Leave
 
         Dim juros As Decimal
@@ -779,6 +850,33 @@ Public Class fCrediarioPagamento
                 lblTroco.Text = 0.ToString("N")
                 lblFalta.Text = (CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
             End If
+        End If
+    End Sub
+
+    Private Sub dgvCrediario_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCrediario.CellDoubleClick
+
+    End Sub
+
+    Private Sub dgvCrediario_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles dgvCrediario.CellBeginEdit
+
+    End Sub
+
+    Private Sub txtIdCliente_MouseDown(sender As Object, e As MouseEventArgs) Handles txtIdCliente.MouseDown
+
+
+    End Sub
+
+    Private Sub txtIdCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            FiltrarCliente()
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_KeyUp(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyUp
+        If txtIdCliente.Text = "" Then
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
         End If
     End Sub
 End Class

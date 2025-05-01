@@ -851,6 +851,10 @@ Public Class fCaixa
             txtIdCliente.Focus()
             txtIdCliente.Select()
             txtIdCliente.Text = ""
+
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
             Exit Sub
         End If
 
@@ -1441,5 +1445,16 @@ Public Class fCaixa
         If e.KeyCode = Keys.Enter Then
             FiltrarCliente()
         End If
+    End Sub
+
+    Private Sub txtIdCliente_KeyUp(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyUp
+
+        If txtIdCliente.Text = "" Then
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+        End If
+
+
     End Sub
 End Class
