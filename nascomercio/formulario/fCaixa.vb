@@ -23,6 +23,7 @@ Imports ncRegras
 Imports ncDados.nsCliente
 Imports ncComum.nsFuncoes
 Imports ncRegras.nsCliente
+Imports System.Linq
 
 Public Class fCaixa
 
@@ -923,6 +924,11 @@ Public Class fCaixa
     End Sub
 
     Private Sub PagamentoCrediario()
+
+        If Application.OpenForms().OfType(Of fCrediarioPagamento)().Any() Then
+            Exit Sub
+        End If
+
         Dim formCrediario As fCrediarioPagamento
 
         If Me.lblMsg.Text = "VENDA DIRETA" Then
@@ -1456,5 +1462,9 @@ Public Class fCaixa
         End If
 
 
+    End Sub
+
+    Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
+        FiltrarCliente()
     End Sub
 End Class
