@@ -142,18 +142,34 @@ Partial Public Class fRelatorioFechamentoSAT
 
         Dim li As ListViewItem
 
+
+        Dim totalDinheiro As Decimal
+        Dim totalCheque As Decimal
+        Dim totalvalorOriginal As Decimal
+        Dim totalCartaoDebito As Decimal
+        Dim totalCartaoCredito As Decimal
+        Dim totalCrediario As Decimal
+        Dim totalDesconto As Decimal
         Dim totTotalVendas As Decimal
+
 
         For Each item As dVenda In colVenda
             li = New ListViewItem
             li.Text = item.Data.ToString()
             li.SubItems.Add(item.Dinheiro.ToString("N"))
+            totalDinheiro = totalDinheiro + item.Dinheiro
             li.SubItems.Add(item.Cheque)
+            totalCheque = totalCheque + item.Cheque
             li.SubItems.Add(item.valorOriginal.ToString())
+            totalvalorOriginal = totalvalorOriginal + item.valorOriginal
             li.SubItems.Add(item.CartaoDebito.ToString())
+            totalCartaoDebito = totalCartaoDebito + item.CartaoDebito
             li.SubItems.Add(item.CartaoCredito.ToString())
+            totalCartaoCredito = totalCartaoCredito + item.CartaoCredito
             li.SubItems.Add(item.Crediario.ToString())
+            totalCrediario = totalCrediario + item.Crediario
             li.SubItems.Add(item.Desconto.ToString())
+            totalDesconto = totalDesconto + item.Desconto
             li.SubItems.Add(item.Total.ToString())
             Me.lstVendasSAT.Items.Add(li)
             totTotalVendas = totTotalVendas + item.Total
@@ -161,39 +177,47 @@ Partial Public Class fRelatorioFechamentoSAT
 
 
         li = New ListViewItem
-        li.Text = ""
-        li.SubItems.Add("")
-        li.SubItems.Add("")
-        li.SubItems.Add("")
-        li.SubItems.Add("")
-        li.SubItems.Add("")
-        li.SubItems.Add("")
-        li.SubItems.Add("Total:")
+        li.Text = "Totais: "
+        li.SubItems.Add(totalDinheiro.ToString())
+        li.SubItems.Add(totalCheque.ToString())
+        li.SubItems.Add(totalvalorOriginal.ToString())
+        li.SubItems.Add(totalCartaoDebito.ToString())
+        li.SubItems.Add(totalCartaoCredito.ToString())
+        li.SubItems.Add(totalCrediario.ToString())
+        li.SubItems.Add(totalDesconto.ToString())
         li.SubItems.Add(totTotalVendas.ToString())
         Me.lstVendasSAT.Items.Add(li)
 
         For Each itemRef As dVenda In colVenda
             table.AddCell(New PdfPCell(New Phrase(itemRef.Data.ToString())))
+
             table.AddCell(New PdfPCell(New Phrase(itemRef.Dinheiro.ToString("N"))))
+            totalDinheiro = totalDinheiro + itemRef.Dinheiro
             table.AddCell(New PdfPCell(New Phrase(itemRef.Cheque.ToString("N"))))
+            totalCheque = totalCheque + itemRef.Cheque
             table.AddCell(New PdfPCell(New Phrase(itemRef.valorOriginal.ToString("N"))))
+            totalvalorOriginal = totalvalorOriginal + itemRef.valorOriginal
             table.AddCell(New PdfPCell(New Phrase(itemRef.CartaoDebito.ToString("N"))))
+            totalCartaoDebito = totalCartaoDebito + itemRef.CartaoDebito
             table.AddCell(New PdfPCell(New Phrase(itemRef.CartaoCredito.ToString("N"))))
+            totalCartaoCredito = totalCartaoCredito + itemRef.CartaoCredito
             table.AddCell(New PdfPCell(New Phrase(itemRef.Crediario.ToString("N"))))
+            totalCrediario = totalCrediario + itemRef.Crediario
             table.AddCell(New PdfPCell(New Phrase(itemRef.Desconto.ToString("N"))))
+            totalDesconto = totalDesconto + itemRef.Desconto
             table.AddCell(New PdfPCell(New Phrase(itemRef.Total.ToString("N"))))
             totTotal = totTotal + itemRef.Total
         Next
 
 
-        table.AddCell(New PdfPCell(New Phrase("")))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        table.AddCell(New PdfPCell(New Phrase("Total: ")))
+        table.AddCell(New PdfPCell(New Phrase("Total:")))
+        table.AddCell(New PdfPCell(New Phrase(totalDinheiro.ToString())))
+        table.AddCell(New PdfPCell(New Phrase(totalCheque.ToString())))
+        table.AddCell(New PdfPCell(New Phrase(totalvalorOriginal.ToString())))
+        table.AddCell(New PdfPCell(New Phrase(totalCartaoDebito.ToString())))
+        table.AddCell(New PdfPCell(New Phrase(totalCartaoCredito.ToString())))
+        table.AddCell(New PdfPCell(New Phrase(totalCrediario.ToString())))
+        table.AddCell(New PdfPCell(New Phrase(totalDesconto.ToString())))
         table.AddCell(New PdfPCell(New Phrase(totTotal.ToString())))
 
         If Not colVenda Is Nothing Then
