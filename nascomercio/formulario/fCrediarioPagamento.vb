@@ -17,6 +17,7 @@ Public Class fCrediarioPagamento
     Private _excVenda As Int16
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
+        SendKeys.Flush()
         Me.Close()
     End Sub
 
@@ -298,19 +299,9 @@ Public Class fCrediarioPagamento
         End If
     End Sub
 
-    Private Sub fClienteFinanceiroForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Private Sub fClienteFinanceiroForm_Load(ByVal sender As Object, ByVal e As System.EventArgs)
 
-        Dim dadosParametro As dParametro
-        Dim regraParametro As New rParametro
 
-        LimparCampos()
-        ExibirInformacoes()
-
-        dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ExcVenda)
-        If Not IsNothing(dadosParametro) Then
-            _excVenda = dadosParametro.valor
-            HabilitarGridParaEdicao(_excVenda)
-        End If
 
     End Sub
     Private Sub HabilitarGridParaEdicao(ByVal excVenda As Int16)
@@ -374,6 +365,13 @@ Public Class fCrediarioPagamento
                 txtCliente.BackColor = Color.White
             End If
         End If
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            Me.txtCliente.Tag = filtro.cid
+            txtCliente_Leave(Nothing, Nothing)
+        End If
+
     End Sub
     Private Sub txtCodigo_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCodigo.Leave
 
@@ -877,6 +875,28 @@ Public Class fCrediarioPagamento
             txtCliente.Focus()
             txtCliente.Select()
             txtCliente.Text = ""
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
+        'FiltrarCliente()
+    End Sub
+
+    Private Sub txtIdCliente_TextChanged(sender As Object, e As EventArgs) Handles txtIdCliente.TextChanged
+
+    End Sub
+
+    Private Sub fCrediarioPagamento_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim dadosParametro As dParametro
+        Dim regraParametro As New rParametro
+
+        LimparCampos()
+        ExibirInformacoes()
+
+        dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ExcVenda)
+        If Not IsNothing(dadosParametro) Then
+            _excVenda = dadosParametro.valor
+            HabilitarGridParaEdicao(_excVenda)
         End If
     End Sub
 End Class
