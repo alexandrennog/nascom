@@ -176,7 +176,7 @@ Public Class fCrediarioPagamento
     Private Sub LimparCampos()
         txtLimite.Text = String.Empty
         txtDisponivel.Text = String.Empty
-        Me.txtIdCliente.Text = 0.ToString("N")
+        Me.txtIdCliente.Text = ""
         lblRecebido.Text = 0.ToString("N")
         lblFalta.Text = 0.ToString("N")
         lblTroco.Text = 0.ToString("N")
