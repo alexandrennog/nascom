@@ -249,6 +249,7 @@ Public Class fPreVenda
 
     Private Sub LimpaCampos()
         txtCliente.Text = ""
+
         lblControle.Text = ""
         lblEmissao.Text = ""
         lblVendedor.Text = ""
