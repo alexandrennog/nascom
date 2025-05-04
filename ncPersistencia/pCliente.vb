@@ -105,7 +105,7 @@ Namespace nsCliente
                 sqlWhere = String.Empty
                 sqlFrom = " From clientes c left join veiculo v  on  v.clienteid = c.cid "
 
-                sqlFrom += " left join clienteenderecos e on e.cliente_cid = c.cid "
+                sqlFrom += " left join clienteenderecos e on e.cliente_cid = c.cid  and tipoEndereco = 'p' "
 
                 '-- cid
                 sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.cid, "c.cid")
