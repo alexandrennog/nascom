@@ -818,6 +818,7 @@ Public Class fCaixa
         Me.lblTotal.Text = 0.ToString("N")
         Me.txtDesconto.Text = 0.ToString("N")
         Me.txtDesconto.Text = 0.ToString("N")
+        Me.txtIdCliente.Text = 0.ToString("N")
         Me.lblTroca.Text = 0.ToString("N")
         Me.lblDefeitos.Text = 0.ToString("N")
         Me.lblVale.Text = 0.ToString("N")

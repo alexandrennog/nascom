@@ -176,6 +176,7 @@ Public Class fCrediarioPagamento
     Private Sub LimparCampos()
         txtLimite.Text = String.Empty
         txtDisponivel.Text = String.Empty
+        Me.txtIdCliente.Text = 0.ToString("N")
         lblRecebido.Text = 0.ToString("N")
         lblFalta.Text = 0.ToString("N")
         lblTroco.Text = 0.ToString("N")
@@ -879,7 +880,7 @@ Public Class fCrediarioPagamento
     End Sub
 
     Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
-        'FiltrarCliente()
+        FiltrarCliente()
     End Sub
 
     Private Sub txtIdCliente_TextChanged(sender As Object, e As EventArgs) Handles txtIdCliente.TextChanged

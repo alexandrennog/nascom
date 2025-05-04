@@ -97,6 +97,8 @@ Public Class fPreVenda
         lblTroco.Text = 0.ToString("N")
         lblRecebido.Text = 0.ToString("N")
 
+        CarregarComboCondicao()
+        'cboCondicao.Text = condicao
         calculaRecebido()
         formataCampos()
     End Sub
@@ -247,6 +249,7 @@ Public Class fPreVenda
 
     Private Sub LimpaCampos()
         txtCliente.Text = ""
+
         lblControle.Text = ""
         lblEmissao.Text = ""
         lblVendedor.Text = ""
