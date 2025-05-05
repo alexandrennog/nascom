@@ -118,7 +118,7 @@ Public Class fPagamento
         txtTxId.Text = ""
         txtStatus.Text = ""
         txtUrlPix.Text = ""
-        txtPix.Text = "0,00"
+        'txtPix.Text = "0,00"
         'txtDesconto.Text = "0,00"
         lblTotal.Text = txtVendas.Text
 
@@ -147,7 +147,8 @@ Public Class fPagamento
                                                                                                txtCheque.Leave,
                                                                                                txtCartaoDebito.Leave,
                                                                                                txtVale.Leave,
-                                                                                               txtDesconto.Leave
+                                                                                               txtDesconto.Leave,
+                                                                                               txtPix.Leave
         'Mostra informações de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
@@ -155,6 +156,7 @@ Public Class fPagamento
     End Sub
 
     Private Sub formataCampos()
+
         txtDinheiro.Text = CDec(txtDinheiro.Text).ToString("N")
         txtPix.Text = CDec(txtPix.Text).ToString("N")
         txtCheque.Text = CDec(txtCheque.Text).ToString("N")
@@ -164,9 +166,12 @@ Public Class fPagamento
         txtCrediario.Text = CDec(txtCrediario.Text).ToString("N")
         txtVale.Text = CDec(txtVale.Text).ToString("N")
         txtDesconto.Text = CDec(txtDesconto.Text).ToString("N")
+        txtIdCliente.Text = Me.txtCliente.Tag
     End Sub
 
     Private Sub verificaCampos()
+
+
         If txtDinheiro.Text.Trim().Equals("") Then
             txtDinheiro.Text = 0.ToString("N")
         End If
@@ -194,6 +199,9 @@ Public Class fPagamento
         If txtDesconto.Text.Trim().Equals("") Then
             txtDesconto.Text = 0.ToString("N")
         End If
+        If txtIdCliente.Text.Trim().Equals("") Then
+            txtIdCliente.Text = ""
+        End If
     End Sub
 
     Private Sub btoSalvar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSalvar.Click
@@ -211,7 +219,7 @@ Public Class fPagamento
 
                 If txtCliente.Tag <> 1 Then
 
-                    If Me.txtCliente.ForeColor = Color.Red Then
+                    If Me.txtCliente.ForeColor = Color.Red And Not EhAdmin() Then
                         MessageBox.Show("Cliente com pendências!")
                         acessoGerente = New fAcessoGerente()
                         acessoGerente.ShowDialog()
@@ -287,8 +295,9 @@ Public Class fPagamento
         End If
 
     End Sub
-
-
+    Private Function EhAdmin() As Boolean
+        Return mdiPrincipal.lblUsuario.Text.Contains("ADMINISTRADOR")
+    End Function
 
     Private Function CarregaCheque() As Boolean
         Dim janela As fChequesForm
@@ -319,6 +328,7 @@ Public Class fPagamento
             janela.lblVendedor.Tag = lblVendedor.Tag
             janela.lblLoja.Text = lblLoja.Text
             janela.lblLoja.Tag = lblLoja.Tag
+
 
             'Application.DoEvents()
 
@@ -393,6 +403,7 @@ Public Class fPagamento
                 janela.lblLoja.Text = lblLoja.Text
                 janela.lblLoja.Tag = lblLoja.Tag
 
+
                 janela.ShowDialog()
 
                 Return janela.pago
@@ -421,6 +432,7 @@ Public Class fPagamento
 
     Private Sub LimpaCampos()
         txtCliente.Text = ""
+        txtIdCliente.Text = ""
         lblControle.Text = ""
         lblEmissao.Text = ""
         lblVendedor.Text = ""
@@ -907,6 +919,7 @@ Public Class fPagamento
         formCliente.filtro = New ncDados.nsCliente.dCliente()
         formCliente.ShowDialog()
         If formCliente.filtro.nome <> "" Then
+            Me.txtIdCliente.Text = formCliente.filtro.cid
             Me.txtCliente.Text = formCliente.filtro.nome
             Me.txtCliente.Tag = formCliente.filtro.cid
             Me.txtCliente.ForeColor = IIf(formCliente.filtro.situacao = "N", Color.Red, Color.Black)

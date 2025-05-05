@@ -561,6 +561,7 @@ Public Class fCaixa
         janela.lblControle.Text = Me.txtControle.Text
         janela.lblControle.Tag = Me.lblOS.Text
         janela.txtCliente.Text = Me.txtCliente.Text
+        janela.txtidCliente.Text = Me.txtCliente.Tag
         janela.txtCliente.Tag = Me.txtCliente.Tag
         janela.lblEmissao.Text = Me.lblEmissao.Text
         janela.lblVendedor.Text = Me.cboVendedor.Text
@@ -1091,6 +1092,7 @@ Public Class fCaixa
                         dadosCliente = cliente.ConsultarPorCID(dadosVenda.clienteId)
                         Me.txtCliente.Text = dadosCliente.nome
                         Me.txtCliente.Tag = dadosCliente.cid
+                        Me.txtIdCliente.Text = dadosCliente.cid
                         dadosClienteFin.cliente_cid = dadosVenda.clienteId
                         dadosClienteFinCol = clienteFin.Consultar(dadosClienteFin)
                         If Not IsNothing(dadosClienteFinCol) Then

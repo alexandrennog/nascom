@@ -23,56 +23,59 @@ Partial Class fPreVenda
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(fPreVenda))
-        Me.lblTitulo = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.lblEmissao = New System.Windows.Forms.Label
-        Me.lblFalta = New System.Windows.Forms.Label
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.lblTotal = New System.Windows.Forms.Label
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.Label19 = New System.Windows.Forms.Label
-        Me.Label21 = New System.Windows.Forms.Label
-        Me.Label23 = New System.Windows.Forms.Label
-        Me.txtDesconto = New System.Windows.Forms.TextBox
-        Me.txtParcelas = New System.Windows.Forms.TextBox
-        Me.lblVendedor = New System.Windows.Forms.Label
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.lblControle = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.txtDinheiro = New System.Windows.Forms.TextBox
-        Me.txtCheque = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.txtCartaoDebito = New System.Windows.Forms.TextBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.txtChequePre = New System.Windows.Forms.TextBox
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.txtCartaoCredito = New System.Windows.Forms.TextBox
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.txtCrediario = New System.Windows.Forms.TextBox
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.cboCondicao = New System.Windows.Forms.ComboBox
-        Me.lblTroco = New System.Windows.Forms.Label
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.lblRecebido = New System.Windows.Forms.Label
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.txtDefeitos = New System.Windows.Forms.TextBox
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.txtVale = New System.Windows.Forms.TextBox
-        Me.Label15 = New System.Windows.Forms.Label
-        Me.txtTroca = New System.Windows.Forms.TextBox
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.txtCliente = New System.Windows.Forms.TextBox
-        Me.btoSalvar = New System.Windows.Forms.Button
-        Me.btoSair = New System.Windows.Forms.Button
-        Me.imgLogo = New System.Windows.Forms.PictureBox
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.lblLoja = New System.Windows.Forms.Label
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.btoIncluirItem = New System.Windows.Forms.Button
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.lstFita = New System.Windows.Forms.ListBox
+        Me.lblTitulo = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.lblEmissao = New System.Windows.Forms.Label()
+        Me.lblFalta = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.lblTotal = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.txtDesconto = New System.Windows.Forms.TextBox()
+        Me.txtParcelas = New System.Windows.Forms.TextBox()
+        Me.lblVendedor = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblControle = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.txtDinheiro = New System.Windows.Forms.TextBox()
+        Me.txtCheque = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.txtCartaoDebito = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.txtChequePre = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txtCartaoCredito = New System.Windows.Forms.TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.txtCrediario = New System.Windows.Forms.TextBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.cboCondicao = New System.Windows.Forms.ComboBox()
+        Me.lblTroco = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.lblRecebido = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.txtDefeitos = New System.Windows.Forms.TextBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.txtVale = New System.Windows.Forms.TextBox()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.txtTroca = New System.Windows.Forms.TextBox()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.txtCliente = New System.Windows.Forms.TextBox()
+        Me.btoSalvar = New System.Windows.Forms.Button()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.lblLoja = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.btoIncluirItem = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtPix = New System.Windows.Forms.TextBox()
+        Me.Label47 = New System.Windows.Forms.Label()
+        Me.lstFita = New System.Windows.Forms.ListBox()
+        Me.txtIdCliente = New System.Windows.Forms.TextBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -82,9 +85,10 @@ Partial Class fPreVenda
         Me.lblTitulo.AutoSize = True
         Me.lblTitulo.Font = New System.Drawing.Font("Arial", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblTitulo.Location = New System.Drawing.Point(68, 12)
+        Me.lblTitulo.Location = New System.Drawing.Point(91, 15)
+        Me.lblTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(149, 32)
+        Me.lblTitulo.Size = New System.Drawing.Size(182, 40)
         Me.lblTitulo.TabIndex = 20
         Me.lblTitulo.Text = "Pré Venda"
         '
@@ -92,9 +96,10 @@ Partial Class fPreVenda
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(59, 75)
+        Me.Label3.Location = New System.Drawing.Point(79, 92)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(72, 19)
+        Me.Label3.Size = New System.Drawing.Size(88, 24)
         Me.Label3.TabIndex = 26
         Me.Label3.Text = "Cliente :"
         '
@@ -102,9 +107,10 @@ Partial Class fPreVenda
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(397, 105)
+        Me.Label5.Location = New System.Drawing.Point(529, 129)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(94, 19)
+        Me.Label5.Size = New System.Drawing.Size(113, 24)
         Me.Label5.TabIndex = 28
         Me.Label5.Text = "Vendedor :"
         '
@@ -112,9 +118,10 @@ Partial Class fPreVenda
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(211, 105)
+        Me.Label7.Location = New System.Drawing.Point(281, 129)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(85, 19)
+        Me.Label7.Size = New System.Drawing.Size(103, 24)
         Me.Label7.TabIndex = 30
         Me.Label7.Text = "Emissão :"
         '
@@ -123,9 +130,10 @@ Partial Class fPreVenda
         Me.lblEmissao.AutoSize = True
         Me.lblEmissao.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmissao.ForeColor = System.Drawing.Color.Blue
-        Me.lblEmissao.Location = New System.Drawing.Point(302, 105)
+        Me.lblEmissao.Location = New System.Drawing.Point(403, 129)
+        Me.lblEmissao.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEmissao.Name = "lblEmissao"
-        Me.lblEmissao.Size = New System.Drawing.Size(89, 19)
+        Me.lblEmissao.Size = New System.Drawing.Size(110, 24)
         Me.lblEmissao.TabIndex = 31
         Me.lblEmissao.Text = "03/06/2009"
         '
@@ -134,9 +142,10 @@ Partial Class fPreVenda
         Me.lblFalta.AutoSize = True
         Me.lblFalta.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFalta.ForeColor = System.Drawing.Color.Blue
-        Me.lblFalta.Location = New System.Drawing.Point(600, 438)
+        Me.lblFalta.Location = New System.Drawing.Point(800, 539)
+        Me.lblFalta.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFalta.Name = "lblFalta"
-        Me.lblFalta.Size = New System.Drawing.Size(80, 19)
+        Me.lblFalta.Size = New System.Drawing.Size(98, 24)
         Me.lblFalta.TabIndex = 36
         Me.lblFalta.Text = "11.123,45"
         '
@@ -144,9 +153,10 @@ Partial Class fPreVenda
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(513, 437)
+        Me.Label13.Location = New System.Drawing.Point(684, 538)
+        Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(77, 19)
+        Me.Label13.Size = New System.Drawing.Size(94, 24)
         Me.Label13.TabIndex = 35
         Me.Label13.Text = "Falta: R$"
         '
@@ -155,9 +165,10 @@ Partial Class fPreVenda
         Me.lblTotal.AutoSize = True
         Me.lblTotal.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotal.ForeColor = System.Drawing.Color.Blue
-        Me.lblTotal.Location = New System.Drawing.Point(600, 501)
+        Me.lblTotal.Location = New System.Drawing.Point(800, 617)
+        Me.lblTotal.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTotal.Name = "lblTotal"
-        Me.lblTotal.Size = New System.Drawing.Size(80, 19)
+        Me.lblTotal.Size = New System.Drawing.Size(98, 24)
         Me.lblTotal.TabIndex = 40
         Me.lblTotal.Text = "11.000,00"
         '
@@ -165,9 +176,10 @@ Partial Class fPreVenda
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(512, 501)
+        Me.Label17.Location = New System.Drawing.Point(683, 617)
+        Me.Label17.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(78, 19)
+        Me.Label17.Size = New System.Drawing.Size(95, 24)
         Me.Label17.TabIndex = 39
         Me.Label17.Text = "Total: R$"
         '
@@ -175,9 +187,10 @@ Partial Class fPreVenda
         '
         Me.Label19.AutoSize = True
         Me.Label19.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label19.Location = New System.Drawing.Point(42, 311)
+        Me.Label19.Location = New System.Drawing.Point(60, 412)
+        Me.Label19.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(114, 19)
+        Me.Label19.Size = New System.Drawing.Size(137, 24)
         Me.Label19.TabIndex = 41
         Me.Label19.Text = "Condicao: R$"
         '
@@ -185,9 +198,10 @@ Partial Class fPreVenda
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(42, 408)
+        Me.Label21.Location = New System.Drawing.Point(59, 532)
+        Me.Label21.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(114, 19)
+        Me.Label21.Size = New System.Drawing.Size(138, 24)
         Me.Label21.TabIndex = 43
         Me.Label21.Text = "Desconto: R$"
         '
@@ -195,28 +209,31 @@ Partial Class fPreVenda
         '
         Me.Label23.AutoSize = True
         Me.Label23.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label23.Location = New System.Drawing.Point(50, 341)
+        Me.Label23.Location = New System.Drawing.Point(68, 452)
+        Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(106, 19)
+        Me.Label23.Size = New System.Drawing.Size(129, 24)
         Me.Label23.TabIndex = 45
         Me.Label23.Text = "Parcelas: R$"
         '
         'txtDesconto
         '
         Me.txtDesconto.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDesconto.Location = New System.Drawing.Point(161, 399)
+        Me.txtDesconto.Location = New System.Drawing.Point(205, 526)
+        Me.txtDesconto.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDesconto.Name = "txtDesconto"
         Me.txtDesconto.ReadOnly = True
-        Me.txtDesconto.Size = New System.Drawing.Size(135, 26)
+        Me.txtDesconto.Size = New System.Drawing.Size(179, 30)
         Me.txtDesconto.TabIndex = 9
         Me.txtDesconto.Text = "0,00"
         '
         'txtParcelas
         '
         Me.txtParcelas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtParcelas.Location = New System.Drawing.Point(161, 335)
+        Me.txtParcelas.Location = New System.Drawing.Point(205, 446)
+        Me.txtParcelas.Margin = New System.Windows.Forms.Padding(4)
         Me.txtParcelas.Name = "txtParcelas"
-        Me.txtParcelas.Size = New System.Drawing.Size(135, 26)
+        Me.txtParcelas.Size = New System.Drawing.Size(179, 30)
         Me.txtParcelas.TabIndex = 7
         Me.txtParcelas.Text = "1"
         '
@@ -225,9 +242,10 @@ Partial Class fPreVenda
         Me.lblVendedor.AutoSize = True
         Me.lblVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendedor.ForeColor = System.Drawing.Color.Blue
-        Me.lblVendedor.Location = New System.Drawing.Point(497, 105)
+        Me.lblVendedor.Location = New System.Drawing.Point(663, 129)
+        Me.lblVendedor.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblVendedor.Name = "lblVendedor"
-        Me.lblVendedor.Size = New System.Drawing.Size(30, 19)
+        Me.lblVendedor.Size = New System.Drawing.Size(35, 24)
         Me.lblVendedor.TabIndex = 49
         Me.lblVendedor.Text = "Eu"
         '
@@ -235,9 +253,10 @@ Partial Class fPreVenda
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(46, 106)
+        Me.Label1.Location = New System.Drawing.Point(61, 130)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(85, 19)
+        Me.Label1.Size = New System.Drawing.Size(104, 24)
         Me.Label1.TabIndex = 24
         Me.Label1.Text = "Controle :"
         '
@@ -246,9 +265,10 @@ Partial Class fPreVenda
         Me.lblControle.AutoSize = True
         Me.lblControle.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblControle.ForeColor = System.Drawing.Color.Blue
-        Me.lblControle.Location = New System.Drawing.Point(141, 106)
+        Me.lblControle.Location = New System.Drawing.Point(188, 130)
+        Me.lblControle.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblControle.Name = "lblControle"
-        Me.lblControle.Size = New System.Drawing.Size(36, 19)
+        Me.lblControle.Size = New System.Drawing.Size(43, 24)
         Me.lblControle.TabIndex = 25
         Me.lblControle.Text = "123"
         '
@@ -256,27 +276,30 @@ Partial Class fPreVenda
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(51, 146)
+        Me.Label2.Location = New System.Drawing.Point(70, 172)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(105, 19)
+        Me.Label2.Size = New System.Drawing.Size(127, 24)
         Me.Label2.TabIndex = 50
         Me.Label2.Text = "Dinheiro: R$"
         '
         'txtDinheiro
         '
         Me.txtDinheiro.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDinheiro.Location = New System.Drawing.Point(161, 140)
+        Me.txtDinheiro.Location = New System.Drawing.Point(205, 172)
+        Me.txtDinheiro.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDinheiro.Name = "txtDinheiro"
-        Me.txtDinheiro.Size = New System.Drawing.Size(135, 26)
+        Me.txtDinheiro.Size = New System.Drawing.Size(179, 30)
         Me.txtDinheiro.TabIndex = 1
         Me.txtDinheiro.Text = "0,00"
         '
         'txtCheque
         '
         Me.txtCheque.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCheque.Location = New System.Drawing.Point(161, 173)
+        Me.txtCheque.Location = New System.Drawing.Point(205, 252)
+        Me.txtCheque.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCheque.Name = "txtCheque"
-        Me.txtCheque.Size = New System.Drawing.Size(135, 26)
+        Me.txtCheque.Size = New System.Drawing.Size(179, 30)
         Me.txtCheque.TabIndex = 2
         Me.txtCheque.Text = "0,00"
         '
@@ -284,18 +307,20 @@ Partial Class fPreVenda
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(56, 181)
+        Me.Label4.Location = New System.Drawing.Point(77, 252)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(100, 19)
+        Me.Label4.Size = New System.Drawing.Size(120, 24)
         Me.Label4.TabIndex = 52
         Me.Label4.Text = "Cheque: R$"
         '
         'txtCartaoDebito
         '
         Me.txtCartaoDebito.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCartaoDebito.Location = New System.Drawing.Point(161, 239)
+        Me.txtCartaoDebito.Location = New System.Drawing.Point(205, 324)
+        Me.txtCartaoDebito.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCartaoDebito.Name = "txtCartaoDebito"
-        Me.txtCartaoDebito.Size = New System.Drawing.Size(135, 26)
+        Me.txtCartaoDebito.Size = New System.Drawing.Size(179, 30)
         Me.txtCartaoDebito.TabIndex = 4
         Me.txtCartaoDebito.Text = "0,00"
         '
@@ -303,18 +328,20 @@ Partial Class fPreVenda
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(11, 245)
+        Me.Label6.Location = New System.Drawing.Point(19, 332)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(145, 19)
+        Me.Label6.Size = New System.Drawing.Size(178, 24)
         Me.Label6.TabIndex = 54
         Me.Label6.Text = "Cartão Débito: R$"
         '
         'txtChequePre
         '
         Me.txtChequePre.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtChequePre.Location = New System.Drawing.Point(161, 207)
+        Me.txtChequePre.Location = New System.Drawing.Point(205, 284)
+        Me.txtChequePre.Margin = New System.Windows.Forms.Padding(4)
         Me.txtChequePre.Name = "txtChequePre"
-        Me.txtChequePre.Size = New System.Drawing.Size(135, 26)
+        Me.txtChequePre.Size = New System.Drawing.Size(179, 30)
         Me.txtChequePre.TabIndex = 3
         Me.txtChequePre.Text = "0,00"
         '
@@ -322,18 +349,20 @@ Partial Class fPreVenda
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(26, 213)
+        Me.Label8.Location = New System.Drawing.Point(39, 292)
+        Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(130, 19)
+        Me.Label8.Size = New System.Drawing.Size(158, 24)
         Me.Label8.TabIndex = 56
         Me.Label8.Text = "Cheque Pré: R$"
         '
         'txtCartaoCredito
         '
         Me.txtCartaoCredito.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCartaoCredito.Location = New System.Drawing.Point(161, 271)
+        Me.txtCartaoCredito.Location = New System.Drawing.Point(205, 364)
+        Me.txtCartaoCredito.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCartaoCredito.Name = "txtCartaoCredito"
-        Me.txtCartaoCredito.Size = New System.Drawing.Size(135, 26)
+        Me.txtCartaoCredito.Size = New System.Drawing.Size(179, 30)
         Me.txtCartaoCredito.TabIndex = 5
         Me.txtCartaoCredito.Text = "0,00"
         '
@@ -341,18 +370,20 @@ Partial Class fPreVenda
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(5, 277)
+        Me.Label10.Location = New System.Drawing.Point(11, 372)
+        Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(151, 19)
+        Me.Label10.Size = New System.Drawing.Size(186, 24)
         Me.Label10.TabIndex = 58
         Me.Label10.Text = "Cartão Crédito: R$"
         '
         'txtCrediario
         '
         Me.txtCrediario.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCrediario.Location = New System.Drawing.Point(161, 366)
+        Me.txtCrediario.Location = New System.Drawing.Point(205, 486)
+        Me.txtCrediario.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCrediario.Name = "txtCrediario"
-        Me.txtCrediario.Size = New System.Drawing.Size(135, 26)
+        Me.txtCrediario.Size = New System.Drawing.Size(179, 30)
         Me.txtCrediario.TabIndex = 8
         Me.txtCrediario.Text = "0,00"
         '
@@ -360,9 +391,10 @@ Partial Class fPreVenda
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(46, 375)
+        Me.Label11.Location = New System.Drawing.Point(63, 492)
+        Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(110, 19)
+        Me.Label11.Size = New System.Drawing.Size(134, 24)
         Me.Label11.TabIndex = 60
         Me.Label11.Text = "Crediário: R$"
         '
@@ -373,9 +405,10 @@ Partial Class fPreVenda
         Me.cboCondicao.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboCondicao.FormattingEnabled = True
         Me.cboCondicao.Items.AddRange(New Object() {"A VISTA", "PARCELADO"})
-        Me.cboCondicao.Location = New System.Drawing.Point(161, 303)
+        Me.cboCondicao.Location = New System.Drawing.Point(205, 404)
+        Me.cboCondicao.Margin = New System.Windows.Forms.Padding(4)
         Me.cboCondicao.Name = "cboCondicao"
-        Me.cboCondicao.Size = New System.Drawing.Size(135, 27)
+        Me.cboCondicao.Size = New System.Drawing.Size(179, 32)
         Me.cboCondicao.TabIndex = 6
         '
         'lblTroco
@@ -383,9 +416,10 @@ Partial Class fPreVenda
         Me.lblTroco.AutoSize = True
         Me.lblTroco.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTroco.ForeColor = System.Drawing.Color.Blue
-        Me.lblTroco.Location = New System.Drawing.Point(600, 469)
+        Me.lblTroco.Location = New System.Drawing.Point(800, 577)
+        Me.lblTroco.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTroco.Name = "lblTroco"
-        Me.lblTroco.Size = New System.Drawing.Size(80, 19)
+        Me.lblTroco.Size = New System.Drawing.Size(98, 24)
         Me.lblTroco.TabIndex = 120
         Me.lblTroco.Text = "11.000,00"
         '
@@ -393,9 +427,10 @@ Partial Class fPreVenda
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(505, 469)
+        Me.Label14.Location = New System.Drawing.Point(673, 577)
+        Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(85, 19)
+        Me.Label14.Size = New System.Drawing.Size(103, 24)
         Me.Label14.TabIndex = 119
         Me.Label14.Text = "Troco: R$"
         '
@@ -404,9 +439,10 @@ Partial Class fPreVenda
         Me.lblRecebido.AutoSize = True
         Me.lblRecebido.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRecebido.ForeColor = System.Drawing.Color.Blue
-        Me.lblRecebido.Location = New System.Drawing.Point(600, 402)
+        Me.lblRecebido.Location = New System.Drawing.Point(800, 495)
+        Me.lblRecebido.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblRecebido.Name = "lblRecebido"
-        Me.lblRecebido.Size = New System.Drawing.Size(80, 19)
+        Me.lblRecebido.Size = New System.Drawing.Size(98, 24)
         Me.lblRecebido.TabIndex = 118
         Me.lblRecebido.Text = "11.123,45"
         '
@@ -414,19 +450,21 @@ Partial Class fPreVenda
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(486, 402)
+        Me.Label16.Location = New System.Drawing.Point(648, 495)
+        Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(104, 19)
+        Me.Label16.Size = New System.Drawing.Size(126, 24)
         Me.Label16.TabIndex = 117
         Me.Label16.Text = "Receber: R$"
         '
         'txtDefeitos
         '
         Me.txtDefeitos.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDefeitos.Location = New System.Drawing.Point(161, 497)
+        Me.txtDefeitos.Location = New System.Drawing.Point(205, 646)
+        Me.txtDefeitos.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDefeitos.Name = "txtDefeitos"
         Me.txtDefeitos.ReadOnly = True
-        Me.txtDefeitos.Size = New System.Drawing.Size(135, 26)
+        Me.txtDefeitos.Size = New System.Drawing.Size(179, 30)
         Me.txtDefeitos.TabIndex = 12
         Me.txtDefeitos.Text = "0,00"
         '
@@ -434,18 +472,20 @@ Partial Class fPreVenda
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(53, 505)
+        Me.Label12.Location = New System.Drawing.Point(71, 652)
+        Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(103, 19)
+        Me.Label12.Size = New System.Drawing.Size(126, 24)
         Me.Label12.TabIndex = 126
         Me.Label12.Text = "Defeitos: R$"
         '
         'txtVale
         '
         Me.txtVale.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVale.Location = New System.Drawing.Point(161, 465)
+        Me.txtVale.Location = New System.Drawing.Point(205, 606)
+        Me.txtVale.Margin = New System.Windows.Forms.Padding(4)
         Me.txtVale.Name = "txtVale"
-        Me.txtVale.Size = New System.Drawing.Size(135, 26)
+        Me.txtVale.Size = New System.Drawing.Size(179, 30)
         Me.txtVale.TabIndex = 11
         Me.txtVale.Text = "0,00"
         '
@@ -453,19 +493,21 @@ Partial Class fPreVenda
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(83, 473)
+        Me.Label15.Location = New System.Drawing.Point(110, 612)
+        Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(73, 19)
+        Me.Label15.Size = New System.Drawing.Size(87, 24)
         Me.Label15.TabIndex = 125
         Me.Label15.Text = "Vale: R$"
         '
         'txtTroca
         '
         Me.txtTroca.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTroca.Location = New System.Drawing.Point(161, 433)
+        Me.txtTroca.Location = New System.Drawing.Point(205, 566)
+        Me.txtTroca.Margin = New System.Windows.Forms.Padding(4)
         Me.txtTroca.Name = "txtTroca"
         Me.txtTroca.ReadOnly = True
-        Me.txtTroca.Size = New System.Drawing.Size(135, 26)
+        Me.txtTroca.Size = New System.Drawing.Size(179, 30)
         Me.txtTroca.TabIndex = 10
         Me.txtTroca.Text = "0,00"
         '
@@ -473,19 +515,21 @@ Partial Class fPreVenda
         '
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(72, 439)
+        Me.Label18.Location = New System.Drawing.Point(95, 572)
+        Me.Label18.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(84, 19)
+        Me.Label18.Size = New System.Drawing.Size(102, 24)
         Me.Label18.TabIndex = 124
         Me.Label18.Text = "Troca: R$"
         '
         'txtCliente
         '
         Me.txtCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCliente.Location = New System.Drawing.Point(141, 72)
+        Me.txtCliente.Location = New System.Drawing.Point(285, 92)
+        Me.txtCliente.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCliente.Name = "txtCliente"
         Me.txtCliente.ReadOnly = True
-        Me.txtCliente.Size = New System.Drawing.Size(363, 26)
+        Me.txtCliente.Size = New System.Drawing.Size(438, 30)
         Me.txtCliente.TabIndex = 0
         Me.txtCliente.Text = "Consumidor"
         '
@@ -499,9 +543,10 @@ Partial Class fPreVenda
         Me.btoSalvar.ForeColor = System.Drawing.Color.Black
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(352, 604)
+        Me.btoSalvar.Location = New System.Drawing.Point(469, 743)
+        Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSalvar.Name = "btoSalvar"
-        Me.btoSalvar.Size = New System.Drawing.Size(108, 72)
+        Me.btoSalvar.Size = New System.Drawing.Size(144, 89)
         Me.btoSalvar.TabIndex = 13
         Me.btoSalvar.TabStop = False
         Me.btoSalvar.Text = "Concluir <Enter>"
@@ -519,9 +564,10 @@ Partial Class fPreVenda
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(708, 4)
+        Me.btoSair.Location = New System.Drawing.Point(944, 5)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSair.Name = "btoSair"
-        Me.btoSair.Size = New System.Drawing.Size(88, 72)
+        Me.btoSair.Size = New System.Drawing.Size(117, 89)
         Me.btoSair.TabIndex = 14
         Me.btoSair.Text = "Fechar <Esc>"
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
@@ -531,9 +577,10 @@ Partial Class fPreVenda
         '
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
         Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.pagamento
-        Me.imgLogo.Location = New System.Drawing.Point(12, 12)
+        Me.imgLogo.Location = New System.Drawing.Point(16, 15)
+        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4)
         Me.imgLogo.Name = "imgLogo"
-        Me.imgLogo.Size = New System.Drawing.Size(50, 50)
+        Me.imgLogo.Size = New System.Drawing.Size(67, 62)
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.imgLogo.TabIndex = 169
         Me.imgLogo.TabStop = False
@@ -542,9 +589,10 @@ Partial Class fPreVenda
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(581, 105)
+        Me.Label9.Location = New System.Drawing.Point(775, 129)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(52, 19)
+        Me.Label9.Size = New System.Drawing.Size(63, 24)
         Me.Label9.TabIndex = 32
         Me.Label9.Text = "Loja :"
         '
@@ -553,9 +601,10 @@ Partial Class fPreVenda
         Me.lblLoja.AutoSize = True
         Me.lblLoja.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLoja.ForeColor = System.Drawing.Color.Blue
-        Me.lblLoja.Location = New System.Drawing.Point(639, 105)
+        Me.lblLoja.Location = New System.Drawing.Point(852, 129)
+        Me.lblLoja.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblLoja.Name = "lblLoja"
-        Me.lblLoja.Size = New System.Drawing.Size(41, 19)
+        Me.lblLoja.Size = New System.Drawing.Size(48, 24)
         Me.lblLoja.TabIndex = 33
         Me.lblLoja.Text = "ADJ"
         '
@@ -564,9 +613,10 @@ Partial Class fPreVenda
         Me.Label20.AutoSize = True
         Me.Label20.BackColor = System.Drawing.Color.Transparent
         Me.Label20.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(534, 76)
+        Me.Label20.Location = New System.Drawing.Point(763, 92)
+        Me.Label20.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(146, 16)
+        Me.Label20.Size = New System.Drawing.Size(182, 19)
         Me.Label20.TabIndex = 171
         Me.Label20.Text = "Pesquisar Cliente [F1]"
         '
@@ -579,9 +629,10 @@ Partial Class fPreVenda
         Me.btoIncluirItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btoIncluirItem.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btoIncluirItem.ForeColor = System.Drawing.Color.White
-        Me.btoIncluirItem.Location = New System.Drawing.Point(510, 72)
+        Me.btoIncluirItem.Location = New System.Drawing.Point(731, 92)
+        Me.btoIncluirItem.Margin = New System.Windows.Forms.Padding(4)
         Me.btoIncluirItem.Name = "btoIncluirItem"
-        Me.btoIncluirItem.Size = New System.Drawing.Size(25, 25)
+        Me.btoIncluirItem.Size = New System.Drawing.Size(33, 31)
         Me.btoIncluirItem.TabIndex = 170
         Me.btoIncluirItem.TabStop = False
         Me.btoIncluirItem.UseVisualStyleBackColor = False
@@ -589,22 +640,40 @@ Partial Class fPreVenda
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.txtIdCliente)
+        Me.Panel1.Controls.Add(Me.Label20)
+        Me.Panel1.Controls.Add(Me.txtCliente)
+        Me.Panel1.Controls.Add(Me.btoIncluirItem)
+        Me.Panel1.Controls.Add(Me.txtPix)
+        Me.Panel1.Controls.Add(Me.Label47)
         Me.Panel1.Controls.Add(Me.lstFita)
         Me.Panel1.Controls.Add(Me.txtDefeitos)
         Me.Panel1.Controls.Add(Me.txtDesconto)
+        Me.Panel1.Controls.Add(Me.Label2)
         Me.Panel1.Controls.Add(Me.cboCondicao)
+        Me.Panel1.Controls.Add(Me.Label12)
         Me.Panel1.Controls.Add(Me.txtParcelas)
+        Me.Panel1.Controls.Add(Me.Label15)
         Me.Panel1.Controls.Add(Me.txtDinheiro)
+        Me.Panel1.Controls.Add(Me.Label18)
         Me.Panel1.Controls.Add(Me.txtCheque)
         Me.Panel1.Controls.Add(Me.Label14)
+        Me.Panel1.Controls.Add(Me.Label11)
         Me.Panel1.Controls.Add(Me.Label16)
+        Me.Panel1.Controls.Add(Me.Label10)
         Me.Panel1.Controls.Add(Me.txtVale)
+        Me.Panel1.Controls.Add(Me.Label8)
         Me.Panel1.Controls.Add(Me.lblTroco)
+        Me.Panel1.Controls.Add(Me.Label6)
         Me.Panel1.Controls.Add(Me.txtCartaoDebito)
+        Me.Panel1.Controls.Add(Me.Label4)
         Me.Panel1.Controls.Add(Me.txtChequePre)
         Me.Panel1.Controls.Add(Me.lblRecebido)
+        Me.Panel1.Controls.Add(Me.Label23)
         Me.Panel1.Controls.Add(Me.txtTroca)
+        Me.Panel1.Controls.Add(Me.Label21)
         Me.Panel1.Controls.Add(Me.txtCartaoCredito)
+        Me.Panel1.Controls.Add(Me.Label19)
         Me.Panel1.Controls.Add(Me.txtCrediario)
         Me.Panel1.Controls.Add(Me.lblFalta)
         Me.Panel1.Controls.Add(Me.lblTotal)
@@ -617,52 +686,72 @@ Partial Class fPreVenda
         Me.Panel1.Controls.Add(Me.Label5)
         Me.Panel1.Controls.Add(Me.lblLoja)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(800, 680)
+        Me.Panel1.Size = New System.Drawing.Size(1066, 836)
         Me.Panel1.TabIndex = 172
+        '
+        'txtPix
+        '
+        Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPix.Location = New System.Drawing.Point(205, 212)
+        Me.txtPix.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtPix.Name = "txtPix"
+        Me.txtPix.Size = New System.Drawing.Size(179, 30)
+        Me.txtPix.TabIndex = 325
+        Me.txtPix.Text = "0,00"
+        '
+        'Label47
+        '
+        Me.Label47.AutoSize = True
+        Me.Label47.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label47.Location = New System.Drawing.Point(118, 212)
+        Me.Label47.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label47.Name = "Label47"
+        Me.Label47.Size = New System.Drawing.Size(79, 24)
+        Me.Label47.TabIndex = 326
+        Me.Label47.Text = "PIX: R$"
         '
         'lstFita
         '
         Me.lstFita.Font = New System.Drawing.Font("Bitstream Vera Sans Mono", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lstFita.FormattingEnabled = True
-        Me.lstFita.Location = New System.Drawing.Point(306, 140)
+        Me.lstFita.ItemHeight = 16
+        Me.lstFita.Location = New System.Drawing.Point(408, 172)
+        Me.lstFita.Margin = New System.Windows.Forms.Padding(4)
         Me.lstFita.Name = "lstFita"
-        Me.lstFita.Size = New System.Drawing.Size(481, 251)
+        Me.lstFita.Size = New System.Drawing.Size(640, 308)
         Me.lstFita.TabIndex = 121
         Me.lstFita.TabStop = False
+        '
+        'txtIdCliente
+        '
+        Me.txtIdCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIdCliente.Location = New System.Drawing.Point(166, 92)
+        Me.txtIdCliente.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtIdCliente.MaxLength = 8
+        Me.txtIdCliente.Name = "txtIdCliente"
+        Me.txtIdCliente.Size = New System.Drawing.Size(111, 30)
+        Me.txtIdCliente.TabIndex = 327
         '
         'fPreVenda
         '
         Me.AcceptButton = Me.btoSalvar
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.CancelButton = Me.btoSair
-        Me.ClientSize = New System.Drawing.Size(800, 680)
-        Me.Controls.Add(Me.Label20)
-        Me.Controls.Add(Me.btoIncluirItem)
+        Me.ClientSize = New System.Drawing.Size(1067, 837)
         Me.Controls.Add(Me.imgLogo)
-        Me.Controls.Add(Me.txtCliente)
-        Me.Controls.Add(Me.Label12)
-        Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.Label18)
         Me.Controls.Add(Me.btoSalvar)
-        Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.btoSair)
-        Me.Controls.Add(Me.Label23)
-        Me.Controls.Add(Me.Label21)
-        Me.Controls.Add(Me.Label19)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.lblControle)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.lblTitulo)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "fPreVenda"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "fCaixa"
@@ -673,7 +762,7 @@ Partial Class fPreVenda
         Me.PerformLayout()
 
     End Sub
-  Friend WithEvents lblTitulo As System.Windows.Forms.Label
+    Friend WithEvents lblTitulo As System.Windows.Forms.Label
   Friend WithEvents Label3 As System.Windows.Forms.Label
   Friend WithEvents Label5 As System.Windows.Forms.Label
   Friend WithEvents Label7 As System.Windows.Forms.Label
@@ -723,4 +812,7 @@ Partial Class fPreVenda
   Friend WithEvents btoIncluirItem As System.Windows.Forms.Button
   Friend WithEvents Panel1 As System.Windows.Forms.Panel
   Friend WithEvents lstFita As System.Windows.Forms.ListBox
+    Friend WithEvents txtPix As TextBox
+    Friend WithEvents Label47 As Label
+    Friend WithEvents txtIdCliente As TextBox
 End Class
