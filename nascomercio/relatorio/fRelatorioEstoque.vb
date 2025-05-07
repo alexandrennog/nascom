@@ -307,8 +307,8 @@ Public Class fRelatorioEstoque
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorVenda.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Valor.ToString(), infoFont2))))
 
-            valorCompraSoma += item.ValorCompra
-            valorVendaSoma += item.ValorVenda
+            valorCompraSoma += item.ValorCompra * item.Valor
+            valorVendaSoma += item.ValorVenda * item.Valor
             estoqueSoma += item.Valor
 
         Next
