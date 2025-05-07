@@ -32,3 +32,14 @@ Para a versão 2.1.2.5 foram incluídas as seguintes funcionalidades
 5 - Na telas de venda e crediário Pesquisar por número do cliente
 6 - Não imprimir data na etiqueta
 7 - Bloquear a alteração de valores e datas de parcelar na tela de pagamento de crediário <F3>:
+
+
+Para a versão 2.1.2.6 foram incluídas as seguintes funcionalidades
+
+1 - Criar busca por código do cliente
+2 - Recuperar somente consições ativas
+3 - Bloquear alterações de valores e datas a parcelas
+4 - Recuperar o endereço principal 
+5 - Criação da coluna txID na tabela credpag
+6 - Aumentar o tamnho do campo RG
+7 - Validar o CPF em tempo de cadastro
