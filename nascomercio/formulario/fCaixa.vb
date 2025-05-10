@@ -977,7 +977,8 @@ Public Class fCaixa
                 GravaPreVenda()
                 CalculaTotais()
                 If Me.lblMsg.Text = "PRÉ VENDA" Or Me.lblMsg.Text = "ORÇAMENTO" Then
-                    CarregaPagamentoPreVenda()
+                    'CarregaPagamentoPreVenda()
+                    mdiPrincipal.FecharTela()
                 Else
                     CarregaPagamento()
                 End If
@@ -1091,6 +1092,7 @@ Public Class fCaixa
                         dadosCliente = cliente.ConsultarPorCID(dadosVenda.clienteId)
                         Me.txtCliente.Text = dadosCliente.nome
                         Me.txtCliente.Tag = dadosCliente.cid
+                        Me.txtIdCliente.Text = dadosCliente.cid
                         dadosClienteFin.cliente_cid = dadosVenda.clienteId
                         dadosClienteFinCol = clienteFin.Consultar(dadosClienteFin)
                         If Not IsNothing(dadosClienteFinCol) Then
