@@ -3,6 +3,7 @@ Imports ncRegras.nsRegras
 Imports ncDados.nsCliente
 Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncComum.nsFuncoes.cFuncoes
 
 Public Class fClienteFiltro
 
@@ -96,4 +97,21 @@ Public Class fClienteFiltro
         CarregarComboSituacao()
     End Sub
 
+    Private Sub txtCPF_KeyUp(sender As Object, e As KeyEventArgs) Handles txtCPF.KeyUp
+        If Len(txtCPF.Text.Trim) = 11 Then
+            If Not ValidaCpf(txtCPF.Text) Then
+                MessageBox.Show("CPF inválido")
+                txtCPF.SelectAll()
+            End If
+        End If
+    End Sub
+
+    Private Sub txtCPF_Leave(sender As Object, e As EventArgs) Handles txtCPF.Leave
+        If Len(txtCPF.Text.Trim) = 11 Then
+            If Not ValidaCpf(txtCPF.Text) Then
+                MessageBox.Show("CPF inválido")
+                txtCPF.SelectAll()
+            End If
+        End If
+    End Sub
 End Class
