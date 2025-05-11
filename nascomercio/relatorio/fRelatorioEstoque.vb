@@ -177,12 +177,13 @@ Public Class fRelatorioEstoque
         Me.lstEstoque.Items.Clear()
 
         Me.lstEstoque.Columns.Add("Fabricante").Width = 160
-        Me.lstEstoque.Columns.Add("CID").Width = 80
+        Me.lstEstoque.Columns.Add("Código").Width = 80
         Me.lstEstoque.Columns.Add("Descrição").Width = 200
         Me.lstEstoque.Columns.Add("Referência").Width = 80
-        Me.lstEstoque.Columns.Add("Item").Width = 80
+        'Me.lstEstoque.Columns.Add("Item").Width = 0
         Me.lstEstoque.Columns.Add("ValorCompra").Width = 80
         Me.lstEstoque.Columns.Add("ValorVenda").Width = 80
+        Me.lstEstoque.Columns.Add("Estoque").Width = 80
         Me.lstEstoque.Columns.Add("Valor").Width = 80
 
         If dadosParametro Is Nothing Then
@@ -196,10 +197,11 @@ Public Class fRelatorioEstoque
             li.SubItems.Add(item.CID)
             li.SubItems.Add(item.Descricao)
             li.SubItems.Add(item.Referencia.ToString())
-            li.SubItems.Add(item.Item.ToString())
+            'li.SubItems.Add(item.Item.ToString())
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorCompra))
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorVenda))
             li.SubItems.Add(item.Valor.ToString())
+            li.SubItems.Add(item.ValorCompra * item.Valor)
             Me.lstEstoque.Items.Add(li)
         Next
 
@@ -243,10 +245,8 @@ Public Class fRelatorioEstoque
         Dim valorVendaSoma As Double = 0
         Dim estoqueSoma As Integer = 0
 
-        Dim tableHeader As New PdfPTable(6)
+        Dim tableHeader As New PdfPTable(5)
         tableHeader.DefaultCell.Border = Rectangle.NO_BORDER
-
-
 
         doc.Add(paragrafoTitulo)
         doc.Add(Chunk.NEWLINE)
@@ -268,13 +268,13 @@ Public Class fRelatorioEstoque
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Fabricante", fonte)
-        Dim coluna2 As New Paragraph("Cid", fonte)
+        Dim coluna2 As New Paragraph("Código", fonte)
         Dim coluna3 As New Paragraph("Descricao", fonte)
         Dim coluna4 As New Paragraph("Referencia", fonte)
-        Dim coluna5 As New Paragraph("Item", fonte)
-        Dim coluna6 As New Paragraph("ValorCompra", fonte)
-        Dim coluna7 As New Paragraph("ValorVenda", fonte)
-        Dim coluna8 As New Paragraph("Valor", fonte)
+        Dim coluna5 As New Paragraph("ValorCompra", fonte)
+        Dim coluna6 As New Paragraph("ValorVenda", fonte)
+        Dim coluna7 As New Paragraph("Estoque", fonte)
+        Dim coluna8 As New Paragraph("Total", fonte)
 
         cell1.AddElement(coluna1)
         cell2.AddElement(coluna2)
@@ -302,10 +302,10 @@ Public Class fRelatorioEstoque
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.CID.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Descricao.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Referencia.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Item.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorCompra.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorVenda.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Valor.ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk((item.Valor).ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk((item.ValorCompra * item.Valor).ToString(), infoFont2))))
 
             valorCompraSoma += item.ValorCompra * item.Valor
             valorVendaSoma += item.ValorVenda * item.Valor
@@ -316,16 +316,15 @@ Public Class fRelatorioEstoque
         tableHeader.AddCell("Data:")
         tableHeader.AddCell("")
         tableHeader.AddCell("")
-        tableHeader.AddCell("Valor Compra")
-        tableHeader.AddCell("Valor Venda")
-        tableHeader.AddCell("Estoque")
+        tableHeader.AddCell("Total Valor Compra")
+        tableHeader.AddCell("Total Valor Venda")
+
 
         tableHeader.AddCell(DateTime.Now.ToString("dd/MM/yyyy"))
         tableHeader.AddCell("")
-        tableHeader.AddCell("Total em Estoque:")
+        tableHeader.AddCell("")
         tableHeader.AddCell(String.Format("{0:n}", valorCompraSoma))
         tableHeader.AddCell(String.Format("{0:n}", valorVendaSoma))
-        tableHeader.AddCell(estoqueSoma.ToString())
 
 
         doc.Add(tableHeader)
