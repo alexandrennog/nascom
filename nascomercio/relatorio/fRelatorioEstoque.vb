@@ -19,6 +19,7 @@ Imports LibPix.Impl
 Imports QRCoder.PayloadGenerator.SwissQrCode
 Imports System.Security.Cryptography
 Imports Newtonsoft.Json.Linq
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 
 Public Class fRelatorioEstoque
 
@@ -163,12 +164,11 @@ Public Class fRelatorioEstoque
         regraParametro = New rParametro()
         dadosParametro = regraParametro.fConsultarEstoque(dados)
 
+        Me.lstEstoque.Clear()
         ' Consultar chave de acesso/validação
         If IsNothing(dadosParametro) Then
             Exit Sub
         End If
-
-        Me.lstEstoque.Clear()
 
         Me.lstEstoque.View = View.Details
         Me.lstEstoque.GridLines = True
@@ -177,18 +177,23 @@ Public Class fRelatorioEstoque
         Me.lstEstoque.Items.Clear()
 
         Me.lstEstoque.Columns.Add("Fabricante").Width = 160
-        Me.lstEstoque.Columns.Add("CID").Width = 80
+        Me.lstEstoque.Columns.Add("Código").Width = 80
         Me.lstEstoque.Columns.Add("Descrição").Width = 200
         Me.lstEstoque.Columns.Add("Referência").Width = 80
-        Me.lstEstoque.Columns.Add("Item").Width = 80
+        Me.lstEstoque.Columns.Add("item").Width = 80
+        Me.lstEstoque.Columns.Add("Cor").Width = 80
         Me.lstEstoque.Columns.Add("ValorCompra").Width = 80
         Me.lstEstoque.Columns.Add("ValorVenda").Width = 80
-        Me.lstEstoque.Columns.Add("Valor").Width = 80
+        Me.lstEstoque.Columns.Add("Estoque").Width = 80
+        Me.lstEstoque.Columns.Add("Total Compra").Width = 80
+        Me.lstEstoque.Columns.Add("Total Venda").Width = 80
 
         If dadosParametro Is Nothing Then
             Exit Sub
         End If
         Dim li As ListViewItem
+
+        Dim refAux As Brush
 
         For Each item As dEstoque In dadosParametro
             li = New ListViewItem
@@ -197,11 +202,16 @@ Public Class fRelatorioEstoque
             li.SubItems.Add(item.Descricao)
             li.SubItems.Add(item.Referencia.ToString())
             li.SubItems.Add(item.Item.ToString())
+            li.SubItems.Add(item.Cor.ToString())
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorCompra))
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorVenda))
             li.SubItems.Add(item.Valor.ToString())
+            li.SubItems.Add(item.ValorCompra * item.Valor)
+            li.SubItems.Add(item.ValorVenda * item.Valor)
             Me.lstEstoque.Items.Add(li)
         Next
+
+        'PintarList()
 
         Try
             ConfigurarRelatorio(dadosParametro)
@@ -209,6 +219,38 @@ Public Class fRelatorioEstoque
             MessageBox.Show(ex.Message)
         End Try
     End Sub
+    Private Sub PintarList()
+        Dim auxRef As String = ""
+        Dim k As Integer = -1
+        Dim cor As Color = Color.Red
+
+        For Each item As ListViewItem In lstEstoque.Items
+            k += 1
+            If auxRef <> item.SubItems(3).Text Then
+                item.ForeColor = MudarForeColor(cor)
+                cor = item.ForeColor
+            Else
+                item.ForeColor = cor
+            End If
+            auxRef = item.SubItems(3).Text
+        Next
+    End Sub
+    Private Function MudarCor(cor As Color) As Color
+        If cor.Equals(Color.Red) Then
+            Return Color.White
+        Else
+            Return Color.Black
+        End If
+    End Function
+
+    Private Function MudarForeColor(cor As Color) As Color
+        If cor.Equals(Color.Black) Then
+            Return Color.Red
+        Else
+            Return Color.Black
+        End If
+    End Function
+
 
     Private Sub ConfigurarRelatorio(ByVal dadosParametro As ColecaoParametroEstoque)
 
@@ -243,16 +285,14 @@ Public Class fRelatorioEstoque
         Dim valorVendaSoma As Double = 0
         Dim estoqueSoma As Integer = 0
 
-        Dim tableHeader As New PdfPTable(6)
+        Dim tableHeader As New PdfPTable(5)
         tableHeader.DefaultCell.Border = Rectangle.NO_BORDER
-
-
 
         doc.Add(paragrafoTitulo)
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
-        Dim table As New PdfPTable(8)
+        Dim table As New PdfPTable(11)
 
         Dim cell1 As New PdfPCell
         Dim cell2 As New PdfPCell
@@ -262,19 +302,27 @@ Public Class fRelatorioEstoque
         Dim cell6 As New PdfPCell
         Dim cell7 As New PdfPCell
         Dim cell8 As New PdfPCell
+        Dim cell9 As New PdfPCell
+        Dim cell10 As New PdfPCell
+        Dim cell11 As New PdfPCell
 
         Dim cells As New List(Of PdfPCell)
         Dim fonte As Font
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Fabricante", fonte)
-        Dim coluna2 As New Paragraph("Cid", fonte)
+        Dim coluna2 As New Paragraph("Código", fonte)
         Dim coluna3 As New Paragraph("Descricao", fonte)
         Dim coluna4 As New Paragraph("Referencia", fonte)
         Dim coluna5 As New Paragraph("Item", fonte)
-        Dim coluna6 As New Paragraph("ValorCompra", fonte)
-        Dim coluna7 As New Paragraph("ValorVenda", fonte)
-        Dim coluna8 As New Paragraph("Valor", fonte)
+        Dim coluna6 As New Paragraph("Cor", fonte)
+        Dim coluna7 As New Paragraph("ValorCompra", fonte)
+        Dim coluna8 As New Paragraph("ValorVenda", fonte)
+        Dim coluna9 As New Paragraph("Estoque", fonte)
+        Dim coluna10 As New Paragraph("Total Compra", fonte)
+        Dim coluna11 As New Paragraph("Total Venda", fonte)
+
+
 
         cell1.AddElement(coluna1)
         cell2.AddElement(coluna2)
@@ -284,6 +332,9 @@ Public Class fRelatorioEstoque
         cell6.AddElement(coluna6)
         cell7.AddElement(coluna7)
         cell8.AddElement(coluna8)
+        cell9.AddElement(coluna9)
+        cell10.AddElement(coluna10)
+        cell11.AddElement(coluna11)
 
         table.AddCell(cell1)
         table.AddCell(cell2)
@@ -293,6 +344,9 @@ Public Class fRelatorioEstoque
         table.AddCell(cell6)
         table.AddCell(cell7)
         table.AddCell(cell8)
+        table.AddCell(cell9)
+        table.AddCell(cell10)
+        table.AddCell(cell11)
 
         'new Chunk(expStringBuilder1.ToString(), infoFont2)
         Dim infoFont2 = FontFactory.GetFont("Kalinga", 8, New iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000")))
@@ -303,12 +357,15 @@ Public Class fRelatorioEstoque
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Descricao.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Referencia.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Item.ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Cor.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorCompra.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorVenda.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Valor.ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk((item.Valor).ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk((item.ValorCompra * item.Valor).ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk((item.ValorVenda * item.Valor).ToString(), infoFont2))))
 
-            valorCompraSoma += item.ValorCompra
-            valorVendaSoma += item.ValorVenda
+            valorCompraSoma += item.ValorCompra * item.Valor
+            valorVendaSoma += item.ValorVenda * item.Valor
             estoqueSoma += item.Valor
 
         Next
@@ -316,16 +373,15 @@ Public Class fRelatorioEstoque
         tableHeader.AddCell("Data:")
         tableHeader.AddCell("")
         tableHeader.AddCell("")
-        tableHeader.AddCell("Valor Compra")
-        tableHeader.AddCell("Valor Venda")
-        tableHeader.AddCell("Estoque")
+        tableHeader.AddCell("Total Valor Compra")
+        tableHeader.AddCell("Total Valor Venda")
+
 
         tableHeader.AddCell(DateTime.Now.ToString("dd/MM/yyyy"))
         tableHeader.AddCell("")
-        tableHeader.AddCell("Total em Estoque:")
+        tableHeader.AddCell("")
         tableHeader.AddCell(String.Format("{0:n}", valorCompraSoma))
         tableHeader.AddCell(String.Format("{0:n}", valorVendaSoma))
-        tableHeader.AddCell(estoqueSoma.ToString())
 
 
         doc.Add(tableHeader)

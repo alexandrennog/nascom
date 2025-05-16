@@ -24,6 +24,7 @@ Imports ncDados.nsCliente
 Imports ncComum.nsFuncoes
 Imports ncRegras.nsCliente
 Imports System.Linq
+Imports System.Web.UI.WebControls
 
 Public Class fCaixa
 
@@ -561,6 +562,7 @@ Public Class fCaixa
         janela.lblControle.Text = Me.txtControle.Text
         janela.lblControle.Tag = Me.lblOS.Text
         janela.txtCliente.Text = Me.txtCliente.Text
+        janela.txtidCliente.Text = Me.txtCliente.Tag
         janela.txtCliente.Tag = Me.txtCliente.Tag
         janela.lblEmissao.Text = Me.lblEmissao.Text
         janela.lblVendedor.Text = Me.cboVendedor.Text
@@ -978,7 +980,8 @@ Public Class fCaixa
                 CalculaTotais()
                 If Me.lblMsg.Text = "PRÉ VENDA" Or Me.lblMsg.Text = "ORÇAMENTO" Then
                     'CarregaPagamentoPreVenda()
-                    mdiPrincipal.FecharTela()
+                    ImprimePrevenda()
+                    mdiPrincipal.FecharTelaLogin()
                 Else
                     CarregaPagamento()
                 End If
@@ -993,7 +996,77 @@ Public Class fCaixa
             End If
         End If
     End Sub
+    Private Sub ImprimePrevenda()
 
+        Dim objImpressao As ncComum.Impressao
+        Dim qtdImpressao As Integer = 1
+        Dim tamanhoProd As Integer
+        objImpressao = New ncComum.Impressao()
+
+        If MessageBox.Show("Deseja imprimir comprovante?", "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            Try
+                ' Imprime segunda via
+                If System.Configuration.ConfigurationManager.AppSettings("SEGUNDA_VIA") = "SIM" Then
+                    qtdImpressao = 2
+                End If
+
+                If System.Configuration.ConfigurationManager.AppSettings("CUPOM").Substring(0, 3) = "LAZ" Then
+                    tamanhoProd = 40
+                Else
+                    tamanhoProd = 22
+                End If
+
+                For i As Integer = 1 To qtdImpressao
+                    objImpressao.StartWrite(System.Configuration.ConfigurationManager.AppSettings("CUPOM"))
+
+                    'objImpressao.Write("123456789012345678901234567890123456789012345678")
+                    objImpressao.Write("")
+                    objImpressao.Write("Loja:" & lblLoja.Text)
+                    objImpressao.Write("------------------------------------------------")
+                    If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "ORÇAMENTO" Then
+                        objImpressao.Write("ORÇAMENTO em:" & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle:" & txtControle.Text)
+                    Else
+                        objImpressao.Write("Venda em:" & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle:" & txtControle.Text)
+                    End If
+                    objImpressao.Write("")
+                    objImpressao.Write("Vendedor:" & cboVendedor.Text)
+                    objImpressao.Write("")
+                    objImpressao.Write("Cliente:" & txtCliente.Text)
+                    objImpressao.Write(vbCrLf)
+
+                    For Each linha As DataGridViewRow In dtgProdutos.Rows
+                        objImpressao.Write(ncComum.nsFuncoes.cFuncoes.RemoverCaracterEspecial(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) &
+                               linha.Cells(4).Value.ToString().PadRight(5) &
+                               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) &
+                               CDec(linha.Cells(5).Value).ToString("N").PadRight(11)))
+                    Next
+
+                    objImpressao.Write(vbCrLf)
+                    objImpressao.Write("------------------------------------------------")
+                    If CDec(txtDesconto.Text) > 0 Then
+                        objImpressao.Write("DESCONTO : " & txtDesconto.Text)
+                    End If
+                    objImpressao.Write("TOTAL    : " & lblTotal.Text)
+                    objImpressao.Write("------------------------------------------------")
+                    objImpressao.Write("Dirija se ao caixa e apresente este cupom.")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.EndWrite()
+                Next
+            Catch ex As Exception
+                MessageBox.Show("Erro ao imprimir: " & ex.Message)
+            End Try
+        Else
+            MessageBox.Show("Venda em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle: " & txtControle.Text)
+        End If
+
+    End Sub
     Private Sub fCaixa_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown, txtParcelas.KeyDown, txtDesconto.KeyDown, cboCondicao.KeyDown
         Dim vendas As New ncRegras.nsVenda.rPreVenda
 
