@@ -43,3 +43,10 @@ Para a versão 2.1.2.6 foram incluídas as seguintes funcionalidades
 5 - Criação da coluna txID na tabela credpag
 6 - Aumentar o tamnho do campo RG
 7 - Validar o CPF em tempo de cadastro
+
+
+
+Para a versão 2.1.2.7 foram incluídas as seguintes funcionalidades
+
+1 - Tornar funcional a tela de pré-vendas
+2 - Ajustar somas no relatório de estoque,  incluir o campo cor bem como ordenar e agrupar as informações
