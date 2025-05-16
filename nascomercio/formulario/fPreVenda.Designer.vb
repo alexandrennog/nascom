@@ -72,10 +72,10 @@ Partial Class fPreVenda
         Me.Label20 = New System.Windows.Forms.Label()
         Me.btoIncluirItem = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtIdCliente = New System.Windows.Forms.TextBox()
         Me.txtPix = New System.Windows.Forms.TextBox()
         Me.Label47 = New System.Windows.Forms.Label()
         Me.lstFita = New System.Windows.Forms.ListBox()
-        Me.txtIdCliente = New System.Windows.Forms.TextBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -190,9 +190,9 @@ Partial Class fPreVenda
         Me.Label19.Location = New System.Drawing.Point(60, 412)
         Me.Label19.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(137, 24)
+        Me.Label19.Size = New System.Drawing.Size(106, 24)
         Me.Label19.TabIndex = 41
-        Me.Label19.Text = "Condicao: R$"
+        Me.Label19.Text = "Condicao:"
         '
         'Label21
         '
@@ -212,9 +212,9 @@ Partial Class fPreVenda
         Me.Label23.Location = New System.Drawing.Point(68, 452)
         Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(129, 24)
+        Me.Label23.Size = New System.Drawing.Size(98, 24)
         Me.Label23.TabIndex = 45
-        Me.Label23.Text = "Parcelas: R$"
+        Me.Label23.Text = "Parcelas:"
         '
         'txtDesconto
         '
@@ -691,6 +691,16 @@ Partial Class fPreVenda
         Me.Panel1.Size = New System.Drawing.Size(1066, 836)
         Me.Panel1.TabIndex = 172
         '
+        'txtIdCliente
+        '
+        Me.txtIdCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIdCliente.Location = New System.Drawing.Point(166, 92)
+        Me.txtIdCliente.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtIdCliente.MaxLength = 8
+        Me.txtIdCliente.Name = "txtIdCliente"
+        Me.txtIdCliente.Size = New System.Drawing.Size(111, 30)
+        Me.txtIdCliente.TabIndex = 327
+        '
         'txtPix
         '
         Me.txtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -723,16 +733,6 @@ Partial Class fPreVenda
         Me.lstFita.Size = New System.Drawing.Size(640, 308)
         Me.lstFita.TabIndex = 121
         Me.lstFita.TabStop = False
-        '
-        'txtIdCliente
-        '
-        Me.txtIdCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtIdCliente.Location = New System.Drawing.Point(166, 92)
-        Me.txtIdCliente.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtIdCliente.MaxLength = 8
-        Me.txtIdCliente.Name = "txtIdCliente"
-        Me.txtIdCliente.Size = New System.Drawing.Size(111, 30)
-        Me.txtIdCliente.TabIndex = 327
         '
         'fPreVenda
         '

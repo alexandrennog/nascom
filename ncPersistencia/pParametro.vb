@@ -161,11 +161,12 @@ Namespace nsParametro
                 acessoBanco = New cAcessoBD
 
 
-                sqlSelect = " SELECT e.fabricante, e.cid, p.descricao, e.referencia, e.item, e.valorCompra, e.valorVenda, e.valor"
+                sqlSelect = " SELECT e.fabricante, e.cid, p.descricao, e.referencia, e.item, e.valorCompra, e.valorVenda, e.valor, c.nome as cor"
 
                 sqlWhere = String.Empty
                 sqlFrom = " FROM nascomercio.produtos as p "
                 sqlFrom += "  INNER JOIN nascomercio.v_estoque as e ON e.cid = p.cid "
+                sqlFrom += "  INNER Join nascomercio.cor as c ON c.cid = p.cor_cid "
 
                 If dados.valor = 1 Then
                     sqlWhere = sqlWhere + " e.valor > 0"
@@ -194,7 +195,7 @@ Namespace nsParametro
                     sqlWhere = " WHERE " & sqlWhere
                 End If
 
-                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere + " order by p.codigo, e.item")
 
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then
@@ -214,6 +215,7 @@ Namespace nsParametro
                                 item.ValorVenda = cFuncoes.RetornarDecimal(row("valorVenda"))
                                 item.Descricao = cFuncoes.RetornarTexto(row("descricao"))
                                 item.Valor = cFuncoes.RetornarDecimal(row("valor"))
+                                item.Cor = cFuncoes.RetornarTexto(row("cor"))
                                 retorno.Add(item)
                             Next
                         Else

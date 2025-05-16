@@ -8,6 +8,7 @@
     Public Property ValorCompra As Decimal
     Public Property ValorVenda As Decimal
     Public Property Valor As Decimal
+    Public Property Cor As String
 
     ' Construtor padrão
     Public Sub New()
@@ -27,6 +28,6 @@
 
     ' Método para exibir informações do produto
     Public Function ExibirInformacoes() As String
-        Return $"Fabricante: {Fabricante}, CID: {CID}, Descrição: {Descricao}, Referência: {Referencia}, Item: {Item}, Valor de Compra: {ValorCompra:C}, Valor de Venda: {ValorVenda:C}, Valor: {Valor:C}"
+        Return $"Fabricante: {Fabricante}, CID: {CID}, Descrição: {Descricao}, Referência: {Referencia}, Item: {Item}, Valor de Compra: {ValorCompra:C}, Valor de Venda: {ValorVenda:C}, Valor: {Valor:C}, Cor: {Cor}"
     End Function
 End Class
