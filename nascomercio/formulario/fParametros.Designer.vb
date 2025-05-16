@@ -42,6 +42,8 @@ Partial Class fParametros
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cboQuantidade = New System.Windows.Forms.ComboBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.cboExcVenda = New System.Windows.Forms.ComboBox()
         Me.cboPIX = New System.Windows.Forms.ComboBox()
         Me.Label17 = New System.Windows.Forms.Label()
         Me.txtNInstancias = New System.Windows.Forms.TextBox()
@@ -66,6 +68,8 @@ Partial Class fParametros
         Me.Label7 = New System.Windows.Forms.Label()
         Me.cboLojaGrande = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.cboDataEtiqueta = New System.Windows.Forms.ComboBox()
+        Me.Label19 = New System.Windows.Forms.Label()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -82,7 +86,7 @@ Partial Class fParametros
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoSair.Location = New System.Drawing.Point(896, 5)
-        Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(117, 89)
         Me.btoSair.TabIndex = 93
@@ -100,7 +104,7 @@ Partial Class fParametros
         Me.lblSubTitulo.Location = New System.Drawing.Point(85, 39)
         Me.lblSubTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblSubTitulo.Name = "lblSubTitulo"
-        Me.lblSubTitulo.Size = New System.Drawing.Size(84, 16)
+        Me.lblSubTitulo.Size = New System.Drawing.Size(83, 16)
         Me.lblSubTitulo.TabIndex = 91
         Me.lblSubTitulo.Text = "CADASTRO"
         '
@@ -109,7 +113,7 @@ Partial Class fParametros
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
         Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.ferramentas1
         Me.imgLogo.Location = New System.Drawing.Point(11, 10)
-        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(67, 62)
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -125,7 +129,7 @@ Partial Class fParametros
         Me.lblTitulo.Location = New System.Drawing.Point(85, 10)
         Me.lblTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(167, 32)
+        Me.lblTitulo.Size = New System.Drawing.Size(166, 32)
         Me.lblTitulo.TabIndex = 89
         Me.lblTitulo.Text = "Parâmetros"
         '
@@ -134,7 +138,7 @@ Partial Class fParametros
         Me.txtJuros.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtJuros.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtJuros.Location = New System.Drawing.Point(193, 10)
-        Me.txtJuros.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtJuros.Margin = New System.Windows.Forms.Padding(4)
         Me.txtJuros.MaxLength = 20
         Me.txtJuros.Name = "txtJuros"
         Me.txtJuros.Size = New System.Drawing.Size(64, 22)
@@ -169,7 +173,7 @@ Partial Class fParametros
         Me.txtTolerancia.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtTolerancia.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTolerancia.Location = New System.Drawing.Point(193, 49)
-        Me.txtTolerancia.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtTolerancia.Margin = New System.Windows.Forms.Padding(4)
         Me.txtTolerancia.MaxLength = 20
         Me.txtTolerancia.Name = "txtTolerancia"
         Me.txtTolerancia.Size = New System.Drawing.Size(64, 22)
@@ -197,8 +201,8 @@ Partial Class fParametros
         Me.btoSalvar.ForeColor = System.Drawing.Color.Black
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(835, 512)
-        Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSalvar.Location = New System.Drawing.Point(872, 572)
+        Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSalvar.Name = "btoSalvar"
         Me.btoSalvar.Size = New System.Drawing.Size(123, 89)
         Me.btoSalvar.TabIndex = 99
@@ -215,7 +219,7 @@ Partial Class fParametros
         Me.cboIncluir.FormattingEnabled = True
         Me.cboIncluir.Items.AddRange(New Object() {"Sim", "Não"})
         Me.cboIncluir.Location = New System.Drawing.Point(501, 49)
-        Me.cboIncluir.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboIncluir.Margin = New System.Windows.Forms.Padding(4)
         Me.cboIncluir.Name = "cboIncluir"
         Me.cboIncluir.Size = New System.Drawing.Size(81, 30)
         Me.cboIncluir.TabIndex = 100
@@ -237,7 +241,7 @@ Partial Class fParametros
         Me.txtTempoParcela.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtTempoParcela.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTempoParcela.Location = New System.Drawing.Point(193, 89)
-        Me.txtTempoParcela.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtTempoParcela.Margin = New System.Windows.Forms.Padding(4)
         Me.txtTempoParcela.MaxLength = 20
         Me.txtTempoParcela.Name = "txtTempoParcela"
         Me.txtTempoParcela.Size = New System.Drawing.Size(64, 22)
@@ -269,7 +273,7 @@ Partial Class fParametros
         Me.Panel1.Controls.Add(Me.lblEstado)
         Me.Panel1.Controls.Add(Me.txtTolerancia)
         Me.Panel1.Location = New System.Drawing.Point(84, 107)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(841, 123)
         Me.Panel1.TabIndex = 104
@@ -279,7 +283,7 @@ Partial Class fParametros
         Me.txtMinimoNegativar.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtMinimoNegativar.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMinimoNegativar.Location = New System.Drawing.Point(501, 89)
-        Me.txtMinimoNegativar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtMinimoNegativar.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMinimoNegativar.MaxLength = 20
         Me.txtMinimoNegativar.Name = "txtMinimoNegativar"
         Me.txtMinimoNegativar.Size = New System.Drawing.Size(64, 22)
@@ -317,7 +321,7 @@ Partial Class fParametros
         Me.cboQuantidade.FormattingEnabled = True
         Me.cboQuantidade.Items.AddRange(New Object() {"Sim", "Não"})
         Me.cboQuantidade.Location = New System.Drawing.Point(396, 241)
-        Me.cboQuantidade.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboQuantidade.Margin = New System.Windows.Forms.Padding(4)
         Me.cboQuantidade.Name = "cboQuantidade"
         Me.cboQuantidade.Size = New System.Drawing.Size(81, 30)
         Me.cboQuantidade.TabIndex = 107
@@ -325,6 +329,10 @@ Partial Class fParametros
         'Panel2
         '
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Controls.Add(Me.cboDataEtiqueta)
+        Me.Panel2.Controls.Add(Me.Label19)
+        Me.Panel2.Controls.Add(Me.Label18)
+        Me.Panel2.Controls.Add(Me.cboExcVenda)
         Me.Panel2.Controls.Add(Me.cboPIX)
         Me.Panel2.Controls.Add(Me.Label17)
         Me.Panel2.Controls.Add(Me.txtNInstancias)
@@ -353,10 +361,35 @@ Partial Class fParametros
         Me.Panel2.Controls.Add(Me.Label4)
         Me.Panel2.Controls.Add(Me.Label5)
         Me.Panel2.Location = New System.Drawing.Point(1, 1)
-        Me.Panel2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel2.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1014, 614)
+        Me.Panel2.Size = New System.Drawing.Size(1044, 684)
         Me.Panel2.TabIndex = 108
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.BackColor = System.Drawing.Color.Transparent
+        Me.Label18.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label18.Location = New System.Drawing.Point(97, 457)
+        Me.Label18.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(132, 22)
+        Me.Label18.TabIndex = 136
+        Me.Label18.Text = "Edita Venda?"
+        '
+        'cboExcVenda
+        '
+        Me.cboExcVenda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboExcVenda.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboExcVenda.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.cboExcVenda.FormattingEnabled = True
+        Me.cboExcVenda.Items.AddRange(New Object() {"Sim", "Não"})
+        Me.cboExcVenda.Location = New System.Drawing.Point(239, 457)
+        Me.cboExcVenda.Margin = New System.Windows.Forms.Padding(4)
+        Me.cboExcVenda.Name = "cboExcVenda"
+        Me.cboExcVenda.Size = New System.Drawing.Size(172, 30)
+        Me.cboExcVenda.TabIndex = 135
         '
         'cboPIX
         '
@@ -365,8 +398,8 @@ Partial Class fParametros
         Me.cboPIX.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.cboPIX.FormattingEnabled = True
         Me.cboPIX.Items.AddRange(New Object() {"Sim", "Não"})
-        Me.cboPIX.Location = New System.Drawing.Point(793, 462)
-        Me.cboPIX.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboPIX.Location = New System.Drawing.Point(565, 457)
+        Me.cboPIX.Margin = New System.Windows.Forms.Padding(4)
         Me.cboPIX.Name = "cboPIX"
         Me.cboPIX.Size = New System.Drawing.Size(81, 30)
         Me.cboPIX.TabIndex = 134
@@ -376,7 +409,7 @@ Partial Class fParametros
         Me.Label17.AutoSize = True
         Me.Label17.BackColor = System.Drawing.Color.Transparent
         Me.Label17.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label17.Location = New System.Drawing.Point(669, 465)
+        Me.Label17.Location = New System.Drawing.Point(441, 460)
         Me.Label17.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(99, 22)
@@ -387,8 +420,8 @@ Partial Class fParametros
         '
         Me.txtNInstancias.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNInstancias.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtNInstancias.Location = New System.Drawing.Point(793, 412)
-        Me.txtNInstancias.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtNInstancias.Location = New System.Drawing.Point(810, 409)
+        Me.txtNInstancias.Margin = New System.Windows.Forms.Padding(4)
         Me.txtNInstancias.MaxLength = 20
         Me.txtNInstancias.Name = "txtNInstancias"
         Me.txtNInstancias.Size = New System.Drawing.Size(64, 22)
@@ -399,7 +432,7 @@ Partial Class fParametros
         Me.Label15.AutoSize = True
         Me.Label15.BackColor = System.Drawing.Color.Transparent
         Me.Label15.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label15.Location = New System.Drawing.Point(656, 412)
+        Me.Label15.Location = New System.Drawing.Point(685, 417)
         Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(112, 22)
@@ -414,7 +447,7 @@ Partial Class fParametros
         Me.cboCriptografia.FormattingEnabled = True
         Me.cboCriptografia.Items.AddRange(New Object() {"Sim", "Não"})
         Me.cboCriptografia.Location = New System.Drawing.Point(565, 409)
-        Me.cboCriptografia.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboCriptografia.Margin = New System.Windows.Forms.Padding(4)
         Me.cboCriptografia.Name = "cboCriptografia"
         Me.cboCriptografia.Size = New System.Drawing.Size(81, 30)
         Me.cboCriptografia.TabIndex = 130
@@ -451,7 +484,7 @@ Partial Class fParametros
         Me.cboEhDecimal.FormattingEnabled = True
         Me.cboEhDecimal.Items.AddRange(New Object() {"Sim", "Não"})
         Me.cboEhDecimal.Location = New System.Drawing.Point(239, 409)
-        Me.cboEhDecimal.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboEhDecimal.Margin = New System.Windows.Forms.Padding(4)
         Me.cboEhDecimal.Name = "cboEhDecimal"
         Me.cboEhDecimal.Size = New System.Drawing.Size(172, 30)
         Me.cboEhDecimal.TabIndex = 127
@@ -476,7 +509,7 @@ Partial Class fParametros
         Me.cboTamanho.FormattingEnabled = True
         Me.cboTamanho.Items.AddRange(New Object() {"40x25", "50x70"})
         Me.cboTamanho.Location = New System.Drawing.Point(612, 359)
-        Me.cboTamanho.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboTamanho.Margin = New System.Windows.Forms.Padding(4)
         Me.cboTamanho.Name = "cboTamanho"
         Me.cboTamanho.Size = New System.Drawing.Size(172, 30)
         Me.cboTamanho.TabIndex = 125
@@ -501,7 +534,7 @@ Partial Class fParametros
         Me.cboEtiqueta.FormattingEnabled = True
         Me.cboEtiqueta.Items.AddRange(New Object() {"", "LPT1", "LPT2", "USB1", "USB2", "LAZ"})
         Me.cboEtiqueta.Location = New System.Drawing.Point(307, 359)
-        Me.cboEtiqueta.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboEtiqueta.Margin = New System.Windows.Forms.Padding(4)
         Me.cboEtiqueta.Name = "cboEtiqueta"
         Me.cboEtiqueta.Size = New System.Drawing.Size(104, 30)
         Me.cboEtiqueta.TabIndex = 123
@@ -513,8 +546,8 @@ Partial Class fParametros
         Me.cboSegundaVia.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.cboSegundaVia.FormattingEnabled = True
         Me.cboSegundaVia.Items.AddRange(New Object() {"Sim", "Não"})
-        Me.cboSegundaVia.Location = New System.Drawing.Point(793, 320)
-        Me.cboSegundaVia.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboSegundaVia.Location = New System.Drawing.Point(805, 324)
+        Me.cboSegundaVia.Margin = New System.Windows.Forms.Padding(4)
         Me.cboSegundaVia.Name = "cboSegundaVia"
         Me.cboSegundaVia.Size = New System.Drawing.Size(81, 30)
         Me.cboSegundaVia.TabIndex = 122
@@ -524,7 +557,7 @@ Partial Class fParametros
         Me.Label11.AutoSize = True
         Me.Label11.BackColor = System.Drawing.Color.Transparent
         Me.Label11.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label11.Location = New System.Drawing.Point(652, 324)
+        Me.Label11.Location = New System.Drawing.Point(665, 324)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(132, 22)
@@ -539,7 +572,7 @@ Partial Class fParametros
         Me.cboCortar.FormattingEnabled = True
         Me.cboCortar.Items.AddRange(New Object() {"Sim", "Não"})
         Me.cboCortar.Location = New System.Drawing.Point(561, 320)
-        Me.cboCortar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboCortar.Margin = New System.Windows.Forms.Padding(4)
         Me.cboCortar.Name = "cboCortar"
         Me.cboCortar.Size = New System.Drawing.Size(81, 30)
         Me.cboCortar.TabIndex = 120
@@ -576,7 +609,7 @@ Partial Class fParametros
         Me.cboCupom.FormattingEnabled = True
         Me.cboCupom.Items.AddRange(New Object() {"", "LPT1", "LPT2", "USB1", "USB2", "LAZ"})
         Me.cboCupom.Location = New System.Drawing.Point(307, 320)
-        Me.cboCupom.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboCupom.Margin = New System.Windows.Forms.Padding(4)
         Me.cboCupom.Name = "cboCupom"
         Me.cboCupom.Size = New System.Drawing.Size(104, 30)
         Me.cboCupom.TabIndex = 117
@@ -585,8 +618,8 @@ Partial Class fParametros
         '
         Me.txtMensagem.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtMensagem.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMensagem.Location = New System.Drawing.Point(89, 512)
-        Me.txtMensagem.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtMensagem.Location = New System.Drawing.Point(82, 590)
+        Me.txtMensagem.Margin = New System.Windows.Forms.Padding(4)
         Me.txtMensagem.MaxLength = 250
         Me.txtMensagem.Multiline = True
         Me.txtMensagem.Name = "txtMensagem"
@@ -598,7 +631,7 @@ Partial Class fParametros
         Me.Label9.AutoSize = True
         Me.Label9.BackColor = System.Drawing.Color.Transparent
         Me.Label9.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label9.Location = New System.Drawing.Point(85, 486)
+        Me.Label9.Location = New System.Drawing.Point(78, 564)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(222, 22)
@@ -613,7 +646,7 @@ Partial Class fParametros
         Me.cboVenda.FormattingEnabled = True
         Me.cboVenda.Items.AddRange(New Object() {"Sim", "Não"})
         Me.cboVenda.Location = New System.Drawing.Point(396, 281)
-        Me.cboVenda.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboVenda.Margin = New System.Windows.Forms.Padding(4)
         Me.cboVenda.Name = "cboVenda"
         Me.cboVenda.Size = New System.Drawing.Size(81, 30)
         Me.cboVenda.TabIndex = 112
@@ -637,8 +670,8 @@ Partial Class fParametros
         Me.cboLojaGrande.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.cboLojaGrande.FormattingEnabled = True
         Me.cboLojaGrande.Items.AddRange(New Object() {"Sim", "Não"})
-        Me.cboLojaGrande.Location = New System.Drawing.Point(793, 242)
-        Me.cboLojaGrande.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cboLojaGrande.Location = New System.Drawing.Point(805, 243)
+        Me.cboLojaGrande.Margin = New System.Windows.Forms.Padding(4)
         Me.cboLojaGrande.Name = "cboLojaGrande"
         Me.cboLojaGrande.Size = New System.Drawing.Size(81, 30)
         Me.cboLojaGrande.TabIndex = 110
@@ -648,19 +681,44 @@ Partial Class fParametros
         Me.Label5.AutoSize = True
         Me.Label5.BackColor = System.Drawing.Color.Transparent
         Me.Label5.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label5.Location = New System.Drawing.Point(511, 246)
+        Me.Label5.Location = New System.Drawing.Point(525, 246)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(272, 22)
         Me.Label5.TabIndex = 109
         Me.Label5.Text = "Loja com terminal de venda:"
         '
+        'cboDataEtiqueta
+        '
+        Me.cboDataEtiqueta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboDataEtiqueta.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboDataEtiqueta.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.cboDataEtiqueta.FormattingEnabled = True
+        Me.cboDataEtiqueta.Items.AddRange(New Object() {"Sim", "Não"})
+        Me.cboDataEtiqueta.Location = New System.Drawing.Point(805, 452)
+        Me.cboDataEtiqueta.Margin = New System.Windows.Forms.Padding(4)
+        Me.cboDataEtiqueta.Name = "cboDataEtiqueta"
+        Me.cboDataEtiqueta.Size = New System.Drawing.Size(81, 30)
+        Me.cboDataEtiqueta.TabIndex = 138
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.BackColor = System.Drawing.Color.Transparent
+        Me.Label19.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.Label19.Location = New System.Drawing.Point(652, 460)
+        Me.Label19.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(145, 22)
+        Me.Label19.TabIndex = 137
+        Me.Label19.Text = "Data Etiqueta?"
+        '
         'fParametros
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1017, 618)
+        Me.ClientSize = New System.Drawing.Size(1065, 702)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btoSair)
@@ -670,7 +728,7 @@ Partial Class fParametros
         Me.Controls.Add(Me.Panel2)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "fParametros"
@@ -731,4 +789,8 @@ Partial Class fParametros
     Friend WithEvents txtNInstancias As TextBox
     Friend WithEvents cboPIX As ComboBox
     Friend WithEvents Label17 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents cboExcVenda As ComboBox
+    Friend WithEvents cboDataEtiqueta As ComboBox
+    Friend WithEvents Label19 As Label
 End Class

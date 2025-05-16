@@ -92,6 +92,7 @@ Public Class fProdutoBalancoFiltro
             fProdutoBalancoForm.filtro = filtro
 
             mdiPrincipal.CarregarProdutoBalancoForm()
+
         End If
     End Sub
 

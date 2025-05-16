@@ -4,6 +4,7 @@ Imports ncDados.nsParametro
 Imports ncPersistencia.nsParametro
 Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncDados.nsdParametroEstoque
 
 Namespace nsParametro
 
@@ -65,6 +66,29 @@ Namespace nsParametro
             End Try
 
             Consultar = retorno
+
+        End Function
+
+        Public Function ConsultarEstoque(ByVal dados As dParametroEstoque) As ColecaoParametroEstoque
+
+            Dim retorno As ColecaoParametroEstoque
+
+            Try
+
+                retorno = fConsultarEstoque(dados)
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw nex
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ConsultarEstoque = retorno
 
         End Function
 
@@ -224,6 +248,44 @@ Namespace nsParametro
             End Try
 
             fConsultar = retorno
+
+        End Function
+
+        Public Function fConsultarEstoque(ByVal dados As dParametroEstoque) As ColecaoParametroEstoque
+
+            Dim retorno As ColecaoParametroEstoque
+            Dim persistencia As pParametro
+            Dim retornoPersistencia As ColecaoParametroEstoque
+
+            Try
+
+                retorno = New ColecaoParametroEstoque
+
+                persistencia = New pParametro
+                retornoPersistencia = persistencia.ConsultarEstoque(dados)
+
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw nex
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em fConsultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            fConsultarEstoque = retorno
 
         End Function
 

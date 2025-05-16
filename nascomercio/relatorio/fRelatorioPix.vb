@@ -108,7 +108,7 @@ Public Class fRelatorioPix
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relat�rio de Fechamento em PIX", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relatório de Fechamento em PIX", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20

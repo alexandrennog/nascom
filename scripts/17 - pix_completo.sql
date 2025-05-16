@@ -1,13 +1,17 @@
 ﻿
 DROP TABLE IF EXISTS `nascomercio`.`pix`;
-CREATE TABLE  `nascomercio`.`pix` (
-  `ID` varchar(22) DEFAULT NULL,
+CREATE TABLE `pix` (
+  `ID` varchar(22) NOT NULL,
   `txID` varchar(36) DEFAULT NULL,
   `SolicitacaoPagador` varchar(80) DEFAULT NULL,
-  `Original` decimal(5,2) DEFAULT NULL,
+  `Original` decimal(12,2) DEFAULT NULL,
   `DataHora` datetime DEFAULT NULL,
   `Observacao` tinytext,
-  `Status` varchar(32) DEFAULT NULL
+  `Status` varchar(32) DEFAULT NULL,
+  `controle` int(10) unsigned NOT NULL,
+  `UrlPix` varchar(255) DEFAULT NULL,
+  `body` text,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

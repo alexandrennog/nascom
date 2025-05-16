@@ -27,16 +27,6 @@ Partial Class fClienteLista
         Me.btoSair = New System.Windows.Forms.Button()
         Me.btoFiltro = New System.Windows.Forms.Button()
         Me.dgvCliente = New System.Windows.Forms.DataGridView()
-        Me.cid = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Nome = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Cpf = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Rg = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Situacao = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Ddd = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Telefone = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Dddcel = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Celular = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Email = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -49,6 +39,17 @@ Partial Class fClienteLista
         Me.btoMalaDireta = New System.Windows.Forms.Button()
         Me.txtCliente = New System.Windows.Forms.TextBox()
         Me.lblCliente = New System.Windows.Forms.Label()
+        Me.cid = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Nome = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Endereço = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Cpf = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Rg = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Situacao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Ddd = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Telefone = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Dddcel = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Celular = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Email = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvCliente, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,7 +65,7 @@ Partial Class fClienteLista
         Me.lblSubTitulo.Location = New System.Drawing.Point(-212, -63)
         Me.lblSubTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblSubTitulo.Name = "lblSubTitulo"
-        Me.lblSubTitulo.Size = New System.Drawing.Size(45, 16)
+        Me.lblSubTitulo.Size = New System.Drawing.Size(44, 16)
         Me.lblSubTitulo.TabIndex = 79
         Me.lblSubTitulo.Text = "LISTA"
         '
@@ -77,7 +78,7 @@ Partial Class fClienteLista
         Me.lblTitulo.Location = New System.Drawing.Point(-216, -92)
         Me.lblTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(197, 32)
+        Me.lblTitulo.Size = New System.Drawing.Size(196, 32)
         Me.lblTitulo.TabIndex = 77
         Me.lblTitulo.Text = "Fornecedores"
         '
@@ -86,7 +87,7 @@ Partial Class fClienteLista
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
         Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.usuarios
         Me.imgLogo.Location = New System.Drawing.Point(-289, -91)
-        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(67, 62)
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -105,7 +106,7 @@ Partial Class fClienteLista
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoSair.Location = New System.Drawing.Point(917, 10)
-        Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(133, 89)
         Me.btoSair.TabIndex = 4
@@ -152,7 +153,7 @@ Partial Class fClienteLista
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.dgvCliente.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvCliente.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.cid, Me.Nome, Me.Cpf, Me.Rg, Me.Situacao, Me.Ddd, Me.Telefone, Me.Dddcel, Me.Celular, Me.Email})
+        Me.dgvCliente.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.cid, Me.Nome, Me.Endereço, Me.Cpf, Me.Rg, Me.Situacao, Me.Ddd, Me.Telefone, Me.Dddcel, Me.Celular, Me.Email})
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle2.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -163,83 +164,14 @@ Partial Class fClienteLista
         Me.dgvCliente.DefaultCellStyle = DataGridViewCellStyle2
         Me.dgvCliente.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.dgvCliente.Location = New System.Drawing.Point(15, 132)
-        Me.dgvCliente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.dgvCliente.Margin = New System.Windows.Forms.Padding(4)
         Me.dgvCliente.Name = "dgvCliente"
         Me.dgvCliente.ReadOnly = True
         Me.dgvCliente.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
         Me.dgvCliente.RowHeadersVisible = False
+        Me.dgvCliente.RowHeadersWidth = 51
         Me.dgvCliente.Size = New System.Drawing.Size(885, 399)
         Me.dgvCliente.TabIndex = 3
-        '
-        'cid
-        '
-        Me.cid.HeaderText = "CID"
-        Me.cid.Name = "cid"
-        Me.cid.ReadOnly = True
-        Me.cid.Width = 66
-        '
-        'Nome
-        '
-        Me.Nome.HeaderText = "Nome"
-        Me.Nome.Name = "Nome"
-        Me.Nome.ReadOnly = True
-        Me.Nome.Width = 83
-        '
-        'Cpf
-        '
-        Me.Cpf.HeaderText = "CPF"
-        Me.Cpf.Name = "Cpf"
-        Me.Cpf.ReadOnly = True
-        Me.Cpf.Width = 71
-        '
-        'Rg
-        '
-        Me.Rg.HeaderText = "RG"
-        Me.Rg.Name = "Rg"
-        Me.Rg.ReadOnly = True
-        Me.Rg.Width = 63
-        '
-        'Situacao
-        '
-        Me.Situacao.HeaderText = "Situção"
-        Me.Situacao.Name = "Situacao"
-        Me.Situacao.ReadOnly = True
-        Me.Situacao.Width = 97
-        '
-        'Ddd
-        '
-        Me.Ddd.HeaderText = "DDD"
-        Me.Ddd.Name = "Ddd"
-        Me.Ddd.ReadOnly = True
-        Me.Ddd.Width = 74
-        '
-        'Telefone
-        '
-        Me.Telefone.HeaderText = "Telefone"
-        Me.Telefone.Name = "Telefone"
-        Me.Telefone.ReadOnly = True
-        Me.Telefone.Width = 103
-        '
-        'Dddcel
-        '
-        Me.Dddcel.HeaderText = "DDD"
-        Me.Dddcel.Name = "Dddcel"
-        Me.Dddcel.ReadOnly = True
-        Me.Dddcel.Width = 74
-        '
-        'Celular
-        '
-        Me.Celular.HeaderText = "Celular"
-        Me.Celular.Name = "Celular"
-        Me.Celular.ReadOnly = True
-        Me.Celular.Width = 93
-        '
-        'Email
-        '
-        Me.Email.HeaderText = "E-mail"
-        Me.Email.Name = "Email"
-        Me.Email.ReadOnly = True
-        Me.Email.Width = 86
         '
         'Label1
         '
@@ -250,7 +182,7 @@ Partial Class fClienteLista
         Me.Label1.Location = New System.Drawing.Point(85, 39)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(45, 16)
+        Me.Label1.Size = New System.Drawing.Size(44, 16)
         Me.Label1.TabIndex = 82
         Me.Label1.Text = "LISTA"
         '
@@ -259,7 +191,7 @@ Partial Class fClienteLista
         Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
         Me.PictureBox1.Image = Global.nascomercio.My.Resources.Resources.cliente
         Me.PictureBox1.Location = New System.Drawing.Point(11, 10)
-        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(67, 62)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -275,7 +207,7 @@ Partial Class fClienteLista
         Me.Label2.Location = New System.Drawing.Point(85, 10)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(122, 32)
+        Me.Label2.Size = New System.Drawing.Size(121, 32)
         Me.Label2.TabIndex = 80
         Me.Label2.Text = "Clientes"
         '
@@ -290,7 +222,7 @@ Partial Class fClienteLista
         Me.btoCadastro.Image = Global.nascomercio.My.Resources.Resources.incluir
         Me.btoCadastro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.btoCadastro.Location = New System.Drawing.Point(917, 103)
-        Me.btoCadastro.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btoCadastro.Margin = New System.Windows.Forms.Padding(4)
         Me.btoCadastro.Name = "btoCadastro"
         Me.btoCadastro.Size = New System.Drawing.Size(133, 89)
         Me.btoCadastro.TabIndex = 5
@@ -311,7 +243,7 @@ Partial Class fClienteLista
         Me.Panel1.Controls.Add(Me.lblCliente)
         Me.Panel1.Controls.Add(Me.dgvCliente)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
-        Me.Panel1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1057, 546)
         Me.Panel1.TabIndex = 83
@@ -321,7 +253,7 @@ Partial Class fClienteLista
         Me.txtCPF.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCPF.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtCPF.Location = New System.Drawing.Point(732, 87)
-        Me.txtCPF.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCPF.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCPF.MaxLength = 100
         Me.txtCPF.Name = "txtCPF"
         Me.txtCPF.Size = New System.Drawing.Size(168, 22)
@@ -343,7 +275,7 @@ Partial Class fClienteLista
         Me.txtCodigo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCodigo.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtCodigo.Location = New System.Drawing.Point(107, 87)
-        Me.txtCodigo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCodigo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCodigo.MaxLength = 10
         Me.txtCodigo.Name = "txtCodigo"
         Me.txtCodigo.Size = New System.Drawing.Size(121, 22)
@@ -384,7 +316,7 @@ Partial Class fClienteLista
         Me.txtCliente.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCliente.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCliente.Location = New System.Drawing.Point(315, 87)
-        Me.txtCliente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtCliente.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCliente.MaxLength = 20
         Me.txtCliente.Name = "txtCliente"
         Me.txtCliente.Size = New System.Drawing.Size(352, 22)
@@ -401,6 +333,94 @@ Partial Class fClienteLista
         Me.lblCliente.Size = New System.Drawing.Size(70, 22)
         Me.lblCliente.TabIndex = 144
         Me.lblCliente.Text = "Nome:"
+        '
+        'cid
+        '
+        Me.cid.HeaderText = "CID"
+        Me.cid.MinimumWidth = 6
+        Me.cid.Name = "cid"
+        Me.cid.ReadOnly = True
+        Me.cid.Width = 66
+        '
+        'Nome
+        '
+        Me.Nome.HeaderText = "Nome"
+        Me.Nome.MinimumWidth = 6
+        Me.Nome.Name = "Nome"
+        Me.Nome.ReadOnly = True
+        Me.Nome.Width = 83
+        '
+        'Endereço
+        '
+        Me.Endereço.HeaderText = "Endereço"
+        Me.Endereço.MinimumWidth = 6
+        Me.Endereço.Name = "Endereço"
+        Me.Endereço.ReadOnly = True
+        Me.Endereço.Width = 113
+        '
+        'Cpf
+        '
+        Me.Cpf.HeaderText = "CPF"
+        Me.Cpf.MinimumWidth = 6
+        Me.Cpf.Name = "Cpf"
+        Me.Cpf.ReadOnly = True
+        Me.Cpf.Width = 71
+        '
+        'Rg
+        '
+        Me.Rg.HeaderText = "RG"
+        Me.Rg.MinimumWidth = 6
+        Me.Rg.Name = "Rg"
+        Me.Rg.ReadOnly = True
+        Me.Rg.Width = 63
+        '
+        'Situacao
+        '
+        Me.Situacao.HeaderText = "Situção"
+        Me.Situacao.MinimumWidth = 6
+        Me.Situacao.Name = "Situacao"
+        Me.Situacao.ReadOnly = True
+        Me.Situacao.Width = 97
+        '
+        'Ddd
+        '
+        Me.Ddd.HeaderText = "DDD"
+        Me.Ddd.MinimumWidth = 6
+        Me.Ddd.Name = "Ddd"
+        Me.Ddd.ReadOnly = True
+        Me.Ddd.Width = 74
+        '
+        'Telefone
+        '
+        Me.Telefone.HeaderText = "Telefone"
+        Me.Telefone.MinimumWidth = 6
+        Me.Telefone.Name = "Telefone"
+        Me.Telefone.ReadOnly = True
+        Me.Telefone.Width = 103
+        '
+        'Dddcel
+        '
+        Me.Dddcel.HeaderText = "DDD"
+        Me.Dddcel.MinimumWidth = 6
+        Me.Dddcel.Name = "Dddcel"
+        Me.Dddcel.ReadOnly = True
+        Me.Dddcel.Width = 74
+        '
+        'Celular
+        '
+        Me.Celular.HeaderText = "Celular"
+        Me.Celular.MinimumWidth = 6
+        Me.Celular.Name = "Celular"
+        Me.Celular.ReadOnly = True
+        Me.Celular.Width = 93
+        '
+        'Email
+        '
+        Me.Email.HeaderText = "E-mail"
+        Me.Email.MinimumWidth = 6
+        Me.Email.Name = "Email"
+        Me.Email.ReadOnly = True
+        Me.Email.Width = 86
         '
         'fClienteLista
         '
@@ -422,7 +442,7 @@ Partial Class fClienteLista
         Me.ForeColor = System.Drawing.Color.Black
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "fClienteLista"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Clientes"
@@ -451,16 +471,17 @@ Partial Class fClienteLista
     Friend WithEvents btoMalaDireta As System.Windows.Forms.Button
     Friend WithEvents txtCodigo As System.Windows.Forms.TextBox
     Friend WithEvents lblCodigo As System.Windows.Forms.Label
-    Friend WithEvents cid As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Nome As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Cpf As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Rg As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Situacao As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Ddd As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Telefone As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Dddcel As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Celular As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Email As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents txtCPF As System.Windows.Forms.TextBox
     Friend WithEvents lblCPF As System.Windows.Forms.Label
+    Friend WithEvents cid As DataGridViewTextBoxColumn
+    Friend WithEvents Nome As DataGridViewTextBoxColumn
+    Friend WithEvents Endereço As DataGridViewTextBoxColumn
+    Friend WithEvents Cpf As DataGridViewTextBoxColumn
+    Friend WithEvents Rg As DataGridViewTextBoxColumn
+    Friend WithEvents Situacao As DataGridViewTextBoxColumn
+    Friend WithEvents Ddd As DataGridViewTextBoxColumn
+    Friend WithEvents Telefone As DataGridViewTextBoxColumn
+    Friend WithEvents Dddcel As DataGridViewTextBoxColumn
+    Friend WithEvents Celular As DataGridViewTextBoxColumn
+    Friend WithEvents Email As DataGridViewTextBoxColumn
 End Class

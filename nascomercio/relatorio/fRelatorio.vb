@@ -70,7 +70,13 @@ Public Class fRelatorio
             mdiPrincipal.CarregarVendaSAT()
         ElseIf rbtPix.Checked Then
             mdiPrincipal.CarregarRelPix()
+        ElseIf rbtCrediarioPix.Checked Then
+            mdiPrincipal.CarregarRelCrediPix()
+        ElseIf rbtCobrancaPIX.Checked Then
+            mdiPrincipal.CarregarRelCobrancaCrediarioPix()
         End If
+
+
     End Sub
 
 
@@ -122,6 +128,7 @@ Public Class fRelatorio
                 rbtAuditoria.Visible = False
                 rbtLeituraX.Visible = True
                 rbtReducaoZ.Visible = True
+                rbtCobrancaPIX.Visible = True
                 If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ECF" Then
                     rbtLeituraX.Visible = True
                     rbtReducaoZ.Visible = True
@@ -138,4 +145,15 @@ Public Class fRelatorio
         End Select
     End Sub
 
+    Private Sub rbtPix_CheckedChanged(sender As Object, e As EventArgs) Handles rbtPix.CheckedChanged
+
+    End Sub
+
+    Private Sub rbtCrediarioPix_CheckedChanged(sender As Object, e As EventArgs) Handles rbtCrediarioPix.CheckedChanged
+
+    End Sub
+
+    Private Sub rbtCobrancaPIX_CheckedChanged(sender As Object, e As EventArgs) Handles rbtCobrancaPIX.CheckedChanged
+
+    End Sub
 End Class

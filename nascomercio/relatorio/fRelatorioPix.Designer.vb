@@ -60,7 +60,7 @@ Partial Class fRelatorioPix
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(168, 24)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "Relat�rio de Pix"
+        Me.lblTitulo.Text = "Relatório de Pix"
         '
         'btoFiltro
         '
@@ -130,7 +130,7 @@ Partial Class fRelatorioPix
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(90, 18)
         Me.Label4.TabIndex = 204
-        Me.Label4.Text = "Per�odo: de"
+        Me.Label4.Text = "Período: de"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtDataFinal
@@ -153,7 +153,7 @@ Partial Class fRelatorioPix
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(30, 18)
         Me.Label1.TabIndex = 206
-        Me.Label1.Text = "at�"
+        Me.Label1.Text = "até"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtCaixa

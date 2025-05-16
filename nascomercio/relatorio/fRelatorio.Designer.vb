@@ -50,6 +50,8 @@ Partial Class fRelatorio
         Me.rbtBalanco = New System.Windows.Forms.RadioButton()
         Me.rbtSAT = New System.Windows.Forms.RadioButton()
         Me.rbtPix = New System.Windows.Forms.RadioButton()
+        Me.rbtCrediarioPix = New System.Windows.Forms.RadioButton()
+        Me.rbtCobrancaPIX = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -255,7 +257,7 @@ Partial Class fRelatorio
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(651, 441)
+        Me.btoFiltro.Location = New System.Drawing.Point(600, 12)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
         Me.btoFiltro.Size = New System.Drawing.Size(78, 88)
@@ -403,12 +405,38 @@ Partial Class fRelatorio
         Me.rbtPix.Text = "Vendas com Pix"
         Me.rbtPix.UseVisualStyleBackColor = True
         '
+        'rbtCrediarioPix
+        '
+        Me.rbtCrediarioPix.AutoSize = True
+        Me.rbtCrediarioPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtCrediarioPix.Location = New System.Drawing.Point(67, 462)
+        Me.rbtCrediarioPix.Name = "rbtCrediarioPix"
+        Me.rbtCrediarioPix.Size = New System.Drawing.Size(188, 23)
+        Me.rbtCrediarioPix.TabIndex = 105
+        Me.rbtCrediarioPix.TabStop = True
+        Me.rbtCrediarioPix.Text = "Crediário Pagamento"
+        Me.rbtCrediarioPix.UseVisualStyleBackColor = True
+        '
+        'rbtCobrancaPIX
+        '
+        Me.rbtCobrancaPIX.AutoSize = True
+        Me.rbtCobrancaPIX.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtCobrancaPIX.Location = New System.Drawing.Point(310, 462)
+        Me.rbtCobrancaPIX.Name = "rbtCobrancaPIX"
+        Me.rbtCobrancaPIX.Size = New System.Drawing.Size(176, 23)
+        Me.rbtCobrancaPIX.TabIndex = 106
+        Me.rbtCobrancaPIX.TabStop = True
+        Me.rbtCobrancaPIX.Text = "Cobrança Crediario"
+        Me.rbtCobrancaPIX.UseVisualStyleBackColor = True
+        '
         'fRelatorio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(763, 538)
+        Me.Controls.Add(Me.rbtCobrancaPIX)
+        Me.Controls.Add(Me.rbtCrediarioPix)
         Me.Controls.Add(Me.rbtPix)
         Me.Controls.Add(Me.rbtSAT)
         Me.Controls.Add(Me.rbtBalanco)
@@ -479,4 +507,6 @@ Partial Class fRelatorio
     Friend WithEvents rbtBalanco As System.Windows.Forms.RadioButton
     Friend WithEvents rbtSAT As System.Windows.Forms.RadioButton
     Friend WithEvents rbtPix As RadioButton
+    Friend WithEvents rbtCrediarioPix As RadioButton
+    Friend WithEvents rbtCobrancaPIX As RadioButton
 End Class

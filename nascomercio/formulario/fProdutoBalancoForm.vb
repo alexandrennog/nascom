@@ -1,9 +1,12 @@
-Imports ncRegras.nsProduto
+ÔªøImports ncRegras.nsProduto
 Imports ncDados.nsProduto
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes.cFuncoes
 Imports ncComum.nsLog.cLog
 Imports System.IO
+Imports System.Configuration
+Imports iTextSharp.text.pdf
+Imports iTextSharp.text
 
 Public Class fProdutoBalancoForm
 
@@ -11,12 +14,12 @@ Public Class fProdutoBalancoForm
     Public produto As dProduto
     Public filtro As dProduto
     Private arquivoCriado As Boolean = False
-    Private arquivo As IO.StreamWriter = Nothing
+    Private arquivo As System.IO.StreamWriter = Nothing
     Private quantidade As Integer = 0
     Private contLinha As Integer = 0
-    Private caracs As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789. ^~`¥-_&/\+[]{}(),!@#*?%:$;<>√¡¿ƒ¬…»À ÕÃœŒ’”“÷‘⁄Ÿ‹€«„·‡‰‚ÈËÎÍÌÏÔÓıÛÚˆÙ˙˘¸˚Á"
-    Private carEsp As String = "'µß¶êÄâ" '
-    Private carSub As String = "`√oa…« " '
+    Private caracs As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789. ^~`¬¥-_&/\+[]{}(),!@#*?%:$;<>√É√Å√Ä√Ñ√Ç√â√à√ã√ä√ç√å√è√é√ï√ì√í√ñ√î√ö√ô√ú√õ√á√£√°√†√§√¢√©√®√´√™√≠√¨√Ø√Æ√µ√≥√≤√∂√¥√∫√π√º√ª√ß"
+    Private carEsp As String = "'¬µ¬ß¬¶¬ê‚Ç¨‚Ä∞" '
+    Private carSub As String = "`√Éoa√â√á " '
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         If MessageBox.Show("Deseja sair da tela?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
@@ -34,6 +37,9 @@ Public Class fProdutoBalancoForm
                 If MessageBox.Show("Deseja sair da tela?", "", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                     mdiPrincipal.FecharTela()
                 End If
+
+            Case Keys.F3
+                ConfigurarRelatorio()
             Case Keys.F5
                 CarregarProdutoBalancoFiltro()
             Case Keys.F8
@@ -87,13 +93,14 @@ Public Class fProdutoBalancoForm
 
             Listar()
 
-            MessageBox.Show("AtualizaÁ„o efetuada com sucesso!")
+            MessageBox.Show("Atualiza√ß√£o efetuada com sucesso!")
         End If
 
     End Sub
 
     Private Sub fProdutoBalancoForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Listar()
+        ConfigurarRelatorio()
     End Sub
 
     Private Sub Listar()
@@ -194,6 +201,7 @@ Public Class fProdutoBalancoForm
             coluna = New DataColumn()
             coluna.ColumnName = "estoqueatualizacao"
             tabela.Columns.Add(coluna)
+            itensExibir.Add("estoqueatualizacao")
 
             Application.DoEvents()
 
@@ -256,13 +264,13 @@ Public Class fProdutoBalancoForm
 
             If dgvProduto.Rows.Count > 0 Then
                 dgvProduto.Columns(0).Visible = False
-                dgvProduto.Columns(1).HeaderText = "CÛdigo"
-                dgvProduto.Columns(2).HeaderText = "DescriÁ„o"
-                dgvProduto.Columns(3).HeaderText = "ReferÍncia"
+                dgvProduto.Columns(1).HeaderText = "C√≥digo"
+                dgvProduto.Columns(2).HeaderText = "Descri√ß√£o"
+                dgvProduto.Columns(3).HeaderText = "Refer√™ncia"
                 dgvProduto.Columns(4).HeaderText = "Cor"
                 dgvProduto.Columns(5).HeaderText = "Grupo"
                 dgvProduto.Columns(6).Visible = False
-                dgvProduto.Columns(7).HeaderText = "CÛdigo de Barras"
+                dgvProduto.Columns(7).HeaderText = "C√≥digo de Barras"
                 dgvProduto.Columns(8).HeaderText = "Tamanho"
                 dgvProduto.Columns(9).HeaderText = "Estoque Atual"
                 dgvProduto.Columns(10).HeaderText = "Novo Estoque"
@@ -342,8 +350,8 @@ Public Class fProdutoBalancoForm
 
         contLinha += 1
 
-        conteudo += RetornarVazio(linha.Cells(7).Value).PadLeft(14, "0"c) + ";" '-- CÛdigo de barras  
-        conteudo += RetornarVazio(linha.Cells("descricao").Value) + ";" '-- DescriÁ„o 
+        conteudo += RetornarVazio(linha.Cells(7).Value).PadLeft(14, "0"c) + ";" '-- C√≥digo de barras  
+        conteudo += RetornarVazio(linha.Cells("descricao").Value) + ";" '-- Descri√ß√£o 
         conteudo += IIf(String.IsNullOrEmpty(RetornarVazio(linha.Cells(9).Value)), "0", RetornarVazio(linha.Cells(9).Value)) + ";" '-- Estoque atual 
 
         EscreverArquivo(conteudo)
@@ -384,9 +392,9 @@ Public Class fProdutoBalancoForm
     End Sub
 
     Private Function ValidarProduto() As Boolean
-        Dim conteudo As IO.StreamReader
+        Dim conteudo As System.IO.StreamReader
         Dim linha As String
-        Dim arquivo As IO.FileInfo
+        Dim arquivo As System.IO.FileInfo
         Dim regras As rProduto = New rProduto()
         Dim numLinha As Integer = 0
         Dim OpenFileDialog1 As New Windows.Forms.OpenFileDialog
@@ -407,7 +415,7 @@ Public Class fProdutoBalancoForm
             barra.Maximum = arquivo.Length
             barra.Value = 0
 
-            conteudo = New IO.StreamReader(fileName, System.Text.Encoding.Default)
+            conteudo = New System.IO.StreamReader(fileName, System.Text.Encoding.Default)
             linha = conteudo.ReadLine()
             linha = conteudo.ReadLine()
             numLinha += 1
@@ -452,14 +460,14 @@ Public Class fProdutoBalancoForm
                 conteudo.Close()
                 conteudo.Dispose()
             End If
-            MessageBox.Show("ValidaÁ„o de Produtos concluÌda com sucesso! [" & numLinha.ToString() & "]")
+            MessageBox.Show("Valida√ß√£o de Produtos conclu√≠da com sucesso! [" & numLinha.ToString() & "]")
             barra.Value = barra.Maximum
         Catch ex As Exception
             If Not IsNothing(conteudo) Then
                 conteudo.Close()
                 conteudo.Dispose()
             End If
-            MessageBox.Show("Erro na validaÁ„o de produtos [linha " & numLinha.ToString() & "] - " & ex.Message)
+            MessageBox.Show("Erro na valida√ß√£o de produtos [linha " & numLinha.ToString() & "] - " & ex.Message)
             Return False
         End Try
 
@@ -483,7 +491,7 @@ Public Class fProdutoBalancoForm
                         If _posicao >= 0 Then
                             _linha += carSub.Substring(_posicao, 1)
                         Else
-                            Throw New Exception("Caracter [" & linha.Substring(i, 1) & "] inv·lido encontrado!")
+                            Throw New Exception("Caracter [" & linha.Substring(i, 1) & "] inv√°lido encontrado!")
                         End If
                     End If
                 End If
@@ -500,7 +508,7 @@ Public Class fProdutoBalancoForm
         Try
 
             If linha.Length < tamanho Then
-                Throw New Exception("Tamanho [" + tamanho.ToString() + "] inv·lido [" + linha.Length.ToString() + "]")
+                Throw New Exception("Tamanho [" + tamanho.ToString() + "] inv√°lido [" + linha.Length.ToString() + "]")
             End If
 
         Catch ex As Exception
@@ -509,4 +517,177 @@ Public Class fProdutoBalancoForm
 
         Return True
     End Function
+
+    Private Sub btnImprimir_Click(sender As Object, e As EventArgs)
+        ConfigurarRelatorio()
+    End Sub
+
+
+
+    Private Sub ConfigurarRelatorio()
+
+        Dim hoje As DateTime = DateTime.Now
+
+        Dim dtGridSource As DataTable = CType(dgvProduto.DataSource, DataTable)
+
+        Dim arquivoPDF = "RelatorioBalanco" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+
+        If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
+            System.IO.File.Delete(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
+        End If
+
+        Dim doc As New Document(PageSize.A4.Rotate())
+        doc.SetMargins(3, 2, 6, 6)
+        PdfWriter.GetInstance(doc, New FileStream(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF, FileMode.Create))
+
+        doc.Open()
+
+        Dim fonteTitulo As Font
+        fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
+
+        Dim paragrafoTitulo As New Paragraph("Relat√≥rio de Balan√ßo", fonteTitulo)
+        paragrafoTitulo.Alignment = Element.ALIGN_CENTER
+        paragrafoTitulo.SpacingBefore = 10
+        paragrafoTitulo.SpacingAfter = 10
+
+        doc.Add(paragrafoTitulo)
+        doc.Add(Chunk.NEWLINE)
+        doc.Add(Chunk.NEWLINE)
+
+        Dim table As New PdfPTable(9)
+
+        Dim cell1 As New PdfPCell
+        Dim cell2 As New PdfPCell
+        Dim cell3 As New PdfPCell
+        Dim cell4 As New PdfPCell
+        Dim cell5 As New PdfPCell
+        Dim cell6 As New PdfPCell
+        Dim cell7 As New PdfPCell
+        Dim cell8 As New PdfPCell
+        Dim cell9 As New PdfPCell
+
+        Dim cells As New List(Of PdfPCell)
+
+        Dim fonte As Font
+        fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 8)
+
+        Dim coluna1 As New Paragraph("C√≥digo")
+        Dim coluna2 As New Paragraph("Descri√ß√£o")
+        Dim coluna3 As New Paragraph("Refer√™ncia")
+        Dim coluna4 As New Paragraph("Cor")
+        Dim coluna5 As New Paragraph("Grupo")
+        Dim coluna6 As New Paragraph("C√≥digo de Barras")
+        Dim coluna7 As New Paragraph("Tamanho")
+        Dim coluna8 As New Paragraph("Estoque Atual")
+        Dim coluna9 As New Paragraph("Novo Estoque")
+
+        cell1.AddElement(coluna1)
+        cell2.AddElement(coluna2)
+        cell3.AddElement(coluna3)
+        cell4.AddElement(coluna4)
+        cell5.AddElement(coluna5)
+        cell6.AddElement(coluna6)
+        cell7.AddElement(coluna7)
+        cell8.AddElement(coluna8)
+        cell9.AddElement(coluna9)
+
+        'table.DefaultCell.Border = Rectangle.NO_BORDER
+
+        'table.DefaultCell.HasBorder(Rectangle.NO_BORDER)
+        'table.DefaultCell.BorderColor = BaseColor.WHITE
+        'table.DefaultCell.BorderWidth = 0
+
+        table.AddCell(cell1)
+        table.AddCell(cell2)
+        table.AddCell(cell3)
+        table.AddCell(cell4)
+        table.AddCell(cell5)
+        table.AddCell(cell6)
+        table.AddCell(cell7)
+        table.AddCell(cell8)
+        table.AddCell(cell9)
+
+
+        For Each row As DataRow In dtGridSource.Rows
+
+
+            Dim cell01 = New PdfPCell(New Phrase(row(1).ToString(), fonte))
+            'cell01.HasBorder(Rectangle.NO_BORDER)
+            'cell01.BorderColor = BaseColor.WHITE
+            'cell01.BorderWidth = 0
+            table.AddCell(cell01)
+
+
+            Dim cell02 = New PdfPCell(New Phrase(row(2).ToString(), fonte))
+            'cell02.HasBorder(Rectangle.NO_BORDER)
+            'cell02.BorderColor = BaseColor.WHITE
+            'cell02.BorderWidth = 0
+            table.AddCell(cell02)
+
+            Dim cell03 = New PdfPCell(New Phrase(row(3).ToString(), fonte))
+            'cell03.HasBorder(Rectangle.NO_BORDER)
+            'cell03.BorderColor = BaseColor.WHITE
+            'cell03.BorderWidth = 0
+            table.AddCell(cell03)
+
+            Dim cell04 = New PdfPCell(New Phrase(row(4).ToString(), fonte))
+            'cell04.HasBorder(Rectangle.NO_BORDER)
+            'cell04.BorderColor = BaseColor.WHITE
+            'cell04.BorderWidth = 0
+            table.AddCell(cell04)
+
+            Dim cell05 = New PdfPCell(New Phrase(row(5).ToString(), fonte))
+            'cell05.HasBorder(Rectangle.NO_BORDER)
+            'cell05.BorderColor = BaseColor.WHITE
+            'cell05.BorderWidth = 0
+            table.AddCell(cell05)
+
+            Dim cell06 = New PdfPCell(New Phrase(row(7).ToString(), fonte))
+            'cell06.HasBorder(Rectangle.NO_BORDER)
+            'cell06.BorderColor = BaseColor.WHITE
+            'cell06.BorderWidth = 0
+            table.AddCell(cell06)
+
+            Dim cell07 = New PdfPCell(New Phrase(row(8).ToString(), fonte))
+            'cell07.HasBorder(Rectangle.NO_BORDER)
+            'cell07.BorderColor = BaseColor.WHITE
+            'cell07.BorderWidth = 0
+            table.AddCell(cell07)
+
+            Dim cell08 = New PdfPCell(New Phrase(row(9).ToString(), fonte))
+            'cell08.HasBorder(Rectangle.NO_BORDER)
+            'cell08.BorderColor = BaseColor.WHITE
+            'cell08.BorderWidth = 0
+            table.AddCell(cell08)
+
+            Dim cell09 = New PdfPCell(New Phrase(row(10).ToString(), fonte))
+            'cell09.HasBorder(Rectangle.NO_BORDER)
+            'cell09.BorderColor = BaseColor.WHITE
+            'cell09.BorderWidth = 0
+            table.AddCell(cell09)
+
+        Next row
+
+        If Not dtGridSource Is Nothing Then
+            doc.Add(table)
+        End If
+        doc.Close()
+
+
+
+
+    End Sub
+
+    Private Sub Imprimir()
+        Dim arquivoPDF = "RelatorioBalanco" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+        Dim ProcessApplication As String = "AcroRd32"
+
+        If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
+            Process.Start(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
+        End If
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Imprimir()
+    End Sub
 End Class

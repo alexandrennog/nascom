@@ -103,7 +103,7 @@ Public Class mdiPrincipal
         dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Instancias)
 
         If emExecucao > CInt(dadosParametro.valor) Then
-            MsgBox("A quantidade de c�pias do sistema executando simultaneamente, atingiu o limite configurado")
+            MsgBox("A quantidade de Cópias do sistema executando simultaneamente, atingiu o limite configurado")
             Me.Close()
         End If
         'If emExecucao Then
@@ -128,17 +128,17 @@ Public Class mdiPrincipal
 
             If IsNothing(retorno) Then
                 valido = False
-                mensagem = "Usu�rio/Senha inv�lido(s)."
-                GravarLog("", "Tentativa de acesso inv�lido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
+                mensagem = "Usuário/Senha inválido(s)."
+                GravarLog("", "Tentativa de acesso inválido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
             Else
                 If retorno.Count <> 1 Then
                     valido = False
-                    mensagem = "Usu�rio/Senha inv�lido(s)."
-                    GravarLog("", "Tentativa de acesso inv�lido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
+                    mensagem = "Usuário/Senha inválido(s)."
+                    GravarLog("", "Tentativa de acesso inválido ao sistema - Usuario [" & dadosUsuario.usuario & "]")
                 Else
                     valido = True
 
-                    'Encripta asenhas de usu�rios caso ainda n�o tenham sido encriptadas
+                    'Encripta asenhas de Usuários caso ainda não tenham sido encriptadas
                     EncriptarSenhas()
                 End If
             End If
@@ -169,7 +169,7 @@ Public Class mdiPrincipal
                         Case "c", "a", "g"
                             IniciarCaixa(True)
                         Case Else
-                            MessageBox.Show("Tipo de Usu�rio n�o encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Tipo de Usuário não encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
                 Else
                     Select Case gUsuario.usuarioPerfil_codigo
@@ -183,7 +183,7 @@ Public Class mdiPrincipal
                         Case "a"
                             IniciarAdministrador()
                         Case Else
-                            MessageBox.Show("Tipo de Usu�rio n�o encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Tipo de Usuário não encontrado.", "Acesso Negado", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Select
                 End If
 
@@ -266,10 +266,10 @@ Public Class mdiPrincipal
         ElseIf System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "VENDAS" Then
             btoCaixa.Text = "Vendas" & vbCrLf & "[F9]"
         Else
-            btoCaixa.Text = "Or�amento" & vbCrLf & "[F9]"
+            btoCaixa.Text = "Orçamento" & vbCrLf & "[F9]"
         End If
 
-        If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVI�O") = "SIM" Then
+        If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVIÇO") = "SIM" Then
             btoOrdemServico.Visible = True
         Else
             btoOrdemServico.Visible = False
@@ -296,7 +296,7 @@ Public Class mdiPrincipal
         End If
 
         ' Gerente
-        If gUsuario.usuarioPerfil_codigo = "a" Or _
+        If gUsuario.usuarioPerfil_codigo = "a" Or
             gUsuario.usuarioPerfil_codigo = "g" Then
 
             btoUsuario.Visible = True
@@ -306,8 +306,8 @@ Public Class mdiPrincipal
             btoFabricante.Visible = True
         End If
 
-        If gUsuario.usuarioPerfil_codigo = "a" Or _
-            gUsuario.usuarioPerfil_codigo = "g" Or _
+        If gUsuario.usuarioPerfil_codigo = "a" Or
+            gUsuario.usuarioPerfil_codigo = "g" Or
             gUsuario.usuarioPerfil_codigo = "c" Then
 
             btoCliente.Visible = True
@@ -316,9 +316,9 @@ Public Class mdiPrincipal
             btoRelatorio.Visible = True
         End If
 
-        If gUsuario.usuarioPerfil_codigo = "a" Or _
-            gUsuario.usuarioPerfil_codigo = "g" Or _
-            gUsuario.usuarioPerfil_codigo = "c" Or _
+        If gUsuario.usuarioPerfil_codigo = "a" Or
+            gUsuario.usuarioPerfil_codigo = "g" Or
+            gUsuario.usuarioPerfil_codigo = "c" Or
             gUsuario.usuarioPerfil_codigo = "v" Then
 
             btoCaixa.Visible = True
@@ -495,6 +495,12 @@ Public Class mdiPrincipal
     Public Sub CarregarFornecedorForm()
         FecharTela()
         formulario = fFornecedorForm
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarPixForm()
+        FecharTela()
+        formulario = fPix
         AbrirTela()
     End Sub
 
@@ -967,7 +973,16 @@ Public Class mdiPrincipal
         formulario = fRelatorioCrediario
         AbrirTela()
     End Sub
-
+    Public Sub CarregarRelCrediPix()
+        FecharTela()
+        formulario = fRelatorioCrediarioPix
+        AbrirTela()
+    End Sub
+    Public Sub CarregarRelCobrancaCrediarioPix()
+        FecharTela()
+        formulario = fRelatorioCobrancaAutomatica
+        AbrirTela()
+    End Sub
     Public Sub CarregarRelPix()
         FecharTela()
         formulario = fRelatorioPix
@@ -1046,6 +1061,11 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
 
+    Public Sub CarregarPix()
+        FecharTela()
+        formulario = fConfigPix
+        AbrirTela()
+    End Sub
     Public Sub CarregarIdentificacaoSistema()
         FecharTela()
         formulario = fAcesso
@@ -1084,7 +1104,7 @@ Public Class mdiPrincipal
         Try
             Me.BackgroundImage = System.Drawing.Bitmap.FromFile("fundo.jpg")
         Catch ex As Exception
-            MessageBox.Show("Imagem de fundo n�o encontrada: 'fundo.jpg'.")
+            MessageBox.Show("Imagem de fundo não encontrada: 'fundo.jpg'.")
         End Try
     End Sub
 

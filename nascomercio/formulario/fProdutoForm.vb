@@ -444,7 +444,7 @@ Public Class fProdutoForm
                                             Else
                                                 estoqueAux = "0"
                                             End If
-                                            Integer.TryParse(estoqueAux, estoqueAtual)
+                                            Decimal.TryParse(estoqueAux, estoqueAtual)
                                             If estoqueNovo > 0 Then
                                                 estoqueAtual = estoqueAtual + estoqueNovo
                                             End If
@@ -743,14 +743,19 @@ Public Class fProdutoForm
 
                                                     If dadosC.codigo.ToLower().Equals("codigobarras") Then
                                                         novaLinha.Cells("codigobarrasatual").Value = item.valor
-                                                        celula.Value = item.valor
                                                     End If
 
+                                                    celula.Value = item.valor
 
                                                     If dadosC.codigo.ToLower().Equals("estoque") Then
 
                                                         If ehDecimal = "0" Then
-                                                            dadosEstoque = Convert.ToInt32(Decimal.Parse(item.valor, CultureInfo.InvariantCulture))
+                                                            If item.valor IsNot Nothing Then
+                                                                dadosEstoque = Convert.ToInt32(Decimal.Parse(item.valor.Replace(",", "."), CultureInfo.InvariantCulture))
+                                                            Else
+                                                                dadosEstoque = 0
+                                                            End If
+
                                                             If Not dadosEstoque = Nothing Then
                                                                 If Not dadosEstoque.Trim().Equals(String.Empty) Then
                                                                     If Integer.TryParse(dadosEstoque.Trim(), estoque) Then
@@ -769,6 +774,16 @@ Public Class fProdutoForm
                                                             End If
                                                         End If
                                                         celula.Value = dadosEstoque
+
+                                                    End If
+
+                                                    If dadosC.codigo.ToLower().Equals("tamanho") Then
+
+                                                        If item.valor Is Nothing Then
+                                                            celula.Value = ""
+                                                        Else
+                                                            celula.Value = item.valor
+                                                        End If
 
                                                     End If
 

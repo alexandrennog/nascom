@@ -22,14 +22,11 @@ Partial Class fRelatorioEstoque
   'Do not modify it using the code editor.
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Dim ReportDataSource1 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.lblSubTitulo = New System.Windows.Forms.Label()
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.btoFiltro = New System.Windows.Forms.Button()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
-        Me.rptRelatorio = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.cboFornecedor = New System.Windows.Forms.ComboBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.cboFabricante = New System.Windows.Forms.ComboBox()
@@ -37,12 +34,11 @@ Partial Class fRelatorioEstoque
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtProduto = New System.Windows.Forms.TextBox()
         Me.chkEstoque = New System.Windows.Forms.CheckBox()
-        Me.v_estoqueBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.nascomercioDataSet = New nascomercio.nascomercioDataSet()
-        Me.v_estoqueTableAdapter = New nascomercio.nascomercioDataSetTableAdapters.v_estoqueTableAdapter()
+        Me.cboGrupo = New System.Windows.Forms.ComboBox()
+        Me.lblGrupo = New System.Windows.Forms.Label()
+        Me.lstEstoque = New System.Windows.Forms.ListView()
+        Me.btnPrint = New System.Windows.Forms.Button()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.v_estoqueBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblSubTitulo
@@ -79,7 +75,7 @@ Partial Class fRelatorioEstoque
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(843, 12)
+        Me.btoFiltro.Location = New System.Drawing.Point(761, 12)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
         Me.btoFiltro.Size = New System.Drawing.Size(71, 86)
@@ -117,22 +113,11 @@ Partial Class fRelatorioEstoque
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSair.UseVisualStyleBackColor = False
         '
-        'rptRelatorio
-        '
-        ReportDataSource1.Name = "nascomercioDataSet_v_estoque"
-        ReportDataSource1.Value = Me.v_estoqueBindingSource
-        Me.rptRelatorio.LocalReport.DataSources.Add(ReportDataSource1)
-        Me.rptRelatorio.LocalReport.ReportEmbeddedResource = "nascomercio.Estoque.rdlc"
-        Me.rptRelatorio.Location = New System.Drawing.Point(12, 125)
-        Me.rptRelatorio.Name = "rptRelatorio"
-        Me.rptRelatorio.Size = New System.Drawing.Size(987, 468)
-        Me.rptRelatorio.TabIndex = 140
-        '
         'cboFornecedor
         '
         Me.cboFornecedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboFornecedor.FormattingEnabled = True
-        Me.cboFornecedor.Location = New System.Drawing.Point(110, 98)
+        Me.cboFornecedor.Location = New System.Drawing.Point(111, 100)
         Me.cboFornecedor.Name = "cboFornecedor"
         Me.cboFornecedor.Size = New System.Drawing.Size(210, 21)
         Me.cboFornecedor.TabIndex = 227
@@ -142,7 +127,7 @@ Partial Class fRelatorioEstoque
         Me.Label3.AutoSize = True
         Me.Label3.BackColor = System.Drawing.Color.Transparent
         Me.Label3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label3.Location = New System.Drawing.Point(9, 101)
+        Me.Label3.Location = New System.Drawing.Point(10, 103)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(95, 18)
         Me.Label3.TabIndex = 228
@@ -152,7 +137,7 @@ Partial Class fRelatorioEstoque
         '
         Me.cboFabricante.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboFabricante.FormattingEnabled = True
-        Me.cboFabricante.Location = New System.Drawing.Point(419, 98)
+        Me.cboFabricante.Location = New System.Drawing.Point(420, 100)
         Me.cboFabricante.Name = "cboFabricante"
         Me.cboFabricante.Size = New System.Drawing.Size(212, 21)
         Me.cboFabricante.TabIndex = 229
@@ -162,7 +147,7 @@ Partial Class fRelatorioEstoque
         Me.Label1.AutoSize = True
         Me.Label1.BackColor = System.Drawing.Color.Transparent
         Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(326, 101)
+        Me.Label1.Location = New System.Drawing.Point(327, 103)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(87, 18)
         Me.Label1.TabIndex = 230
@@ -173,7 +158,7 @@ Partial Class fRelatorioEstoque
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
         Me.Label2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label2.Location = New System.Drawing.Point(637, 101)
+        Me.Label2.Location = New System.Drawing.Point(341, 139)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(73, 18)
         Me.Label2.TabIndex = 240
@@ -183,10 +168,10 @@ Partial Class fRelatorioEstoque
         '
         Me.txtProduto.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtProduto.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtProduto.Location = New System.Drawing.Point(716, 98)
+        Me.txtProduto.Location = New System.Drawing.Point(420, 136)
         Me.txtProduto.MaxLength = 20
         Me.txtProduto.Name = "txtProduto"
-        Me.txtProduto.Size = New System.Drawing.Size(283, 18)
+        Me.txtProduto.Size = New System.Drawing.Size(318, 18)
         Me.txtProduto.TabIndex = 241
         '
         'chkEstoque
@@ -195,27 +180,60 @@ Partial Class fRelatorioEstoque
         Me.chkEstoque.Checked = True
         Me.chkEstoque.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkEstoque.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkEstoque.Location = New System.Drawing.Point(630, 73)
+        Me.chkEstoque.Location = New System.Drawing.Point(667, 104)
         Me.chkEstoque.Name = "chkEstoque"
         Me.chkEstoque.Size = New System.Drawing.Size(210, 19)
         Me.chkEstoque.TabIndex = 242
         Me.chkEstoque.Text = "Somente Produtos Com Estoque"
         Me.chkEstoque.UseVisualStyleBackColor = True
         '
-        'v_estoqueBindingSource
+        'cboGrupo
         '
-        Me.v_estoqueBindingSource.DataMember = "v_estoque"
-        Me.v_estoqueBindingSource.DataSource = Me.nascomercioDataSet
+        Me.cboGrupo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboGrupo.FormattingEnabled = True
+        Me.cboGrupo.Location = New System.Drawing.Point(111, 136)
+        Me.cboGrupo.Name = "cboGrupo"
+        Me.cboGrupo.Size = New System.Drawing.Size(210, 21)
+        Me.cboGrupo.TabIndex = 243
         '
-        'nascomercioDataSet
+        'lblGrupo
         '
-        Me.nascomercioDataSet.DataSetName = "nascomercioDataSet"
-        Me.nascomercioDataSet.EnforceConstraints = False
-        Me.nascomercioDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
+        Me.lblGrupo.AutoSize = True
+        Me.lblGrupo.BackColor = System.Drawing.Color.Transparent
+        Me.lblGrupo.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblGrupo.Location = New System.Drawing.Point(10, 139)
+        Me.lblGrupo.Name = "lblGrupo"
+        Me.lblGrupo.Size = New System.Drawing.Size(57, 18)
+        Me.lblGrupo.TabIndex = 244
+        Me.lblGrupo.Text = "Grupo:"
         '
-        'v_estoqueTableAdapter
+        'lstEstoque
         '
-        Me.v_estoqueTableAdapter.ClearBeforeFill = True
+        Me.lstEstoque.HideSelection = False
+        Me.lstEstoque.Location = New System.Drawing.Point(13, 173)
+        Me.lstEstoque.Name = "lstEstoque"
+        Me.lstEstoque.Size = New System.Drawing.Size(914, 401)
+        Me.lstEstoque.TabIndex = 245
+        Me.lstEstoque.UseCompatibleStateImageBehavior = False
+        '
+        'btnPrint
+        '
+        Me.btnPrint.BackColor = System.Drawing.Color.Transparent
+        Me.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnPrint.FlatAppearance.BorderSize = 0
+        Me.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.ForeColor = System.Drawing.Color.Black
+        Me.btnPrint.Image = Global.nascomercio.My.Resources.Resources.print_design
+        Me.btnPrint.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnPrint.Location = New System.Drawing.Point(844, 9)
+        Me.btnPrint.Margin = New System.Windows.Forms.Padding(0)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(72, 84)
+        Me.btnPrint.TabIndex = 246
+        Me.btnPrint.Text = "Imprimir [F8]"
+        Me.btnPrint.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnPrint.UseVisualStyleBackColor = False
         '
         'fRelatorioEstoque
         '
@@ -223,6 +241,10 @@ Partial Class fRelatorioEstoque
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1011, 598)
+        Me.Controls.Add(Me.btnPrint)
+        Me.Controls.Add(Me.lstEstoque)
+        Me.Controls.Add(Me.cboGrupo)
+        Me.Controls.Add(Me.lblGrupo)
         Me.Controls.Add(Me.chkEstoque)
         Me.Controls.Add(Me.txtProduto)
         Me.Controls.Add(Me.Label2)
@@ -230,7 +252,6 @@ Partial Class fRelatorioEstoque
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.cboFornecedor)
         Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.rptRelatorio)
         Me.Controls.Add(Me.lblSubTitulo)
         Me.Controls.Add(Me.btoFiltro)
         Me.Controls.Add(Me.lblTitulo)
@@ -246,8 +267,6 @@ Partial Class fRelatorioEstoque
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Relatório de Estoque"
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.v_estoqueBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -257,9 +276,6 @@ Partial Class fRelatorioEstoque
   Friend WithEvents lblTitulo As System.Windows.Forms.Label
   Friend WithEvents imgLogo As System.Windows.Forms.PictureBox
   Friend WithEvents btoSair As System.Windows.Forms.Button
-    Friend WithEvents v_estoqueBindingSource As System.Windows.Forms.BindingSource
-    Friend WithEvents nascomercioDataSet As nascomercio.nascomercioDataSet
-    Friend WithEvents v_estoqueTableAdapter As nascomercio.nascomercioDataSetTableAdapters.v_estoqueTableAdapter
     Friend WithEvents cboFornecedor As System.Windows.Forms.ComboBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents cboFabricante As System.Windows.Forms.ComboBox
@@ -267,5 +283,8 @@ Partial Class fRelatorioEstoque
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents txtProduto As System.Windows.Forms.TextBox
     Friend WithEvents chkEstoque As System.Windows.Forms.CheckBox
-    Private WithEvents rptRelatorio As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents cboGrupo As ComboBox
+    Friend WithEvents lblGrupo As Label
+    Friend WithEvents lstEstoque As ListView
+    Friend WithEvents btnPrint As Button
 End Class

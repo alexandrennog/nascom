@@ -22,19 +22,20 @@ Partial Class fProdutoBalancoForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Me.dgvProduto = New System.Windows.Forms.DataGridView
-        Me.btoAtualizar = New System.Windows.Forms.Button
-        Me.btoSair = New System.Windows.Forms.Button
-        Me.lblSubTitulo = New System.Windows.Forms.Label
-        Me.imgLogo = New System.Windows.Forms.PictureBox
-        Me.lblTitulo = New System.Windows.Forms.Label
-        Me.btoFiltro = New System.Windows.Forms.Button
-        Me.btoTransferencia = New System.Windows.Forms.Button
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.btnExportar = New System.Windows.Forms.Button
-        Me.btnImportar = New System.Windows.Forms.Button
-        Me.barra = New System.Windows.Forms.ProgressBar
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Me.dgvProduto = New System.Windows.Forms.DataGridView()
+        Me.btoAtualizar = New System.Windows.Forms.Button()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.lblSubTitulo = New System.Windows.Forms.Label()
+        Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.lblTitulo = New System.Windows.Forms.Label()
+        Me.btoFiltro = New System.Windows.Forms.Button()
+        Me.btoTransferencia = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnPrint = New System.Windows.Forms.Button()
+        Me.barra = New System.Windows.Forms.ProgressBar()
+        Me.btnImportar = New System.Windows.Forms.Button()
+        Me.btnExportar = New System.Windows.Forms.Button()
         CType(Me.dgvProduto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -52,16 +53,16 @@ Partial Class fProdutoBalancoForm
         Me.dgvProduto.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.dgvProduto.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
         Me.dgvProduto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.dgvProduto.DefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgvProduto.DefaultCellStyle = DataGridViewCellStyle2
         Me.dgvProduto.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.dgvProduto.Location = New System.Drawing.Point(12, 91)
+        Me.dgvProduto.Location = New System.Drawing.Point(11, 90)
         Me.dgvProduto.Name = "dgvProduto"
         Me.dgvProduto.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
         Me.dgvProduto.RowHeadersVisible = False
@@ -183,6 +184,8 @@ Partial Class fProdutoBalancoForm
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.btnPrint)
+        Me.Panel1.Controls.Add(Me.dgvProduto)
         Me.Panel1.Controls.Add(Me.barra)
         Me.Panel1.Controls.Add(Me.btnImportar)
         Me.Panel1.Controls.Add(Me.btnExportar)
@@ -193,24 +196,31 @@ Partial Class fProdutoBalancoForm
         Me.Panel1.Size = New System.Drawing.Size(964, 530)
         Me.Panel1.TabIndex = 231
         '
-        'btnExportar
+        'btnPrint
         '
-        Me.btnExportar.BackColor = System.Drawing.Color.Transparent
-        Me.btnExportar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnExportar.FlatAppearance.BorderSize = 0
-        Me.btnExportar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnExportar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExportar.ForeColor = System.Drawing.Color.Black
-        Me.btnExportar.Image = Global.nascomercio.My.Resources.Resources.grade1
-        Me.btnExportar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnExportar.Location = New System.Drawing.Point(254, 451)
-        Me.btnExportar.Name = "btnExportar"
-        Me.btnExportar.Size = New System.Drawing.Size(114, 72)
-        Me.btnExportar.TabIndex = 206
-        Me.btnExportar.TabStop = False
-        Me.btnExportar.Text = "Exportar <F2>"
-        Me.btnExportar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btnExportar.UseVisualStyleBackColor = False
+        Me.btnPrint.BackColor = System.Drawing.Color.Transparent
+        Me.btnPrint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnPrint.FlatAppearance.BorderSize = 0
+        Me.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.ForeColor = System.Drawing.Color.Black
+        Me.btnPrint.Image = Global.nascomercio.My.Resources.Resources.print_design
+        Me.btnPrint.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnPrint.Location = New System.Drawing.Point(179, 444)
+        Me.btnPrint.Margin = New System.Windows.Forms.Padding(0)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(72, 84)
+        Me.btnPrint.TabIndex = 212
+        Me.btnPrint.Text = "Imprimir [F3]"
+        Me.btnPrint.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnPrint.UseVisualStyleBackColor = False
+        '
+        'barra
+        '
+        Me.barra.Location = New System.Drawing.Point(11, 436)
+        Me.barra.Name = "barra"
+        Me.barra.Size = New System.Drawing.Size(840, 11)
+        Me.barra.TabIndex = 208
         '
         'btnImportar
         '
@@ -231,12 +241,24 @@ Partial Class fProdutoBalancoForm
         Me.btnImportar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btnImportar.UseVisualStyleBackColor = False
         '
-        'barra
+        'btnExportar
         '
-        Me.barra.Location = New System.Drawing.Point(11, 436)
-        Me.barra.Name = "barra"
-        Me.barra.Size = New System.Drawing.Size(840, 11)
-        Me.barra.TabIndex = 208
+        Me.btnExportar.BackColor = System.Drawing.Color.Transparent
+        Me.btnExportar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnExportar.FlatAppearance.BorderSize = 0
+        Me.btnExportar.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnExportar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExportar.ForeColor = System.Drawing.Color.Black
+        Me.btnExportar.Image = Global.nascomercio.My.Resources.Resources.grade1
+        Me.btnExportar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnExportar.Location = New System.Drawing.Point(254, 451)
+        Me.btnExportar.Name = "btnExportar"
+        Me.btnExportar.Size = New System.Drawing.Size(114, 72)
+        Me.btnExportar.TabIndex = 206
+        Me.btnExportar.TabStop = False
+        Me.btnExportar.Text = "Exportar <F2>"
+        Me.btnExportar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnExportar.UseVisualStyleBackColor = False
         '
         'fProdutoBalancoForm
         '
@@ -246,7 +268,6 @@ Partial Class fProdutoBalancoForm
         Me.ClientSize = New System.Drawing.Size(964, 530)
         Me.Controls.Add(Me.btoTransferencia)
         Me.Controls.Add(Me.btoFiltro)
-        Me.Controls.Add(Me.dgvProduto)
         Me.Controls.Add(Me.lblSubTitulo)
         Me.Controls.Add(Me.imgLogo)
         Me.Controls.Add(Me.lblTitulo)
@@ -279,4 +300,5 @@ Partial Class fProdutoBalancoForm
     Friend WithEvents btnExportar As System.Windows.Forms.Button
     Friend WithEvents btnImportar As System.Windows.Forms.Button
     Friend WithEvents barra As System.Windows.Forms.ProgressBar
+    Friend WithEvents btnPrint As Button
 End Class

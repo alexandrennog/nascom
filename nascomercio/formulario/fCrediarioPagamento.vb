@@ -12,9 +12,12 @@ Imports ncRegras.nsParametro
 Imports ncDados.nsParametro
 
 Public Class fCrediarioPagamento
-
+    Public formularioModal As New Form
+    Private tela As Boolean = True
+    Private _excVenda As Int16
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
+        SendKeys.Flush()
         Me.Close()
     End Sub
 
@@ -141,6 +144,7 @@ Public Class fCrediarioPagamento
                         dadosVenda.Vendedor = Me.lblVendedor.Text
                         dadosVenda.CrediarioPagamento = (recebido - CDec(lblTroco.Text)).ToString("N")
                         dadosVenda.Total = recebido.ToString("N")
+                        dadosVenda.Pix = txtPix.Text
                         GravarLog(mdiPrincipal.gUsuario.usuario, "Pagamento de Crediário. Vendedor: " & Me.lblVendedor.Text)
                         regraVenda.IncluirCrediarioPagamento(dadosVenda)
 
@@ -172,6 +176,7 @@ Public Class fCrediarioPagamento
     Private Sub LimparCampos()
         txtLimite.Text = String.Empty
         txtDisponivel.Text = String.Empty
+        Me.txtIdCliente.Text = ""
         lblRecebido.Text = 0.ToString("N")
         lblFalta.Text = 0.ToString("N")
         lblTroco.Text = 0.ToString("N")
@@ -295,13 +300,80 @@ Public Class fCrediarioPagamento
         End If
     End Sub
 
-    Private Sub fClienteFinanceiroForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        LimparCampos()
-        ExibirInformacoes()
+    Private Sub fClienteFinanceiroForm_Load(ByVal sender As Object, ByVal e As System.EventArgs)
+
+
 
     End Sub
+    Private Sub HabilitarGridParaEdicao(ByVal excVenda As Int16)
+        dgvCrediario.ReadOnly = False
+        For Each column As DataGridViewColumn In dgvCrediario.Columns
+            column.[ReadOnly] = (excVenda <> 1)
+        Next
 
+        dgvCrediario.Columns(0).ReadOnly = False
 
+    End Sub
+    Private Sub FiltrarCliente()
+        Dim filtro As dCliente
+        Dim clientes As ColecaoCliente
+        Dim regras As rCliente
+        filtro = New dCliente
+        clientes = New ColecaoCliente
+
+        If txtIdCliente.Text = "" Then
+            MessageBox.Show("Informe um código")
+            Exit Sub
+        End If
+
+        'fClienteLista.filtro = filtro
+
+        filtro.cid = cFuncoes.TratarInteiro(txtIdCliente.Text)
+        regras = New rCliente
+
+        clientes = regras.Consultar(filtro)
+
+        If clientes Is Nothing Then
+
+            MessageBox.Show("Não existe cliente com esse código!")
+            txtIdCliente.Focus()
+            txtIdCliente.Select()
+            txtIdCliente.Text = ""
+
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+
+            Exit Sub
+        End If
+
+        filtro = clientes.Item(0)
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            If filtro.cpf <> "" Then
+                Me.txtCliente.Text += ", CPF: " & filtro.cpf
+            End If
+            Me.txtCliente.Tag = filtro.cid
+            If filtro.situacao = "N" Then
+                Me.txtCliente.ForeColor = Color.Red
+                txtCliente.BackColor = Color.Salmon
+            ElseIf filtro.situacao = "O" Then
+                Me.txtCliente.ForeColor = Color.Orange
+                txtCliente.BackColor = Color.Yellow
+            Else
+                Me.txtCliente.ForeColor = Color.Black
+                txtCliente.BackColor = Color.White
+            End If
+        End If
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            Me.txtCliente.Tag = filtro.cid
+            txtCliente_Leave(Nothing, Nothing)
+        End If
+
+    End Sub
     Private Sub txtCodigo_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtCodigo.Leave
 
         Dim juros As Decimal
@@ -422,7 +494,10 @@ Public Class fCrediarioPagamento
 
     Private Sub txtDinheiro_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave
         If txtDinheiro.Text <> "" Then
-            lblRecebido.Text = CDec(txtDinheiro.Text).ToString("N")
+            Dim valorRecebidoTotal As Decimal
+            valorRecebidoTotal = CDec(txtDinheiro.Text) + CDec(txtPix.Text)
+
+            lblRecebido.Text = CDec(valorRecebidoTotal).ToString("N")
             If (CDec(lblTotal.Text) - CDec(lblRecebido.Text)) < 0 Then
                 lblTroco.Text = Math.Abs(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
                 lblFalta.Text = 0.ToString("N")
@@ -664,7 +739,24 @@ Public Class fCrediarioPagamento
         End If
 
     End Sub
+    Private Sub valorParcelasSelecioadas()
+        'lblTotal.Text = 0.ToString("N")
 
+        'For Each linha As DataGridViewRow In dgvCrediario.Rows
+
+        '    If linha.DataGridView.  = True Then
+        '        chk.Value = chk.FalseValue
+        '    Else
+        '        chk.Value = chk.TrueValue
+        '    End If
+
+        '    If linha.Cells("selecao").Value = True Then
+        '        lblTotal.Text = (CDec(lblTotal.Text) + CDec(linha.Cells(5).Value)).ToString("N")
+        '    End If
+        'Next
+
+        'txtDinheiro_Leave(Nothing, Nothing)
+    End Sub
 
     Private Sub valorParcelas()
         lblTotal.Text = 0.ToString("N")
@@ -690,7 +782,7 @@ Public Class fCrediarioPagamento
         End If
     End Sub
 
-    Private Sub dgvCrediario_CellValueChanged(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvCrediario.CellValueChanged
+    Private Sub dgvCrediario_CellValueChanged(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvCrediario.CellValueChanged, dgvCrediario.CellClick
         If dgvCrediario.Columns(e.ColumnIndex).Name = "selecao" Then
             valorParcelas()
         End If
@@ -698,5 +790,114 @@ Public Class fCrediarioPagamento
 
     Private Sub btoIncluirCliente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoIncluirCliente.Click
         ConsultarCliente()
+    End Sub
+
+    Private Sub dgvCrediario_Click(sender As Object, e As EventArgs) Handles dgvCrediario.Click
+        'valorParcelasSelecioadas()
+    End Sub
+
+    'Private Sub btnPix_Click(sender As Object, e As EventArgs)
+
+
+
+
+    'End Sub
+
+    Private Sub AbrirTelaModal()
+        tela = False
+
+        formularioModal.MdiParent = Me
+        formularioModal.Show()
+        formularioModal.BringToFront()
+    End Sub
+
+    Private Sub FecharTelaModal()
+        If Not formularioModal Is Nothing Then
+            formularioModal.Close()
+            formularioModal = Nothing
+        End If
+
+        tela = True
+    End Sub
+
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+    Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
+        If Me.lblTotal.Text = "0,00" Or Me.lblTotal.Text = "0.00" Then
+            MessageBox.Show("É preciso informar um valor a pagar.", "Pagar com PIX!")
+            Exit Sub
+        End If
+
+        Dim formPix As fPix
+        formPix = New fPix()
+        formPix.txtValorPIX.Text = Me.lblTotal.Text
+        formPix.ShowDialog()
+    End Sub
+
+    Private Sub txtPix_Leave(sender As Object, e As EventArgs) Handles txtPix.Leave
+        If txtDinheiro.Text <> "" Then
+            Dim valorRecebidoTotal As Decimal
+            valorRecebidoTotal = CDec(txtDinheiro.Text) + CDec(txtPix.Text)
+
+            lblRecebido.Text = CDec(valorRecebidoTotal).ToString("N")
+            If (CDec(lblTotal.Text) - CDec(lblRecebido.Text)) < 0 Then
+                lblTroco.Text = Math.Abs(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
+                lblFalta.Text = 0.ToString("N")
+            Else
+                lblTroco.Text = 0.ToString("N")
+                lblFalta.Text = (CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
+            End If
+        End If
+    End Sub
+
+    Private Sub dgvCrediario_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvCrediario.CellDoubleClick
+
+    End Sub
+
+    Private Sub dgvCrediario_CellBeginEdit(sender As Object, e As DataGridViewCellCancelEventArgs) Handles dgvCrediario.CellBeginEdit
+
+    End Sub
+
+    Private Sub txtIdCliente_MouseDown(sender As Object, e As MouseEventArgs) Handles txtIdCliente.MouseDown
+
+
+    End Sub
+
+    Private Sub txtIdCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            FiltrarCliente()
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_KeyUp(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyUp
+        If txtIdCliente.Text = "" Then
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
+        FiltrarCliente()
+    End Sub
+
+    Private Sub txtIdCliente_TextChanged(sender As Object, e As EventArgs) Handles txtIdCliente.TextChanged
+
+    End Sub
+
+    Private Sub fCrediarioPagamento_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim dadosParametro As dParametro
+        Dim regraParametro As New rParametro
+
+        LimparCampos()
+        ExibirInformacoes()
+
+        dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ExcVenda)
+        If Not IsNothing(dadosParametro) Then
+            _excVenda = dadosParametro.valor
+            HabilitarGridParaEdicao(_excVenda)
+        End If
     End Sub
 End Class

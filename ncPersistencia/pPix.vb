@@ -1,4 +1,5 @@
-﻿Imports ncComum.nsAcessoBD
+﻿Imports ncComum
+Imports ncComum.nsAcessoBD
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
 Imports ncDados
@@ -25,10 +26,10 @@ Public Class pPix
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select txID, Observacao, SolicitacaoPagador as pagador, Original, controle "
+            sqlSelect = " Select txID, Observacao, SolicitacaoPagador as pagador, DataHora, Original, controle, Status "
 
-            sqlWhere = String.Empty
             sqlFrom = " From PIX "
+            sqlWhere = String.Empty
 
             '-- TxId
             If dados.TxId <> 0 Then
@@ -44,6 +45,8 @@ Public Class pPix
             If Not sqlWhere.Equals(String.Empty) Then
                 sqlWhere = " WHERE " & sqlWhere
             End If
+
+            sqlWhere = sqlWhere + " order by DataHora desc "
 
             ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
 
@@ -65,6 +68,8 @@ Public Class pPix
                             item.Pagador = cFuncoes.RetornarTexto(row("pagador"))
                             item.Original = cFuncoes.RetornarDecimal(row("Original"))
                             item.Controle = cFuncoes.RetornarInteiro(row("controle"))
+                            item.Status = cFuncoes.RetornarTexto(row("Status"))
+                            item.DataHora = cFuncoes.RetornarData(row("DataHora"))
                             retorno.Add(item)
                         Next
                     Else
@@ -89,7 +94,7 @@ Public Class pPix
     End Function
 
 
-    Public Function Consultar() As dPix
+    Public Function Consultar(tx As String) As dPix
 
         Dim retorno As dPix
         Dim acessoBanco As cAcessoBD
@@ -98,16 +103,20 @@ Public Class pPix
         Dim row As DataRow
         Dim item As dPix
         Dim sqlSelect As String
-        Dim sqlWhere As String
+        Dim sqlWhere As String = ""
         Dim sqlFrom As String
 
         Try
 
             acessoBanco = New cAcessoBD
 
-            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status, Observacao, DataHora, controle   "
+            sqlSelect = " Select ID, txID, SolicitacaoPagador, Original, status, Observacao, DataHora, controle, UrlPix   "
 
-            sqlWhere = " order by DataHora desc LIMIT 1;"
+            If String.IsNullOrEmpty(tx) = False Then
+                sqlWhere = $" WHERE txID = '{tx}'"
+            End If
+
+            sqlWhere = sqlWhere + " order by DataHora desc LIMIT 1;"
             sqlFrom = " From PIX "
 
             ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
@@ -129,6 +138,7 @@ Public Class pPix
                             item.DataHora = cFuncoes.RetornarData(row("DataHora"))
                             item.Observacao = cFuncoes.RetornarTexto(row("Observacao"))
                             item.Controle = cFuncoes.RetornarInteiro(row("controle"))
+                            item.UrlPix = cFuncoes.RetornarTexto(row("UrlPix"))
                             retorno = item
                         Next
                     Else
@@ -168,7 +178,7 @@ Public Class pPix
         Try
 
             acessoBanco = New cAcessoBD
-            sqlSelect = " SELECT Cliente, Cpf, Cnpj, Nome, Chave "
+            sqlSelect = " SELECT Banco, Cliente, Cpf, Cnpj, Nome, Chave, Client_id, client_secret, PathCertificate, PassCertificate, Email"
             sqlWhere = String.Empty
             sqlFrom = "  FROM pixconfig "
 
@@ -183,11 +193,17 @@ Public Class pPix
 
                         For Each row In dt.Rows
                             item = New dPixConfig
+                            item.Banco = cFuncoes.RetornarTexto(row("Banco"))
                             item.Cliente = cFuncoes.RetornarTexto(row("Cliente"))
                             item.Cpf = cFuncoes.RetornarTexto(row("Cpf"))
                             item.Cnpj = cFuncoes.RetornarTexto(row("Cnpj"))
                             item.Nome = cFuncoes.RetornarTexto(row("Nome"))
                             item.Chave = cFuncoes.RetornarTexto(row("Chave"))
+                            item.ClientID = cFuncoes.RetornarTexto(row("Client_id"))
+                            item.ClientSecret = cFuncoes.RetornarTexto(row("client_secret"))
+                            item.CertPath = cFuncoes.RetornarTexto(row("PathCertificate"))
+                            item.CertPass = cFuncoes.RetornarTexto(row("PassCertificate"))
+                            item.Email = cFuncoes.RetornarTexto(row("Email"))
                         Next
                         retorno = item
                     Else
@@ -212,10 +228,16 @@ Public Class pPix
     End Function
 
     Public Function Incluir(ByVal dados As dPix) As Integer
-
+        Dim colecaoPRODCOR As ColecaoPix = Nothing
         Dim retorno As Integer
         Dim acessoBanco As cAcessoBD
         Dim comandoSQL As String
+        Dim ds As DataSet
+        Dim dt As DataTable
+        Dim ColecaoPix As List(Of String)
+        Dim row As DataRow
+        Dim item As String
+        Dim ret As ColecaoPix
 
         Try
 
@@ -226,6 +248,29 @@ Public Class pPix
             comandoSQL += "," & cFuncoes.PersistirDataHora(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")) & "," & cFuncoes.PersistirTexto(dados.Observacao) & "," & cFuncoes.PersistirInteiro(dados.Controle) + ")"
 
             retorno = acessoBanco.ExecutarCID(comandoSQL)
+
+            comandoSQL = " SELECT controle FROM pix where datahora = (select MAX(datahora) from pix);"
+            ds = acessoBanco.ExecutarDS(comandoSQL)
+
+            If Not ds Is Nothing Then
+                If ds.Tables.Count > 0 Then
+                    dt = ds.Tables(0)
+
+                    If dt.Rows.Count > 0 Then
+                        ret = New ColecaoPix()
+
+                        For Each row In dt.Rows
+                            retorno = nsFuncoes.cFuncoes.RetornarTexto(row("controle"))
+                        Next
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+            Else
+                retorno = Nothing
+            End If
 
         Catch ex As Exception
 
@@ -238,4 +283,68 @@ Public Class pPix
 
     End Function
 
+
+    Public Function IncluirPixConfig(ByVal dados As dPixConfig) As Integer
+        Dim colecaoPRODCOR As ColecaoPix = Nothing
+        Dim retorno As Integer
+        Dim acessoBanco As cAcessoBD
+        Dim comandoSQL As String
+
+        Try
+
+            acessoBanco = New cAcessoBD
+
+            comandoSQL = " INSERT INTO pixconfig (Banco, Cliente, Cpf, Cnpj, Nome, chave, Client_id, client_secret, PathCertificate, PassCertificate, Email)  VALUES ("
+            comandoSQL += cFuncoes.PersistirTexto(dados.Banco) & "," & cFuncoes.PersistirInteiro(dados.Cliente) & "," &
+            cFuncoes.PersistirTexto(dados.Cpf) & "," & cFuncoes.PersistirTexto(dados.Cnpj) & "," & cFuncoes.PersistirTexto(dados.Nome) & "," &
+            cFuncoes.PersistirTexto(dados.Chave) & "," & cFuncoes.PersistirTexto(dados.ClientID) & "," & cFuncoes.PersistirTexto(dados.ClientSecret) & "," &
+            cFuncoes.PersistirTexto(dados.CertPath) & "," & cFuncoes.PersistirTexto(dados.CertPass) & "," & cFuncoes.PersistirTexto(dados.Email) & ")"
+
+            retorno = acessoBanco.ExecutarCID(comandoSQL)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Incluir Pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        IncluirPixConfig = retorno
+
+    End Function
+
+
+    Public Function AlterarPixConfig(ByVal dados As dPixConfig) As Integer
+
+        Dim retorno As Integer
+        Dim acessoBanco As cAcessoBD
+        Dim comandoSQL As String
+
+        Try
+
+            acessoBanco = New cAcessoBD
+
+            comandoSQL = " UPDATE pixconfig SET " &
+                " Banco = " & cFuncoes.PersistirTexto(dados.Banco) & "," &
+                " Cpf = " & cFuncoes.PersistirTexto(dados.Cpf) & "," &
+                " Cnpj = " & cFuncoes.PersistirTexto(dados.Cnpj) & "," &
+                " Nome = " & cFuncoes.PersistirTexto(dados.Nome) & "," &
+                " chave = " & cFuncoes.PersistirTexto(dados.Chave) & "," &
+                " Client_id = " & cFuncoes.PersistirData(dados.ClientID) & "," &
+                " client_secret = " & cFuncoes.PersistirTexto(dados.ClientSecret) & "," &
+                " PathCertificate = " & cFuncoes.PersistirTexto(dados.CertPath) & "," &
+                " PassCertificate = " & cFuncoes.PersistirTexto(dados.CertPass)
+
+            retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+        Catch ex As Exception
+
+            retorno = Nothing
+            Throw New ExcecaoNascomercio("Erro em Alterar Configuração pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+        AlterarPixConfig = retorno
+
+    End Function
 End Class

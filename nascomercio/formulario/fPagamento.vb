@@ -17,6 +17,10 @@ Imports System.IO
 Imports System.Threading
 Imports System
 Imports System.Linq
+Imports CLPix.Services
+Imports ncComum.nsFuncoes
+Imports ncDados.nsCliente
+Imports ncRegras.nsCliente
 
 
 Public Class fPagamento
@@ -62,6 +66,22 @@ Public Class fPagamento
             lblTroco.Text = CDec(CDec(lblRecebido.Text) - CDec(lblTotal.Text)).ToString("N")
             lblFalta.Text = 0.ToString("N")
         End If
+        lblRecebido.Text = CDec(CDec(txtVendas.Text) - CDec(lblFalta.Text)).ToString("N")
+    End Sub
+    Private Sub recalculaRecebido()
+        ' Soma recebidos
+        lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtPix.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
+        + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
+        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDesconto.Text) + CDec(txtDefeitos.Text)).ToString("N")
+
+        If CDec(lblRecebido.Text) <= CDec(txtVendas.Text) Then
+            lblFalta.Text = CDec(CDec(txtVendas.Text) - CDec(lblRecebido.Text)).ToString("N")
+            lblTroco.Text = 0.ToString("N")
+        Else
+            lblTroco.Text = CDec(CDec(lblRecebido.Text) - CDec(txtVendas.Text)).ToString("N")
+            lblFalta.Text = 0.ToString("N")
+        End If
+        lblTotal.Text = txtVendas.Text
     End Sub
 
     Private Sub fPagamento_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -87,11 +107,20 @@ Public Class fPagamento
         calculaRecebido()
         formataCampos()
         If HabilitarPix() Then
-            RecuperarDadosPix()
+            'RecuperarDadosPix()
             chkPIX.Enabled = True
         Else
             chkPIX.Enabled = False
         End If
+
+        txtValorPIX.Text = "0,00"
+        txtObs.Text = ""
+        txtTxId.Text = ""
+        txtStatus.Text = ""
+        txtUrlPix.Text = ""
+        'txtPix.Text = "0,00"
+        'txtDesconto.Text = "0,00"
+        lblTotal.Text = txtVendas.Text
 
     End Sub
     Private Function HabilitarPix() As Boolean
@@ -117,14 +146,17 @@ Public Class fPagamento
                                                                                                txtChequePre.Leave,
                                                                                                txtCheque.Leave,
                                                                                                txtCartaoDebito.Leave,
-                                                                                               txtVale.Leave
+                                                                                               txtVale.Leave,
+                                                                                               txtDesconto.Leave,
+                                                                                               txtPix.Leave
         'Mostra informações de valores recebidos e troco
         verificaCampos()
-        calculaRecebido()
+        recalculaRecebido()
         formataCampos()
     End Sub
 
     Private Sub formataCampos()
+
         txtDinheiro.Text = CDec(txtDinheiro.Text).ToString("N")
         txtPix.Text = CDec(txtPix.Text).ToString("N")
         txtCheque.Text = CDec(txtCheque.Text).ToString("N")
@@ -133,9 +165,13 @@ Public Class fPagamento
         txtCartaoDebito.Text = CDec(txtCartaoDebito.Text).ToString("N")
         txtCrediario.Text = CDec(txtCrediario.Text).ToString("N")
         txtVale.Text = CDec(txtVale.Text).ToString("N")
+        txtDesconto.Text = CDec(txtDesconto.Text).ToString("N")
+        txtIdCliente.Text = Me.txtCliente.Tag
     End Sub
 
     Private Sub verificaCampos()
+
+
         If txtDinheiro.Text.Trim().Equals("") Then
             txtDinheiro.Text = 0.ToString("N")
         End If
@@ -160,6 +196,12 @@ Public Class fPagamento
         If txtVale.Text.Trim().Equals("") Then
             txtVale.Text = 0.ToString("N")
         End If
+        If txtDesconto.Text.Trim().Equals("") Then
+            txtDesconto.Text = 0.ToString("N")
+        End If
+        If txtIdCliente.Text.Trim().Equals("") Then
+            txtIdCliente.Text = ""
+        End If
     End Sub
 
     Private Sub btoSalvar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSalvar.Click
@@ -177,7 +219,7 @@ Public Class fPagamento
 
                 If txtCliente.Tag <> 1 Then
 
-                    If Me.txtCliente.ForeColor = Color.Red Then
+                    If Me.txtCliente.ForeColor = Color.Red And Not EhAdmin() Then
                         MessageBox.Show("Cliente com pendências!")
                         acessoGerente = New fAcessoGerente()
                         acessoGerente.ShowDialog()
@@ -253,8 +295,9 @@ Public Class fPagamento
         End If
 
     End Sub
-
-
+    Private Function EhAdmin() As Boolean
+        Return mdiPrincipal.lblUsuario.Text.Contains("ADMINISTRADOR")
+    End Function
 
     Private Function CarregaCheque() As Boolean
         Dim janela As fChequesForm
@@ -285,6 +328,7 @@ Public Class fPagamento
             janela.lblVendedor.Tag = lblVendedor.Tag
             janela.lblLoja.Text = lblLoja.Text
             janela.lblLoja.Tag = lblLoja.Tag
+
 
             'Application.DoEvents()
 
@@ -359,6 +403,7 @@ Public Class fPagamento
                 janela.lblLoja.Text = lblLoja.Text
                 janela.lblLoja.Tag = lblLoja.Tag
 
+
                 janela.ShowDialog()
 
                 Return janela.pago
@@ -387,6 +432,7 @@ Public Class fPagamento
 
     Private Sub LimpaCampos()
         txtCliente.Text = ""
+        txtIdCliente.Text = ""
         lblControle.Text = ""
         lblEmissao.Text = ""
         lblVendedor.Text = ""
@@ -426,6 +472,7 @@ Public Class fPagamento
         dadosVenda.Total = Me.lblTotal.Text
         dadosVenda.controle = Me.lblControle.Text
         dadosVenda.ordemServicoId = Me.lblControle.Tag
+        dadosVenda.TXID = Me.txtTxId.Text
         ' Verifica se emite Vale
         If (dadosVenda.Troca > 0.0 Or dadosVenda.Defeito > 0.0 Or dadosVenda.Vale > 0.0) And dadosVenda.Troco > 0.0 Then
             ' Verifica se troco provem de troca
@@ -561,10 +608,15 @@ Public Class fPagamento
                     ' ECF - Impressora Fiscal
 
                     'se não informou cpf pergunta
-                    If String.IsNullOrEmpty(Str_CPF) Then
+                    If String.IsNullOrEmpty(Str_CPF) And Len(Str_CPF) = 11 Then
                         Str_CPF = InputBox("Deseja informar o CPF ?").Trim()
                         Do While Not ValidaCpf(Str_CPF)
                             Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
+                        Loop
+                    ElseIf String.IsNullOrEmpty(Str_CPF) And Len(Str_CPF) = 14 Then
+                        Str_CPF = InputBox("Deseja informar o CNPJ ?").Trim()
+                        Do While Not ValidaCnpj(Str_CPF)
+                            Str_CPF = InputBox("CNPJ Incorreto, informe novamente ?").Trim()
                         Loop
 
                     End If
@@ -654,11 +706,16 @@ Public Class fPagamento
 
                         'se não informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
-                            Str_CPF = InputBox("Deseja informar o CPF ?").Trim()
-                            Do While Not ValidaCpf(Str_CPF)
-                                Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
-                            Loop
-
+                            Str_CPF = InputBox("Deseja informar o CPF/CNPJ ?").Trim()
+                            If Str_CPF.Length > 11 Then
+                                Do While Not ValidaCnpj(Str_CPF)
+                                    Str_CPF = InputBox("CNPJ Incorreto, informe novamente ?").Trim()
+                                Loop
+                            Else
+                                Do While Not ValidaCpf(Str_CPF)
+                                    Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
+                                Loop
+                            End If
                         End If
 
                         ' Abertura Cupom
@@ -809,7 +866,7 @@ Public Class fPagamento
                             objImpressao.Write("DINHEIRO  : " & CDec(txtDinheiro.Text).ToString("C"))
                         End If
                         If CDec(txtPix.Text) > 0.001 Then
-                            objImpressao.Write("PIX  : " & CDec(txtPix.Text).ToString("C"))
+                            objImpressao.Write("PIX       : " & CDec(txtPix.Text).ToString("C"))
                         End If
                         If CDec(txtCheque.Text) > 0.001 Then
                             objImpressao.Write("CHEQUE    : " & CDec(txtCheque.Text).ToString("C"))
@@ -862,6 +919,7 @@ Public Class fPagamento
         formCliente.filtro = New ncDados.nsCliente.dCliente()
         formCliente.ShowDialog()
         If formCliente.filtro.nome <> "" Then
+            Me.txtIdCliente.Text = formCliente.filtro.cid
             Me.txtCliente.Text = formCliente.filtro.nome
             Me.txtCliente.Tag = formCliente.filtro.cid
             Me.txtCliente.ForeColor = IIf(formCliente.filtro.situacao = "N", Color.Red, Color.Black)
@@ -870,6 +928,10 @@ Public Class fPagamento
             End If
         End If
 
+    End Sub
+    Private Sub Configuracao_Pix()
+        Dim formPixConfig As New fConfigPix
+        formPixConfig.ShowDialog()
     End Sub
 
     Private Sub txtCliente_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtCliente.KeyDown
@@ -938,36 +1000,85 @@ Public Class fPagamento
     Private Sub Label34_Click(sender As Object, e As EventArgs)
 
     End Sub
-    Private Sub Consultar()
+    Private Sub Consultar(tx As String)
         Dim regras As New rPix
         Dim pix As dPix
-        pix = regras.Consultar()
+
+
+        pix = regras.Consultar(tx)
 
         If IsNothing(pix) Then
             Exit Sub
         End If
 
-        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
-        Dim filename As String = BuscarImagem(folder, pix)
-        If String.IsNullOrEmpty(filename) Then
-            Exit Sub
+
+        txtValorPIX.Text = pix.Original
+        txtPix.Text = pix.Original
+
+
+
+        If pix.Status = Nothing Then
+            txtStatus.Text = "Cobrar"
+            pix.Status = "NOVA"
+        Else
+            txtStatus.Text = pix.Status
         End If
 
         txtTxId.Text = pix.TxId
+        picQRCode.Image = Nothing
+        btnPix.Image = Nothing
+        btnPix.Text = ""
 
-        Select Case pix.Status
+        Dim folder As String = ConfigurationManager.AppSettings("pathPIX")
+        Dim filename As String = BuscarImagem(folder, pix)
+        If String.IsNullOrEmpty(filename) And folder = "" Then
+            Exit Sub
+        End If
+
+
+
+        btnPix.Image = nascomercio.My.Resources.Resources.cobrar
+        Select Case pix.Status.ToUpper()
+
+            Case "NOVA"
+                txtStatus.Text = ""
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
             Case "ATIVA"
                 txtStatus.Text = "Criada"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
+                picQRCode.Image = ResizeImage(Image.FromFile(filename))
+            Case "PENDING"
+                txtStatus.Text = "Criada"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = "Consultar"
+                picQRCode.Image = ResizeImage(Image.FromFile(filename))
             Case "CONCLUIDA"
                 txtStatus.Text = "Pago"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = ""
+                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
+            Case "APPROVED"
+                txtStatus.Text = "Pago"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+                btnPix.Text = ""
+                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
             Case "REMOVIDA_PELO_USUARIO_RECEBEDOR"
                 txtStatus.Text = "Removida User"
+                btnPix.Text = ""
             Case "REMOVIDA_PELO_PSP"
                 txtStatus.Text = "Removida PSP"
+                btnPix.Text = ""
+            Case "EXPIRADA"
+                txtStatus.Text = "Expirada"
+                btnPix.Text = ""
+
         End Select
 
-        txtObs.Text = pix.Observacao + " Controle:" + Me.lblControle.Text + "  " + pix.DataHora
-        picQRCode.Image = ResizeImage(Image.FromFile(filename))
+        txtObs.Text = String.Format($"{pix.Observacao} Controle:  {Me.lblControle.Text} {pix.DataHora}")
+
+        txtUrlPix.Text = pix.UrlPix
 
     End Sub
     Private Sub Cadastrar()
@@ -985,6 +1096,8 @@ Public Class fPagamento
             pagamentos = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
+            picQRCode.Tag = pagamentos
+
 
         Catch ex As Exception
 
@@ -1043,6 +1156,10 @@ Public Class fPagamento
             panelPIX.Visible = False
         End If
 
+        txtStatus.Text = ""
+        txtTxId.Text = ""
+        txtObs.Text = ""
+        txtUrlPix.Text = ""
 
     End Sub
 
@@ -1068,16 +1185,12 @@ Public Class fPagamento
         End If
 
         Dim files() As String = IO.Directory.GetFiles(folder, filter)
-        Dim nomeFile As String
-
-        If pix.Status = "CONCLUIDA" Then
-            BuscarImagem = folder + "\pago.png"
-            Exit Function
-        End If
+        Dim nomeFile As String = String.Empty
 
         For Each sFile As String In files
             If sFile.Contains(pix.TxId) Then
                 nomeFile = sFile
+                Exit For
             End If
         Next
 
@@ -1119,29 +1232,276 @@ Public Class fPagamento
                                                                 txtCheque.Leave,
                                                                 txtCartaoDebito.Leave,
                                                                 txtVale.Leave,
-                                                                txtPix.Leave
+                                                                txtDesconto.Leave
 
 
         'Mostra informações de valores recebidos e troco
         verificaCampos()
-        calculaRecebido()
+        recalculaRecebido()
         formataCampos()
     End Sub
 
     Private Sub btnPix_Click(sender As Object, e As EventArgs) Handles btnPix.Click
+
         If btnPix.Text = "Cobrar" Then
+
+            If txtPix.Text = "0,00" Or txtPix.Text = "0" Then
+                MessageBox.Show("É preciso informar um valor para a cobrança")
+                txtPix.Select()
+            Else
+                Cadastrar()
+                btnPix.Text = "Consultar"
+                btnPix.Image = nascomercio.My.Resources.Resources.consultar
+            End If
+
+
+        ElseIf btnPix.Text = "Nova Cobrança" Then
             Cadastrar()
-            btnPix.Text = "Consultar"
-            txtTxId.Tag = 1
+            btnPix.Text = "Cobrar"
+            btnPix.Image = nascomercio.My.Resources.Resources.cobrar
+
+            txtPix.Text = "0,00"
+            txtValorPIX.Text = "0,00"
+            txtObs.Text = ""
+            txtTxId.Text = ""
+            txtStatus.Text = ""
+            txtUrlPix.Text = ""
+            picQRCode.Image = Nothing
+
         Else
             If txtTxId.Text.Length <> 36 Then
                 txtTxId.Text = "Consulte Novamente..."
             End If
-            Consultar()
+            Consultar("")
         End If
     End Sub
 
     Private Sub fPagamento_HandleDestroyed(sender As Object, e As EventArgs) Handles Me.HandleDestroyed
 
+    End Sub
+
+    Private Sub Label20_Click(sender As Object, e As EventArgs) Handles Label20.Click
+
+    End Sub
+
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
+
+    End Sub
+
+    Private Sub btnCopiar_Click(sender As Object, e As EventArgs) Handles btnCopiar.Click
+        If txtUrlPix.Text.Trim() <> "" Then
+            Clipboard.SetText(txtUrlPix.Text)
+        End If
+    End Sub
+
+    Private Sub picQRCode_Click(sender As Object, e As EventArgs) Handles picQRCode.Click
+
+    End Sub
+
+    Private Sub panelPIX_Paint(sender As Object, e As PaintEventArgs) Handles panelPIX.Paint
+
+    End Sub
+
+    Private Sub Label24_Click(sender As Object, e As EventArgs)
+
+    End Sub
+    Private Sub LimparControles()
+        txtValorPIX.Text = ""
+        txtStatus.Text = ""
+        txtTxId.Text = ""
+        txtObs.Text = ""
+        txtUrlPix.Text = ""
+    End Sub
+    Private Sub btnListar_Click(sender As Object, e As EventArgs) Handles btnListar.Click
+
+        PanelListPix.Visible = True
+        panelPIX.Visible = False
+        panelLista.Visible = False
+
+        Dim regras As rPix
+        regras = New rPix
+        Dim dados As New dPix
+        Dim _dados As New dPix
+        Dim colecaoPIX As List(Of dPix) = New List(Of dPix)
+        Dim li As ListViewItem
+
+        Try
+
+            LimparControles()
+            Me.lstPix.View = View.Details
+            Me.lstPix.GridLines = True
+            Me.lstPix.FullRowSelect = True
+            Me.lstPix.Columns.Clear()
+            Me.lstPix.Items.Clear()
+
+            Me.lstPix.Columns.Add("TX").Width = 220
+            Me.lstPix.Columns.Add("Valor").Width = 60
+            Me.lstPix.Columns.Add("Data").Width = 100
+            Me.lstPix.Columns.Add("Status").Width = 100
+
+            colecaoPIX = regras.Consultar(dados)
+
+            If colecaoPIX Is Nothing Then
+                MessageBox.Show("Não há ítens na lista.")
+                Exit Sub
+            End If
+
+            For Each item As dPix In colecaoPIX
+                li = New ListViewItem
+                li.Text = item.TxId
+                li.SubItems.Add(item.Original)
+                li.SubItems.Add(item.DataHora.ToString("dd/MM/yy HH:mm"))
+                If item.Status = "CONCLUIDA" Then
+                    item.Status = "PAGO"
+                End If
+
+                li.SubItems.Add(item.Status)
+                Me.lstPix.Items.Add(li)
+            Next
+
+        Catch ex As Exception
+
+            Throw New ExcecaoNascomercio("Erro em recuperar dados do pix [" & Me.ToString() & "] - " & ex.Message)
+
+        End Try
+
+
+
+
+
+
+
+    End Sub
+
+    Private Sub lstPix_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstPix.SelectedIndexChanged
+
+
+    End Sub
+
+    Private Sub lstPix_DoubleClick(sender As Object, e As EventArgs) Handles lstPix.DoubleClick
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+        Dim haSelecionado As Boolean = False
+
+        haSelecionado = Me.lstPix.SelectedItems.Count > 0
+
+        Dim tx As String
+
+        If haSelecionado = True Then
+            tx = Me.lstPix.SelectedItems.Item(0).Text
+            Consultar(tx)
+        Else
+            Consultar("")
+        End If
+
+
+
+
+    End Sub
+
+    Private Sub btnFechar_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub btnOut_Click(sender As Object, e As EventArgs)
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+        panelLista.Visible = False
+    End Sub
+
+    Private Sub btnSair_Click(sender As Object, e As EventArgs) Handles btnSair.Click
+        PanelListPix.Visible = False
+        panelPIX.Visible = True
+        panelLista.Visible = False
+    End Sub
+
+    Private Sub txtPix_TextChanged(sender As Object, e As EventArgs) Handles txtPix.TextChanged
+
+    End Sub
+
+    Private Sub txtDesconto_Leave(sender As Object, e As EventArgs) Handles txtPix.Leave,
+                                                                txtDinheiro.Leave,
+                                                                txtCartaoCredito.Leave,
+                                                                txtCrediario.Leave,
+                                                                txtChequePre.Leave,
+                                                                txtCheque.Leave,
+                                                                txtCartaoDebito.Leave,
+                                                                txtVale.Leave,
+                                                                txtDesconto.Leave
+
+
+        'Mostra informações de valores recebidos e troco
+        verificaCampos()
+        recalculaRecebido()
+        formataCampos()
+
+    End Sub
+
+    Private Sub txtIdCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            FiltrarCliente()
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_KeyUp(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyUp
+        If e.KeyCode = Keys.Enter Then
+            FiltrarCliente()
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
+        FiltrarCliente()
+    End Sub
+    Private Sub FiltrarCliente()
+        Dim filtro As dCliente
+        Dim clientes As ColecaoCliente
+        Dim regras As rCliente
+        filtro = New dCliente
+        clientes = New ColecaoCliente
+
+        If txtIdCliente.Text = "" Then
+            MessageBox.Show("Informe um código")
+            Exit Sub
+        End If
+
+        'fClienteLista.filtro = filtro
+
+        filtro.cid = cFuncoes.TratarInteiro(txtIdCliente.Text)
+        regras = New rCliente
+
+        clientes = regras.Consultar(filtro)
+
+        If clientes Is Nothing Then
+
+            MessageBox.Show("Não existe cliente com esse código!")
+            txtIdCliente.Focus()
+            txtIdCliente.Select()
+            txtIdCliente.Text = ""
+
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+            Exit Sub
+        End If
+
+        filtro = clientes.Item(0)
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            If filtro.cpf <> "" Then
+                Me.txtCliente.Text += ", CPF: " & filtro.cpf
+            End If
+            Me.txtCliente.Tag = filtro.cid
+            If filtro.situacao = "N" Then
+                Me.txtCliente.ForeColor = Color.Red
+                txtCliente.BackColor = Color.Salmon
+            ElseIf filtro.situacao = "O" Then
+                Me.txtCliente.ForeColor = Color.Orange
+                txtCliente.BackColor = Color.Yellow
+            Else
+                Me.txtCliente.ForeColor = Color.Black
+                txtCliente.BackColor = Color.White
+            End If
+        End If
     End Sub
 End Class

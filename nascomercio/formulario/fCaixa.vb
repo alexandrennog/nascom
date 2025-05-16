@@ -19,9 +19,16 @@ Imports ncDados.nsUsuario
 Imports ncRegras.nsUsuarioPerfil
 Imports ncDados.nsUsuarioPerfil
 Imports System.Configuration
+Imports ncRegras
+Imports ncDados.nsCliente
+Imports ncComum.nsFuncoes
+Imports ncRegras.nsCliente
+Imports System.Linq
+Imports System.Web.UI.WebControls
 
 Public Class fCaixa
 
+    Private _excVenda As Int16
     Private _lojaGrande As Boolean
     Private dadosTroca As New ncDados.nsVenda.ColecaoVendaProduto
 
@@ -68,6 +75,12 @@ Public Class fCaixa
                 Else
                     _lojaGrande = False
                 End If
+            End If
+
+            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ExcVenda)
+            If Not IsNothing(dadosParametro) Then
+                _excVenda = dadosParametro.valor
+                HabilitarGridParaEdicao(_excVenda)
             End If
 
             If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVIÇO") = "SIM" Then
@@ -145,7 +158,9 @@ Public Class fCaixa
 
         NovaVenda()
     End Sub
-
+    Private Sub HabilitarGridParaEdicao(ByVal excVenda As Int16)
+        dtgProdutos.ReadOnly = (excVenda <> 1)
+    End Sub
     Private Sub CarregarComboCondicao()
         Dim regras As ncRegras.nsCondicao.rCondicao
         Dim colecao As ncDados.nsCondicao.ColecaoCondicao
@@ -442,7 +457,6 @@ Public Class fCaixa
         End If
     End Sub
 
-
     Private Sub CarregaPagamento()
         Dim janela As fPagamento
         Dim produto As dVendaProduto
@@ -465,9 +479,9 @@ Public Class fCaixa
             tamanhoProd = 22
         End If
         For Each linha As DataGridViewRow In dtgProdutos.Rows
-            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) & _
-               linha.Cells(4).Value.ToString().PadRight(5) & _
-               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) & _
+            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) &
+               linha.Cells(4).Value.ToString().PadRight(5) &
+               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) &
                CDec(linha.Cells(5).Value).ToString("N").PadRight(11))
             produto = New dVendaProduto
             produto.itemId = linha.Cells(1).Tag
@@ -498,6 +512,7 @@ Public Class fCaixa
         janela.txtTroca.Text = Me.lblTroca.Text
         janela.txtVale.Text = Me.lblVale.Text
         janela.txtDefeitos.Text = Me.lblDefeitos.Text
+        janela.txtVendas.Text = Me.lblVendas.Text
 
 
         If txtControle.Tag <> 0 Then
@@ -547,6 +562,7 @@ Public Class fCaixa
         janela.lblControle.Text = Me.txtControle.Text
         janela.lblControle.Tag = Me.lblOS.Text
         janela.txtCliente.Text = Me.txtCliente.Text
+        janela.txtidCliente.Text = Me.txtCliente.Tag
         janela.txtCliente.Tag = Me.txtCliente.Tag
         janela.lblEmissao.Text = Me.lblEmissao.Text
         janela.lblVendedor.Text = Me.cboVendedor.Text
@@ -571,9 +587,9 @@ Public Class fCaixa
         End If
 
         For Each linha As DataGridViewRow In dtgProdutos.Rows
-            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) & _
-               linha.Cells(4).Value.ToString().PadRight(5) & _
-               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) & _
+            janela.lstFita.Items.Add(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) &
+               linha.Cells(4).Value.ToString().PadRight(5) &
+               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) &
                CDec(linha.Cells(5).Value).ToString("N").PadRight(11))
             produto = New dVendaProduto
             produto.itemId = linha.Cells(1).Tag
@@ -653,7 +669,7 @@ Public Class fCaixa
 
     Private Sub ExcluirPreVenda()
 
-        If dtgProdutos.Rows.Count <= 0 OrElse _
+        If dtgProdutos.Rows.Count <= 0 OrElse
             MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
 
             If dtgProdutos.Rows.Count > 0 And System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
@@ -804,6 +820,7 @@ Public Class fCaixa
         Me.lblTotal.Text = 0.ToString("N")
         Me.txtDesconto.Text = 0.ToString("N")
         Me.txtDesconto.Text = 0.ToString("N")
+        Me.txtIdCliente.Text = ""
         Me.lblTroca.Text = 0.ToString("N")
         Me.lblDefeitos.Text = 0.ToString("N")
         Me.lblVale.Text = 0.ToString("N")
@@ -813,6 +830,59 @@ Public Class fCaixa
         Me.txtCliente.BackColor = Color.White
         Me.cboCondicao.SelectedIndex = 1
     End Sub
+    Private Sub FiltrarCliente()
+        Dim filtro As dCliente
+        Dim clientes As ColecaoCliente
+        Dim regras As rCliente
+        filtro = New dCliente
+        clientes = New ColecaoCliente
+
+        If txtIdCliente.Text = "" Then
+            MessageBox.Show("Informe um código")
+            Exit Sub
+        End If
+
+        'fClienteLista.filtro = filtro
+
+        filtro.cid = cFuncoes.TratarInteiro(txtIdCliente.Text)
+        regras = New rCliente
+
+        clientes = regras.Consultar(filtro)
+
+        If clientes Is Nothing Then
+
+            MessageBox.Show("Não existe cliente com esse código!")
+            txtIdCliente.Focus()
+            txtIdCliente.Select()
+            txtIdCliente.Text = ""
+
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+            Exit Sub
+        End If
+
+        filtro = clientes.Item(0)
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            If filtro.cpf <> "" Then
+                Me.txtCliente.Text += ", CPF: " & filtro.cpf
+            End If
+            Me.txtCliente.Tag = filtro.cid
+            If filtro.situacao = "N" Then
+                Me.txtCliente.ForeColor = Color.Red
+                txtCliente.BackColor = Color.Salmon
+            ElseIf filtro.situacao = "O" Then
+                Me.txtCliente.ForeColor = Color.Orange
+                txtCliente.BackColor = Color.Yellow
+            Else
+                Me.txtCliente.ForeColor = Color.Black
+                txtCliente.BackColor = Color.White
+            End If
+        End If
+    End Sub
+
 
     Private Sub SelecionarClientes()
         Dim formCliente As New fClienteLista
@@ -857,6 +927,11 @@ Public Class fCaixa
     End Sub
 
     Private Sub PagamentoCrediario()
+
+        If Application.OpenForms().OfType(Of fCrediarioPagamento)().Any() Then
+            Exit Sub
+        End If
+
         Dim formCrediario As fCrediarioPagamento
 
         If Me.lblMsg.Text = "VENDA DIRETA" Then
@@ -904,7 +979,9 @@ Public Class fCaixa
                 GravaPreVenda()
                 CalculaTotais()
                 If Me.lblMsg.Text = "PRÉ VENDA" Or Me.lblMsg.Text = "ORÇAMENTO" Then
-                    CarregaPagamentoPreVenda()
+                    'CarregaPagamentoPreVenda()
+                    ImprimePrevenda()
+                    mdiPrincipal.FecharTelaLogin()
                 Else
                     CarregaPagamento()
                 End If
@@ -919,7 +996,77 @@ Public Class fCaixa
             End If
         End If
     End Sub
+    Private Sub ImprimePrevenda()
 
+        Dim objImpressao As ncComum.Impressao
+        Dim qtdImpressao As Integer = 1
+        Dim tamanhoProd As Integer
+        objImpressao = New ncComum.Impressao()
+
+        If MessageBox.Show("Deseja imprimir comprovante?", "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            Try
+                ' Imprime segunda via
+                If System.Configuration.ConfigurationManager.AppSettings("SEGUNDA_VIA") = "SIM" Then
+                    qtdImpressao = 2
+                End If
+
+                If System.Configuration.ConfigurationManager.AppSettings("CUPOM").Substring(0, 3) = "LAZ" Then
+                    tamanhoProd = 40
+                Else
+                    tamanhoProd = 22
+                End If
+
+                For i As Integer = 1 To qtdImpressao
+                    objImpressao.StartWrite(System.Configuration.ConfigurationManager.AppSettings("CUPOM"))
+
+                    'objImpressao.Write("123456789012345678901234567890123456789012345678")
+                    objImpressao.Write("")
+                    objImpressao.Write("Loja:" & lblLoja.Text)
+                    objImpressao.Write("------------------------------------------------")
+                    If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "ORÇAMENTO" Then
+                        objImpressao.Write("ORÇAMENTO em:" & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle:" & txtControle.Text)
+                    Else
+                        objImpressao.Write("Venda em:" & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle:" & txtControle.Text)
+                    End If
+                    objImpressao.Write("")
+                    objImpressao.Write("Vendedor:" & cboVendedor.Text)
+                    objImpressao.Write("")
+                    objImpressao.Write("Cliente:" & txtCliente.Text)
+                    objImpressao.Write(vbCrLf)
+
+                    For Each linha As DataGridViewRow In dtgProdutos.Rows
+                        objImpressao.Write(ncComum.nsFuncoes.cFuncoes.RemoverCaracterEspecial(linha.Cells(1).Value.ToString().PadRight(tamanhoProd).Substring(0, tamanhoProd) &
+                               linha.Cells(4).Value.ToString().PadRight(5) &
+                               CDec(linha.Cells(3).Value).ToString("N").PadRight(10) &
+                               CDec(linha.Cells(5).Value).ToString("N").PadRight(11)))
+                    Next
+
+                    objImpressao.Write(vbCrLf)
+                    objImpressao.Write("------------------------------------------------")
+                    If CDec(txtDesconto.Text) > 0 Then
+                        objImpressao.Write("DESCONTO : " & txtDesconto.Text)
+                    End If
+                    objImpressao.Write("TOTAL    : " & lblTotal.Text)
+                    objImpressao.Write("------------------------------------------------")
+                    objImpressao.Write("Dirija se ao caixa e apresente este cupom.")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.Write("")
+                    objImpressao.EndWrite()
+                Next
+            Catch ex As Exception
+                MessageBox.Show("Erro ao imprimir: " & ex.Message)
+            End Try
+        Else
+            MessageBox.Show("Venda em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle: " & txtControle.Text)
+        End If
+
+    End Sub
     Private Sub fCaixa_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown, txtParcelas.KeyDown, txtDesconto.KeyDown, cboCondicao.KeyDown
         Dim vendas As New ncRegras.nsVenda.rPreVenda
 
@@ -1018,6 +1165,7 @@ Public Class fCaixa
                         dadosCliente = cliente.ConsultarPorCID(dadosVenda.clienteId)
                         Me.txtCliente.Text = dadosCliente.nome
                         Me.txtCliente.Tag = dadosCliente.cid
+                        Me.txtIdCliente.Text = dadosCliente.cid
                         dadosClienteFin.cliente_cid = dadosVenda.clienteId
                         dadosClienteFinCol = clienteFin.Consultar(dadosClienteFin)
                         If Not IsNothing(dadosClienteFinCol) Then
@@ -1364,5 +1512,35 @@ Public Class fCaixa
 
     Private Sub txtControle_TextChanged(sender As Object, e As EventArgs) Handles txtControle.TextChanged
 
+    End Sub
+
+    Private Sub Panel1_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles Panel1.PreviewKeyDown
+
+    End Sub
+
+    Private Sub txtIdCliente_Enter(sender As Object, e As EventArgs) Handles txtIdCliente.Enter
+
+    End Sub
+
+    Private Sub txtIdCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyDown
+
+        If e.KeyCode = Keys.Enter Then
+            FiltrarCliente()
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_KeyUp(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyUp
+
+        If txtIdCliente.Text = "" Then
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+        End If
+
+
+    End Sub
+
+    Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
+        FiltrarCliente()
     End Sub
 End Class

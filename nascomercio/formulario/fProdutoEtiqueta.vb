@@ -32,6 +32,7 @@ Public Class fProdutoEtiqueta
         Dim dadosParametro As dParametro
         Dim regraParametro As New rParametro
         Dim tamanhoEtiqueta As String
+        Dim imprimeDataEtiqueta As String
 
         Dim etiqueta As EtiquetaProduto
         Dim produto As dProduto
@@ -82,7 +83,15 @@ Public Class fProdutoEtiqueta
                         tamanhoEtiqueta = ""
                     End If
 
-                    etiqueta.ImprimirEtiquetaProduto(mdiPrincipal.gLoja.nomeFantasia, dadosF.nome, produto, colecaoItem, txtQuantidade.Text, dadosC.nome, imprimirPreco, tamanhoEtiqueta)
+                    ' Imprime data etiqueta
+                    dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ImprimeDataEtiqueta)
+                    If Not IsNothing(dadosParametro) Then
+                        imprimeDataEtiqueta = dadosParametro.valor
+                    Else
+                        imprimeDataEtiqueta = ""
+                    End If
+
+                    etiqueta.ImprimirEtiquetaProduto(mdiPrincipal.gLoja.nomeFantasia, dadosF.nome, produto, colecaoItem, txtQuantidade.Text, dadosC.nome, imprimirPreco, tamanhoEtiqueta, imprimeDataEtiqueta)
                 End If
             Else
                 MessageBox.Show("Quantidade inválida.", "Impressão de Etiquetas", MessageBoxButtons.OK, MessageBoxIcon.Information)

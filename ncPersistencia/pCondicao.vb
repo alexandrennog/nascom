@@ -19,14 +19,13 @@ Namespace nsCondicao
 
       Try
 
-        acessoBanco = New cAcessoBD
+                acessoBanco = New cAcessoBD
 
+                comandoSQL = " Select cid, nome, desconto, situacao From condicao where situacao = 'A'"
 
-        comandoSQL = " Select cid, nome, desconto, situacao From condicao "
+                ds = acessoBanco.ExecutarDS(comandoSQL)
 
-        ds = acessoBanco.ExecutarDS(comandoSQL)
-
-        If Not ds Is Nothing Then
+                If Not ds Is Nothing Then
           If ds.Tables.Count > 0 Then
             dt = ds.Tables(0)
 

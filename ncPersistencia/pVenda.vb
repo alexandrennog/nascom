@@ -23,7 +23,7 @@ Namespace nsVenda
 
                 comandoSQL = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, Original From Vendas"
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, Original, txID From Vendas"
 
                 ds = acessoBanco.ExecutarDS(comandoSQL)
 
@@ -58,6 +58,7 @@ Namespace nsVenda
                                 item.Terminal = cFuncoes.RetornarDecimal(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
+                                item.TXID = cFuncoes.RetornarTexto(row("txID"))
                                 retorno.Add(item)
                             Next
                         Else
@@ -101,7 +102,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -154,6 +155,7 @@ Namespace nsVenda
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
+                                item.TXID = cFuncoes.RetornarTexto(row("txID"))
 
                                 retorno.Add(item)
                             Next
@@ -198,7 +200,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -254,8 +256,108 @@ Namespace nsVenda
                                 item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
+                                item.TXID = cFuncoes.RetornarTexto(row("txID"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
 
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+
+        Public Function ConsultarCrediarioPix(ByVal dados As dVenda) As ColecaoVenda
+
+            Dim retorno As ColecaoVenda
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVenda
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, parcelas, desconto,  " &
+                             "condicao, recebido, troco, troca, vale, defeito, terminal, total, Original, txID "
+
+                sqlWhere = String.Empty
+                sqlFrom = " From credpag "
+
+
+                '-- data
+                sqlWhere = sqlWhere & " data between '" & cFuncoes.FormatarDataUniversal(dados.Data) & "' AND '" & cFuncoes.FormatarDataUniversal(dados.DataFim) & "'"
+
+                '-- terminal
+                sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.Caixa, "caixa")
+
+                '-- data
+                ' sqlWhere = sqlWhere & " AND  Original > 0 "
+
+                '-- clienteId
+                'sqlWhere = cFuncoes.MontarParametrosSQL(sqlWhere, dados.clienteId, "clienteId")
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVenda
+
+                            For Each row In dt.Rows
+                                item = New dVenda
+
+                                item.controle = cFuncoes.RetornarInteiro(row("controle"))
+                                item.usuarioId = cFuncoes.RetornarInteiro(row("usuarioId"))
+                                item.clienteId = cFuncoes.RetornarInteiro(row("clienteId"))
+                                item.Data = cFuncoes.RetornarTexto(row("data"))
+                                item.Dinheiro = cFuncoes.RetornarDecimal(row("dinheiro"))
+                                item.Cheque = cFuncoes.RetornarDecimal(row("cheque"))
+                                item.ChequePre = cFuncoes.RetornarDecimal(row("chequepre"))
+                                item.CartaoDebito = cFuncoes.RetornarDecimal(row("cartaodebito"))
+                                item.CartaoCredito = cFuncoes.RetornarDecimal(row("cartaocredito"))
+                                item.Crediario = cFuncoes.RetornarDecimal(row("crediario"))
+                                item.CrediarioPagamento = cFuncoes.RetornarDecimal(row("crediariopagamento"))
+                                item.Parcelas = cFuncoes.RetornarInteiro(row("parcelas"))
+                                item.Desconto = cFuncoes.RetornarDecimal(row("desconto"))
+                                item.Condicao = cFuncoes.RetornarInteiro(row("condicao"))
+                                item.Recebido = cFuncoes.RetornarDecimal(row("recebido"))
+                                item.Troco = cFuncoes.RetornarDecimal(row("troco"))
+                                item.Troca = cFuncoes.RetornarDecimal(row("troca"))
+                                item.Vale = cFuncoes.RetornarDecimal(row("vale"))
+                                item.Defeito = cFuncoes.RetornarDecimal(row("defeito"))
+                                item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
+                                item.Total = cFuncoes.RetornarDecimal(row("total"))
+                                item.Pix = cFuncoes.RetornarDecimal(row("Original"))
+                                item.TXID = cFuncoes.RetornarTexto(row("txID"))
                                 retorno.Add(item)
                             Next
                         Else
@@ -524,12 +626,11 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-
                 comandoSQL = " INSERT INTO " &
                     " vendas (controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " &
                              "parcelas, desconto, condicao, recebido, troco, troca, " &
-                             "vale, valeEmitido, defeito, retirada, terminal, ordemServico, vendedor, caixa, total, Original ) " &
+                             "vale, valeEmitido, defeito, retirada, terminal, ordemServico, vendedor, caixa, total, Original, txID ) " &
                     " VALUES (" &
                             cFuncoes.PersistirInteiro(dados.controle) & "," &
                             cFuncoes.PersistirTexto(dados.usuarioId) & "," &
@@ -557,7 +658,8 @@ Namespace nsVenda
                             cFuncoes.PersistirTexto(dados.Vendedor) & "," &
                             cFuncoes.PersistirTexto(dados.Caixa) & "," &
                             cFuncoes.PersistirDecimal(dados.Total) & "," &
-                            cFuncoes.PersistirDecimal(dados.Pix) & ")"
+                            cFuncoes.PersistirDecimal(dados.Pix) & "," &
+                            cFuncoes.PersistirTexto(dados.TXID) & ")"
 
                 retorno = acessoBanco.ExecutarCID(comandoSQL)
 
@@ -641,36 +743,38 @@ Namespace nsVenda
                 acessoBanco = New cAcessoBD
 
 
-                comandoSQL = " INSERT INTO " & _
-                    " credpag (usuarioId, clienteId, data, dinheiro, cheque, " & _
-                             "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " & _
-                             "parcelas, desconto, condicao, recebido, troco, troca, " & _
-                             "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total ) " & _
-                    " VALUES (" & _
-                            cFuncoes.PersistirTexto(dados.usuarioId) & "," & _
-                            cFuncoes.PersistirTexto(dados.clienteId) & "," & _
-                            cFuncoes.PersistirDataHora(dados.Data) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Dinheiro) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Cheque) & "," & _
-                            cFuncoes.PersistirDecimal(dados.ChequePre) & "," & _
-                            cFuncoes.PersistirDecimal(dados.CartaoDebito) & "," & _
-                            cFuncoes.PersistirDecimal(dados.CartaoCredito) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Crediario) & "," & _
-                            cFuncoes.PersistirDecimal(dados.CrediarioPagamento) & "," & _
-                            cFuncoes.PersistirInteiro(dados.Parcelas) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Desconto) & "," & _
-                            cFuncoes.PersistirInteiro(dados.Condicao) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Recebido) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Troco) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Troca) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Vale) & "," & _
-                            cFuncoes.PersistirDecimal(dados.ValeEmitido) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Defeito) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Retirada) & "," & _
-                            cFuncoes.PersistirTexto(dados.Terminal) & "," & _
-                            cFuncoes.PersistirTexto(dados.Vendedor) & "," & _
-                            cFuncoes.PersistirTexto(dados.Caixa) & "," & _
-                            cFuncoes.PersistirDecimal(dados.Total) & ")"
+                comandoSQL = " INSERT INTO " &
+                    " credpag (usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " &
+                             "parcelas, desconto, condicao, recebido, troco, troca, " &
+                             "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total, txID,  Original ) " &
+                    " VALUES (" &
+                            cFuncoes.PersistirTexto(dados.usuarioId) & "," &
+                            cFuncoes.PersistirTexto(dados.clienteId) & "," &
+                            cFuncoes.PersistirDataHora(dados.Data) & "," &
+                            cFuncoes.PersistirDecimal(dados.Dinheiro) & "," &
+                            cFuncoes.PersistirDecimal(dados.Cheque) & "," &
+                            cFuncoes.PersistirDecimal(dados.ChequePre) & "," &
+                            cFuncoes.PersistirDecimal(dados.CartaoDebito) & "," &
+                            cFuncoes.PersistirDecimal(dados.CartaoCredito) & "," &
+                            cFuncoes.PersistirDecimal(dados.Crediario) & "," &
+                            cFuncoes.PersistirDecimal(dados.CrediarioPagamento) & "," &
+                            cFuncoes.PersistirInteiro(dados.Parcelas) & "," &
+                            cFuncoes.PersistirDecimal(dados.Desconto) & "," &
+                            cFuncoes.PersistirInteiro(dados.Condicao) & "," &
+                            cFuncoes.PersistirDecimal(dados.Recebido) & "," &
+                            cFuncoes.PersistirDecimal(dados.Troco) & "," &
+                            cFuncoes.PersistirDecimal(dados.Troca) & "," &
+                            cFuncoes.PersistirDecimal(dados.Vale) & "," &
+                            cFuncoes.PersistirDecimal(dados.ValeEmitido) & "," &
+                            cFuncoes.PersistirDecimal(dados.Defeito) & "," &
+                            cFuncoes.PersistirDecimal(dados.Retirada) & "," &
+                            cFuncoes.PersistirTexto(dados.Terminal) & "," &
+                            cFuncoes.PersistirTexto(dados.Vendedor) & "," &
+                            cFuncoes.PersistirTexto(dados.Caixa) & "," &
+                            cFuncoes.PersistirDecimal(dados.Total) & "," &
+                            cFuncoes.PersistirTexto(dados.TXID) & "," &
+                            cFuncoes.PersistirDecimal(dados.Pix) & ")"
 
                 retorno = acessoBanco.ExecutarCID(comandoSQL)
 
@@ -697,28 +801,29 @@ Namespace nsVenda
                 acessoBanco = New cAcessoBD
 
 
-                comandoSQL = " UPDATE vendas SET " & _
-                    " usuarioId = " & cFuncoes.PersistirTexto(dados.usuarioId) & "," & _
-                    " clienteId = " & cFuncoes.PersistirTexto(dados.clienteId) & "," & _
-                    " data = " & cFuncoes.PersistirData(dados.Data) & "," & _
-                    " dinheiro = " & cFuncoes.PersistirDecimal(dados.Dinheiro) & "," & _
-                    " cheque = " & cFuncoes.PersistirDecimal(dados.Cheque) & "," & _
-                    " chequepre = " & cFuncoes.PersistirDecimal(dados.ChequePre) & "," & _
-                    " cartaodebito = " & cFuncoes.PersistirDecimal(dados.CartaoDebito) & "," & _
-                    " cartaocredito = " & cFuncoes.PersistirDecimal(dados.CartaoCredito) & "," & _
-                    " crediario = " & cFuncoes.PersistirDecimal(dados.Crediario) & "," & _
-                    " parcelas = " & cFuncoes.PersistirInteiro(dados.Parcelas) & "," & _
-                    " desconto = " & cFuncoes.PersistirDecimal(dados.Desconto) & "," & _
-                    " condicao = " & cFuncoes.PersistirInteiro(dados.Condicao) & "," & _
-                    " recebido = " & cFuncoes.PersistirDecimal(dados.Recebido) & "," & _
-                    " troco = " & cFuncoes.PersistirDecimal(dados.Troco) & "," & _
-                    " troca = " & cFuncoes.PersistirDecimal(dados.Troca) & "," & _
-                    " vale = " & cFuncoes.PersistirDecimal(dados.Vale) & "," & _
-                    " defeito = " & cFuncoes.PersistirDecimal(dados.Defeito) & "," & _
-                    " ordemservico = " & cFuncoes.PersistirTexto(dados.ordemServicoId) & "," & _
-                    " terminal = " & cFuncoes.PersistirTexto(dados.Terminal) & _
-                    " total = " & cFuncoes.PersistirDecimal(dados.Total) & _
-                    " WHERE " & _
+                comandoSQL = " UPDATE vendas SET " &
+                    " usuarioId = " & cFuncoes.PersistirTexto(dados.usuarioId) & "," &
+                    " clienteId = " & cFuncoes.PersistirTexto(dados.clienteId) & "," &
+                    " data = " & cFuncoes.PersistirData(dados.Data) & "," &
+                    " dinheiro = " & cFuncoes.PersistirDecimal(dados.Dinheiro) & "," &
+                    " cheque = " & cFuncoes.PersistirDecimal(dados.Cheque) & "," &
+                    " chequepre = " & cFuncoes.PersistirDecimal(dados.ChequePre) & "," &
+                    " cartaodebito = " & cFuncoes.PersistirDecimal(dados.CartaoDebito) & "," &
+                    " cartaocredito = " & cFuncoes.PersistirDecimal(dados.CartaoCredito) & "," &
+                    " crediario = " & cFuncoes.PersistirDecimal(dados.Crediario) & "," &
+                    " parcelas = " & cFuncoes.PersistirInteiro(dados.Parcelas) & "," &
+                    " desconto = " & cFuncoes.PersistirDecimal(dados.Desconto) & "," &
+                    " condicao = " & cFuncoes.PersistirInteiro(dados.Condicao) & "," &
+                    " recebido = " & cFuncoes.PersistirDecimal(dados.Recebido) & "," &
+                    " troco = " & cFuncoes.PersistirDecimal(dados.Troco) & "," &
+                    " troca = " & cFuncoes.PersistirDecimal(dados.Troca) & "," &
+                    " vale = " & cFuncoes.PersistirDecimal(dados.Vale) & "," &
+                    " defeito = " & cFuncoes.PersistirDecimal(dados.Defeito) & "," &
+                    " ordemservico = " & cFuncoes.PersistirTexto(dados.ordemServicoId) & "," &
+                    " terminal = " & cFuncoes.PersistirTexto(dados.Terminal) &
+                    " total = " & cFuncoes.PersistirDecimal(dados.Total) &
+                    " txID = " & cFuncoes.PersistirTexto(dados.TXID) &
+                    " WHERE " &
                     " controle = " & dados.controle.ToString()
 
                 retorno = acessoBanco.ExecutarINT(comandoSQL)
@@ -804,9 +909,9 @@ Namespace nsVenda
                 acessoBanco = New cAcessoBD
 
 
-                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " & _
-                             "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " & _
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico "
+                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, txID, Original "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -856,6 +961,8 @@ Namespace nsVenda
                                 item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
+                                item.TXID = cFuncoes.RetornarTexto(row("txID"))
+                                item.valorOriginal = cFuncoes.RetornarDecimal(row("Original"))
 
                                 retorno.Add(item)
                             Next

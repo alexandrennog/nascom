@@ -23,11 +23,11 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <PublishUrl>C:\NASCOM\DESENV\nascomercio\arquivos\install\</PublishUrl>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <PublishUrl>D:\MeuNote\Distrib\Nascom\x64\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
@@ -35,10 +35,13 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://www.nascom.com.br/nascomercio/</UpdateUrl>
+    <AutorunEnabled>true</AutorunEnabled>
     <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +54,7 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,6 +67,7 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
@@ -84,7 +89,6 @@
     </Reference>
     <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -156,10 +160,16 @@
     <Compile Include="formulario\fClientePagamentos.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="formulario\Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="formulario\fConfigPix.Designer.vb">
+      <DependentUpon>fConfigPix.vb</DependentUpon>
     </Compile>
-    <Compile Include="formulario\Form1.vb">
+    <Compile Include="formulario\fConfigPix.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formulario\fPix.Designer.vb">
+      <DependentUpon>fPix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="formulario\fPix.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="formulario\fVeiculoLista.Designer.vb">
@@ -202,6 +212,18 @@
       <DependentUpon>fRelatorioBalanco.vb</DependentUpon>
     </Compile>
     <Compile Include="relatorio\fRelatorioBalanco.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioCobrancaAutomatica.Designer.vb">
+      <DependentUpon>fRelatorioCobrancaAutomatica.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioCobrancaAutomatica.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioCrediarioPix.Designer.vb">
+      <DependentUpon>fRelatorioCrediarioPix.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioCrediarioPix.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="relatorio\fRelatorioFechamentoSAT.Designer.vb">
@@ -866,8 +888,11 @@
       <DependentUpon>fClientePagamentos.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="formulario\Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="formulario\fConfigPix.resx">
+      <DependentUpon>fConfigPix.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formulario\fPix.resx">
+      <DependentUpon>fPix.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="formulario\fVeiculoLista.resx">
       <DependentUpon>fVeiculoLista.vb</DependentUpon>
@@ -896,6 +921,12 @@
     <EmbeddedResource Include="relatorio\fRelatorioBalanco.resx">
       <DependentUpon>fRelatorioBalanco.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioCobrancaAutomatica.resx">
+      <DependentUpon>fRelatorioCobrancaAutomatica.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioCrediarioPix.resx">
+      <DependentUpon>fRelatorioCrediarioPix.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioFechamentoSAT.resx">
       <DependentUpon>fRelatorioFechamentoSAT.vb</DependentUpon>
@@ -1355,6 +1386,11 @@
     <None Include="Resources\usuarios.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\pix.bmp" />
+    <Content Include="Resources\pix.png" />
+    <None Include="Resources\novo.png" />
+    <None Include="Resources\sair.jpg" />
+    <None Include="Resources\lista.png" />
     <None Include="Resources\ico-pass.ico" />
     <None Include="backup\backup.bat" />
     <None Include="backup\restore.bat" />
@@ -1386,6 +1422,9 @@
     <None Include="Resources\cheque.png" />
     <None Include="Resources\confirmar.png" />
     <None Include="Resources\cifrao_peq.png" />
+    <None Include="Resources\consultar.png" />
+    <None Include="Resources\cobrar.png" />
+    <Content Include="Resources\copy.jpg" />
     <Content Include="Resources\degrade.jpg" />
     <None Include="Resources\iconeveiculos.png" />
     <None Include="Resources\iconeveiculos2.gif" />

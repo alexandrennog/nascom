@@ -1,5 +1,8 @@
 Imports ncComum.nsExcecao
+Imports ncComum.nsFuncoes
+Imports ncDados.nsCliente
 Imports ncDados.nsProduto
+Imports ncRegras.nsCliente
 Imports ncRegras.nsProduto
 
 Public Class fPreVenda
@@ -28,7 +31,7 @@ Public Class fPreVenda
         ' Soma recebidos
         lblRecebido.Text = CDec(CDec(txtDinheiro.Text) + CDec(txtCheque.Text) + CDec(txtChequePre.Text) _
         + CDec(txtCartaoDebito.Text) + CDec(txtCartaoCredito.Text) + CDec(txtCrediario.Text) _
-        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtDefeitos.Text)).ToString("N")
+        + CDec(txtTroca.Text) + CDec(txtVale.Text) + CDec(txtPix.Text) + CDec(txtDefeitos.Text)).ToString("N")
 
         If CDec(lblRecebido.Text) <= CDec(lblTotal.Text) Then
             lblFalta.Text = CDec(CDec(lblTotal.Text) - CDec(lblRecebido.Text)).ToString("N")
@@ -47,6 +50,7 @@ Public Class fPreVenda
         If formCliente.filtro.nome <> "" Then
             Me.txtCliente.Text = formCliente.filtro.nome
             Me.txtCliente.Tag = formCliente.filtro.cid
+            Me.txtIdCliente.Text = formCliente.filtro.cid
             If formCliente.filtro.cpf <> "" Then
                 Me.txtCliente.Text += ", CPF: " & formCliente.filtro.cpf
             End If
@@ -97,15 +101,18 @@ Public Class fPreVenda
         lblTroco.Text = 0.ToString("N")
         lblRecebido.Text = 0.ToString("N")
 
+        CarregarComboCondicao()
+        'cboCondicao.Text = condicao
         calculaRecebido()
         formataCampos()
     End Sub
 
-    Private Sub txtDinheiro_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave, _
-                                                                                               txtCartaoCredito.Leave, _
-                                                                                               txtCrediario.Leave, _
-                                                                                               txtChequePre.Leave, _
-                                                                                               txtCheque.Leave, _
+    Private Sub txtDinheiro_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDinheiro.Leave,
+                                                                                               txtCartaoCredito.Leave,
+                                                                                               txtCrediario.Leave,
+                                                                                               txtChequePre.Leave,
+                                                                                               txtCheque.Leave,
+                                                                                               txtPix.Leave,
                                                                                                txtCartaoDebito.Leave, txtVale.Leave
         'Mostra informações de valores recebidos e troco
         verificaCampos()
@@ -136,10 +143,14 @@ Public Class fPreVenda
         If txtVale.Text.Trim().Equals("") Then
             txtVale.Text = 0.ToString("N")
         End If
+        If txtPix.Text.Trim().Equals("") Then
+            txtPix.Text = 0.ToString("N")
+        End If
     End Sub
 
     Private Sub formataCampos()
         txtDinheiro.Text = CDec(txtDinheiro.Text).ToString("N")
+        txtPix.Text = CDec(txtPix.Text).ToString("N")
         txtCheque.Text = CDec(txtCheque.Text).ToString("N")
         txtChequePre.Text = CDec(txtChequePre.Text).ToString("N")
         txtCartaoCredito.Text = CDec(txtCartaoCredito.Text).ToString("N")
@@ -247,6 +258,7 @@ Public Class fPreVenda
 
     Private Sub LimpaCampos()
         txtCliente.Text = ""
+
         lblControle.Text = ""
         lblEmissao.Text = ""
         lblVendedor.Text = ""
@@ -267,6 +279,7 @@ Public Class fPreVenda
             dadosVenda.clienteId = Me.txtCliente.Tag
             dadosVenda.Data = Now
             dadosVenda.Dinheiro = Me.txtDinheiro.Text
+            dadosVenda.Pix = Me.txtPix.Text
             dadosVenda.Cheque = Me.txtCheque.Text
             dadosVenda.ChequePre = Me.txtChequePre.Text
             dadosVenda.CartaoDebito = Me.txtCartaoDebito.Text
@@ -319,5 +332,90 @@ Public Class fPreVenda
 
     Private Sub btoIncluirItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoIncluirItem.Click
         PesquisarCliente()
+    End Sub
+
+    Private Sub txtPix_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPix.KeyPress
+        e.Handled = ncComum.nsFuncoes.cFuncoes.SoNumero(e.KeyChar)
+    End Sub
+
+    Private Sub txtPix_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtPix.Leave,
+                                                                                    txtDinheiro.Leave,
+                                                                                    txtCartaoCredito.Leave,
+                                                                                    txtCrediario.Leave,
+                                                                                    txtChequePre.Leave,
+                                                                                    txtCheque.Leave,
+                                                                                    txtCartaoDebito.Leave, txtVale.Leave
+        'Mostra informações de valores recebidos e troco
+        verificaCampos()
+        calculaRecebido()
+        formataCampos()
+
+    End Sub
+
+    Private Sub txtIdCliente_KeyDown(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            FiltrarCliente()
+        End If
+    End Sub
+
+    Private Sub txtIdCliente_KeyUp(sender As Object, e As KeyEventArgs) Handles txtIdCliente.KeyUp
+        If txtIdCliente.Text = "" Then
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+        End If
+    End Sub
+
+    Private Sub FiltrarCliente()
+        Dim filtro As dCliente
+        Dim clientes As ColecaoCliente
+        Dim regras As rCliente
+        filtro = New dCliente
+        clientes = New ColecaoCliente
+
+        If txtIdCliente.Text = "" Then
+            MessageBox.Show("Informe um código")
+            Exit Sub
+        End If
+
+        'fClienteLista.filtro = filtro
+
+        filtro.cid = cFuncoes.TratarInteiro(txtIdCliente.Text)
+        regras = New rCliente
+
+        clientes = regras.Consultar(filtro)
+
+        If clientes Is Nothing Then
+
+            MessageBox.Show("Não existe cliente com esse código!")
+            txtIdCliente.Focus()
+            txtIdCliente.Select()
+            txtIdCliente.Text = ""
+
+            txtCliente.Focus()
+            txtCliente.Select()
+            txtCliente.Text = ""
+            Exit Sub
+        End If
+
+        filtro = clientes.Item(0)
+
+        If filtro.nome <> "" Then
+            Me.txtCliente.Text = filtro.nome
+            If filtro.cpf <> "" Then
+                Me.txtCliente.Text += ", CPF: " & filtro.cpf
+            End If
+            Me.txtCliente.Tag = filtro.cid
+            If filtro.situacao = "N" Then
+                Me.txtCliente.ForeColor = Color.Red
+                txtCliente.BackColor = Color.Salmon
+            ElseIf filtro.situacao = "O" Then
+                Me.txtCliente.ForeColor = Color.Orange
+                txtCliente.BackColor = Color.Yellow
+            Else
+                Me.txtCliente.ForeColor = Color.Black
+                txtCliente.BackColor = Color.White
+            End If
+        End If
     End Sub
 End Class
