@@ -981,7 +981,7 @@ Public Class fCaixa
                 If Me.lblMsg.Text = "PRÉ VENDA" Or Me.lblMsg.Text = "ORÇAMENTO" Then
                     'CarregaPagamentoPreVenda()
                     ImprimePrevenda()
-                    mdiPrincipal.FecharTela()
+                    mdiPrincipal.FecharTelaLogin()
                 Else
                     CarregaPagamento()
                 End If
