@@ -284,6 +284,7 @@ Public Class fRelatorioEstoque
         Dim valorCompraSoma As Double = 0
         Dim valorVendaSoma As Double = 0
         Dim estoqueSoma As Integer = 0
+        Dim totalItens As Integer = 0
 
         Dim tableHeader As New PdfPTable(5)
         tableHeader.DefaultCell.Border = Rectangle.NO_BORDER
@@ -367,19 +368,20 @@ Public Class fRelatorioEstoque
             valorCompraSoma += item.ValorCompra * item.Valor
             valorVendaSoma += item.ValorVenda * item.Valor
             estoqueSoma += item.Valor
+            totalItens += item.Item
 
         Next
 
         tableHeader.AddCell("Data:")
         tableHeader.AddCell("")
-        tableHeader.AddCell("")
+        tableHeader.AddCell("Total ítens")
         tableHeader.AddCell("Total Valor Compra")
         tableHeader.AddCell("Total Valor Venda")
 
 
         tableHeader.AddCell(DateTime.Now.ToString("dd/MM/yyyy"))
         tableHeader.AddCell("")
-        tableHeader.AddCell("")
+        tableHeader.AddCell(totalItens)
         tableHeader.AddCell(String.Format("{0:n}", valorCompraSoma))
         tableHeader.AddCell(String.Format("{0:n}", valorVendaSoma))
 
