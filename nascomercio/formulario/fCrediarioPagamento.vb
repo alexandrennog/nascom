@@ -32,6 +32,12 @@ Public Class fCrediarioPagamento
                 Me.Close()
             Case Keys.Enter
                 If dgvCrediario.Rows.Count > 0 Then
+
+                    If CDec(lblTotal.Text) <= 0D Then
+                        MessageBox.Show("Selecione uma Parcela!")
+                        Exit Sub
+                    End If
+
                     If CDec(lblRecebido.Text) > 0 Then
                         Salvar()
                     End If
@@ -414,6 +420,7 @@ Public Class fCrediarioPagamento
                     cliente = consultacliente.ConsultarPorCID(crediarios(0).clienteId)
 
                     txtCliente.Text = cliente.nome
+                    txtIdCliente.Text = crediarios(0).clienteId
                     txtCliente.Tag = cliente.cid
 
                     ExibirInformacoes()
@@ -880,7 +887,7 @@ Public Class fCrediarioPagamento
     End Sub
 
     Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
-        FiltrarCliente()
+        'FiltrarCliente()
     End Sub
 
     Private Sub txtIdCliente_TextChanged(sender As Object, e As EventArgs) Handles txtIdCliente.TextChanged
