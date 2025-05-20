@@ -374,7 +374,7 @@ Public Class fRelatorioEstoque
 
         tableHeader.AddCell("Data:")
         tableHeader.AddCell("")
-        tableHeader.AddCell("Total ítens")
+        tableHeader.AddCell("Total Estoque")
         tableHeader.AddCell("Total Valor Compra")
         tableHeader.AddCell("Total Valor Venda")
 
