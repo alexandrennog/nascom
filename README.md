@@ -54,5 +54,11 @@ Para a versão 2.1.2.7 foram incluídas as seguintes funcionalidades
 
 Para a versão 2.1.2.8 foram incluídas as seguintes funcionalidades
 
-1 - Ajuste do label toal estoque no relatório de estoque
+1 - Ajuste do label total estoque no relatório de estoque
 2 - Evitar que uma parcela seja baixada mais de uma vez
+
+
+
+Para a versão 2.1.2.9 foram incluídas as seguintes funcionalidades
+
+1 - Ajuste do label falta pagar em parcelas de crediário abertas
