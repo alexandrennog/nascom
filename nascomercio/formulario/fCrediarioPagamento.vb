@@ -34,7 +34,7 @@ Public Class fCrediarioPagamento
                 If dgvCrediario.Rows.Count > 0 Then
 
                     If CDec(lblTotal.Text) <= 0D Then
-                        MessageBox.Show("Selecione uma Parcela!")
+                        MessageBox.Show("Selecione uma Parcela não baixada!")
                         Exit Sub
                     End If
 
@@ -295,7 +295,7 @@ Public Class fCrediarioPagamento
     Private Sub btoSalvar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSalvar.Click
         If dgvCrediario.Rows.Count > 0 Then
             If CDec(lblTotal.Text) <= 0D Then
-                MessageBox.Show("Selecione uma Parcela!")
+                MessageBox.Show("Selecione uma Parcela não baixada!")
             Else
                 If CDec(lblRecebido.Text) > 0 Then
                     Salvar()
