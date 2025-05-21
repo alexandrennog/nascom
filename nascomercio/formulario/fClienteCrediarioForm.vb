@@ -100,6 +100,7 @@ Public Class fClienteCrediarioForm
 
         Dim dadosParcela As New dParcelas
         Dim regraparcela As New rCrediario
+        Dim valorFalta As Decimal = 0
 
         If incluir Then
             dadosParcela.crediarioId = 0
@@ -148,6 +149,7 @@ Public Class fClienteCrediarioForm
                             linha.Cells(4).Style.ForeColor = Color.Red
                             linha.Cells(5).Style.ForeColor = Color.Red
                             linha.Cells(6).Style.ForeColor = Color.Red
+                            valorFalta += Decimal.Parse(dadosParcela.valor)
                         Else
                             linha.Cells(0).Style.ForeColor = Color.Black
                             linha.Cells(1).Style.ForeColor = Color.Black
@@ -156,6 +158,7 @@ Public Class fClienteCrediarioForm
                             linha.Cells(4).Style.ForeColor = Color.Black
                             linha.Cells(5).Style.ForeColor = Color.Black
                             linha.Cells(6).Style.ForeColor = Color.Black
+                            valorFalta += Decimal.Parse(dadosParcela.valor)
                         End If
                     Next
                     janela.txtControle.Tag = dadosParcela.crediarioId
@@ -163,7 +166,7 @@ Public Class fClienteCrediarioForm
                     janela.txtControle.Tag = dgvCrediario.CurrentRow.Cells(0).Tag
                 End If
                 janela.lblTotal.Text = dgvCrediario.CurrentRow.Cells(4).Value
-                janela.lblFalta.Text = dgvCrediario.CurrentRow.Cells(3).Value
+                janela.lblFalta.Text = valorFalta 'dgvCrediario.CurrentRow.Cells(3).Value
                 janela.txtControle.Text = dgvCrediario.CurrentRow.Cells(5).Value
             Else
                 janela.lblTotal.Text = 0
