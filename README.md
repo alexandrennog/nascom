@@ -62,3 +62,4 @@ Para a versão 2.1.2.8 foram incluídas as seguintes funcionalidades
 Para a versão 2.1.2.9 foram incluídas as seguintes funcionalidades
 
 1 - Ajuste do label falta pagar em parcelas de crediário abertas
+2 - Inclusão de validação de alçada para descontos na tela de pagamento 

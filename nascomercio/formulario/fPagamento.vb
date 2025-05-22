@@ -152,9 +152,46 @@ Public Class fPagamento
         'Mostra informações de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
+        VerificarAlcada()
         formataCampos()
     End Sub
+    Private Sub VerificarAlcada()
+        Dim dadosUsuario As ncDados.nsUsuario.dUsuario
+        Dim regraUsuario As New ncRegras.nsUsuario.rUsuario
+        Dim acessoGerente As fAcessoGerente
 
+        Try
+            If CDec(txtDesconto.Text) = 0 Then
+                Exit Sub
+            End If
+
+            dadosUsuario = regraUsuario.ConsultarPorCid(mdiPrincipal.gUsuario.cid)
+            If IsNothing(dadosUsuario) Then
+                MessageBox.Show("Erro ao consultar usuário")
+            Else
+                If Not dadosUsuario.descontoPedido.HasValue Then
+                    dadosUsuario.descontoPedido = 0
+                End If
+                If (CDec(txtDesconto.Text) / CDec(lblTotal.Text)) * 100 <= dadosUsuario.descontoPedido Then
+                    recalculaRecebido()
+                    txtDesconto.Text = CDec(txtDesconto.Text).ToString("N")
+                Else
+                    MessageBox.Show("Desconto maior que o permitido:" & dadosUsuario.descontoPedido.ToString() & "%")
+                    acessoGerente = New fAcessoGerente()
+                    acessoGerente.ShowDialog()
+                    If Not acessoGerente.gRetorno Then
+                        txtDesconto.Text = 0.ToString("N")
+                    Else
+                        txtDesconto.Text = CDec(txtDesconto.Text).ToString("N")
+                    End If
+                    acessoGerente.Close()
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+    End Sub
     Private Sub formataCampos()
 
         txtDinheiro.Text = CDec(txtDinheiro.Text).ToString("N")
