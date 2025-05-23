@@ -68,6 +68,8 @@ Public Class fProdutoEtiquetaES
         Dim linha As DataGridViewRow
         Dim dataDe As String = Nothing
         Dim dataAte As String = Nothing
+        Dim ImprimeTodos As Integer = 0
+
 
         Try
 
@@ -81,8 +83,10 @@ Public Class fProdutoEtiquetaES
                 dataAte = FormatarData(txtDataAte.Text)
             End If
 
+            ImprimeTodos = rdbTodos.Checked
+
             regras = New rProdutoEtiqueta
-            colecao = regras.Listar(dataDe, dataAte)
+            colecao = regras.Listar(dataDe, dataAte, ImprimeTodos)
 
             If Not IsNothing(colecao) Then
                 For Each produto As dProdutoEtiqueta In colecao
@@ -257,5 +261,9 @@ Public Class fProdutoEtiquetaES
 
     Private Sub chkMarcarTodos_CheckedChanged(sender As Object, e As EventArgs) Handles chkMarcarTodos.CheckedChanged
         marcarTodos(chkMarcarTodos.Checked)
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs)
+
     End Sub
 End Class
