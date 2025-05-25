@@ -63,4 +63,5 @@ Para a versão 2.1.2.9 foram incluídas as seguintes funcionalidades
 
 1 - Ajuste do label falta pagar em parcelas de crediário abertas
 2 - Inclusão de validação de alçada para descontos na tela de pagamento 
-3 - Iincluir opção de reimprimir etiquetas já impressas
+3 - Incluir opção de reimprimir etiquetas já impressas
+4 - Após TAB no campo código do cliente carregar o nome do cliente 
