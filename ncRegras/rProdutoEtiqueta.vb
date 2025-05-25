@@ -9,28 +9,28 @@ Namespace nsProdutoEtiqueta
 
   Public Class rProdutoEtiqueta
 
-    '-- Métodos de controle ( Várias chamadas; Controle de transação )
+        '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
-    Public Function Listar(ByVal dataDe As String, ByVal dataAte As String) As ColecaoProdutoEtiqueta
+        Public Function Listar(ByVal dataDe As String, ByVal dataAte As String, ByVal ImprimeTodos As Integer) As ColecaoProdutoEtiqueta
 
-      Dim retorno As ColecaoProdutoEtiqueta
+            Dim retorno As ColecaoProdutoEtiqueta
 
-      Try
+            Try
 
-        retorno = fListar(dataDe, dataAte)
+                retorno = fListar(dataDe, dataAte, ImprimeTodos)
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Listar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Listar = retorno
+            Listar = retorno
 
-    End Function
+        End Function
 
-    Public Function Alterar(ByVal data As String, ByVal produto As String, ByVal codigoBarras As String) As Integer
+        Public Function Alterar(ByVal data As String, ByVal produto As String, ByVal codigoBarras As String) As Integer
 
       Dim retorno As Integer
 
@@ -52,43 +52,43 @@ Namespace nsProdutoEtiqueta
 
     End Function
 
-    '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
+        '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
 
-    Public Function fListar(ByVal dataDe As String, ByVal dataAte As String) As ColecaoProdutoEtiqueta
+        Public Function fListar(ByVal dataDe As String, ByVal dataAte As String, ByVal ImprimeTodos As Integer) As ColecaoProdutoEtiqueta
 
-      Dim retorno As ColecaoProdutoEtiqueta
-      Dim persistencia As pProdutoEtiqueta
-      Dim retornoPersistencia As ColecaoProdutoEtiqueta
+            Dim retorno As ColecaoProdutoEtiqueta
+            Dim persistencia As pProdutoEtiqueta
+            Dim retornoPersistencia As ColecaoProdutoEtiqueta
 
-      Try
+            Try
 
-        retorno = New ColecaoProdutoEtiqueta
+                retorno = New ColecaoProdutoEtiqueta
 
-        persistencia = New pProdutoEtiqueta
-        retornoPersistencia = persistencia.Listar(dataDe, dataAte)
+                persistencia = New pProdutoEtiqueta
+                retornoPersistencia = persistencia.Listar(dataDe, dataAte, ImprimeTodos)
 
-        If Not retornoPersistencia Is Nothing Then
-          If retornoPersistencia.Count > 0 Then
-            retorno.AddRange(retornoPersistencia)
-          Else
-            retorno = Nothing
-          End If
-        Else
-          retorno = Nothing
-        End If
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em fListar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      fListar = retorno
+            fListar = retorno
 
-    End Function
+        End Function
 
-    Public Function fAlterar(ByVal data As String, ByVal produto As String, ByVal codigoBarras As String) As Integer
+        Public Function fAlterar(ByVal data As String, ByVal produto As String, ByVal codigoBarras As String) As Integer
 
       Dim retorno As Integer
       Dim persistencia As pProdutoEtiqueta

@@ -50,3 +50,17 @@ Para a versão 2.1.2.7 foram incluídas as seguintes funcionalidades
 
 1 - Tornar funcional a tela de pré-vendas
 2 - Ajustar somas no relatório de estoque,  incluir o campo cor bem como ordenar e agrupar as informações
+
+
+Para a versão 2.1.2.8 foram incluídas as seguintes funcionalidades
+
+1 - Ajuste do label total estoque no relatório de estoque
+2 - Evitar que uma parcela seja baixada mais de uma vez
+
+
+
+Para a versão 2.1.2.9 foram incluídas as seguintes funcionalidades
+
+1 - Ajuste do label falta pagar em parcelas de crediário abertas
+2 - Inclusão de validação de alçada para descontos na tela de pagamento 
+3 - Iincluir opção de reimprimir etiquetas já impressas

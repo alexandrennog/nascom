@@ -32,6 +32,12 @@ Public Class fCrediarioPagamento
                 Me.Close()
             Case Keys.Enter
                 If dgvCrediario.Rows.Count > 0 Then
+
+                    If CDec(lblTotal.Text) <= 0D Then
+                        MessageBox.Show("Selecione uma Parcela não baixada!")
+                        Exit Sub
+                    End If
+
                     If CDec(lblRecebido.Text) > 0 Then
                         Salvar()
                     End If
@@ -289,7 +295,7 @@ Public Class fCrediarioPagamento
     Private Sub btoSalvar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSalvar.Click
         If dgvCrediario.Rows.Count > 0 Then
             If CDec(lblTotal.Text) <= 0D Then
-                MessageBox.Show("Selecione uma Parcela!")
+                MessageBox.Show("Selecione uma Parcela não baixada!")
             Else
                 If CDec(lblRecebido.Text) > 0 Then
                     Salvar()
@@ -414,6 +420,7 @@ Public Class fCrediarioPagamento
                     cliente = consultacliente.ConsultarPorCID(crediarios(0).clienteId)
 
                     txtCliente.Text = cliente.nome
+                    txtIdCliente.Text = crediarios(0).clienteId
                     txtCliente.Tag = cliente.cid
 
                     ExibirInformacoes()
@@ -778,6 +785,7 @@ Public Class fCrediarioPagamento
         If formCliente.filtro.nome <> "" Then
             Me.txtCliente.Text = formCliente.filtro.nome
             Me.txtCliente.Tag = formCliente.filtro.cid
+            txtIdCliente.Text = formCliente.filtro.cid
             txtCliente_Leave(Nothing, Nothing)
         End If
     End Sub
@@ -880,7 +888,7 @@ Public Class fCrediarioPagamento
     End Sub
 
     Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
-        FiltrarCliente()
+        'FiltrarCliente()
     End Sub
 
     Private Sub txtIdCliente_TextChanged(sender As Object, e As EventArgs) Handles txtIdCliente.TextChanged

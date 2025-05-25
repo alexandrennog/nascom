@@ -284,6 +284,7 @@ Public Class fRelatorioEstoque
         Dim valorCompraSoma As Double = 0
         Dim valorVendaSoma As Double = 0
         Dim estoqueSoma As Integer = 0
+        Dim totalEstoque As Integer = 0
 
         Dim tableHeader As New PdfPTable(5)
         tableHeader.DefaultCell.Border = Rectangle.NO_BORDER
@@ -316,8 +317,8 @@ Public Class fRelatorioEstoque
         Dim coluna4 As New Paragraph("Referencia", fonte)
         Dim coluna5 As New Paragraph("Item", fonte)
         Dim coluna6 As New Paragraph("Cor", fonte)
-        Dim coluna7 As New Paragraph("ValorCompra", fonte)
-        Dim coluna8 As New Paragraph("ValorVenda", fonte)
+        Dim coluna7 As New Paragraph("Valor Compra", fonte)
+        Dim coluna8 As New Paragraph("Valor Venda", fonte)
         Dim coluna9 As New Paragraph("Estoque", fonte)
         Dim coluna10 As New Paragraph("Total Compra", fonte)
         Dim coluna11 As New Paragraph("Total Venda", fonte)
@@ -372,14 +373,14 @@ Public Class fRelatorioEstoque
 
         tableHeader.AddCell("Data:")
         tableHeader.AddCell("")
-        tableHeader.AddCell("")
+        tableHeader.AddCell("Total Estoque")
         tableHeader.AddCell("Total Valor Compra")
         tableHeader.AddCell("Total Valor Venda")
 
 
         tableHeader.AddCell(DateTime.Now.ToString("dd/MM/yyyy"))
         tableHeader.AddCell("")
-        tableHeader.AddCell("")
+        tableHeader.AddCell(estoqueSoma)
         tableHeader.AddCell(String.Format("{0:n}", valorCompraSoma))
         tableHeader.AddCell(String.Format("{0:n}", valorVendaSoma))
 
