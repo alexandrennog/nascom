@@ -45,10 +45,10 @@ Partial Class fProdutoEtiquetaES
         Me.txtDataAte = New System.Windows.Forms.MaskedTextBox()
         Me.btoPesquisar = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.chkMarcarTodos = New System.Windows.Forms.CheckBox()
         Me.grpImprimir = New System.Windows.Forms.GroupBox()
-        Me.rdbNaoImpresso = New System.Windows.Forms.RadioButton()
         Me.rdbTodos = New System.Windows.Forms.RadioButton()
+        Me.rdbNaoImpresso = New System.Windows.Forms.RadioButton()
+        Me.chkMarcarTodos = New System.Windows.Forms.CheckBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvProdutos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -100,6 +100,7 @@ Partial Class fProdutoEtiquetaES
         Me.dgvProdutos.AllowUserToOrderColumns = True
         Me.dgvProdutos.AllowUserToResizeColumns = False
         Me.dgvProdutos.AllowUserToResizeRows = False
+        Me.dgvProdutos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.dgvProdutos.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.dgvProdutos.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.dgvProdutos.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
@@ -132,7 +133,7 @@ Partial Class fProdutoEtiquetaES
         Me.check.HeaderText = ""
         Me.check.MinimumWidth = 6
         Me.check.Name = "check"
-        Me.check.Width = 50
+        Me.check.Width = 6
         '
         'data
         '
@@ -142,7 +143,7 @@ Partial Class fProdutoEtiquetaES
         Me.data.MinimumWidth = 6
         Me.data.Name = "data"
         Me.data.ReadOnly = True
-        Me.data.Width = 130
+        Me.data.Width = 74
         '
         'produto_cid
         '
@@ -163,7 +164,7 @@ Partial Class fProdutoEtiquetaES
         Me.produtoItem_codigoBarras.MinimumWidth = 6
         Me.produtoItem_codigoBarras.Name = "produtoItem_codigoBarras"
         Me.produtoItem_codigoBarras.ReadOnly = True
-        Me.produtoItem_codigoBarras.Width = 170
+        Me.produtoItem_codigoBarras.Width = 152
         '
         'Referencia
         '
@@ -171,7 +172,7 @@ Partial Class fProdutoEtiquetaES
         Me.Referencia.HeaderText = "Ref."
         Me.Referencia.MinimumWidth = 6
         Me.Referencia.Name = "Referencia"
-        Me.Referencia.Width = 125
+        Me.Referencia.Width = 69
         '
         'Cor
         '
@@ -180,7 +181,7 @@ Partial Class fProdutoEtiquetaES
         Me.Cor.HeaderText = "Cor"
         Me.Cor.MinimumWidth = 6
         Me.Cor.Name = "Cor"
-        Me.Cor.Width = 110
+        Me.Cor.Width = 67
         '
         'quantidade
         '
@@ -190,7 +191,7 @@ Partial Class fProdutoEtiquetaES
         Me.quantidade.MinimumWidth = 6
         Me.quantidade.Name = "quantidade"
         Me.quantidade.ReadOnly = True
-        Me.quantidade.Width = 118
+        Me.quantidade.Width = 128
         '
         'impressao
         '
@@ -200,7 +201,7 @@ Partial Class fProdutoEtiquetaES
         Me.impressao.MinimumWidth = 6
         Me.impressao.Name = "impressao"
         Me.impressao.ReadOnly = True
-        Me.impressao.Width = 80
+        Me.impressao.Width = 110
         '
         'btoSair
         '
@@ -337,17 +338,6 @@ Partial Class fProdutoEtiquetaES
         Me.Panel1.Size = New System.Drawing.Size(1035, 685)
         Me.Panel1.TabIndex = 143
         '
-        'chkMarcarTodos
-        '
-        Me.chkMarcarTodos.AutoSize = True
-        Me.chkMarcarTodos.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMarcarTodos.Location = New System.Drawing.Point(10, 606)
-        Me.chkMarcarTodos.Name = "chkMarcarTodos"
-        Me.chkMarcarTodos.Size = New System.Drawing.Size(120, 20)
-        Me.chkMarcarTodos.TabIndex = 0
-        Me.chkMarcarTodos.Text = "Marcar todos"
-        Me.chkMarcarTodos.UseVisualStyleBackColor = True
-        '
         'grpImprimir
         '
         Me.grpImprimir.Controls.Add(Me.rdbTodos)
@@ -359,6 +349,17 @@ Partial Class fProdutoEtiquetaES
         Me.grpImprimir.TabIndex = 146
         Me.grpImprimir.TabStop = False
         Me.grpImprimir.Text = "Imprimir"
+        '
+        'rdbTodos
+        '
+        Me.rdbTodos.AutoSize = True
+        Me.rdbTodos.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.rdbTodos.Location = New System.Drawing.Point(202, 42)
+        Me.rdbTodos.Name = "rdbTodos"
+        Me.rdbTodos.Size = New System.Drawing.Size(90, 26)
+        Me.rdbTodos.TabIndex = 1
+        Me.rdbTodos.Text = "Todos"
+        Me.rdbTodos.UseVisualStyleBackColor = True
         '
         'rdbNaoImpresso
         '
@@ -373,16 +374,16 @@ Partial Class fProdutoEtiquetaES
         Me.rdbNaoImpresso.Text = "Não Impresso"
         Me.rdbNaoImpresso.UseVisualStyleBackColor = True
         '
-        'rdbTodos
+        'chkMarcarTodos
         '
-        Me.rdbTodos.AutoSize = True
-        Me.rdbTodos.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.rdbTodos.Location = New System.Drawing.Point(202, 42)
-        Me.rdbTodos.Name = "rdbTodos"
-        Me.rdbTodos.Size = New System.Drawing.Size(90, 26)
-        Me.rdbTodos.TabIndex = 1
-        Me.rdbTodos.Text = "Todos"
-        Me.rdbTodos.UseVisualStyleBackColor = True
+        Me.chkMarcarTodos.AutoSize = True
+        Me.chkMarcarTodos.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkMarcarTodos.Location = New System.Drawing.Point(10, 606)
+        Me.chkMarcarTodos.Name = "chkMarcarTodos"
+        Me.chkMarcarTodos.Size = New System.Drawing.Size(120, 20)
+        Me.chkMarcarTodos.TabIndex = 0
+        Me.chkMarcarTodos.Text = "Marcar todos"
+        Me.chkMarcarTodos.UseVisualStyleBackColor = True
         '
         'fProdutoEtiquetaES
         '
