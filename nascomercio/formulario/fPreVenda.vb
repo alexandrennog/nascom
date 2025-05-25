@@ -418,4 +418,8 @@ Public Class fPreVenda
             End If
         End If
     End Sub
+
+    Private Sub txtIdCliente_Leave(sender As Object, e As EventArgs) Handles txtIdCliente.Leave
+        FiltrarCliente()
+    End Sub
 End Class
