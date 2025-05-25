@@ -785,6 +785,7 @@ Public Class fCrediarioPagamento
         If formCliente.filtro.nome <> "" Then
             Me.txtCliente.Text = formCliente.filtro.nome
             Me.txtCliente.Tag = formCliente.filtro.cid
+            txtIdCliente.Text = formCliente.filtro.cid
             txtCliente_Leave(Nothing, Nothing)
         End If
     End Sub

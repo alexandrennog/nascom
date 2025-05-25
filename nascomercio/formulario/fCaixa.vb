@@ -892,6 +892,7 @@ Public Class fCaixa
             Me.txtCliente.Text = formCliente.filtro.nome
             If formCliente.filtro.cpf <> "" Then
                 Me.txtCliente.Text += ", CPF: " & formCliente.filtro.cpf
+                Me.txtIdCliente.Text = formCliente.filtro.cid
             End If
             Me.txtCliente.Tag = formCliente.filtro.cid
             If formCliente.filtro.situacao = "N" Then
