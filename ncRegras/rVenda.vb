@@ -111,6 +111,72 @@ Namespace nsVenda
             Return retorno
 
         End Function
+        Public Function ConsultarVendasPorVendedor(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaoVendasPorVendedor
+
+            Try
+
+                retorno = New ColecaoVendasPorVendedor
+
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.ConsultarVendasPorVendedor(dados)
+
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarVendasDaLoja(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaoVendasPorVendedor
+
+            Try
+
+                retorno = New ColecaoVendasPorVendedor
+
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.ConsultarVendasDaLoja(dados)
+
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
         Public Function ConsultarCrediarioPix(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda

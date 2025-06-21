@@ -1,7 +1,8 @@
-Imports ncDados.nsVenda
+Imports System.Windows.Forms
 Imports ncComum.nsAcessoBD
-Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncComum.nsFuncoes
+Imports ncDados.nsVenda
 
 Namespace nsVenda
 
@@ -258,6 +259,172 @@ Namespace nsVenda
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.TXID = cFuncoes.RetornarTexto(row("txID"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarVendasPorVendedor(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasPorVendedor
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                If Not String.IsNullOrEmpty(dados.Nome) Then
+                    sqlSelect = " Select v.vendedor, count(*)  as totalvendas, vp.qtdprodutos, ve.vendas, ve.vendas/count(*) as ticket, vp.qtdprodutos/count(*) as pa " &
+                  "  From nascomercio.vendas as v   " &
+                  "      inner join usuarios as u ON v.vendedor = u.usuario   " &
+                  "      inner join (SELECT vendedor, count(*) As qtdprodutos    " &
+                  "  From nascomercio.vendas as v " &
+                  "     inner join nascomercio.vendasprodutos as vp ON v.controle = vp.controle " &
+                  $"   Where vendedor = '{dados.Nome}' " &
+                  " and Data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor) as vp ON vp.vendedor = v.vendedor " &
+                  "  inner join (SELECT vendedor, sum(valorvenda) as vendas " &
+                  "  FROM nascomercio.v_vendas " &
+                  $"  Where  vendedor = '{dados.Nome}'" &
+                  " and data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor) as ve ON ve.vendedor = v.vendedor " &
+                  $"  Where  vendedor = '{dados.Nome}' " &
+                  " and data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor; "
+                End If
+
+                sqlWhere = String.Empty
+                sqlFrom = ""
+
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVendasPorVendedor
+
+                            For Each row In dt.Rows
+                                item = New dVendasPorVendedor
+
+                                item.Nome = cFuncoes.RetornarTexto(row("vendedor"))
+                                item.TotalVendas = cFuncoes.RetornarInteiro(row("totalvendas"))
+                                item.QuantidadeProdutos = cFuncoes.RetornarInteiro(row("qtdprod"))
+                                item.ValorTotalVendas = cFuncoes.RetornarDecimal(row("valor"))
+                                item.TicketMedio = cFuncoes.RetornarDecimal(row("ticket"))
+                                item.PercentualAtingimento = cFuncoes.RetornarDecimal(row("pa"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarVendasDaLoja(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasPorVendedor
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                sqlSelect = " Select v.vendedor, count(*)  as totalvendas, vp.qtdprodutos, ve.vendas, ve.vendas/count(*) as ticket, vp.qtdprodutos/count(*) as pa " &
+                  "  From nascomercio.vendas as v   " &
+                  "      inner join usuarios as u ON v.vendedor = u.usuario   " &
+                  "      inner join (SELECT vendedor, count(*) As qtdprodutos    " &
+                  "  From nascomercio.vendas as v " &
+                  "     inner join nascomercio.vendasprodutos as vp ON v.controle = vp.controle " &
+                  "   Where data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor) as vp ON vp.vendedor = v.vendedor " &
+                  "  inner join (SELECT vendedor, sum(valorvenda) as vendas " &
+                  "  FROM nascomercio.v_vendas " &
+                  "  Where data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor) as ve ON ve.vendedor = v.vendedor " &
+                  "  Where data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor; "
+
+                sqlWhere = String.Empty
+                sqlFrom = ""
+
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVendasPorVendedor
+
+                            For Each row In dt.Rows
+                                item = New dVendasPorVendedor
+
+                                item.Nome = cFuncoes.RetornarTexto(row("vendedor"))
+                                item.TotalVendas = cFuncoes.RetornarInteiro(row("totalvendas"))
+                                item.QuantidadeProdutos = cFuncoes.RetornarInteiro(row("qtdprod"))
+                                item.ValorTotalVendas = cFuncoes.RetornarDecimal(row("valor"))
+                                item.TicketMedio = cFuncoes.RetornarDecimal(row("ticket"))
+                                item.PercentualAtingimento = cFuncoes.RetornarDecimal(row("pa"))
 
                                 retorno.Add(item)
                             Next
