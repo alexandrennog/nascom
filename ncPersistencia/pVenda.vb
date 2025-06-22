@@ -1,7 +1,12 @@
-Imports ncDados.nsVenda
+Imports System.Data.SqlClient
+Imports System.Diagnostics.Eventing
+Imports System.Windows.Forms
+Imports MySql.Data.MySqlClient
 Imports ncComum.nsAcessoBD
-Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncComum.nsFuncoes
+Imports ncDados
+Imports ncDados.nsVenda
 
 Namespace nsVenda
 
@@ -258,6 +263,164 @@ Namespace nsVenda
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.TXID = cFuncoes.RetornarTexto(row("txID"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarVendasPorVendedor(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasPorVendedor
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                If Not String.IsNullOrEmpty(dados.Nome) Then
+                    sqlSelect = " Select v.vendedor, count(*)  as totalvendas, vp.qtdprod, ve.valor, ve.valor/count(*) as ticket, vp.qtdprod/count(*) as pa " &
+                  "  From nascomercio.vendas as v   " &
+                  "      inner join usuarios as u ON v.vendedor = u.usuario   " &
+                  "      inner join (SELECT vendedor, count(*) As qtdprod    " &
+                  "  From nascomercio.vendas as v " &
+                  "     inner join nascomercio.vendasprodutos as vp ON v.controle = vp.controle " &
+                  $"   Where v.vendedor = '{dados.Nome}' " &
+                  " and Data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor) as vp ON vp.vendedor = v.vendedor " &
+                  "  inner join (SELECT vendedor, sum(valorvenda) as valor " &
+                  "  FROM nascomercio.v_vendas " &
+                  $"  Where  v_vendas.vendedor = '{dados.Nome}'" &
+                  " and data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor) as ve ON ve.vendedor = v.vendedor " &
+                  $"  Where  v.vendedor = '{dados.Nome}' " &
+                  " and data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
+                  "  group by vendedor; "
+                End If
+
+                sqlWhere = String.Empty
+                sqlFrom = ""
+
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVendasPorVendedor
+
+                            For Each row In dt.Rows
+                                item = New dVendasPorVendedor
+
+                                item.Nome = cFuncoes.RetornarTexto(row("vendedor"))
+                                item.TotalVendas = cFuncoes.RetornarInteiro(row("totalvendas"))
+                                item.QuantidadeProdutos = cFuncoes.RetornarInteiro(row("qtdprod"))
+                                item.ValorTotalVendas = cFuncoes.RetornarDecimal(row("valor"))
+                                item.TicketMedio = cFuncoes.RetornarDecimal(row("ticket"))
+                                item.PercentualAtingimento = cFuncoes.RetornarDecimal(row("pa"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarVendasDaLoja(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasPorVendedor
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                sqlSelect = $"Select v.vendedor, count(*)  As totalvendas, vp.qtdprod, ROUND(ve.valor, 2) As valor, ROUND(ve.valor / count(*), 2) As ticket, ROUND(vp.qtdprod / count(*), 2) as pa   From nascomercio.vendas as v  inner Join usuarios As u On v.vendedor = u.usuario inner Join (Select vendedor, count(*) As qtdprod      From nascomercio.vendas as v inner Join nascomercio.vendasprodutos as vp ON v.controle = vp.controle    Where Data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}'  And '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}' group by vendedor) as vp ON vp.vendedor = v.vendedor inner join (SELECT vendedor, sum(valorvenda) as valor   FROM nascomercio.v_vendas   Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}' group by vendedor) as ve ON ve.vendedor = v.vendedor   Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}' group by vendedor " &
+                " union all " &
+                $" Select '' as vendedor, (select count(*) FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}') as totalvendas, (Select count(*)  FROM nascomercio.vendasprodutos  where controle In(Select controle FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')) as qtdprod, ROUND((SELECT sum(valorvenda) FROM nascomercio.v_vendas  Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}'), 2) as valor, ROUND((SELECT sum(valorvenda) FROM nascomercio.v_vendas  Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')/((select count(*) FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')), 2) as ticket, ROUND((Select count(*)  FROM nascomercio.vendasprodutos  where controle In(Select controle FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}'))/((select count(*) FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')), 2) as pa;"
+
+
+                sqlWhere = String.Empty
+                sqlFrom = ""
+                Dim mensagem As String
+
+                ' sqlSelect = $"call sp_teste"  ' ('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}','{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}');"
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS(sqlSelect)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVendasPorVendedor
+
+                            For Each row In dt.Rows
+                                item = New dVendasPorVendedor
+
+                                item.Nome = cFuncoes.RetornarTexto(row("vendedor"))
+                                item.TotalVendas = cFuncoes.RetornarInteiro(row("totalvendas"))
+                                item.QuantidadeProdutos = cFuncoes.RetornarInteiro(row("qtdprod"))
+                                item.ValorTotalVendas = cFuncoes.RetornarDecimal(row("valor"))
+                                item.TicketMedio = cFuncoes.RetornarDecimal(row("ticket"))
+                                item.PercentualAtingimento = cFuncoes.RetornarDecimal(row("pa"))
 
                                 retorno.Add(item)
                             Next

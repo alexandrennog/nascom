@@ -74,7 +74,14 @@ Public Class fRelatorio
             mdiPrincipal.CarregarRelCrediPix()
         ElseIf rbtCobrancaPIX.Checked Then
             mdiPrincipal.CarregarRelCobrancaCrediarioPix()
+        ElseIf rbtVendasPorVendedor.Checked Then
+            mdiPrincipal.CarregarRelVendasPorVendedor()
+        ElseIf rbtVendasPorLoja.Checked Then
+            mdiPrincipal.CarregarRelVendasPorLoja()
         End If
+
+
+
 
 
     End Sub
@@ -154,6 +161,10 @@ Public Class fRelatorio
     End Sub
 
     Private Sub rbtCobrancaPIX_CheckedChanged(sender As Object, e As EventArgs) Handles rbtCobrancaPIX.CheckedChanged
+
+    End Sub
+
+    Private Sub rbtVendasPorVendedor_CheckedChanged(sender As Object, e As EventArgs) Handles rbtVendasPorVendedor.CheckedChanged
 
     End Sub
 End Class

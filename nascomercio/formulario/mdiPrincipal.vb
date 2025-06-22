@@ -1072,6 +1072,17 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
 
+    Public Sub CarregarRelVendasPorVendedor()
+        FecharTela()
+        formulario = fRelatorioPorVendedor
+        AbrirTela()
+    End Sub
+    Public Sub CarregarRelVendasPorLoja()
+        FecharTela()
+        formulario = fRelatorioPorLoja
+        AbrirTela()
+    End Sub
+
     Private Sub btoCaixa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoCaixa.Click
         If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
             CarregarCaixa(True)
