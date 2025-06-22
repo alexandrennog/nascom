@@ -1,7 +1,11 @@
+Imports System.Data.SqlClient
+Imports System.Diagnostics.Eventing
 Imports System.Windows.Forms
+Imports MySql.Data.MySqlClient
 Imports ncComum.nsAcessoBD
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
+Imports ncDados
 Imports ncDados.nsVenda
 
 Namespace nsVenda
@@ -300,21 +304,21 @@ Namespace nsVenda
                 acessoBanco = New cAcessoBD
 
                 If Not String.IsNullOrEmpty(dados.Nome) Then
-                    sqlSelect = " Select v.vendedor, count(*)  as totalvendas, vp.qtdprodutos, ve.vendas, ve.vendas/count(*) as ticket, vp.qtdprodutos/count(*) as pa " &
+                    sqlSelect = " Select v.vendedor, count(*)  as totalvendas, vp.qtdprod, ve.valor, ve.valor/count(*) as ticket, vp.qtdprod/count(*) as pa " &
                   "  From nascomercio.vendas as v   " &
                   "      inner join usuarios as u ON v.vendedor = u.usuario   " &
-                  "      inner join (SELECT vendedor, count(*) As qtdprodutos    " &
+                  "      inner join (SELECT vendedor, count(*) As qtdprod    " &
                   "  From nascomercio.vendas as v " &
                   "     inner join nascomercio.vendasprodutos as vp ON v.controle = vp.controle " &
-                  $"   Where vendedor = '{dados.Nome}' " &
+                  $"   Where v.vendedor = '{dados.Nome}' " &
                   " and Data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
                   "  group by vendedor) as vp ON vp.vendedor = v.vendedor " &
-                  "  inner join (SELECT vendedor, sum(valorvenda) as vendas " &
+                  "  inner join (SELECT vendedor, sum(valorvenda) as valor " &
                   "  FROM nascomercio.v_vendas " &
-                  $"  Where  vendedor = '{dados.Nome}'" &
+                  $"  Where  v_vendas.vendedor = '{dados.Nome}'" &
                   " and data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
                   "  group by vendedor) as ve ON ve.vendedor = v.vendedor " &
-                  $"  Where  vendedor = '{dados.Nome}' " &
+                  $"  Where  v.vendedor = '{dados.Nome}' " &
                   " and data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
                   "  group by vendedor; "
                 End If
@@ -384,30 +388,22 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-                sqlSelect = " Select v.vendedor, count(*)  as totalvendas, vp.qtdprodutos, ve.vendas, ve.vendas/count(*) as ticket, vp.qtdprodutos/count(*) as pa " &
-                  "  From nascomercio.vendas as v   " &
-                  "      inner join usuarios as u ON v.vendedor = u.usuario   " &
-                  "      inner join (SELECT vendedor, count(*) As qtdprodutos    " &
-                  "  From nascomercio.vendas as v " &
-                  "     inner join nascomercio.vendasprodutos as vp ON v.controle = vp.controle " &
-                  "   Where data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
-                  "  group by vendedor) as vp ON vp.vendedor = v.vendedor " &
-                  "  inner join (SELECT vendedor, sum(valorvenda) as vendas " &
-                  "  FROM nascomercio.v_vendas " &
-                  "  Where data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
-                  "  group by vendedor) as ve ON ve.vendedor = v.vendedor " &
-                  "  Where data between '" & dados.Data.ToString("yyyy-MM-dd") + " 00:00:00" & "' AND '" & dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59" & "'" &
-                  "  group by vendedor; "
+                sqlSelect = $"Select v.vendedor, count(*)  As totalvendas, vp.qtdprod, ROUND(ve.valor, 2) As valor, ROUND(ve.valor / count(*), 2) As ticket, ROUND(vp.qtdprod / count(*), 2) as pa   From nascomercio.vendas as v  inner Join usuarios As u On v.vendedor = u.usuario inner Join (Select vendedor, count(*) As qtdprod      From nascomercio.vendas as v inner Join nascomercio.vendasprodutos as vp ON v.controle = vp.controle    Where Data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}'  And '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}' group by vendedor) as vp ON vp.vendedor = v.vendedor inner join (SELECT vendedor, sum(valorvenda) as valor   FROM nascomercio.v_vendas   Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}' group by vendedor) as ve ON ve.vendedor = v.vendedor   Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}' group by vendedor " &
+                " union all " &
+                $" Select '' as vendedor, (select count(*) FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}') as totalvendas, (Select count(*)  FROM nascomercio.vendasprodutos  where controle In(Select controle FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')) as qtdprod, ROUND((SELECT sum(valorvenda) FROM nascomercio.v_vendas  Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}'), 2) as valor, ROUND((SELECT sum(valorvenda) FROM nascomercio.v_vendas  Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')/((select count(*) FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')), 2) as ticket, ROUND((Select count(*)  FROM nascomercio.vendasprodutos  where controle In(Select controle FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}'))/((select count(*) FROM nascomercio.v_vendas Where data between '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' AND '{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}')), 2) as pa;"
+
 
                 sqlWhere = String.Empty
                 sqlFrom = ""
+                Dim mensagem As String
 
+                ' sqlSelect = $"call sp_teste"  ' ('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}','{dados.Data.ToString("yyyy-MM-dd") + " 23:59:59"}');"
 
                 If Not sqlWhere.Equals(String.Empty) Then
                     sqlWhere = " WHERE " & sqlWhere
                 End If
 
-                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+                ds = acessoBanco.ExecutarDS(sqlSelect)
 
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then

@@ -74,7 +74,7 @@ Partial Class fRelatorioPorVendedor
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(1174, 25)
+        Me.btoFiltro.Location = New System.Drawing.Point(718, 14)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
         Me.btoFiltro.Size = New System.Drawing.Size(108, 129)
@@ -105,7 +105,7 @@ Partial Class fRelatorioPorVendedor
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(1413, 25)
+        Me.btoSair.Location = New System.Drawing.Point(957, 14)
         Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(86, 129)
@@ -119,7 +119,7 @@ Partial Class fRelatorioPorVendedor
         Me.txtDataInicial.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDataInicial.Culture = New System.Globalization.CultureInfo("")
         Me.txtDataInicial.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtDataInicial.Location = New System.Drawing.Point(242, 120)
+        Me.txtDataInicial.Location = New System.Drawing.Point(240, 170)
         Me.txtDataInicial.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtDataInicial.Mask = "00/00/0000"
         Me.txtDataInicial.Name = "txtDataInicial"
@@ -131,7 +131,7 @@ Partial Class fRelatorioPorVendedor
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label4.Location = New System.Drawing.Point(98, 120)
+        Me.Label4.Location = New System.Drawing.Point(96, 170)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(137, 27)
@@ -144,7 +144,7 @@ Partial Class fRelatorioPorVendedor
         Me.txtDataFinal.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDataFinal.Culture = New System.Globalization.CultureInfo("")
         Me.txtDataFinal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtDataFinal.Location = New System.Drawing.Point(432, 120)
+        Me.txtDataFinal.Location = New System.Drawing.Point(430, 170)
         Me.txtDataFinal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtDataFinal.Mask = "00/00/0000"
         Me.txtDataFinal.Name = "txtDataFinal"
@@ -156,7 +156,7 @@ Partial Class fRelatorioPorVendedor
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(378, 120)
+        Me.Label1.Location = New System.Drawing.Point(376, 170)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(46, 27)
@@ -169,7 +169,7 @@ Partial Class fRelatorioPorVendedor
         Me.lblProduto.AutoSize = True
         Me.lblProduto.BackColor = System.Drawing.Color.Transparent
         Me.lblProduto.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.lblProduto.Location = New System.Drawing.Point(623, 120)
+        Me.lblProduto.Location = New System.Drawing.Point(606, 170)
         Me.lblProduto.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblProduto.Name = "lblProduto"
         Me.lblProduto.Size = New System.Drawing.Size(125, 27)
@@ -179,7 +179,7 @@ Partial Class fRelatorioPorVendedor
         'lstPix
         '
         Me.lstPix.HideSelection = False
-        Me.lstPix.Location = New System.Drawing.Point(102, 179)
+        Me.lstPix.Location = New System.Drawing.Point(100, 229)
         Me.lstPix.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.lstPix.Name = "lstPix"
         Me.lstPix.Size = New System.Drawing.Size(943, 488)
@@ -196,7 +196,7 @@ Partial Class fRelatorioPorVendedor
         Me.btnPrint.ForeColor = System.Drawing.Color.Black
         Me.btnPrint.Image = Global.nascomercio.My.Resources.Resources.print_design
         Me.btnPrint.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnPrint.Location = New System.Drawing.Point(1300, 25)
+        Me.btnPrint.Location = New System.Drawing.Point(844, 14)
         Me.btnPrint.Margin = New System.Windows.Forms.Padding(0)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(108, 129)
@@ -209,9 +209,9 @@ Partial Class fRelatorioPorVendedor
         '
         Me.cboVendedor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboVendedor.FormattingEnabled = True
-        Me.cboVendedor.Location = New System.Drawing.Point(755, 118)
+        Me.cboVendedor.Location = New System.Drawing.Point(738, 170)
         Me.cboVendedor.Name = "cboVendedor"
-        Me.cboVendedor.Size = New System.Drawing.Size(290, 28)
+        Me.cboVendedor.Size = New System.Drawing.Size(214, 28)
         Me.cboVendedor.TabIndex = 212
         '
         'fRelatorioPorVendedor
@@ -219,7 +219,7 @@ Partial Class fRelatorioPorVendedor
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1524, 920)
+        Me.ClientSize = New System.Drawing.Size(1150, 756)
         Me.Controls.Add(Me.cboVendedor)
         Me.Controls.Add(Me.btnPrint)
         Me.Controls.Add(Me.lstPix)

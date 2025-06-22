@@ -53,6 +53,8 @@ Public Class fRelatorioPorVendedor
 
         vendas = objVenda.ConsultarVendasPorVendedor(dadosVenda)
 
+
+
         If vendas Is Nothing Then
             Exit Sub
         End If
@@ -66,7 +68,7 @@ Public Class fRelatorioPorVendedor
             li.SubItems.Add(item.QuantidadeProdutos)
             li.SubItems.Add(item.ValorTotalVendas.ToString("C2"))
             li.SubItems.Add(item.TicketMedio.ToString("C2"))
-            li.SubItems.Add(item.PercentualAtingimento.ToString("C2"))
+            li.SubItems.Add(item.PercentualAtingimento.ToString("N"))
             Me.lstPix.Items.Add(li)
         Next
 
@@ -145,7 +147,7 @@ Public Class fRelatorioPorVendedor
             table.AddCell(New PdfPCell(New Phrase(item.QuantidadeProdutos.ToString())))
             table.AddCell(New PdfPCell(New Phrase(item.ValorTotalVendas.ToString("C2"))))
             table.AddCell(New PdfPCell(New Phrase(item.TicketMedio.ToString("C2"))))
-            table.AddCell(New PdfPCell(New Phrase(item.PercentualAtingimento.ToString("C2"))))
+            table.AddCell(New PdfPCell(New Phrase(item.PercentualAtingimento.ToString("N"))))
         Next
 
         If Not vendas Is Nothing Then

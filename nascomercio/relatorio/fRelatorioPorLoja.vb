@@ -61,7 +61,7 @@ Public Class fRelatorioPorLoja
             li.SubItems.Add(item.QuantidadeProdutos)
             li.SubItems.Add(item.ValorTotalVendas.ToString("C2"))
             li.SubItems.Add(item.TicketMedio.ToString("C2"))
-            li.SubItems.Add(item.PercentualAtingimento.ToString("C2"))
+            li.SubItems.Add(item.PercentualAtingimento.ToString("N"))
             Me.lstPix.Items.Add(li)
         Next
 
@@ -140,7 +140,7 @@ Public Class fRelatorioPorLoja
             table.AddCell(New PdfPCell(New Phrase(item.QuantidadeProdutos.ToString())))
             table.AddCell(New PdfPCell(New Phrase(item.ValorTotalVendas.ToString("C2"))))
             table.AddCell(New PdfPCell(New Phrase(item.TicketMedio.ToString("C2"))))
-            table.AddCell(New PdfPCell(New Phrase(item.PercentualAtingimento.ToString("C2"))))
+            table.AddCell(New PdfPCell(New Phrase(item.PercentualAtingimento.ToString("N"))))
         Next
 
         If Not vendas Is Nothing Then
@@ -177,14 +177,7 @@ Public Class fRelatorioPorLoja
 
         Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
         Me.txtDataFinal.Text = DateAdd(DateInterval.Day, 1, Today).ToString("dd/MM/yyyy")
-        'Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
-        '    Case "a", "g"
-        '        Me.txtCaixa.Text = ""
-        '        Me.txtCaixa.ReadOnly = False
-        '    Case "c"
-        '        Me.txtCaixa.Text = mdiPrincipal.gUsuario.usuario
-        '        Me.txtCaixa.ReadOnly = True
-        'End Select
+
 
     End Sub
 
@@ -206,7 +199,7 @@ Public Class fRelatorioPorLoja
     End Sub
 
     Private Sub Imprimir()
-        Dim arquivoPDF = "RelatorioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+        Dim arquivoPDF = "RelatorioVendasPorLoja" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
         Dim ProcessApplication As String = "AcroRd32"
 
         If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
