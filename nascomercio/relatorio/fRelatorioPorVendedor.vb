@@ -186,34 +186,31 @@ Public Class fRelatorioPorVendedor
         Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
         Me.txtDataFinal.Text = DateAdd(DateInterval.Day, 1, Today).ToString("dd/MM/yyyy")
         fVendendorLista()
-        'Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
-        '    Case "a", "g"
-        '        Me.txtCaixa.Text = ""
-        '        Me.txtCaixa.ReadOnly = False
-        '    Case "c"
-        '        Me.txtCaixa.Text = mdiPrincipal.gUsuario.usuario
-        '        Me.txtCaixa.ReadOnly = True
-        'End Select
 
     End Sub
     Private Sub fVendendorLista()
         Dim regras As rUsuario
         Dim usuarios As ColecaoUsuario
+        Dim usuario As New dUsuario
         Dim linha As DataGridViewRow
         Try
             regras = New rUsuario
             Dim filtro As New dUsuario
 
+            filtro.situacao = "A"
+
             usuarios = regras.Consultar(filtro)
+            usuario = usuarios.FirstOrDefault()
+            usuario.usuario = "Todos"
+            'usuarios.Insert(0, usuario)
             If Not IsNothing(usuarios) Then
                 ' 2. Configurar o ComboBox
-                cboVendedor.DataSource = usuarios.Where(Function(p) p.situacao = "A").ToList()
+                cboVendedor.DataSource = usuarios
                 cboVendedor.DisplayMember = "usuario"  ' O que será exibido no ComboBox
                 cboVendedor.ValueMember = "cid"    ' Valor associado a cada item (poderia ser um ID)
-                cboVendedor.SelectedIndex = -1      ' Inicia sem nenhum item selecionado
+                'cboVendedor.SelectedIndex = -1      ' Inicia sem nenhum item selecionado
 
                 ' Opcional: Adicionar um item padrão no início
-                ' cboVendedor.Items.Insert(0, "Selecione um vendedor...")
                 cboVendedor.SelectedIndex = 0
             End If
 
