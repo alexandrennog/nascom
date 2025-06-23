@@ -72,7 +72,7 @@ Partial Class fRelatorioPorLoja
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(937, 17)
+        Me.btoFiltro.Location = New System.Drawing.Point(706, 15)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
         Me.btoFiltro.Size = New System.Drawing.Size(108, 129)
@@ -103,7 +103,7 @@ Partial Class fRelatorioPorLoja
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(724, 17)
+        Me.btoSair.Location = New System.Drawing.Point(926, 15)
         Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(86, 129)
@@ -196,7 +196,7 @@ Partial Class fRelatorioPorLoja
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1161, 738)
+        Me.ClientSize = New System.Drawing.Size(1128, 738)
         Me.Controls.Add(Me.btnPrint)
         Me.Controls.Add(Me.lstPix)
         Me.Controls.Add(Me.txtDataFinal)
