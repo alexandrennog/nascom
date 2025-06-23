@@ -65,3 +65,8 @@ Para a versão 2.1.2.9 foram incluídas as seguintes funcionalidades
 2 - Inclusão de validação de alçada para descontos na tela de pagamento 
 3 - Incluir opção de reimprimir etiquetas já impressas
 4 - Após TAB no campo código do cliente carregar o nome do cliente 
+
+
+Para a versão 2.1.3.0 foram incluídas as seguintes funcionalidades
+
+1 - Incluídos os relatório de vendas por vendedor e por loja
