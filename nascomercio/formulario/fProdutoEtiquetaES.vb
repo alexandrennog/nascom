@@ -266,4 +266,16 @@ Public Class fProdutoEtiquetaES
     Private Sub Label3_Click(sender As Object, e As EventArgs)
 
     End Sub
+
+    Private Sub rdbNaoImpresso_CheckedChanged(sender As Object, e As EventArgs) Handles rdbNaoImpresso.CheckedChanged
+        If ValidarCampos() = True Then
+            ListarProdutos()
+        End If
+    End Sub
+
+    Private Sub rdbTodos_CheckedChanged(sender As Object, e As EventArgs) Handles rdbTodos.CheckedChanged
+        If ValidarCampos() = True Then
+            ListarProdutos()
+        End If
+    End Sub
 End Class

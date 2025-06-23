@@ -1,7 +1,12 @@
-Imports ncDados.nsVenda
+Imports System.Data.SqlClient
+Imports System.Diagnostics.Eventing
+Imports System.Windows.Forms
+Imports MySql.Data.MySqlClient
 Imports ncComum.nsAcessoBD
-Imports ncComum.nsFuncoes
 Imports ncComum.nsExcecao
+Imports ncComum.nsFuncoes
+Imports ncDados
+Imports ncDados.nsVenda
 
 Namespace nsVenda
 
@@ -258,6 +263,140 @@ Namespace nsVenda
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.TXID = cFuncoes.RetornarTexto(row("txID"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarVendasPorVendedor(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasPorVendedor
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+                sqlWhere = String.Empty
+                sqlFrom = ""
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                If dados.Nome = "Todos" Then
+                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas(null, '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59"}');")
+                Else
+                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas('{dados.Nome}', '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59"}');")
+                End If
+
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVendasPorVendedor
+
+                            For Each row In dt.Rows
+                                item = New dVendasPorVendedor
+
+                                item.Nome = cFuncoes.RetornarTexto(row("vendedor"))
+                                item.TotalVendas = cFuncoes.RetornarInteiro(row("totalvendas"))
+                                item.QuantidadeProdutos = cFuncoes.RetornarInteiro(row("qtdprod"))
+                                item.ValorTotalVendas = cFuncoes.RetornarDecimal(row("valor"))
+                                item.TicketMedio = cFuncoes.RetornarDecimal(row("ticket"))
+                                item.PercentualAtingimento = cFuncoes.RetornarDecimal(row("pa"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Return retorno
+
+        End Function
+        Public Function ConsultarVendasDaLoja(ByVal dados As dVendasPorVendedor) As ColecaoVendasPorVendedor
+
+            Dim retorno As ColecaoVendasPorVendedor
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasPorVendedor
+            Dim sqlSelect As String
+            Dim sqlWhere As String
+            Dim sqlFrom As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                sqlWhere = String.Empty
+                sqlFrom = ""
+                Dim mensagem As String
+
+                If Not sqlWhere.Equals(String.Empty) Then
+                    sqlWhere = " WHERE " & sqlWhere
+                End If
+
+                ds = acessoBanco.ExecutarDS($"call sp_recuperavendasloja('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59"}');")
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaoVendasPorVendedor
+
+                            For Each row In dt.Rows
+                                item = New dVendasPorVendedor
+
+                                item.Nome = cFuncoes.RetornarTexto("")
+                                item.TotalVendas = cFuncoes.RetornarInteiro(row("totalvendas"))
+                                item.QuantidadeProdutos = cFuncoes.RetornarInteiro(row("qtdprod"))
+                                item.ValorTotalVendas = cFuncoes.RetornarDecimal(row("valor"))
+                                item.TicketMedio = cFuncoes.RetornarDecimal(row("ticket"))
+                                item.PercentualAtingimento = cFuncoes.RetornarDecimal(row("pa"))
 
                                 retorno.Add(item)
                             Next
