@@ -46,11 +46,11 @@ Public Class fRelatorioPorVendedor
         Me.lstPix.Items.Clear()
 
         Me.lstPix.Columns.Add("Nome")
-        Me.lstPix.Columns.Add("qtd. Vendas").Width = 80
-        Me.lstPix.Columns.Add("qtd. Produtos").Width = 80
+        Me.lstPix.Columns.Add("Tot. Vendas").Width = 80
+        Me.lstPix.Columns.Add("Tot. Ítens").Width = 80
         Me.lstPix.Columns.Add("Valor Vendas").Width = 120
         Me.lstPix.Columns.Add("Ticket Médio").Width = 120
-        Me.lstPix.Columns.Add("% Atingimento").Width = 120
+        Me.lstPix.Columns.Add("% PA").Width = 120
 
         vendas = objVenda.ConsultarVendasPorVendedor(dadosVenda)
 
@@ -121,11 +121,11 @@ Public Class fRelatorioPorVendedor
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Nome", fonte)
-        Dim coluna2 As New Paragraph("qtd. Vendas", fonte)
-        Dim coluna3 As New Paragraph("qtd. Produtos", fonte)
+        Dim coluna2 As New Paragraph("Tot. Vendas", fonte)
+        Dim coluna3 As New Paragraph("Tot. Ítens", fonte)
         Dim coluna4 As New Paragraph("Valor Vendas", fonte)
         Dim coluna5 As New Paragraph("Ticket Médio", fonte)
-        Dim coluna6 As New Paragraph("% Atingimento", fonte)
+        Dim coluna6 As New Paragraph("% PA", fonte)
 
 
         cell1.AddElement(coluna1)
