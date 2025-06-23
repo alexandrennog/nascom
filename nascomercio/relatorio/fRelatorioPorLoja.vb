@@ -43,8 +43,10 @@ Public Class fRelatorioPorLoja
         Me.lstPix.Columns.Add("Tot. Ítens").Width = 80
         Me.lstPix.Columns.Add("Valor Vendas").Width = 120
         Me.lstPix.Columns.Add("Ticket Médio").Width = 120
-        Me.lstPix.Columns.Add("% PA").Width = 120
+        Me.lstPix.Columns.Add("PA").Width = 120
 
+        ' Ativa o cursor de espera (ampulheta)
+        Cursor.Current = Cursors.WaitCursor
         vendas = objVenda.ConsultarVendasDaLoja(dadosVenda)
 
         If vendas Is Nothing Then
@@ -66,7 +68,12 @@ Public Class fRelatorioPorLoja
         Try
             ConfigurarRelatorio(vendas)
         Catch ex As Exception
+
+            ' Restaura o cursor padrão
+            Cursor.Current = Cursors.Default
+
             MessageBox.Show(ex.Message)
+
         End Try
     End Sub
     Private Sub ConfigurarRelatorio(ByVal vendas As ncDados.nsVenda.ColecaoVendasPorVendedor)
@@ -114,7 +121,7 @@ Public Class fRelatorioPorLoja
         Dim coluna2 As New Paragraph("Tot. Ítens", fonte)
         Dim coluna3 As New Paragraph("Valor Vendas", fonte)
         Dim coluna4 As New Paragraph("Ticket Médio", fonte)
-        Dim coluna5 As New Paragraph("% PA", fonte)
+        Dim coluna5 As New Paragraph("PA", fonte)
 
 
         cell1.AddElement(coluna1)

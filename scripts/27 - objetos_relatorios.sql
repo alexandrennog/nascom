@@ -29,12 +29,11 @@ and data <= dtFim
 and vendedor = ifnull(nomevendedor, vendedor)
 group by vendedor;
 
-select * ,valor/totalvendas as ticket ,  qtdprod/totalvendas as pa
-from vendas_range;
+select vendedor, totalvendas, valor, qtdprod ,valor/totalvendas as ticket ,  qtdprod/totalvendas as pa
+from vendas_range
+order by valor desc;
  
 END
-
-
 
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `fu_getqtdprods`(nomevendedor varchar(30), dtIni datetime, dtFim datetime) RETURNS int(11)
