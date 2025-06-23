@@ -39,7 +39,6 @@ Public Class fRelatorioPorLoja
         Me.lstPix.Columns.Clear()
         Me.lstPix.Items.Clear()
 
-        Me.lstPix.Columns.Add("Nome")
         Me.lstPix.Columns.Add("qtd. Vendas").Width = 80
         Me.lstPix.Columns.Add("qtd. Produtos").Width = 80
         Me.lstPix.Columns.Add("Valor Vendas").Width = 120
@@ -56,8 +55,7 @@ Public Class fRelatorioPorLoja
 
         For Each item As dVendasPorVendedor In vendas
             li = New ListViewItem
-            li.Text = item.Nome.ToString
-            li.SubItems.Add(item.TotalVendas)
+            li.Text = item.TotalVendas.ToString
             li.SubItems.Add(item.QuantidadeProdutos)
             li.SubItems.Add(item.ValorTotalVendas.ToString("C2"))
             li.SubItems.Add(item.TicketMedio.ToString("C2"))
@@ -99,25 +97,25 @@ Public Class fRelatorioPorLoja
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
-        Dim table As New PdfPTable(6)
+        Dim table As New PdfPTable(5)
 
         Dim cell1 As New PdfPCell
         Dim cell2 As New PdfPCell
         Dim cell3 As New PdfPCell
         Dim cell4 As New PdfPCell
         Dim cell5 As New PdfPCell
-        Dim cell6 As New PdfPCell
+
         Dim cells As New List(Of PdfPCell)
 
         Dim fonte As Font
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
-        Dim coluna1 As New Paragraph("Nome", fonte)
-        Dim coluna2 As New Paragraph("qtd. Vendas", fonte)
-        Dim coluna3 As New Paragraph("qtd. Produtos", fonte)
-        Dim coluna4 As New Paragraph("Valor Vendas", fonte)
-        Dim coluna5 As New Paragraph("Ticket Médio", fonte)
-        Dim coluna6 As New Paragraph("% Atingimento", fonte)
+        'Dim coluna1 As New Paragraph("Nome", fonte)
+        Dim coluna1 As New Paragraph("qtd. Vendas", fonte)
+        Dim coluna2 As New Paragraph("qtd. Produtos", fonte)
+        Dim coluna3 As New Paragraph("Valor Vendas", fonte)
+        Dim coluna4 As New Paragraph("Ticket Médio", fonte)
+        Dim coluna5 As New Paragraph("% PA", fonte)
 
 
         cell1.AddElement(coluna1)
@@ -125,17 +123,14 @@ Public Class fRelatorioPorLoja
         cell3.AddElement(coluna3)
         cell4.AddElement(coluna4)
         cell5.AddElement(coluna5)
-        cell6.AddElement(coluna6)
 
         table.AddCell(cell1)
         table.AddCell(cell2)
         table.AddCell(cell3)
         table.AddCell(cell4)
         table.AddCell(cell5)
-        table.AddCell(cell6)
 
         For Each item As dVendasPorVendedor In vendas
-            table.AddCell(New PdfPCell(New Phrase(item.Nome.ToString())))
             table.AddCell(New PdfPCell(New Phrase(item.TotalVendas.ToString())))
             table.AddCell(New PdfPCell(New Phrase(item.QuantidadeProdutos.ToString())))
             table.AddCell(New PdfPCell(New Phrase(item.ValorTotalVendas.ToString("C2"))))
