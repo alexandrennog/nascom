@@ -1,5 +1,6 @@
 Imports System.Configuration
 Imports System.IO
+Imports System.Linq
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports iTextSharp.text
 Imports iTextSharp.text.pdf
@@ -206,8 +207,8 @@ Public Class fRelatorioPorVendedor
             usuarios = regras.Consultar(filtro)
             If Not IsNothing(usuarios) Then
                 ' 2. Configurar o ComboBox
-                cboVendedor.DataSource = usuarios
-                cboVendedor.DisplayMember = "nomeCompleto"  ' O que será exibido no ComboBox
+                cboVendedor.DataSource = usuarios.Where(Function(p) p.situacao = "A").ToList()
+                cboVendedor.DisplayMember = "usuario"  ' O que será exibido no ComboBox
                 cboVendedor.ValueMember = "cid"    ' Valor associado a cada item (poderia ser um ID)
                 cboVendedor.SelectedIndex = -1      ' Inicia sem nenhum item selecionado
 

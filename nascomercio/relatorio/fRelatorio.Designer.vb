@@ -467,10 +467,10 @@ Partial Class fRelatorio
         Me.rbtVendasPorVendedor.Location = New System.Drawing.Point(804, 274)
         Me.rbtVendasPorVendedor.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasPorVendedor.Name = "rbtVendasPorVendedor"
-        Me.rbtVendasPorVendedor.Size = New System.Drawing.Size(195, 33)
+        Me.rbtVendasPorVendedor.Size = New System.Drawing.Size(285, 33)
         Me.rbtVendasPorVendedor.TabIndex = 107
         Me.rbtVendasPorVendedor.TabStop = True
-        Me.rbtVendasPorVendedor.Text = "Por Vendedor"
+        Me.rbtVendasPorVendedor.Text = "Vendas por Vendedor"
         Me.rbtVendasPorVendedor.UseVisualStyleBackColor = True
         '
         'rbtVendasPorLoja
@@ -480,10 +480,10 @@ Partial Class fRelatorio
         Me.rbtVendasPorLoja.Location = New System.Drawing.Point(804, 328)
         Me.rbtVendasPorLoja.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasPorLoja.Name = "rbtVendasPorLoja"
-        Me.rbtVendasPorLoja.Size = New System.Drawing.Size(135, 33)
+        Me.rbtVendasPorLoja.Size = New System.Drawing.Size(214, 33)
         Me.rbtVendasPorLoja.TabIndex = 108
         Me.rbtVendasPorLoja.TabStop = True
-        Me.rbtVendasPorLoja.Text = "Por Loja"
+        Me.rbtVendasPorLoja.Text = "Vendas da Loja"
         Me.rbtVendasPorLoja.UseVisualStyleBackColor = True
         '
         'fRelatorio
