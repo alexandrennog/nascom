@@ -52,9 +52,11 @@ Partial Class fRelatorio
         Me.rbtPix = New System.Windows.Forms.RadioButton()
         Me.rbtCrediarioPix = New System.Windows.Forms.RadioButton()
         Me.rbtCobrancaPIX = New System.Windows.Forms.RadioButton()
-        Me.rbtVendasPorVendedor = New System.Windows.Forms.RadioButton()
+        Me.pnlRelatorios = New System.Windows.Forms.Panel()
         Me.rbtVendasPorLoja = New System.Windows.Forms.RadioButton()
+        Me.rbtVendasPorVendedor = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlRelatorios.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblSubTitulo
@@ -460,31 +462,40 @@ Partial Class fRelatorio
         Me.rbtCobrancaPIX.Text = "Cobrança Crediario"
         Me.rbtCobrancaPIX.UseVisualStyleBackColor = True
         '
-        'rbtVendasPorVendedor
+        'pnlRelatorios
         '
-        Me.rbtVendasPorVendedor.AutoSize = True
-        Me.rbtVendasPorVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasPorVendedor.Location = New System.Drawing.Point(804, 274)
-        Me.rbtVendasPorVendedor.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.rbtVendasPorVendedor.Name = "rbtVendasPorVendedor"
-        Me.rbtVendasPorVendedor.Size = New System.Drawing.Size(285, 33)
-        Me.rbtVendasPorVendedor.TabIndex = 107
-        Me.rbtVendasPorVendedor.TabStop = True
-        Me.rbtVendasPorVendedor.Text = "Vendas por Vendedor"
-        Me.rbtVendasPorVendedor.UseVisualStyleBackColor = True
+        Me.pnlRelatorios.Controls.Add(Me.rbtVendasPorLoja)
+        Me.pnlRelatorios.Controls.Add(Me.rbtVendasPorVendedor)
+        Me.pnlRelatorios.Location = New System.Drawing.Point(768, 238)
+        Me.pnlRelatorios.Name = "pnlRelatorios"
+        Me.pnlRelatorios.Size = New System.Drawing.Size(364, 230)
+        Me.pnlRelatorios.TabIndex = 109
         '
         'rbtVendasPorLoja
         '
         Me.rbtVendasPorLoja.AutoSize = True
         Me.rbtVendasPorLoja.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasPorLoja.Location = New System.Drawing.Point(804, 328)
+        Me.rbtVendasPorLoja.Location = New System.Drawing.Point(48, 90)
         Me.rbtVendasPorLoja.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasPorLoja.Name = "rbtVendasPorLoja"
         Me.rbtVendasPorLoja.Size = New System.Drawing.Size(214, 33)
-        Me.rbtVendasPorLoja.TabIndex = 108
+        Me.rbtVendasPorLoja.TabIndex = 110
         Me.rbtVendasPorLoja.TabStop = True
         Me.rbtVendasPorLoja.Text = "Vendas da Loja"
         Me.rbtVendasPorLoja.UseVisualStyleBackColor = True
+        '
+        'rbtVendasPorVendedor
+        '
+        Me.rbtVendasPorVendedor.AutoSize = True
+        Me.rbtVendasPorVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtVendasPorVendedor.Location = New System.Drawing.Point(48, 36)
+        Me.rbtVendasPorVendedor.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.rbtVendasPorVendedor.Name = "rbtVendasPorVendedor"
+        Me.rbtVendasPorVendedor.Size = New System.Drawing.Size(285, 33)
+        Me.rbtVendasPorVendedor.TabIndex = 109
+        Me.rbtVendasPorVendedor.TabStop = True
+        Me.rbtVendasPorVendedor.Text = "Vendas por Vendedor"
+        Me.rbtVendasPorVendedor.UseVisualStyleBackColor = True
         '
         'fRelatorio
         '
@@ -492,8 +503,7 @@ Partial Class fRelatorio
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1144, 828)
-        Me.Controls.Add(Me.rbtVendasPorLoja)
-        Me.Controls.Add(Me.rbtVendasPorVendedor)
+        Me.Controls.Add(Me.pnlRelatorios)
         Me.Controls.Add(Me.rbtCobrancaPIX)
         Me.Controls.Add(Me.rbtCrediarioPix)
         Me.Controls.Add(Me.rbtPix)
@@ -535,6 +545,8 @@ Partial Class fRelatorio
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Produtos"
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlRelatorios.ResumeLayout(False)
+        Me.pnlRelatorios.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -569,6 +581,7 @@ Partial Class fRelatorio
     Friend WithEvents rbtPix As RadioButton
     Friend WithEvents rbtCrediarioPix As RadioButton
     Friend WithEvents rbtCobrancaPIX As RadioButton
-    Friend WithEvents rbtVendasPorVendedor As RadioButton
+    Friend WithEvents pnlRelatorios As Panel
     Friend WithEvents rbtVendasPorLoja As RadioButton
+    Friend WithEvents rbtVendasPorVendedor As RadioButton
 End Class
