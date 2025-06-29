@@ -25,6 +25,10 @@ Public Class fRelatorioPorLoja
 
         parametros(1) = New Microsoft.Reporting.WinForms.ReportParameter
         parametros(1).Name = "DataFinal"
+        DateTime.TryParse(txtDataFinal.Text, dadosVenda.DataFim.AddDays(1))
+        If dadosVenda.DataFim = DateTime.MinValue Then
+            dadosVenda.DataFim = DateTime.Now
+        End If
         parametros(1).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
         dadosVenda.DataFim = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text)
 
