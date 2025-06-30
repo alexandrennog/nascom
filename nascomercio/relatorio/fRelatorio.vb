@@ -93,7 +93,8 @@ Public Class fRelatorio
 
     Private Sub fRelatorio_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        pnlRelatorios.Visible = Not IsNothing(Configuration.ConfigurationManager.AppSettings("exibirRelsExcecao"))
+        rbtVendasPorVendedor.Visible = Not IsNothing(Configuration.ConfigurationManager.AppSettings("exibirRelsExcecao"))
+        rbtVendasPorLoja.Visible = Not IsNothing(Configuration.ConfigurationManager.AppSettings("exibirRelsExcecao"))
 
 
         Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo

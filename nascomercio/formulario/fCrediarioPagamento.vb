@@ -908,4 +908,22 @@ Public Class fCrediarioPagamento
             HabilitarGridParaEdicao(_excVenda)
         End If
     End Sub
+
+    Private Sub dgvCrediario_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgvCrediario.ColumnHeaderMouseClick
+        Dim coluna As DataGridViewColumn = dgvCrediario.Columns(e.ColumnIndex)
+        Dim direcao As System.ComponentModel.ListSortDirection
+
+        ' Verifica a direção atual da ordenação
+        If coluna.HeaderCell.SortGlyphDirection = SortOrder.Ascending Then
+            direcao = System.ComponentModel.ListSortDirection.Descending
+        Else
+            direcao = System.ComponentModel.ListSortDirection.Ascending
+        End If
+
+        ' Ordena os dados
+        dgvCrediario.Sort(coluna, direcao)
+
+        ' Atualiza o ícone de ordenação
+        coluna.HeaderCell.SortGlyphDirection = If(direcao = System.ComponentModel.ListSortDirection.Ascending, SortOrder.Ascending, SortOrder.Descending)
+    End Sub
 End Class
