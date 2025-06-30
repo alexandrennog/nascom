@@ -385,7 +385,7 @@ Namespace nsVenda
                     If ds.Tables.Count > 0 Then
                         dt = ds.Tables(0)
 
-                        If dt.Rows.Count > 0 Then
+                        If dt.Rows.Count > 0 And ds.Tables(0).Rows(0).ItemArray(0) > -1 Then
                             retorno = New ColecaoVendasPorVendedor
 
                             For Each row In dt.Rows
