@@ -24,7 +24,7 @@ DECLARE qtdvales INT;
 	and vendedor = ifnull(nomevendedor, vendedor)
 	and vp.produto <> 4055;
 
-    RETURN qtdprodutos + qtdvales;
+    RETURN ifNull(qtdprodutos,0) + IfNull(qtdvales,0);
 
 END$$
 
