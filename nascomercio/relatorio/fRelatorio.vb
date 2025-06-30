@@ -80,10 +80,6 @@ Public Class fRelatorio
             mdiPrincipal.CarregarRelVendasPorLoja()
         End If
 
-
-
-
-
     End Sub
 
 
