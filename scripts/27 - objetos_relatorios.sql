@@ -48,9 +48,10 @@ Where data >= dtIni and data <= dtFim
 and vendedor = ifnull(nomevendedor, vendedor)
 group by vendedor;
 
-select vendedor, (totalvendas -1) as totalvendas, valor, qtdprod ,valor/(totalvendas - 1) as ticket ,  qtdprod/(totalvendas - 1) as pa
+select vendedor, (totalvendas) as totalvendas, valor, qtdprod ,valor/(totalvendas) as ticket ,  qtdprod/(totalvendas) as pa
 from vendas_range
 where vendedor = ifnull(nomevendedor, vendedor)
+and totalvendas > 0
 order by valor desc;
 
 END$$
@@ -72,8 +73,9 @@ where data >= dtIni and data <= dtFim) as totalvendas, Sum(valorvenda)-((Sum(tro
 FROM nascomercio.v_vendassintetico as v
 Where data >= dtIni and data <= dtFim;
 
-select (totalvendas -1) as totalvendas, valor, qtdprod ,valor/(totalvendas - 1) as ticket ,  qtdprod/(totalvendas - 1) as pa
+select (totalvendas) as totalvendas, valor, qtdprod ,valor/(totalvendas) as ticket ,  qtdprod/(totalvendas) as pa
 from vendas_range
+where totalvendas > 0
 order by valor desc;
 
 END$$
