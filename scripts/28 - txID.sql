@@ -9,3 +9,7 @@ ADD COLUMN `txID` varchar(36) DEFAULT NULL;
 
 ALTER TABLE vales
 ADD COLUMN `txID` varchar(36) DEFAULT NULL;
+
+
+
+

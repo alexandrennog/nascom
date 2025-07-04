@@ -178,7 +178,7 @@ Namespace nsCrediario
                     sqlWhere = " WHERE " & sqlWhere
                 End If
 
-                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere)
+                ds = acessoBanco.ExecutarDS(sqlSelect & " " & sqlFrom & " " & sqlWhere & " order by year(dataVenda), month(dataVenda)")
 
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then
