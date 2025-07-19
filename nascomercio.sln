@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.34829.251
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36212.18 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NCImport", "NCImport\NCImport.vbproj", "{AB45C104-4D02-4694-9338-D965C6AF6789}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ncEfd", "ncEfd\ncEfd.vbproj", "{F4FB9F91-7859-4422-A3CE-4CAC14441AA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssinadorCertificado", "AssinadorCertificado\AssinadorCertificado.csproj", "{7B1ED004-F190-4ECA-877A-3B282DFD74A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ncNFCeLib", "ncNFCeLib\ncNFCeLib.csproj", "{BC296EB8-5387-4FB3-A9B4-806B2D406994}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{7B1ED004-F190-4ECA-877A-3B282DFD74A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B1ED004-F190-4ECA-877A-3B282DFD74A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B1ED004-F190-4ECA-877A-3B282DFD74A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC296EB8-5387-4FB3-A9B4-806B2D406994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC296EB8-5387-4FB3-A9B4-806B2D406994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC296EB8-5387-4FB3-A9B4-806B2D406994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC296EB8-5387-4FB3-A9B4-806B2D406994}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
