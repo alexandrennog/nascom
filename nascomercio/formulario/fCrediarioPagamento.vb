@@ -671,6 +671,10 @@ Public Class fCrediarioPagamento
                         parcela.crediarioId = dadosCrediario.cid
 
 
+                        Dim retParcelas = consulta.ConsultarParcelas(parcela)
+                        If IsNothing(retParcelas) Then
+                            Continue For
+                        End If
                         parcelas.AddRange(consulta.ConsultarParcelas(parcela))
 
                         If Not IsNothing(parcelas) Then
