@@ -379,7 +379,7 @@ Namespace nsVenda
                     sqlWhere = " WHERE " & sqlWhere
                 End If
 
-                ds = acessoBanco.ExecutarDS($"call sp_recuperavendasloja('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59"}');")
+                ds = acessoBanco.ExecutarDS($"call sp_recuperavendasloja('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00"}');")
 
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then
