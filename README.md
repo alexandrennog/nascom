@@ -84,3 +84,4 @@ Colar na pasta Nasoomercio os arquivos da nova versão
 Para a versão 2.1.3.0 foram incluídas as seguintes funcionalidades
 
 1 - Correção de bug para parcela com valor zerado	 
+2 - Ajuste de filtros de relatórios da Giovana
