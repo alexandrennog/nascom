@@ -64,6 +64,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainNFCe.cs" />
+    <Compile Include="Modelos\CanonicalizationMethod.cs" />
+    <Compile Include="Modelos\CFe.cs" />
+    <Compile Include="Modelos\COFINS.cs" />
+    <Compile Include="Modelos\COFINSNT.cs" />
+    <Compile Include="Modelos\Dest.cs" />
+    <Compile Include="Modelos\Det.cs" />
+    <Compile Include="Modelos\DigestMethod.cs" />
+    <Compile Include="Modelos\Emit.cs" />
+    <Compile Include="Modelos\EnderEmit.cs" />
+    <Compile Include="Modelos\ICMS.cs" />
+    <Compile Include="Modelos\ICMS00.cs" />
+    <Compile Include="Modelos\ICMSTot.cs" />
+    <Compile Include="Modelos\Ide.cs" />
+    <Compile Include="Modelos\Imposto.cs" />
+    <Compile Include="Modelos\InfAdic.cs" />
+    <Compile Include="Modelos\InfCFe.cs" />
+    <Compile Include="Modelos\KeyInfo.cs" />
+    <Compile Include="Modelos\MP.cs" />
+    <Compile Include="Modelos\NCFe.cs" />
+    <Compile Include="Modelos\ObsFisco.cs" />
+    <Compile Include="Modelos\Pgto.cs" />
+    <Compile Include="Modelos\PIS.cs" />
+    <Compile Include="Modelos\PISNT.cs" />
+    <Compile Include="Modelos\Prod.cs" />
+    <Compile Include="Modelos\Reference.cs" />
+    <Compile Include="Modelos\Signature.cs" />
+    <Compile Include="Modelos\SignatureMethod.cs" />
+    <Compile Include="Modelos\SignedInfo.cs" />
+    <Compile Include="Modelos\Total.cs" />
+    <Compile Include="Modelos\Transform.cs" />
+    <Compile Include="Modelos\Transforms.cs" />
+    <Compile Include="Modelos\X509Data.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

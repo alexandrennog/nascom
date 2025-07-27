@@ -545,7 +545,74 @@ Public Class fPagamento
         Return controle
 
     End Function
+    Private Function IncluirNFe() As Integer
+        Dim novaVenda As New ncRegras.nsVenda.rVenda
+        Dim dadosVenda As New ncDados.nsVenda.dVenda
+        Dim regrasItem As New rProdutoItem
 
+        Dim controle As Integer
+
+        ' Inclui venda
+        dadosVenda.usuarioId = mdiPrincipal.gUsuario.cid
+        dadosVenda.Caixa = mdiPrincipal.gUsuario.usuario
+        dadosVenda.clienteId = Me.txtCliente.Tag
+        dadosVenda.Data = Now
+        dadosVenda.Dinheiro = Me.txtDinheiro.Text
+        dadosVenda.Pix = Me.txtPix.Text
+        dadosVenda.Cheque = Me.txtCheque.Text
+        dadosVenda.ChequePre = Me.txtChequePre.Text
+        dadosVenda.CartaoDebito = Me.txtCartaoDebito.Text
+        dadosVenda.CartaoCredito = Me.txtCartaoCredito.Text
+        dadosVenda.Crediario = Me.txtCrediario.Text
+        dadosVenda.Parcelas = Me.txtParcelas.Text
+        dadosVenda.Desconto = Me.txtDesconto.Text
+        dadosVenda.Condicao = Me.cboCondicao.SelectedIndex
+        dadosVenda.Recebido = Me.lblRecebido.Text
+        dadosVenda.Troca = Me.txtTroca.Text
+        dadosVenda.Troco = Me.lblTroco.Text
+        dadosVenda.Vale = Me.txtVale.Text
+        dadosVenda.Defeito = Me.txtDefeitos.Text
+        dadosVenda.Terminal = System.Configuration.ConfigurationManager.AppSettings("NOME_TERMINAL")
+        dadosVenda.Vendedor = Me.lblVendedor.Text
+        dadosVenda.Total = Me.lblTotal.Text
+        dadosVenda.controle = Me.lblControle.Text
+        dadosVenda.ordemServicoId = Me.lblControle.Tag
+        dadosVenda.TXID = Me.txtTxId.Text
+        ' Verifica se emite Vale
+        If (dadosVenda.Troca > 0.0 Or dadosVenda.Defeito > 0.0 Or dadosVenda.Vale > 0.0) And dadosVenda.Troco > 0.0 Then
+            ' Verifica se troco provem de troca
+            If dadosVenda.Troca > dadosVenda.Total Or dadosVenda.Defeito > dadosVenda.Total Or dadosVenda.Vale > dadosVenda.Total Then
+                If MessageBox.Show("Deseja emitir Vale?", "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    Vale()
+                    dadosVenda.ValeEmitido = Me.lblVale.Text
+                    dadosVenda.Troco = Me.lblTroco.Text
+                End If
+            End If
+        End If
+
+        If dadosVenda.Troca > 0.0 Then
+            For Each produtoTroca As ncDados.nsVenda.dVendaProduto In dadosTroca
+                regrasItem.AlterarEstoque(produtoTroca.codigobarras, produtoTroca.quantidade)
+            Next
+        End If
+        dadosTroca.Clear()
+
+        For Each produto As ncDados.nsVenda.dVendaProduto In dadosVendaProdutos
+            regrasItem.AlterarEstoque(produto.codigobarras, -produto.quantidade)
+        Next
+
+        ' Verifica grava troca ou venda
+        If (dadosVenda.Troca > 0.0 Or dadosVenda.Defeito > 0.0) Then
+            GravarLog(mdiPrincipal.gUsuario.usuario, "Troca realizada. Vendedor: " & Me.lblVendedor.Text)
+            controle = novaVenda.IncluirTroca(dadosVenda, dadosVendaProdutos)
+        Else
+            GravarLog(mdiPrincipal.gUsuario.usuario, "Venda realizada. Vendedor: " & Me.lblVendedor.Text)
+            controle = novaVenda.Incluir(dadosVenda, dadosVendaProdutos)
+        End If
+
+        Return controle
+
+    End Function
     Private Sub Vale()
         Dim objImpressao As ncComum.Impressao
 
