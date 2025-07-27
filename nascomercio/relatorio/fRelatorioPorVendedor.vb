@@ -11,6 +11,8 @@ Imports ncDados.nsUsuario
 Imports ncDados.nsVenda
 Imports ncRegras.nsFabricante
 Imports ncRegras.nsUsuario
+Imports ncDados.nsLoja
+Imports ncRegras.nsLoja
 
 Public Class fRelatorioPorVendedor
 
@@ -90,7 +92,8 @@ Public Class fRelatorioPorVendedor
         End Try
     End Sub
     Private Sub ConfigurarRelatorio(ByVal vendas As ncDados.nsVenda.ColecaoVendasPorVendedor)
-
+        Dim gLoja As New dLoja
+        Dim regrasLoja As rLoja
         Dim hoje As DateTime = DateTime.Now
 
         Dim arquivoPDF = "RelatorioVendasPorVendedor" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
@@ -113,7 +116,22 @@ Public Class fRelatorioPorVendedor
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
 
+        regrasLoja = New rLoja()
+
+        gLoja = regrasLoja.Consultar(1)
+
+        Dim fonteLoja As Font
+        fonteLoja = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 16)
+
+        Dim NomeDaLoja As New Paragraph("                      Loja: " + gLoja.nomeFantasia & vbCrLf & "                      Período: " + txtDataInicial.AccessibilityObject.Value + " a " + txtDataFinal.AccessibilityObject.Value, fonteLoja)
+        NomeDaLoja.Alignment = Element.ALIGN_LEFT
+        NomeDaLoja.SpacingBefore = 20
+        NomeDaLoja.SpacingAfter = 20
+
+
         doc.Add(paragrafoTitulo)
+        doc.Add(Chunk.NEWLINE)
+        doc.Add(NomeDaLoja)
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
