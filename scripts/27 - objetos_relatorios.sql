@@ -5,20 +5,30 @@ BEGIN
 
 DECLARE qtdprodutos INT;
 DECLARE qtdvales INT;
+DECLARE codProd int;
 
+
+     SELECT nomeFantasia INTO @nomeloja FROM nascomercio.lojas WHERE cid = 1;
+
+    IF @nomeloja = 'SAPATEK ITAMARATI' THEN
+        SET codProd = 4055;
+    ELSE
+        SET codProd = 911; -- Note que ambos os casos são iguais
+    END IF;
+   
 	SELECT sum(quantidade) INTO qtdvales
 	FROM nascomercio.vales as v
 		inner join nascomercio.valesprodutos as vp ON vp.controle = v.controle
     Where data >= dtIni and data <= dtFim
     and vendedor = ifnull(nomevendedor, vendedor)
-	and vp.produto <> 911;
+	and vp.produto <> codProd;
 
 	SELECT sum(quantidade) INTO qtdprodutos
 	FROM nascomercio.vendas as v
 		inner join nascomercio.vendasprodutos as vp ON vp.controle = v.controle
     Where data >= dtIni and data <= dtFim
 	and vendedor = ifnull(nomevendedor, vendedor)
-	and vp.produto <> 911;
+	and vp.produto <> codProd;
 
     RETURN ifNull(qtdprodutos,0) + IfNull(qtdvales,0);
 
