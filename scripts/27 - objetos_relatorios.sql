@@ -1,4 +1,5 @@
-﻿CREATE DEFINER=`root`@`localhost` FUNCTION `fu_getqtdprods`(nomevendedor VARCHAR(30),
+﻿DROP FUNCTION IF EXISTS `fu_getqtdprods`;
+CREATE DEFINER=`root`@`localhost` FUNCTION `fu_getqtdprods`(nomevendedor VARCHAR(30),
     dtIni DATETIME,
     dtFim DATETIME) RETURNS int(11)
 BEGIN
@@ -32,9 +33,10 @@ DECLARE codProd int;
 
     RETURN ifNull(qtdprodutos,0) + IfNull(qtdvales,0);
 
-END
+END;
 
 
+DROP PROCEDURE IF EXISTS `sp_recuperavendas`;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recuperavendas`(IN nomevendedor varchar(30), IN dtIni datetime, IN dtFim datetime)
 BEGIN
 
@@ -57,10 +59,10 @@ where vendedor = ifnull(nomevendedor, vendedor)
 and totalvendas > 0
 order by valor desc;
 
-END
+END;
 
 
-
+DROP PROCEDURE IF EXISTS `sp_recuperavendasloja`;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recuperavendasloja`(IN dtIni datetime, IN dtFim datetime)
 BEGIN
 
@@ -79,4 +81,4 @@ from vendas_range
 where totalvendas > 0
 order by valor desc;
 
-END
+END;
