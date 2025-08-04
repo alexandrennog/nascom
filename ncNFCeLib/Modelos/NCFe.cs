@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ncNFCeLib.Mapper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,12 +12,14 @@ namespace ncNFCeLib.Modelos
 
     public class NCFe
     {
-
+        private DarumaFrameworkSat sat;
         public NCFe()
-        {  
+        {
             //InfNFe = new InfNFe();
             //Signature = new Signature();
             //InfNFeSupl = new InfNFeSupl();
+
+            sat = RecuperarConfiguracao();
         }
 
         public CFe RecuperarCFe() { 
@@ -26,7 +29,6 @@ namespace ncNFCeLib.Modelos
                 return (CFe)serializer.Deserialize(reader);
             }
         }
-
 
         public void SalvarCFe(CFe cfe)
         {
@@ -38,7 +40,12 @@ namespace ncNFCeLib.Modelos
                 // Aqui você pode salvar o XML em um arquivo ou fazer outra coisa com ele
             }
         }
+        private DarumaFrameworkSat RecuperarConfiguracao()
+        {
+            string xmlContent = File.ReadAllText("arquivo.xml");
+            DarumaFrameworkSat sat = DarumaFrameworkSat.FromXml(xmlContent);
 
-
+            return sat;
+        }
     }
 }
