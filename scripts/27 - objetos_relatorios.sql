@@ -1,4 +1,7 @@
-﻿CREATE DEFINER=`root`@`localhost` FUNCTION `fu_getqtdprods`(nomevendedor VARCHAR(30),
+﻿DELIMITER $$
+
+DROP FUNCTION IF EXISTS `fu_getqtdprods` $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `fu_getqtdprods`(nomevendedor VARCHAR(30),
     dtIni DATETIME,
     dtFim DATETIME) RETURNS int(11)
 BEGIN
@@ -32,9 +35,14 @@ DECLARE codProd int;
 
     RETURN ifNull(qtdprodutos,0) + IfNull(qtdvales,0);
 
-END
+END $$
+
+DELIMITER ;
 
 
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `sp_recuperavendas` $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recuperavendas`(IN nomevendedor varchar(30), IN dtIni datetime, IN dtFim datetime)
 BEGIN
 
@@ -45,7 +53,7 @@ AS
 SELECT vendedor, (SELECT count(*)
 FROM nascomercio.vendas
 where data >= dtIni and data <= dtFim
-and vendedor = v.vendedor) as totalvendas, Sum(valorvenda)-((Sum(troca)+Sum(defeito))-(Sum(valeEmitido)) + Sum(vale)) - Sum(desconto) as valor, fu_getqtdprods(vendedor, dtIni, dtFim) as qtdprod
+and vendedor = v.vendedor) as totalvendas, Sum(valorvenda)-((Sum(troca)+Sum(defeito))-(Sum(valeEmitido)) + Sum(vale)) as valor, fu_getqtdprods(vendedor, dtIni, dtFim) as qtdprod
 FROM nascomercio.v_vendassintetico as v
 Where data >= dtIni and data <= dtFim
 and vendedor = ifnull(nomevendedor, vendedor)
@@ -57,9 +65,16 @@ where vendedor = ifnull(nomevendedor, vendedor)
 and totalvendas > 0
 order by valor desc;
 
-END
+END $$
 
+DELIMITER ;
 
+<<<<<<< Updated upstream
+=======
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `sp_recuperavendasloja` $$
+>>>>>>> Stashed changes
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recuperavendasloja`(IN dtIni datetime, IN dtFim datetime)
 BEGIN
 
@@ -69,7 +84,7 @@ AS
 
 SELECT (SELECT count(*)
 FROM nascomercio.vendas
-where data >= dtIni and data <= dtFim) as totalvendas, Sum(valorvenda)-((Sum(troca)+Sum(defeito))-(Sum(valeEmitido)) + Sum(vale)) - Sum(desconto) as valor, fu_getqtdprods(null, dtIni, dtFim) as qtdprod
+where data >= dtIni and data <= dtFim) as totalvendas, Sum(valorvenda)-((Sum(troca)+Sum(defeito))-(Sum(valeEmitido)) + Sum(vale)) as valor, fu_getqtdprods(null, dtIni, dtFim) as qtdprod
 FROM nascomercio.v_vendassintetico as v
 Where data >= dtIni and data <= dtFim;
 
@@ -78,4 +93,6 @@ from vendas_range
 where totalvendas > 0
 order by valor desc;
 
-END
+END $$
+
+DELIMITER ;
