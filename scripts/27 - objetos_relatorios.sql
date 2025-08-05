@@ -39,7 +39,6 @@ END $$
 
 DELIMITER ;
 
-
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `sp_recuperavendas` $$
@@ -69,12 +68,9 @@ END $$
 
 DELIMITER ;
 
-<<<<<<< Updated upstream
-=======
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `sp_recuperavendasloja` $$
->>>>>>> Stashed changes
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recuperavendasloja`(IN dtIni datetime, IN dtFim datetime)
 BEGIN
 
