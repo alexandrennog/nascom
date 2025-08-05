@@ -1,15 +1,16 @@
-Imports ncDados.nsDados
-Imports ncRegras.nsRegras
-Imports ncComum.nsFuncoes
-Imports ncComum.nsExcecao
-Imports ncComum.nsEtiqueta
+Imports System.Linq
 Imports ncComum.nsConstantes
-Imports ncDados.nsCrediario
+Imports ncComum.nsEtiqueta
+Imports ncComum.nsExcecao
+Imports ncComum.nsFuncoes
 Imports ncComum.nsLog.cLog
-Imports ncRegras.nsCliente
 Imports ncDados.nsCliente
-Imports ncRegras.nsParametro
+Imports ncDados.nsCrediario
+Imports ncDados.nsDados
 Imports ncDados.nsParametro
+Imports ncRegras.nsCliente
+Imports ncRegras.nsParametro
+Imports ncRegras.nsRegras
 
 Public Class fCrediarioPagamento
     Public formularioModal As New Form
@@ -669,7 +670,12 @@ Public Class fCrediarioPagamento
 
                         parcela.crediarioId = dadosCrediario.cid
 
-                        parcelas = consulta.ConsultarParcelas(parcela)
+
+                        Dim retParcelas = consulta.ConsultarParcelas(parcela)
+                        If IsNothing(retParcelas) Then
+                            Continue For
+                        End If
+                        parcelas.AddRange(consulta.ConsultarParcelas(parcela))
 
                         If Not IsNothing(parcelas) Then
                             crediario.cid = parcelas(0).crediarioId
@@ -685,52 +691,205 @@ Public Class fCrediarioPagamento
 
                             ExibirInformacoes()
 
-                            For Each parcela In parcelas
+
+                        End If
+                    Next
+
+                    Dim parcelasOrdenadas As List(Of dParcelas) = parcelas.OrderBy(Function(p) p.dataVecimento).ToList()
+
+                    For Each parcela In parcelasOrdenadas
+                        If parcela.valorReceber > 0 Then
+                            linha = dgvCrediario.Rows(dgvCrediario.Rows.Add())
+                            linha.Cells(0).Tag = parcela.crediarioId
+                            linha.Cells(1).Tag = parcela.cid
+                            linha.Cells(1).Value = parcela.codigoBarras
+                            linha.Cells(2).Value = parcela.dataEmissao.ToString("dd/MM/yyyy")
+                            linha.Cells(3).Value = parcela.dataVecimento.ToString("dd/MM/yyyy")
+                            linha.Cells(4).Value = parcela.valor.ToString("N")
+                            ' Verifica vencimento e cobra juros
+                            If parcela.dataVecimento.AddDays(diasTolerancia).CompareTo(Today.Date) < 0 Then
                                 If parcela.valorReceber > 0 Then
-                                    linha = dgvCrediario.Rows(dgvCrediario.Rows.Add())
-                                    linha.Cells(0).Tag = parcela.crediarioId
-                                    linha.Cells(1).Tag = parcela.cid
-                                    linha.Cells(1).Value = parcela.codigoBarras
-                                    linha.Cells(2).Value = parcela.dataEmissao.ToString("dd/MM/yyyy")
-                                    linha.Cells(3).Value = parcela.dataVecimento.ToString("dd/MM/yyyy")
-                                    linha.Cells(4).Value = parcela.valor.ToString("N")
-                                    ' Verifica vencimento e cobra juros
-                                    If parcela.dataVecimento.AddDays(diasTolerancia).CompareTo(Today.Date) < 0 Then
-                                        If parcela.valorReceber > 0 Then
-                                            linha.Cells(1).Style.ForeColor = Color.Red
-                                            linha.Cells(2).Style.ForeColor = Color.Red
-                                            linha.Cells(3).Style.ForeColor = Color.Red
-                                            linha.Cells(4).Style.ForeColor = Color.Red
-                                            linha.Cells(5).Style.ForeColor = Color.Red
-                                            linha.Cells(6).Style.ForeColor = Color.Red
-                                            If cobrarTolerancia.Equals("") Or cobrarTolerancia.Equals("Não") Then
-                                                dias = DateDiff(DateInterval.Day, parcela.dataVecimento, Today.Date) - diasTolerancia
-                                            Else
-                                                dias = DateDiff(DateInterval.Day, parcela.dataVecimento, Today.Date)
-                                            End If
-                                            linha.Cells(7).Value = dias
-                                            linha.Cells(5).Value = (parcela.valorReceber * ((juros * dias) + 1)).ToString("N")
-                                        Else
-                                            linha.Cells(1).Style.ForeColor = Color.Green
-                                            linha.Cells(2).Style.ForeColor = Color.Green
-                                            linha.Cells(3).Style.ForeColor = Color.Green
-                                            linha.Cells(4).Style.ForeColor = Color.Green
-                                            linha.Cells(5).Style.ForeColor = Color.Green
-                                            linha.Cells(6).Style.ForeColor = Color.Green
-                                        End If
+                                    linha.Cells(1).Style.ForeColor = Color.Red
+                                    linha.Cells(2).Style.ForeColor = Color.Red
+                                    linha.Cells(3).Style.ForeColor = Color.Red
+                                    linha.Cells(4).Style.ForeColor = Color.Red
+                                    linha.Cells(5).Style.ForeColor = Color.Red
+                                    linha.Cells(6).Style.ForeColor = Color.Red
+                                    If cobrarTolerancia.Equals("") Or cobrarTolerancia.Equals("Não") Then
+                                        dias = DateDiff(DateInterval.Day, parcela.dataVecimento, Today.Date) - diasTolerancia
                                     Else
-                                        linha.Cells(1).Style.ForeColor = Color.Black
-                                        linha.Cells(2).Style.ForeColor = Color.Black
-                                        linha.Cells(3).Style.ForeColor = Color.Black
-                                        linha.Cells(4).Style.ForeColor = Color.Black
-                                        linha.Cells(5).Style.ForeColor = Color.Black
-                                        linha.Cells(6).Style.ForeColor = Color.Black
-                                        linha.Cells(5).Value = parcela.valorReceber.ToString("N")
+                                        dias = DateDiff(DateInterval.Day, parcela.dataVecimento, Today.Date)
                                     End If
-                                    linha.Cells(6).Value = parcela.valorPago.ToString("N")
-                                    'lblTotal.Text = linha.Cells(5).Value
+                                    linha.Cells(7).Value = dias
+                                    linha.Cells(5).Value = (parcela.valorReceber * ((juros * dias) + 1)).ToString("N")
+                                Else
+                                    linha.Cells(1).Style.ForeColor = Color.Green
+                                    linha.Cells(2).Style.ForeColor = Color.Green
+                                    linha.Cells(3).Style.ForeColor = Color.Green
+                                    linha.Cells(4).Style.ForeColor = Color.Green
+                                    linha.Cells(5).Style.ForeColor = Color.Green
+                                    linha.Cells(6).Style.ForeColor = Color.Green
                                 End If
-                            Next
+                            Else
+                                linha.Cells(1).Style.ForeColor = Color.Black
+                                linha.Cells(2).Style.ForeColor = Color.Black
+                                linha.Cells(3).Style.ForeColor = Color.Black
+                                linha.Cells(4).Style.ForeColor = Color.Black
+                                linha.Cells(5).Style.ForeColor = Color.Black
+                                linha.Cells(6).Style.ForeColor = Color.Black
+                                linha.Cells(5).Value = parcela.valorReceber.ToString("N")
+                            End If
+                            linha.Cells(6).Value = parcela.valorPago.ToString("N")
+                            'lblTotal.Text = linha.Cells(5).Value
+                        End If
+                    Next
+                End If
+
+            Catch ex As Exception
+                MessageBox.Show(ex.Message)
+            End Try
+
+        End If
+
+        If lblTotal.Text.Trim() = "" Then
+            lblTotal.Text = 0.ToString("N")
+        End If
+
+    End Sub
+
+    Private Sub CarregarGridView()
+
+        Dim juros As Decimal
+        Dim dias As Integer
+        Dim diasTolerancia As Integer
+        Dim cobrarTolerancia As String = ""
+        Dim linha As DataGridViewRow
+        Dim regrasCrediario As ncRegras.nsCrediario.rCrediario
+        Dim dadosCrediario As ncDados.nsCrediario.dCrediario
+        Dim dadosListaCrediario As ncDados.nsCrediario.ColecaoCrediario
+        Dim dadosParametro As ncDados.nsParametro.dParametro
+
+        Dim regraParametro As New ncRegras.nsParametro.rParametro
+        Dim consulta As New ncRegras.nsCrediario.rCrediario
+        Dim crediario As New ncDados.nsCrediario.dCrediario
+        Dim crediarios As New ncDados.nsCrediario.ColecaoCrediario
+        Dim parcela As New ncDados.nsCrediario.dParcelas
+        Dim parcelas As New ncDados.nsCrediario.ColecaoParcelas
+        Dim consultacliente As New ncRegras.nsCliente.rCliente
+        Dim cliente As New ncDados.nsCliente.dCliente
+
+        If txtCliente.Text <> "" And txtCliente.Text <> "Consumidor" Then
+
+            dgvCrediario.Rows.Clear()
+
+            ' Consulta dados de crediário
+            regrasCrediario = New ncRegras.nsCrediario.rCrediario()
+            dadosCrediario = New ncDados.nsCrediario.dCrediario()
+
+            dadosCrediario.clienteId = Me.txtCliente.Tag
+            'dadosCrediario.SaldoDevedor = 1
+            If dadosCrediario.clienteId <> 0 Then
+                dadosListaCrediario = regrasCrediario.Consultar(dadosCrediario)
+            End If
+
+            Try
+
+                If Not IsNothing(dadosListaCrediario) Then
+
+                    ' Juros
+                    dadosParametro = regraParametro.Consultar(cConstantes.Parametros.JurosDiario)
+                    If Not IsNothing(dadosParametro) Then
+                        juros = CDec(dadosParametro.valor)
+                    End If
+
+                    ' Dias Tolerancia
+                    dadosParametro = regraParametro.Consultar(cConstantes.Parametros.DiasTolerancia)
+                    If Not IsNothing(dadosParametro) Then
+                        diasTolerancia = CInt(dadosParametro.valor)
+                    End If
+
+                    ' Cobrar Tolerancia
+                    dadosParametro = regraParametro.Consultar(cConstantes.Parametros.CobrarJurosTolerancia)
+                    If Not IsNothing(dadosParametro) Then
+                        If Not String.IsNullOrEmpty(dadosParametro.valor) Then
+                            cobrarTolerancia = dadosParametro.valor.Trim()
+                        End If
+                    End If
+
+                    For Each dadosCrediario In dadosListaCrediario
+                        parcela = New ncDados.nsCrediario.dParcelas()
+
+                        txtDisponivel.Text = CDec(CDec(txtDisponivel.Text) - dadosCrediario.SaldoDevedor).ToString("N")
+
+                        parcela.crediarioId = dadosCrediario.cid
+
+
+                        parcelas.AddRange(consulta.ConsultarParcelas(parcela))
+
+                        If Not IsNothing(parcelas) Then
+                            crediario.cid = parcelas(0).crediarioId
+                            crediarios = consulta.Consultar(crediario)
+
+                            txtControle.Text = crediarios(0).controle
+                            txtControle.Tag = crediarios(0).cid
+
+                            cliente = consultacliente.ConsultarPorCID(crediarios(0).clienteId)
+
+                            txtCliente.Text = cliente.nome
+                            txtCliente.Tag = cliente.cid
+
+                            ExibirInformacoes()
+
+
+                        End If
+                    Next
+
+                    Dim parcelasOrdenadas As List(Of dParcelas) = parcelas.OrderBy(Function(p) p.dataVecimento).ToList()
+
+                    For Each parcela In parcelasOrdenadas
+                        If parcela.valorReceber > 0 Then
+                            linha = dgvCrediario.Rows(dgvCrediario.Rows.Add())
+                            linha.Cells(0).Tag = parcela.crediarioId
+                            linha.Cells(1).Tag = parcela.cid
+                            linha.Cells(1).Value = parcela.codigoBarras
+                            linha.Cells(2).Value = parcela.dataEmissao.ToString("dd/MM/yyyy")
+                            linha.Cells(3).Value = parcela.dataVecimento.ToString("dd/MM/yyyy")
+                            linha.Cells(4).Value = parcela.valor.ToString("N")
+                            ' Verifica vencimento e cobra juros
+                            If parcela.dataVecimento.AddDays(diasTolerancia).CompareTo(Today.Date) < 0 Then
+                                If parcela.valorReceber > 0 Then
+                                    linha.Cells(1).Style.ForeColor = Color.Red
+                                    linha.Cells(2).Style.ForeColor = Color.Red
+                                    linha.Cells(3).Style.ForeColor = Color.Red
+                                    linha.Cells(4).Style.ForeColor = Color.Red
+                                    linha.Cells(5).Style.ForeColor = Color.Red
+                                    linha.Cells(6).Style.ForeColor = Color.Red
+                                    If cobrarTolerancia.Equals("") Or cobrarTolerancia.Equals("Não") Then
+                                        dias = DateDiff(DateInterval.Day, parcela.dataVecimento, Today.Date) - diasTolerancia
+                                    Else
+                                        dias = DateDiff(DateInterval.Day, parcela.dataVecimento, Today.Date)
+                                    End If
+                                    linha.Cells(7).Value = dias
+                                    linha.Cells(5).Value = (parcela.valorReceber * ((juros * dias) + 1)).ToString("N")
+                                Else
+                                    linha.Cells(1).Style.ForeColor = Color.Green
+                                    linha.Cells(2).Style.ForeColor = Color.Green
+                                    linha.Cells(3).Style.ForeColor = Color.Green
+                                    linha.Cells(4).Style.ForeColor = Color.Green
+                                    linha.Cells(5).Style.ForeColor = Color.Green
+                                    linha.Cells(6).Style.ForeColor = Color.Green
+                                End If
+                            Else
+                                linha.Cells(1).Style.ForeColor = Color.Black
+                                linha.Cells(2).Style.ForeColor = Color.Black
+                                linha.Cells(3).Style.ForeColor = Color.Black
+                                linha.Cells(4).Style.ForeColor = Color.Black
+                                linha.Cells(5).Style.ForeColor = Color.Black
+                                linha.Cells(6).Style.ForeColor = Color.Black
+                                linha.Cells(5).Value = parcela.valorReceber.ToString("N")
+                            End If
+                            linha.Cells(6).Value = parcela.valorPago.ToString("N")
+                            'lblTotal.Text = linha.Cells(5).Value
                         End If
                     Next
                 End If
@@ -907,5 +1066,30 @@ Public Class fCrediarioPagamento
             _excVenda = dadosParametro.valor
             HabilitarGridParaEdicao(_excVenda)
         End If
+    End Sub
+
+    Private Sub dgvCrediario_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgvCrediario.ColumnHeaderMouseClick
+        Dim coluna As DataGridViewColumn = dgvCrediario.Columns(e.ColumnIndex)
+        Dim direcao As System.ComponentModel.ListSortDirection
+
+        ' Verifica a direção atual da ordenação
+        If coluna.HeaderCell.SortGlyphDirection = SortOrder.Ascending Then
+            direcao = System.ComponentModel.ListSortDirection.Descending
+        Else
+            direcao = System.ComponentModel.ListSortDirection.Ascending
+        End If
+
+        If coluna.Name = "Vencimento" Then
+            CarregarGridView()
+        Else
+            ' Ordena os dados
+            dgvCrediario.Sort(coluna, direcao)
+        End If
+
+
+
+
+        ' Atualiza o ícone de ordenação
+        coluna.HeaderCell.SortGlyphDirection = If(direcao = System.ComponentModel.ListSortDirection.Ascending, SortOrder.Ascending, SortOrder.Descending)
     End Sub
 End Class

@@ -80,10 +80,6 @@ Public Class fRelatorio
             mdiPrincipal.CarregarRelVendasPorLoja()
         End If
 
-
-
-
-
     End Sub
 
 
@@ -92,6 +88,11 @@ Public Class fRelatorio
     End Sub
 
     Private Sub fRelatorio_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        rbtVendasPorVendedor.Visible = Not IsNothing(Configuration.ConfigurationManager.AppSettings("exibirRelsExcecao"))
+        rbtVendasPorLoja.Visible = Not IsNothing(Configuration.ConfigurationManager.AppSettings("exibirRelsExcecao"))
+
+
         Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
             Case "a", "g"
                 rbtCrediario.Visible = True
@@ -150,6 +151,8 @@ Public Class fRelatorio
                     rbtReducaoZ.Visible = False
                 End If
         End Select
+
+
     End Sub
 
     Private Sub rbtPix_CheckedChanged(sender As Object, e As EventArgs) Handles rbtPix.CheckedChanged
@@ -164,7 +167,7 @@ Public Class fRelatorio
 
     End Sub
 
-    Private Sub rbtVendasPorVendedor_CheckedChanged(sender As Object, e As EventArgs) Handles rbtVendasPorVendedor.CheckedChanged
+    Private Sub rbtVendasPorVendedor_CheckedChanged(sender As Object, e As EventArgs)
 
     End Sub
 End Class

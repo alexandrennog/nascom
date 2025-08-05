@@ -68,6 +68,7 @@ Partial Class fPagamento
         Me.Label9 = New System.Windows.Forms.Label()
         Me.lblLoja = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtIdCliente = New System.Windows.Forms.TextBox()
         Me.txtVendas = New System.Windows.Forms.TextBox()
         Me.txtPix = New System.Windows.Forms.TextBox()
         Me.panelPIX = New System.Windows.Forms.Panel()
@@ -117,7 +118,6 @@ Partial Class fPagamento
         Me.Label43 = New System.Windows.Forms.Label()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoCliente = New System.Windows.Forms.Button()
-        Me.txtIdCliente = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.panelPIX.SuspendLayout()
         CType(Me.picQRCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -188,7 +188,7 @@ Partial Class fPagamento
         Me.lblFalta.AutoSize = True
         Me.lblFalta.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblFalta.ForeColor = System.Drawing.Color.Red
-        Me.lblFalta.Location = New System.Drawing.Point(400, 796)
+        Me.lblFalta.Location = New System.Drawing.Point(397, 747)
         Me.lblFalta.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFalta.Name = "lblFalta"
         Me.lblFalta.Size = New System.Drawing.Size(107, 26)
@@ -199,7 +199,7 @@ Partial Class fPagamento
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(287, 796)
+        Me.Label13.Location = New System.Drawing.Point(284, 747)
         Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(102, 26)
@@ -211,7 +211,7 @@ Partial Class fPagamento
         Me.lblTotal.AutoSize = True
         Me.lblTotal.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotal.ForeColor = System.Drawing.Color.Blue
-        Me.lblTotal.Location = New System.Drawing.Point(1097, 796)
+        Me.lblTotal.Location = New System.Drawing.Point(1094, 747)
         Me.lblTotal.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTotal.Name = "lblTotal"
         Me.lblTotal.Size = New System.Drawing.Size(107, 26)
@@ -222,7 +222,7 @@ Partial Class fPagamento
         '
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(983, 796)
+        Me.Label17.Location = New System.Drawing.Point(980, 747)
         Me.Label17.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(103, 26)
@@ -460,7 +460,7 @@ Partial Class fPagamento
         Me.lblTroco.AutoSize = True
         Me.lblTroco.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTroco.ForeColor = System.Drawing.Color.Blue
-        Me.lblTroco.Location = New System.Drawing.Point(641, 796)
+        Me.lblTroco.Location = New System.Drawing.Point(638, 747)
         Me.lblTroco.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTroco.Name = "lblTroco"
         Me.lblTroco.Size = New System.Drawing.Size(107, 26)
@@ -471,7 +471,7 @@ Partial Class fPagamento
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(517, 796)
+        Me.Label14.Location = New System.Drawing.Point(514, 747)
         Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(113, 26)
@@ -483,7 +483,7 @@ Partial Class fPagamento
         Me.lblRecebido.AutoSize = True
         Me.lblRecebido.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRecebido.ForeColor = System.Drawing.Color.Blue
-        Me.lblRecebido.Location = New System.Drawing.Point(169, 796)
+        Me.lblRecebido.Location = New System.Drawing.Point(166, 747)
         Me.lblRecebido.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblRecebido.Name = "lblRecebido"
         Me.lblRecebido.Size = New System.Drawing.Size(107, 26)
@@ -494,7 +494,7 @@ Partial Class fPagamento
         '
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(9, 796)
+        Me.Label16.Location = New System.Drawing.Point(6, 747)
         Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(149, 26)
@@ -620,7 +620,6 @@ Partial Class fPagamento
         Me.Panel1.Controls.Add(Me.txtCliente)
         Me.Panel1.Controls.Add(Me.txtPix)
         Me.Panel1.Controls.Add(Me.Label20)
-        Me.Panel1.Controls.Add(Me.panelPIX)
         Me.Panel1.Controls.Add(Me.Label47)
         Me.Panel1.Controls.Add(Me.chkPIX)
         Me.Panel1.Controls.Add(Me.Label22)
@@ -658,18 +657,29 @@ Partial Class fPagamento
         Me.Panel1.Controls.Add(Me.lblTotal)
         Me.Panel1.Controls.Add(Me.Label13)
         Me.Panel1.Controls.Add(Me.Label17)
+        Me.Panel1.Controls.Add(Me.panelPIX)
         Me.Panel1.Controls.Add(Me.PanelListPix)
         Me.Panel1.Controls.Add(Me.panelLista)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Margin = New System.Windows.Forms.Padding(4)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1209, 836)
+        Me.Panel1.Size = New System.Drawing.Size(1222, 1020)
         Me.Panel1.TabIndex = 170
+        '
+        'txtIdCliente
+        '
+        Me.txtIdCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIdCliente.Location = New System.Drawing.Point(211, 87)
+        Me.txtIdCliente.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtIdCliente.MaxLength = 8
+        Me.txtIdCliente.Name = "txtIdCliente"
+        Me.txtIdCliente.Size = New System.Drawing.Size(93, 30)
+        Me.txtIdCliente.TabIndex = 327
         '
         'txtVendas
         '
         Me.txtVendas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVendas.Location = New System.Drawing.Point(215, 705)
+        Me.txtVendas.Location = New System.Drawing.Point(480, 619)
         Me.txtVendas.Margin = New System.Windows.Forms.Padding(4)
         Me.txtVendas.Name = "txtVendas"
         Me.txtVendas.ReadOnly = True
@@ -717,7 +727,7 @@ Partial Class fPagamento
         Me.panelPIX.Location = New System.Drawing.Point(480, 176)
         Me.panelPIX.Margin = New System.Windows.Forms.Padding(4)
         Me.panelPIX.Name = "panelPIX"
-        Me.panelPIX.Size = New System.Drawing.Size(702, 505)
+        Me.panelPIX.Size = New System.Drawing.Size(702, 425)
         Me.panelPIX.TabIndex = 322
         Me.panelPIX.Visible = False
         '
@@ -731,10 +741,10 @@ Partial Class fPagamento
         Me.btnListar.ForeColor = System.Drawing.Color.Black
         Me.btnListar.Image = Global.nascomercio.My.Resources.Resources.lista
         Me.btnListar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnListar.Location = New System.Drawing.Point(556, 426)
+        Me.btnListar.Location = New System.Drawing.Point(561, 342)
         Me.btnListar.Margin = New System.Windows.Forms.Padding(4)
         Me.btnListar.Name = "btnListar"
-        Me.btnListar.Size = New System.Drawing.Size(117, 74)
+        Me.btnListar.Size = New System.Drawing.Size(97, 62)
         Me.btnListar.TabIndex = 341
         Me.btnListar.TabStop = False
         Me.btnListar.Text = "Listar PIX"
@@ -1000,7 +1010,7 @@ Partial Class fPagamento
         Me.btnCopiar.ForeColor = System.Drawing.Color.Black
         Me.btnCopiar.Image = Global.nascomercio.My.Resources.Resources.copy
         Me.btnCopiar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnCopiar.Location = New System.Drawing.Point(541, 257)
+        Me.btnCopiar.Location = New System.Drawing.Point(551, 269)
         Me.btnCopiar.Margin = New System.Windows.Forms.Padding(4)
         Me.btnCopiar.Name = "btnCopiar"
         Me.btnCopiar.Size = New System.Drawing.Size(117, 65)
@@ -1036,7 +1046,7 @@ Partial Class fPagamento
         '
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(759, 796)
+        Me.Label22.Location = New System.Drawing.Point(756, 747)
         Me.Label22.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(96, 26)
@@ -1048,7 +1058,7 @@ Partial Class fPagamento
         Me.lblVale.AutoSize = True
         Me.lblVale.Font = New System.Drawing.Font("Arial", 12.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVale.ForeColor = System.Drawing.Color.Blue
-        Me.lblVale.Location = New System.Drawing.Point(865, 796)
+        Me.lblVale.Location = New System.Drawing.Point(862, 747)
         Me.lblVale.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblVale.Name = "lblVale"
         Me.lblVale.Size = New System.Drawing.Size(107, 26)
@@ -1065,7 +1075,7 @@ Partial Class fPagamento
         Me.btoSalvar.ForeColor = System.Drawing.Color.Black
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(988, 689)
+        Me.btoSalvar.Location = New System.Drawing.Point(973, 609)
         Me.btoSalvar.Margin = New System.Windows.Forms.Padding(4)
         Me.btoSalvar.Name = "btoSalvar"
         Me.btoSalvar.Size = New System.Drawing.Size(192, 89)
@@ -1104,7 +1114,7 @@ Partial Class fPagamento
         Me.PanelListPix.Location = New System.Drawing.Point(487, 176)
         Me.PanelListPix.Margin = New System.Windows.Forms.Padding(4)
         Me.PanelListPix.Name = "PanelListPix"
-        Me.PanelListPix.Size = New System.Drawing.Size(695, 496)
+        Me.PanelListPix.Size = New System.Drawing.Size(695, 425)
         Me.PanelListPix.TabIndex = 325
         Me.PanelListPix.Visible = False
         '
@@ -1164,7 +1174,7 @@ Partial Class fPagamento
         Me.panelLista.Location = New System.Drawing.Point(487, 176)
         Me.panelLista.Margin = New System.Windows.Forms.Padding(4)
         Me.panelLista.Name = "panelLista"
-        Me.panelLista.Size = New System.Drawing.Size(633, 483)
+        Me.panelLista.Size = New System.Drawing.Size(633, 425)
         Me.panelLista.TabIndex = 323
         '
         'lstFita
@@ -1175,7 +1185,7 @@ Partial Class fPagamento
         Me.lstFita.Location = New System.Drawing.Point(17, 4)
         Me.lstFita.Margin = New System.Windows.Forms.Padding(4)
         Me.lstFita.Name = "lstFita"
-        Me.lstFita.Size = New System.Drawing.Size(593, 463)
+        Me.lstFita.Size = New System.Drawing.Size(593, 395)
         Me.lstFita.TabIndex = 315
         Me.lstFita.TabStop = False
         '
@@ -1320,16 +1330,6 @@ Partial Class fPagamento
         Me.btoCliente.TabStop = False
         Me.btoCliente.UseVisualStyleBackColor = False
         '
-        'txtIdCliente
-        '
-        Me.txtIdCliente.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtIdCliente.Location = New System.Drawing.Point(211, 87)
-        Me.txtIdCliente.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtIdCliente.MaxLength = 8
-        Me.txtIdCliente.Name = "txtIdCliente"
-        Me.txtIdCliente.Size = New System.Drawing.Size(93, 30)
-        Me.txtIdCliente.TabIndex = 327
-        '
         'fPagamento
         '
         Me.AcceptButton = Me.btoSalvar
@@ -1337,7 +1337,7 @@ Partial Class fPagamento
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.CancelButton = Me.btoSair
-        Me.ClientSize = New System.Drawing.Size(1207, 837)
+        Me.ClientSize = New System.Drawing.Size(1222, 787)
         Me.Controls.Add(Me.imgLogo)
         Me.Controls.Add(Me.btoCliente)
         Me.Controls.Add(Me.Label2)

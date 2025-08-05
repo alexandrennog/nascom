@@ -310,9 +310,9 @@ Namespace nsVenda
                 End If
 
                 If dados.Nome = "Todos" Then
-                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas(null, '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59"}');")
+                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas(null, '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00"}');")
                 Else
-                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas('{dados.Nome}', '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59"}');")
+                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas('{dados.Nome}', '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00"}');")
                 End If
 
 
@@ -320,7 +320,7 @@ Namespace nsVenda
                     If ds.Tables.Count > 0 Then
                         dt = ds.Tables(0)
 
-                        If dt.Rows.Count > 0 Then
+                        If dt.Rows.Count > 0 And ds.Tables(0).Rows(0).ItemArray(1) > -1 Then
                             retorno = New ColecaoVendasPorVendedor
 
                             For Each row In dt.Rows
@@ -379,13 +379,13 @@ Namespace nsVenda
                     sqlWhere = " WHERE " & sqlWhere
                 End If
 
-                ds = acessoBanco.ExecutarDS($"call sp_recuperavendasloja('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 23:59:59"}');")
+                ds = acessoBanco.ExecutarDS($"call sp_recuperavendasloja('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00"}');")
 
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then
                         dt = ds.Tables(0)
 
-                        If dt.Rows.Count > 0 Then
+                        If dt.Rows.Count > 0 And ds.Tables(0).Rows(0).ItemArray(0) > -1 Then
                             retorno = New ColecaoVendasPorVendedor
 
                             For Each row In dt.Rows
@@ -537,10 +537,9 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-
-                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " & _
-                             "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " & _
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total "
+                sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
+                             "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, txID "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vales "
@@ -591,6 +590,7 @@ Namespace nsVenda
                                 item.Defeito = cFuncoes.RetornarDecimal(row("defeito"))
                                 item.Terminal = cFuncoes.RetornarTexto(row("terminal"))
                                 item.Total = cFuncoes.RetornarDecimal(row("total"))
+                                item.TXID = cFuncoes.RetornarTexto(row("txID"))
                                 retorno.Add(item)
                             Next
                         Else

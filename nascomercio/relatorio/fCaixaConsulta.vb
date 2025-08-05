@@ -361,8 +361,6 @@ Public Class fCaixaConsulta
         Dim dadosCondicao As New ncDados.nsCondicao.dCondicao
         Dim condicao As New ncRegras.nsCondicao.rCondicao
 
-
-
         If Integer.TryParse(Me.txtControle.Text, controle) Then
             dadosVenda.controle = controle
             dadosVendaProduto.controle = controle
@@ -376,6 +374,10 @@ Public Class fCaixaConsulta
                         vendas = trocas
                         vendasProdutos = objVendaProduto.ConsultarTroca(dadosVendaProduto)
                     End If
+
+                ElseIf Not IsNothing(trocas) And IsNothing(vendas) Then
+                    vendas = trocas
+                    vendasProdutos = objVendaProduto.ConsultarTroca(dadosVendaProduto)
                 End If
                 If Not IsNothing(vendas) Then
                     For Each dadosVenda In vendas

@@ -23,7 +23,7 @@ Partial Class fRelatorioVendasVendedor
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ReportDataSource1 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource6 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.v_vendassinteticoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.nascomercioDataSet = New nascomercio.nascomercioDataSet()
         Me.lblSubTitulo = New System.Windows.Forms.Label()
@@ -61,8 +61,8 @@ Partial Class fRelatorioVendasVendedor
         Me.lblSubTitulo.BackColor = System.Drawing.Color.Transparent
         Me.lblSubTitulo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSubTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblSubTitulo.Location = New System.Drawing.Point(96, 52)
-        Me.lblSubTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblSubTitulo.Location = New System.Drawing.Point(144, 80)
+        Me.lblSubTitulo.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.lblSubTitulo.Name = "lblSubTitulo"
         Me.lblSubTitulo.Size = New System.Drawing.Size(54, 19)
         Me.lblSubTitulo.TabIndex = 138
@@ -74,8 +74,8 @@ Partial Class fRelatorioVendasVendedor
         Me.lblTitulo.BackColor = System.Drawing.Color.Transparent
         Me.lblTitulo.Font = New System.Drawing.Font("Arial", 15.75!, System.Drawing.FontStyle.Bold)
         Me.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lblTitulo.Location = New System.Drawing.Point(96, 15)
-        Me.lblTitulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblTitulo.Location = New System.Drawing.Point(144, 23)
+        Me.lblTitulo.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(308, 37)
         Me.lblTitulo.TabIndex = 136
@@ -91,10 +91,10 @@ Partial Class fRelatorioVendasVendedor
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(1270, 18)
+        Me.btoFiltro.Location = New System.Drawing.Point(1173, 14)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
-        Me.btoFiltro.Size = New System.Drawing.Size(106, 129)
+        Me.btoFiltro.Size = New System.Drawing.Size(181, 99)
         Me.btoFiltro.TabIndex = 139
         Me.btoFiltro.Text = "Pesquisar [F5]"
         Me.btoFiltro.TextAlign = System.Drawing.ContentAlignment.BottomCenter
@@ -104,10 +104,10 @@ Partial Class fRelatorioVendasVendedor
         '
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
         Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.relatorio
-        Me.imgLogo.Location = New System.Drawing.Point(12, 15)
-        Me.imgLogo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.imgLogo.Location = New System.Drawing.Point(18, 23)
+        Me.imgLogo.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.imgLogo.Name = "imgLogo"
-        Me.imgLogo.Size = New System.Drawing.Size(75, 77)
+        Me.imgLogo.Size = New System.Drawing.Size(112, 118)
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.imgLogo.TabIndex = 137
         Me.imgLogo.TabStop = False
@@ -122,10 +122,10 @@ Partial Class fRelatorioVendasVendedor
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(1418, 18)
-        Me.btoSair.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btoSair.Location = New System.Drawing.Point(1360, 14)
+        Me.btoSair.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.btoSair.Name = "btoSair"
-        Me.btoSair.Size = New System.Drawing.Size(81, 129)
+        Me.btoSair.Size = New System.Drawing.Size(141, 99)
         Me.btoSair.TabIndex = 134
         Me.btoSair.Text = "Fechar <Esc>"
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
@@ -133,25 +133,25 @@ Partial Class fRelatorioVendasVendedor
         '
         'rptRelatorio
         '
-        ReportDataSource1.Name = "nascomercioDataSet_v_vendassintetico"
-        ReportDataSource1.Value = Me.v_vendassinteticoBindingSource
-        Me.rptRelatorio.LocalReport.DataSources.Add(ReportDataSource1)
+        ReportDataSource6.Name = "nascomercioDataSet_v_vendassintetico"
+        ReportDataSource6.Value = Me.v_vendassinteticoBindingSource
+        Me.rptRelatorio.LocalReport.DataSources.Add(ReportDataSource6)
         Me.rptRelatorio.LocalReport.ReportEmbeddedResource = "nascomercio.VendasVendedor.rdlc"
         Me.rptRelatorio.Location = New System.Drawing.Point(12, 172)
         Me.rptRelatorio.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rptRelatorio.Name = "rptRelatorio"
-        Me.rptRelatorio.Size = New System.Drawing.Size(1480, 733)
+        Me.rptRelatorio.Size = New System.Drawing.Size(1480, 731)
         Me.rptRelatorio.TabIndex = 140
         '
         'txtVendedor
         '
         Me.txtVendedor.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtVendedor.Font = New System.Drawing.Font("Arial", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVendedor.Location = New System.Drawing.Point(692, 122)
-        Me.txtVendedor.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.txtVendedor.Location = New System.Drawing.Point(787, 120)
+        Me.txtVendedor.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.txtVendedor.MaxLength = 20
         Me.txtVendedor.Name = "txtVendedor"
-        Me.txtVendedor.Size = New System.Drawing.Size(440, 33)
+        Me.txtVendedor.Size = New System.Drawing.Size(524, 33)
         Me.txtVendedor.TabIndex = 141
         '
         'lblProduto
@@ -159,8 +159,8 @@ Partial Class fRelatorioVendasVendedor
         Me.lblProduto.AutoSize = True
         Me.lblProduto.BackColor = System.Drawing.Color.Transparent
         Me.lblProduto.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.lblProduto.Location = New System.Drawing.Point(568, 122)
-        Me.lblProduto.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.lblProduto.Location = New System.Drawing.Point(657, 124)
+        Me.lblProduto.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.lblProduto.Name = "lblProduto"
         Me.lblProduto.Size = New System.Drawing.Size(118, 27)
         Me.lblProduto.TabIndex = 142
@@ -171,11 +171,11 @@ Partial Class fRelatorioVendasVendedor
         Me.txtDataFinal.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDataFinal.Culture = New System.Globalization.CultureInfo("")
         Me.txtDataFinal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtDataFinal.Location = New System.Drawing.Point(432, 120)
-        Me.txtDataFinal.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.txtDataFinal.Location = New System.Drawing.Point(493, 121)
+        Me.txtDataFinal.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.txtDataFinal.Mask = "00/00/0000"
         Me.txtDataFinal.Name = "txtDataFinal"
-        Me.txtDataFinal.Size = New System.Drawing.Size(128, 26)
+        Me.txtDataFinal.Size = New System.Drawing.Size(152, 26)
         Me.txtDataFinal.TabIndex = 211
         Me.txtDataFinal.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
@@ -183,8 +183,8 @@ Partial Class fRelatorioVendasVendedor
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(378, 120)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Location = New System.Drawing.Point(435, 124)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(46, 27)
         Me.Label1.TabIndex = 210
@@ -196,11 +196,11 @@ Partial Class fRelatorioVendasVendedor
         Me.txtDataInicial.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDataInicial.Culture = New System.Globalization.CultureInfo("")
         Me.txtDataInicial.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtDataInicial.Location = New System.Drawing.Point(242, 120)
-        Me.txtDataInicial.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.txtDataInicial.Location = New System.Drawing.Point(291, 121)
+        Me.txtDataInicial.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.txtDataInicial.Mask = "00/00/0000"
         Me.txtDataInicial.Name = "txtDataInicial"
-        Me.txtDataInicial.Size = New System.Drawing.Size(128, 26)
+        Me.txtDataInicial.Size = New System.Drawing.Size(132, 26)
         Me.txtDataInicial.TabIndex = 209
         Me.txtDataInicial.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
@@ -208,8 +208,8 @@ Partial Class fRelatorioVendasVendedor
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label4.Location = New System.Drawing.Point(98, 120)
-        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label4.Location = New System.Drawing.Point(142, 126)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(137, 27)
         Me.Label4.TabIndex = 208
@@ -240,7 +240,7 @@ Partial Class fRelatorioVendasVendedor
         Me.Controls.Add(Me.btoSair)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.KeyPreview = True
-        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "fRelatorioVendasVendedor"

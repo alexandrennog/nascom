@@ -70,3 +70,18 @@ Para a versão 2.1.2.9 foram incluídas as seguintes funcionalidades
 Para a versão 2.1.3.0 foram incluídas as seguintes funcionalidades
 
 1 - Incluídos os relatório de vendas por vendedor e por loja
+
+Implantação:
+a - incluir no arquivo nascomercio.exe.config a TAG:
+   <add key="exibirRelsExcecao" value="SIM"/>
+b - executar no mysql os scripts:
+27 - objetos_relatorios.sql
+28 - txID.sql
+Colar na pasta Nasoomercio os arquivos da nova versão 
+     
+	 
+
+Para a versão 2.1.3.0 foram incluídas as seguintes funcionalidades
+
+1 - Correção de bug para parcela com valor zerado	 
+2 - Ajuste de filtros de relatórios da Giovana
