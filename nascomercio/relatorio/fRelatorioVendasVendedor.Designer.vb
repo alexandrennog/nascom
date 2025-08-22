@@ -23,7 +23,7 @@ Partial Class fRelatorioVendasVendedor
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ReportDataSource6 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource1 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.v_vendassinteticoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.nascomercioDataSet = New nascomercio.nascomercioDataSet()
         Me.lblSubTitulo = New System.Windows.Forms.Label()
@@ -91,10 +91,10 @@ Partial Class fRelatorioVendasVendedor
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(1173, 14)
+        Me.btoFiltro.Location = New System.Drawing.Point(983, 9)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
-        Me.btoFiltro.Size = New System.Drawing.Size(181, 99)
+        Me.btoFiltro.Size = New System.Drawing.Size(181, 103)
         Me.btoFiltro.TabIndex = 139
         Me.btoFiltro.Text = "Pesquisar [F5]"
         Me.btoFiltro.TextAlign = System.Drawing.ContentAlignment.BottomCenter
@@ -122,10 +122,10 @@ Partial Class fRelatorioVendasVendedor
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(1360, 14)
+        Me.btoSair.Location = New System.Drawing.Point(1170, 9)
         Me.btoSair.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.btoSair.Name = "btoSair"
-        Me.btoSair.Size = New System.Drawing.Size(141, 99)
+        Me.btoSair.Size = New System.Drawing.Size(141, 103)
         Me.btoSair.TabIndex = 134
         Me.btoSair.Text = "Fechar <Esc>"
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
@@ -133,14 +133,14 @@ Partial Class fRelatorioVendasVendedor
         '
         'rptRelatorio
         '
-        ReportDataSource6.Name = "nascomercioDataSet_v_vendassintetico"
-        ReportDataSource6.Value = Me.v_vendassinteticoBindingSource
-        Me.rptRelatorio.LocalReport.DataSources.Add(ReportDataSource6)
+        ReportDataSource1.Name = "nascomercioDataSet_v_vendassintetico"
+        ReportDataSource1.Value = Me.v_vendassinteticoBindingSource
+        Me.rptRelatorio.LocalReport.DataSources.Add(ReportDataSource1)
         Me.rptRelatorio.LocalReport.ReportEmbeddedResource = "nascomercio.VendasVendedor.rdlc"
         Me.rptRelatorio.Location = New System.Drawing.Point(12, 172)
         Me.rptRelatorio.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rptRelatorio.Name = "rptRelatorio"
-        Me.rptRelatorio.Size = New System.Drawing.Size(1480, 731)
+        Me.rptRelatorio.Size = New System.Drawing.Size(1290, 621)
         Me.rptRelatorio.TabIndex = 140
         '
         'txtVendedor
@@ -225,7 +225,7 @@ Partial Class fRelatorioVendasVendedor
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1516, 917)
+        Me.ClientSize = New System.Drawing.Size(1347, 873)
         Me.Controls.Add(Me.txtDataFinal)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtDataInicial)
