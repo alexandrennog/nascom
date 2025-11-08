@@ -26,8 +26,10 @@ namespace LibNF65
         X509Certificate2 x509Cert;
         static string chaveAcesso = string.Empty;
 
-        public static void GerarNF(List<dVendaProduto> produtos)
+        public static void GerarNF(List<ProdutoVendido> produtos)
         {
+
+           
 
             var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
             {
@@ -158,9 +160,9 @@ namespace LibNF65
             //var impressaoNFCeSP = new ImpressaoNFCeSP(nfce);
 
 
-            objNFCe.EventoCancelamentoNFCe(chaveAcesso, x509Cert);
+            ////////////objNFCe.EventoCancelamentoNFCe(chaveAcesso, x509Cert);
 
-            objNFCe.ImprimirDANFe(chaveAcesso);
+            ////////////objNFCe.ImprimirDANFe(chaveAcesso);
 
             ////////var retConsulta = objNFCe.ConsultarCupom(configuracao, chaveAcesso);
 
@@ -176,7 +178,7 @@ namespace LibNF65
                     case 301: //Uso Denegado: Irregularidade fiscal do emitente
                     case 302: //Uso Denegado: Irregularidade fiscal do destinatário
                     case 303: //Uso Denegado: Destinatário não habilitado a operar na UF
-                        autorizacao.GravarXmlDistribuicao(@"c:\testenfe\");
+                        //autorizacao.GravarXmlDistribuicao(@"c:\testenfe\");
                         //var docProcNFe = autorizacao.NfeProcResult.GerarXML(); //Gerar o Objeto para pegar a string e gravar em banco de dados
 
                         //Como é assíncrono, tenho que prever a possibilidade de ter mais de uma NFe no lote, então teremos vários XMLs com protocolos.

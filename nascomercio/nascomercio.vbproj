@@ -23,7 +23,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <PublishUrl>D:\MeuNote\Distrib\Nascom\x64\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -1483,6 +1483,10 @@
     <None Include="Resources\fundo_supermercado.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LibNF65\LibNF65.csproj">
+      <Project>{b1234567-89ab-4cde-f012-3456789abcde}</Project>
+      <Name>LibNF65</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ncComum\ncComum.vbproj">
       <Project>{20D12D44-BB71-457A-90BA-19357108B3C0}</Project>
       <Name>ncComum</Name>

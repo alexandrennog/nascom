@@ -17,7 +17,7 @@
     <OutputPath>bin\\Debug\\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\\Release\\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
@@ -132,7 +132,7 @@
     <Compile Include="Interfaces\INFCe.cs" />
     <Compile Include="Interfaces\NFCe.cs" />
     <Compile Include="Modelo\DarumaFrameworkSat.cs" />
-    <Compile Include="Modelo\dVendaProduto.cs" />
+    <Compile Include="Modelo\ProdutoVendido.cs" />
     <Compile Include="NFCe65.cs" />
     <Compile Include="NFCeImpressaoSP.cs" />
   </ItemGroup>

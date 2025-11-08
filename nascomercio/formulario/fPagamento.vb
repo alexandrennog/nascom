@@ -1,26 +1,29 @@
-Imports ncComum.nsExcecao
-Imports ncDados.nsProduto
-Imports ncRegras.nsProduto
-Imports ncComum.nsLog.cLog
-Imports ncRegras.nsParametro
-Imports ncDados.nsParametro
-Imports ncComum.nsConstantes
-Imports ncComum.DFW
+Imports System
 Imports System.Configuration
-Imports ncComum.nsFuncoes.cFuncoes
+Imports System.IO
+Imports System.Linq
 Imports System.Net.Sockets
 Imports System.Text
-Imports ncRegras
-Imports ncPersistencia
-Imports ncDados
-Imports System.IO
 Imports System.Threading
-Imports System
-Imports System.Linq
 Imports CLPix.Services
+Imports iTextSharp.text
+Imports LibNF65
+Imports ncComum.DFW
+Imports ncComum.nsConstantes
+Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
+Imports ncComum.nsFuncoes.cFuncoes
+Imports ncComum.nsLog.cLog
+Imports ncDados
 Imports ncDados.nsCliente
+Imports ncDados.nsParametro
+Imports ncDados.nsProduto
+Imports ncPersistencia
+Imports ncRegras
 Imports ncRegras.nsCliente
+Imports ncRegras.nsParametro
+Imports ncRegras.nsProduto
+
 
 
 Public Class fPagamento
@@ -934,7 +937,19 @@ Public Class fPagamento
                     Catch ex As Exception
                         MessageBox.Show(ex.Message)
                     End Try
+                ElseIf ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
 
+                    ' SAT - Cupom Eletrônico
+                    Try
+
+                        Dim lista = ConverterLista(dadosVendaProdutos.ToList)
+
+                        NFCe65.GerarNF(lista)
+
+
+                    Catch ex As Exception
+                        MessageBox.Show(ex.Message)
+                    End Try
                 Else
 
                     For i As Integer = 1 To qtdImpressao
@@ -1017,7 +1032,31 @@ Public Class fPagamento
             MessageBox.Show("Venda concluída em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
         End If
     End Sub
+    Public Shared Function ConverterLista(listaOrigem As List(Of ncDados.nsVenda.dVendaProduto)) As List(Of LibNF65.Modelo.ProdutoVendido)
+        Dim listaDestino As New List(Of LibNF65.Modelo.ProdutoVendido)
 
+        If listaOrigem Is Nothing Then
+            Return listaDestino
+        End If
+
+        For Each item As ncDados.nsVenda.dVendaProduto In listaOrigem
+            Dim novoItem As New LibNF65.Modelo.ProdutoVendido
+
+            novoItem.controle = item.controle
+            novoItem.produtoId = item.produtoId
+            novoItem.itemId = item.itemId
+            novoItem.quantidade = item.quantidade
+            novoItem.valor = item.valor
+            novoItem.codigobarras = item.codigobarras
+            novoItem.descricao = item.descricao
+            novoItem.referencia = item.referencia
+            novoItem.aliquota = item.aliquota
+
+            listaDestino.Add(novoItem)
+        Next
+
+        Return listaDestino
+    End Function
     Private Sub Cliente()
         Dim formCliente As New fClienteLista
         formCliente.filtro = New ncDados.nsCliente.dCliente()
@@ -1152,22 +1191,22 @@ Public Class fPagamento
                 txtStatus.Text = "Criada"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
-                picQRCode.Image = ResizeImage(Image.FromFile(filename))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(filename))
             Case "PENDING"
                 txtStatus.Text = "Criada"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
-                picQRCode.Image = ResizeImage(Image.FromFile(filename))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(filename))
             Case "CONCLUIDA"
                 txtStatus.Text = "Pago"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = ""
-                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(folder + "\pago.png"))
             Case "APPROVED"
                 txtStatus.Text = "Pago"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = ""
-                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(folder + "\pago.png"))
             Case "REMOVIDA_PELO_USUARIO_RECEBEDOR"
                 txtStatus.Text = "Removida User"
                 btnPix.Text = ""
@@ -1271,8 +1310,8 @@ Public Class fPagamento
         'Dim id As String = "22137471"
 
     End Sub
-    Public Shared Function ResizeImage(ByVal InputImage As Image) As Image
-        Return New Bitmap(InputImage, New Size(200, 200))
+    Public Shared Function ResizeImage(ByVal InputImage As System.Drawing.Image) As System.Drawing.Image
+        Return New System.Drawing.Bitmap(InputImage, New System.Drawing.Size(200, 200))
     End Function
     Private Function BuscarImagem(folder As String, pix As dPix) As String
 
@@ -1388,7 +1427,7 @@ Public Class fPagamento
 
     End Sub
 
-    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs)
 
     End Sub
 

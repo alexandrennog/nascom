@@ -196,7 +196,7 @@ namespace LibNF65
 
             return retornoWs;
         }
-        public XmlNFe.NFe RecuperarProdutos(List<dVendaProduto> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto)
+        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto)
         {
 
             var infCons = new InfCons
@@ -537,7 +537,7 @@ namespace LibNF65
             throw new NotImplementedException();
         }
 
-        public void EnviarNFCe(string caminhoCertificado, string senhaCertificado, string cnpjEmissor, List<dVendaProduto> Produtos)
+        public void EnviarNFCe(string caminhoCertificado, string senhaCertificado, string cnpjEmissor, List<ProdutoVendido> Produtos)
         {
             var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
             {
