@@ -1495,10 +1495,6 @@
       <Project>{F4FB9F91-7859-4422-A3CE-4CAC14441AA6}</Project>
       <Name>ncEfd</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ncNFCeLib\ncNFCeLib.csproj">
-      <Project>{bc296eb8-5387-4fb3-a9b4-806b2d406994}</Project>
-      <Name>ncNFCeLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ncPersistencia\ncPersistencia.vbproj">
       <Project>{7F978C05-01F9-4E79-A676-FC43A994324E}</Project>
       <Name>ncPersistencia</Name>

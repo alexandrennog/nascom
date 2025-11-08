@@ -1,0 +1,634 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Unimake.Unidanfe</name>
+    </assembly>
+    <members>
+        <member name="M:Unimake.Unidanfe.Utility.EmbeddedAssembly.Load">
+            <summary>
+            Extrai as dlls do Unidanfe
+            </summary>
+        </member>
+        <member name="T:Unimake.Unidanfe.Configurations.UnidanfeConfiguration">
+             <summary>
+             Configurações do UniDANFe
+             </summary>
+            <remarks>http://wiki.unimake.com.br/index.php/UniDANFE/Integrando_o_UniDANFE_ao_ERP/Gerar_documento_auxiliar</remarks>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.AcaoDLL">
+            <summary>
+            Ação a ser executada na DLL do UniDANFe
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.AlturaImagemAdicional">
+            <summary>
+            Altura, em milésimos de polegadas, com que a imagem adicional vai ser impressa. Essa altura será adicionada ao quadro “Dados Adicionais”. Se omitido, o valor padrão 1000 (aproximadamente 25mm) é assumido.Válido apenas para impressão do DANFE em orientação RETRATO.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.AnexarDFe">
+            <summary>
+            Parâmetro utilizado apenas para impressão da Carta de Correção Eletrônica. Deve ser utilizado em conjunto com o parâmetro "DFe". Indica ao UniDANFE se o Documento Auxiliar (DANFE, DACTE, etc) deve ser anexado ao impresso da CC-e. false=Não true=Sim (antes da CC-e) true=Sim (depois da CC-e). Se informado, esse parâmetro se sobrepõe às configurações efetuadas no painel de controle do UniDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Anexos">
+            <summary>
+            Passa arquivos externos para serem anexados ao mesmo e-mail enviado ao destinatário do Documento Fiscal (ex: PDF com boletos).
+            </summary>
+            <remarks>São permitidos no máximo cinco arquivos anexos externos em um mesmo e-mail.</remarks>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Arquivo">
+            <summary>
+            Nome completo do arquivo XML do Documento Fiscal Eletrônico, CC-e ou Cancelamento, gerado pelo ERP, incluindo todo o caminho para encontrá-lo.Esse arquivo deve ser o XML de distribuição já autorizado pela SEFAZ(procNFe, procCTe, procMDFe, procEventoNFe, etc).
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ArquivoAuxiliar">
+            <summary>
+            Nome completo do arquivo XML auxiliar, incluindo todo o caminho para encontrá-lo.No XML auxiliar existem TAGS complementares para o UniDANFE, com algumas personalizações.Se esse parâmetro não for passado, o UniDANFE procurará, na mesma pasta do XML principal, um outro arquivo XML com o mesmo nome, precedido do texto “aux-”. Se encontrar tal arquivo, o usará como auxiliar, sem a necessidade de passar seu nome na linha de comando.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ArquivoEPEC">
+            <summary>
+            Nome completo, incluindo todo caminho, do arquivo XML que contém as informações do registro do EPEC.A informação desse arquivo é obrigatória quando necessitar imprimir DANFE de NF-e ou DACTE de CT-e emitido em contingência EPEC antes de sua autorização.O UniDANFE não gerará o Documento Auxiliar em contingência EPEC sem conferir as informações desse arquivo XML. Após a normalização do serviço, quando o XML da NF-e ou do CT-e já contiver o protocolo de autorização de uso, esse parâmetro deixa de ser necessário.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ArquivoErros">
+            <summary>
+            Define o nome do arquivo que vai receber os erros ocorridos durante a geração do Documento Auxiliar, se houver.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Assunto">
+            <summary>
+            Assunto do email (Titulo)
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.BCC">
+            <summary>
+            Emails - Enviar com cópia para (Oculto)
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Cancelada">
+            <summary>
+            Esse parâmetro indica ao UniDANFE se este deve imprimir a palavra “CANCELADA” no corpo do Documento Auxiliar
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.CC">
+            <summary>
+            Emails - Enviar com copia para (Visível)
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ComprovanteTEF">
+            <summary>
+            Nome do arquivo, incluindo o caminho completo, dos arquivos de texto cujo conteúdo deverão ser impressos no final do DANFE de NFC-e e Extrato SAT, onde &lt;n&gt; é um número de 1 a 9. Pode-se utilizar arquivos textos normais, cujo conteúdo será integralmente impresso, ou os próprios arquivos de resposta de venda gerados pelos sistemas de transmissão de TEF.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Configuracao">
+            <summary>
+            Nome da configuração que será utilizada para gerar o Documento Auxiliar.Se esse parâmetro não for passado, o UniDANFE tentará localizar a configuração ideal automaticamente.
+            Atenção: Para esse parâmetro funcionar é necessário que a configuração passada tenha sido previamente cadastrada no UniDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Copias">
+            <summary>
+            Informa ao UniDANFE quantas cópias devem ser impressas do Documento gerado.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.CorMarcaDagua">
+            <summary>
+            Cor do texto a ser impresso como marca d´água do documento.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Data">
+            <summary>
+            Data da criação do e-mail (Default: Hoje)
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Delete">
+            <summary>
+            Instrui o UniDANFE se este deve deletar (excluir) os arquivos XML envolvidos na geração do Documento Auxiliar após o término do processo. Se passado o valor “verdadeiro”, os XML´s serão excluídos no final. Qualquer outro valor instrui o UniDANFE a não remover qualquer arquivo XML.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Destinatarios">
+            <summary>
+            Emails dos destinatários
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Email">
+            <summary>
+            Endereço de e-mail adicional para envio ao destinatário do Documento.Esse e-mail deve ser informado nos casos em que o XML do documento não tenha TAGS específicas para isso - como XML de CC-e e Cancelamento - ou quando deseja-se enviar o Documento para um endereço diferente. O e-mail também pode ser gerado no XML auxiliar, ao invés de passado por parâmetro.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.EmailCC">
+            <summary>
+            Endereço para o qual o Documento e/ou o XML serão enviados como cópia.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.EmailCCO">
+            <summary>
+            Endereço para o qual o Documento e/ou o XML serão enviados como cópia oculta (CCO).
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.EmailRemetente">
+            <summary>
+            Email do remetente. Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.EnviaEmail">
+            <summary>
+            Informa ao UniDANFE se o impresso gerado deverá ser enviado por e-mail ou não. Se informado, esse parâmetro se sobrepõe às configurações efetuadas no painel de controle do UniDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.IgnorarEmailXML">
+            <summary>
+            Instrui o UniDANFE a ignorar endereços de e-mail dos destinatários presentes nos arquivos XML do Documento e no XML auxiliar. Os valores aceitos são:
+            </summary>
+            <remarks>Com exceção do valor “0”, todos os outros podem ser combinados num mesmo parâmetro.
+            <para>O valor “2” não se aplica à emissão de CC-e.</para></remarks>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ImagemAdicional">
+            <summary>
+            Nome completo, incluindo o caminho, de uma imagem para ser impressa no rodapé da seção “DADOS ADICIONAIS”, dentro do quadro “Informações Complementares”. Válido apenas para impressão do DANFE de NF-e em orientação RETRATO.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Impressora">
+            <summary>
+             Informa em qual impressora o Documento deve ser impresso.Aceita os valores “padrao", “selecionar” ou “&lt;nome completo da impressora&gt;”; se informado o valor “padrao", o impresso será enviado para a impressora padrão do computador; se informado “selecionar”, uma tela será exibida ao usuário antes da impressão, para que este selecione a impressora correta; se informado o nome de uma impressora instalada, o UniDANFE imprimirá o Documento nessa impressora.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Imprimir">
+            <summary>
+            Informa ao UniDANFE se o Documento Auxiliar deve ser impresso automaticamente ou não. Se informado, esse parâmetro se sobrepõe às configurações efetuadas no painel de controle do UniDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ImprimirApenasComprovanteTEF">
+            <summary>
+            Indica ao sistema que deverão ser impressos apenas os comprovantes TEF passados na lista anterior  <see cref="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ComprovanteTEF"/>, não sendo impresso o DANFE/Extrato.
+            </summary>
+            <remarks>Quando esse parâmetro é informado com o valor “verdadeiro”, apenas a visualização e/ou impressão é realizada, não sendo executadas outras operações como enviar e-mail, gerar pdf, salvar xml, etc.Nesse caso pode-se omitir o parâmetro “arquivo”.</remarks>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ImprimirIEEmitente">
+            <summary>
+            Imprimir a Inscrição Estadual do emitente no DANFE NFCe???
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ImprimirProdutos">
+            <summary>
+            Informa ao UniDANFE se o impresso gerado deverá conter a seção/divisão “Detalhe” dos produtos. Específico para DANFE de NFC-e e extrato SAT.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ITT">
+            <summary>
+            Indica ao sistema se deve imprimir ou não o Valor Aproximado de Tributos (Lei da Transparência Fiscal) no quadro de totais do Documento Auxiliar.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ITTP">
+            <summary>
+            Indica ao sistema se deve imprimir ou não o Valor Aproximado de Tributos (Lei da Transparência Fiscal) no quadro de produtos/servidos do Documento Auxiliar.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.LarguraBobina">
+            <summary>
+            Informa ao UniDANFE a largura do papel em milímetros quando se tratar de impressão em bobina.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Logotipo">
+            <summary>
+              Nome da imagem, incluindo seu caminho completo, que será usada na geração do Documento Auxiliar. Há um campo específico da interface de configuração do UniDANFE para informar esse arquivo de imagem.No entanto, em alguns casos, deseja-se utilizar uma mesma configuração para mais de uma empresa/filial.Para esses casos, pode-se passar a imagem através da linha de comando, ou informá-la no XML auxiliar.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.NFe">
+            <summary>
+            Parâmetro utilizado apenas para impressão da Carta de Correção Eletrônica. Indica ao UniDANFE o nome completo, incluindo todo o caminho, do arquivo XML da NF-e, NFC-e, CT-e ou MDF-e que está sofrendo correção.Quando esse parâmetro é informado, o UniDANFE vai buscar informações relativas ao emitente, destinatário, remetente, expedidor, recebedor, etc., nesse arquivo XML.Quando esse parâmetro é omitido, o UniDANFE busca primeiramente em sua base de dados essas informações e, em não as localizando, procura pelo XML da NF-e/CT-e na mesma pasta do XML do evento da CC-e, nos padrões “chavedeacesso-procXXX.xml” e “chavedeacesso-XXX.xml”, onde XXX = NFe ou CTe, conforme o caso.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.NomeImpressao">
+            <summary>
+            Define o texto que vai aparecer no gerenciador de impressão do Windows. Se não informado o texto padrão é gerado pelo UniDANFE.
+            </summary>
+            <example>
+            UnidanfeConfiguration.NomeImpressao = "NF=00123 CAIXA=001 OP=JUNIOR";
+            </example>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.NomePDF">
+            <summary>
+            Instrui o UniDANFE como deve ser o nome do arquivo PDF com a imagem do Documento Auxiliar gerado pelo sistema, quando para isso configurado. Esse parâmetro sobrepõe a regra de construção do nome definida na configuração do UniDANFE.Pode ser passado apenas o nome ou o nome incluindo o caminho completo (pastas). Nesse caso, o caminho (pasta) já deve existir previamente.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.NomeRemetente">
+            <summary>
+            Nome do Remetente. Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.PastaConfiguracao">
+            <summary>
+            Diretório onde a configuração do Unidanfe está localizada
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.PastaLocalQRCode">
+            <summary>
+            Pasta local ou da rede para onde a imagem do QR Code gerada deve ser copiada.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.PastaPDF">
+            <summary>
+            Informa ao UniDANFE a pasta onde devem ser gravados os arquivos PDF com a imagem do Documento Auxiliar gerado pelo sistema, quando para isso configurado. Esse parâmetro sobrepõe a pasta definida na configuração do UniDANFE.A pasta informada nesse parâmetro deve existir previamente. O nome do PDF será criado respeitando-se as regras definidas na configuração do UniDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.PosYMarcaDagua">
+            <summary>
+            Posição inicial (vertical) da impressão do texto de marca d´água.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Remetente">
+            <summary>
+            E-mail ou apelido do remetente de e-mail que deve ser utilizado para o envio do Documento por e-mail.O remetente deve estar previamente cadastrado no sistema mesmo quando este parâmetro contiver um endereço eletrônico (e-mail) pois outras informações são necessárias para o envio do e-mail, como servidor SMTP, porta, senha, etc.É possível cadastrar remetentes informando o CNPJ do emitente no campo “Apelido” para que o mesmo seja selecionado automaticamente.Consulte a seção “Configurando as Contas de Remetentes” para maiores detalhes.É possível informar o remetente também noXML auxiliar ou nas TAG´s de uso livre.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ReplyTo">
+            <summary>
+            Email de resposta (ReplyTo) - Default: Mesmo do emitente
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SaidaErros">
+            <summary>
+            Define onde devem ser geradas as possíveis mensagens de erro do sistema.V= vídeo A= Arquivo.Útil para os casos em que a impressão e envio por e-mail do Documento Auxiliar seja configurada para ser executada automaticamente sem a intervenção de usuários
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpAutenticar">
+            <summary>
+            SMTP - Autenticar - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpConta">
+            <summary>
+            SMTP - Conta - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpFormatoRemetente">
+            <summary>
+            SMTP - Formato Remetente (0=Somente email ; 1=Nome + email) - Default: 0 - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpHelo">
+            <summary>
+            SMTP - Helo de Autenticação - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpPorta">
+            <summary>
+            SMTP - Porta - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpSenha">
+            <summary>
+            SMTP - Senha - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpServidor">
+            <summary>
+            SMTP - Servidor - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpSSL">
+            <summary>
+            SMTP - SSL - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.SmtpTLS">
+            <summary>
+            SMTP - TLS - Se não informado vai pegar dos emails cadastrados através da UI do UNIDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Texto">
+            <summary>
+            Texto do corpo do e-mail
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.TextoDiagonal">
+            <summary>
+            Texto a ser impresso na diagonal, no corpo do Documento. Aceita qualquer texto e quando informado, sobrepõe qualquer outro texto definido pelo sistema.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.TextoMarcaDAgua">
+            <summary>
+            Texto a ser impresso como marca d´água do documento.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Visualizar">
+            <summary>
+            Informa ao UniDANFE se o Documento Auxiliar gerado deverá ser visualizado na tela do computador antes da impressão/envio por e-mail. Se informado, esse parâmetro se sobrepõe às configurações efetuadas no painel de controle do UniDANFE.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.WaitProcess">
+            <summary>
+            true = Segura o processo e só libera o ERP na finalização da impressão do DANFE, ou da rotina executada.
+            false = disparara o processo e já libera o ERP
+            Se for informado false não será possível pegar as exceções geradas pelo UNIDANFE, então use em casos bem específicos.
+            Caso tenha algum erro ajuste para true para pegar a exceção e depois de tratado volte para false.
+            </summary>
+        </member>
+        <member name="M:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.AddAnexos(System.String)">
+            <summary>
+            Adicionar novo elemento a lista
+            </summary>
+            <param name="item">Elemento</param>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.Powered">
+            <summary>
+            Texto/publicidade do rodapé do DANFE, DACTE, DAMDFE, etc.
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.PublicidadeUnidanfe">
+            <summary>
+            Imprimir o nome, versão, edição e site do UniDANFE no rodapé
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ImprimirDatahoraGeracao">
+            <summary>
+            Imprimir a data e a hora da geração da imagem do DF-e
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.ImprimirCampoAssinatura">
+            <summary>
+            Imprimir campo "Assinatura" no final do cupom
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Configurations.UnidanfeConfiguration.PreencherIdentificacaoEmitente">
+            <summary>
+            Preencher a identificação do emitente no DANFE
+            true = Preencher false = Somente se não tiver a logomarca do emitente configurada
+            </summary>
+        </member>
+        <member name="T:Unimake.Unidanfe.Enumerations.AcoesDLL">
+            <summary>
+            Ações que eu posso executar com a DLL do UniDANFe
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.AcoesDLL.Dfe">
+            <summary>
+            Executa a DLL do UniDANFe para impressão do DANFE, envio de e-mail, etc. (De acordo com os parâmetros enviados)
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.AcoesDLL.Configurar">
+            <summary>
+            Executa a tela de configuração do UniDANFe para que o usuário altere as configurações
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.AcoesDLL.Emails">
+            <summary>
+            Executa a tela de gerenciamento de e-mails do UNIDANFE
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.AcoesDLL.Licencas">
+            <summary>
+            Executa a tela de gerenciamentos de licenças do UNIDANFE
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.AcoesDLL.EmailExt">
+            <summary>
+            Enviar emails diversos de outras aplicações
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.AcoesDLL.Envia_Email">
+            <summary>
+            Dispara os emails que estão na fila para serem enviados
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.AcoesDLL.InfoContasEmail">
+            <summary>
+            Retorna um XML com as informações de todas as contas de e-mail cadastradas
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.IgnorarEmailXML.NaoIgnorar">
+            <summary>
+            Não ignora nenhum dos e-mails presentes nos XMLs
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.IgnorarEmailXML.IgnoraTAG_Email">
+            <summary>
+            Ignora a TAG&lt;email&gt; presente no XML do Documento Fiscal;
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.IgnorarEmailXML.IgnoraTAG_ObsCont">
+            <summary>
+            Ignora os e-mails informado na TAG&lt;obsCont&gt; do XML do Documento Fiscal, atributos Email_Destinatario, Email_CC e Email_CCO;
+            </summary>
+        </member>
+        <member name="F:Unimake.Unidanfe.Enumerations.IgnorarEmailXML.IgnoraXMLAuxiliar">
+            <summary>
+            Ignora os e-mails informados no XML auxiliar, nas TAGs&lt;EmailDest&gt;, &lt;EmailCC&gt; e &lt;EmailCCO&gt;
+            </summary>
+        </member>
+        <member name="T:Unimake.Unidanfe.Exceptions.ConfigurationFieldNullOrInvalidException">
+            <summary>
+            Lançada quando um valor da configuração é requerido ou não informado
+            </summary>
+        </member>
+        <member name="M:Unimake.Unidanfe.Exceptions.ConfigurationFieldNullOrInvalidException.#ctor(System.Object,System.String)">
+            <summary>
+            Lança a exceção de erro explicando que o valor não é válido.
+            </summary>
+            <param name="value">Valor passado como configuração</param>
+            <param name="configName">Nome da configuração</param>
+        </member>
+        <member name="T:Unimake.Unidanfe.Exceptions.UnidanfeException">
+            <summary>
+            Lançada quando acontece um erro genérico na aplicação
+            </summary>
+        </member>
+        <member name="M:Unimake.Unidanfe.Exceptions.UnidanfeException.#ctor(System.String)">
+            <summary>
+            Inicializa a mensagem de erro
+            </summary>
+            <param name="message">Mensagem de erro</param>
+        </member>
+        <member name="M:Unimake.Unidanfe.Exceptions.UnidanfeException.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Unimake.Unidanfe.Shared.Model.Information.ContaEmail">
+            <summary>
+            Conta de e-mail configruada no Unidanfe
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.Apelido">
+            <summary>
+            Nome curto do remetente
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.AutenticarSMTP">
+            <summary>
+            Se verdadeiro, faz a autenticação no SMTP
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.AutenticarSMTPField">
+            <summary>
+            1=sim 0=não
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.Conta">
+            <summary>
+            Nome da conta
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.Email">
+            <summary>
+            E-Mail do remetente
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.EnderecoResposta">
+            <summary>
+            E-Mail para onde as respostas devem ser enviadas
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.Erro">
+            <summary>
+            Qualquer mensagem de erro
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.Id">
+            <summary>
+            Identificador da conta
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.Nome">
+            <summary>
+            Nome completo do remetente
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.Padrao">
+            <summary>
+            Verdadeiro, se este for o remetente padrão
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.PadraoField">
+            <summary>
+            'Sim' se este for o remetente padrão
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.PortaPOP">
+            <summary>
+            Porta do servidor POP3
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.PortaSMTP">
+            <summary>
+            Porta do servidor SMTP
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.ServidorPOP">
+            <summary>
+            Endereço do servidor POP3
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.ContaEmail.ServidorSMTP">
+            <summary>
+            Nome do servidor SMTP
+            </summary>
+        </member>
+        <member name="T:Unimake.Unidanfe.Shared.Model.Information.Info">
+            <summary>
+            Retorna informações dos e-mails configurados
+            </summary>
+        </member>
+        <member name="P:Unimake.Unidanfe.Shared.Model.Information.Info.ContasEmail">
+            <summary>
+            Contas de e-mail
+            </summary>
+        </member>
+        <member name="T:Unimake.Unidanfe.UnidanfeServices">
+            <summary>
+            Serviços da DLL do UniDANFe
+            </summary>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.Execute(Unimake.Unidanfe.Configurations.UnidanfeConfiguration,Unimake.Unidanfe.Enumerations.AcoesDLL)">
+            <summary>
+            Executar o UNIDANFE de acordo com as configurações passadas por parâmetro
+            </summary>
+            <param name="configuration">Configurações</param>
+            <param name="action">Ação a ser executada</param>
+            <exception cref="T:Unimake.Unidanfe.Exceptions.UnidanfeException">Erros ocorridos na execução do UNIDANFE</exception>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.Execute(Unimake.Unidanfe.Configurations.UnidanfeConfiguration,Unimake.Unidanfe.Enumerations.AcoesDLL,System.Object@)">
+            <summary>
+            Executar o UNIDANFE de acordo com as configurações passadas por parâmetro
+            </summary>
+            <param name="configuration">Configurações</param>
+            <param name="action">Ação a ser executada</param>
+            <param name="result">Quando se tem resposta da Unidanfe_DLL, utilize este parâmetro para recuperar a resposta</param>
+            <exception cref="T:Unimake.Unidanfe.Exceptions.UnidanfeException">Erros ocorridos na execução do UNIDANFE</exception>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.DisparaEmail">
+            <summary>
+            Dispara os emails criados para serem enviados
+            </summary>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.DisparaEmail(System.String)">
+            <summary>
+            Dispara os emails criados para serem enviados
+            </summary>
+            <param name="pastaConfiguracao">Pasta onde está as configurações do UNIDANFE</param>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.EnviarEmail(Unimake.Unidanfe.Configurations.UnidanfeConfiguration)">
+            <summary>
+            Cria emails diversos com configurações específicas para ser enviado ao chamar o método DisparaEmail()
+            </summary>
+            <see cref="!:https://wiki.unimake.com.br/index.php/UniDANFE/Integrando_o_UniDANFE_ao_ERP/EnviarOutrosEmails"/>
+            <param name="configuration">Configurações para executar a DLL do UniDANFe</param>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.Execute(Unimake.Unidanfe.Configurations.UnidanfeConfiguration)">
+            <summary>
+            Executa a DLL do UniDANFe respeitando cada parâmetro informado.
+            </summary>
+            <see cref="!:http://wiki.unimake.com.br/index.php/Manuais:UniDANFE/Integrando_o_UniDANFE_ao_ERP/MetodosDLL"/>
+            <param name="configuration">Configurações para executar a DLL do UniDANFe</param>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.ShowConfigurationScreen">
+            <summary>
+            Executa a tela de configurações da DLL do UniDANFe para que o usuário realize as configurações desejadas.
+            </summary>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.ShowConfigurationScreen(System.String)">
+            <summary>
+            Executa a tela de configurações da DLL do UniDANFe para que o usuário realiza as configurações desejadas.
+            </summary>
+            <param name="pastaConfiguracao">Pasta onde está as configurações do UNIDANFE</param>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.ShowEmailScreen(System.String)">
+            <summary>
+            Executa a tela de emails para que o usuário gerencie os e-mails enviados
+            </summary>
+            <param name="pastaConfiguracao">Pasta onde está as configurações do UNIDANFE</param>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.ShowLicencaScreen(System.String)">
+            <summary>
+            Executa a tela de gerenciamento de licenças do UNIDANFE para que o usuário gerencie.
+            </summary>
+            <param name="pastaConfiguracao">Pasta onde está as configurações do UNIDANFE</param>
+        </member>
+        <member name="M:Unimake.Unidanfe.UnidanfeServices.GetEmailAccounts">
+            <summary>
+            Retorna todas as contas de e-mail configuradas no Unidanfe.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:AcoesDLLExtensions">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:AcoesDLLExtensions.ToAction(Unimake.Unidanfe.Enumerations.AcoesDLL)">
+            <summary>
+            Retorna a ação que será executada na DL
+            </summary>
+            <param name="acoes">Ação</param>
+            <returns></returns>
+        </member>
+        <member name="M:AcoesDLLExtensions.ToInitDll(Unimake.Unidanfe.Enumerations.AcoesDLL)">
+            <summary>
+            retorna a ação que será executada no método "DFEINITB" da DLL
+            </summary>
+            <param name="acoes">ação</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
