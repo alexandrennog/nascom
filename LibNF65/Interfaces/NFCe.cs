@@ -243,10 +243,11 @@ namespace LibNF65
             var nfe = new XmlNFe.NFe();
             nfe.InfNFe = new List<XmlNFe.InfNFe>();
 
-            decimal valorTotal;
+            double valorTotal = 0;
 
             foreach (var produto in dVendaProdutos)
             {
+                valorTotal += double.Parse(produto.valor.ToString());
 
                 var infe = new XmlNFe.InfNFe
                 {
@@ -323,22 +324,22 @@ namespace LibNF65
                                         NItem = 1,
                                         Prod = new XmlNFe.Prod
                                         {
-                                            CProd = "01042",
-                                            CEAN = "SEM GTIN",
-                                            XProd = "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
-                                            NCM = "84714900",
+                                            CProd = produto.produtoId.ToString(),
+                                            CEAN = produto.codigobarras,
+                                            XProd = produto.descricao,
+                                            NCM = "84714900", 
                                             CFOP = "5101",
                                             UCom = "LU",
-                                            QCom = 1.00m,
-                                            VUnCom = 84.9000000000M,
-                                            VProd = 84.90,
+                                            QCom = produto.quantidade,
+                                            VUnCom = decimal.Parse(produto.valor.ToString()),
+                                            VProd = double.Parse(produto.valor.ToString()),
                                             CEANTrib = "SEM GTIN",
                                             UTrib = "LU",
                                             QTrib = 1.00m,
                                             VUnTrib = 84.9000000000M,
                                             IndTot = SimNao.Sim,
                                             XPed = "300474",
-                                            NItemPed = "1"
+                                            NItemPed = produto.itemId.ToString()
                                         },
                                         Imposto = new XmlNFe.Imposto
                                         {
@@ -350,79 +351,21 @@ namespace LibNF65
                                                     Orig = OrigemMercadoria.Nacional,
                                                     CSOSN = "102"
                                                 },
-                                                //ICMS40 = new XmlNFe.ICMS40
-                                                //{
-                                                //    Orig = OrigemMercadoria.Nacional,
-                                                //    CST = configImposto.Imposto.ICMS.ICMS40.CST ?? "00"
-                                                //},
-                                                //ICMSSN900 = new XmlNFe.ICMSSN900
-                                                //{
-                                                //    Orig = OrigemMercadoria.Nacional,
-                                                //    CSOSN = configImposto.Imposto.ICMS.ICMSSN900.CSOSN
-                                                //}
                                             },
-                                            //ISSQN = new XmlNFe.ISSQN
-                                            //{
-                                            //    VAliq = tratarDouble(configImposto.Imposto.ISSQN.vAliq),
-                                            //    //VISSQN = 0.00,
-                                            //    CMunFG = tratarInt(configImposto.Imposto.ISSQN.cMunFG),
-                                            //    CListServ = ListaServicoISSQN.Servico0101,   // (ListaServicoISSQN)cListServInt,
-                                            //    CServico = configImposto.Imposto.ISSQN.cServTribMun,
-                                            //    IndIncentivo = configImposto.Imposto.ISSQN.indIncFisc == "1" ? SimNao12.Sim : SimNao12.Nao,
-                                            //    VDeducao = tratarDouble(configImposto.Imposto.ISSQN.vDeducISSQN)                                                      
-                                            //},
                                             PIS = new XmlNFe.PIS
                                             {
-                                                //PISOutr = new XmlNFe.PISOutr
-                                                //{
-                                                //    CST = configImposto.Imposto.PIS.PISOUTR.CST ?? "00",
-                                                //    PPIS = tratarDouble(configImposto.Imposto.PIS.PISOUTR.pPIS),
-                                                //    VAliqProd = tratarDouble(configImposto.Imposto.PIS.PISOUTR.vAliqProd),
-                                                //    VBC = (double?)CalcularVBCPIS(configImposto.Imposto.PIS.PISOUTR.CST, produto.valor)
-                                                //},
-                                                //PISAliq = new XmlNFe.PISAliq
-                                                //{
-                                                //    CST = configImposto.Imposto.PIS.PISALIQ.CST ?? "00",
-                                                //    PPIS = tratarDouble(configImposto.Imposto.PIS.PISALIQ.pPIS)
-                                                //},
                                                 PISNT = new XmlNFe.PISNT
                                                 {
                                                     CST = configImposto.Imposto.PIS.PISNT.CST ?? "00"
                                                 },
-                                                //PISQtde = new XmlNFe.PISQtde
-                                                //{
-                                                //    CST = configImposto.Imposto.PIS.PISQTDE.CST ?? "00",
-                                                //    VAliqProd = tratarDouble(configImposto.Imposto.PIS.PISQTDE.vAliqProd),
-                                                //}
-
                                             },
-                                            //PISST = new XmlNFe.PISST
-                                            //{
-                                            //    VBC = tratarDouble(configImposto.Imposto.PISST.vb),
-                                            //    VAliqProd = tratarDouble(configImposto.Imposto.PISST.vAliqProd)
-                                            //},
                                             COFINS = new XmlNFe.COFINS
                                             {
-                                                //COFINSOutr = new XmlNFe.COFINSOutr
-                                                //{
-                                                //    //CST = configImposto.Imposto.COFINS.COFINSOUTR.CST ?? "00",
-                                                //    PCOFINS = tratarDouble(configImposto.Imposto.COFINS.COFINSOUTR.pCOFINS),
-                                                //    VAliqProd = tratarDouble(configImposto.Imposto.COFINS.COFINSOUTR.vAliqProd)
-                                                //},
-                                                //COFINSAliq = new XmlNFe.COFINSAliq
-                                                //{
-                                                //    CST = configImposto.Imposto.COFINS.COFINSALIQ.CST ?? "00",
-                                                //    PCOFINS = tratarDouble(configImposto.Imposto.COFINS.COFINSALIQ.pCOFINS)
-                                                //},
                                                 COFINSNT = new XmlNFe.COFINSNT
                                                 {
                                                     CST = configImposto.Imposto.COFINS.COFINSNT.CST ?? "00"
                                                 },
-                                                //COFINSQtde = new XmlNFe.COFINSQtde
-                                                //{
-                                                //    CST = configImposto.Imposto.COFINS.COFINSQTDE.CST ?? "00",
-                                                //    VAliqProd = tratarDouble(configImposto.Imposto.COFINS.COFINSQTDE.vAliqProd)
-                                                //}
+                                               
                                             }
                                         }
                                     }
@@ -440,7 +383,7 @@ namespace LibNF65
                             VST = 0,
                             VFCPST = 0,
                             VFCPSTRet = 0,
-                            VProd = 84.90,
+                            VProd = valorTotal,
                             VFrete = 0,
                             VSeg = 0,
                             VDesc = 0,
@@ -450,7 +393,7 @@ namespace LibNF65
                             VPIS = 0,
                             VCOFINS = 0,
                             VOutro = 0,
-                            VNF = 84.90,
+                            VNF = valorTotal,
                             VTotTrib = 12.63
                         }
                     },
@@ -467,7 +410,7 @@ namespace LibNF65
                                             {
                                                 IndPag = IndicadorPagamento.PagamentoVista,
                                                 TPag = MeioPagamento.PagamentoInstantaneo,
-                                                VPag = 84.90,
+                                                VPag = valorTotal,
                                                 Card = new Card()
                                                 {
                                                     TpIntegra = TipoIntegracaoPagamento.PagamentoNaoIntegrado
@@ -481,10 +424,10 @@ namespace LibNF65
                     },
                     InfRespTec = new XmlNFe.InfRespTec
                     {
-                        CNPJ = "06117473000150",
-                        XContato = "Wandrey Mundin Ferreira",
-                        Email = "wandrey@unimake.com.br",
-                        Fone = "04431414900"
+                        CNPJ = "07925528000110",
+                        XContato = "Alexandre Nogueira do Nascimento",
+                        Email = "contato@nascom.com.br",
+                        Fone = "(11)2236-9825"
                     }
                 };
 
