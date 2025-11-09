@@ -78,7 +78,7 @@ namespace LibNF65
             var resultado = consultaCadastro.Result; // Retorno do objeto
             var retornoWs = consultaCadastro.RetornoWSString; // XML raw
 
-            string cUF = "35"; // Código da UF do emitente (SP = 35)
+            string cUF = resultado.InfCons.CUF.ToString(); // Código da UF do emitente (SP = 35)
             DateTime dhEmi = DateTime.Now; // Data e hora de emissão
             string cnpjEmitente = resultado.InfCons.CNPJ; // CNPJ do emitente (14 dígitos)
 
@@ -103,7 +103,7 @@ namespace LibNF65
 
             var configImposto = RecuperarConfiguracao();
 
-            var prods = objNFCe.RecuperarProdutos(produtos, nNF, configuracao, configImposto);
+            var prods = objNFCe.RecuperarProdutos(produtos, nNF, configuracao, configImposto, resultado);
 
 
             var xml = new XmlNFe.EnviNFe
@@ -215,7 +215,7 @@ namespace LibNF65
         {
             try
             {
-                string _xml = @"C:\\Users\\jjail\\Projetos\\NFCeProject\\DarumaFrameWork_SAT.xml";
+                string _xml = @"C:\\Users\\jjail\\Projetos\\nascom\\nascomercio\\DarumaFrameWork_SAT.xml";
                 var xmlContent = File.ReadAllText(_xml);
                 return DeserializarXml(xmlContent);
             }

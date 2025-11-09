@@ -1034,24 +1034,28 @@ Public Class fPagamento
     End Sub
     Public Shared Function ConverterLista(listaOrigem As List(Of ncDados.nsVenda.dVendaProduto)) As List(Of LibNF65.Modelo.ProdutoVendido)
         Dim listaDestino As New List(Of LibNF65.Modelo.ProdutoVendido)
+        Dim contador As Integer = 0
 
         If listaOrigem Is Nothing Then
             Return listaDestino
         End If
 
         For Each item As ncDados.nsVenda.dVendaProduto In listaOrigem
+
+            contador = contador + 1
+
             Dim novoItem As New LibNF65.Modelo.ProdutoVendido
 
             novoItem.controle = item.controle
             novoItem.produtoId = item.produtoId
-            novoItem.itemId = item.itemId
+            novoItem.itemId = contador
             novoItem.quantidade = item.quantidade
             novoItem.valor = item.valor
             novoItem.codigobarras = item.codigobarras
             novoItem.descricao = item.descricao
             novoItem.referencia = item.referencia
             novoItem.aliquota = item.aliquota
-
+            novoItem.valorTributacao = Double.Parse(item.valor.ToString()) * (Double.Parse(item.aliquota) / 100)
             listaDestino.Add(novoItem)
         Next
 

@@ -197,7 +197,7 @@ namespace LibNF65
 
             return retornoWs;
         }
-        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto)
+        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad)
         {
 
             var infCons = new InfCons
@@ -221,14 +221,14 @@ namespace LibNF65
             X509Certificate2 x509Cert = certificado.CarregarCertificadoDigitalA1(configuracao.CertificadoArquivo, configuracao.CertificadoSenha);
 
             // 3. Executando a consulta
-            var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
-            consultaCadastro.Executar();
+            //var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
+            //consultaCadastro.Executar();
 
-            // 4. Interpretando o resultado
-            var resultado = consultaCadastro.Result; // Retorno do objeto
-            var retornoWs = consultaCadastro.RetornoWSString; // XML raw
+            //// 4. Interpretando o resultado
+            //var resultado = consultaCadastro.Result; // Retorno do objeto
+            //var retornoWs = consultaCadastro.RetornoWSString; // XML raw
 
-            var endereco = resultado.InfCons.InfCad.FirstOrDefault().Ender;
+            var endereco = retConsCad.InfCons.InfCad.FirstOrDefault().Ender;
 
             int cListServInt;
             if (configImposto.Imposto.ISSQN.cListServ is string cListServStr)
@@ -243,11 +243,11 @@ namespace LibNF65
             var nfe = new XmlNFe.NFe();
             nfe.InfNFe = new List<XmlNFe.InfNFe>();
 
-            double valorTotal = 0;
+            double valorTotal = dVendaProdutos.Sum(x => double.Parse(x.valor.ToString()));
+            double valorTotalTributos = dVendaProdutos.Sum(x => double.Parse(x.valorTributacao.ToString()));
 
             foreach (var produto in dVendaProdutos)
             {
-                valorTotal += double.Parse(produto.valor.ToString());
 
                 var infe = new XmlNFe.InfNFe
                 {
@@ -267,7 +267,7 @@ namespace LibNF65
                         CMunFG = endereco.CMun,
                         TpImp = FormatoImpressaoDANFE.NFCeMensagemEletronica,
                         TpEmis = TipoEmissao.Normal,
-                        TpAmb = TipoAmbiente.Homologacao,
+                        TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
                         FinNFe = FinalidadeNFe.Normal,
                         IndFinal = SimNao.Sim,
                         IndPres = IndicadorPresenca.OperacaoPresencial,
@@ -277,9 +277,9 @@ namespace LibNF65
 
                     Emit = new XmlNFe.Emit
                     {
-                        CNPJ = resultado.InfCons.CNPJ,
-                        XNome = resultado.InfCons.InfCad.FirstOrDefault().XNome,
-                        XFant = resultado.InfCons.InfCad.FirstOrDefault().XFant,
+                        CNPJ = retConsCad.InfCons.CNPJ,
+                        XNome = retConsCad.InfCons.InfCad.FirstOrDefault().XNome,
+                        XFant = retConsCad.InfCons.InfCad.FirstOrDefault().XFant,
                         EnderEmit = new XmlNFe.EnderEmit
                         {
                             XLgr = endereco.XLgr,
@@ -287,14 +287,14 @@ namespace LibNF65
                             XBairro = endereco.XBairro,
                             CMun = endereco.CMun,
                             XMun = endereco.XMun,
-                            UF = resultado.InfCons.UF,
+                            UF = retConsCad.InfCons.UF,
                             CEP = endereco.CEP,
                             CPais = 1058,
                             XPais = "BRASIL"
                         },
-                        IE = resultado.InfCons.InfCad.FirstOrDefault().IE,
-                        IM = "14018",
-                        CNAE = resultado.InfCons.InfCad.FirstOrDefault().CNAE,
+                        IE = retConsCad.InfCons.InfCad.FirstOrDefault().IE,
+                        IM = configImposto.Emit.IM,
+                        CNAE = retConsCad.InfCons.InfCad.FirstOrDefault().CNAE,
                         CRT = CRT.SimplesNacional
 
                     },
@@ -321,12 +321,12 @@ namespace LibNF65
                                     new XmlNFe.Det
                                     {
 
-                                        NItem = 1,
+                                        NItem = produto.itemId,
                                         Prod = new XmlNFe.Prod
                                         {
                                             CProd = produto.produtoId.ToString(),
-                                            CEAN = produto.codigobarras,
-                                            XProd = produto.descricao,
+                                            CEAN = "SEM GTIN",
+                                            XProd = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? produto.descricao : "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\r\n",
                                             NCM = "84714900", 
                                             CFOP = "5101",
                                             UCom = "LU",
@@ -335,15 +335,14 @@ namespace LibNF65
                                             VProd = double.Parse(produto.valor.ToString()),
                                             CEANTrib = "SEM GTIN",
                                             UTrib = "LU",
-                                            QTrib = 1.00m,
-                                            VUnTrib = 84.9000000000M,
+                                            QTrib = produto.quantidade,
+                                            VUnTrib = decimal.Parse(produto.valor.ToString()),
                                             IndTot = SimNao.Sim,
-                                            XPed = "300474",
-                                            NItemPed = produto.itemId.ToString()
+                                            XPed = "300474"
                                         },
                                         Imposto = new XmlNFe.Imposto
                                         {
-                                            VTotTrib = 12.63,
+                                            VTotTrib = double.Parse(produto.valorTributacao.ToString()),
                                             ICMS = new XmlNFe.ICMS
                                             {
                                                 ICMSSN102 = new XmlNFe.ICMSSN102
@@ -394,7 +393,7 @@ namespace LibNF65
                             VCOFINS = 0,
                             VOutro = 0,
                             VNF = valorTotal,
-                            VTotTrib = 12.63
+                            VTotTrib = valorTotalTributos
                         }
                     },
                     Transp = new XmlNFe.Transp
@@ -420,14 +419,14 @@ namespace LibNF65
                     },
                     InfAdic = new XmlNFe.InfAdic
                     {
-                        InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                        InfCpl =  ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
                     },
                     InfRespTec = new XmlNFe.InfRespTec
                     {
                         CNPJ = "07925528000110",
                         XContato = "Alexandre Nogueira do Nascimento",
                         Email = "contato@nascom.com.br",
-                        Fone = "(11)2236-9825"
+                        Fone = "1122369825"
                     }
                 };
 
