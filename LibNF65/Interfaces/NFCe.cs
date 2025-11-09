@@ -1,6 +1,7 @@
 ﻿using LibNF65.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
@@ -201,7 +202,7 @@ namespace LibNF65
 
             var infCons = new InfCons
             {
-                CNPJ = "36650283000164",
+                CNPJ = ConfigurationManager.AppSettings["CNPJ"],
                 UF = UFBrasil.SP
             };
 
@@ -242,6 +243,7 @@ namespace LibNF65
             var nfe = new XmlNFe.NFe();
             nfe.InfNFe = new List<XmlNFe.InfNFe>();
 
+            decimal valorTotal;
 
             foreach (var produto in dVendaProdutos)
             {

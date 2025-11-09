@@ -140,7 +140,7 @@ namespace LibNF65
             autorizacao.Executar();
 
 
-            var ret = ConsultarCupomNFCe("NFs\\" + chaveAcesso, x509Cert);
+            //var ret = ConsultarCupomNFCe("NFs\\" + chaveAcesso, x509Cert);
 
             //var nfce = new NFCeModel();
 
