@@ -435,7 +435,31 @@ Namespace nsVenda
 
     End Function
 
-    Public Function Excluir(ByVal dados As dVenda) As Integer
+        Public Function Alterar(ByVal controle As String, ByVal chave As String) As Integer
+
+            Dim retorno As Integer
+            Dim persistencia As pVenda
+
+            Try
+
+                Using ts As New TransactionScope
+                    persistencia = New pVenda
+                    retorno = persistencia.Alterar(controle, chave)
+
+                    ts.Complete()
+                End Using
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Alterar = retorno
+
+        End Function
+        Public Function Excluir(ByVal dados As dVenda) As Integer
 
       Dim retorno As Integer
       Dim persistencia As pVenda

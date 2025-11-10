@@ -26,10 +26,8 @@ namespace LibNF65
         X509Certificate2 x509Cert;
         static string chaveAcesso = string.Empty;
 
-        public static void GerarNF(List<ProdutoVendido> produtos)
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert)
         {
-
-           
 
             var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
             {
@@ -63,12 +61,11 @@ namespace LibNF65
             string senhaCertificado = ConfigurationManager.AppSettings["CertificadoSenha"];
 
             // 2. Carregar o certificado
-            var certificado = new CertificadoDigital
-            {
+            //var certificado = new CertificadoDigital
+            //{
 
-            };
-
-            X509Certificate2 x509Cert = certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado);
+            //};
+            //X509Certificate2 x509Cert = CarregarCertificado(caminhoCertificado, senhaCertificado, certificado);
 
             // 3. Executando a consulta
             var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
@@ -103,7 +100,7 @@ namespace LibNF65
 
             var configImposto = RecuperarConfiguracao();
 
-            var prods = objNFCe.RecuperarProdutos(produtos, nNF, configuracao, configImposto, resultado);
+            var prods = objNFCe.RecuperarProdutos(produtos, nNF, configuracao, configImposto, resultado, x509Cert);
 
 
             var xml = new XmlNFe.EnviNFe
@@ -121,14 +118,14 @@ namespace LibNF65
 
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlString.InnerXml);
-            xmlDoc.Save("NFs\\" + chaveAcesso + "-procnfe.xml");
+            xmlDoc.Save("NFs\\" + chaveAcesso + ".xml");
 
             // With the corrected code:
             if (!AssinaturaDigital.EstaAssinado(xmlDoc, "infNFe"))
             {
                 AssinaturaDigital.Assinar(xmlDoc, "infNFe", x509Cert, AlgorithmType.Sha1, false);
             }
- 
+
             bool validar = true;
             if (validar)
             {
@@ -139,12 +136,11 @@ namespace LibNF65
             var autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
             autorizacao.Executar();
 
-
             //var ret = ConsultarCupomNFCe("NFs\\" + chaveAcesso, x509Cert);
 
             //var nfce = new NFCeModel();
 
-            NFCeModel nfce = NFCeXMLParser.ParseXML("NFs\\" + chaveAcesso + "-procnfe.xml");
+            NFCeModel nfce = NFCeXMLParser.ParseXML("NFs\\" + chaveAcesso + ".xml");
             nfce.QRCodeUrl = NasNFCe.GerarQRCode(chaveAcesso);   // XMLParser. GerarUrlQRCode(nfce, configuracao);
 
             // Imprimir
@@ -156,15 +152,11 @@ namespace LibNF65
             // Para imprimir direto
             // impressao.Imprimir("Nome_da_Impressora");
 
+            //objNFCe.EventoCancelamentoNFCe(chaveAcesso, x509Cert);
 
-            //var impressaoNFCeSP = new ImpressaoNFCeSP(nfce);
+            ///////////objNFCe.ImprimirDANFe(chaveAcesso);
 
-
-            ////////////objNFCe.EventoCancelamentoNFCe(chaveAcesso, x509Cert);
-
-            ////////////objNFCe.ImprimirDANFe(chaveAcesso);
-
-            ////////var retConsulta = objNFCe.ConsultarCupom(configuracao, chaveAcesso);
+            ///////////var retConsulta = objNFCe.ConsultarCupom(configuracao, chaveAcesso);
 
 
             if (autorizacao.Result.ProtNFe != null)
@@ -197,6 +189,13 @@ namespace LibNF65
                 }
             }
 
+            return chaveAcesso;
+
+        }
+
+        private static X509Certificate2 CarregarCertificado(string caminhoCertificado, string senhaCertificado, CertificadoDigital certificado)
+        {
+            return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado);
         }
 
         public static string GerarIdLote()

@@ -1,14 +1,18 @@
-Imports ncDados.nsProduto
-Imports ncDados.nsVenda
-Imports ncRegras.nsProduto
-Imports ncRegras.nsParametro
-Imports ncDados.nsParametro
-Imports ncRegras.nsCaracteristica
-Imports ncDados.nsCaracteristica
+Imports System.Configuration
+Imports System.Security.Cryptography.X509Certificates
+Imports System.Threading.Tasks
+Imports ncComum.DFW
 Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
 Imports ncComum.nsLog.cLog
-Imports ncComum.DFW
+Imports ncDados.nsCaracteristica
+Imports ncDados.nsParametro
+Imports ncDados.nsProduto
+Imports ncDados.nsVenda
+Imports ncRegras.nsCaracteristica
+Imports ncRegras.nsParametro
+Imports ncRegras.nsProduto
+Imports Unimake.Business.Security
 
 Public Class fCaixaConsulta
 
@@ -46,6 +50,7 @@ Public Class fCaixaConsulta
             btnExcluirUltima.Visible = False
             btnExcluir.Visible = True
         End If
+
 
     End Sub
 
@@ -501,4 +506,11 @@ Public Class fCaixaConsulta
 
     End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+    Private Sub btnImprimiNfe_Click(sender As Object, e As EventArgs)
+
+    End Sub
 End Class

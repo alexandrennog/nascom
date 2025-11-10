@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using Unimake.Business.DFe;
@@ -12,6 +15,7 @@ using Unimake.Business.DFe.Servicos.NFCe;
 using Unimake.Business.DFe.Utility;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Security.Platform;
+using Unimake.Unidanfe.Configurations;
 using Configuracao = Unimake.Business.DFe.Servicos.Configuracao;
 using DANFe = Unimake.Unidanfe;
 using ServicoNFCe = Unimake.Business.DFe.Servicos.NFCe;
@@ -25,7 +29,7 @@ namespace LibNF65
     {
 
 
-        public void EventoCancelamentoNFCe(string chave, X509Certificate2 x509Cert)
+        public void EventoCancelamentoNFCe(string chave, X509Certificate2 x509Cert, string nProt)
         {
             var xml = new XmlNFe.EnvEvento
             {
@@ -38,7 +42,7 @@ namespace LibNF65
                         Versao = "1.00",
                         InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoCanc
                         {
-                            NProt = "141190000660363",
+                            NProt = nProt,
                             Versao = "1.00",
                             XJust = "Justificativa de teste de cancelamento"
                         })
@@ -125,18 +129,65 @@ namespace LibNF65
 
         public void ImprimirDANFe(string chave)
         {
-            var config = new DANFe.Configurations.UnidanfeConfiguration
+            string pastaBase = @"C:\Users\jjail\Projetos\nascom\nascomercio\bin\Debug\";
+            string xmlPath = Path.Combine(pastaBase, "NFs", $"{chave}.xml");
+            string pdfPath = Path.Combine(pastaBase, "PDFs", $"NFCe_{chave}.pdf");
+
+            // 🧾 Gera o PDF com Unidanfe
+            var config = new UnidanfeConfiguration
             {
-                Arquivo = "C:\\Users\\jjail\\Projetos\\NFCeProject\\bin\\Debug\\net8.0\\35251036650283000164650011234798751297237815-procnfe.xml",
+                Arquivo = xmlPath,
                 Visualizar = true,
                 Imprimir = false,
-                EnviaEmail = false,
-                PastaLocalQRCode = "C:\\Users\\jjail\\Projetos\\NFCeProject\\bin\\Debug\\net8.0\\",
+                EnviaEmail = false, // 🔧 Vamos enviar manualmente abaixo
+                PastaLocalQRCode = pastaBase,
+                PastaPDF = Path.Combine(pastaBase, "PDFs"),
+                NomePDF = $"NFCe_{chave}.pdf",
                 Configuracao = "PAISAGEM"
             };
 
+
             DANFe.UnidanfeServices.Execute(config);
+
+            //if (!File.Exists(config.Arquivo))
+            //    throw new FileNotFoundException("Arquivo XML não encontrado: " + config.Arquivo);
+
+            //if (!Directory.Exists(config.PastaPDF))
+            //    Directory.CreateDirectory(config.PastaPDF);
+
+            //// 📧 Envia o e-mail com o PDF anexado
+            //EnviarEmailComAnexo("jjailtonlima@gmail.com",
+            //    $"Nota Fiscal - NFC-e {chave}",
+            //    "Segue em anexo o PDF da NFC-e gerada em ambiente de testes.",
+            //    pdfPath);
         }
+
+        private static void EnviarEmailComAnexo(string destinatario, string assunto, string corpo, string caminhoPDF)
+        {
+            // ⚙️ Configuração do servidor SMTP (exemplo: Gmail)
+            using (var smtp = new SmtpClient("smtp.gmail.com"))
+            {
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["nascomercioMail"], ConfigurationManager.AppSettings["nascomercioPass"]);
+                
+                // ✉️ Monta a mensagem
+                using (var mail = new MailMessage())
+                {
+                    mail.From = new MailAddress(ConfigurationManager.AppSettings["nascomercioMail"], "Sistema de Notas");
+                    mail.To.Add(destinatario);
+                    mail.Subject = assunto;
+                    mail.Body = corpo;
+
+                    if (File.Exists(caminhoPDF))
+                        mail.Attachments.Add(new Attachment(caminhoPDF));
+
+                    // 🚀 Envia o e-mail
+                    smtp.Send(mail);
+                }
+            }
+        }
+
         public string ImprimirPDF(string chaveNFCe)
         {
 
@@ -197,7 +248,7 @@ namespace LibNF65
 
             return retornoWs;
         }
-        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad)
+        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert)
         {
 
             var infCons = new InfCons
@@ -218,7 +269,7 @@ namespace LibNF65
 
             };
 
-            X509Certificate2 x509Cert = certificado.CarregarCertificadoDigitalA1(configuracao.CertificadoArquivo, configuracao.CertificadoSenha);
+            //X509Certificate2 x509Cert = certificado.CarregarCertificadoDigitalA1(configuracao.CertificadoArquivo, configuracao.CertificadoSenha);
 
             // 3. Executando a consulta
             //var consultaCadastro = new ConsultaCadastro(consCad, configuracao);

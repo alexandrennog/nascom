@@ -3,8 +3,10 @@ Imports System.Configuration
 Imports System.IO
 Imports System.Linq
 Imports System.Net.Sockets
+Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
 Imports System.Threading
+Imports System.Threading.Tasks
 Imports CLPix.Services
 Imports iTextSharp.text
 Imports LibNF65
@@ -23,6 +25,7 @@ Imports ncRegras
 Imports ncRegras.nsCliente
 Imports ncRegras.nsParametro
 Imports ncRegras.nsProduto
+Imports Unimake.Business.Security
 
 
 
@@ -36,6 +39,7 @@ Public Class fPagamento
     Public crediario As String
     Private dadosParametro As dParametro
     Private regraParametro As rParametro
+    Private certificadoCarregado As New X509Certificate2
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
@@ -125,7 +129,18 @@ Public Class fPagamento
         'txtDesconto.Text = "0,00"
         lblTotal.Text = txtVendas.Text
 
+        CarregarComboCondicaoAsync()
+
     End Sub
+    Private Async Function CarregarComboCondicaoAsync() As Task
+
+        Dim certificado As New CertificadoDigital()
+
+        Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
+        Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
+
+        certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
+    End Function
     Private Function HabilitarPix() As Boolean
         ' Habilitar uso do PIX?
 
@@ -676,6 +691,7 @@ Public Class fPagamento
 
         Dim dadosParametro As dParametro
         Dim regraParametro As New rParametro
+        Dim regraVenda As New ncRegras.nsVenda.rVenda
 
         Dim objImpressao As ncComum.Impressao
         Dim qtdImpressao As Integer = 1
@@ -943,9 +959,8 @@ Public Class fPagamento
                     Try
 
                         Dim lista = ConverterLista(dadosVendaProdutos.ToList)
-
-                        NFCe65.GerarNF(lista)
-
+                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado)
+                        regraVenda.Alterar(controle.ToString(), chave)
 
                     Catch ex As Exception
                         MessageBox.Show(ex.Message)
@@ -1032,6 +1047,14 @@ Public Class fPagamento
             MessageBox.Show("Venda concluída em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
         End If
     End Sub
+    Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
+                                                       senhaCertificado As String,
+                                                       certificado As CertificadoDigital) As Task(Of X509Certificate2)
+        ' Executa o carregamento do certificado em uma thread separada (sem travar a UI)
+        Return Await Task.Run(Function()
+                                  Return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado)
+                              End Function)
+    End Function
     Public Shared Function ConverterLista(listaOrigem As List(Of ncDados.nsVenda.dVendaProduto)) As List(Of LibNF65.Modelo.ProdutoVendido)
         Dim listaDestino As New List(Of LibNF65.Modelo.ProdutoVendido)
         Dim contador As Integer = 0

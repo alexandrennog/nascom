@@ -107,7 +107,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID, chave "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -161,6 +161,7 @@ Namespace nsVenda
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
                                 item.TXID = cFuncoes.RetornarTexto(row("txID"))
+                                item.Chave = cFuncoes.RetornarTexto(row("chave"))
 
                                 retorno.Add(item)
                             Next
@@ -539,7 +540,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, txID "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, txID"
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vales "
@@ -964,6 +965,36 @@ Namespace nsVenda
                     " txID = " & cFuncoes.PersistirTexto(dados.TXID) &
                     " WHERE " &
                     " controle = " & dados.controle.ToString()
+
+                retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Alterar = retorno
+
+        End Function
+
+        Public Function Alterar(ByVal controle As String, ByVal chave As String) As Integer
+
+            Dim retorno As Integer
+            Dim acessoBanco As cAcessoBD
+            Dim comandoSQL As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+
+                comandoSQL = " UPDATE vendas SET " &
+                    " chave = " & cFuncoes.PersistirTexto(chave) &
+                    " WHERE " &
+                    " controle = " & controle.ToString()
 
                 retorno = acessoBanco.ExecutarINT(comandoSQL)
 

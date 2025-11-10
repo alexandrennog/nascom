@@ -128,7 +128,6 @@
     <Compile Include="DadosQrCodeNFCe.cs" />
     <Compile Include="DanfeQrCodeGenerator.cs" />
     <Compile Include="ImpressaoNFCe.cs" />
-    <Compile Include="Interfaces\FileName.cs" />
     <Compile Include="Interfaces\INFCe.cs" />
     <Compile Include="Interfaces\NFCe.cs" />
     <Compile Include="Modelo\DarumaFrameworkSat.cs" />
