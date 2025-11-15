@@ -1,4 +1,5 @@
-﻿using LibNF65.Modelo;
+﻿using LibNF65.Interfaces;
+using LibNF65.Modelo;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
