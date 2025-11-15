@@ -1,6 +1,7 @@
 Imports System.Configuration
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Threading.Tasks
+Imports LibNF65
 Imports ncComum.DFW
 Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
@@ -12,6 +13,7 @@ Imports ncDados.nsVenda
 Imports ncRegras.nsCaracteristica
 Imports ncRegras.nsParametro
 Imports ncRegras.nsProduto
+Imports Unimake.Business.DFe.Xml.SNCM
 Imports Unimake.Business.Security
 
 Public Class fCaixaConsulta
@@ -302,7 +304,37 @@ Public Class fCaixaConsulta
         Me.txtCliente.BackColor = Color.White
         Me.cboCondicao.SelectedIndex = 1
     End Sub
+    Private Sub ImprimirNFe()
 
+        Dim controle As Integer
+        Dim vendas As ncDados.nsVenda.ColecaoVenda
+        Dim dadosVenda As ncDados.nsVenda.dVenda
+        Dim objVenda As ncRegras.nsVenda.rVenda
+        Dim chave As String
+        dadosVenda = New ncDados.nsVenda.dVenda()
+
+        Try
+
+            If Integer.TryParse(Me.txtControle.Text, controle) Then
+                dtgProdutos.Rows.Clear()
+                dadosVenda.controle = controle
+                objVenda = New ncRegras.nsVenda.rVenda()
+                vendas = objVenda.Consultar(dadosVenda)
+                If vendas.Count = 0 Then
+                    MessageBox.Show("Nenhuma venda encontrada para o controle informado.")
+                    Exit Sub
+                End If
+                chave = vendas.Item(0).Chave.ToString()
+                NFCe65.Imprimir(chave)
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
+
+    End Sub
 
     Private Sub FinalizaVenda()
         If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLUÇÃO" Then
@@ -512,5 +544,8 @@ Public Class fCaixaConsulta
 
     Private Sub btnImprimiNfe_Click(sender As Object, e As EventArgs)
 
+    End Sub
+    Private Sub btnImprimeNFe_Click(sender As Object, e As EventArgs) Handles btnImprimeNFe.Click
+        ImprimirNFe()
     End Sub
 End Class

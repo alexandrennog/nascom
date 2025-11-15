@@ -22,9 +22,9 @@ Partial Class fCaixaConsulta
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle10 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle11 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle12 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.lblTitulo = New System.Windows.Forms.Label()
         Me.dtgProdutos = New System.Windows.Forms.DataGridView()
         Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -71,6 +71,7 @@ Partial Class fCaixaConsulta
         Me.btnExcluir = New System.Windows.Forms.Button()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.btnImprimeNFe = New System.Windows.Forms.Button()
         CType(Me.dtgProdutos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,28 +93,28 @@ Partial Class fCaixaConsulta
         Me.dtgProdutos.AllowUserToAddRows = False
         Me.dtgProdutos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dtgProdutos.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle10.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle10
         Me.dtgProdutos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dtgProdutos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colReferencia, Me.colValorUnitario, Me.colQuantidade, Me.colValorTotal})
         Me.dtgProdutos.Location = New System.Drawing.Point(15, 132)
         Me.dtgProdutos.Name = "dtgProdutos"
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle5
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle11.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dtgProdutos.RowHeadersDefaultCellStyle = DataGridViewCellStyle11
+        DataGridViewCellStyle12.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtgProdutos.RowsDefaultCellStyle = DataGridViewCellStyle12
         Me.dtgProdutos.Size = New System.Drawing.Size(852, 283)
         Me.dtgProdutos.TabIndex = 8
         '
@@ -475,6 +476,7 @@ Partial Class fCaixaConsulta
         '
         Me.Panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.Window
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.btnImprimeNFe)
         Me.Panel1.Controls.Add(Me.btnExcluirUltima)
         Me.Panel1.Controls.Add(Me.lblOS1)
         Me.Panel1.Controls.Add(Me.lblOS)
@@ -522,7 +524,7 @@ Partial Class fCaixaConsulta
         Me.btnExcluirUltima.ForeColor = System.Drawing.Color.Black
         Me.btnExcluirUltima.Image = Global.nascomercio.My.Resources.Resources.excluir
         Me.btnExcluirUltima.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnExcluirUltima.Location = New System.Drawing.Point(544, 519)
+        Me.btnExcluirUltima.Location = New System.Drawing.Point(607, 523)
         Me.btnExcluirUltima.Name = "btnExcluirUltima"
         Me.btnExcluirUltima.Size = New System.Drawing.Size(147, 73)
         Me.btnExcluirUltima.TabIndex = 187
@@ -562,9 +564,9 @@ Partial Class fCaixaConsulta
         Me.btoSalvar.ForeColor = System.Drawing.Color.Black
         Me.btoSalvar.Image = Global.nascomercio.My.Resources.Resources.confirmar
         Me.btoSalvar.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSalvar.Location = New System.Drawing.Point(207, 523)
+        Me.btoSalvar.Location = New System.Drawing.Point(134, 523)
         Me.btoSalvar.Name = "btoSalvar"
-        Me.btoSalvar.Size = New System.Drawing.Size(199, 73)
+        Me.btoSalvar.Size = New System.Drawing.Size(155, 73)
         Me.btoSalvar.TabIndex = 172
         Me.btoSalvar.TabStop = False
         Me.btoSalvar.Text = "Imprimir Venda[F10]"
@@ -581,9 +583,9 @@ Partial Class fCaixaConsulta
         Me.btnExcluir.ForeColor = System.Drawing.Color.Black
         Me.btnExcluir.Image = Global.nascomercio.My.Resources.Resources.excluir
         Me.btnExcluir.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnExcluir.Location = New System.Drawing.Point(368, 523)
+        Me.btnExcluir.Location = New System.Drawing.Point(431, 523)
         Me.btnExcluir.Name = "btnExcluir"
-        Me.btnExcluir.Size = New System.Drawing.Size(199, 73)
+        Me.btnExcluir.Size = New System.Drawing.Size(170, 73)
         Me.btnExcluir.TabIndex = 180
         Me.btnExcluir.TabStop = False
         Me.btnExcluir.Text = "Excluir Venda[F7]"
@@ -618,6 +620,25 @@ Partial Class fCaixaConsulta
         Me.imgLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.imgLogo.TabIndex = 168
         Me.imgLogo.TabStop = False
+        '
+        'btnImprimeNFe
+        '
+        Me.btnImprimeNFe.BackColor = System.Drawing.Color.Transparent
+        Me.btnImprimeNFe.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnImprimeNFe.FlatAppearance.BorderSize = 0
+        Me.btnImprimeNFe.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnImprimeNFe.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnImprimeNFe.ForeColor = System.Drawing.Color.Black
+        Me.btnImprimeNFe.Image = Global.nascomercio.My.Resources.Resources.confirmar
+        Me.btnImprimeNFe.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btnImprimeNFe.Location = New System.Drawing.Point(295, 523)
+        Me.btnImprimeNFe.Name = "btnImprimeNFe"
+        Me.btnImprimeNFe.Size = New System.Drawing.Size(127, 73)
+        Me.btnImprimeNFe.TabIndex = 188
+        Me.btnImprimeNFe.TabStop = False
+        Me.btnImprimeNFe.Text = "Imprimir NFe[F11]"
+        Me.btnImprimeNFe.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btnImprimeNFe.UseVisualStyleBackColor = False
         '
         'fCaixaConsulta
         '
@@ -691,4 +712,5 @@ Partial Class fCaixaConsulta
     Friend WithEvents lblOS1 As System.Windows.Forms.Label
     Friend WithEvents lblOS As System.Windows.Forms.Label
     Friend WithEvents btnExcluirUltima As System.Windows.Forms.Button
+    Friend WithEvents btnImprimeNFe As Button
 End Class

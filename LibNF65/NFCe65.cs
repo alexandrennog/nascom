@@ -144,8 +144,6 @@ namespace LibNF65
 
             //var nfce = new NFCeModel();
 
-            Imprimir();
-
             IInfProtRepository repository = new InfProtRepository();
 
             var infoProdutoService = new InfoProdutoService();
@@ -161,7 +159,6 @@ namespace LibNF65
                 CMsg = autorizacao.Result.ProtNFe.InfProt.CMsg?.ToString(),
                 XMsg = autorizacao.Result.ProtNFe.InfProt.XMsg
             }, repository);
-
 
 
             Imprimir(chaveAcesso);
