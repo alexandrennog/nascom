@@ -7,59 +7,46 @@ namespace LibNF65.Services
 {
     public class InfoProdutoService : IInfoProdutoService
     {
-        private readonly IInfProtRepository _repository;
-
-        // Injeção de Dependência do Repositório
-        public InfoProdutoService(IInfProtRepository repository)
+        public void AdicionarInfoProduto(InfoProduto infoProduto, IInfProtRepository repository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-        }
-
-        public void AdicionarInfoProduto(InfoProduto infoProduto)
-        {
-            // Exemplo de Lógica de Negócio: Validação antes de adicionar
             if (string.IsNullOrWhiteSpace(infoProduto.ChNFe) || infoProduto.ChNFe.Length != 44)
             {
                 throw new ArgumentException("Chave da NFe inválida.");
             }
 
-            // Se a lógica de negócio for satisfeita, chama o repositório
-            _repository.Add(infoProduto);
+            repository.Add(infoProduto);
         }
 
-        public InfoProduto BuscarPorChNFe(string chNFe)
+        public InfoProduto BuscarPorChNFe(string chNFe, IInfProtRepository repository)
         {
-            // Exemplo de Lógica de Negócio: Formatação ou verificação de permissão
             if (string.IsNullOrWhiteSpace(chNFe))
             {
                 throw new ArgumentException("Chave da NFe não pode ser vazia.");
             }
 
-            return _repository.GetByChNFe(chNFe);
+            return repository.GetByChNFe(chNFe);
         }
 
-        public IEnumerable<InfoProduto> BuscarTodos()
+        public IEnumerable<InfoProduto> BuscarTodos(IInfProtRepository repository)
         {
-            // Lógica de Negócio: Filtragem, ordenação ou paginação
-            return _repository.GetAll();
+            return repository.GetAll();
         }
 
-        public void AtualizarInfoProduto(InfoProduto infoProduto)
+        public void AtualizarInfoProduto(InfoProduto infoProduto, IInfProtRepository repository)
         {
-            // Exemplo de Lógica de Negócio: Verificação de existência antes de atualizar
-            var existing = _repository.GetByChNFe(infoProduto.ChNFe);
+            var existing = repository.GetByChNFe(infoProduto.ChNFe);
             if (existing == null)
             {
                 throw new KeyNotFoundException($"Produto com ChNFe {infoProduto.ChNFe} não encontrado para atualização.");
             }
 
-            _repository.Update(infoProduto);
+            repository.Update(infoProduto);
         }
 
-        public void RemoverInfoProduto(string chNFe)
+        public void RemoverInfoProduto(string chNFe, IInfProtRepository repository)
         {
-            // Lógica de Negócio: Verificação de dependências antes de remover
-            _repository.Delete(chNFe);
+            repository.Delete(chNFe);
         }
     }
 }
+

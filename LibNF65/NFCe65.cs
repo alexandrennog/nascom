@@ -1,10 +1,14 @@
-﻿using LibNF65.Modelo;
+﻿using LibNF65.Interfaces;
+using LibNF65.Modelo;
+using LibNF65.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Serialization;
 using Unimake.Business.DFe;
@@ -13,11 +17,11 @@ using Unimake.Business.DFe.Servicos;
 using Unimake.Business.DFe.Servicos.NFCe;
 using Unimake.Business.DFe.Utility;
 using Unimake.Business.DFe.Xml.NFe;
+using Unimake.Business.Security;
 using Unimake.Security.Platform;
+using CertificadoDigital = Unimake.Business.Security.CertificadoDigital;
 using ServicoNFCe = Unimake.Business.DFe.Servicos.NFCe;
 using XmlNFe = Unimake.Business.DFe.Xml.NFe;
-using Unimake.Business.Security;
-using CertificadoDigital = Unimake.Business.Security.CertificadoDigital;
 
 namespace LibNF65
 {
@@ -140,14 +144,27 @@ namespace LibNF65
 
             //var nfce = new NFCeModel();
 
-            NFCeModel nfce = NFCeXMLParser.ParseXML("NFs\\" + chaveAcesso + ".xml");
-            nfce.QRCodeUrl = NasNFCe.GerarQRCode(chaveAcesso);   // XMLParser. GerarUrlQRCode(nfce, configuracao);
+            Imprimir();
 
-            // Imprimir
-            ImpressaoNFCeSP impressao = new ImpressaoNFCeSP(nfce);
+            IInfProtRepository repository = new InfProtRepository();
 
-            // Para visualizar antes de imprimir
-            impressao.Imprimir(null);  // VisualizarImpressao();
+            var infoProdutoService = new InfoProdutoService();
+            infoProdutoService.AdicionarInfoProduto(new InfoProduto
+            {
+                ChNFe = chaveAcesso,
+                VerAplic = autorizacao.Result.ProtNFe.InfProt.VerAplic,
+                DhRecbto = autorizacao.Result.ProtNFe.InfProt.DhRecbto.DateTime,
+                NProt = autorizacao.Result.ProtNFe.InfProt.NProt,
+                DigVal = autorizacao.Result.ProtNFe.InfProt.DigVal,
+                CStat = autorizacao.Result.ProtNFe.InfProt.CStat,
+                XMotivo = autorizacao.Result.ProtNFe.InfProt.XMotivo,
+                CMsg = autorizacao.Result.ProtNFe.InfProt.CMsg?.ToString(),
+                XMsg = autorizacao.Result.ProtNFe.InfProt.XMsg
+            }, repository);
+
+
+
+            Imprimir(chaveAcesso);
 
             // Para imprimir direto
             // impressao.Imprimir("Nome_da_Impressora");
@@ -191,6 +208,18 @@ namespace LibNF65
 
             return chaveAcesso;
 
+        }
+
+        public static void Imprimir(string chaveAcesso)
+        {
+            NFCeModel nfce = NFCeXMLParser.ParseXML("NFs\\" + chaveAcesso + ".xml");
+            nfce.QRCodeUrl = NasNFCe.GerarQRCode(chaveAcesso);   // XMLParser. GerarUrlQRCode(nfce, configuracao);
+
+            // Imprimir
+            ImpressaoNFCeSP impressao = new ImpressaoNFCeSP(nfce);
+
+            // Para visualizar antes de imprimir
+            impressao.Imprimir(null);  // VisualizarImpressao();
         }
 
         private static X509Certificate2 CarregarCertificado(string caminhoCertificado, string senhaCertificado, CertificadoDigital certificado)
@@ -246,27 +275,6 @@ namespace LibNF65
             consultaProtocolo.Executar();
 
             return consultaProtocolo.Result.CStat + " - " + consultaProtocolo.Result.XMotivo;
-        }
-
-        public static void Imprimir(string doc)
-        {
-            // Carregar o XML da NFC-e processada
-            string caminhoXml = @"C:\Users\jjail\Projetos\NFCeProject\bin\Debug\net8.0\35251036650283000164650011234765251184915530-procnfe.xml";
-
-            var xmlDoc = new XmlDocument();
-            using (FileStream fileStream = new FileStream(caminhoXml, FileMode.Open, FileAccess.Read))
-            {
-                xmlDoc.Load(fileStream);
-            }
-
-            var nfeProc = new NfeProc();
-            nfeProc = nfeProc.LerXML<NfeProc>(xmlDoc);
-
-            // Criar instância da impressão
-            ImpressaoNFCe impressao = new ImpressaoNFCe(nfeProc);
-
-            // Imprimir (deixe vazio para usar impressora padrão ou especifique o nome)
-            impressao.Imprimir("Nome_da_Impressora_Termica");
         }
 
         private static DarumaFrameworkSat DeserializarXml(string xmlContent)

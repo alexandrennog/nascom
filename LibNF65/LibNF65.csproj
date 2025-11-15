@@ -154,6 +154,7 @@
     <Compile Include="NFCeImpressaoSP.cs" />
     <Compile Include="NFRepository.cs" />
     <Compile Include="Services\InfoProdutoService.cs" />
+    <Compile Include="Services\ServiceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

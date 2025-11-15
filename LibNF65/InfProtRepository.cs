@@ -19,7 +19,7 @@ namespace LibNF65
 
         public InfProtRepository()
         {
-            _connectionString = ConfigurationManager.AppSettings["MySqlConnection"];
+            _connectionString = ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString;
             if (string.IsNullOrEmpty(_connectionString))
             {
                 throw new InvalidOperationException("A string de conexão 'MySqlConnection' não foi encontrada no App.config.");
@@ -34,7 +34,7 @@ namespace LibNF65
         public void Add(InfoProduto infoProduto)
         {
             const string sql = @"
-                INSERT INTO InfoProduto (VerAplic, ChNFe, DhRecbto, NProt, DigVal, CStat, XMotivo, CMsg, XMsg)
+                INSERT INTO infprot (VerAplic, ChNFe, DhRecbto, NProt, DigVal, CStat, XMotivo, CMsg, XMsg)
                 VALUES (@VerAplic, @ChNFe, @DhRecbto, @NProt, @DigVal, @CStat, @XMotivo, @CMsg, @XMsg)";
 
             using (IDbConnection dbConnection = Connection)
@@ -46,7 +46,7 @@ namespace LibNF65
 
         public InfoProduto GetByChNFe(string chNFe)
         {
-            const string sql = "SELECT * FROM InfoProduto WHERE ChNFe = @ChNFe";
+            const string sql = "SELECT * FROM infprot WHERE ChNFe = @ChNFe";
 
             using (IDbConnection dbConnection = Connection)
             {
@@ -57,7 +57,7 @@ namespace LibNF65
 
         public IEnumerable<InfoProduto> GetAll()
         {
-            const string sql = "SELECT * FROM InfoProduto";
+            const string sql = "SELECT * FROM infprot";
 
             using (IDbConnection dbConnection = Connection)
             {
@@ -69,7 +69,7 @@ namespace LibNF65
         public void Update(InfoProduto infoProduto)
         {
             const string sql = @"
-                UPDATE InfoProduto SET
+                UPDATE infprot SET
                     VerAplic = @VerAplic,
                     DhRecbto = @DhRecbto,
                     NProt = @NProt,
@@ -89,7 +89,7 @@ namespace LibNF65
 
         public void Delete(string chNFe)
         {
-            const string sql = "DELETE FROM InfoProduto WHERE ChNFe = @ChNFe";
+            const string sql = "DELETE FROM infprot WHERE ChNFe = @ChNFe";
 
             using (IDbConnection dbConnection = Connection)
             {
