@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Serialization;
 using Unimake.Business.DFe;
@@ -206,7 +207,11 @@ namespace LibNF65
             return chaveAcesso;
 
         }
-
+        public static void CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)
+        {
+            var objNFCe = new NasNFCe();
+            objNFCe.EventoCancelamentoNFCe(chave, x509Cert, nProt);
+        }
         public static void Imprimir(string chaveAcesso)
         {
             NFCeModel nfce = NFCeXMLParser.ParseXML("NFs\\" + chaveAcesso + ".xml");

@@ -50,7 +50,7 @@ namespace LibNF65
                         {
                             COrgao = UFBrasil.SP,
                             ChNFe = chave,
-                            CNPJ = "36650283000164",
+                            CNPJ = ConfigurationManager.AppSettings["CNPJ"],
                             DhEvento = DateTime.Now,
                             TpEvento = TipoEventoNFe.Cancelamento,
                             NSeqEvento = 1,
@@ -86,6 +86,8 @@ namespace LibNF65
             }
         }
 
+
+        //USO
         public static string GerarQRCode(string chave)
         {
             var dadosNFCe = new DadosQrCodeNFCe
@@ -128,6 +130,8 @@ namespace LibNF65
         // Assuming that the correct configuration class is available in the Unimake.Unidanfe.Configurations namespace
         // and that the property name is different, you need to replace the incorrect usage with the correct one.
 
+
+        //USO
         public void ImprimirDANFe(string chave)
         {
             string pastaBase = @"C:\Users\jjail\Projetos\nascom\nascomercio\bin\Debug\";
@@ -189,23 +193,7 @@ namespace LibNF65
             }
         }
 
-        public string ImprimirPDF(string chaveNFCe)
-        {
 
-            //var impressaoService = new ImpressaoCupomConsulta();
-
-            //if (chaveNFCe.Length == 44)
-            //{
-            //    impressaoService.ConsultarEImprimirCupom(chaveNFCe);
-            //}
-            //else
-            //{
-
-            //}
-
-            return "";
-
-        }
 
         public string ConsultarCupom(Configuracao configuracao, string chaveAcesso)
         {
@@ -249,6 +237,8 @@ namespace LibNF65
 
             return retornoWs;
         }
+        
+        //USO
         public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert)
         {
 
@@ -508,6 +498,7 @@ namespace LibNF65
             };
         }
 
+        //USO
         private string GerarUrlQrCodeNFCe(string chaveAcesso, int tpAmb, string versaoQrCode)
         {
             // Formato 1: Padrão nacional (recomendado)
@@ -864,6 +855,7 @@ namespace LibNF65
             return $"{urlBase}chNFe={chaveAcesso}&nVersao={versaoQrCode}&tpAmb={ambiente}&cIdToken={cIdToken}&cHashQRCode={CalcularHashQrCode(chaveAcesso, versaoQrCode, ambiente, cIdToken, csc)}";
         }
 
+        //USO
         private string CalcularHashQrCode(string chaveAcesso, string versaoQrCode, int ambiente, string cIdToken, string csc)
         {
             // Concatenar os dados para o hash

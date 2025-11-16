@@ -7,6 +7,8 @@ using System.Xml;
 
 namespace LibNF65
 {
+
+    //USO
     public class NFCeModel
     {
         public string ChaveAcesso { get; set; }
@@ -67,6 +69,8 @@ namespace LibNF65
         public string InformacoesAdicionais { get; set; }
     }
 
+
+    //USO
     public class ImpressaoNFCeSP
     {
         private NFCeModel nfce;
@@ -371,6 +375,7 @@ namespace LibNF65
     }
 
     // Parser XML para NFC-e
+    //USO
     public class NFCeXMLParser
     {
         public static NFCeModel ParseXML(string caminhoXml)

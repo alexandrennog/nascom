@@ -16,8 +16,9 @@ Imports ncRegras.nsProduto
 Imports Unimake.Business.DFe.Xml.SNCM
 Imports Unimake.Business.Security
 
-Public Class fCaixaConsulta
 
+Public Class fCaixaConsulta
+    Private certificadoCarregado As New X509Certificate2
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Fechar()
     End Sub
@@ -53,9 +54,22 @@ Public Class fCaixaConsulta
             btnExcluir.Visible = True
         End If
 
+        Dim certificado As New CertificadoDigital()
+
+        Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
+        Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
+
+        certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
 
     End Sub
-
+    Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
+                                                       senhaCertificado As String,
+                                                       certificado As CertificadoDigital) As Task(Of X509Certificate2)
+        ' Executa o carregamento do certificado em uma thread separada (sem travar a UI)
+        Return Await Task.Run(Function()
+                                  Return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado)
+                              End Function)
+    End Function
     Private Sub CarregarComboCondicao()
         Dim regras As ncRegras.nsCondicao.rCondicao
         Dim colecao As ncDados.nsCondicao.ColecaoCondicao
@@ -87,7 +101,35 @@ Public Class fCaixaConsulta
 
         End Try
     End Sub
+    Private Sub CancelarNFeVenda()
+        Dim controle As Integer
+        Dim vendas As ncDados.nsVenda.ColecaoVenda
+        Dim dadosVenda As ncDados.nsVenda.dVenda
+        Dim objVenda As ncRegras.nsVenda.rVenda
+        Dim chave As String
+        dadosVenda = New ncDados.nsVenda.dVenda()
 
+        Try
+
+            If Integer.TryParse(Me.txtControle.Text, controle) Then
+                dtgProdutos.Rows.Clear()
+                dadosVenda.controle = controle
+                objVenda = New ncRegras.nsVenda.rVenda()
+                vendas = objVenda.Consultar(dadosVenda)
+                If vendas.Count = 0 Then
+                    MessageBox.Show("Nenhuma venda encontrada para o controle informado.")
+                    Exit Sub
+                End If
+                chave = vendas.Item(0).Chave.ToString()
+
+                NFCe65.CancelarNFe(chave, X509Certificate2 x509Cert, vendas.Item(0).)
+
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Private Sub ExcluirVenda()
         Dim objVenda As New ncRegras.nsVenda.rVenda
         Dim objVendaProduto As New ncRegras.nsVenda.rVendaProduto
@@ -127,6 +169,8 @@ Public Class fCaixaConsulta
 
                             objVendaProduto.ExcluirControle(dadosVenda.controle)
                             objVenda.Excluir(dadosVenda)
+
+
                             If dtgProdutos.Rows.Count > 0 Then
                                 MessageBox.Show("Venda excluída: " & txtControle.Text)
                                 GravarLog(mdiPrincipal.gUsuario.usuario, "Venda excluída: " & txtControle.Text & " - Valor:" & lblTotal.Text)
