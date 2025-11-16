@@ -46,7 +46,6 @@ Public Class fCaixaConsulta
             txtControle.TabStop = False
         End If
 
-
         If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
             btnExcluirUltima.Visible = True
             btnExcluir.Visible = True

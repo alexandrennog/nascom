@@ -161,7 +161,6 @@ namespace LibNF65
                 XMsg = autorizacao.Result.ProtNFe.InfProt.XMsg
             }, repository);
 
-
             Imprimir(chaveAcesso);
 
             // Para imprimir direto

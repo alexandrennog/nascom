@@ -260,15 +260,6 @@ namespace LibNF65
 
             };
 
-            //X509Certificate2 x509Cert = certificado.CarregarCertificadoDigitalA1(configuracao.CertificadoArquivo, configuracao.CertificadoSenha);
-
-            // 3. Executando a consulta
-            //var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
-            //consultaCadastro.Executar();
-
-            //// 4. Interpretando o resultado
-            //var resultado = consultaCadastro.Result; // Retorno do objeto
-            //var retornoWs = consultaCadastro.RetornoWSString; // XML raw
 
             var endereco = retConsCad.InfCons.InfCad.FirstOrDefault().Ender;
 
@@ -284,12 +275,10 @@ namespace LibNF65
 
             var nfe = new XmlNFe.NFe();
             nfe.InfNFe = new List<XmlNFe.InfNFe>();
+            
+            double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor, 2, MidpointRounding.AwayFromZero));
+            double valorTotalTributos = dVendaProdutos.Sum(x => Math.Round((double)x.valorTributacao, 2, MidpointRounding.AwayFromZero));
 
-            double valorTotal = dVendaProdutos.Sum(x => double.Parse(x.valor.ToString()));
-            double valorTotalTributos = dVendaProdutos.Sum(x => double.Parse(x.valorTributacao.ToString()));
-
-            foreach (var produto in dVendaProdutos)
-            {
 
                 var infe = new XmlNFe.InfNFe
                 {
@@ -359,58 +348,9 @@ namespace LibNF65
                         },
                         Email = ""
                     },
-                    Det = new List<XmlNFe.Det> {
-                                    new XmlNFe.Det
-                                    {
 
-                                        NItem = produto.itemId,
-                                        Prod = new XmlNFe.Prod
-                                        {
-                                            CProd = produto.produtoId.ToString(),
-                                            CEAN = "SEM GTIN",
-                                            XProd = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? produto.descricao : "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\r\n",
-                                            NCM = "84714900", 
-                                            CFOP = "5101",
-                                            UCom = "LU",
-                                            QCom = produto.quantidade,
-                                            VUnCom = decimal.Parse(produto.valor.ToString()),
-                                            VProd = double.Parse(produto.valor.ToString()),
-                                            CEANTrib = "SEM GTIN",
-                                            UTrib = "LU",
-                                            QTrib = produto.quantidade,
-                                            VUnTrib = decimal.Parse(produto.valor.ToString()),
-                                            IndTot = SimNao.Sim,
-                                            XPed = "300474"
-                                        },
-                                        Imposto = new XmlNFe.Imposto
-                                        {
-                                            VTotTrib = double.Parse(produto.valorTributacao.ToString()),
-                                            ICMS = new XmlNFe.ICMS
-                                            {
-                                                ICMSSN102 = new XmlNFe.ICMSSN102
-                                                {
-                                                    Orig = OrigemMercadoria.Nacional,
-                                                    CSOSN = "102"
-                                                },
-                                            },
-                                            PIS = new XmlNFe.PIS
-                                            {
-                                                PISNT = new XmlNFe.PISNT
-                                                {
-                                                    CST = configImposto.Imposto.PIS.PISNT.CST ?? "00"
-                                                },
-                                            },
-                                            COFINS = new XmlNFe.COFINS
-                                            {
-                                                COFINSNT = new XmlNFe.COFINSNT
-                                                {
-                                                    CST = configImposto.Imposto.COFINS.COFINSNT.CST ?? "00"
-                                                },
-                                               
-                                            }
-                                        }
-                                    }
-                                },
+                    
+                    Det = addProdutos(configImposto, dVendaProdutos),
 
                     Total = new XmlNFe.Total
                     {
@@ -461,7 +401,7 @@ namespace LibNF65
                     },
                     InfAdic = new XmlNFe.InfAdic
                     {
-                        InfCpl =  ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                        InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
                     },
                     InfRespTec = new XmlNFe.InfRespTec
                     {
@@ -475,11 +415,75 @@ namespace LibNF65
                 //nfe.InfNFeSupl = GerarQrCodeCorreto(infe.Chave);
 
                 nfe.InfNFe.Add(infe);
-            }
+          
 
 
 
             return nfe;
+
+        }
+
+        private static List<Det> addProdutos(DarumaFrameworkSat configImposto, List<ProdutoVendido> dVendaProdutos)
+        {
+
+            var lista = new List<Det>();
+
+            foreach (var produto in dVendaProdutos)
+            {
+
+                lista.Add(new XmlNFe.Det
+                {
+
+                    NItem = produto.itemId,
+                    Prod = new XmlNFe.Prod
+                    {
+                        CProd = produto.produtoId.ToString(),
+                        CEAN = "SEM GTIN",
+                        XProd = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? produto.descricao : "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\r\n",
+                        NCM = "84714900",
+                        CFOP = "5101",
+                        UCom = "LU",
+                        QCom = produto.quantidade,
+                        VUnCom = decimal.Parse(produto.valor.ToString()),
+                        VProd = double.Parse(produto.valor.ToString()),
+                        CEANTrib = "SEM GTIN",
+                        UTrib = "LU",
+                        QTrib = produto.quantidade,
+                        VUnTrib = decimal.Parse(produto.valor.ToString()),
+                        IndTot = SimNao.Sim,
+                        XPed = produto.controle.ToString()  
+                    },
+                    Imposto = new XmlNFe.Imposto
+                    {
+                        VTotTrib = Math.Round((double)produto.valorTributacao, 4, MidpointRounding.AwayFromZero),
+                        ICMS = new XmlNFe.ICMS
+                        {
+                            ICMSSN102 = new XmlNFe.ICMSSN102
+                            {
+                                Orig = OrigemMercadoria.Nacional,
+                                CSOSN = "102"
+                            },
+                        },
+                        PIS = new XmlNFe.PIS
+                        {
+                            PISNT = new XmlNFe.PISNT
+                            {
+                                CST = configImposto.Imposto.PIS.PISNT.CST ?? "00"
+                            },
+                        },
+                        COFINS = new XmlNFe.COFINS
+                        {
+                            COFINSNT = new XmlNFe.COFINSNT
+                            {
+                                CST = configImposto.Imposto.COFINS.COFINSNT.CST ?? "00"
+                            },
+
+                        }
+                    }
+                });
+            }
+            return lista;
+
 
         }
 
