@@ -46,9 +46,14 @@ Public Class fCaixaConsulta
             txtControle.TabStop = False
         End If
 
-        If System.Configuration.ConfigurationManager.AppSettings("FISCAL") <> "NAO" Then
+
+        If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
+            btnExcluirUltima.Visible = True
+            btnExcluir.Visible = True
+        ElseIf System.Configuration.ConfigurationManager.AppSettings("FISCAL") <> "NAO" Then
             btnExcluirUltima.Visible = True
             btnExcluir.Visible = False
+
         Else
             btnExcluirUltima.Visible = False
             btnExcluir.Visible = True
@@ -59,9 +64,18 @@ Public Class fCaixaConsulta
         Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
         Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
 
-        certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
+        CarregarComboCondicaoAsync()
 
     End Sub
+    Private Async Function CarregarComboCondicaoAsync() As Task
+
+        Dim certificado As New CertificadoDigital()
+
+        Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
+        Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
+
+        certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
+    End Function
     Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
                                                        senhaCertificado As String,
                                                        certificado As CertificadoDigital) As Task(Of X509Certificate2)
@@ -104,8 +118,8 @@ Public Class fCaixaConsulta
     Private Sub CancelarNFeVenda()
         Dim controle As Integer
         Dim vendas As ncDados.nsVenda.ColecaoVenda
-        Dim dadosVenda As ncDados.nsVenda.dVenda
-        Dim objVenda As ncRegras.nsVenda.rVenda
+        Dim dadosVenda As New ncDados.nsVenda.dVenda
+        Dim objVenda As New ncRegras.nsVenda.rVenda
         Dim chave As String
         dadosVenda = New ncDados.nsVenda.dVenda()
 
@@ -122,12 +136,12 @@ Public Class fCaixaConsulta
                 End If
                 chave = vendas.Item(0).Chave.ToString()
 
-                NFCe65.CancelarNFe(chave, X509Certificate2 x509Cert, vendas.Item(0).)
+                NFCe65.CancelarNFe(chave, certificadoCarregado, "")
 
             End If
 
         Catch ex As Exception
-
+            MessageBox.Show($"Erro ao excluir NFe , {ex.Message}")
         End Try
     End Sub
     Private Sub ExcluirVenda()
@@ -167,6 +181,7 @@ Public Class fCaixaConsulta
                             ' exclui venda e seus produtos
                             dadosVenda.controle = txtControle.Text
 
+                            CancelarNFeVenda()
                             objVendaProduto.ExcluirControle(dadosVenda.controle)
                             objVenda.Excluir(dadosVenda)
 

@@ -209,8 +209,14 @@ namespace LibNF65
         }
         public static void CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)
         {
+
+            IInfProtRepository repository = new InfProtRepository();
+
+            var infoProdutoService = new InfoProdutoService();
+            var ret = infoProdutoService.BuscarPorChNFe(chave, repository);
+
             var objNFCe = new NasNFCe();
-            objNFCe.EventoCancelamentoNFCe(chave, x509Cert, nProt);
+            objNFCe.EventoCancelamentoNFCe(chave, x509Cert, ret.NProt);
         }
         public static void Imprimir(string chaveAcesso)
         {
