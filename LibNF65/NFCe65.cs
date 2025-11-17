@@ -39,7 +39,7 @@ namespace LibNF65
                 TipoDFe = TipoDFe.NFCe,
                 CertificadoArquivo = ConfigurationManager.AppSettings["CertificadoArquivo"],
                 CertificadoSenha = ConfigurationManager.AppSettings["CertificadoSenha"],
-                TipoAmbiente = TipoAmbiente.Homologacao,
+                TipoAmbiente = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
                 UsaCertificadoDigital = true,
                 CSC = ConfigurationManager.AppSettings["CSC"],
                 CSCIDToken = int.Parse(ConfigurationManager.AppSettings["CSCIDToken"]),
@@ -107,7 +107,6 @@ namespace LibNF65
 
             var prods = objNFCe.RecuperarProdutos(produtos, nNF, configuracao, configImposto, resultado, x509Cert, meiosPagamentos, cpf);
 
-
             var xml = new XmlNFe.EnviNFe
             {
                 Versao = "4.00",
@@ -120,7 +119,12 @@ namespace LibNF65
 
             var xmlString = XMLUtility.Serializar<XmlNFe.NFe>(xml.NFe.First());
 
-            System.IO.Directory.Exists("NFs");
+            if(!Directory.Exists("NFs"))
+            {
+                Directory.CreateDirectory("NFs");
+                Directory.CreateDirectory("NFs\\OK");
+                Directory.CreateDirectory("NFs\\NOK");
+            }          
 
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlString.InnerXml);
@@ -164,48 +168,30 @@ namespace LibNF65
 
             Imprimir(chaveAcesso);
 
-            // Para imprimir direto
-            // impressao.Imprimir("Nome_da_Impressora");
-
-            //objNFCe.EventoCancelamentoNFCe(chaveAcesso, x509Cert);
-
-            ///////////objNFCe.ImprimirDANFe(chaveAcesso);
-
-            ///////////var retConsulta = objNFCe.ConsultarCupom(configuracao, chaveAcesso);
-
-
             if (autorizacao.Result.ProtNFe != null)
             {
                 switch (autorizacao.Result.ProtNFe.InfProt.CStat)
                 {
                     case 100: //Autorizado o uso da NFe
-                    case 110: //Uso Denegado
-                    case 150: //Autorizado o uso da NF-e, autorização fora de prazo
-                    case 205: //NF-e está denegada na base de dados da SEFAZ [nRec:999999999999999]
-                    case 301: //Uso Denegado: Irregularidade fiscal do emitente
-                    case 302: //Uso Denegado: Irregularidade fiscal do destinatário
-                    case 303: //Uso Denegado: Destinatário não habilitado a operar na UF
-                        //autorizacao.GravarXmlDistribuicao(@"c:\testenfe\");
-                        //var docProcNFe = autorizacao.NfeProcResult.GerarXML(); //Gerar o Objeto para pegar a string e gravar em banco de dados
-
-                        //Como é assíncrono, tenho que prever a possibilidade de ter mais de uma NFe no lote, então teremos vários XMLs com protocolos.
-                        //Se no seu caso vc enviar sempre uma única nota, só vai passar uma única vez no foreach
-                        foreach (var item in autorizacao.NfeProcResults.Values)
-                        {
-                            var docProcNFe = item.GerarXML();
-                            var stringXml = docProcNFe.OuterXml;
-                        }
-
+                        MoverArquivo(chaveAcesso, true);
                         break;
-
                     default:
-                        //NF Rejeitada
+                        MoverArquivo(chaveAcesso, false);
                         break;
                 }
             }
-
             return chaveAcesso;
 
+        }
+
+        private static void MoverArquivo(string chaveAcesso, bool sucesso)
+        {
+            string sourcePath = "NFs\\" + chaveAcesso + ".xml";
+            string destinationPath = sucesso ? "NFs\\OK\\" + chaveAcesso + ".xml" : "NFs\\NOK\\" + chaveAcesso + ".xml";
+            if (File.Exists(sourcePath))
+            {
+                File.Move(sourcePath, destinationPath);
+            }
         }
         public static void CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)
         {
@@ -266,7 +252,7 @@ namespace LibNF65
             var xml = new XmlNFe.ConsSitNFe
             {
                 Versao = "4.00",
-                TpAmb = TipoAmbiente.Homologacao,
+                TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
                 ChNFe = chaveAcesso
             };
 
