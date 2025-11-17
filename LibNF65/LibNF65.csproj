@@ -149,7 +149,9 @@
     <Compile Include="Interfaces\NFCe.cs" />
     <Compile Include="Modelo\DarumaFrameworkSat.cs" />
     <Compile Include="Modelo\InfoProduto.cs" />
+    <Compile Include="Modelo\MeioPagamentoNascom.cs" />
     <Compile Include="Modelo\ProdutoVendido.cs" />
+    <Compile Include="Modelo\Venda.cs" />
     <Compile Include="NFCe65.cs" />
     <Compile Include="NFCeImpressaoSP.cs" />
     <Compile Include="NFRepository.cs" />

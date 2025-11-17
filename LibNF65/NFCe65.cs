@@ -31,7 +31,7 @@ namespace LibNF65
         X509Certificate2 x509Cert;
         static string chaveAcesso = string.Empty;
 
-        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert)
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf)
         {
 
             var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
@@ -105,7 +105,7 @@ namespace LibNF65
 
             var configImposto = RecuperarConfiguracao();
 
-            var prods = objNFCe.RecuperarProdutos(produtos, nNF, configuracao, configImposto, resultado, x509Cert);
+            var prods = objNFCe.RecuperarProdutos(produtos, nNF, configuracao, configImposto, resultado, x509Cert, meiosPagamentos, cpf);
 
 
             var xml = new XmlNFe.EnviNFe
@@ -120,6 +120,7 @@ namespace LibNF65
 
             var xmlString = XMLUtility.Serializar<XmlNFe.NFe>(xml.NFe.First());
 
+            System.IO.Directory.Exists("NFs");
 
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlString.InnerXml);

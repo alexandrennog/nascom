@@ -10,6 +10,7 @@ Imports System.Threading.Tasks
 Imports CLPix.Services
 Imports iTextSharp.text
 Imports LibNF65
+Imports LibNF65.NFCeModel
 Imports ncComum.DFW
 Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
@@ -25,8 +26,9 @@ Imports ncRegras
 Imports ncRegras.nsCliente
 Imports ncRegras.nsParametro
 Imports ncRegras.nsProduto
+Imports Unimake.Business.DFe.Servicos
 Imports Unimake.Business.Security
-
+Imports LibNF65.Modelo
 
 
 Public Class fPagamento
@@ -958,8 +960,130 @@ Public Class fPagamento
                     ' SAT - Cupom Eletrônico
                     Try
 
+                        'se não informou cpf pergunta
+                        If String.IsNullOrEmpty(Str_CPF) Then
+                            Str_CPF = InputBox("Deseja informar o CPF/CNPJ ?").Trim()
+                            If Str_CPF.Length > 11 Then
+                                Do While Not ValidaCnpj(Str_CPF)
+                                    Str_CPF = InputBox("CNPJ Incorreto, informe novamente ?").Trim()
+                                Loop
+                            Else
+                                Do While Not ValidaCpf(Str_CPF)
+                                    Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
+                                Loop
+                            End If
+                        End If
+
+                        Dim meiosPagamentos As New List(Of MeioPagamentoNascom)
+
+                        ' Meios de pagamento
+                        If CDec(txtDinheiro.Text) > 0.001 Then
+                            '01 - Dinheiro
+                            Dim dinheiro As String = txtDinheiro.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "01"
+                            pagamentoMeio.DescricaoPagamento = "Dinheiro"
+                            pagamentoMeio.Valor = dinheiro
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtCheque.Text) > 0.001 Then
+                            '02 - Cheque
+                            Dim cheque As String = txtCheque.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "02"
+                            pagamentoMeio.DescricaoPagamento = "Cheque"
+                            pagamentoMeio.Valor = cheque
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtChequePre.Text) > 0.001 Then
+                            '02 - Cheque
+
+                            Dim chequePre As String = txtChequePre.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "02"
+                            pagamentoMeio.DescricaoPagamento = "Cheque"
+                            pagamentoMeio.Valor = chequePre
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtCartaoDebito.Text) > 0.001 Then
+                            '04 - Cartão de Débito
+
+                            Dim cartaoDebito As String = txtCartaoDebito.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "04"
+                            pagamentoMeio.DescricaoPagamento = "Cartão de Débito"
+                            pagamentoMeio.Valor = cartaoDebito
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtCartaoCredito.Text) > 0.001 Then
+                            '03 - Cartão de Crédito
+
+                            Dim cartaoCredito As String = txtCartaoCredito.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "03"
+                            pagamentoMeio.DescricaoPagamento = "Cartão de Crédito"
+                            pagamentoMeio.Valor = cartaoCredito
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtCrediario.Text) > 0.001 Then
+                            '05 - Crédito Loja
+
+                            Dim crediarioPagamento As String = txtCrediario.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "05"
+                            pagamentoMeio.DescricaoPagamento = "Crédito Loja"
+                            pagamentoMeio.Valor = crediarioPagamento
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtPix.Text) > 0.001 Then
+                            '06 - Pix
+
+                            Dim pixPagamento As String = txtPix.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "06"
+                            pagamentoMeio.DescricaoPagamento = "PIX"
+                            pagamentoMeio.Valor = pixPagamento
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtTroca.Text) > 0.001 Then
+                            '99 - Outros (Troca)
+
+                            Dim troca As String = txtTroca.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "99"
+                            pagamentoMeio.DescricaoPagamento = "Troca"
+                            pagamentoMeio.Valor = troca
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtVale.Text) > 0.001 Then
+                            '99 - Outros (Vale)
+
+                            Dim vale As String = txtVale.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "99"
+                            pagamentoMeio.DescricaoPagamento = "Vale"
+                            pagamentoMeio.Valor = vale
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtDefeitos.Text) > 0.001 Then
+                            '99 - Outros (Defeitos)
+
+                            Dim defeito As String = txtDefeitos.Text.Replace(".", "")
+                            Dim pagamento As New MeioPagamentoNascom()
+                            pagamento.CodigoPagamento = "99"
+                            pagamento.DescricaoPagamento = "Defeitos"
+                            pagamento.Valor = defeito
+                            meiosPagamentos.Add(pagamento)
+
+                        End If
+
                         Dim lista = ConverterLista(dadosVendaProdutos.ToList)
-                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado)
+                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF)
                         regraVenda.Alterar(controle.ToString(), chave)
 
                     Catch ex As Exception

@@ -14,11 +14,14 @@ using Unimake.Business.DFe.Security;
 using Unimake.Business.DFe.Servicos;
 using Unimake.Business.DFe.Servicos.NFCe;
 using Unimake.Business.DFe.Utility;
+using Unimake.Business.DFe.Xml.ESocial;
+using Unimake.Business.DFe.Xml.NF3e;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Security.Platform;
 using Unimake.Unidanfe.Configurations;
 using Configuracao = Unimake.Business.DFe.Servicos.Configuracao;
 using DANFe = Unimake.Unidanfe;
+using Det = Unimake.Business.DFe.Xml.NFe.Det;
 using ServicoNFCe = Unimake.Business.DFe.Servicos.NFCe;
 using XmlNFe = Unimake.Business.DFe.Xml.NFe;
 
@@ -239,7 +242,7 @@ namespace LibNF65
         }
         
         //USO
-        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert)
+        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf)
         {
 
             var infCons = new InfCons
@@ -275,152 +278,158 @@ namespace LibNF65
 
             var nfe = new XmlNFe.NFe();
             nfe.InfNFe = new List<XmlNFe.InfNFe>();
-            
+
             double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor, 2, MidpointRounding.AwayFromZero));
             double valorTotalTributos = dVendaProdutos.Sum(x => Math.Round((double)x.valorTributacao, 2, MidpointRounding.AwayFromZero));
 
 
-                var infe = new XmlNFe.InfNFe
+            var infe = new XmlNFe.InfNFe
+            {
+                //Id = "NFe" + chaveAcesso,
+                Versao = "4.00",
+                Ide = new XmlNFe.Ide
                 {
-                    //Id = "NFe" + chaveAcesso,
-                    Versao = "4.00",
-                    Ide = new XmlNFe.Ide
-                    {
-                        NNF = XMLUtility.GerarCodigoNumerico(nNF),
-                        CUF = UFBrasil.SP,
-                        NatOp = "VENDA PRODUC.DO ESTABELEC",
-                        Mod = ModeloDFe.NFCe,
-                        Serie = 1,
-                        DhEmi = DateTime.Now,
-                        DhSaiEnt = DateTime.Now,
-                        TpNF = TipoOperacao.Saida,
-                        IdDest = DestinoOperacao.OperacaoInterna,
-                        CMunFG = endereco.CMun,
-                        TpImp = FormatoImpressaoDANFE.NFCeMensagemEletronica,
-                        TpEmis = TipoEmissao.Normal,
-                        TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
-                        FinNFe = FinalidadeNFe.Normal,
-                        IndFinal = SimNao.Sim,
-                        IndPres = IndicadorPresenca.OperacaoPresencial,
-                        ProcEmi = ProcessoEmissao.AplicativoContribuinte,
-                        VerProc = "TESTE 1.00",
-                    },
+                    NNF = XMLUtility.GerarCodigoNumerico(nNF),
+                    CUF = UFBrasil.SP,
+                    NatOp = "VENDA PRODUC.DO ESTABELEC",
+                    Mod = ModeloDFe.NFCe,
+                    Serie = 1,
+                    DhEmi = DateTime.Now,
+                    DhSaiEnt = DateTime.Now,
+                    TpNF = TipoOperacao.Saida,
+                    IdDest = DestinoOperacao.OperacaoInterna,
+                    CMunFG = endereco.CMun,
+                    TpImp = FormatoImpressaoDANFE.NFCeMensagemEletronica,
+                    TpEmis = TipoEmissao.Normal,
+                    TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
+                    FinNFe = FinalidadeNFe.Normal,
+                    IndFinal = SimNao.Sim,
+                    IndPres = IndicadorPresenca.OperacaoPresencial,
+                    ProcEmi = ProcessoEmissao.AplicativoContribuinte,
+                    VerProc = "TESTE 1.00",
+                },
 
-                    Emit = new XmlNFe.Emit
+                Emit = new XmlNFe.Emit
+                {
+                    CNPJ = retConsCad.InfCons.CNPJ,
+                    XNome = retConsCad.InfCons.InfCad.FirstOrDefault().XNome,
+                    XFant = retConsCad.InfCons.InfCad.FirstOrDefault().XFant,
+                    EnderEmit = new XmlNFe.EnderEmit
                     {
-                        CNPJ = retConsCad.InfCons.CNPJ,
-                        XNome = retConsCad.InfCons.InfCad.FirstOrDefault().XNome,
-                        XFant = retConsCad.InfCons.InfCad.FirstOrDefault().XFant,
-                        EnderEmit = new XmlNFe.EnderEmit
-                        {
-                            XLgr = endereco.XLgr,
-                            Nro = endereco.Nro,
-                            XBairro = endereco.XBairro,
-                            CMun = endereco.CMun,
-                            XMun = endereco.XMun,
-                            UF = retConsCad.InfCons.UF,
-                            CEP = endereco.CEP,
-                            CPais = 1058,
-                            XPais = "BRASIL"
-                        },
-                        IE = retConsCad.InfCons.InfCad.FirstOrDefault().IE,
-                        IM = configImposto.Emit.IM,
-                        CNAE = retConsCad.InfCons.InfCad.FirstOrDefault().CNAE,
-                        CRT = CRT.SimplesNacional
+                        XLgr = endereco.XLgr,
+                        Nro = endereco.Nro,
+                        XBairro = endereco.XBairro,
+                        CMun = endereco.CMun,
+                        XMun = endereco.XMun,
+                        UF = retConsCad.InfCons.UF,
+                        CEP = endereco.CEP,
+                        CPais = 1058,
+                        XPais = "BRASIL"
+                    },
+                    IE = retConsCad.InfCons.InfCad.FirstOrDefault().IE,
+                    IM = configImposto.Emit.IM,
+                    CNAE = retConsCad.InfCons.InfCad.FirstOrDefault().CNAE,
+                    CRT = CRT.SimplesNacional
 
-                    },
-                    Dest = new XmlNFe.Dest
+                },
+                Dest = new XmlNFe.Dest
+                {
+                    IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
+                    CPF = cpf,
+                    XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+                    EnderDest = new XmlNFe.EnderDest
                     {
-                        IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
-                        CNPJ = "22016905000192",
-                        XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
-                        EnderDest = new XmlNFe.EnderDest
-                        {
-                            XLgr = "AVENIDA TESTE",
-                            Nro = "9999",
-                            XBairro = "CENTRO",
-                            CMun = 3550308,
-                            XMun = "SAO PAULO",
-                            UF = UFBrasil.SP,
-                            CEP = "01001000",
-                            CPais = 1058,
-                            XPais = "BRASIL"
-                        },
-                        Email = ""
+                        XLgr = "AVENIDA TESTE",
+                        Nro = "9999",
+                        XBairro = "CENTRO",
+                        CMun = 3550308,
+                        XMun = "SAO PAULO",
+                        UF = UFBrasil.SP,
+                        CEP = "01001000",
+                        CPais = 1058,
+                        XPais = "BRASIL"
                     },
+                    Email = ""
+                },
 
-                    
-                    Det = addProdutos(configImposto, dVendaProdutos),
 
-                    Total = new XmlNFe.Total
-                    {
-                        ICMSTot = new XmlNFe.ICMSTot
-                        {
-                            VBC = 0,
-                            VICMS = 0,
-                            VICMSDeson = 0,
-                            VFCP = 0,
-                            VBCST = 0,
-                            VST = 0,
-                            VFCPST = 0,
-                            VFCPSTRet = 0,
-                            VProd = valorTotal,
-                            VFrete = 0,
-                            VSeg = 0,
-                            VDesc = 0,
-                            VII = 0,
-                            VIPI = 0,
-                            VIPIDevol = 0,
-                            VPIS = 0,
-                            VCOFINS = 0,
-                            VOutro = 0,
-                            VNF = valorTotal,
-                            VTotTrib = valorTotalTributos
-                        }
-                    },
-                    Transp = new XmlNFe.Transp
-                    {
-                        ModFrete = ModalidadeFrete.SemOcorrenciaTransporte
-                    },
+                Det = addProdutos(configImposto, dVendaProdutos),
+   
 
-                    Pag = new XmlNFe.Pag
+                Total = new XmlNFe.Total
+                {
+                    ICMSTot = new XmlNFe.ICMSTot
                     {
-                        DetPag = new List<XmlNFe.DetPag>
-                                    {
-                                            new XmlNFe.DetPag
-                                            {
-                                                IndPag = IndicadorPagamento.PagamentoVista,
-                                                TPag = MeioPagamento.PagamentoInstantaneo,
-                                                VPag = valorTotal,
-                                                Card = new Card()
-                                                {
-                                                    TpIntegra = TipoIntegracaoPagamento.PagamentoNaoIntegrado
-                                                }
-                                            }
-                                    }
-                    },
-                    InfAdic = new XmlNFe.InfAdic
-                    {
-                        InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
-                    },
-                    InfRespTec = new XmlNFe.InfRespTec
-                    {
-                        CNPJ = "07925528000110",
-                        XContato = "Alexandre Nogueira do Nascimento",
-                        Email = "contato@nascom.com.br",
-                        Fone = "1122369825"
+                        VBC = 0,
+                        VICMS = 0,
+                        VICMSDeson = 0,
+                        VFCP = 0,
+                        VBCST = 0,
+                        VST = 0,
+                        VFCPST = 0,
+                        VFCPSTRet = 0,
+                        VProd = valorTotal,
+                        VFrete = 0,
+                        VSeg = 0,
+                        VDesc = 0,
+                        VII = 0,
+                        VIPI = 0,
+                        VIPIDevol = 0,
+                        VPIS = 0,
+                        VCOFINS = 0,
+                        VOutro = 0,
+                        VNF = valorTotal,
+                        VTotTrib = valorTotalTributos
                     }
-                };
+                },
+                Transp = new XmlNFe.Transp
+                {
+                    ModFrete = ModalidadeFrete.SemOcorrenciaTransporte
+                },
 
-                //nfe.InfNFeSupl = GerarQrCodeCorreto(infe.Chave);
+                Pag = AdicionarPagamento(meiosPagamentos),
+                InfAdic = new XmlNFe.InfAdic
+                {
+                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                },
+                InfRespTec = new XmlNFe.InfRespTec
+                {
+                    CNPJ = "07925528000110",
+                    XContato = "Alexandre Nogueira do Nascimento",
+                    Email = "contato@nascom.com.br",
+                    Fone = "1122369825"
+                }
+            };
 
-                nfe.InfNFe.Add(infe);
-          
+            //nfe.InfNFeSupl = GerarQrCodeCorreto(infe.Chave);
+
+            nfe.InfNFe.Add(infe);
+
 
 
 
             return nfe;
 
+        }
+
+        private static Pag AddMeiosPagamentos(double valorTotal)
+        {
+            return new XmlNFe.Pag
+            {
+                DetPag = new List<DetPag>
+                {
+                        new XmlNFe.DetPag
+                        {
+                            IndPag = IndicadorPagamento.PagamentoVista,
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.PagamentoInstantaneo,
+                            VPag = valorTotal,
+                            Card = new Card()
+                            {
+                                TpIntegra = TipoIntegracaoPagamento.PagamentoNaoIntegrado
+                            }
+                        }
+                }
+            };
         }
 
         private static List<Det> addProdutos(DarumaFrameworkSat configImposto, List<ProdutoVendido> dVendaProdutos)
@@ -444,14 +453,14 @@ namespace LibNF65
                         CFOP = "5101",
                         UCom = "LU",
                         QCom = produto.quantidade,
-                        VUnCom = decimal.Parse(produto.valor.ToString()),
-                        VProd = double.Parse(produto.valor.ToString()),
+                        VUnCom = Math.Round(produto.valor, 4, MidpointRounding.AwayFromZero),
+                        VProd = Math.Round((double)produto.valor, 4, MidpointRounding.AwayFromZero),
                         CEANTrib = "SEM GTIN",
                         UTrib = "LU",
                         QTrib = produto.quantidade,
-                        VUnTrib = decimal.Parse(produto.valor.ToString()),
+                        VUnTrib = Math.Round(produto.valor, 4, MidpointRounding.AwayFromZero),
                         IndTot = SimNao.Sim,
-                        XPed = produto.controle.ToString()  
+                        XPed = produto.controle.ToString()
                     },
                     Imposto = new XmlNFe.Imposto
                     {
@@ -483,36 +492,34 @@ namespace LibNF65
                 });
             }
             return lista;
-
-
         }
 
-        public InfNFeSupl GerarQrCodeCorreto(string chave)
-        {
-            string chaveAcesso = chave;
-            int tpAmb = 2; // Homologação
-            string versaoQrCode = "2";
+        //public InfNFeSupl GerarQrCodeCorreto(string chave)
+        //{
+        //    string chaveAcesso = chave;
+        //    int tpAmb = 2; // Homologação
+        //    string versaoQrCode = "2";
 
-            // Formato CORRETO para QR Code NFCe
-            string qrCode = GerarUrlQrCodeNFCe(chaveAcesso, tpAmb, versaoQrCode);
+        //    // Formato CORRETO para QR Code NFCe
+        //    string qrCode = GerarUrlQrCodeNFCe(chaveAcesso, tpAmb, versaoQrCode);
 
-            return new InfNFeSupl
-            {
-                QrCode = DanfeQrCodeGenerator.GerarDanfeComQrCode(),
-            };
-        }
+        //    return new InfNFeSupl
+        //    {
+        //        QrCode = DanfeQrCodeGenerator.GerarDanfeComQrCode(),
+        //    };
+        //}
 
         //USO
-        private string GerarUrlQrCodeNFCe(string chaveAcesso, int tpAmb, string versaoQrCode)
-        {
-            // Formato 1: Padrão nacional (recomendado)
-            string urlQrCode = $"https://dfe-portal.svrs.rs.gov.br/nfce/qrcode?p={chaveAcesso}|{versaoQrCode}|{tpAmb}|1|12";
+        //private string GerarUrlQrCodeNFCe(string chaveAcesso, int tpAmb, string versaoQrCode)
+        //{
+        //    // Formato 1: Padrão nacional (recomendado)
+        //    string urlQrCode = $"https://dfe-portal.svrs.rs.gov.br/nfce/qrcode?p={chaveAcesso}|{versaoQrCode}|{tpAmb}|1|12";
 
-            // Formato 2: Alternativo para algumas UFs
-            // string urlQrCode = $"http://dec.fazenda.df.gov.br/NFCE/NFCE-COM.aspx?p={chaveAcesso}|{versaoQrCode}|{tpAmb}|1|12";
+        //    // Formato 2: Alternativo para algumas UFs
+        //    // string urlQrCode = $"http://dec.fazenda.df.gov.br/NFCE/NFCE-COM.aspx?p={chaveAcesso}|{versaoQrCode}|{tpAmb}|1|12";
 
-            return urlQrCode;
-        }
+        //    return urlQrCode;
+        //}
 
         public RetConsCad ConsultarCadastro(Configuracao configuracao, ConsCad consCad)
         {
@@ -675,11 +682,11 @@ namespace LibNF65
                 Versao = "4.00",
                 IdLote = "000000000000001",
                 IndSinc = SimNao.Sim,
-                NFe = new List<XmlNFe.NFe>
+                NFe = new List<NFe>
                 {
                     new XmlNFe.NFe
                     {
-                        InfNFe = new List<XmlNFe.InfNFe>
+                        InfNFe = new List<InfNFe>
                         {
                             new XmlNFe.InfNFe
                             {
@@ -762,12 +769,12 @@ namespace LibNF65
                                 },
                                 Pag = new XmlNFe.Pag
                                 {
-                                    DetPag = new List<XmlNFe.DetPag>
+                                    DetPag = new List<DetPag>
                                     {
                                             new XmlNFe.DetPag
                                             {
                                                 IndPag = IndicadorPagamento.PagamentoVista,
-                                                TPag = MeioPagamento.PagamentoInstantaneo,
+                                                TPag = Unimake.Business.DFe.Servicos.MeioPagamento.PagamentoInstantaneo,
                                                 VPag = 84.90,
                                                 Card = new Card()
                                                 {
@@ -844,6 +851,98 @@ namespace LibNF65
                 }
             }
         }
+
+
+        public Pag AdicionarPagamento(List<MeioPagamentoNascom> meiosPagamentos)
+        {
+            var pag = new Pag();
+
+            foreach (var meio in meiosPagamentos)
+            {
+
+                switch (meio.CodigoPagamento) 
+                {
+                    case "01":
+                        // EXEMPLO: Dinheiro
+                        pag.DetPag.Add(new DetPag
+                        {
+                            IndPag = IndicadorPagamento.PagamentoVista,
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Dinheiro,   // 01
+                            VPag = meio.Valor
+                        });
+
+                        break;
+                    case "02":
+                        // EXEMPLO: Cheque/ cheque pré-datado
+
+                        if (meio.DescricaoPagamento == "cheque")
+                        {
+                            pag.DetPag.Add(new DetPag
+                            {
+                                TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Cheque,     // 02
+                                VPag = meio.Valor
+                            });
+                        }
+                        else
+                            pag.DetPag.Add(new DetPag
+                            {
+                                TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Cheque,     // 02
+                                VPag = meio.Valor
+                            });
+                        break;
+                    case "03":
+                        // EXEMPLO: Cartão de Crédito
+                        pag.DetPag.Add(new DetPag
+                        {
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.CartaoCredito,  // 03
+                            VPag = meio.Valor
+                        });
+                        break;
+                    case "04":
+                        // EXEMPLO: Cartão de Débito
+                        pag.DetPag.Add(new DetPag
+                        {
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.CartaoDebito,  // 04
+                            VPag = meio.Valor
+                        });
+                        break;
+                    case "05":
+                        // EXEMPLO: Crédito Loja
+                        pag.DetPag.Add(new DetPag
+                        {
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.CreditoLoja,   // 05
+                            VPag = meio.Valor
+                        });
+                        break;
+                    case "06":
+                        // EXEMPLO: PIX
+                        pag.DetPag.Add(new DetPag
+                        {
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.PagamentoInstantaneo,        // 06
+                            VPag = meio.Valor
+                        });
+                        break;
+                    case "99":
+                        pag.DetPag.Add(new DetPag
+                        {
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.ValePresente,        // 06
+                            VPag = meio.Valor
+                        });
+                        break;
+                    default:
+                        pag.DetPag.Add(new DetPag
+                        {
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Outros,        // 06
+                            VPag = meio.Valor
+                        });
+                        break;
+                }               
+
+            }
+
+            return pag;
+        }
+
 
         void INFCe.ImprimirDANFe(string chave)
         {
