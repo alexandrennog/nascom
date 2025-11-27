@@ -224,7 +224,7 @@ namespace LibNF65
         }
         
         //USO
-        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf)
+        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle)
         {
 
             var infCons = new InfCons
@@ -336,7 +336,7 @@ namespace LibNF65
 
 
                 Det = addProdutos(configImposto, dVendaProdutos),
-   
+
 
                 Total = new XmlNFe.Total
                 {
@@ -370,10 +370,7 @@ namespace LibNF65
                 },
 
                 Pag = AdicionarPagamento(meiosPagamentos),
-                InfAdic = new XmlNFe.InfAdic
-                {
-                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
-                },
+                InfAdic = RecuperarDadosAdicionais(retConsCad, controle),
                 InfRespTec = new XmlNFe.InfRespTec
                 {
                     CNPJ = "07925528000110",
@@ -389,6 +386,15 @@ namespace LibNF65
 
             return nfe;
 
+        }
+
+        private static InfAdic RecuperarDadosAdicionais(RetConsCad retConsCad, string controle)
+        {
+            string optanteSimples = retConsCad.InfCons.InfCad.FirstOrDefault().XRegApur == "SIMPLES NACIONAL" ? "Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS" : "";
+            return new XmlNFe.InfAdic
+            {
+                InfCpl = $";CONTROLE: {controle};  {optanteSimples}"
+            };
         }
 
         private static List<Det> addProdutos(DarumaFrameworkSat configImposto, List<ProdutoVendido> dVendaProdutos)

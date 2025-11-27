@@ -1083,7 +1083,7 @@ Public Class fPagamento
                         End If
 
                         Dim lista = ConverterLista(dadosVendaProdutos.ToList)
-                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF)
+                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString())
                         regraVenda.Alterar(controle.ToString(), chave)
 
                     Catch ex As Exception
