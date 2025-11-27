@@ -237,7 +237,7 @@ namespace LibNF65
         {
             try
             {
-                string _xml = @"C:\\Users\\jjail\\Projetos\\nascom\\nascomercio\\DarumaFrameWork_SAT.xml";
+                string _xml = ConfigurationManager.AppSettings["pathRelatorio"] + "DarumaFrameWork_SAT.xml";
                 var xmlContent = File.ReadAllText(_xml);
                 return DeserializarXml(xmlContent);
             }
