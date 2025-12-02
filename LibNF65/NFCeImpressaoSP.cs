@@ -178,8 +178,14 @@ namespace LibNF65
                     // Código do produto
                     ImprimirTexto(g, $"    Cód: {produto.Codigo}", fontePequena, MARGEM);
 
+                    decimal quantidade = produto.Quantidade / 100m;
+
+                    decimal unitario = produto.ValorUnitario / 100m;
+
+                    decimal total = produto.ValorTotal / 100m;
+
                     // Quantidade, Unitário e Total
-                    string linhaValor = $"    {produto.Quantidade:N3} {produto.Unidade} x {produto.ValorUnitario:N2} = {produto.ValorTotal:N2}";
+                    string linhaValor = $"    {quantidade:N3} {produto.Unidade} x {unitario:N2} = {total:N2}";
                     ImprimirTexto(g, linhaValor, fontePequena, MARGEM);
 
                     linhaAtual += 2;
@@ -187,17 +193,21 @@ namespace LibNF65
 
                 DesenharLinha(g);
 
+                decimal _quantidade = nfce.QuantidadeTotal / 100m;
+                decimal _valorTotal = nfce.ValorProdutos / 100m;
+                decimal _valorDesconto = nfce.ValorDesconto / 100m;
+
                 // Totais
                 ImprimirCentralizado(g, "TOTAIS", fonteTitulo);
-                ImprimirTexto(g, $"Qtd. Total de Itens: {nfce.QuantidadeTotal:N0}", fonteNormal, MARGEM);
-                ImprimirTexto(g, $"Valor Total dos Produtos: R$ {nfce.ValorProdutos:N2}", fonteNormal, MARGEM);
+                ImprimirTexto(g, $"Qtd. Total de Itens: {_quantidade:N0}", fonteNormal, MARGEM);
+                ImprimirTexto(g, $"Valor Total dos Produtos: R$ {_valorTotal:N2}", fonteNormal, MARGEM);
 
-                if (nfce.ValorDesconto > 0)
+                if (_valorDesconto > 0)
                 {
-                    ImprimirTexto(g, $"Descontos: R$ {nfce.ValorDesconto:N2}", fonteNormal, MARGEM);
+                    ImprimirTexto(g, $"Descontos: R$ {_valorDesconto:N2}", fonteNormal, MARGEM);
                 }
 
-                ImprimirTexto(g, $"VALOR TOTAL: R$ {nfce.ValorTotal:N2}", fonteTitulo, MARGEM);
+                ImprimirTexto(g, $"VALOR TOTAL: R$ {_valorTotal:N2}", fonteTitulo, MARGEM);
 
                 DesenharLinha(g);
 
@@ -206,7 +216,8 @@ namespace LibNF65
 
                 foreach (var pagamento in nfce.Pagamentos)
                 {
-                    ImprimirTexto(g, $"{pagamento.FormaPagamento}: R$ {pagamento.Valor:N2}", fonteNormal, MARGEM);
+                    decimal _valor = pagamento.Valor / 100m;
+                    ImprimirTexto(g, $"{pagamento.FormaPagamento}: R$ {_valor:N2}", fonteNormal, MARGEM);
                 }
 
                 DesenharLinha(g);

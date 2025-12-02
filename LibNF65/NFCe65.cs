@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Xml;
@@ -176,6 +177,7 @@ namespace LibNF65
                         MoverArquivo(chaveAcesso, true);
                         break;
                     default:
+                        MessageBox.Show($"Ocorreu o erro ao comunicar com a sefas {autorizacao.Result.ProtNFe.InfProt.CStat}: {autorizacao.Result.ProtNFe.InfProt.XMotivo}");
                         MoverArquivo(chaveAcesso, false);
                         break;
                 }
@@ -193,20 +195,68 @@ namespace LibNF65
                 File.Move(sourcePath, destinationPath);
             }
         }
-        public static void CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)
-        {
 
+        public static bool CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)
+        {
+            bool retorno = false;
             IInfProtRepository repository = new InfProtRepository();
 
             var infoProdutoService = new InfoProdutoService();
             var ret = infoProdutoService.BuscarPorChNFe(chave, repository);
 
             var objNFCe = new NasNFCe();
-            objNFCe.EventoCancelamentoNFCe(chave, x509Cert, ret.NProt);
+            var retCancelamento = objNFCe.EventoCancelamentoNFCe(chave, x509Cert, ret.NProt);
+
+            if (retCancelamento.Result.CStat == 128) //Lote de evento processado com sucesso
+            {
+                switch (retCancelamento.Result.RetEvento[0].InfEvento.CStat)
+                {
+                    case 135: //Evento homologado
+                        infoProdutoService.UpdateEvent(chave, retCancelamento.Result.RetEvento[0].InfEvento.XEvento, ret.NProt, repository);
+                        retorno = true;
+                        break;
+                    case 155: //Evento homologado fora do prazo permitido
+                        infoProdutoService.UpdateEvent(chave, retCancelamento.Result.RetEvento[0].InfEvento.XEvento, ret.NProt, repository);
+                        retorno = true;
+                        break;
+
+                    default:
+                        //Tratamentos necessários quando o evento é rejeitado
+                        break;
+                }
+                
+            }
+
+            return retorno;
+
         }
         public static void Imprimir(string chaveAcesso)
         {
             NFCeModel nfce = NFCeXMLParser.ParseXML("NFs\\" + chaveAcesso + ".xml");
+            nfce.QRCodeUrl = NasNFCe.GerarQRCode(chaveAcesso);   // XMLParser. GerarUrlQRCode(nfce, configuracao);
+
+            // Imprimir
+            ImpressaoNFCeSP impressao = new ImpressaoNFCeSP(nfce);
+
+            // Para visualizar antes de imprimir
+            impressao.Imprimir(null);  // VisualizarImpressao();
+        }
+
+        public static void Reimprimir(string chaveAcesso)
+        {
+            NFCeModel nfce;
+            try
+            {
+                nfce = NFCeXMLParser.ParseXML("NFs\\OK\\" + chaveAcesso + ".xml");
+            }catch (FileNotFoundException)
+            {
+                nfce = NFCeXMLParser.ParseXML("NFs\\NOK\\" + chaveAcesso + ".xml");
+            }
+
+            if(nfce == null)             {
+                throw new Exception("NFC-e não encontrada para reimpressão.");
+            }
+
             nfce.QRCodeUrl = NasNFCe.GerarQRCode(chaveAcesso);   // XMLParser. GerarUrlQRCode(nfce, configuracao);
 
             // Imprimir

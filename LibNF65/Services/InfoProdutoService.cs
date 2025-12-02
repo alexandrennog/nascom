@@ -47,6 +47,11 @@ namespace LibNF65.Services
         {
             repository.Delete(chNFe);
         }
+
+        public void UpdateEvent(string ChNFe, string xEvento, string NProt, IInfProtRepository repository)
+        {
+            repository.UpdateEvent(ChNFe, xEvento, NProt);
+        }
     }
 }
 

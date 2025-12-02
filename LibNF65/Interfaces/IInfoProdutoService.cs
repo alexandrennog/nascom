@@ -12,6 +12,7 @@ namespace LibNF65.Interfaces
         IEnumerable<InfoProduto> BuscarTodos(IInfProtRepository repository);
         void AtualizarInfoProduto(InfoProduto infoProduto, IInfProtRepository repository);
         void RemoverInfoProduto(string chNFe, IInfProtRepository repository);
+        void UpdateEvent(string ChNFe, string xEvento, string NProt, IInfProtRepository repository);
     }
 
 

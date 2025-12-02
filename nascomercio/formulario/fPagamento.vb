@@ -962,15 +962,28 @@ Public Class fPagamento
 
                         'se não informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
-                            Str_CPF = InputBox("Deseja informar o CPF/CNPJ ?").Trim()
-                            If Str_CPF.Length > 11 Then
-                                Do While Not ValidaCnpj(Str_CPF)
-                                    Str_CPF = InputBox("CNPJ Incorreto, informe novamente ?").Trim()
-                                Loop
+                            Dim resposta As String = InputBox("Deseja informar o CPF/CNPJ? (deixe em branco para ignorar)").Trim()
+
+                            ' Se o usuário não quiser informar, simplesmente seguimos.
+                            If String.IsNullOrEmpty(resposta) Then
+                                Str_CPF = ""
                             Else
-                                Do While Not ValidaCpf(Str_CPF)
-                                    Str_CPF = InputBox("CPF Incorreto, informe novamente ?").Trim()
-                                Loop
+                                Str_CPF = resposta
+
+                                ' Decide se valida como CNPJ ou CPF apenas se for informado.
+                                If Str_CPF.Length > 11 Then
+                                    ' Validação de CNPJ
+                                    While Not ValidaCnpj(Str_CPF)
+                                        Str_CPF = InputBox("CNPJ incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
+                                        If String.IsNullOrEmpty(Str_CPF) Then Exit While
+                                    End While
+                                Else
+                                    ' Validação de CPF
+                                    While Not ValidaCpf(Str_CPF)
+                                        Str_CPF = InputBox("CPF incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
+                                        If String.IsNullOrEmpty(Str_CPF) Then Exit While
+                                    End While
+                                End If
                             End If
                         End If
 

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,6 +86,26 @@ namespace LibNF65
                 dbConnection.Open();
                 dbConnection.Execute(sql, infoProduto);
             }
+        }
+
+        public void UpdateEvent(string ChNFe, string xEvento, string NProt)
+        {
+            const string sql = @"
+                UPDATE infprot SET
+                    NProt = @NProt,
+                    xEvento = @xEvento
+                WHERE ChNFe = @ChNFe";
+
+            using (IDbConnection dbConnection = Connection)
+            {
+                dbConnection.Open();
+                dbConnection.Execute(sql, new
+                {
+                    ChNFe = ChNFe,
+                    xEvento = xEvento,
+                    NProt = NProt
+                });
+            }            
         }
 
         public void Delete(string chNFe)

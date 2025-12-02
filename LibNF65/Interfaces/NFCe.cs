@@ -31,7 +31,7 @@ namespace LibNF65
     public class NasNFCe : INFCe
     {
 
-        public void EventoCancelamentoNFCe(string chave, X509Certificate2 x509Cert, string nProt)
+        public RecepcaoEvento EventoCancelamentoNFCe(string chave, X509Certificate2 x509Cert, string nProt)
         {
             var xml = new XmlNFe.EnvEvento
             {
@@ -71,20 +71,9 @@ namespace LibNF65
             var recepcaoEvento = new ServicoNFCe.RecepcaoEvento(xml, configuracao);
             recepcaoEvento.Executar();
 
-            if (recepcaoEvento.Result.CStat == 128) //Lote de evento processado com sucesso
-            {
-                switch (recepcaoEvento.Result.RetEvento[0].InfEvento.CStat)
-                {
-                    case 135: //Evento homologado
-                    case 155: //Evento homologado fora do prazo permitido
-                        recepcaoEvento.GravarXmlDistribuicao(@"d:\testenfe");
-                        break;
+            return recepcaoEvento;
 
-                    default:
-                        //Tratamentos necessários quando o evento é rejeitado
-                        break;
-                }
-            }
+        
         }
 
 
@@ -314,25 +303,9 @@ namespace LibNF65
                     CRT = CRT.SimplesNacional
 
                 },
-                Dest = new XmlNFe.Dest
-                {
-                    IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
-                    CPF = cpf,
-                    XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
-                    EnderDest = new XmlNFe.EnderDest
-                    {
-                        XLgr = "AVENIDA TESTE",
-                        Nro = "9999",
-                        XBairro = "CENTRO",
-                        CMun = 3550308,
-                        XMun = "SAO PAULO",
-                        UF = UFBrasil.SP,
-                        CEP = "01001000",
-                        CPais = 1058,
-                        XPais = "BRASIL"
-                    },
-                    Email = ""
-                },
+
+
+                Dest = RecDest(cpf),
 
 
                 Det = addProdutos(configImposto, dVendaProdutos),
@@ -386,6 +359,35 @@ namespace LibNF65
 
             return nfe;
 
+        }
+
+        private static XmlNFe.Dest RecDest(string cpf)
+        {
+
+            if (string.IsNullOrEmpty(cpf))
+            {
+                return null;
+            }
+
+            return new XmlNFe.Dest
+            {
+                IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
+                CPF = cpf,
+                XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+                //EnderDest = new XmlNFe.EnderDest
+                //{
+                //    XLgr = "AVENIDA TESTE",
+                //    Nro = "9999",
+                //    XBairro = "CENTRO",
+                //    CMun = 3550308,
+                //    XMun = "SAO PAULO",
+                //    UF = UFBrasil.SP,
+                //    CEP = "01001000",
+                //    CPais = 1058,
+                //    XPais = "BRASIL"
+                //},
+                //Email = ""
+            };
         }
 
         private static InfAdic RecuperarDadosAdicionais(RetConsCad retConsCad, string controle)

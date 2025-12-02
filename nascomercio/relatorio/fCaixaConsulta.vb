@@ -135,7 +135,13 @@ Public Class fCaixaConsulta
                 End If
                 chave = vendas.Item(0).Chave.ToString()
 
-                NFCe65.CancelarNFe(chave, certificadoCarregado, "")
+                Dim ret = NFCe65.CancelarNFe(chave, certificadoCarregado, "")
+                If ret = True Then
+                    MessageBox.Show("NFe cancelada com sucesso.")
+                    GravarLog(mdiPrincipal.gUsuario.usuario, "NFe cancelada com sucesso. Chave: " & chave)
+                Else
+                    MessageBox.Show("Erro ao cancelar NFe.")
+                End If
 
             End If
 
@@ -383,12 +389,12 @@ Public Class fCaixaConsulta
                     Exit Sub
                 End If
                 chave = vendas.Item(0).Chave.ToString()
-                NFCe65.Imprimir(chave)
+                NFCe65.Reimprimir(chave)
 
             End If
 
         Catch ex As Exception
-
+            MessageBox.Show(ex.Message)
         End Try
 
 
