@@ -66,13 +66,6 @@ namespace LibNF65
             string caminhoCertificado = ConfigurationManager.AppSettings["CertificadoArquivo"];
             string senhaCertificado = ConfigurationManager.AppSettings["CertificadoSenha"];
 
-            // 2. Carregar o certificado
-            //var certificado = new CertificadoDigital
-            //{
-
-            //};
-            //X509Certificate2 x509Cert = CarregarCertificado(caminhoCertificado, senhaCertificado, certificado);
-
             // 3. Executando a consulta
             var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
             consultaCadastro.Executar();
@@ -119,13 +112,7 @@ namespace LibNF65
             chaveAcesso = xml.NFe.First().InfNFe.FirstOrDefault().Chave;
 
             var xmlString = XMLUtility.Serializar<XmlNFe.NFe>(xml.NFe.First());
-
-            if(!Directory.Exists("NFs"))
-            {
-                Directory.CreateDirectory("NFs");
-                Directory.CreateDirectory("NFs\\OK");
-                Directory.CreateDirectory("NFs\\NOK");
-            }          
+            CriarDiretorios();
 
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlString.InnerXml);
@@ -146,10 +133,6 @@ namespace LibNF65
 
             var autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
             autorizacao.Executar();
-
-            //var ret = ConsultarCupomNFCe("NFs\\" + chaveAcesso, x509Cert);
-
-            //var nfce = new NFCeModel();
 
             IInfProtRepository repository = new InfProtRepository();
 
@@ -184,6 +167,27 @@ namespace LibNF65
             }
             return chaveAcesso;
 
+        }
+
+        private static void CriarDiretorios()
+        {
+            if (!Directory.Exists("NFs"))
+            {
+                Directory.CreateDirectory("NFs");
+                Directory.CreateDirectory("NFs\\OK");
+                Directory.CreateDirectory("NFs\\NOK");
+            }
+            else
+            {
+                if (!Directory.Exists("NFs\\OK"))
+                {
+                    Directory.CreateDirectory("NFs\\OK");
+                }
+                if (!Directory.Exists("NFs\\NOK"))
+                {
+                    Directory.CreateDirectory("NFs\\NOK");
+                }
+            }
         }
 
         private static void MoverArquivo(string chaveAcesso, bool sucesso)

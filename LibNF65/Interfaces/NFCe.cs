@@ -373,20 +373,7 @@ namespace LibNF65
             {
                 IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
                 CPF = cpf,
-                XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
-                //EnderDest = new XmlNFe.EnderDest
-                //{
-                //    XLgr = "AVENIDA TESTE",
-                //    Nro = "9999",
-                //    XBairro = "CENTRO",
-                //    CMun = 3550308,
-                //    XMun = "SAO PAULO",
-                //    UF = UFBrasil.SP,
-                //    CEP = "01001000",
-                //    CPais = 1058,
-                //    XPais = "BRASIL"
-                //},
-                //Email = ""
+                XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
             };
         }
 
@@ -501,6 +488,7 @@ namespace LibNF65
                         {
                             pag.DetPag.Add(new DetPag
                             {
+                                IndPag = IndicadorPagamento.PagamentoPrazo,
                                 TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Cheque,     // 02
                                 VPag = meio.Valor
                             });
@@ -516,16 +504,26 @@ namespace LibNF65
                         // EXEMPLO: Cartão de Crédito
                         pag.DetPag.Add(new DetPag
                         {
+                            IndPag = IndicadorPagamento.PagamentoPrazo,
                             TPag = Unimake.Business.DFe.Servicos.MeioPagamento.CartaoCredito,  // 03
-                            VPag = meio.Valor
+                            VPag = meio.Valor,
+                            Card = new Card
+                            {
+                                TpIntegra = TipoIntegracaoPagamento.PagamentoNaoIntegrado
+                            }
                         });
                         break;
                     case "04":
                         // EXEMPLO: Cartão de Débito
                         pag.DetPag.Add(new DetPag
                         {
+                            IndPag = IndicadorPagamento.PagamentoVista,
                             TPag = Unimake.Business.DFe.Servicos.MeioPagamento.CartaoDebito,  // 04
-                            VPag = meio.Valor
+                            VPag = meio.Valor,
+                            Card = new Card
+                            {
+                                TpIntegra = TipoIntegracaoPagamento.PagamentoNaoIntegrado
+                            }
                         });
                         break;
                     case "05":
@@ -540,8 +538,13 @@ namespace LibNF65
                         // EXEMPLO: PIX
                         pag.DetPag.Add(new DetPag
                         {
+                            IndPag = IndicadorPagamento.PagamentoVista,
                             TPag = Unimake.Business.DFe.Servicos.MeioPagamento.PagamentoInstantaneo,        // 06
-                            VPag = meio.Valor
+                            VPag = meio.Valor,
+                            Card = new Card
+                            {
+                                TpIntegra = TipoIntegracaoPagamento.PagamentoNaoIntegrado
+                            }
                         });
                         break;
                     case "99":
