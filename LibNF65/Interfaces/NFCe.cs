@@ -546,7 +546,7 @@ namespace LibNF65
                         {
                             IndPag = IndicadorPagamento.PagamentoVista,
                             TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Dinheiro,   // 01
-                            VPag = meio.Valor                            
+                            VPag = meio.Valor
                         });
                         pag.VTroco = meio.Troco;
 
@@ -621,14 +621,17 @@ namespace LibNF65
                         pag.DetPag.Add(new DetPag
                         {
                             TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Outros,        // 06
-                            VPag = meio.Valor
+                            VPag = meio.Valor,
+                            XPag = "Outros"
                         });
                         break;
                     default:
                         pag.DetPag.Add(new DetPag
                         {
                             TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Outros,        // 06
-                            VPag = meio.Valor
+                            VPag = meio.Valor,
+                            XPag = "Outros"
+
                         });
                         break;
                 }               
