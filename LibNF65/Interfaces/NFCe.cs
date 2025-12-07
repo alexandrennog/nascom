@@ -377,7 +377,7 @@ namespace LibNF65
                 {
                     IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
                     CNPJ = cpf,
-                    XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
+                    XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "2" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
                 };
             }
 
@@ -387,7 +387,7 @@ namespace LibNF65
                 {
                     IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
                     CPF = cpf,
-                    XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
+                    XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "2" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
                 };
             }
 
@@ -395,7 +395,7 @@ namespace LibNF65
             {
                 IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
                 CPF = "",
-                XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
+                XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "2" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
             };
         }
 
@@ -620,7 +620,7 @@ namespace LibNF65
                     case "99":
                         pag.DetPag.Add(new DetPag
                         {
-                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.ValePresente,        // 06
+                            TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Outros,        // 06
                             VPag = meio.Valor
                         });
                         break;
