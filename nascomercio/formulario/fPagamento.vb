@@ -997,6 +997,7 @@ Public Class fPagamento
                             pagamentoMeio.CodigoPagamento = "01"
                             pagamentoMeio.DescricaoPagamento = "Dinheiro"
                             pagamentoMeio.Valor = dinheiro
+                            pagamentoMeio.Troco = lblTroco.Text.Replace(".", "")
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If

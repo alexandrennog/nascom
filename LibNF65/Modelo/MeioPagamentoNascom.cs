@@ -14,5 +14,7 @@ namespace LibNF65.Modelo
 
         public double Valor { get; set; }
 
+        public double Troco { get; set; }
+
     }
 }

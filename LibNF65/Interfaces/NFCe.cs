@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Xml;
 using Unimake.Business.DFe;
 using Unimake.Business.DFe.Security;
@@ -17,6 +18,7 @@ using Unimake.Business.DFe.Utility;
 using Unimake.Business.DFe.Xml.ESocial;
 using Unimake.Business.DFe.Xml.NF3e;
 using Unimake.Business.DFe.Xml.NFe;
+using Unimake.Business.DFe.Xml.NFSe.NACIONAL;
 using Unimake.Security.Platform;
 using Unimake.Unidanfe.Configurations;
 using Configuracao = Unimake.Business.DFe.Servicos.Configuracao;
@@ -369,12 +371,79 @@ namespace LibNF65
                 return null;
             }
 
+            if (ValidacaoHelper.ValidarCNPJ(cpf))
+            {
+                return new XmlNFe.Dest
+                {
+                    IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
+                    CNPJ = cpf,
+                    XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
+                };
+            }
+
+            if (ValidacaoHelper.ValidarCPF(cpf))
+            {
+                return new XmlNFe.Dest
+                {
+                    IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
+                    CPF = cpf,
+                    XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
+                };
+            }
+
             return new XmlNFe.Dest
             {
                 IndIEDest = IndicadorIEDestinatario.NaoContribuinte,
-                CPF = cpf,
+                CPF = "",
                 XNome = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL" : "",
             };
+        }
+
+        public static class ValidacaoHelper
+        {
+            public static bool ValidarCPF(string cpf)
+            {
+                // Remove caracteres não numéricos
+                cpf = Regex.Replace(cpf, @"[^\d]", "");
+
+                // Verifica se tem 11 dígitos
+                if (cpf.Length != 11)
+                    return false;
+
+                // Validação básica de CPF (você pode implementar validação mais completa)
+                return !Regex.IsMatch(cpf, @"^(\d)\1{10}$"); // Não pode ter todos os dígitos iguais
+            }
+
+            public static bool ValidarCNPJ(string cnpj)
+            {
+                // Remove caracteres não numéricos
+                cnpj = Regex.Replace(cnpj, @"[^\d]", "");
+
+                // Verifica se tem 14 dígitos
+                if (cnpj.Length != 14)
+                    return false;
+
+                // Validação básica de CNPJ
+                return !Regex.IsMatch(cnpj, @"^(\d)\1{13}$"); // Não pode ter todos os dígitos iguais
+            }
+
+            public static string FormatarParaTag(string documento)
+            {
+                documento = Regex.Replace(documento, @"[^\d]", "");
+
+                if (ValidarCPF(documento))
+                {
+                    return $"<CPF>{documento}</CPF>";
+                }
+                else if (ValidarCNPJ(documento))
+                {
+                    return $"<CNPJ>{documento}</CNPJ>";
+                }
+                else
+                {
+                    throw new ArgumentException("Documento inválido. CPF deve ter 11 dígitos, CNPJ 14 dígitos.");
+                }
+            }
         }
 
         private static InfAdic RecuperarDadosAdicionais(RetConsCad retConsCad, string controle)
@@ -477,8 +546,9 @@ namespace LibNF65
                         {
                             IndPag = IndicadorPagamento.PagamentoVista,
                             TPag = Unimake.Business.DFe.Servicos.MeioPagamento.Dinheiro,   // 01
-                            VPag = meio.Valor
+                            VPag = meio.Valor                            
                         });
+                        pag.VTroco = meio.Troco;
 
                         break;
                     case "02":
