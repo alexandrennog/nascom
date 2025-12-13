@@ -79,3 +79,24 @@ b - executar no mysql os scripts:
 28 - txID.sql
 Colar na pasta Nasoomercio os arquivos da nova versão 
      
+	 
+Para a versão 2.0.0.0 
+
+1 - Criado a funcionalidade	de NFe 
+
+Implantação: 
+
+   a - alterar no config a tag "FISCAL" value="ONLINE" /> 
+   b - atualizar os arquivos da aplicação
+   c - rodar os scripts de banco de número 28 e 29
+   d - Adicionar as TAGs ao arquivo de configuração:
+        <add key="pathRelatorio" value="C:\NascomercioNFe\" />
+		<add key="CertificadoArquivo" value="C:\\cert\\********.pfx" />
+		<add key="CertificadoSenha" value="831552" />
+		<add key="TipoAmbiente" value="1" />
+		<add key="UsaCertificadoDigital" value="1" />
+		<add key="CSC" value="**************" />
+		<add key="CSCIDToken" value="1" />
+		<add key="SchemaVersao" value="4.00" />
+		<add key="VersaoConfiguracao" value="4.00" />
+		<add key="CNPJ" value="**************" />
