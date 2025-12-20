@@ -624,6 +624,7 @@ Public Class fCrediarioPagamento
         Dim parcelas As New ncDados.nsCrediario.ColecaoParcelas
         Dim consultacliente As New ncRegras.nsCliente.rCliente
         Dim cliente As New ncDados.nsCliente.dCliente
+        Dim _parcelas As New ncDados.nsCrediario.ColecaoParcelas
 
         If txtCliente.Text <> "" And txtCliente.Text <> "Consumidor" Then
 
@@ -663,13 +664,19 @@ Public Class fCrediarioPagamento
                         End If
                     End If
 
+                    Dim k As Integer = 0
                     For Each dadosCrediario In dadosListaCrediario
                         parcela = New ncDados.nsCrediario.dParcelas()
-
+                        k = k + 1
                         txtDisponivel.Text = CDec(CDec(txtDisponivel.Text) - dadosCrediario.SaldoDevedor).ToString("N")
 
                         parcela.crediarioId = dadosCrediario.cid
 
+                        _parcelas = consulta.ConsultarParcelas(parcela)
+
+                        If _parcelas Is Nothing Then
+                            Exit For
+                        End If
 
                         parcelas.AddRange(consulta.ConsultarParcelas(parcela))
 
@@ -679,9 +686,7 @@ Public Class fCrediarioPagamento
 
                             txtControle.Text = crediarios(0).controle
                             txtControle.Tag = crediarios(0).cid
-
                             cliente = consultacliente.ConsultarPorCID(crediarios(0).clienteId)
-
                             txtCliente.Text = cliente.nome
                             txtCliente.Tag = cliente.cid
 

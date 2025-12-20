@@ -1074,6 +1074,17 @@ Public Class fPagamento
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If
+                        If CDec(txtDesconto.Text) > 0.001 Then
+                            '99 - Outros (Troca)
+
+                            Dim desconto As String = txtDesconto.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "99"
+                            pagamentoMeio.DescricaoPagamento = "Desconto"
+                            pagamentoMeio.Valor = desconto
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
                         If CDec(txtVale.Text) > 0.001 Then
                             '99 - Outros (Vale)
 
