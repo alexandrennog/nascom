@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
@@ -66,6 +67,7 @@ namespace LibNF65
             string caminhoCertificado = ConfigurationManager.AppSettings["CertificadoArquivo"];
             string senhaCertificado = ConfigurationManager.AppSettings["CertificadoSenha"];
 
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             // 3. Executando a consulta
             var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
             consultaCadastro.Executar();
@@ -130,6 +132,8 @@ namespace LibNF65
                 var validador = new ValidarSchema();
                 validador.Validar(xmlString, "NFe");
             }
+
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             var autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
             autorizacao.Executar();
