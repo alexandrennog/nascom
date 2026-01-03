@@ -1,16 +1,17 @@
+Imports System.Threading.Tasks
 Imports System.Windows.Forms
-
-Imports ncDados.nsUsuario
-Imports ncRegras.nsUsuario
-Imports ncDados.nsUsuarioPerfil
-Imports ncRegras.nsUsuarioPerfil
-Imports ncDados.nsLoja
-Imports ncRegras.nsLoja
-Imports ncRegras.nsParametro
-Imports ncDados.nsParametro
+Imports NasLibackup
+Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
 Imports ncComum.nsLog.cLog
-Imports ncComum.nsConstantes
+Imports ncDados.nsLoja
+Imports ncDados.nsParametro
+Imports ncDados.nsUsuario
+Imports ncDados.nsUsuarioPerfil
+Imports ncRegras.nsLoja
+Imports ncRegras.nsParametro
+Imports ncRegras.nsUsuario
+Imports ncRegras.nsUsuarioPerfil
 
 Public Class mdiPrincipal
 
@@ -80,6 +81,14 @@ Public Class mdiPrincipal
     Public Sub Iniciar()
         CarregarUsuario()
     End Sub
+    Public Async Function CarregarBackupAutomaticoAsync() As Task
+        Await ExecutarBackup()
+    End Function
+    Private Async Function ExecutarBackup() As Task
+
+        Await Libackup.RotinaDeCriarBackup()
+
+    End Function
 
     Private Function CarregarUsuario() As Boolean
         Dim regrasUsuario As rUsuario
