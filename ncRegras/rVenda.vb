@@ -322,8 +322,32 @@ Namespace nsVenda
       Incluir = retorno
 
     End Function
+        Public Function IncluirnNF(ByVal dados As dBasennf) As Integer
 
-    Public Function IncluirTroca(ByVal dados As dVenda, ByVal dadosProdutos As ColecaoVendaProduto) As Integer
+            Dim retorno As Integer
+            Dim persistencia As pVenda
+
+            Try
+
+                Using ts As New TransactionScope
+
+                    persistencia = New pVenda
+                    retorno = persistencia.IncluirnNF(dados)
+
+                    ts.Complete()
+                End Using
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Incluir basennf [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            IncluirnNF = retorno
+
+        End Function
+        Public Function IncluirTroca(ByVal dados As dVenda, ByVal dadosProdutos As ColecaoVendaProduto) As Integer
 
       Dim retorno As Integer
       Dim persistencia As pVenda
@@ -457,6 +481,31 @@ Namespace nsVenda
             End Try
 
             Alterar = retorno
+
+        End Function
+
+        Public Function AlterarBaseNnf(ByVal dados As dBasennf) As Integer
+
+            Dim retorno As Integer
+            Dim persistencia As pVenda
+
+            Try
+
+                Using ts As New TransactionScope
+                    persistencia = New pVenda
+                    retorno = persistencia.AlterarBaseNnf(dados)
+
+                    ts.Complete()
+                End Using
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            AlterarBaseNnf = retorno
 
         End Function
         Public Function Excluir(ByVal dados As dVenda) As Integer

@@ -870,7 +870,34 @@ Namespace nsVenda
             Return retorno
 
         End Function
+        Public Function IncluirnNF(ByVal dados As dBasennf) As Integer
 
+            Dim retorno As Integer
+            Dim acessoBanco As cAcessoBD
+            Dim comandoSQL As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                comandoSQL = " INSERT INTO " &
+                    " basennf (chnfe) " &
+                    " VALUES (" & cFuncoes.PersistirTexto(dados.chnfe) & "," &
+                             & ")"
+
+                retorno = acessoBanco.ExecutarCID(comandoSQL)
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            IncluirnNF = retorno
+
+        End Function
         Public Function IncluirCrediarioPagamento(ByVal dados As dVenda) As Integer
 
             Dim retorno As Integer
@@ -1006,6 +1033,33 @@ Namespace nsVenda
             End Try
 
             Alterar = retorno
+
+        End Function
+        Public Function AlterarBaseNnf(ByVal dados As dBasennf) As Integer
+
+            Dim retorno As Integer
+            Dim acessoBanco As cAcessoBD
+            Dim comandoSQL As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                comandoSQL = " UPDATE basennf SET " &
+                    " seqNFe = " & cFuncoes.PersistirTexto(dados.SeqNFe) &
+                    " WHERE " &
+                    " chnfe = " & cFuncoes.PersistirTexto(dados.chnfe)
+
+                retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Alterar basennf [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            AlterarBaseNnf = retorno
 
         End Function
 

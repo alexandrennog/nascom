@@ -33,7 +33,7 @@ namespace LibNF65
         X509Certificate2 x509Cert;
         static string chaveAcesso = string.Empty;
 
-        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle)
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
         {
 
             var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
@@ -80,8 +80,8 @@ namespace LibNF65
             DateTime dhEmi = DateTime.Now; // Data e hora de emissão
             string cnpjEmitente = resultado.InfCons.CNPJ; // CNPJ do emitente (14 dígitos)
 
-            int serie = 1; // Série da nota fiscal
-            int nNF = GerarNF(); // Número da nota fiscal  //TODO informar o controle
+            int serie = 2; // Série da nota fiscal
+            int nNF = nNFTemp;  //GerarNF(); // Número da nota fiscal  //TODO informar o controle
             int cNF = XMLUtility.GerarCodigoNumerico(nNF); // Código Numérico Aleatório (cNF)
 
             var conteudoChave = new XMLUtility.ConteudoChaveDFe

@@ -694,6 +694,8 @@ Public Class fPagamento
         Dim dadosParametro As dParametro
         Dim regraParametro As New rParametro
         Dim regraVenda As New ncRegras.nsVenda.rVenda
+        Dim novaVenda As New ncRegras.nsVenda.rVenda
+        Dim dados As New ncDados.nsVenda.dBasennf
 
         Dim objImpressao As ncComum.Impressao
         Dim qtdImpressao As Integer = 1
@@ -1107,9 +1109,13 @@ Public Class fPagamento
 
                         End If
 
+                        dados.chnfe = "temporario"
+                        Dim nNF = novaVenda.IncluirnNF(dados)
                         Dim lista = ConverterLista(dadosVendaProdutos.ToList)
-                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString())
+                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString(), nNF)
                         regraVenda.Alterar(controle.ToString(), chave)
+                        dados.chnfe = chave
+                        regraVenda.AlterarBaseNnf(dados)
 
                     Catch ex As Exception
                         MessageBox.Show(ex.Message)
