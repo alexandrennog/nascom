@@ -27,6 +27,9 @@ Public Class fAcesso
         txtSenha.Text = txtSenha.Text.Trim()
         primeiroAcesso = True
 
+        Dim backupAutomatico As String = ConfigurationManager.AppSettings("BACKUPAUTOMATICO")
+
+
         If txtUsuario.Text.Trim() = String.Empty Then
             MessageBox.Show("É necessário informar o nome de usuário.", "Acesso", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
@@ -86,11 +89,14 @@ Public Class fAcesso
                         regrasCrediario.CorrigirParcelas()
 
                         mdiPrincipal.Iniciar()
-                        Await mdiPrincipal.CarregarBackupAutomaticoAsync()
+
+                        If backupAutomatico = "SIM" Then
+                            Await mdiPrincipal.CarregarBackupAutomaticoAsync()
+                        End If
 
 
                     End If
-                End If
+                    End If
             End If
 
         Catch nex As ExcecaoNascomercio

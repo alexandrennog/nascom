@@ -100,3 +100,8 @@ Implantação:
 		<add key="SchemaVersao" value="4.00" />
 		<add key="VersaoConfiguracao" value="4.00" />
 		<add key="CNPJ" value="**************" />
+		
+		
+Para a versão 2.3.0.0 
+
+1 - Ajustado o sequenciamento da NF	
