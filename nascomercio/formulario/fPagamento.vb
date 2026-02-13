@@ -1115,6 +1115,7 @@ Public Class fPagamento
                         Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString(), nNF)
                         regraVenda.Alterar(controle.ToString(), chave)
                         dados.chnfe = chave
+                        dados.SeqNFe = nNF
                         regraVenda.AlterarBaseNnf(dados)
 
                     Catch ex As Exception

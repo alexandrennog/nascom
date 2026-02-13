@@ -883,8 +883,7 @@ Namespace nsVenda
 
                 comandoSQL = " INSERT INTO " &
                     " basennf (chnfe) " &
-                    " VALUES (" & cFuncoes.PersistirTexto(dados.chnfe) & "," &
-                             & ")"
+                    " VALUES (" & cFuncoes.PersistirTexto(dados.chnfe) & ")"
 
                 retorno = acessoBanco.ExecutarCID(comandoSQL)
 
@@ -1046,9 +1045,9 @@ Namespace nsVenda
                 acessoBanco = New cAcessoBD
 
                 comandoSQL = " UPDATE basennf SET " &
-                    " seqNFe = " & cFuncoes.PersistirTexto(dados.SeqNFe) &
+                    " chnfe = " & cFuncoes.PersistirTexto(dados.chnfe) &
                     " WHERE " &
-                    " chnfe = " & cFuncoes.PersistirTexto(dados.chnfe)
+                    " seqNFe = " & cFuncoes.PersistirTexto(dados.SeqNFe)
 
                 retorno = acessoBanco.ExecutarINT(comandoSQL)
 
