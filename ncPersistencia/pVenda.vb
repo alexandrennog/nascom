@@ -87,6 +87,63 @@ Namespace nsVenda
 
         End Function
 
+        Public Function ListarVendasNfe(ByVal dataIni As String, ByVal dataFim As String) As ColecaodVendasNfe
+
+            Dim retorno As ColecaodVendasNfe
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasNfe
+            Dim comandoSQL As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                comandoSQL = " SELECT SUBSTRING(chNFe, 25, 9) as cupom, DATE_FORMAT(dhrecbto, '%d/%m/%Y') as datavenda, total  " &
+                             "FROM nascomercio.vendas INNER JOIN nascomercio.infprot ON chNFe = chave and cstat = 100 " &
+                             $"where chave is not null and data >= '{dataIni}' and data <= '{dataFim}'"
+
+                ds = acessoBanco.ExecutarDS(comandoSQL)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaodVendasNfe
+
+                            For Each row In dt.Rows
+                                item = New dVendasNfe
+
+                                item.Cupom = cFuncoes.RetornarInteiro(row("cupom"))
+                                item.DataVenda = cFuncoes.RetornarInteiro(row("datavenda"))
+                                item.Valor = cFuncoes.RetornarInteiro(row("total"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ListarVendasNfe = retorno
+
+        End Function
+
         Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda

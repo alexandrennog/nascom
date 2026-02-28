@@ -9,43 +9,76 @@ Namespace nsVenda
 
   Public Class rVenda
 
-    '-- Métodos de controle ( Várias chamadas; Controle de transação )
+        '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
-    Public Function Listar() As ColecaoVenda
+        Public Function Listar() As ColecaoVenda
 
-      Dim retorno As ColecaoVenda
-      Dim persistencia As pVenda
-      Dim retornoPersistencia As ColecaoVenda
+            Dim retorno As ColecaoVenda
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaoVenda
 
-      Try
+            Try
 
-        retorno = New ColecaoVenda
+                retorno = New ColecaoVenda
 
-        persistencia = New pVenda
-        retornoPersistencia = persistencia.Listar()
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.Listar()
 
-        If Not retornoPersistencia Is Nothing Then
-          If retornoPersistencia.Count > 0 Then
-            retorno.AddRange(retornoPersistencia)
-          Else
-            retorno = Nothing
-          End If
-        Else
-          retorno = Nothing
-        End If
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Venda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Listar Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Listar = retorno
+            Listar = retorno
 
-    End Function
+        End Function
+        Public Function ListarVendasNfe(ByVal dataIni As String, ByVal dataFim As String) As ColecaodVendasNfe
 
-    Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
+            Dim retorno As ColecaodVendasNfe
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaodVendasNfe
+
+            Try
+
+                retorno = New ColecaodVendasNfe
+
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.ListarVendasNfe(dataIni, dataFim)
+
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ListarVendasNfe = retorno
+
+        End Function
+
+        Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
 
       Dim retorno As ColecaoVenda
       Dim persistencia As pVenda

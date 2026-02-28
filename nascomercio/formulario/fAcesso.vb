@@ -85,6 +85,7 @@ Public Class fAcesso
                                 Exit For
                             End If
                         Next
+
                         regrasCrediario = New rCrediario()
                         regrasCrediario.CorrigirParcelas()
 
@@ -93,7 +94,6 @@ Public Class fAcesso
                         If backupAutomatico = "SIM" Then
                             Await mdiPrincipal.CarregarBackupAutomaticoAsync()
                         End If
-
 
                     End If
                     End If

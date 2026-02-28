@@ -54,6 +54,7 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dVendasNfe.vb" />
     <Compile Include="dBasennf.vb" />
     <Compile Include="dCaixa.vb" />
     <Compile Include="dCaixaFechamento.vb" />
