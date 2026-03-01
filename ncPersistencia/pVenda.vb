@@ -118,8 +118,8 @@ Namespace nsVenda
                                 item = New dVendasNfe
 
                                 item.Cupom = cFuncoes.RetornarInteiro(row("cupom"))
-                                item.DataVenda = cFuncoes.RetornarInteiro(row("datavenda"))
-                                item.Valor = cFuncoes.RetornarInteiro(row("total"))
+                                item.DataVenda = cFuncoes.RetornarTexto(row("datavenda"))
+                                item.Valor = cFuncoes.RetornarTexto(row("total"))
 
                                 retorno.Add(item)
                             Next

@@ -262,11 +262,11 @@ namespace LibNF65
                 Versao = "4.00",
                 Ide = new XmlNFe.Ide
                 {
-                    NNF = XMLUtility.GerarCodigoNumerico(nNF),
+                    NNF = nNF,
                     CUF = UFBrasil.SP,
                     NatOp = "VENDA PRODUC.DO ESTABELEC",
                     Mod = ModeloDFe.NFCe,
-                    Serie = 1,
+                    Serie = 2,
                     DhEmi = DateTime.Now,
                     DhSaiEnt = DateTime.Now,
                     TpNF = TipoOperacao.Saida,
