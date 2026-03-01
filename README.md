@@ -105,3 +105,11 @@ Implantação:
 Para a versão 2.3.0.0 
 
 1 - Ajustado o sequenciamento da NF	
+2 - Inclusão de relatório de vendas com NFe
+3 - Inclusão de backup automático em nuvem.
+    <add key="clientID" value="1030" />
+    <add key="Cliente" value="Sapatek" />
+    <add key="Loja" value="matriz" />
+    <add key="bucketName" value="nascombackup" />
+    <add key="directoryBackupPath" value="C:\\nascomercio\\backup\\" />
+    <add key="BACKUPAUTOMATICO" value="SIM" />
