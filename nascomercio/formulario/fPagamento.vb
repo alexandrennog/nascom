@@ -42,7 +42,7 @@ Public Class fPagamento
     Private dadosParametro As dParametro
     Private regraParametro As rParametro
     Private certificadoCarregado As New X509Certificate2
-
+    Private Shared ReadOnly _lockNFe As New Object()
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
     End Sub
