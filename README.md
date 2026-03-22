@@ -113,3 +113,10 @@ Para a versão 2.3.0.0
     <add key="bucketName" value="nascombackup" />
     <add key="directoryBackupPath" value="C:\\nascomercio\\backup\\" />
     <add key="BACKUPAUTOMATICO" value="SIM" />
+	
+	
+Para a versão 2.3.1.0 
+
+1 - Remoção de dados sensíveis do ap.config
+		
+	
