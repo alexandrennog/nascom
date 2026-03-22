@@ -139,6 +139,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Criptografia.cs" />
     <Compile Include="DadosQrCodeNFCe.cs" />
     <Compile Include="DanfeQrCodeGenerator.cs" />
     <Compile Include="ImpressaoNFCe.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Modelo\DarumaFrameworkSat.cs" />
     <Compile Include="Modelo\InfoProduto.cs" />
     <Compile Include="Modelo\MeioPagamentoNascom.cs" />
+    <Compile Include="Modelo\PixConfig.cs" />
     <Compile Include="Modelo\ProdutoVendido.cs" />
     <Compile Include="NFCe65.cs" />
     <Compile Include="NFCeImpressaoSP.cs" />

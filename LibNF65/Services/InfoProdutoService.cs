@@ -2,6 +2,7 @@ using LibNF65.Interfaces;
 using LibNF65.Modelo;
 using System;
 using System.Collections.Generic;
+using Unimake.Business.DFe.Xml.NFe;
 
 namespace LibNF65.Services
 {
@@ -52,6 +53,12 @@ namespace LibNF65.Services
         {
             repository.UpdateEvent(ChNFe, xEvento, NProt);
         }
+
+        public PixConfig GetPixConfig(IInfProtRepository repository)
+        {
+            return repository.GetPixConfig();
+        }
+
     }
 }
 

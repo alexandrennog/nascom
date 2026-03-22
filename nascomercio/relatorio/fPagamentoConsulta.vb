@@ -3,6 +3,7 @@ Imports System.Security.Cryptography.X509Certificates
 Imports System.Threading.Tasks
 Imports System.Web.UI.WebControls
 Imports LibNF65
+Imports LibNF65.Modelo
 Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
 Imports ncComum.nsLog.cLog
@@ -24,6 +25,9 @@ Public Class fPagamentoConsulta
     Public crediario As String
     Private dadosParametro As dParametro
     Private regraParametro As rParametro
+    Dim caminhoCertificado As String
+    Dim senhaCertificado As String
+    Dim config As New PixConfig()
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
@@ -62,6 +66,10 @@ Public Class fPagamentoConsulta
         lblTroco.Text = 0.ToString("N")
         lblRecebido.Text = 0.ToString("N")
         lblVale.Text = 0.ToString("N")
+
+        config = NFCe65.ConsultarConfig()
+        caminhoCertificado = config.PathCertificate
+        senhaCertificado = config.PassCertificate
 
         CarregarComboCondicao()
         cboCondicao.Text = condicao
@@ -139,8 +147,6 @@ Public Class fPagamentoConsulta
 
         Dim certificado As New CertificadoDigital()
 
-        Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
-        Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
 
         certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
     End Function

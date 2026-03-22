@@ -19,6 +19,7 @@ Namespace nsAcessoBD
 
                 con = New MySqlConnection()
                 caminhoBD = conexao.ConnectionStrings("nascomercio").ConnectionString
+                caminhoBD = ExtrairPass(caminhoBD)
                 con.ConnectionString = caminhoBD
                 con.Open()
 
@@ -32,7 +33,22 @@ Namespace nsAcessoBD
             Return con
 
         End Function
+        Private Function ExtrairPass(ByVal strConn As String) As String
+            Dim builder As New System.Data.Common.DbConnectionStringBuilder()
+            Dim cripto As New ncComum.criptografia()
+            Dim result As String
 
+            builder.ConnectionString = strConn
+
+            Dim password As String = builder("Password").ToString()
+
+            result = Split(cripto.Descriptografar(password), vbNullChar)(0)
+            cripto = Nothing
+
+            strConn = strConn.Replace(password, result)
+
+            ExtrairPass = strConn
+        End Function
         Public Function ExecutarINT(ByVal comandoSQL As String) As Integer
 
             Dim cmd As MySqlCommand = Nothing

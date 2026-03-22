@@ -7,6 +7,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
@@ -36,11 +37,13 @@ namespace LibNF65
         public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
         {
 
+            PixConfig pixConfig = GetPixConfig();
+
             var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
             {
                 TipoDFe = TipoDFe.NFCe,
-                CertificadoArquivo = ConfigurationManager.AppSettings["CertificadoArquivo"],
-                CertificadoSenha = ConfigurationManager.AppSettings["CertificadoSenha"],
+                CertificadoArquivo = pixConfig.PathCertificate,
+                CertificadoSenha = pixConfig.PassCertificate,
                 TipoAmbiente = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
                 UsaCertificadoDigital = true,
                 CSC = ConfigurationManager.AppSettings["CSC"],
@@ -62,10 +65,6 @@ namespace LibNF65
 
 
             var objNFCe = new NasNFCe();
-
-
-            string caminhoCertificado = ConfigurationManager.AppSettings["CertificadoArquivo"];
-            string senhaCertificado = ConfigurationManager.AppSettings["CertificadoSenha"];
 
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             // 3. Executando a consulta
@@ -173,6 +172,8 @@ namespace LibNF65
 
         }
 
+        
+
         private static void CriarDiretorios()
         {
             if (!Directory.Exists("NFs"))
@@ -248,6 +249,22 @@ namespace LibNF65
 
             // Para visualizar antes de imprimir
             impressao.Imprimir(null);  // VisualizarImpressao();
+        }
+
+        private static PixConfig GetPixConfig()
+        {
+            IInfProtRepository repository = new InfProtRepository();
+
+            var infoProdutoService = new InfoProdutoService();
+            return infoProdutoService.GetPixConfig(repository);
+        }
+
+        public static PixConfig ConsultarConfig()
+        {
+            PixConfig config = GetPixConfig();
+
+
+            return config;
         }
 
         public static void Reimprimir(string chaveAcesso)

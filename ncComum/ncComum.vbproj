@@ -108,6 +108,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LibNF65\LibNF65.csproj">
+      <Project>{b1234567-89ab-4cde-f012-3456789abcde}</Project>
+      <Name>LibNF65</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ncDados\ncDados.vbproj">
       <Project>{0989AA3A-D886-427D-A635-355D5B93D95F}</Project>
       <Name>ncDados</Name>

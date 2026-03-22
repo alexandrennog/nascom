@@ -9,6 +9,7 @@ namespace LibNF65.Interfaces
 {
     public interface IInfProtRepository
     {
+        PixConfig GetPixConfig();
         void Add(InfoProduto infoProduto);
         InfoProduto GetByChNFe(string chNFe);
         IEnumerable<InfoProduto> GetAll();

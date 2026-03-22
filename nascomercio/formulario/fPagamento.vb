@@ -10,6 +10,7 @@ Imports System.Threading.Tasks
 Imports CLPix.Services
 Imports iTextSharp.text
 Imports LibNF65
+Imports LibNF65.Modelo
 Imports LibNF65.NFCeModel
 Imports ncComum.DFW
 Imports ncComum.nsConstantes
@@ -27,8 +28,8 @@ Imports ncRegras.nsCliente
 Imports ncRegras.nsParametro
 Imports ncRegras.nsProduto
 Imports Unimake.Business.DFe.Servicos
+Imports Unimake.Business.DFe.Xml.SNCM
 Imports Unimake.Business.Security
-Imports LibNF65.Modelo
 
 
 Public Class fPagamento
@@ -43,6 +44,9 @@ Public Class fPagamento
     Private regraParametro As rParametro
     Private certificadoCarregado As New X509Certificate2
     Private Shared ReadOnly _lockNFe As New Object()
+    Dim caminhoCertificado As String
+    Dim senhaCertificado As String
+    Dim config As New PixConfig()
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
     End Sub
@@ -94,9 +98,14 @@ Public Class fPagamento
     End Sub
 
     Private Sub fPagamento_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         lblTroco.Text = 0.ToString("N")
         lblRecebido.Text = 0.ToString("N")
         lblVale.Text = 0.ToString("N")
+
+        config = NFCe65.ConsultarConfig()
+        caminhoCertificado = config.PathCertificate
+        senhaCertificado = config.PassCertificate
 
         CarregarComboCondicao()
         cboCondicao.Text = condicao
@@ -138,10 +147,8 @@ Public Class fPagamento
 
         Dim certificado As New CertificadoDigital()
 
-        Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
-        Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
 
-        certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
+        certificadoCarregado = Await CarregarCertificadoAsync(config.PathCertificate, config.PassCertificate, certificado)
     End Function
     Private Function HabilitarPix() As Boolean
         ' Habilitar uso do PIX?

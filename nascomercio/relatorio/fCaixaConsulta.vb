@@ -2,6 +2,7 @@ Imports System.Configuration
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Threading.Tasks
 Imports LibNF65
+Imports LibNF65.Modelo
 Imports ncComum.DFW
 Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
@@ -19,6 +20,9 @@ Imports Unimake.Business.Security
 
 Public Class fCaixaConsulta
     Private certificadoCarregado As New X509Certificate2
+    Dim caminhoCertificado As String
+    Dim senhaCertificado As String
+    Dim config As New PixConfig()
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Fechar()
     End Sub
@@ -37,6 +41,10 @@ Public Class fCaixaConsulta
         Me.CarregarComboCondicao()
         Me.lblMsg.Tag = False
         Me.lblLoja.Text = mdiPrincipal.gLoja.nomeFantasia
+
+        config = NFCe65.ConsultarConfig()
+        caminhoCertificado = config.PathCertificate
+        senhaCertificado = config.PassCertificate
 
         If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
             lblTitulo.Text = "CAIXA"
@@ -60,9 +68,6 @@ Public Class fCaixaConsulta
 
         Dim certificado As New CertificadoDigital()
 
-        Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
-        Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
-
         CarregarComboCondicaoAsync()
 
     End Sub
@@ -70,8 +75,6 @@ Public Class fCaixaConsulta
 
         Dim certificado As New CertificadoDigital()
 
-        Dim caminhoCertificado As String = ConfigurationManager.AppSettings("CertificadoArquivo")
-        Dim senhaCertificado As String = ConfigurationManager.AppSettings("CertificadoSenha")
 
         certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
     End Function

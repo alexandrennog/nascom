@@ -7,9 +7,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unimake.Business.DFe;
+using Unimake.Business.DFe.Xml.NFe;
 
 namespace LibNF65
 {
@@ -20,10 +23,43 @@ namespace LibNF65
 
         public InfProtRepository()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString;
+            _connectionString = ExtrairPass(ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString);
+            //_connectionString = ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString;
+
             if (string.IsNullOrEmpty(_connectionString))
             {
                 throw new InvalidOperationException("A string de conexão 'MySqlConnection' não foi encontrada no App.config.");
+            }
+        }
+
+        private string ExtrairPass(string strConn)
+        {
+            var builder = new System.Data.Common.DbConnectionStringBuilder();
+            var cripto = new Criptografia();
+
+            builder.ConnectionString = strConn;
+
+            string password = builder["Password"].ToString();
+
+            string descriptografado = cripto.Descriptografar(password);
+
+            string result = descriptografado.Split('\0')[0]; // '\0' = vbNullChar
+
+            cripto = null;
+
+            strConn = strConn.Replace(password, result);
+
+            return strConn;
+        }
+
+        public PixConfig GetPixConfig()
+        {
+
+            string sql = $"SELECT Banco, Cliente,Cpf ,Cnpj,Nome, Chave, Client_id, client_secret, PathCertificate, PassCertificate FROM pixconfig";
+            using (IDbConnection dbConnection = Connection)
+            {
+                dbConnection.Open();
+                return dbConnection.Query<PixConfig>(sql).FirstOrDefault();
             }
         }
 
