@@ -80,6 +80,8 @@ Public Class fRelatorio
             mdiPrincipal.CarregarRelVendasPorLoja()
         ElseIf rbtVendasNFe.Checked Then
             mdiPrincipal.CarregarRelVendasNFe()
+        ElseIf rbtVendasABC.Checked Then
+            mdiPrincipal.CarregarRelVendasABC()
         End If
 
     End Sub
@@ -170,6 +172,10 @@ Public Class fRelatorio
     End Sub
 
     Private Sub rbtVendasPorVendedor_CheckedChanged(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub rbtVendasNFe_CheckedChanged(sender As Object, e As EventArgs) Handles rbtVendasNFe.CheckedChanged
 
     End Sub
 End Class

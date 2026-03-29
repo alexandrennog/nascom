@@ -1,13 +1,14 @@
 Imports System.Transactions
-
+Imports ncComum.nsExcecao
+Imports ncComum.nsFuncoes
+Imports ncDados
+Imports ncDados.nsCurvaABC
 Imports ncDados.nsVenda
 Imports ncPersistencia.nsVenda
-Imports ncComum.nsFuncoes
-Imports ncComum.nsExcecao
 
 Namespace nsVenda
 
-  Public Class rVenda
+    Public Class rVenda
 
         '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
@@ -77,40 +78,72 @@ Namespace nsVenda
             ListarVendasNfe = retorno
 
         End Function
+        Public Function ListarVendasABC(ByVal dataIni As String, ByVal dataFim As String) As ColecaodVendasABC
 
+            Dim retorno As ColecaodVendasABC
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaodVendasABC
+
+            Try
+
+                retorno = New ColecaodVendasABC
+
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.ListarVendasABC(dataIni, dataFim)
+
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ListarVendasABC = retorno
+
+        End Function
         Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
 
-      Dim retorno As ColecaoVenda
-      Dim persistencia As pVenda
-      Dim retornoPersistencia As ColecaoVenda
+            Dim retorno As ColecaoVenda
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaoVenda
 
-      Try
+            Try
 
-        retorno = New ColecaoVenda
+                retorno = New ColecaoVenda
 
-        persistencia = New pVenda
-        retornoPersistencia = persistencia.Consultar(dados)
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.Consultar(dados)
 
-        If Not retornoPersistencia Is Nothing Then
-          If retornoPersistencia.Count > 0 Then
-            retorno.AddRange(retornoPersistencia)
-          Else
-            retorno = Nothing
-          End If
-        Else
-          retorno = Nothing
-        End If
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Return retorno
+            Return retorno
 
-    End Function
+        End Function
         Public Function ConsultarPix(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda
@@ -245,116 +278,116 @@ Namespace nsVenda
         End Function
         Public Function ConsultarTroca(ByVal dados As dVenda) As ColecaoVenda
 
-      Dim retorno As ColecaoVenda
-      Dim persistencia As pVenda
-      Dim retornoPersistencia As ColecaoVenda
+            Dim retorno As ColecaoVenda
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As ColecaoVenda
 
-      Try
+            Try
 
-        retorno = New ColecaoVenda
+                retorno = New ColecaoVenda
 
-        persistencia = New pVenda
-        retornoPersistencia = persistencia.ConsultarTroca(dados)
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.ConsultarTroca(dados)
 
-        If Not retornoPersistencia Is Nothing Then
-          If retornoPersistencia.Count > 0 Then
-            retorno.AddRange(retornoPersistencia)
-          Else
-            retorno = Nothing
-          End If
-        Else
-          retorno = Nothing
-        End If
+                If Not retornoPersistencia Is Nothing Then
+                    If retornoPersistencia.Count > 0 Then
+                        retorno.AddRange(retornoPersistencia)
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Return retorno
+            Return retorno
 
-    End Function
+        End Function
 
-    Public Function ConsultarUltimaVenda(ByVal produto_cid As Integer) As dVenda
+        Public Function ConsultarUltimaVenda(ByVal produto_cid As Integer) As dVenda
 
-      Dim retorno As dVenda
-      Dim persistencia As pVenda
+            Dim retorno As dVenda
+            Dim persistencia As pVenda
 
-      Try
+            Try
 
-        retorno = New dVenda
+                retorno = New dVenda
 
-        persistencia = New pVenda
-        retorno = persistencia.ConsultarUltimaVenda(produto_cid)
+                persistencia = New pVenda
+                retorno = persistencia.ConsultarUltimaVenda(produto_cid)
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em ConsultarUltimaVenda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ConsultarUltimaVenda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      ConsultarUltimaVenda = retorno
+            ConsultarUltimaVenda = retorno
 
-    End Function
+        End Function
 
-    Public Function ConsultarMax() As Integer
+        Public Function ConsultarMax() As Integer
 
-      Dim persistencia As pVenda
-      Dim retornoPersistencia As Integer
+            Dim persistencia As pVenda
+            Dim retornoPersistencia As Integer
 
-      Try
+            Try
 
-        persistencia = New pVenda
-        retornoPersistencia = persistencia.ConsultarMax()
+                persistencia = New pVenda
+                retornoPersistencia = persistencia.ConsultarMax()
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retornoPersistencia = Nothing
-        Throw New ExcecaoNascomercio("Erro em ConsultarMax Venda [" & Me.ToString() & "] - " & ex.Message)
+                retornoPersistencia = Nothing
+                Throw New ExcecaoNascomercio("Erro em ConsultarMax Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      ConsultarMax = retornoPersistencia
+            ConsultarMax = retornoPersistencia
 
-    End Function
+        End Function
 
-    Public Function Incluir(ByVal dados As dVenda, ByVal dadosProdutos As ColecaoVendaProduto) As Integer
+        Public Function Incluir(ByVal dados As dVenda, ByVal dadosProdutos As ColecaoVendaProduto) As Integer
 
-      Dim retorno As Integer
-      Dim persistencia As pVenda
-      Dim persistenciaProduto As pVendaProduto
+            Dim retorno As Integer
+            Dim persistencia As pVenda
+            Dim persistenciaProduto As pVendaProduto
 
-      Try
+            Try
 
-        Using ts As New TransactionScope
+                Using ts As New TransactionScope
 
-          persistencia = New pVenda
-          retorno = persistencia.Incluir(dados)
+                    persistencia = New pVenda
+                    retorno = persistencia.Incluir(dados)
 
-          persistenciaProduto = New pVendaProduto()
-          If Not IsNothing(dadosProdutos) Then
-            For Each produto As dVendaProduto In dadosProdutos
-              produto.controle = retorno
-              persistenciaProduto.Incluir(produto)
-            Next
-          End If
+                    persistenciaProduto = New pVendaProduto()
+                    If Not IsNothing(dadosProdutos) Then
+                        For Each produto As dVendaProduto In dadosProdutos
+                            produto.controle = retorno
+                            persistenciaProduto.Incluir(produto)
+                        Next
+                    End If
 
-          ts.Complete()
-        End Using
+                    ts.Complete()
+                End Using
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Incluir = retorno
+            Incluir = retorno
 
-    End Function
+        End Function
         Public Function IncluirnNF(ByVal dados As dBasennf) As Integer
 
             Dim retorno As Integer
@@ -382,115 +415,115 @@ Namespace nsVenda
         End Function
         Public Function IncluirTroca(ByVal dados As dVenda, ByVal dadosProdutos As ColecaoVendaProduto) As Integer
 
-      Dim retorno As Integer
-      Dim persistencia As pVenda
-      Dim persistenciaProduto As pVendaProduto
+            Dim retorno As Integer
+            Dim persistencia As pVenda
+            Dim persistenciaProduto As pVendaProduto
 
-      Try
+            Try
 
-        Using ts As New TransactionScope
+                Using ts As New TransactionScope
 
-          persistencia = New pVenda
-          retorno = persistencia.IncluirVale(dados)
+                    persistencia = New pVenda
+                    retorno = persistencia.IncluirVale(dados)
 
-          persistenciaProduto = New pVendaProduto()
-          If Not IsNothing(dadosProdutos) Then
-            For Each produto As dVendaProduto In dadosProdutos
-              produto.controle = retorno
-              persistenciaProduto.IncluirTroca(produto)
-            Next
-          End If
+                    persistenciaProduto = New pVendaProduto()
+                    If Not IsNothing(dadosProdutos) Then
+                        For Each produto As dVendaProduto In dadosProdutos
+                            produto.controle = retorno
+                            persistenciaProduto.IncluirTroca(produto)
+                        Next
+                    End If
 
-          ts.Complete()
-        End Using
+                    ts.Complete()
+                End Using
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Return retorno
+            Return retorno
 
-    End Function
+        End Function
 
-    Public Function IncluirVale(ByVal dados As dVenda) As Integer
+        Public Function IncluirVale(ByVal dados As dVenda) As Integer
 
-      Dim retorno As Integer
-      Dim persistencia As pVenda
+            Dim retorno As Integer
+            Dim persistencia As pVenda
 
-      Try
+            Try
 
-        Using ts As New TransactionScope
+                Using ts As New TransactionScope
 
-          persistencia = New pVenda
-          retorno = persistencia.IncluirVale(dados)
+                    persistencia = New pVenda
+                    retorno = persistencia.IncluirVale(dados)
 
-          ts.Complete()
-        End Using
+                    ts.Complete()
+                End Using
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Return retorno
+            Return retorno
 
-    End Function
+        End Function
 
-    Public Function IncluirCrediarioPagamento(ByVal dados As dVenda) As Integer
+        Public Function IncluirCrediarioPagamento(ByVal dados As dVenda) As Integer
 
-      Dim retorno As Integer
-      Dim persistencia As pVenda
+            Dim retorno As Integer
+            Dim persistencia As pVenda
 
-      Try
+            Try
 
-        Using ts As New TransactionScope
+                Using ts As New TransactionScope
 
-          persistencia = New pVenda
-          retorno = persistencia.IncluirCrediarioPagamento(dados)
+                    persistencia = New pVenda
+                    retorno = persistencia.IncluirCrediarioPagamento(dados)
 
-          ts.Complete()
-        End Using
+                    ts.Complete()
+                End Using
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Pagamento de Crediário [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Incluir Pagamento de Crediário [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Return retorno
+            Return retorno
 
-    End Function
+        End Function
 
-    Public Function Alterar(ByVal dados As dVenda) As Integer
+        Public Function Alterar(ByVal dados As dVenda) As Integer
 
-      Dim retorno As Integer
-      Dim persistencia As pVenda
+            Dim retorno As Integer
+            Dim persistencia As pVenda
 
-      Try
+            Try
 
-        Using ts As New TransactionScope
-          persistencia = New pVenda
-          retorno = persistencia.Alterar(dados)
+                Using ts As New TransactionScope
+                    persistencia = New pVenda
+                    retorno = persistencia.Alterar(dados)
 
-          ts.Complete()
-        End Using
+                    ts.Complete()
+                End Using
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
-      Alterar = retorno
+            Alterar = retorno
 
-    End Function
+        End Function
 
         Public Function Alterar(ByVal controle As String, ByVal chave As String) As Integer
 
@@ -543,27 +576,27 @@ Namespace nsVenda
         End Function
         Public Function Excluir(ByVal dados As dVenda) As Integer
 
-      Dim retorno As Integer
-      Dim persistencia As pVenda
+            Dim retorno As Integer
+            Dim persistencia As pVenda
 
-      Try
+            Try
 
-        Using ts As New TransactionScope
-          persistencia = New pVenda
-          retorno = persistencia.Excluir(dados)
-          ts.Complete()
-        End Using
+                Using ts As New TransactionScope
+                    persistencia = New pVenda
+                    retorno = persistencia.Excluir(dados)
+                    ts.Complete()
+                End Using
 
-      Catch ex As Exception
+            Catch ex As Exception
 
-        retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Excluir Venda [" & Me.ToString() & "] - " & ex.Message)
 
-      End Try
+            End Try
 
             Return retorno
 
-    End Function
+        End Function
 
         Public Function ExcluirVale(ByVal dados As dVenda) As Integer
 

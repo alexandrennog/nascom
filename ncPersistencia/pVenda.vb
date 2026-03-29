@@ -6,6 +6,7 @@ Imports ncComum.nsAcessoBD
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
 Imports ncDados
+Imports ncDados.nsCurvaABC
 Imports ncDados.nsVenda
 
 Namespace nsVenda
@@ -143,7 +144,64 @@ Namespace nsVenda
             ListarVendasNfe = retorno
 
         End Function
+        Public Function ListarVendasABC(ByVal dataIni As String, ByVal dataFim As String) As ColecaodVendasABC
 
+            Dim retorno As ColecaodVendasABC
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dCurvaAbc
+            Dim comandoSQL As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                ds = acessoBanco.ExecutarDS("call sp_curva_abc()")
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaodVendasABC
+
+                            For Each row In dt.Rows
+                                item = New dCurvaAbc
+
+                                item.Referencia = cFuncoes.RetornarTexto(row("referencia"))
+                                item.Descricao = cFuncoes.RetornarTexto(row("descricao"))
+                                item.Faturamento = cFuncoes.RetornarDecimal(row("faturamento"))
+                                item.PercIndividual = cFuncoes.RetornarDecimal(row("perc_individual"))
+                                item.PercAcumulado = cFuncoes.RetornarDecimal(row("perc_acumulado"))
+                                item.ClasseAbc = cFuncoes.RetornarTexto(row("classe_abc"))
+                                item.Fabricante = cFuncoes.RetornarTexto(row("fabricante"))
+                                item.Fornecedor = cFuncoes.RetornarTexto(row("fornecedor"))
+                                item.EstoqueAtual = cFuncoes.RetornarDecimal(row("estoque_atual"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarVendasABC Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ListarVendasABC = retorno
+
+        End Function
         Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda

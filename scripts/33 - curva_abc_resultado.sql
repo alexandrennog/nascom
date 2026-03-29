@@ -1,0 +1,11 @@
+CREATE TABLE `curva_abc_resultado` (
+  `referencia` varchar(20) DEFAULT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `faturamento` decimal(43,2) DEFAULT NULL,
+  `perc_individual` decimal(49,2) DEFAULT NULL,
+  `perc_acumulado` decimal(50,2) DEFAULT NULL,
+  `classe_abc` varchar(1) DEFAULT NULL,
+  `fabricante` varchar(100) DEFAULT NULL,
+  `fornecedor` varchar(100) DEFAULT NULL,
+  `estoque_atual` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

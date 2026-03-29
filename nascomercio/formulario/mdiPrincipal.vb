@@ -1097,6 +1097,11 @@ Public Class mdiPrincipal
         formulario = fRelatorioVendasNfe
         AbrirTela()
     End Sub
+    Public Sub CarregarRelVendasABC()
+        FecharTela()
+        formulario = fRelatorioVendasABC
+        AbrirTela()
+    End Sub
 
     Private Sub btoCaixa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoCaixa.Click
         If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
