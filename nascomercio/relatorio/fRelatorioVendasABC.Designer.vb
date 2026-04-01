@@ -31,13 +31,15 @@ Partial Class fRelatorioVendasABC
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txtDataFinal = New System.Windows.Forms.MaskedTextBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtCaixa = New System.Windows.Forms.TextBox()
-        Me.lblProduto = New System.Windows.Forms.Label()
         Me.lstPix = New System.Windows.Forms.ListView()
         Me.btnPrint = New System.Windows.Forms.Button()
         Me.btoExport = New System.Windows.Forms.Button()
         Me.SaveFileVendas = New System.Windows.Forms.SaveFileDialog()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rdValor = New System.Windows.Forms.RadioButton()
+        Me.rdQtde = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblSubTitulo
@@ -74,7 +76,7 @@ Partial Class fRelatorioVendasABC
         Me.btoFiltro.ForeColor = System.Drawing.Color.Black
         Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
         Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(783, 16)
+        Me.btoFiltro.Location = New System.Drawing.Point(640, 12)
         Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
         Me.btoFiltro.Name = "btoFiltro"
         Me.btoFiltro.Size = New System.Drawing.Size(72, 84)
@@ -104,7 +106,7 @@ Partial Class fRelatorioVendasABC
         Me.btoSair.ForeColor = System.Drawing.Color.Black
         Me.btoSair.Image = Global.nascomercio.My.Resources.Resources.fechar
         Me.btoSair.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoSair.Location = New System.Drawing.Point(942, 16)
+        Me.btoSair.Location = New System.Drawing.Point(799, 12)
         Me.btoSair.Name = "btoSair"
         Me.btoSair.Size = New System.Drawing.Size(57, 84)
         Me.btoSair.TabIndex = 134
@@ -116,7 +118,6 @@ Partial Class fRelatorioVendasABC
         '
         Me.txtDataInicial.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDataInicial.Culture = New System.Globalization.CultureInfo("")
-        Me.txtDataInicial.Enabled = False
         Me.txtDataInicial.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtDataInicial.Location = New System.Drawing.Point(161, 78)
         Me.txtDataInicial.Mask = "00/00/0000"
@@ -140,7 +141,6 @@ Partial Class fRelatorioVendasABC
         '
         Me.txtDataFinal.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDataFinal.Culture = New System.Globalization.CultureInfo("")
-        Me.txtDataFinal.Enabled = False
         Me.txtDataFinal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.txtDataFinal.Location = New System.Drawing.Point(288, 78)
         Me.txtDataFinal.Mask = "00/00/0000"
@@ -160,33 +160,12 @@ Partial Class fRelatorioVendasABC
         Me.Label1.Text = "até"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'txtCaixa
-        '
-        Me.txtCaixa.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtCaixa.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCaixa.Location = New System.Drawing.Point(486, 78)
-        Me.txtCaixa.MaxLength = 20
-        Me.txtCaixa.Name = "txtCaixa"
-        Me.txtCaixa.Size = New System.Drawing.Size(212, 18)
-        Me.txtCaixa.TabIndex = 208
-        '
-        'lblProduto
-        '
-        Me.lblProduto.AutoSize = True
-        Me.lblProduto.BackColor = System.Drawing.Color.Transparent
-        Me.lblProduto.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.lblProduto.Location = New System.Drawing.Point(429, 78)
-        Me.lblProduto.Name = "lblProduto"
-        Me.lblProduto.Size = New System.Drawing.Size(51, 18)
-        Me.lblProduto.TabIndex = 209
-        Me.lblProduto.Text = "Caixa:"
-        '
         'lstPix
         '
         Me.lstPix.HideSelection = False
         Me.lstPix.Location = New System.Drawing.Point(68, 140)
         Me.lstPix.Name = "lstPix"
-        Me.lstPix.Size = New System.Drawing.Size(630, 295)
+        Me.lstPix.Size = New System.Drawing.Size(709, 295)
         Me.lstPix.TabIndex = 210
         Me.lstPix.UseCompatibleStateImageBehavior = False
         '
@@ -200,7 +179,7 @@ Partial Class fRelatorioVendasABC
         Me.btnPrint.ForeColor = System.Drawing.Color.Black
         Me.btnPrint.Image = Global.nascomercio.My.Resources.Resources.print_design
         Me.btnPrint.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btnPrint.Location = New System.Drawing.Point(867, 16)
+        Me.btnPrint.Location = New System.Drawing.Point(724, 12)
         Me.btnPrint.Margin = New System.Windows.Forms.Padding(0)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(72, 84)
@@ -219,7 +198,7 @@ Partial Class fRelatorioVendasABC
         Me.btoExport.ForeColor = System.Drawing.Color.Black
         Me.btoExport.Image = Global.nascomercio.My.Resources.Resources.grade1
         Me.btoExport.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoExport.Location = New System.Drawing.Point(783, 140)
+        Me.btoExport.Location = New System.Drawing.Point(799, 112)
         Me.btoExport.Margin = New System.Windows.Forms.Padding(0)
         Me.btoExport.Name = "btoExport"
         Me.btoExport.Size = New System.Drawing.Size(72, 84)
@@ -229,17 +208,50 @@ Partial Class fRelatorioVendasABC
         Me.btoExport.UseVisualStyleBackColor = False
         Me.btoExport.Visible = False
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rdQtde)
+        Me.GroupBox1.Controls.Add(Me.rdValor)
+        Me.GroupBox1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.GroupBox1.Location = New System.Drawing.Point(388, 56)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(232, 65)
+        Me.GroupBox1.TabIndex = 213
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Curva por:"
+        '
+        'rdValor
+        '
+        Me.rdValor.AutoSize = True
+        Me.rdValor.Checked = True
+        Me.rdValor.Location = New System.Drawing.Point(29, 25)
+        Me.rdValor.Name = "rdValor"
+        Me.rdValor.Size = New System.Drawing.Size(61, 22)
+        Me.rdValor.TabIndex = 0
+        Me.rdValor.TabStop = True
+        Me.rdValor.Text = "Valor"
+        Me.rdValor.UseVisualStyleBackColor = True
+        '
+        'rdQtde
+        '
+        Me.rdQtde.AutoSize = True
+        Me.rdQtde.Location = New System.Drawing.Point(133, 25)
+        Me.rdQtde.Name = "rdQtde"
+        Me.rdQtde.Size = New System.Drawing.Size(61, 22)
+        Me.rdQtde.TabIndex = 1
+        Me.rdQtde.Text = "Qtde"
+        Me.rdQtde.UseVisualStyleBackColor = True
+        '
         'fRelatorioVendasABC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1016, 598)
+        Me.ClientSize = New System.Drawing.Size(882, 474)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.btoExport)
         Me.Controls.Add(Me.btnPrint)
         Me.Controls.Add(Me.lstPix)
-        Me.Controls.Add(Me.txtCaixa)
-        Me.Controls.Add(Me.lblProduto)
         Me.Controls.Add(Me.txtDataFinal)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtDataInicial)
@@ -259,6 +271,8 @@ Partial Class fRelatorioVendasABC
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "fFabricanteLista"
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -272,10 +286,11 @@ Partial Class fRelatorioVendasABC
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents txtDataFinal As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents txtCaixa As System.Windows.Forms.TextBox
-    Friend WithEvents lblProduto As System.Windows.Forms.Label
     Friend WithEvents lstPix As ListView
     Friend WithEvents btnPrint As Button
     Friend WithEvents btoExport As Button
     Friend WithEvents SaveFileVendas As SaveFileDialog
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents rdQtde As RadioButton
+    Friend WithEvents rdValor As RadioButton
 End Class

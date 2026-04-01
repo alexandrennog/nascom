@@ -78,7 +78,7 @@ Namespace nsVenda
             ListarVendasNfe = retorno
 
         End Function
-        Public Function ListarVendasABC(ByVal dataIni As String, ByVal dataFim As String) As ColecaodVendasABC
+        Public Function ListarVendasABC(ByVal dataIni As String, ByVal dataFim As String, ByVal tipo As String) As ColecaodVendasABC
 
             Dim retorno As ColecaodVendasABC
             Dim persistencia As pVenda
@@ -89,7 +89,7 @@ Namespace nsVenda
                 retorno = New ColecaodVendasABC
 
                 persistencia = New pVenda
-                retornoPersistencia = persistencia.ListarVendasABC(dataIni, dataFim)
+                retornoPersistencia = persistencia.ListarVendasABC(dataIni, dataFim, tipo)
 
                 If Not retornoPersistencia Is Nothing Then
                     If retornoPersistencia.Count > 0 Then

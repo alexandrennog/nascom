@@ -9,6 +9,7 @@ Imports ncDados.nsCurvaABC
 Imports ncDados.nsFabricante
 Imports ncDados.nsVenda
 Imports ncRegras.nsFabricante
+Imports Unimake.Business.DFe.Xml.GNRE
 Imports Unimake.Business.DFe.Xml.SNCM
 
 Public Class fRelatorioVendasABC
@@ -32,10 +33,14 @@ Public Class fRelatorioVendasABC
         parametros(2).Name = "Loja"
         parametros(2).Values.Add(mdiPrincipal.lblLoja.Text)
 
-        parametros(3) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(3).Name = "Caixa"
-        parametros(3).Values.Add(Me.txtCaixa.Text)
-        'dadosVenda.Caixa = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtCaixa.Text)
+        Dim tipo As String
+        If rdValor.Checked Then
+            tipo = "V"
+        Else
+            tipo = "Q"
+        End If
+
+
 
 
         Dim objVenda As New ncRegras.nsVenda.rVenda
@@ -59,7 +64,7 @@ Public Class fRelatorioVendasABC
         Me.lstPix.Columns.Add("Fornecedor").Width = 80
         Me.lstPix.Columns.Add("EstoqueAtual")
 
-        vendas = objVenda.ListarVendasABC(ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataInicial.Text), ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataFinal.Text))
+        vendas = objVenda.ListarVendasABC(ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataInicial.Text), ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataFinal.Text), tipo)
 
         If vendas Is Nothing Then
             Exit Sub
@@ -120,10 +125,12 @@ Public Class fRelatorioVendasABC
         parametros(2).Name = "Loja"
         parametros(2).Values.Add(mdiPrincipal.lblLoja.Text)
 
-        parametros(3) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(3).Name = "Caixa"
-        parametros(3).Values.Add(Me.txtCaixa.Text)
-        'dadosVenda.Caixa = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtCaixa.Text)
+        Dim tipo As String
+        If rdValor.Checked Then
+            tipo = "V"
+        Else
+            tipo = "Q"
+        End If
 
 
         Dim objVenda As New ncRegras.nsVenda.rVenda
@@ -147,7 +154,7 @@ Public Class fRelatorioVendasABC
         'Me.lstPix.Columns.Add("Fornecedor").Width = 80
         'Me.lstPix.Columns.Add("EstoqueAtual")
 
-        vendas = objVenda.ListarVendasABC(ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataInicial.Text), ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataFinal.Text))
+        vendas = objVenda.ListarVendasABC(ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataInicial.Text), ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataFinal.Text), tipo)
 
         Using sfd As New SaveFileDialog()
 
@@ -528,14 +535,6 @@ Public Class fRelatorioVendasABC
 
         Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
         Me.txtDataFinal.Text = DateAdd(DateInterval.Year, 1, Today).ToString("dd/MM/yyyy")
-        Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
-            Case "a", "g"
-                Me.txtCaixa.Text = ""
-                Me.txtCaixa.ReadOnly = False
-            Case "c"
-                Me.txtCaixa.Text = mdiPrincipal.gUsuario.usuario
-                Me.txtCaixa.ReadOnly = True
-        End Select
 
 
     End Sub

@@ -144,7 +144,7 @@ Namespace nsVenda
             ListarVendasNfe = retorno
 
         End Function
-        Public Function ListarVendasABC(ByVal dataIni As String, ByVal dataFim As String) As ColecaodVendasABC
+        Public Function ListarVendasABC(ByVal dataIni As String, ByVal dataFim As String, ByVal tipo As String) As ColecaodVendasABC
 
             Dim retorno As ColecaodVendasABC
             Dim acessoBanco As cAcessoBD
@@ -158,7 +158,7 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-                ds = acessoBanco.ExecutarDS("call sp_curva_abc()")
+                ds = acessoBanco.ExecutarDS($"call sp_curva_abc('{dataIni}','{dataFim}', '{tipo}')")
 
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then
