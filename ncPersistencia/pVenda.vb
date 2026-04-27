@@ -158,8 +158,7 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-                ds = acessoBanco.ExecutarDS($"call sp_curva_abc('{dataIni}','{dataFim}', '{tipo}')")
-
+                ds = acessoBanco.ExecutarDSLongo($"call sp_curva_abc('{dataIni}','{dataFim}', '{tipo}')")
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then
                         dt = ds.Tables(0)
