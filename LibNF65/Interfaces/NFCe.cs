@@ -255,105 +255,105 @@ namespace LibNF65
             double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor, 2, MidpointRounding.AwayFromZero));
             double valorTotalTributos = dVendaProdutos.Sum(x => Math.Round((double)x.valorTributacao, 2, MidpointRounding.AwayFromZero));
 
-
-            var infe = new XmlNFe.InfNFe
-            {
-                //Id = "NFe" + chaveAcesso,
-                Versao = "4.00",
-                Ide = new XmlNFe.Ide
+            
+                var infe = new XmlNFe.InfNFe
                 {
-                    NNF = nNF,
-                    CUF = UFBrasil.SP,
-                    NatOp = "VENDA PRODUC.DO ESTABELEC",
-                    Mod = ModeloDFe.NFCe,
-                    Serie = 2,
-                    DhEmi = DateTime.Now,
-                    DhSaiEnt = DateTime.Now,
-                    TpNF = TipoOperacao.Saida,
-                    IdDest = DestinoOperacao.OperacaoInterna,
-                    CMunFG = endereco.CMun,
-                    TpImp = FormatoImpressaoDANFE.NFCeMensagemEletronica,
-                    TpEmis = TipoEmissao.Normal,
-                    TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
-                    FinNFe = FinalidadeNFe.Normal,
-                    IndFinal = SimNao.Sim,
-                    IndPres = IndicadorPresenca.OperacaoPresencial,
-                    ProcEmi = ProcessoEmissao.AplicativoContribuinte,
-                    VerProc = "TESTE 1.00",
-                },
-
-                Emit = new XmlNFe.Emit
-                {
-                    CNPJ = retConsCad.InfCons.CNPJ,
-                    XNome = retConsCad.InfCons.InfCad.FirstOrDefault().XNome,
-                    XFant = retConsCad.InfCons.InfCad.FirstOrDefault().XFant,
-                    EnderEmit = new XmlNFe.EnderEmit
+                    //Id = "NFe" + chaveAcesso,
+                    Versao = "4.00",
+                    Ide = new XmlNFe.Ide
                     {
-                        XLgr = endereco.XLgr,
-                        Nro = endereco.Nro,
-                        XBairro = endereco.XBairro,
-                        CMun = endereco.CMun,
-                        XMun = endereco.XMun,
-                        UF = retConsCad.InfCons.UF,
-                        CEP = endereco.CEP,
-                        CPais = 1058,
-                        XPais = "BRASIL"
+                        NNF = nNF,
+                        CUF = UFBrasil.SP,
+                        NatOp = "VENDA PRODUC.DO ESTABELEC",
+                        Mod = ModeloDFe.NFCe,
+                        Serie = 2,
+                        DhEmi = DateTime.Now,
+                        DhSaiEnt = DateTime.Now,
+                        TpNF = TipoOperacao.Saida,
+                        IdDest = DestinoOperacao.OperacaoInterna,
+                        CMunFG = (endereco.CMun == 0) ? (!string.IsNullOrWhiteSpace(configImposto.Imposto.ISSQN.cMunFG) ? int.Parse(configImposto.Imposto.ISSQN.cMunFG) : 0) : endereco.CMun,
+                        TpImp = FormatoImpressaoDANFE.NFCeMensagemEletronica,
+                        TpEmis = TipoEmissao.Normal,
+                        TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
+                        FinNFe = FinalidadeNFe.Normal,
+                        IndFinal = SimNao.Sim,
+                        IndPres = IndicadorPresenca.OperacaoPresencial,
+                        ProcEmi = ProcessoEmissao.AplicativoContribuinte,
+                        VerProc = "TESTE 1.00",
                     },
-                    IE = retConsCad.InfCons.InfCad.FirstOrDefault().IE,
-                    IM = configImposto.Emit.IM,
-                    CNAE = retConsCad.InfCons.InfCad.FirstOrDefault().CNAE,
-                    CRT = CRT.SimplesNacional
 
-                },
-
-
-                Dest = RecDest(cpf),
-
-
-                Det = addProdutos(configImposto, dVendaProdutos),
-
-
-                Total = new XmlNFe.Total
-                {
-                    ICMSTot = new XmlNFe.ICMSTot
+                    Emit = new XmlNFe.Emit
                     {
-                        VBC = 0,
-                        VICMS = 0,
-                        VICMSDeson = 0,
-                        VFCP = 0,
-                        VBCST = 0,
-                        VST = 0,
-                        VFCPST = 0,
-                        VFCPSTRet = 0,
-                        VProd = valorTotal,
-                        VFrete = 0,
-                        VSeg = 0,
-                        VDesc = 0,
-                        VII = 0,
-                        VIPI = 0,
-                        VIPIDevol = 0,
-                        VPIS = 0,
-                        VCOFINS = 0,
-                        VOutro = 0,
-                        VNF = valorTotal,
-                        VTotTrib = valorTotalTributos
-                    }
-                },
-                Transp = new XmlNFe.Transp
-                {
-                    ModFrete = ModalidadeFrete.SemOcorrenciaTransporte
-                },
+                        CNPJ = retConsCad.InfCons.CNPJ,
+                        XNome = retConsCad.InfCons.InfCad.FirstOrDefault().XNome,
+                        XFant = retConsCad.InfCons.InfCad.FirstOrDefault().XFant,
+                        EnderEmit = new XmlNFe.EnderEmit
+                        {
+                            XLgr = endereco.XLgr,
+                            Nro = endereco.Nro,
+                            XBairro = endereco.XBairro,
+                            CMun = endereco.CMun,
+                            XMun = endereco.XMun,
+                            UF = retConsCad.InfCons.UF,
+                            CEP = endereco.CEP,
+                            CPais = 1058,
+                            XPais = "BRASIL"
+                        },
+                        IE = retConsCad.InfCons.InfCad.FirstOrDefault().IE,
+                        IM = configImposto.Emit.IM,
+                        CNAE = retConsCad.InfCons.InfCad.FirstOrDefault().CNAE,
+                        CRT = CRT.SimplesNacional
 
-                Pag = AdicionarPagamento(meiosPagamentos),
-                InfAdic = RecuperarDadosAdicionais(retConsCad, controle),
-                InfRespTec = new XmlNFe.InfRespTec
-                {
-                    CNPJ = "07925528000110",
-                    XContato = "Alexandre Nogueira do Nascimento",
-                    Email = "contato@nascom.com.br",
-                    Fone = "1122369825"
-                }
-            };
+                    },
+
+
+                    Dest = RecDest(cpf),
+
+
+                    Det = addProdutos(configImposto, dVendaProdutos),
+
+
+                    Total = new XmlNFe.Total
+                    {
+                        ICMSTot = new XmlNFe.ICMSTot
+                        {
+                            VBC = 0,
+                            VICMS = 0,
+                            VICMSDeson = 0,
+                            VFCP = 0,
+                            VBCST = 0,
+                            VST = 0,
+                            VFCPST = 0,
+                            VFCPSTRet = 0,
+                            VProd = valorTotal,
+                            VFrete = 0,
+                            VSeg = 0,
+                            VDesc = 0,
+                            VII = 0,
+                            VIPI = 0,
+                            VIPIDevol = 0,
+                            VPIS = 0,
+                            VCOFINS = 0,
+                            VOutro = 0,
+                            VNF = valorTotal,
+                            VTotTrib = valorTotalTributos
+                        }
+                    },
+                    Transp = new XmlNFe.Transp
+                    {
+                        ModFrete = ModalidadeFrete.SemOcorrenciaTransporte
+                    },
+
+                    Pag = AdicionarPagamento(meiosPagamentos),
+                    InfAdic = RecuperarDadosAdicionais(retConsCad, controle),
+                    InfRespTec = new XmlNFe.InfRespTec
+                    {
+                        CNPJ = "07925528000110",
+                        XContato = "Alexandre Nogueira do Nascimento",
+                        Email = "contato@nascom.com.br",
+                        Fone = "1122369825"
+                    }
+                };
 
             //nfe.InfNFeSupl = GerarQrCodeCorreto(infe.Chave);
 
