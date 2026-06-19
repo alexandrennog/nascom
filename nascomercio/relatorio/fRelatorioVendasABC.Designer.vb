@@ -36,8 +36,8 @@ Partial Class fRelatorioVendasABC
         Me.btoExport = New System.Windows.Forms.Button()
         Me.SaveFileVendas = New System.Windows.Forms.SaveFileDialog()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.rdValor = New System.Windows.Forms.RadioButton()
         Me.rdQtde = New System.Windows.Forms.RadioButton()
+        Me.rdValor = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -220,6 +220,16 @@ Partial Class fRelatorioVendasABC
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Curva por:"
         '
+        'rdQtde
+        '
+        Me.rdQtde.AutoSize = True
+        Me.rdQtde.Location = New System.Drawing.Point(133, 25)
+        Me.rdQtde.Name = "rdQtde"
+        Me.rdQtde.Size = New System.Drawing.Size(61, 22)
+        Me.rdQtde.TabIndex = 1
+        Me.rdQtde.Text = "Qtde"
+        Me.rdQtde.UseVisualStyleBackColor = True
+        '
         'rdValor
         '
         Me.rdValor.AutoSize = True
@@ -231,16 +241,6 @@ Partial Class fRelatorioVendasABC
         Me.rdValor.TabStop = True
         Me.rdValor.Text = "Valor"
         Me.rdValor.UseVisualStyleBackColor = True
-        '
-        'rdQtde
-        '
-        Me.rdQtde.AutoSize = True
-        Me.rdQtde.Location = New System.Drawing.Point(133, 25)
-        Me.rdQtde.Name = "rdQtde"
-        Me.rdQtde.Size = New System.Drawing.Size(61, 22)
-        Me.rdQtde.TabIndex = 1
-        Me.rdQtde.Text = "Qtde"
-        Me.rdQtde.UseVisualStyleBackColor = True
         '
         'fRelatorioVendasABC
         '

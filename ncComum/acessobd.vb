@@ -226,13 +226,14 @@ Namespace nsAcessoBD
 
                 If Not cmd.Connection Is Nothing Then
                     cmd.CommandText = comandoSQL
+                    cmd.CommandTimeout = timeoutSegundos.Value
 
                     ' aplica timeout customizado se informado; caso contrario mantém o padrão da conexão
                     If timeoutSegundos.HasValue Then
                         If timeoutSegundos.Value < 0 Then
                             Throw New ArgumentException("O timeout não pode ser negativo.", NameOf(timeoutSegundos))
                         End If
-                        cmd.CommandTimeout = timeoutSegundos.Value
+
                     End If
 
                     If Not colecaoParametro Is Nothing Then

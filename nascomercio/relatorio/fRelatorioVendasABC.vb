@@ -47,22 +47,21 @@ Public Class fRelatorioVendasABC
         Dim vendas As ncDados.nsCurvaABC.ColecaodVendasABC
         Me.lstPix.View = View.Details
 
-        Dim otherItems As String() = {"Referencia", "Descricao", "Faturamento", "PercIndividual", "PercAcumulado", "ClasseAbc", "Fabricante", "Fornecedor", "EstoqueAtual"}
+        Dim otherItems As String() = {"PeriodoIni", "PeriodoFim", "Fabricante", "valor", "PercReceita", "PercAcumulado", "ClasseAbc", "Estrategia"}
         Me.lstPix.View = View.Details
         Me.lstPix.GridLines = True
         Me.lstPix.FullRowSelect = True
         Me.lstPix.Columns.Clear()
         Me.lstPix.Items.Clear()
 
-        Me.lstPix.Columns.Add("Referencia").Width = 80
-        Me.lstPix.Columns.Add("Descricao").Width = 80
-        Me.lstPix.Columns.Add("Faturamento")
-        Me.lstPix.Columns.Add("PercIndividual").Width = 80
-        Me.lstPix.Columns.Add("PercAcumulado").Width = 80
-        Me.lstPix.Columns.Add("ClasseAbc")
-        Me.lstPix.Columns.Add("Fabricante").Width = 80
-        Me.lstPix.Columns.Add("Fornecedor").Width = 80
-        Me.lstPix.Columns.Add("EstoqueAtual")
+        'Me.lstPix.Columns.Add("PeriodoIni").Width = 0
+        'Me.lstPix.Columns.Add("PeriodoFim").Width = 0
+        Me.lstPix.Columns.Add("Fabricante").Width = 100
+        Me.lstPix.Columns.Add("valor").Width = 80
+        Me.lstPix.Columns.Add("Percentual").Width = 80
+        Me.lstPix.Columns.Add("Perc Acumulado").Width = 129
+        Me.lstPix.Columns.Add("Classe Abc").Width = 140
+        Me.lstPix.Columns.Add("Estrategia").Width = 180
 
         vendas = objVenda.ListarVendasABC(ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataInicial.Text), ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataFinal.Text), tipo)
 
@@ -78,15 +77,14 @@ Public Class fRelatorioVendasABC
 
         For Each item As dCurvaAbc In vendas
             li = New ListViewItem
-            li.Text = item.Referencia
-            li.SubItems.Add(item.Descricao)
-            li.SubItems.Add(item.Faturamento)
-            li.SubItems.Add(item.PercIndividual)
+            'li.Text = item.PeriodoIni
+            'li.SubItems.Add(item.PeriodoFim)
+            li.Text = item.Fabricante
+            li.SubItems.Add(item.valor)
+            li.SubItems.Add(item.PercReceita)
             li.SubItems.Add(item.PercAcumulado)
             li.SubItems.Add(item.ClasseAbc)
-            li.SubItems.Add(item.Fabricante)
-            li.SubItems.Add(item.Fornecedor)
-            li.SubItems.Add(item.EstoqueAtual)
+            li.SubItems.Add(item.Estrategia)
             Me.lstPix.Items.Add(li)
 
         Next
@@ -173,16 +171,13 @@ Public Class fRelatorioVendasABC
                     ' Dados
                     For Each item As dCurvaAbc In vendas
 
-                        Dim linha As String = String.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8}",
-                                                            item.Referencia,
-                                                            item.Descricao,
-                                                            item.Faturamento,
-                                                            item.PercIndividual,
-                                                            item.PercAcumulado,
-                                                            item.ClasseAbc,
-                                                            item.Fabricante,
-                                                            item.Fornecedor,
-                                                            item.EstoqueAtual)
+                        Dim linha As String = String.Format("{0};{1};{2};{3};{4};{5}",
+                    item.Fabricante,
+                    item.valor,
+                    item.PercReceita,
+                    item.PercAcumulado,
+                    item.ClasseAbc,
+                    item.Estrategia)
 
                         writer.WriteLine(linha)
 
@@ -391,9 +386,9 @@ Public Class fRelatorioVendasABC
 
         ' ── Tabela: 9 colunas ──────────────────────────────────────────────────────
         '   Larguras relativas (total = 100%)
-        Dim tabela As New PdfPTable(9)
+        Dim tabela As New PdfPTable(6)
         tabela.WidthPercentage = 100
-        tabela.SetWidths(New Single() {8, 22, 10, 8, 8, 6, 14, 14, 10})
+        tabela.SetWidths(New Single() {8, 22, 10, 8, 8, 6})
         tabela.HeaderRows = 1   ' Repete cabeçalho em cada página
 
         ' ── Função auxiliar: célula de cabeçalho ───────────────────────────────────
@@ -409,15 +404,15 @@ Public Class fRelatorioVendasABC
         End Function
 
         ' ── Cabeçalhos ─────────────────────────────────────────────────────────────
-        tabela.AddCell(CriarHeader("Referência"))
-        tabela.AddCell(CriarHeader("Descrição"))
-        tabela.AddCell(CriarHeader("Faturamento"))
-        tabela.AddCell(CriarHeader("% Individual"))
-        tabela.AddCell(CriarHeader("% Acumulado"))
-        tabela.AddCell(CriarHeader("Classe"))
+        'tabela.AddCell(CriarHeader("PeriodoIni"))
+        'tabela.AddCell(CriarHeader("PeriodoFim"))
         tabela.AddCell(CriarHeader("Fabricante"))
-        tabela.AddCell(CriarHeader("Fornecedor"))
-        tabela.AddCell(CriarHeader("Estoque Atual"))
+        tabela.AddCell(CriarHeader("Valor"))
+        tabela.AddCell(CriarHeader("Percentual"))
+        tabela.AddCell(CriarHeader("PercAcumulado"))
+        tabela.AddCell(CriarHeader("Classe Abc"))
+        tabela.AddCell(CriarHeader("Estrategia"))
+
 
         ' ── Função auxiliar: célula de dado ────────────────────────────────────────
         Dim CriarCelula As Func(Of String, Integer, BaseColor, PdfPCell) =
@@ -441,25 +436,24 @@ Public Class fRelatorioVendasABC
             ' Cor de fundo por classe ABC
             Dim corFundo As BaseColor
             Select Case item.ClasseAbc
-                Case "A" : corFundo = corLinhaA
-                Case "B" : corFundo = corLinhaB
-                Case "C" : corFundo = corLinhaC
+                Case "A - Prioridade Alta" : corFundo = corLinhaA
+                Case "B - Prioridade Média" : corFundo = corLinhaB
+                Case "C - Prioridade Baixa" : corFundo = corLinhaC
                 Case Else
                     corFundo = If(linha Mod 2 = 0, BaseColor.WHITE, corAlt)
             End Select
 
-            tabela.AddCell(CriarCelula(item.Referencia, Element.ALIGN_LEFT, corFundo))
-            tabela.AddCell(CriarCelula(item.Descricao, Element.ALIGN_LEFT, corFundo))
-            tabela.AddCell(CriarCelula(item.Faturamento.ToString("N2"), Element.ALIGN_RIGHT, corFundo))
-            tabela.AddCell(CriarCelula(item.PercIndividual.ToString("N2") & "%", Element.ALIGN_RIGHT, corFundo))
-            tabela.AddCell(CriarCelula(item.PercAcumulado.ToString("N2") & "%", Element.ALIGN_RIGHT, corFundo))
-            tabela.AddCell(CriarCelula(item.ClasseAbc, Element.ALIGN_CENTER, corFundo))
-            tabela.AddCell(CriarCelula(item.Fabricante, Element.ALIGN_LEFT, corFundo))
-            tabela.AddCell(CriarCelula(item.Fornecedor, Element.ALIGN_LEFT, corFundo))
-            tabela.AddCell(CriarCelula(item.EstoqueAtual.ToString("N0"), Element.ALIGN_RIGHT, corFundo))
 
-            totalFaturamento += item.Faturamento
-            totalEstoque += item.EstoqueAtual
+            'tabela.AddCell(CriarCelula(item.PeriodoIni, Element.ALIGN_LEFT, corFundo))
+            'tabela.AddCell(CriarCelula(item.PeriodoFim, Element.ALIGN_LEFT, corFundo))
+            tabela.AddCell(CriarCelula(item.Fabricante.ToString(), Element.ALIGN_RIGHT, corFundo))
+            tabela.AddCell(CriarCelula(item.valor.ToString(), Element.ALIGN_RIGHT, corFundo))
+            tabela.AddCell(CriarCelula(item.PercReceita.ToString() & "%", Element.ALIGN_RIGHT, corFundo))
+            tabela.AddCell(CriarCelula(item.PercAcumulado.ToString() & "%", Element.ALIGN_CENTER, corFundo))
+            tabela.AddCell(CriarCelula(item.ClasseAbc, Element.ALIGN_LEFT, corFundo))
+            tabela.AddCell(CriarCelula(item.Estrategia, Element.ALIGN_LEFT, corFundo))
+
+            totalFaturamento += item.valor
             linha += 1
         Next
 
@@ -483,8 +477,6 @@ Public Class fRelatorioVendasABC
         tabela.AddCell(CriarTotal("100%", Element.ALIGN_RIGHT))
         tabela.AddCell(CriarTotal("-", Element.ALIGN_CENTER))
         tabela.AddCell(CriarTotal("-", Element.ALIGN_CENTER))
-        tabela.AddCell(CriarTotal("-", Element.ALIGN_CENTER))
-        tabela.AddCell(CriarTotal(totalEstoque.ToString("N0"), Element.ALIGN_RIGHT))
 
         doc.Add(tabela)
 
@@ -533,8 +525,8 @@ Public Class fRelatorioVendasABC
 
         End Try
 
-        Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
-        Me.txtDataFinal.Text = DateAdd(DateInterval.Year, 1, Today).ToString("dd/MM/yyyy")
+        Me.txtDataInicial.Text = New DateTime(Today.Year, Today.Month, 1).ToString("dd/MM/yyyy")
+        Me.txtDataFinal.Text = New DateTime(Today.Year, Today.Month, DateTime.DaysInMonth(Today.Year, Today.Month)).ToString("dd/MM/yyyy")
 
 
     End Sub
@@ -577,5 +569,13 @@ Public Class fRelatorioVendasABC
 
     Private Sub txtDataInicial_MaskInputRejected(sender As Object, e As MaskInputRejectedEventArgs) Handles txtDataInicial.MaskInputRejected
 
+    End Sub
+
+    Private Sub rdQtde_CheckedChanged(sender As Object, e As EventArgs) Handles rdQtde.CheckedChanged
+        Me.lstPix.Items.Clear()
+    End Sub
+
+    Private Sub rdValor_CheckedChanged(sender As Object, e As EventArgs) Handles rdValor.CheckedChanged
+        Me.lstPix.Items.Clear()
     End Sub
 End Class

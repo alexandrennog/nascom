@@ -1,5 +1,6 @@
 Imports System.Data.SqlClient
 Imports System.Diagnostics.Eventing
+Imports System.Drawing
 Imports System.Windows.Forms
 Imports MySql.Data.MySqlClient
 Imports ncComum.nsAcessoBD
@@ -158,38 +159,45 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-                ds = acessoBanco.ExecutarDSLongo($"call sp_curva_abc('{dataIni}','{dataFim}', '{tipo}')")
+                If tipo = "V" Then
+                    acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores('{dataIni}','{dataFim}')")
+                    comandoSQL = " select * from ranking_resultado_valor;"
+                Else
+                    ds = acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores_quantidade('{dataIni}','{dataFim}')")
+                    comandoSQL = " select * from ranking_resultado_quantidade;"
+                End If
+
+                ds = acessoBanco.ExecutarDS(comandoSQL)
+
                 If Not ds Is Nothing Then
-                    If ds.Tables.Count > 0 Then
-                        dt = ds.Tables(0)
+                        If ds.Tables.Count > 0 Then
+                            dt = ds.Tables(0)
 
-                        If dt.Rows.Count > 0 Then
-                            retorno = New ColecaodVendasABC
+                            If dt.Rows.Count > 0 Then
+                                retorno = New ColecaodVendasABC
 
-                            For Each row In dt.Rows
-                                item = New dCurvaAbc
+                                For Each row In dt.Rows
+                                    item = New dCurvaAbc
+                                    item.PeriodoIni = cFuncoes.RetornarTexto(row("data_inicio"))
+                                    item.PeriodoFim = cFuncoes.RetornarTexto(row("data_fim"))
+                                    item.Fabricante = cFuncoes.RetornarTexto(row("fabricante"))
+                                    item.valor = cFuncoes.RetornarTexto(row("valor"))
+                                    item.PercReceita = cFuncoes.RetornarTexto(row("individual"))
+                                    item.PercAcumulado = cFuncoes.RetornarTexto(row("acumulado"))
+                                    item.ClasseAbc = cFuncoes.RetornarTexto(row("classificacao_abc"))
+                                    item.Estrategia = cFuncoes.RetornarTexto(row("estrategia_sugerida"))
 
-                                item.Referencia = cFuncoes.RetornarTexto(row("referencia"))
-                                item.Descricao = cFuncoes.RetornarTexto(row("descricao"))
-                                item.Faturamento = cFuncoes.RetornarDecimal(row("faturamento"))
-                                item.PercIndividual = cFuncoes.RetornarDecimal(row("perc_individual"))
-                                item.PercAcumulado = cFuncoes.RetornarDecimal(row("perc_acumulado"))
-                                item.ClasseAbc = cFuncoes.RetornarTexto(row("classe_abc"))
-                                item.Fabricante = cFuncoes.RetornarTexto(row("fabricante"))
-                                item.Fornecedor = cFuncoes.RetornarTexto(row("fornecedor"))
-                                item.EstoqueAtual = cFuncoes.RetornarDecimal(row("estoque_atual"))
-
-                                retorno.Add(item)
-                            Next
+                                    retorno.Add(item)
+                                Next
+                            Else
+                                retorno = Nothing
+                            End If
                         Else
                             retorno = Nothing
                         End If
                     Else
                         retorno = Nothing
                     End If
-                Else
-                    retorno = Nothing
-                End If
 
             Catch ex As Exception
 
