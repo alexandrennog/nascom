@@ -14,521 +14,314 @@ Imports Unimake.Business.DFe.Xml.SNCM
 
 Public Class fRelatorioVendasABC
 
-    Private Sub Filtrar()
-        Dim dadosVenda As New dVendasNfe
+    Private ReadOnly _pathRelatorio As String = ConfigurationManager.AppSettings("pathRelatorio")
 
-        Dim parametros(3) As Microsoft.Reporting.WinForms.ReportParameter
+    Private Function ObterTipoRelatorio() As String
+        Return If(rdValor.Checked, "V", "Q")
+    End Function
 
-        parametros(0) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(0).Name = "DataInicial"
-        parametros(0).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataInicial.Text))
-        ' dadosVenda.Data = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataInicial.Text)
-
-        parametros(1) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(1).Name = "DataFinal"
-        parametros(1).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
-        'dadosVenda.DataFim = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text)
-
-        parametros(2) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(2).Name = "Loja"
-        parametros(2).Values.Add(mdiPrincipal.lblLoja.Text)
-
-        Dim tipo As String
-        If rdValor.Checked Then
-            tipo = "V"
+    Private Function ObterDataFormatada(dataTexto As String, formatarComBarras As Boolean) As String
+        If formatarComBarras Then
+            Return cFuncoes.FormatarDataBarras(dataTexto)
         Else
-            tipo = "Q"
+            Return cFuncoes.FormatarData(dataTexto)
         End If
+    End Function
 
-
-
-
-        Dim objVenda As New ncRegras.nsVenda.rVenda
-        Dim vendas As ncDados.nsCurvaABC.ColecaodVendasABC
-        Me.lstPix.View = View.Details
-
-        Dim otherItems As String() = {"PeriodoIni", "PeriodoFim", "Fabricante", "valor", "PercReceita", "PercAcumulado", "ClasseAbc", "Estrategia"}
+    Private Sub ConfigurarListView()
         Me.lstPix.View = View.Details
         Me.lstPix.GridLines = True
         Me.lstPix.FullRowSelect = True
         Me.lstPix.Columns.Clear()
         Me.lstPix.Items.Clear()
 
-        'Me.lstPix.Columns.Add("PeriodoIni").Width = 0
-        'Me.lstPix.Columns.Add("PeriodoFim").Width = 0
         Me.lstPix.Columns.Add("Fabricante").Width = 100
-        Me.lstPix.Columns.Add("valor").Width = 80
+        Me.lstPix.Columns.Add("Valor").Width = 80
         Me.lstPix.Columns.Add("Percentual").Width = 80
         Me.lstPix.Columns.Add("Perc Acumulado").Width = 129
         Me.lstPix.Columns.Add("Classe Abc").Width = 140
         Me.lstPix.Columns.Add("Estrategia").Width = 180
+    End Sub
 
-        vendas = objVenda.ListarVendasABC(ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataInicial.Text), ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataFinal.Text), tipo)
-
-        If vendas Is Nothing Then
+    Private Sub PreencherListView(vendas As ColecaodVendasABC)
+        If vendas Is Nothing OrElse vendas.Count = 0 Then
             Exit Sub
         End If
 
-        btoExport.Visible = True
-
-        Dim li As ListViewItem
-
-        Dim totTotal As Decimal
-
         For Each item As dCurvaAbc In vendas
-            li = New ListViewItem
-            'li.Text = item.PeriodoIni
-            'li.SubItems.Add(item.PeriodoFim)
-            li.Text = item.Fabricante
+            Dim li As New ListViewItem(item.Fabricante)
             li.SubItems.Add(item.valor)
             li.SubItems.Add(item.PercReceita)
             li.SubItems.Add(item.PercAcumulado)
             li.SubItems.Add(item.ClasseAbc)
             li.SubItems.Add(item.Estrategia)
             Me.lstPix.Items.Add(li)
-
         Next
-
-        li = New ListViewItem
-        li.Text = ""
-        li.SubItems.Add("")
-        li.SubItems.Add("Total:")
-        li.SubItems.Add(totTotal.ToString())
-        Me.lstPix.Items.Add(li)
-
-        ConfigurarRelatorioCurvaABC(vendas)
-
-        'Try
-        '    ConfigurarRelatorio(dadosVenda)
-        'Catch ex As Exception
-        '    MessageBox.Show(ex.Message)
-        'End Try
     End Sub
+
+    Private Sub Filtrar()
+        Try
+            ConfigurarListView()
+
+            Dim tipo As String = ObterTipoRelatorio()
+            Dim dataInicial As String = ObterDataFormatada(txtDataInicial.Text, False)
+            Dim dataFinal As String = ObterDataFormatada(txtDataFinal.Text, False)
+
+            Dim objVenda As New ncRegras.nsVenda.rVenda
+            Dim vendas As ColecaodVendasABC = objVenda.ListarVendasABC(dataInicial, dataFinal, tipo)
+
+            If vendas Is Nothing OrElse vendas.Count = 0 Then
+                MessageBox.Show("Nenhum dado encontrado para o período selecionado.",
+                                "Informação",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            PreencherListView(vendas)
+            btoExport.Visible = True
+            ConfigurarRelatorioCurvaABC(vendas)
+
+        Catch nex As ExcecaoNascomercio
+            MessageBox.Show("Erro ao filtrar vendas: " & nex.Message,
+                            "Erro",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
+
+        Catch ex As Exception
+            MessageBox.Show("Erro inesperado em Filtrar: " & ex.Message,
+                            "Erro",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
+        End Try
+    End Sub
+
     Private Sub Exportar()
-        Dim dadosVenda As New dVenda
+        Try
+            Dim tipo As String = ObterTipoRelatorio()
+            Dim dataInicial As String = ObterDataFormatada(txtDataInicial.Text, False)
+            Dim dataFinal As String = ObterDataFormatada(txtDataFinal.Text, False)
 
-        Dim parametros(3) As Microsoft.Reporting.WinForms.ReportParameter
+            Dim objVenda As New ncRegras.nsVenda.rVenda
+            Dim vendas As ColecaodVendasABC = objVenda.ListarVendasABC(dataInicial, dataFinal, tipo)
 
-        parametros(0) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(0).Name = "DataInicial"
-        parametros(0).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataInicial.Text))
-        ' dadosVenda.Data = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataInicial.Text)
+            If vendas Is Nothing OrElse vendas.Count = 0 Then
+                MessageBox.Show("Nenhum dado para exportar.",
+                                "Informação",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
+                Exit Sub
+            End If
 
-        parametros(1) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(1).Name = "DataFinal"
-        parametros(1).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
-        'dadosVenda.DataFim = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text)
+            Using sfd As New SaveFileDialog()
+                sfd.Title = "Salvar arquivo de Vendas ABC"
+                sfd.Filter = "Arquivo CSV (*.csv)|*.csv"
+                sfd.FileName = "VendasABC.csv"
+                sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
 
-        parametros(2) = New Microsoft.Reporting.WinForms.ReportParameter
-        parametros(2).Name = "Loja"
-        parametros(2).Values.Add(mdiPrincipal.lblLoja.Text)
+                If sfd.ShowDialog() = DialogResult.OK Then
+                    ExportarParaCsvInterno(vendas, sfd.FileName)
+                    MessageBox.Show("Arquivo exportado com sucesso!",
+                                    "Sucesso",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information)
+                End If
+            End Using
 
-        Dim tipo As String
-        If rdValor.Checked Then
-            tipo = "V"
-        Else
-            tipo = "Q"
-        End If
+        Catch nex As ExcecaoNascomercio
+            MessageBox.Show("Erro ao exportar: " & nex.Message,
+                            "Erro",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
 
+        Catch ex As Exception
+            MessageBox.Show("Erro inesperado em Exportar: " & ex.Message,
+                            "Erro",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
+        End Try
+    End Sub
 
-        Dim objVenda As New ncRegras.nsVenda.rVenda
-        Dim vendas As ColecaodVendasABC
-        'Me.lstPix.View = View.Details
+    Private Sub ExportarParaCsvInterno(vendas As ColecaodVendasABC, caminhoArquivo As String)
+        Using writer As New StreamWriter(caminhoArquivo, False, Encoding.UTF8)
+            writer.WriteLine("Fabricante;Valor;PercReceita;PercAcumulado;ClasseAbc;Estrategia")
 
-        'Dim otherItems As String() = {"Referencia", "Descricao", "Faturamento", "PercIndividual", "PercAcumulado", "ClasseAbc", "Fabricante", "Fornecedor", "EstoqueAtual"}
-        'Me.lstPix.View = View.Details
-        'Me.lstPix.GridLines = True
-        'Me.lstPix.FullRowSelect = True
-        'Me.lstPix.Columns.Clear()
-        'Me.lstPix.Items.Clear()
-
-        'Me.lstPix.Columns.Add("Referencia").Width = 80
-        'Me.lstPix.Columns.Add("Descricao").Width = 80
-        'Me.lstPix.Columns.Add("Faturamento")
-        'Me.lstPix.Columns.Add("PercIndividual").Width = 80
-        'Me.lstPix.Columns.Add("PercAcumulado").Width = 80
-        'Me.lstPix.Columns.Add("ClasseAbc")
-        'Me.lstPix.Columns.Add("Fabricante").Width = 80
-        'Me.lstPix.Columns.Add("Fornecedor").Width = 80
-        'Me.lstPix.Columns.Add("EstoqueAtual")
-
-        vendas = objVenda.ListarVendasABC(ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataInicial.Text), ncComum.nsFuncoes.cFuncoes.FormatarData(txtDataFinal.Text), tipo)
-
-        Using sfd As New SaveFileDialog()
-
-            sfd.Title = "Salvar arquivo de Vendas NFe"
-            sfd.Filter = "Arquivo CSV (*.csv)|*.csv"
-            sfd.FileName = "VendasABC.csv"
-            sfd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-
-            If sfd.ShowDialog() = DialogResult.OK Then
-
-                Using writer As New StreamWriter(sfd.FileName, False, Encoding.UTF8)
-
-                    ' Cabeçalho
-                    writer.WriteLine("Referencia;Descricao;Faturamento;PercIndividual;PercAcumulado;ClasseAbc;Fabricante;Fornecedor;EstoqueAtual")
-
-                    ' Dados
-                    For Each item As dCurvaAbc In vendas
-
-                        Dim linha As String = String.Format("{0};{1};{2};{3};{4};{5}",
+            For Each item As dCurvaAbc In vendas
+                Dim linha As String = String.Format("{0};{1};{2};{3};{4};{5}",
                     item.Fabricante,
                     item.valor,
                     item.PercReceita,
                     item.PercAcumulado,
                     item.ClasseAbc,
                     item.Estrategia)
+                writer.WriteLine(linha)
+            Next
+        End Using
+    End Sub
 
-                        writer.WriteLine(linha)
+    Private Sub ConfigurarRelatorioCurvaABC(ByVal vendas As ColecaodVendasABC)
+        Try
+            Dim arquivoPDF As String = "RelatorioVendasABC" & DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+            Dim caminhoCompleto As String = Path.Combine(_pathRelatorio, arquivoPDF)
 
-                    Next
-
-                End Using
-
-                MessageBox.Show("Arquivo exportado com sucesso!",
-                                "Sucesso",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-
+            If File.Exists(caminhoCompleto) Then
+                File.Delete(caminhoCompleto)
             End If
 
-        End Using
+            Dim doc As New Document(PageSize.A4.Rotate())
+            doc.SetMargins(10, 10, 15, 10)
 
-        'If vendas Is Nothing Then
-        '    Exit Sub
-        'End If
+            Using fileStream As New FileStream(caminhoCompleto, FileMode.Create)
+                PdfWriter.GetInstance(doc, fileStream)
+                doc.Open()
 
-        'Dim li As ListViewItem
+                ' ── Fontes ─────────────────────────────────────────────────────────────────
+                Dim fonteTitulo As Font = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, 16, BaseColor.BLACK)
+                Dim fonteHeader As Font = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, 8, BaseColor.WHITE)
+                Dim fonteDados As Font = FontFactory.GetFont(BaseFont.HELVETICA, 7, BaseColor.BLACK)
 
-        'Dim totTotal As Decimal
+                ' ── Cores ──────────────────────────────────────────────────────────────────
+                Dim corHeader As BaseColor = New BaseColor(31, 73, 125)
+                Dim corLinhaA As BaseColor = New BaseColor(198, 224, 180)
+                Dim corLinhaB As BaseColor = New BaseColor(255, 235, 156)
+                Dim corLinhaC As BaseColor = New BaseColor(255, 199, 206)
+                Dim corAlt As BaseColor = New BaseColor(242, 242, 242)
 
-        'For Each item As dVendasNfe In vendas
-        '    li = New ListViewItem
-        '    li.Text = item.Cupom.ToString
-        '    li.SubItems.Add(item.DataVenda)
-        '    li.SubItems.Add(item.Valor)
-        '    Me.lstPix.Items.Add(li)
-        '    totTotal = totTotal + item.Valor
-        'Next
+                ' ── Título ─────────────────────────────────────────────────────────────────
+                Dim titulo As New Paragraph("Relatório de Vendas - Curva ABC", fonteTitulo)
+                titulo.Alignment = Element.ALIGN_CENTER
+                titulo.SpacingBefore = 10
+                titulo.SpacingAfter = 5
+                doc.Add(titulo)
 
-        'li = New ListViewItem
-        'li.Text = ""
-        'li.SubItems.Add("")
-        'li.SubItems.Add("Total:")
-        'li.SubItems.Add(totTotal.ToString())
-        'Me.lstPix.Items.Add(li)
+                Dim subTitulo As New Paragraph("Gerado em: " & DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
+                                           FontFactory.GetFont(BaseFont.HELVETICA, 8, BaseColor.GRAY))
+                subTitulo.Alignment = Element.ALIGN_CENTER
+                subTitulo.SpacingAfter = 15
+                doc.Add(subTitulo)
 
-        'ConfigurarRelatorio(vendas)
+                ' ── Tabela ─────────────────────────────────────────────────────────────────
+                Dim tabela As New PdfPTable(6)
+                tabela.WidthPercentage = 100
+                tabela.SetWidths(New Single() {22, 10, 10, 10, 20, 28})
+                tabela.HeaderRows = 1
 
-        ''Try
-        ''    ConfigurarRelatorio(dadosVenda)
-        ''Catch ex As Exception
-        ''    MessageBox.Show(ex.Message)
-        ''End Try
+                ' Cabeçalhos
+                tabela.AddCell(CriarCelulaHeader("Fabricante", fonteHeader, corHeader))
+                tabela.AddCell(CriarCelulaHeader("Valor", fonteHeader, corHeader))
+                tabela.AddCell(CriarCelulaHeader("Percentual", fonteHeader, corHeader))
+                tabela.AddCell(CriarCelulaHeader("Acumulado", fonteHeader, corHeader))
+                tabela.AddCell(CriarCelulaHeader("Classe ABC", fonteHeader, corHeader))
+                tabela.AddCell(CriarCelulaHeader("Estratégia", fonteHeader, corHeader))
+
+                ' Dados
+                Dim totalFaturamento As Decimal = 0
+                Dim linha As Integer = 0
+
+                For Each item As dCurvaAbc In vendas
+                    Dim corFundo As BaseColor = ObtenerCorPorClasse(item.ClasseAbc, linha, corLinhaA, corLinhaB, corLinhaC, corAlt)
+
+                    tabela.AddCell(CriarCelulaDado(item.Fabricante, Element.ALIGN_LEFT, fonteDados, corFundo))
+                    tabela.AddCell(CriarCelulaDado(item.valor, Element.ALIGN_RIGHT, fonteDados, corFundo))
+                    tabela.AddCell(CriarCelulaDado(item.PercReceita & "%", Element.ALIGN_RIGHT, fonteDados, corFundo))
+                    tabela.AddCell(CriarCelulaDado(item.PercAcumulado & "%", Element.ALIGN_CENTER, fonteDados, corFundo))
+                    tabela.AddCell(CriarCelulaDado(item.ClasseAbc, Element.ALIGN_LEFT, fonteDados, corFundo))
+                    tabela.AddCell(CriarCelulaDado(item.Estrategia, Element.ALIGN_LEFT, fonteDados, corFundo))
+
+                    totalFaturamento += item.valor
+                    linha += 1
+                Next
+
+                ' Linha de totais
+                Dim corTotais As BaseColor = New BaseColor(31, 73, 125)
+                tabela.AddCell(CriarCelulaTotal("TOTAL", Element.ALIGN_LEFT, corTotais))
+                tabela.AddCell(CriarCelulaTotal(linha & " produtos", Element.ALIGN_LEFT, corTotais))
+                tabela.AddCell(CriarCelulaTotal(totalFaturamento.ToString("N2"), Element.ALIGN_RIGHT, corTotais))
+                tabela.AddCell(CriarCelulaTotal("100%", Element.ALIGN_CENTER, corTotais))
+                tabela.AddCell(CriarCelulaTotal("-", Element.ALIGN_CENTER, corTotais))
+                tabela.AddCell(CriarCelulaTotal("-", Element.ALIGN_CENTER, corTotais))
+
+                doc.Add(tabela)
+
+                ' Legenda
+                doc.Add(New Chunk(vbLf))
+                Dim legenda As New Paragraph(
+                    "Legenda: ■ Classe A = até 80% do faturamento   ■ Classe B = até 95% do faturamento   ■ Classe C = acima de 95% do faturamento",
+                    FontFactory.GetFont(BaseFont.HELVETICA, 7, BaseColor.GRAY))
+                legenda.Alignment = Element.ALIGN_LEFT
+                doc.Add(legenda)
+
+                doc.Close()
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Erro ao gerar relatório: " & ex.Message,
+                            "Erro",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
+        End Try
     End Sub
-    Public Shared Sub ExportarParaCsv(lista As ColecaodVendasNfe, caminhoArquivo As String)
 
-        Using writer As New StreamWriter(caminhoArquivo, False, Encoding.UTF8)
+    Private Function CriarCelulaHeader(texto As String, fonte As Font, corFundo As BaseColor) As PdfPCell
+        Dim c As New PdfPCell(New Phrase(texto, fonte))
+        c.BackgroundColor = corFundo
+        c.HorizontalAlignment = Element.ALIGN_CENTER
+        c.VerticalAlignment = Element.ALIGN_MIDDLE
+        c.Padding = 5
+        c.BorderColor = BaseColor.WHITE
+        Return c
+    End Function
 
-            ' Cabeçalho
-            writer.WriteLine("Cupom;DataVenda;Valor")
+    Private Function CriarCelulaDado(texto As String, alinhamento As Integer, fonte As Font, corFundo As BaseColor) As PdfPCell
+        Dim c As New PdfPCell(New Phrase(texto, fonte))
+        c.BackgroundColor = corFundo
+        c.HorizontalAlignment = alinhamento
+        c.VerticalAlignment = Element.ALIGN_MIDDLE
+        c.Padding = 4
+        c.BorderColor = New BaseColor(210, 210, 210)
+        Return c
+    End Function
 
-            ' Linhas
-            For Each item As dVendasNfe In lista
+    Private Function CriarCelulaTotal(texto As String, alinhamento As Integer, corFundo As BaseColor) As PdfPCell
+        Dim c As New PdfPCell(New Phrase(texto, FontFactory.GetFont(BaseFont.HELVETICA_BOLD, 8, BaseColor.WHITE)))
+        c.BackgroundColor = corFundo
+        c.HorizontalAlignment = alinhamento
+        c.VerticalAlignment = Element.ALIGN_MIDDLE
+        c.Padding = 5
+        Return c
+    End Function
 
-                Dim linha As String = String.Format("{0};{1};{2}",
-                                                    item.Cupom,
-                                                    item.DataVenda,
-                                                    item.Valor)
+    Private Function ObtenerCorPorClasse(classe As String, linha As Integer,
+                                         corA As BaseColor, corB As BaseColor,
+                                         corC As BaseColor, corAlt As BaseColor) As BaseColor
+        Select Case classe
+            Case "A - Prioridade Alta"
+                Return corA
+            Case "B - Prioridade Média"
+                Return corB
+            Case "C - Prioridade Baixa"
+                Return corC
+            Case Else
+                Return If(linha Mod 2 = 0, BaseColor.WHITE, corAlt)
+        End Select
+    End Function
 
-                writer.WriteLine(linha)
-
-            Next
-
-        End Using
-
-    End Sub
-    Private Sub ConfigurarRelatorio(ByVal vendas As ncDados.nsVenda.ColecaodVendasNfe)
-
-        Dim hoje As DateTime = DateTime.Now
-
-        Dim arquivoPDF = "RelatorioVendasNFe" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
-
-        If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
-            System.IO.File.Delete(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
-        End If
-
-        Dim doc As New Document(PageSize.A4.Rotate())
-        doc.SetMargins(3, 2, 3, 2)
-        PdfWriter.GetInstance(doc, New FileStream(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF, FileMode.Create))
-
-        doc.Open()
-
-        Dim fonteTitulo As Font
-        fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
-
-        Dim paragrafoTitulo As New Paragraph("Relatório de Fechamento em PIX", fonteTitulo)
-        paragrafoTitulo.Alignment = Element.ALIGN_CENTER
-        paragrafoTitulo.SpacingBefore = 20
-        paragrafoTitulo.SpacingAfter = 20
-
-        doc.Add(paragrafoTitulo)
-        doc.Add(Chunk.NEWLINE)
-        doc.Add(Chunk.NEWLINE)
-
-        Dim table As New PdfPTable(4)
-
-        Dim cell1 As New PdfPCell
-        'Dim cell2 As New PdfPCell
-        'Dim cell3 As New PdfPCell
-        Dim cell4 As New PdfPCell
-        Dim cell5 As New PdfPCell
-        Dim cell6 As New PdfPCell
-        Dim cell7 As New PdfPCell
-        Dim cells As New List(Of PdfPCell)
-
-        Dim fonte As Font
-        fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
-
-        Dim coluna1 As New Paragraph("Cupom", fonte)
-        'Dim coluna2 As New Paragraph("usuarioId", fonte)
-        'Dim coluna3 As New Paragraph("clienteId", fonte)
-        Dim coluna4 As New Paragraph("DataVenda", fonte)
-        Dim coluna5 As New Paragraph("Valor", fonte)
-        Dim coluna6 As New Paragraph("total", fonte)
-
-        cell1.AddElement(coluna1)
-        'cell2.AddElement(coluna2)
-        'cell3.AddElement(coluna3)
-        cell4.AddElement(coluna4)
-        cell5.AddElement(coluna5)
-        cell6.AddElement(coluna6)
-
-        table.AddCell(cell1)
-        'table.AddCell(cell2)
-        'table.AddCell(cell3)
-        table.AddCell(cell4)
-        table.AddCell(cell5)
-        table.AddCell(cell6)
-
-        Dim totTotal As Decimal
-
-
-        For Each item As dVendasNfe In vendas
-
-            'cells.Add(New PdfPCell(New Phrase(item.controle)))
-            table.AddCell(New PdfPCell(New Phrase(item.Cupom.ToString())))
-            'cells.Add(New PdfPCell(New Phrase(item.Data)))
-            table.AddCell(New PdfPCell(New Phrase(item.DataVenda)))
-            'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
-            table.AddCell(New PdfPCell(New Phrase(item.Valor)))
-            'cells.Add(New PdfPCell(New Phrase(item.Total)))
-            totTotal = totTotal + item.Valor
-        Next
-
-        table.AddCell(New PdfPCell(New Phrase("")))
-        'cells.Add(New PdfPCell(New Phrase(item.Data)))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
-        table.AddCell(New PdfPCell(New Phrase("Total: ")))
-        'cells.Add(New PdfPCell(New Phrase(item.Total)))
-        table.AddCell(New PdfPCell(New Phrase(totTotal.ToString())))
-
-        If Not vendas Is Nothing Then
-            doc.Add(table)
-        End If
-        doc.Close()
-
-
-
-
-    End Sub
-    Private Sub ConfigurarRelatorioCurvaABC(ByVal vendas As ColecaodVendasABC)
-
-        ' ── Arquivo ────────────────────────────────────────────────────────────────
-        Dim pathRelatorio As String = ConfigurationManager.AppSettings("pathRelatorio")
-        Dim arquivoPDF As String = "RelatorioVendasABC" & DateTime.Now.ToString("ddMMyyyy") & ".pdf"
-        Dim caminhoCompleto As String = pathRelatorio & arquivoPDF
-
-        If File.Exists(caminhoCompleto) Then File.Delete(caminhoCompleto)
-
-        ' ── Documento ──────────────────────────────────────────────────────────────
-        Dim doc As New Document(PageSize.A4.Rotate())
-        doc.SetMargins(10, 10, 15, 10)
-        PdfWriter.GetInstance(doc, New FileStream(caminhoCompleto, FileMode.Create))
-        doc.Open()
-
-        ' ── Fontes ─────────────────────────────────────────────────────────────────
-        Dim fonteTitulo As Font = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, 16, BaseColor.BLACK)
-        Dim fonteHeader As Font = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, 8, BaseColor.WHITE)
-        Dim fonteDados As Font = FontFactory.GetFont(BaseFont.HELVETICA, 7, BaseColor.BLACK)
-        Dim fonteTotal As Font = FontFactory.GetFont(BaseFont.HELVETICA_BOLD, 8, BaseColor.BLACK)
-
-        ' ── Cores ──────────────────────────────────────────────────────────────────
-        Dim corHeader As BaseColor = New BaseColor(31, 73, 125)   ' Azul escuro
-        Dim corLinhaA As BaseColor = New BaseColor(198, 224, 180) ' Verde claro
-        Dim corLinhaB As BaseColor = New BaseColor(255, 235, 156) ' Amarelo claro
-        Dim corLinhaC As BaseColor = New BaseColor(255, 199, 206) ' Vermelho claro
-        Dim corAlt As BaseColor = New BaseColor(242, 242, 242) ' Cinza claro (linhas pares)
-
-        ' ── Título ─────────────────────────────────────────────────────────────────
-        Dim titulo As New Paragraph("Relatório de Vendas - Curva ABC", fonteTitulo)
-        titulo.Alignment = Element.ALIGN_CENTER
-        titulo.SpacingBefore = 10
-        titulo.SpacingAfter = 5
-        doc.Add(titulo)
-
-        Dim subTitulo As New Paragraph("Gerado em: " & DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"),
-                                   FontFactory.GetFont(BaseFont.HELVETICA, 8, BaseColor.GRAY))
-        subTitulo.Alignment = Element.ALIGN_CENTER
-        subTitulo.SpacingAfter = 15
-        doc.Add(subTitulo)
-
-        ' ── Tabela: 9 colunas ──────────────────────────────────────────────────────
-        '   Larguras relativas (total = 100%)
-        Dim tabela As New PdfPTable(6)
-        tabela.WidthPercentage = 100
-        tabela.SetWidths(New Single() {8, 22, 10, 8, 8, 6})
-        tabela.HeaderRows = 1   ' Repete cabeçalho em cada página
-
-        ' ── Função auxiliar: célula de cabeçalho ───────────────────────────────────
-        Dim CriarHeader As Func(Of String, PdfPCell) =
-        Function(texto As String)
-            Dim c As New PdfPCell(New Phrase(texto, fonteHeader))
-            c.BackgroundColor = corHeader
-            c.HorizontalAlignment = Element.ALIGN_CENTER
-            c.VerticalAlignment = Element.ALIGN_MIDDLE
-            c.Padding = 5
-            c.BorderColor = BaseColor.WHITE
-            Return c
-        End Function
-
-        ' ── Cabeçalhos ─────────────────────────────────────────────────────────────
-        'tabela.AddCell(CriarHeader("PeriodoIni"))
-        'tabela.AddCell(CriarHeader("PeriodoFim"))
-        tabela.AddCell(CriarHeader("Fabricante"))
-        tabela.AddCell(CriarHeader("Valor"))
-        tabela.AddCell(CriarHeader("Percentual"))
-        tabela.AddCell(CriarHeader("PercAcumulado"))
-        tabela.AddCell(CriarHeader("Classe Abc"))
-        tabela.AddCell(CriarHeader("Estrategia"))
-
-
-        ' ── Função auxiliar: célula de dado ────────────────────────────────────────
-        Dim CriarCelula As Func(Of String, Integer, BaseColor, PdfPCell) =
-        Function(texto As String, alinhamento As Integer, corFundo As BaseColor)
-            Dim c As New PdfPCell(New Phrase(texto, fonteDados))
-            c.BackgroundColor = corFundo
-            c.HorizontalAlignment = alinhamento
-            c.VerticalAlignment = Element.ALIGN_MIDDLE
-            c.Padding = 4
-            c.BorderColor = New BaseColor(210, 210, 210)
-            Return c
-        End Function
-
-        ' ── Linhas de dados ────────────────────────────────────────────────────────
-        Dim totalFaturamento As Decimal = 0
-        Dim totalEstoque As Decimal = 0
-        Dim linha As Integer = 0
-
-        For Each item As dCurvaAbc In vendas
-
-            ' Cor de fundo por classe ABC
-            Dim corFundo As BaseColor
-            Select Case item.ClasseAbc
-                Case "A - Prioridade Alta" : corFundo = corLinhaA
-                Case "B - Prioridade Média" : corFundo = corLinhaB
-                Case "C - Prioridade Baixa" : corFundo = corLinhaC
-                Case Else
-                    corFundo = If(linha Mod 2 = 0, BaseColor.WHITE, corAlt)
-            End Select
-
-
-            'tabela.AddCell(CriarCelula(item.PeriodoIni, Element.ALIGN_LEFT, corFundo))
-            'tabela.AddCell(CriarCelula(item.PeriodoFim, Element.ALIGN_LEFT, corFundo))
-            tabela.AddCell(CriarCelula(item.Fabricante.ToString(), Element.ALIGN_RIGHT, corFundo))
-            tabela.AddCell(CriarCelula(item.valor.ToString(), Element.ALIGN_RIGHT, corFundo))
-            tabela.AddCell(CriarCelula(item.PercReceita.ToString() & "%", Element.ALIGN_RIGHT, corFundo))
-            tabela.AddCell(CriarCelula(item.PercAcumulado.ToString() & "%", Element.ALIGN_CENTER, corFundo))
-            tabela.AddCell(CriarCelula(item.ClasseAbc, Element.ALIGN_LEFT, corFundo))
-            tabela.AddCell(CriarCelula(item.Estrategia, Element.ALIGN_LEFT, corFundo))
-
-            totalFaturamento += item.valor
-            linha += 1
-        Next
-
-        ' ── Linha de totais ────────────────────────────────────────────────────────
-        Dim corTotais As BaseColor = New BaseColor(31, 73, 125)
-
-        Dim CriarTotal As Func(Of String, Integer, PdfPCell) =
-        Function(texto As String, alinhamento As Integer)
-            Dim c As New PdfPCell(New Phrase(texto, FontFactory.GetFont(BaseFont.HELVETICA_BOLD, 8, BaseColor.WHITE)))
-            c.BackgroundColor = corTotais
-            c.HorizontalAlignment = alinhamento
-            c.VerticalAlignment = Element.ALIGN_MIDDLE
-            c.Padding = 5
-            Return c
-        End Function
-
-        tabela.AddCell(CriarTotal("TOTAL", Element.ALIGN_LEFT))
-        tabela.AddCell(CriarTotal(linha & " produtos", Element.ALIGN_LEFT))
-        tabela.AddCell(CriarTotal(totalFaturamento.ToString("N2"), Element.ALIGN_RIGHT))
-        tabela.AddCell(CriarTotal("100%", Element.ALIGN_RIGHT))
-        tabela.AddCell(CriarTotal("100%", Element.ALIGN_RIGHT))
-        tabela.AddCell(CriarTotal("-", Element.ALIGN_CENTER))
-        tabela.AddCell(CriarTotal("-", Element.ALIGN_CENTER))
-
-        doc.Add(tabela)
-
-        ' ── Legenda ────────────────────────────────────────────────────────────────
-        doc.Add(New Chunk(vbLf))
-        Dim legenda As New Paragraph(
-        "Legenda:   " &
-        "■ Classe A = até 80% do faturamento   " &
-        "■ Classe B = até 95% do faturamento   " &
-        "■ Classe C = acima de 95% do faturamento",
-        FontFactory.GetFont(BaseFont.HELVETICA, 7, BaseColor.GRAY))
-        legenda.Alignment = Element.ALIGN_LEFT
-        doc.Add(legenda)
-
-        doc.Close()
-    End Sub
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
     End Sub
 
-
     Private Sub btoFiltro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFiltro.Click
-        ' Ativar ampulheta (antes de uma operação demorada)
         Cursor.Current = Cursors.WaitCursor
-
-        Filtrar()
-
-        ' Voltar ao cursor normal (após a operação)
-        Cursor.Current = Cursors.Default
+        Try
+            Filtrar()
+        Finally
+            Cursor.Current = Cursors.Default
+        End Try
     End Sub
 
     Private Sub fFabricanteLista_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-
-        Try
-
-            'Me.v_fechamentoTableAdapter.Fill(Me.nascomercioDataSet.v_fechamento)
-
-        Catch nex As ExcecaoNascomercio
-
-            MessageBox.Show(nex.Message)
-
-        Catch ex As Exception
-
-            MessageBox.Show("Erro na consulta do Fabricante [" & Me.ToString() & "]")
-
-        End Try
-
         Me.txtDataInicial.Text = New DateTime(Today.Year, Today.Month, 1).ToString("dd/MM/yyyy")
         Me.txtDataFinal.Text = New DateTime(Today.Year, Today.Month, DateTime.DaysInMonth(Today.Year, Today.Month)).ToString("dd/MM/yyyy")
-
-
     End Sub
 
     Private Sub fFabricanteLista_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -543,32 +336,40 @@ Public Class fRelatorioVendasABC
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-
         Imprimir()
-
     End Sub
 
     Private Sub Imprimir()
-        Dim arquivoPDF = "RelatorioVendasABC" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
-        Dim ProcessApplication As String = "AcroRd32"
+        Dim arquivoPDF = "RelatorioVendasABC" & DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+        Dim caminhoCompleto As String = Path.Combine(_pathRelatorio, arquivoPDF)
 
-        If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then
-            Process.Start(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF)
+        If File.Exists(caminhoCompleto) Then
+            Try
+                Process.Start(caminhoCompleto)
+            Catch ex As Exception
+                MessageBox.Show("Erro ao abrir relatório: " & ex.Message,
+                            "Erro",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error)
+            End Try
+        Else
+            MessageBox.Show("Arquivo não encontrado: " & caminhoCompleto,
+                        "Informação",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information)
         End If
     End Sub
 
     Private Sub btoExport_Click(sender As Object, e As EventArgs) Handles btoExport.Click
-        ' Ativar ampulheta (antes de uma operação demorada)
         Cursor.Current = Cursors.WaitCursor
-
-        Exportar()
-
-        ' Voltar ao cursor normal (após a operação)
-        Cursor.Current = Cursors.Default
+        Try
+            Exportar()
+        Finally
+            Cursor.Current = Cursors.Default
+        End Try
     End Sub
 
     Private Sub txtDataInicial_MaskInputRejected(sender As Object, e As MaskInputRejectedEventArgs) Handles txtDataInicial.MaskInputRejected
-
     End Sub
 
     Private Sub rdQtde_CheckedChanged(sender As Object, e As EventArgs) Handles rdQtde.CheckedChanged

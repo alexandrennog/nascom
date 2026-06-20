@@ -675,7 +675,7 @@ Public Class fCrediarioPagamento
                         _parcelas = consulta.ConsultarParcelas(parcela)
 
                         If _parcelas Is Nothing Then
-                            Exit For
+                            Continue For
                         End If
 
                         parcelas.AddRange(consulta.ConsultarParcelas(parcela))

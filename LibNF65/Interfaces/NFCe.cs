@@ -292,7 +292,7 @@ namespace LibNF65
                             XLgr = endereco.XLgr,
                             Nro = endereco.Nro,
                             XBairro = endereco.XBairro,
-                            CMun = endereco.CMun,
+                            CMun = (endereco.CMun == 0) ? (!string.IsNullOrWhiteSpace(configImposto.Imposto.ISSQN.cMunFG) ? int.Parse(configImposto.Imposto.ISSQN.cMunFG) : 0) : endereco.CMun,
                             XMun = endereco.XMun,
                             UF = retConsCad.InfCons.UF,
                             CEP = endereco.CEP,
