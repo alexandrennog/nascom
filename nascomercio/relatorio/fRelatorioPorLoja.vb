@@ -6,9 +6,11 @@ Imports iTextSharp.text.pdf
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
 Imports ncDados.nsFabricante
+Imports ncDados.nsLoja
 Imports ncDados.nsUsuario
 Imports ncDados.nsVenda
 Imports ncRegras.nsFabricante
+Imports ncRegras.nsLoja
 Imports ncRegras.nsUsuario
 
 Public Class fRelatorioPorLoja
@@ -81,7 +83,8 @@ Public Class fRelatorioPorLoja
         End Try
     End Sub
     Private Sub ConfigurarRelatorio(ByVal vendas As ncDados.nsVenda.ColecaoVendasPorVendedor)
-
+        Dim gLoja As New dLoja
+        Dim regrasLoja As rLoja
         Dim hoje As DateTime = DateTime.Now
 
         Dim arquivoPDF = "RelatorioVendasPorLoja" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
@@ -104,7 +107,21 @@ Public Class fRelatorioPorLoja
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
 
+        regrasLoja = New rLoja()
+
+        gLoja = regrasLoja.Consultar(1)
+
+        Dim fonteLoja As Font
+        fonteLoja = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 16)
+
+        Dim NomeDaLoja As New Paragraph("                      Loja: " + gLoja.nomeFantasia & vbCrLf & "                      Período: " + txtDataInicial.AccessibilityObject.Value + " a " + txtDataFinal.AccessibilityObject.Value, fonteLoja)
+        NomeDaLoja.Alignment = Element.ALIGN_LEFT
+        NomeDaLoja.SpacingBefore = 20
+        NomeDaLoja.SpacingAfter = 20
+
         doc.Add(paragrafoTitulo)
+        doc.Add(Chunk.NEWLINE)
+        doc.Add(NomeDaLoja)
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
