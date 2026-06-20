@@ -10,14 +10,14 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Nascomercio")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("Nascom Tecnologia em Informática Ltda")> 
-<Assembly: AssemblyProduct("Nascomercio")> 
-<Assembly: AssemblyCopyright("Copyright ©  2009")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("Nascomercio")>
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyCompany("Nascom Tecnologia em Informática Ltda")>
+<Assembly: AssemblyProduct("Nascomercio")>
+<Assembly: AssemblyCopyright("Copyright ©  2009")>
+<Assembly: AssemblyTrademark("")>
 
-<Assembly: ComVisible(False)> 
+<Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("54bd77f2-1065-4dc0-a256-b60bf5e0732d")>
@@ -36,4 +36,4 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyVersion("2.3.2.0")>
 <Assembly: AssemblyFileVersion("2.3.2.0")>
 
-<Assembly: NeutralResourcesLanguageAttribute("pt-BR")> 
+<Assembly: NeutralResourcesLanguageAttribute("pt-BR")>

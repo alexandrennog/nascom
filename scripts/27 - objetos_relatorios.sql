@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 ﻿CREATE DEFINER=`root`@`localhost` FUNCTION `fu_getqtdprods`(nomevendedor VARCHAR(30),
-=======
-﻿DELIMITER $$
-
-DROP FUNCTION IF EXISTS `fu_getqtdprods` $$
-CREATE DEFINER=`root`@`localhost` FUNCTION `fu_getqtdprods`(nomevendedor VARCHAR(30),
->>>>>>> 5b71f46530be260cf32852b27bfc2dfdf4e6ecc0
     dtIni DATETIME,
     dtFim DATETIME) RETURNS int(11)
 BEGIN
@@ -28,18 +21,13 @@ DECLARE codProd int;
 		inner join nascomercio.valesprodutos as vp ON vp.controle = v.controle
     Where data >= dtIni and data <= dtFim
     and vendedor = ifnull(nomevendedor, vendedor)
-<<<<<<< HEAD
 	and vp.produto <> 911;
-=======
-	and vp.produto <> codProd;
->>>>>>> 5b71f46530be260cf32852b27bfc2dfdf4e6ecc0
 
 	SELECT sum(quantidade) INTO qtdprodutos
 	FROM nascomercio.vendas as v
 		inner join nascomercio.vendasprodutos as vp ON vp.controle = v.controle
     Where data >= dtIni and data <= dtFim
 	and vendedor = ifnull(nomevendedor, vendedor)
-<<<<<<< HEAD
 	and vp.produto <> 911;
 
     RETURN ifNull(qtdprodutos,0) + IfNull(qtdvales,0);
@@ -47,19 +35,6 @@ DECLARE codProd int;
 END
 
 
-=======
-	and vp.produto <> codProd;
-
-    RETURN ifNull(qtdprodutos,0) + IfNull(qtdvales,0);
-
-END $$
-
-DELIMITER ;
-
-DELIMITER $$
-
-DROP PROCEDURE IF EXISTS `sp_recuperavendas` $$
->>>>>>> 5b71f46530be260cf32852b27bfc2dfdf4e6ecc0
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recuperavendas`(IN nomevendedor varchar(30), IN dtIni datetime, IN dtFim datetime)
 BEGIN
 
@@ -82,20 +57,10 @@ where vendedor = ifnull(nomevendedor, vendedor)
 and totalvendas > 0
 order by valor desc;
 
-<<<<<<< HEAD
 END
 
 
 
-=======
-END $$
-
-DELIMITER ;
-
-DELIMITER $$
-
-DROP PROCEDURE IF EXISTS `sp_recuperavendasloja` $$
->>>>>>> 5b71f46530be260cf32852b27bfc2dfdf4e6ecc0
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recuperavendasloja`(IN dtIni datetime, IN dtFim datetime)
 BEGIN
 
@@ -114,10 +79,4 @@ from vendas_range
 where totalvendas > 0
 order by valor desc;
 
-<<<<<<< HEAD
 END
-=======
-END $$
-
-DELIMITER ;
->>>>>>> 5b71f46530be260cf32852b27bfc2dfdf4e6ecc0
