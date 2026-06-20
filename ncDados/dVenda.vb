@@ -38,6 +38,7 @@ Namespace nsVenda
         Private _valorProduto As Nullable(Of Decimal)
         Private _valorCusto As Nullable(Of Decimal)
         Private _original As Decimal
+        Private _chave As String
 
         Public Property controle() As Integer
             Get
@@ -324,6 +325,16 @@ Namespace nsVenda
             End Get
             Set(ByVal value As Decimal)
                 _original = value
+            End Set
+        End Property
+
+
+        Public Property Chave() As String
+            Get
+                Return _chave
+            End Get
+            Set(ByVal value As String)
+                _chave = value
             End Set
         End Property
 

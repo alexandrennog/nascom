@@ -1,0 +1,171 @@
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\\$(MSBuildToolsVersion)\\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\\$(MSBuildToolsVersion)\\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B1234567-89AB-4CDE-F012-3456789ABCDE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LibNF65</RootNamespace>
+    <AssemblyName>LibNF65</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OutputPath>bin\\Debug\\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\\Debug\\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\\Release\\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.1.66\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.1\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.Cryptography, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Microsoft.Bcl.Cryptography.9.0.10\lib\net462\Microsoft.Bcl.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.3.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\componentes\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\QRCoder.1.7.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Configuration.ConfigurationManager.9.0.10\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Drawing.Common.9.0.10\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Formats.Asn1, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Formats.Asn1.9.0.10\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Cng, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Security.Cryptography.Cng.5.0.0\lib\net47\System.Security.Cryptography.Cng.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Xml, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Security.Cryptography.Xml.9.0.10\lib\net462\System.Security.Cryptography.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Unimake.Business.DFe, Version=2025.11.6.1829, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Unimake.DFe.20251106.1829.56\lib\net472\Unimake.Business.DFe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Cryptography, Version=2025.9.12.1810, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Unimake.Cryptography.20250912.1810.37\lib\netstandard2.0\Unimake.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Extensions, Version=2025.9.12.1810, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Unimake.Extensions.20250912.1810.37\lib\netstandard2.0\Unimake.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Security.Platform, Version=2023.7.6.1027, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Unimake.Security.Platform.20230706.1027.33\lib\net\Unimake.Security.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Unidanfe, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Unimake.Unidanfe.20251029.1843.31\lib\net472\Unimake.Unidanfe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Utils, Version=2025.9.12.1810, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\NFCeProject\packages\Unimake.Utils.20250912.1810.37\lib\netstandard2.0\Unimake.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Criptografia.cs" />
+    <Compile Include="DadosQrCodeNFCe.cs" />
+    <Compile Include="DanfeQrCodeGenerator.cs" />
+    <Compile Include="ImpressaoNFCe.cs" />
+    <Compile Include="InfProtRepository.cs" />
+    <Compile Include="Interfaces\IInfoProdutoService.cs" />
+    <Compile Include="Interfaces\IInfProtRepository.cs" />
+    <Compile Include="Interfaces\INFCe.cs" />
+    <Compile Include="Interfaces\NFCe.cs" />
+    <Compile Include="Modelo\DarumaFrameworkSat.cs" />
+    <Compile Include="Modelo\InfoProduto.cs" />
+    <Compile Include="Modelo\MeioPagamentoNascom.cs" />
+    <Compile Include="Modelo\PixConfig.cs" />
+    <Compile Include="Modelo\ProdutoVendido.cs" />
+    <Compile Include="NFCe65.cs" />
+    <Compile Include="NFCeImpressaoSP.cs" />
+    <Compile Include="NFRepository.cs" />
+    <Compile Include="Services\InfoProdutoService.cs" />
+    <Compile Include="Services\ServiceLocator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="unimake.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\\Microsoft.CSharp.targets" />
+</Project>

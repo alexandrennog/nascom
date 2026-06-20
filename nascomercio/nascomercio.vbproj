@@ -23,7 +23,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
     <PublishUrl>D:\MeuNote\Distrib\Nascom\x64\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -41,7 +42,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -87,9 +87,16 @@
       <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.6.2\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.Cryptography, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Cryptography.9.0.10\lib\net462\Microsoft.Bcl.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.ReportViewer.Common.10.0.40219.1\lib\Microsoft.ReportViewer.Common.dll</HintPath>
@@ -106,17 +113,84 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.ReportViewer.WinForms.10.0.40219.1\lib\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.3.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+    <Reference Include="MySql.Data, Version=5.1.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\componentes\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\NascomercioNFe-install\NascomercioNFe\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Formats.Asn1, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Asn1.9.0.10\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Cng, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Cng.5.0.0\lib\net47\System.Security.Cryptography.Cng.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Xml, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Xml.9.0.10\lib\net462\System.Security.Cryptography.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Unimake.Business.DFe, Version=2025.11.6.1829, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unimake.DFe.20251106.1829.56\lib\net472\Unimake.Business.DFe.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Cryptography, Version=2025.9.12.1810, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unimake.Cryptography.20250912.1810.37\lib\netstandard2.0\Unimake.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Extensions, Version=2025.9.12.1810, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unimake.Extensions.20250912.1810.37\lib\netstandard2.0\Unimake.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Utils, Version=2025.9.12.1810, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unimake.Utils.20250912.1810.37\lib\netstandard2.0\Unimake.Utils.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -230,6 +304,18 @@
       <DependentUpon>fRelatorioFechamentoSAT.vb</DependentUpon>
     </Compile>
     <Compile Include="relatorio\fRelatorioFechamentoSAT.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioVendasABC.Designer.vb">
+      <DependentUpon>fRelatorioVendasABC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioVendasABC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioVendasNfe.Designer.vb">
+      <DependentUpon>fRelatorioVendasNfe.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioVendasNfe.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="relatorio\fRelatorioPorLoja.Designer.vb">
@@ -945,6 +1031,13 @@
       <DependentUpon>fRelatorioFechamentoSAT.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioVendasABC.resx">
+      <DependentUpon>fRelatorioVendasABC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioVendasNfe.resx">
+      <DependentUpon>fRelatorioVendasNfe.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioPorLoja.resx">
       <DependentUpon>fRelatorioPorLoja.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -1407,7 +1500,9 @@
     <None Include="Resources\usuarios.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="unimake.ico" />
     <None Include="Resources\pix.bmp" />
+    <Content Include="DarumaFrameWork_SAT.xml" />
     <Content Include="Resources\pix.png" />
     <None Include="Resources\novo.png" />
     <None Include="Resources\sair.jpg" />
@@ -1483,6 +1578,14 @@
     <None Include="Resources\fundo_supermercado.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NasLibackup\NasLibackup.csproj">
+      <Project>{408f1cdf-ebbf-4a05-86de-ad4a92b8bf20}</Project>
+      <Name>NasLibackup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibNF65\LibNF65.csproj">
+      <Project>{b1234567-89ab-4cde-f012-3456789abcde}</Project>
+      <Name>LibNF65</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ncComum\ncComum.vbproj">
       <Project>{20D12D44-BB71-457A-90BA-19357108B3C0}</Project>
       <Name>ncComum</Name>

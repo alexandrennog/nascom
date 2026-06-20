@@ -1,17 +1,28 @@
-Imports ncDados.nsProduto
-Imports ncDados.nsVenda
-Imports ncRegras.nsProduto
-Imports ncRegras.nsParametro
-Imports ncDados.nsParametro
-Imports ncRegras.nsCaracteristica
-Imports ncDados.nsCaracteristica
+Imports System.Configuration
+Imports System.Security.Cryptography.X509Certificates
+Imports System.Threading.Tasks
+Imports LibNF65
+Imports LibNF65.Modelo
+Imports ncComum.DFW
 Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
 Imports ncComum.nsLog.cLog
-Imports ncComum.DFW
+Imports ncDados.nsCaracteristica
+Imports ncDados.nsParametro
+Imports ncDados.nsProduto
+Imports ncDados.nsVenda
+Imports ncRegras.nsCaracteristica
+Imports ncRegras.nsParametro
+Imports ncRegras.nsProduto
+Imports Unimake.Business.DFe.Xml.SNCM
+Imports Unimake.Business.Security
+
 
 Public Class fCaixaConsulta
-
+    Private certificadoCarregado As New X509Certificate2
+    Dim caminhoCertificado As String
+    Dim senhaCertificado As String
+    Dim config As New PixConfig()
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Fechar()
     End Sub
@@ -31,6 +42,10 @@ Public Class fCaixaConsulta
         Me.lblMsg.Tag = False
         Me.lblLoja.Text = mdiPrincipal.gLoja.nomeFantasia
 
+        config = NFCe65.ConsultarConfig()
+        caminhoCertificado = config.PathCertificate
+        senhaCertificado = config.PassCertificate
+
         If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
             lblTitulo.Text = "CAIXA"
         Else
@@ -39,16 +54,38 @@ Public Class fCaixaConsulta
             txtControle.TabStop = False
         End If
 
-        If System.Configuration.ConfigurationManager.AppSettings("FISCAL") <> "NAO" Then
+        If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
+            btnExcluirUltima.Visible = True
+            btnExcluir.Visible = True
+        ElseIf System.Configuration.ConfigurationManager.AppSettings("FISCAL") <> "NAO" Then
             btnExcluirUltima.Visible = True
             btnExcluir.Visible = False
+
         Else
             btnExcluirUltima.Visible = False
             btnExcluir.Visible = True
         End If
 
-    End Sub
+        Dim certificado As New CertificadoDigital()
 
+        CarregarComboCondicaoAsync()
+
+    End Sub
+    Private Async Function CarregarComboCondicaoAsync() As Task
+
+        Dim certificado As New CertificadoDigital()
+
+
+        certificadoCarregado = Await CarregarCertificadoAsync(caminhoCertificado, senhaCertificado, certificado)
+    End Function
+    Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
+                                                       senhaCertificado As String,
+                                                       certificado As CertificadoDigital) As Task(Of X509Certificate2)
+        ' Executa o carregamento do certificado em uma thread separada (sem travar a UI)
+        Return Await Task.Run(Function()
+                                  Return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado)
+                              End Function)
+    End Function
     Private Sub CarregarComboCondicao()
         Dim regras As ncRegras.nsCondicao.rCondicao
         Dim colecao As ncDados.nsCondicao.ColecaoCondicao
@@ -80,7 +117,41 @@ Public Class fCaixaConsulta
 
         End Try
     End Sub
+    Private Sub CancelarNFeVenda()
+        Dim controle As Integer
+        Dim vendas As ncDados.nsVenda.ColecaoVenda
+        Dim dadosVenda As New ncDados.nsVenda.dVenda
+        Dim objVenda As New ncRegras.nsVenda.rVenda
+        Dim chave As String
+        dadosVenda = New ncDados.nsVenda.dVenda()
 
+        Try
+
+            If Integer.TryParse(Me.txtControle.Text, controle) Then
+                dtgProdutos.Rows.Clear()
+                dadosVenda.controle = controle
+                objVenda = New ncRegras.nsVenda.rVenda()
+                vendas = objVenda.Consultar(dadosVenda)
+                If vendas.Count = 0 Then
+                    MessageBox.Show("Nenhuma venda encontrada para o controle informado.")
+                    Exit Sub
+                End If
+                chave = vendas.Item(0).Chave.ToString()
+
+                Dim ret = NFCe65.CancelarNFe(chave, certificadoCarregado, "")
+                If ret = True Then
+                    MessageBox.Show("NFe cancelada com sucesso.")
+                    GravarLog(mdiPrincipal.gUsuario.usuario, "NFe cancelada com sucesso. Chave: " & chave)
+                Else
+                    MessageBox.Show("Erro ao cancelar NFe.")
+                End If
+
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show($"Erro ao excluir NFe , {ex.Message}")
+        End Try
+    End Sub
     Private Sub ExcluirVenda()
         Dim objVenda As New ncRegras.nsVenda.rVenda
         Dim objVendaProduto As New ncRegras.nsVenda.rVendaProduto
@@ -118,8 +189,11 @@ Public Class fCaixaConsulta
                             ' exclui venda e seus produtos
                             dadosVenda.controle = txtControle.Text
 
+                            CancelarNFeVenda()
                             objVendaProduto.ExcluirControle(dadosVenda.controle)
                             objVenda.Excluir(dadosVenda)
+
+
                             If dtgProdutos.Rows.Count > 0 Then
                                 MessageBox.Show("Venda excluída: " & txtControle.Text)
                                 GravarLog(mdiPrincipal.gUsuario.usuario, "Venda excluída: " & txtControle.Text & " - Valor:" & lblTotal.Text)
@@ -297,7 +371,37 @@ Public Class fCaixaConsulta
         Me.txtCliente.BackColor = Color.White
         Me.cboCondicao.SelectedIndex = 1
     End Sub
+    Private Sub ImprimirNFe()
 
+        Dim controle As Integer
+        Dim vendas As ncDados.nsVenda.ColecaoVenda
+        Dim dadosVenda As ncDados.nsVenda.dVenda
+        Dim objVenda As ncRegras.nsVenda.rVenda
+        Dim chave As String
+        dadosVenda = New ncDados.nsVenda.dVenda()
+
+        Try
+
+            If Integer.TryParse(Me.txtControle.Text, controle) Then
+                dtgProdutos.Rows.Clear()
+                dadosVenda.controle = controle
+                objVenda = New ncRegras.nsVenda.rVenda()
+                vendas = objVenda.Consultar(dadosVenda)
+                If vendas.Count = 0 Then
+                    MessageBox.Show("Nenhuma venda encontrada para o controle informado.")
+                    Exit Sub
+                End If
+                chave = vendas.Item(0).Chave.ToString()
+                NFCe65.Reimprimir(chave)
+
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+
+    End Sub
 
     Private Sub FinalizaVenda()
         If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLUÇÃO" Then
@@ -501,4 +605,14 @@ Public Class fCaixaConsulta
 
     End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
+
+    Private Sub btnImprimiNfe_Click(sender As Object, e As EventArgs)
+
+    End Sub
+    Private Sub btnImprimeNFe_Click(sender As Object, e As EventArgs) Handles btnImprimeNFe.Click
+        ImprimirNFe()
+    End Sub
 End Class
