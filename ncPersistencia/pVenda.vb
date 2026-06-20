@@ -1,11 +1,13 @@
 Imports System.Data.SqlClient
 Imports System.Diagnostics.Eventing
+Imports System.Drawing
 Imports System.Windows.Forms
 Imports MySql.Data.MySqlClient
 Imports ncComum.nsAcessoBD
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
 Imports ncDados
+Imports ncDados.nsCurvaABC
 Imports ncDados.nsVenda
 
 Namespace nsVenda
@@ -87,6 +89,126 @@ Namespace nsVenda
 
         End Function
 
+        Public Function ListarVendasNfe(ByVal dataIni As String, ByVal dataFim As String) As ColecaodVendasNfe
+
+            Dim retorno As ColecaodVendasNfe
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dVendasNfe
+            Dim comandoSQL As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                comandoSQL = " SELECT SUBSTRING(chNFe, 25, 9) as cupom, DATE_FORMAT(dhrecbto, '%d/%m/%Y') as datavenda, total  " &
+                             "FROM nascomercio.vendas INNER JOIN nascomercio.infprot ON chNFe = chave and cstat = 100 " &
+                             $"where chave is not null and data >= '{dataIni}' and data <= '{dataFim}'"
+
+                ds = acessoBanco.ExecutarDS(comandoSQL)
+
+                If Not ds Is Nothing Then
+                    If ds.Tables.Count > 0 Then
+                        dt = ds.Tables(0)
+
+                        If dt.Rows.Count > 0 Then
+                            retorno = New ColecaodVendasNfe
+
+                            For Each row In dt.Rows
+                                item = New dVendasNfe
+
+                                item.Cupom = cFuncoes.RetornarInteiro(row("cupom"))
+                                item.DataVenda = cFuncoes.RetornarTexto(row("datavenda"))
+                                item.Valor = cFuncoes.RetornarTexto(row("total"))
+
+                                retorno.Add(item)
+                            Next
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+                Else
+                    retorno = Nothing
+                End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ListarVendasNfe = retorno
+
+        End Function
+        Public Function ListarVendasABC(ByVal dataIni As String, ByVal dataFim As String, ByVal tipo As String) As ColecaodVendasABC
+
+            Dim retorno As ColecaodVendasABC
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim row As DataRow
+            Dim item As dCurvaAbc
+            Dim comandoSQL As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                If tipo = "V" Then
+                    acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores('{dataIni}','{dataFim}')")
+                    comandoSQL = " select * from ranking_resultado_valor;"
+                Else
+                    ds = acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores_quantidade('{dataIni}','{dataFim}')")
+                    comandoSQL = " select * from ranking_resultado_quantidade;"
+                End If
+
+                ds = acessoBanco.ExecutarDS(comandoSQL)
+
+                If Not ds Is Nothing Then
+                        If ds.Tables.Count > 0 Then
+                            dt = ds.Tables(0)
+
+                            If dt.Rows.Count > 0 Then
+                                retorno = New ColecaodVendasABC
+
+                                For Each row In dt.Rows
+                                    item = New dCurvaAbc
+                                    item.PeriodoIni = cFuncoes.RetornarTexto(row("data_inicio"))
+                                    item.PeriodoFim = cFuncoes.RetornarTexto(row("data_fim"))
+                                    item.Fabricante = cFuncoes.RetornarTexto(row("fabricante"))
+                                    item.valor = cFuncoes.RetornarTexto(row("valor"))
+                                    item.PercReceita = cFuncoes.RetornarTexto(row("individual"))
+                                    item.PercAcumulado = cFuncoes.RetornarTexto(row("acumulado"))
+                                    item.ClasseAbc = cFuncoes.RetornarTexto(row("classificacao_abc"))
+                                    item.Estrategia = cFuncoes.RetornarTexto(row("estrategia_sugerida"))
+
+                                    retorno.Add(item)
+                                Next
+                            Else
+                                retorno = Nothing
+                            End If
+                        Else
+                            retorno = Nothing
+                        End If
+                    Else
+                        retorno = Nothing
+                    End If
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarVendasABC Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            ListarVendasABC = retorno
+
+        End Function
         Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda
@@ -107,7 +229,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID, chave "
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vendas "
@@ -161,6 +283,7 @@ Namespace nsVenda
                                 item.Pix = cFuncoes.RetornarDecimal(row("Original"))
                                 item.ordemServicoId = cFuncoes.RetornarTexto(row("ordemservico"))
                                 item.TXID = cFuncoes.RetornarTexto(row("txID"))
+                                item.Chave = cFuncoes.RetornarTexto(row("chave"))
 
                                 retorno.Add(item)
                             Next
@@ -539,7 +662,7 @@ Namespace nsVenda
 
                 sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " &
                              "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " &
-                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, txID "
+                             "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, txID"
 
                 sqlWhere = String.Empty
                 sqlFrom = " From vales "
@@ -869,7 +992,33 @@ Namespace nsVenda
             Return retorno
 
         End Function
+        Public Function IncluirnNF(ByVal dados As dBasennf) As Integer
 
+            Dim retorno As Integer
+            Dim acessoBanco As cAcessoBD
+            Dim comandoSQL As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                comandoSQL = " INSERT INTO " &
+                    " basennf (chnfe) " &
+                    " VALUES (" & cFuncoes.PersistirTexto(dados.chnfe) & ")"
+
+                retorno = acessoBanco.ExecutarCID(comandoSQL)
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            IncluirnNF = retorno
+
+        End Function
         Public Function IncluirCrediarioPagamento(ByVal dados As dVenda) As Integer
 
             Dim retorno As Integer
@@ -975,6 +1124,63 @@ Namespace nsVenda
             End Try
 
             Alterar = retorno
+
+        End Function
+
+        Public Function Alterar(ByVal controle As String, ByVal chave As String) As Integer
+
+            Dim retorno As Integer
+            Dim acessoBanco As cAcessoBD
+            Dim comandoSQL As String
+
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+
+                comandoSQL = " UPDATE vendas SET " &
+                    " chave = " & cFuncoes.PersistirTexto(chave) &
+                    " WHERE " &
+                    " controle = " & controle.ToString()
+
+                retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            Alterar = retorno
+
+        End Function
+        Public Function AlterarBaseNnf(ByVal dados As dBasennf) As Integer
+
+            Dim retorno As Integer
+            Dim acessoBanco As cAcessoBD
+            Dim comandoSQL As String
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                comandoSQL = " UPDATE basennf SET " &
+                    " chnfe = " & cFuncoes.PersistirTexto(dados.chnfe) &
+                    " WHERE " &
+                    " seqNFe = " & cFuncoes.PersistirTexto(dados.SeqNFe)
+
+                retorno = acessoBanco.ExecutarINT(comandoSQL)
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em Alterar basennf [" & Me.ToString() & "] - " & ex.Message)
+
+            End Try
+
+            AlterarBaseNnf = retorno
 
         End Function
 

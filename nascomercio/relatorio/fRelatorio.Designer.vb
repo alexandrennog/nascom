@@ -54,6 +54,8 @@ Partial Class fRelatorio
         Me.rbtCobrancaPIX = New System.Windows.Forms.RadioButton()
         Me.rbtVendasPorLoja = New System.Windows.Forms.RadioButton()
         Me.rbtVendasPorVendedor = New System.Windows.Forms.RadioButton()
+        Me.rbtVendasNFe = New System.Windows.Forms.RadioButton()
+        Me.rbtVendasABC = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -455,12 +457,38 @@ Partial Class fRelatorio
         Me.rbtVendasPorVendedor.Text = "Vendas por Vendedor"
         Me.rbtVendasPorVendedor.UseVisualStyleBackColor = True
         '
+        'rbtVendasNFe
+        '
+        Me.rbtVendasNFe.AutoSize = True
+        Me.rbtVendasNFe.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtVendasNFe.Location = New System.Drawing.Point(534, 248)
+        Me.rbtVendasNFe.Name = "rbtVendasNFe"
+        Me.rbtVendasNFe.Size = New System.Drawing.Size(114, 23)
+        Me.rbtVendasNFe.TabIndex = 111
+        Me.rbtVendasNFe.TabStop = True
+        Me.rbtVendasNFe.Text = "Vendas Nfe"
+        Me.rbtVendasNFe.UseVisualStyleBackColor = True
+        '
+        'rbtVendasABC
+        '
+        Me.rbtVendasABC.AutoSize = True
+        Me.rbtVendasABC.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtVendasABC.Location = New System.Drawing.Point(536, 283)
+        Me.rbtVendasABC.Name = "rbtVendasABC"
+        Me.rbtVendasABC.Size = New System.Drawing.Size(172, 23)
+        Me.rbtVendasABC.TabIndex = 112
+        Me.rbtVendasABC.TabStop = True
+        Me.rbtVendasABC.Text = "Vendas Curva ABC"
+        Me.rbtVendasABC.UseVisualStyleBackColor = True
+        '
         'fRelatorio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(763, 538)
+        Me.Controls.Add(Me.rbtVendasABC)
+        Me.Controls.Add(Me.rbtVendasNFe)
         Me.Controls.Add(Me.rbtVendasPorLoja)
         Me.Controls.Add(Me.rbtVendasPorVendedor)
         Me.Controls.Add(Me.rbtCobrancaPIX)
@@ -539,4 +567,6 @@ Partial Class fRelatorio
     Friend WithEvents rbtCobrancaPIX As RadioButton
     Friend WithEvents rbtVendasPorLoja As RadioButton
     Friend WithEvents rbtVendasPorVendedor As RadioButton
+    Friend WithEvents rbtVendasNFe As RadioButton
+    Friend WithEvents rbtVendasABC As RadioButton
 End Class

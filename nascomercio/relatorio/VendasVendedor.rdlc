@@ -321,7 +321,7 @@ FROM            v_vendassintetico</CommandText>
                           </Style>
                           <ZIndex>8</ZIndex>
                           <CanGrow>true</CanGrow>
-                          <Value>=Sum(Fields!valorvenda.Value)-((Sum(Fields!troca.Value)+Sum(Fields!defeito.Value))-(Sum(Fields!valeEmitido.Value)) + Sum(Fields!vale.Value))</Value>
+                          <Value>=Sum(Fields!desconto.Value)</Value>
                         </Textbox>
                       </ReportItems>
                     </TableCell>
@@ -461,7 +461,7 @@ FROM            v_vendassintetico</CommandText>
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                       <CanGrow>true</CanGrow>
-                      <Value>=Fields!valorvenda.Value-((Fields!troca.Value+ Fields!defeito.Value)-(Fields!valeEmitido.Value) + Fields!vale.Value)</Value>
+                      <Value>=Fields!desconto.Value</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>
@@ -609,7 +609,7 @@ FROM            v_vendassintetico</CommandText>
                       </Style>
                       <ZIndex>23</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>Total</Value>
+                      <Value>Desconto</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>
@@ -781,7 +781,7 @@ FROM            v_vendassintetico</CommandText>
                       </Style>
                       <ZIndex>15</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>=Sum(Fields!valorvenda.Value)-((Sum(Fields!troca.Value)+Sum(Fields!defeito.Value))-(Sum(Fields!valeEmitido.Value)) + Sum(Fields!vale.Value))</Value>
+                      <Value>=Sum(Fields!desconto.Value)</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>

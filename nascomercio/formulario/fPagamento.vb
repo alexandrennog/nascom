@@ -1,26 +1,35 @@
-Imports ncComum.nsExcecao
-Imports ncDados.nsProduto
-Imports ncRegras.nsProduto
-Imports ncComum.nsLog.cLog
-Imports ncRegras.nsParametro
-Imports ncDados.nsParametro
-Imports ncComum.nsConstantes
-Imports ncComum.DFW
-Imports System.Configuration
-Imports ncComum.nsFuncoes.cFuncoes
-Imports System.Net.Sockets
-Imports System.Text
-Imports ncRegras
-Imports ncPersistencia
-Imports ncDados
-Imports System.IO
-Imports System.Threading
 Imports System
+Imports System.Configuration
+Imports System.IO
 Imports System.Linq
+Imports System.Net.Sockets
+Imports System.Security.Cryptography.X509Certificates
+Imports System.Text
+Imports System.Threading
+Imports System.Threading.Tasks
 Imports CLPix.Services
+Imports iTextSharp.text
+Imports LibNF65
+Imports LibNF65.Modelo
+Imports LibNF65.NFCeModel
+Imports ncComum.DFW
+Imports ncComum.nsConstantes
+Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
+Imports ncComum.nsFuncoes.cFuncoes
+Imports ncComum.nsLog.cLog
+Imports ncDados
 Imports ncDados.nsCliente
+Imports ncDados.nsParametro
+Imports ncDados.nsProduto
+Imports ncPersistencia
+Imports ncRegras
 Imports ncRegras.nsCliente
+Imports ncRegras.nsParametro
+Imports ncRegras.nsProduto
+Imports Unimake.Business.DFe.Servicos
+Imports Unimake.Business.DFe.Xml.SNCM
+Imports Unimake.Business.Security
 
 
 Public Class fPagamento
@@ -33,7 +42,11 @@ Public Class fPagamento
     Public crediario As String
     Private dadosParametro As dParametro
     Private regraParametro As rParametro
-
+    Private certificadoCarregado As New X509Certificate2
+    Private Shared ReadOnly _lockNFe As New Object()
+    Dim caminhoCertificado As String
+    Dim senhaCertificado As String
+    Dim config As New PixConfig()
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
     End Sub
@@ -85,9 +98,14 @@ Public Class fPagamento
     End Sub
 
     Private Sub fPagamento_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         lblTroco.Text = 0.ToString("N")
         lblRecebido.Text = 0.ToString("N")
         lblVale.Text = 0.ToString("N")
+
+        config = NFCe65.ConsultarConfig()
+        caminhoCertificado = config.PathCertificate
+        senhaCertificado = config.PassCertificate
 
         CarregarComboCondicao()
         cboCondicao.Text = condicao
@@ -122,7 +140,16 @@ Public Class fPagamento
         'txtDesconto.Text = "0,00"
         lblTotal.Text = txtVendas.Text
 
+        CarregarComboCondicaoAsync()
+
     End Sub
+    Private Async Function CarregarComboCondicaoAsync() As Task
+
+        Dim certificado As New CertificadoDigital()
+
+
+        certificadoCarregado = Await CarregarCertificadoAsync(config.PathCertificate, config.PassCertificate, certificado)
+    End Function
     Private Function HabilitarPix() As Boolean
         ' Habilitar uso do PIX?
 
@@ -545,7 +572,74 @@ Public Class fPagamento
         Return controle
 
     End Function
+    Private Function IncluirNFe() As Integer
+        Dim novaVenda As New ncRegras.nsVenda.rVenda
+        Dim dadosVenda As New ncDados.nsVenda.dVenda
+        Dim regrasItem As New rProdutoItem
 
+        Dim controle As Integer
+
+        ' Inclui venda
+        dadosVenda.usuarioId = mdiPrincipal.gUsuario.cid
+        dadosVenda.Caixa = mdiPrincipal.gUsuario.usuario
+        dadosVenda.clienteId = Me.txtCliente.Tag
+        dadosVenda.Data = Now
+        dadosVenda.Dinheiro = Me.txtDinheiro.Text
+        dadosVenda.Pix = Me.txtPix.Text
+        dadosVenda.Cheque = Me.txtCheque.Text
+        dadosVenda.ChequePre = Me.txtChequePre.Text
+        dadosVenda.CartaoDebito = Me.txtCartaoDebito.Text
+        dadosVenda.CartaoCredito = Me.txtCartaoCredito.Text
+        dadosVenda.Crediario = Me.txtCrediario.Text
+        dadosVenda.Parcelas = Me.txtParcelas.Text
+        dadosVenda.Desconto = Me.txtDesconto.Text
+        dadosVenda.Condicao = Me.cboCondicao.SelectedIndex
+        dadosVenda.Recebido = Me.lblRecebido.Text
+        dadosVenda.Troca = Me.txtTroca.Text
+        dadosVenda.Troco = Me.lblTroco.Text
+        dadosVenda.Vale = Me.txtVale.Text
+        dadosVenda.Defeito = Me.txtDefeitos.Text
+        dadosVenda.Terminal = System.Configuration.ConfigurationManager.AppSettings("NOME_TERMINAL")
+        dadosVenda.Vendedor = Me.lblVendedor.Text
+        dadosVenda.Total = Me.lblTotal.Text
+        dadosVenda.controle = Me.lblControle.Text
+        dadosVenda.ordemServicoId = Me.lblControle.Tag
+        dadosVenda.TXID = Me.txtTxId.Text
+        ' Verifica se emite Vale
+        If (dadosVenda.Troca > 0.0 Or dadosVenda.Defeito > 0.0 Or dadosVenda.Vale > 0.0) And dadosVenda.Troco > 0.0 Then
+            ' Verifica se troco provem de troca
+            If dadosVenda.Troca > dadosVenda.Total Or dadosVenda.Defeito > dadosVenda.Total Or dadosVenda.Vale > dadosVenda.Total Then
+                If MessageBox.Show("Deseja emitir Vale?", "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                    Vale()
+                    dadosVenda.ValeEmitido = Me.lblVale.Text
+                    dadosVenda.Troco = Me.lblTroco.Text
+                End If
+            End If
+        End If
+
+        If dadosVenda.Troca > 0.0 Then
+            For Each produtoTroca As ncDados.nsVenda.dVendaProduto In dadosTroca
+                regrasItem.AlterarEstoque(produtoTroca.codigobarras, produtoTroca.quantidade)
+            Next
+        End If
+        dadosTroca.Clear()
+
+        For Each produto As ncDados.nsVenda.dVendaProduto In dadosVendaProdutos
+            regrasItem.AlterarEstoque(produto.codigobarras, -produto.quantidade)
+        Next
+
+        ' Verifica grava troca ou venda
+        If (dadosVenda.Troca > 0.0 Or dadosVenda.Defeito > 0.0) Then
+            GravarLog(mdiPrincipal.gUsuario.usuario, "Troca realizada. Vendedor: " & Me.lblVendedor.Text)
+            controle = novaVenda.IncluirTroca(dadosVenda, dadosVendaProdutos)
+        Else
+            GravarLog(mdiPrincipal.gUsuario.usuario, "Venda realizada. Vendedor: " & Me.lblVendedor.Text)
+            controle = novaVenda.Incluir(dadosVenda, dadosVendaProdutos)
+        End If
+
+        Return controle
+
+    End Function
     Private Sub Vale()
         Dim objImpressao As ncComum.Impressao
 
@@ -606,6 +700,9 @@ Public Class fPagamento
 
         Dim dadosParametro As dParametro
         Dim regraParametro As New rParametro
+        Dim regraVenda As New ncRegras.nsVenda.rVenda
+        Dim novaVenda As New ncRegras.nsVenda.rVenda
+        Dim dados As New ncDados.nsVenda.dBasennf
 
         Dim objImpressao As ncComum.Impressao
         Dim qtdImpressao As Integer = 1
@@ -867,7 +964,170 @@ Public Class fPagamento
                     Catch ex As Exception
                         MessageBox.Show(ex.Message)
                     End Try
+                ElseIf ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
 
+                    ' SAT - Cupom Eletrônico
+                    Try
+
+                        'se não informou cpf pergunta
+                        If String.IsNullOrEmpty(Str_CPF) Then
+                            Dim resposta As String = InputBox("Deseja informar o CPF/CNPJ? (deixe em branco para ignorar)").Trim()
+
+                            ' Se o usuário não quiser informar, simplesmente seguimos.
+                            If String.IsNullOrEmpty(resposta) Then
+                                Str_CPF = ""
+                            Else
+                                Str_CPF = resposta
+
+                                ' Decide se valida como CNPJ ou CPF apenas se for informado.
+                                If Str_CPF.Length > 11 Then
+                                    ' Validação de CNPJ
+                                    While Not ValidaCnpj(Str_CPF)
+                                        Str_CPF = InputBox("CNPJ incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
+                                        If String.IsNullOrEmpty(Str_CPF) Then Exit While
+                                    End While
+                                Else
+                                    ' Validação de CPF
+                                    While Not ValidaCpf(Str_CPF)
+                                        Str_CPF = InputBox("CPF incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
+                                        If String.IsNullOrEmpty(Str_CPF) Then Exit While
+                                    End While
+                                End If
+                            End If
+                        End If
+
+                        Dim meiosPagamentos As New List(Of MeioPagamentoNascom)
+
+                        ' Meios de pagamento
+                        If CDec(txtDinheiro.Text) > 0.001 Then
+                            '01 - Dinheiro
+                            Dim dinheiro As String = txtDinheiro.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "01"
+                            pagamentoMeio.DescricaoPagamento = "Dinheiro"
+                            pagamentoMeio.Valor = dinheiro
+                            pagamentoMeio.Troco = lblTroco.Text.Replace(".", "")
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtCheque.Text) > 0.001 Then
+                            '02 - Cheque
+                            Dim cheque As String = txtCheque.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "02"
+                            pagamentoMeio.DescricaoPagamento = "Cheque"
+                            pagamentoMeio.Valor = cheque
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtChequePre.Text) > 0.001 Then
+                            '02 - Cheque
+
+                            Dim chequePre As String = txtChequePre.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "02"
+                            pagamentoMeio.DescricaoPagamento = "Cheque"
+                            pagamentoMeio.Valor = chequePre
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtCartaoDebito.Text) > 0.001 Then
+                            '04 - Cartão de Débito
+
+                            Dim cartaoDebito As String = txtCartaoDebito.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "04"
+                            pagamentoMeio.DescricaoPagamento = "Cartão de Débito"
+                            pagamentoMeio.Valor = cartaoDebito
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtCartaoCredito.Text) > 0.001 Then
+                            '03 - Cartão de Crédito
+
+                            Dim cartaoCredito As String = txtCartaoCredito.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "03"
+                            pagamentoMeio.DescricaoPagamento = "Cartão de Crédito"
+                            pagamentoMeio.Valor = cartaoCredito
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtCrediario.Text) > 0.001 Then
+                            '05 - Crédito Loja
+
+                            Dim crediarioPagamento As String = txtCrediario.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "05"
+                            pagamentoMeio.DescricaoPagamento = "Crédito Loja"
+                            pagamentoMeio.Valor = crediarioPagamento
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtPix.Text) > 0.001 Then
+                            '06 - Pix
+
+                            Dim pixPagamento As String = txtPix.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "06"
+                            pagamentoMeio.DescricaoPagamento = "PIX"
+                            pagamentoMeio.Valor = pixPagamento
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtTroca.Text) > 0.001 Then
+                            '99 - Outros (Troca)
+
+                            Dim troca As String = txtTroca.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "99"
+                            pagamentoMeio.DescricaoPagamento = "Troca"
+                            pagamentoMeio.Valor = troca
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtDesconto.Text) > 0.001 Then
+                            '99 - Outros (Troca)
+
+                            Dim desconto As String = txtDesconto.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "99"
+                            pagamentoMeio.DescricaoPagamento = "Desconto"
+                            pagamentoMeio.Valor = desconto
+                            meiosPagamentos.Add(pagamentoMeio)
+
+                        End If
+                        If CDec(txtVale.Text) > 0.001 Then
+                            '99 - Outros (Vale)
+
+                            Dim vale As String = txtVale.Text.Replace(".", "")
+                            Dim pagamentoMeio As New MeioPagamentoNascom()
+                            pagamentoMeio.CodigoPagamento = "99"
+                            pagamentoMeio.DescricaoPagamento = "Vale"
+                            pagamentoMeio.Valor = vale
+                            meiosPagamentos.Add(pagamentoMeio)
+                        End If
+                        If CDec(txtDefeitos.Text) > 0.001 Then
+                            '99 - Outros (Defeitos)
+
+                            Dim defeito As String = txtDefeitos.Text.Replace(".", "")
+                            Dim pagamento As New MeioPagamentoNascom()
+                            pagamento.CodigoPagamento = "99"
+                            pagamento.DescricaoPagamento = "Defeitos"
+                            pagamento.Valor = defeito
+                            meiosPagamentos.Add(pagamento)
+
+                        End If
+
+                        dados.chnfe = "temporario"
+                        Dim nNF = novaVenda.IncluirnNF(dados)
+                        Dim lista = ConverterLista(dadosVendaProdutos.ToList)
+                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString(), nNF)
+                        regraVenda.Alterar(controle.ToString(), chave)
+                        dados.chnfe = chave
+                        dados.SeqNFe = nNF
+                        regraVenda.AlterarBaseNnf(dados)
+
+                    Catch ex As Exception
+                        MessageBox.Show(ex.Message)
+                    End Try
                 Else
 
                     For i As Integer = 1 To qtdImpressao
@@ -950,7 +1210,43 @@ Public Class fPagamento
             MessageBox.Show("Venda concluída em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
         End If
     End Sub
+    Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
+                                                       senhaCertificado As String,
+                                                       certificado As CertificadoDigital) As Task(Of X509Certificate2)
+        ' Executa o carregamento do certificado em uma thread separada (sem travar a UI)
+        Return Await Task.Run(Function()
+                                  Return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado)
+                              End Function)
+    End Function
+    Public Shared Function ConverterLista(listaOrigem As List(Of ncDados.nsVenda.dVendaProduto)) As List(Of LibNF65.Modelo.ProdutoVendido)
+        Dim listaDestino As New List(Of LibNF65.Modelo.ProdutoVendido)
+        Dim contador As Integer = 0
 
+        If listaOrigem Is Nothing Then
+            Return listaDestino
+        End If
+
+        For Each item As ncDados.nsVenda.dVendaProduto In listaOrigem
+
+            contador = contador + 1
+
+            Dim novoItem As New LibNF65.Modelo.ProdutoVendido
+
+            novoItem.controle = item.controle
+            novoItem.produtoId = item.produtoId
+            novoItem.itemId = contador
+            novoItem.quantidade = item.quantidade
+            novoItem.valor = item.valor
+            novoItem.codigobarras = item.codigobarras
+            novoItem.descricao = item.descricao
+            novoItem.referencia = item.referencia
+            novoItem.aliquota = item.aliquota
+            novoItem.valorTributacao = Double.Parse(item.valor.ToString()) * (Double.Parse(item.aliquota) / 100)
+            listaDestino.Add(novoItem)
+        Next
+
+        Return listaDestino
+    End Function
     Private Sub Cliente()
         Dim formCliente As New fClienteLista
         formCliente.filtro = New ncDados.nsCliente.dCliente()
@@ -1085,22 +1381,22 @@ Public Class fPagamento
                 txtStatus.Text = "Criada"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
-                picQRCode.Image = ResizeImage(Image.FromFile(filename))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(filename))
             Case "PENDING"
                 txtStatus.Text = "Criada"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = "Consultar"
-                picQRCode.Image = ResizeImage(Image.FromFile(filename))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(filename))
             Case "CONCLUIDA"
                 txtStatus.Text = "Pago"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = ""
-                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(folder + "\pago.png"))
             Case "APPROVED"
                 txtStatus.Text = "Pago"
                 btnPix.Image = nascomercio.My.Resources.Resources.consultar
                 btnPix.Text = ""
-                picQRCode.Image = ResizeImage(Image.FromFile(folder + "\pago.png"))
+                picQRCode.Image = ResizeImage(System.Drawing.Image.FromFile(folder + "\pago.png"))
             Case "REMOVIDA_PELO_USUARIO_RECEBEDOR"
                 txtStatus.Text = "Removida User"
                 btnPix.Text = ""
@@ -1204,8 +1500,8 @@ Public Class fPagamento
         'Dim id As String = "22137471"
 
     End Sub
-    Public Shared Function ResizeImage(ByVal InputImage As Image) As Image
-        Return New Bitmap(InputImage, New Size(200, 200))
+    Public Shared Function ResizeImage(ByVal InputImage As System.Drawing.Image) As System.Drawing.Image
+        Return New System.Drawing.Bitmap(InputImage, New System.Drawing.Size(200, 200))
     End Function
     Private Function BuscarImagem(folder As String, pix As dPix) As String
 
@@ -1321,7 +1617,7 @@ Public Class fPagamento
 
     End Sub
 
-    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs) 
+    Private Sub btnConfigPix_Click(sender As Object, e As EventArgs)
 
     End Sub
 
