@@ -80,8 +80,43 @@ b - executar no mysql os scripts:
 Colar na pasta Nasoomercio os arquivos da nova versão 
      
 	 
+Para a versão 2.0.0.0 
 
-Para a versão 2.1.3.0 foram incluídas as seguintes funcionalidades
+1 - Criado a funcionalidade	de NFe 
 
-1 - Correção de bug para parcela com valor zerado	 
-2 - Ajuste de filtros de relatórios da Giovana
+Implantação: 
+
+   a - alterar no config a tag "FISCAL" value="ONLINE" /> 
+   b - atualizar os arquivos da aplicação
+   c - rodar os scripts de banco de número 28 e 29
+   d - Adicionar as TAGs ao arquivo de configuração:
+        <add key="pathRelatorio" value="C:\NascomercioNFe\" />
+		<add key="CertificadoArquivo" value="C:\\cert\\********.pfx" />
+		<add key="CertificadoSenha" value="831552" />
+		<add key="TipoAmbiente" value="1" />
+		<add key="UsaCertificadoDigital" value="1" />
+		<add key="CSC" value="**************" />
+		<add key="CSCIDToken" value="1" />
+		<add key="SchemaVersao" value="4.00" />
+		<add key="VersaoConfiguracao" value="4.00" />
+		<add key="CNPJ" value="**************" />
+		
+		
+Para a versão 2.3.0.0 
+
+1 - Ajustado o sequenciamento da NF	
+2 - Inclusão de relatório de vendas com NFe
+3 - Inclusão de backup automático em nuvem.
+    <add key="clientID" value="1030" />
+    <add key="Cliente" value="Sapatek" />
+    <add key="Loja" value="matriz" />
+    <add key="bucketName" value="nascombackup" />
+    <add key="directoryBackupPath" value="C:\\nascomercio\\backup\\" />
+    <add key="BACKUPAUTOMATICO" value="SIM" />
+	
+	
+Para a versão 2.3.1.0 
+
+1 - Remoção de dados sensíveis do ap.config
+		
+	

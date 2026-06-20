@@ -13,22 +13,22 @@ DECLARE codProd int;
     IF @nomeloja = 'SAPATEK ITAMARATI' THEN
         SET codProd = 4055;
     ELSE
-        SET codProd = 911; -- Note que ambos os casos são iguais
+        SET codProd = 911; 
     END IF;
-   
+
 	SELECT sum(quantidade) INTO qtdvales
 	FROM nascomercio.vales as v
 		inner join nascomercio.valesprodutos as vp ON vp.controle = v.controle
     Where data >= dtIni and data <= dtFim
     and vendedor = ifnull(nomevendedor, vendedor)
-	and vp.produto <> codProd;
+	and vp.produto <> 911;
 
 	SELECT sum(quantidade) INTO qtdprodutos
 	FROM nascomercio.vendas as v
 		inner join nascomercio.vendasprodutos as vp ON vp.controle = v.controle
     Where data >= dtIni and data <= dtFim
 	and vendedor = ifnull(nomevendedor, vendedor)
-	and vp.produto <> codProd;
+	and vp.produto <> 911;
 
     RETURN ifNull(qtdprodutos,0) + IfNull(qtdvales,0);
 
