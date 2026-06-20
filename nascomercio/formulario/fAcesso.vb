@@ -1,17 +1,22 @@
-Imports ncRegras.nsCrediario
-Imports ncComum.nsExcecao
-Imports ncRegras.nsParametro
-Imports ncDados.nsParametro
-Imports ncComum.nsConstantes
-Imports ncRegras.nsCaixa
-Imports ncComum.nsEmail
 Imports System.Configuration
+Imports System.Security.Cryptography.X509Certificates
 Imports System.Text.RegularExpressions
+Imports System.Threading.Tasks
+Imports ncComum.nsConstantes
+Imports ncComum.nsEmail
+Imports ncComum.nsExcecao
+Imports ncDados.nsParametro
 Imports ncDados.nsUsuario
+Imports ncRegras.nsCaixa
+Imports ncRegras.nsCrediario
+Imports ncRegras.nsParametro
+Imports Unimake.Business.Security
+
+
 
 Public Class fAcesso
 
-    Private Sub btoAcessar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoAcessar.Click
+    Private Async Sub btoAcessar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoAcessar.Click
         Dim dadosParametro As dParametro
         Dim regraParametro As rParametro
         Dim regrasCrediario As rCrediario
@@ -21,6 +26,9 @@ Public Class fAcesso
         txtUsuario.Text = txtUsuario.Text.Trim()
         txtSenha.Text = txtSenha.Text.Trim()
         primeiroAcesso = True
+
+        Dim backupAutomatico As String = ConfigurationManager.AppSettings("BACKUPAUTOMATICO")
+
 
         If txtUsuario.Text.Trim() = String.Empty Then
             MessageBox.Show("É necessário informar o nome de usuário.", "Acesso", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -77,12 +85,18 @@ Public Class fAcesso
                                 Exit For
                             End If
                         Next
+
                         regrasCrediario = New rCrediario()
                         regrasCrediario.CorrigirParcelas()
 
                         mdiPrincipal.Iniciar()
+
+                        If backupAutomatico = "SIM" Then
+                            Await mdiPrincipal.CarregarBackupAutomaticoAsync()
+                        End If
+
                     End If
-                End If
+                    End If
             End If
 
         Catch nex As ExcecaoNascomercio
@@ -95,6 +109,8 @@ Public Class fAcesso
 
     End Sub
 
+
+
     Private Sub txtSenha_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSenha.KeyDown, txtUsuario.KeyDown
         If e.KeyCode = Keys.Enter Then
             btoAcessar_Click(sender, e)
@@ -103,7 +119,14 @@ Public Class fAcesso
             Me.Close()
         End If
     End Sub
-
+    Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
+                                                       senhaCertificado As String,
+                                                       certificado As CertificadoDigital) As Task(Of X509Certificate2)
+        ' Executa o carregamento do certificado em uma thread separada (sem travar a UI)
+        Return Await Task.Run(Function()
+                                  Return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado)
+                              End Function)
+    End Function
 
     Public Sub New()
 
