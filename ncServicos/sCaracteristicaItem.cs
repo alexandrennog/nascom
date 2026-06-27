@@ -1,122 +1,73 @@
 using System;
 using ncDados.nsCaracteristica;
-using ncRegras.nsCaracteristica;
+using ncPersistencia.nsCaracteristica;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsCaracteristica
 {
     public class sCaracteristicaItem
     {
+        private readonly IpCaracteristicaItem _repo;
+        public sCaracteristicaItem(IpCaracteristicaItem repo) { _repo = repo; }
+
         public ColecaoCaracteristicaItem Listar()
         {
-            try
-            {
-                var regra = new rCaracteristicaItem();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCaracteristicaItem Consultar(dCaracteristicaItem dados)
         {
-            try
-            {
-                var regra = new rCaracteristicaItem();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public dCaracteristicaItem ConsultarPorCID(int cid)
         {
             try
             {
-                var regra = new rCaracteristicaItem();
-                return regra.ConsultarPorCID(cid);
+                var lista = _repo.Consultar(new dCaracteristicaItem { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarPorCID CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarPorCID CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCaracteristicaItem ConsultarPorCaracteristica(int caracteristica_cid)
         {
-            try
-            {
-                var regra = new rCaracteristicaItem();
-                return regra.ConsultarPorCaracteristica(caracteristica_cid);
-            }
+            try { return _repo.Consultar(new dCaracteristicaItem { caracteristica_cid = caracteristica_cid }); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarPorCaracteristica CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarPorCaracteristica CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dCaracteristicaItem dados)
         {
-            try
-            {
-                var regra = new rCaracteristicaItem();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dCaracteristicaItem dados)
         {
-            try
-            {
-                var regra = new rCaracteristicaItem();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dCaracteristicaItem dados)
         {
-            try
-            {
-                var regra = new rCaracteristicaItem();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public int ExcluirPorCID(int cid)
         {
-            try
-            {
-                var regra = new rCaracteristicaItem();
-                return regra.ExcluirPorCID(cid);
-            }
+            try { return _repo.Excluir(new dCaracteristicaItem { cid = cid }); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ExcluirPorCID CaracteristicaItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ExcluirPorCID CaracteristicaItem [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

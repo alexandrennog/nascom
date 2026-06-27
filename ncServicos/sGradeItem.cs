@@ -1,66 +1,41 @@
 using System;
 using ncDados.nsGradeItem;
-using ncRegras.nsGradeItem;
+using ncPersistencia.nsGradeItem;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsGradeItem
 {
     public class sGradeItem
     {
+        private readonly IpGradeItem _repo;
+        public sGradeItem(IpGradeItem repo) { _repo = repo; }
+
         public ColecaoGradeItem ConsultarReferencia(dGradeItem pFiltro)
         {
-            try
-            {
-                var regra = new rGradeItem();
-                return regra.ConsultarReferencia(pFiltro);
-            }
+            try { return _repo.ConsultarReferencia(pFiltro); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarReferencia GradeItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarReferencia GradeItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoGradeItem ConsultarProdutos(string pReferencia, dGradeItem pGradeItem)
         {
-            try
-            {
-                var regra = new rGradeItem();
-                return regra.ConsultarProdutos(pReferencia, pGradeItem);
-            }
+            try { return _repo.ConsultarProdutos(pReferencia, pGradeItem); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarProdutos GradeItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarProdutos GradeItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoGradeItem ConsultarItens(int pProdutoCid)
         {
-            try
-            {
-                var regra = new rGradeItem();
-                return regra.ConsultarItens(pProdutoCid);
-            }
+            try { return _repo.ConsultarItens(pProdutoCid); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarItens GradeItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarItens GradeItem [" + ToString() + "] - " + ex.Message); }
         }
 
         public dGradeItem ConsultarUltimaVenda(string referencia, dGradeItem gradeItem)
         {
-            try
-            {
-                var regra = new rGradeItem();
-                return regra.ConsultarUltimaVenda(referencia, gradeItem);
-            }
+            try { return _repo.ConsultarUltimaVenda(referencia, gradeItem); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarUltimaVenda GradeItem [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarUltimaVenda GradeItem [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

@@ -1,122 +1,80 @@
 using System;
 using ncDados.nsCheques;
-using ncRegras.nsCheques;
+using ncPersistencia.nsCheques;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsCheques
 {
     public class sCheque
     {
+        private readonly IpCheques _repo;
+        public sCheque(IpCheques repo) { _repo = repo; }
+
         public ColecaoCheques Listar()
         {
-            try
-            {
-                var regra = new rCheque();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Cheque [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCheques Consultar(dCheques dados)
         {
-            try
-            {
-                var regra = new rCheque();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Cheque [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCheques ConsultarCheques(dCheques dados)
         {
-            try
-            {
-                var regra = new rCheque();
-                return regra.ConsultarCheques(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarCheques Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarCheques Cheque [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(ColecaoCheques dadosCheques)
         {
             try
             {
-                var regra = new rCheque();
-                return regra.Incluir(dadosCheques);
+                foreach (var cheque in dadosCheques)
+                    _repo.Incluir(cheque);
+                return 1;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Cheque [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dCheques dados)
         {
-            try
-            {
-                var regra = new rCheque();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Cheque [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dCheques dados, ColecaoCheques dadosCheques)
         {
             try
             {
-                var regra = new rCheque();
-                return regra.Alterar(dados, dadosCheques);
+                _repo.Alterar(dados);
+                foreach (var cheque in dadosCheques)
+                    _repo.Alterar(cheque);
+                return 1;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Cheque [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Baixar()
         {
-            try
-            {
-                var regra = new rCheque();
-                return regra.Baixar();
-            }
+            try { return _repo.Baixar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Baixar Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Baixar Cheque [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dCheques dados)
         {
-            try
-            {
-                var regra = new rCheque();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir Cheque [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Cheque [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

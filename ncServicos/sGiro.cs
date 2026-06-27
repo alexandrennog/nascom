@@ -1,108 +1,66 @@
 using System;
 using ncDados.nsGiro;
-using ncRegras.nsGiro;
+using ncPersistencia.nsGiro;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsGiro
 {
     public class sGiro
     {
+        private readonly IpGiro _repo;
+        public sGiro(IpGiro repo) { _repo = repo; }
+
         public ColecaoGiro Listar()
         {
-            try
-            {
-                var regra = new rGiro();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar Giro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Giro [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoGiro Consultar(dGiro dados)
         {
-            try
-            {
-                var regra = new rGiro();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Giro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Giro [" + ToString() + "] - " + ex.Message); }
         }
 
         public dGiro Consultar(int produto_cid, string codigoBarras)
         {
             try
             {
-                var regra = new rGiro();
-                return regra.Consultar(produto_cid, codigoBarras);
+                var lista = _repo.Consultar(new dGiro { produtos_cid = produto_cid, codigoBarras = codigoBarras });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Giro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Giro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dGiro dados)
         {
-            try
-            {
-                var regra = new rGiro();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Giro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Giro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Importar(dGiro dados)
         {
-            try
-            {
-                var regra = new rGiro();
-                return regra.Importar(dados);
-            }
+            try { return _repo.Importar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Importar Giro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Importar Giro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dGiro dados)
         {
-            try
-            {
-                var regra = new rGiro();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar Giro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Giro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dGiro dados)
         {
-            try
-            {
-                var regra = new rGiro();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir Giro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Giro [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

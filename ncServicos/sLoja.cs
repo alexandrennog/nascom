@@ -1,94 +1,59 @@
 using System;
 using ncDados.nsLoja;
-using ncRegras.nsLoja;
+using ncPersistencia.nsLoja;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsLoja
 {
     public class sLoja
     {
+        private readonly IpLoja _repo;
+        public sLoja(IpLoja repo) { _repo = repo; }
+
         public ColecaoLoja Listar()
         {
-            try
-            {
-                var regra = new rLoja();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar Loja [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Loja [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoLoja Consultar(dLoja dados)
         {
-            try
-            {
-                var regra = new rLoja();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Loja [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Loja [" + ToString() + "] - " + ex.Message); }
         }
 
         public dLoja Consultar(int cid)
         {
             try
             {
-                var regra = new rLoja();
-                return regra.Consultar(cid);
+                var lista = _repo.Consultar(new dLoja { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Loja [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Loja [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dLoja dados)
         {
-            try
-            {
-                var regra = new rLoja();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Loja [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Loja [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dLoja dados)
         {
-            try
-            {
-                var regra = new rLoja();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar Loja [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Loja [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dLoja dados)
         {
-            try
-            {
-                var regra = new rLoja();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir Loja [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Loja [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

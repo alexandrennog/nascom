@@ -1,80 +1,48 @@
 using System;
 using ncDados.nsCliente;
-using ncRegras.nsCliente;
+using ncPersistencia.nsCliente;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsCliente
 {
     public class sClienteFinanceiro
     {
+        private readonly IpClienteFinanceiro _repo;
+        public sClienteFinanceiro(IpClienteFinanceiro repo) { _repo = repo; }
+
         public ColecaoClienteFinanceiro Listar()
         {
-            try
-            {
-                var regra = new rClienteFinanceiro();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar ClienteFinanceiro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar ClienteFinanceiro [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoClienteFinanceiro Consultar(dClienteFinanceiro dados)
         {
-            try
-            {
-                var regra = new rClienteFinanceiro();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar ClienteFinanceiro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar ClienteFinanceiro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dClienteFinanceiro dados)
         {
-            try
-            {
-                var regra = new rClienteFinanceiro();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir ClienteFinanceiro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir ClienteFinanceiro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dClienteFinanceiro dados)
         {
-            try
-            {
-                var regra = new rClienteFinanceiro();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar ClienteFinanceiro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar ClienteFinanceiro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int ExcluirPorCliente(int cliente_cid)
         {
-            try
-            {
-                var regra = new rClienteFinanceiro();
-                return regra.ExcluirPorCliente(cliente_cid);
-            }
+            try { return _repo.ExcluirPorCliente(cliente_cid); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ExcluirPorCliente ClienteFinanceiro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ExcluirPorCliente ClienteFinanceiro [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

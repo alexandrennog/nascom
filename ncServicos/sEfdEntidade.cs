@@ -1,80 +1,38 @@
 using System;
-using ncDados.nsEfd;
-using ncRegras.nsEFD;
+using nsEFD;
+using ncPersistencia.nsEFD;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsEFD
 {
     public class sEfdEntidade
     {
+        private readonly IpEfdEntidade _repo;
+        public sEfdEntidade(IpEfdEntidade repo) { _repo = repo; }
+
+        public dEfdEntidade Consultar()
+        {
+            try { return _repo.Consultar(); }
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar EfdEntidade [" + ToString() + "] - " + ex.Message); }
+        }
+
         public int Salvar(dEfdEntidade dados)
         {
             try
             {
-                var regra = new rEfdEntidade();
-                return regra.Salvar(dados);
+                var existente = _repo.Consultar();
+                return existente == null ? _repo.Incluir(dados) : _repo.Alterar(dados);
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Salvar EfdEntidade [" + ToString() + "] - " + ex.Message);
-            }
-        }
-
-        public dEfdEntidade Consultar()
-        {
-            try
-            {
-                var regra = new rEfdEntidade();
-                return regra.Consultar();
-            }
-            catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar EfdEntidade [" + ToString() + "] - " + ex.Message);
-            }
-        }
-
-        public int Incluir(dEfdEntidade dados)
-        {
-            try
-            {
-                var regra = new rEfdEntidade();
-                return regra.Incluir(dados);
-            }
-            catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir EfdEntidade [" + ToString() + "] - " + ex.Message);
-            }
-        }
-
-        public int Alterar(dEfdEntidade dados)
-        {
-            try
-            {
-                var regra = new rEfdEntidade();
-                return regra.Alterar(dados);
-            }
-            catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar EfdEntidade [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Salvar EfdEntidade [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir()
         {
-            try
-            {
-                var regra = new rEfdEntidade();
-                return regra.Excluir();
-            }
+            try { return _repo.Excluir(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir EfdEntidade [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir EfdEntidade [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

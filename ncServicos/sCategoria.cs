@@ -1,108 +1,66 @@
 using System;
 using ncDados.nsCategoria;
-using ncRegras.nsCategoria;
+using ncPersistencia.nsCategoria;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsCategoria
 {
     public class sCategoria
     {
+        private readonly IpCategoria _repo;
+        public sCategoria(IpCategoria repo) { _repo = repo; }
+
         public ColecaoCategoria Listar()
         {
-            try
-            {
-                var regra = new rCategoria();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar Categoria [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Categoria [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCategoria Consultar(dCategoria dados)
         {
-            try
-            {
-                var regra = new rCategoria();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Categoria [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Categoria [" + ToString() + "] - " + ex.Message); }
         }
 
         public dCategoria Consultar(int cid)
         {
             try
             {
-                var regra = new rCategoria();
-                return regra.Consultar(cid);
+                var lista = _repo.Consultar(new dCategoria { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Categoria [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Categoria [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dCategoria dados)
         {
-            try
-            {
-                var regra = new rCategoria();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Categoria [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Categoria [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Importar(dCategoria dados)
         {
-            try
-            {
-                var regra = new rCategoria();
-                return regra.Importar(dados);
-            }
+            try { return _repo.Importar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Importar Categoria [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Importar Categoria [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dCategoria dados)
         {
-            try
-            {
-                var regra = new rCategoria();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar Categoria [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Categoria [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dCategoria dados)
         {
-            try
-            {
-                var regra = new rCategoria();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir Categoria [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Categoria [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

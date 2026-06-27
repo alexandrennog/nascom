@@ -39,6 +39,21 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Transactions" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ncDados\ncDados.vbproj">
+      <Name>ncDados</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ncRegras\ncRegras.vbproj">
+      <Name>ncRegras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ncComum\ncComum.vbproj">
+      <Name>ncComum</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ncRepositorios\ncRepositorios.csproj">
+      <Name>ncRepositorios</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
