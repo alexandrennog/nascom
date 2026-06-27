@@ -1,206 +1,127 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCaixa;
 
 
 namespace ncPersistencia.nsCaixa
 {
-    public class pCaixa
+    public class pCaixa : RepositorioBase, IpCaixa
     {
         public ColecaoCaixa Listar()
         {
-            ColecaoCaixa retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, nome, situacao, data From Caixa Order By nome ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCaixa();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCaixa();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.Data = (DateTime)RetornarData(row["data"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var sql = "SELECT cid, nome, situacao, data FROM Caixa ORDER BY nome";
+                    var lista = conn.Query<dCaixa>(sql).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCaixa();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Listar Caixa [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Caixa [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCaixa Consultar(dCaixa dados)
         {
-            ColecaoCaixa retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, nome, situacao, data ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From Caixa ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.nome, "nome");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " Order By nome");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCaixa();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCaixa();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.Data = (DateTime)RetornarData(row["data"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid = @cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.nome)) { conditions.Add("nome = @nome"); p.Add("nome", dados.nome); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("situacao = @situacao"); p.Add("situacao", dados.situacao); }
+
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, nome, situacao, data FROM Caixa {where} ORDER BY nome";
+
+                    var lista = conn.Query<dCaixa>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCaixa();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Consultar Caixa [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Caixa [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoFechamento ConsultarFechamento(dCaixa dados)
         {
-            ColecaoFechamento retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = "  SELECT DATE_FORMAT(data,'%Y-%m-%d') as dataF, sum(dinheiro) as dinheiro, sum(cheque) as cheque, sum(chequePre) as chequePre, sum(cartaoDebito) as cartaoDebito, sum(cartaoCredito) as cartaoCredito, sum(crediario) as crediario, sum(desconto) as desconto, sum(recebido) as recebido, sum(troco) as troco, sum(total) as total,  sum(troca) as troca, sum(vale) as vale, sum(defeito) as defeito, sum(retirada) as retirada, sum(valeEmitido) as valeEmitido, caixa, sum(crediarioPagamento) as crediarioPagamento  ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = "  FROM v_fechamento ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.nome, "caixa");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.Data.ToString("yyyy-MM-dd"), $"DATE_FORMAT(data,'%Y-%m-%d')");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " Group By dataF, caixa");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoFechamento();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dFechamento();
-                            item.data = RetornarData(ds.Tables[0].Rows[0]["dataF"]);
-                            item.dinheiro = RetornarDecimal(ds.Tables[0].Rows[0]["dinheiro"]);
-                            item.cheque = RetornarDecimal(ds.Tables[0].Rows[0]["cheque"]);
-                            item.chequePre = RetornarDecimal(ds.Tables[0].Rows[0]["chequePre"]);
-                            item.cartaoDebito = RetornarDecimal(ds.Tables[0].Rows[0]["cartaoDebito"]);
-                            item.cartaoCredito = RetornarDecimal(ds.Tables[0].Rows[0]["cartaoCredito"]);
-                            item.crediario = RetornarDecimal(ds.Tables[0].Rows[0]["crediario"]);
-                            item.desconto = RetornarDecimal(ds.Tables[0].Rows[0]["desconto"]);
-                            item.recebido = RetornarDecimal(ds.Tables[0].Rows[0]["recebido"]);
-                            item.troco = RetornarDecimal(ds.Tables[0].Rows[0]["troco"]);
-                            item.total = RetornarDecimal(ds.Tables[0].Rows[0]["total"]);
-                            item.troca = RetornarDecimal(ds.Tables[0].Rows[0]["troca"]);
-                            item.vale = RetornarDecimal(ds.Tables[0].Rows[0]["vale"]);
-                            item.defeito = RetornarDecimal(ds.Tables[0].Rows[0]["defeito"]);
-                            item.retirada = RetornarDecimal(ds.Tables[0].Rows[0]["retirada"]);
-                            item.valeEmitido = RetornarDecimal(ds.Tables[0].Rows[0]["valeEmitido"]);
-                            item.caixa = RetornarTexto(ds.Tables[0].Rows[0]["caixa"]);
-                            item.crediarioPagamento = RetornarDecimal(ds.Tables[0].Rows[0]["crediarioPagamento"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+
+                    if (!string.IsNullOrEmpty(dados.nome)) { conditions.Add("caixa = @caixa"); p.Add("caixa", dados.nome); }
+                    var dataStr = dados.Data.ToString("yyyy-MM-dd");
+                    conditions.Add("DATE_FORMAT(data,'%Y-%m-%d') = @dataStr"); p.Add("dataStr", dataStr);
+
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT DATE_FORMAT(data,'%Y-%m-%d') AS data, sum(dinheiro) AS dinheiro, sum(cheque) AS cheque, sum(chequePre) AS chequePre, sum(cartaoDebito) AS cartaoDebito, sum(cartaoCredito) AS cartaoCredito, sum(crediario) AS crediario, sum(desconto) AS desconto, sum(recebido) AS recebido, sum(troco) AS troco, sum(total) AS total, sum(troca) AS troca, sum(vale) AS vale, sum(defeito) AS defeito, sum(retirada) AS retirada, sum(valeEmitido) AS valeEmitido, caixa, sum(crediarioPagamento) AS crediarioPagamento FROM v_fechamento {where} GROUP BY DATE_FORMAT(data,'%Y-%m-%d'), caixa";
+
+                    var lista = conn.Query<dFechamento>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoFechamento();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Consultar Fechamento do Caixa [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Fechamento do Caixa [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dCaixa dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Caixa ( nome, data, usuario, situacao ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.nome) + "," +
-                    PersistirData(dados.Data) + "," +
-                    PersistirTexto(dados.usuario) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "INSERT INTO Caixa (nome, data, usuario, situacao) VALUES (@nome, @data, @usuario, @situacao)";
+                    conn.Execute(sql, new { nome = dados.nome, data = dados.Data, usuario = dados.usuario, situacao = dados.situacao });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Incluir Caixa [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Caixa [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dCaixa dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE Caixa SET " +
-                    " nome = " + PersistirTexto(dados.nome) + "," +
-                    " data = " + PersistirData(dados.Data) + "," +
-                    " usuario = " + PersistirTexto(dados.usuario) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "UPDATE Caixa SET nome=@nome, data=@data, usuario=@usuario, situacao=@situacao WHERE cid=@cid";
+                    return conn.Execute(sql, new { nome = dados.nome, data = dados.Data, usuario = dados.usuario, situacao = dados.situacao, cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Alterar Caixa [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Caixa [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dCaixa dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Caixa " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM Caixa WHERE cid=@cid", new { cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Excluir Caixa [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Caixa [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

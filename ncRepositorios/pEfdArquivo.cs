@@ -1,100 +1,83 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsEFD;
 
 namespace ncPersistencia.nsEFD
 {
-    public class pEfdArquivo
+    public class pEfdArquivo : RepositorioBase, IpEfdArquivo
     {
         public dEfdArquivo Consultar()
         {
-            dEfdArquivo retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select versaoLeiaute, finalidadeArquivo, perfilArquivoFiscal ";
-                string sqlFrom = " From EfdArquivo ";
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new dEfdArquivo();
-                        retorno.versaoLeiaute = RetornarTexto(dt.Rows[0]["versaoLeiaute"]);
-                        retorno.finalidadeArquivo = RetornarTexto(dt.Rows[0]["finalidadeArquivo"]);
-                        retorno.perfilArquivoFiscal = RetornarTexto(dt.Rows[0]["perfilArquivoFiscal"]);
-                    }
+                    return conn.QueryFirstOrDefault<dEfdArquivo>(
+                        "SELECT versaoLeiaute, finalidadeArquivo, perfilArquivoFiscal FROM EfdArquivo");
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar EfdArquivo [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir()
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM EfdArquivo ";
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM EfdArquivo");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir EfdArquivo [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dEfdArquivo dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " EfdArquivo ( versaoLeiaute, finalidadeArquivo, perfilArquivoFiscal ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.versaoLeiaute) + "," +
-                    PersistirTexto(dados.finalidadeArquivo) + "," +
-                    PersistirTexto(dados.perfilArquivoFiscal) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO EfdArquivo (versaoLeiaute, finalidadeArquivo, perfilArquivoFiscal) " +
+                        "VALUES (@versaoLeiaute, @finalidadeArquivo, @perfilArquivoFiscal)",
+                        new { versaoLeiaute = dados.versaoLeiaute, finalidadeArquivo = dados.finalidadeArquivo, perfilArquivoFiscal = dados.perfilArquivoFiscal });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir EfdArquivo [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dEfdArquivo dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE EfdArquivo SET " +
-                    " versaoLeiaute = " + PersistirTexto(dados.versaoLeiaute) + "," +
-                    " finalidadeArquivo = " + PersistirTexto(dados.finalidadeArquivo) + "," +
-                    " perfilArquivoFiscal = " + PersistirTexto(dados.perfilArquivoFiscal);
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute(
+                        "UPDATE EfdArquivo SET versaoLeiaute=@versaoLeiaute, finalidadeArquivo=@finalidadeArquivo, perfilArquivoFiscal=@perfilArquivoFiscal",
+                        new { versaoLeiaute = dados.versaoLeiaute, finalidadeArquivo = dados.finalidadeArquivo, perfilArquivoFiscal = dados.perfilArquivoFiscal });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar EfdArquivo [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

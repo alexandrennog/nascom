@@ -34,6 +34,9 @@
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.2.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.1.79\lib\net461\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf, Version=3.25.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.25.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -46,8 +49,8 @@
     <Reference Include="K4os.Hash.xxHash, Version=1.0.8.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Hash.xxHash.1.0.8\lib\net462\K4os.Hash.xxHash.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.8\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=8.4.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.8.4.0\lib\net462\MySql.Data.dll</HintPath>
@@ -76,11 +79,11 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
@@ -89,6 +92,52 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RepositorioBase.cs" />
+    <Compile Include="IpCaixa.cs" />
+    <Compile Include="IpCaracteristica.cs" />
+    <Compile Include="IpCaracteristicaItem.cs" />
+    <Compile Include="IpCategoria.cs" />
+    <Compile Include="IpCheque.cs" />
+    <Compile Include="IpCliente.cs" />
+    <Compile Include="IpClienteEndereco.cs" />
+    <Compile Include="IpClienteFinanceiro.cs" />
+    <Compile Include="IpClienteProfissional.cs" />
+    <Compile Include="IpCobranca.cs" />
+    <Compile Include="IpCondicao.cs" />
+    <Compile Include="IpContasPagar.cs" />
+    <Compile Include="IpCor.cs" />
+    <Compile Include="IpCrediario.cs" />
+    <Compile Include="IpEfdArquivo.cs" />
+    <Compile Include="IpEfdContabilidade.cs" />
+    <Compile Include="IpEfdEnderecoContato.cs" />
+    <Compile Include="IpEfdEntidade.cs" />
+    <Compile Include="IpEfdUnidadeMedida.cs" />
+    <Compile Include="IpEstado.cs" />
+    <Compile Include="IpFabricante.cs" />
+    <Compile Include="IpFornecedor.cs" />
+    <Compile Include="IpGiro.cs" />
+    <Compile Include="IpGradeItem.cs" />
+    <Compile Include="IpGrupo.cs" />
+    <Compile Include="IpLoja.cs" />
+    <Compile Include="IpMunicipios.cs" />
+    <Compile Include="IpNotaFiscalFornecedor.cs" />
+    <Compile Include="IpOrdemServico.cs" />
+    <Compile Include="IpParametro.cs" />
+    <Compile Include="IpParcela.cs" />
+    <Compile Include="IpPix.cs" />
+    <Compile Include="IpPreVenda.cs" />
+    <Compile Include="IpPreVendaProduto.cs" />
+    <Compile Include="IpProduto.cs" />
+    <Compile Include="IpProdutoEtiqueta.cs" />
+    <Compile Include="IpProdutoItem.cs" />
+    <Compile Include="IpProdutoTipo.cs" />
+    <Compile Include="IpProdutoTipoCaracteristica.cs" />
+    <Compile Include="IpServico.cs" />
+    <Compile Include="IpUsuario.cs" />
+    <Compile Include="IpUsuarioPerfil.cs" />
+    <Compile Include="IpVeiculos.cs" />
+    <Compile Include="IpVenda.cs" />
+    <Compile Include="IpVendaProdutos.cs" />
     <Compile Include="pCaixa.cs" />
     <Compile Include="pCaracteristica.cs" />
     <Compile Include="pCaracteristicaItem.cs" />

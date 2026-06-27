@@ -1,167 +1,114 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCor;
 
 namespace ncPersistencia.nsCor
 {
-    public class pCor
+    public class pCor : RepositorioBase, IpCor
     {
         public ColecaoCor Listar()
         {
-            ColecaoCor retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, nome, situacao From Cor Order By nome ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCor();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCor();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var sql = "SELECT cid, nome, situacao FROM Cor ORDER BY nome";
+                    var lista = conn.Query<dCor>(sql).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCor();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Listar Cor [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Cor [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCor Consultar(dCor dados)
         {
-            ColecaoCor retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, nome, situacao ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From Cor ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.nome, "nome");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " Order By nome");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCor();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCor();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid = @cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.nome)) { conditions.Add("nome = @nome"); p.Add("nome", dados.nome); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("situacao = @situacao"); p.Add("situacao", dados.situacao); }
+
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, nome, situacao FROM Cor {where} ORDER BY nome";
+
+                    var lista = conn.Query<dCor>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCor();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Consultar Cor [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Cor [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dCor dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Cor ( nome, situacao ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.nome) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "INSERT INTO Cor (nome, situacao) VALUES (@nome, @situacao)";
+                    conn.Execute(sql, new { nome = dados.nome, situacao = dados.situacao });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Incluir Cor [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Cor [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Importar(dCor dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Cor ( cid, nome, situacao ) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.cid) + "," +
-                    PersistirTexto(dados.nome) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "INSERT INTO Cor (cid, nome, situacao) VALUES (@cid, @nome, @situacao)";
+                    conn.Execute(sql, new { cid = dados.cid, nome = dados.nome, situacao = dados.situacao });
+                    return 1;
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Importar Cor [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Importar Cor [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dCor dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE Cor SET " +
-                    " nome = " + PersistirTexto(dados.nome) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "UPDATE Cor SET nome=@nome, situacao=@situacao WHERE cid=@cid";
+                    return conn.Execute(sql, new { nome = dados.nome, situacao = dados.situacao, cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Alterar Cor [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Cor [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dCor dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Cor " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM Cor WHERE cid=@cid", new { cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Excluir Cor [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Cor [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

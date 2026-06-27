@@ -1,185 +1,127 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsVeiculos;
 
 namespace ncPersistencia.nsVeiculos
 {
-    public class pVeiculos
+    public class pVeiculos : RepositorioBase, IpVeiculos
     {
         public ColecaoVeiculos Listar()
         {
-            ColecaoVeiculos retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, clienteid, placa, marca, modelo, cor, ano, combustivel From veiculo";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVeiculos();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVeiculos();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.clienteId = RetornarInteiro(row["clienteid"]);
-                            item.Placa = RetornarTexto(row["placa"]);
-                            item.Marca = RetornarTexto(row["marca"]);
-                            item.Modelo = RetornarTexto(row["modelo"]);
-                            item.Cor = RetornarTexto(row["cor"]);
-                            item.Ano = RetornarTexto(row["ano"]);
-                            item.Combustivel = RetornarTexto(row["combustivel"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dVeiculos>(
+                        "SELECT cid, clienteid AS clienteId, placa AS Placa, marca AS Marca, modelo AS Modelo, cor AS Cor, ano AS Ano, combustivel AS Combustivel FROM veiculo").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVeiculos();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Veiculos [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVeiculos Consultar(dVeiculos dados)
         {
-            ColecaoVeiculos retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, clienteid, placa, marca, modelo, cor, ano, combustivel ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From Veiculo ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                if (dados.clienteId != 0)
-                    sqlWhere = MontarParametrosSQL(sqlWhere, dados.clienteId, "clienteid");
-                if (dados.Placa != 0)
-                    sqlWhere = MontarParametrosSQL(sqlWhere, dados.Placa, "placa");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVeiculos();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVeiculos();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.clienteId = RetornarInteiro(row["clienteid"]);
-                            item.Placa = RetornarTexto(row["placa"]);
-                            item.Marca = RetornarTexto(row["marca"]);
-                            item.Modelo = RetornarTexto(row["modelo"]);
-                            item.Cor = RetornarTexto(row["cor"]);
-                            item.Ano = RetornarTexto(row["ano"]);
-                            item.Combustivel = RetornarTexto(row["combustivel"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.cid != 0) { conditions.Add("cid=@cid"); p.Add("cid", dados.cid); }
+                    if (dados.clienteId != 0) { conditions.Add("clienteid=@clienteId"); p.Add("clienteId", dados.clienteId); }
+                    if (!string.IsNullOrEmpty(dados.Placa)) { conditions.Add("placa=@placa"); p.Add("placa", dados.Placa); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, clienteid AS clienteId, placa AS Placa, marca AS Marca, modelo AS Modelo, cor AS Cor, ano AS Ano, combustivel AS Combustivel FROM Veiculo {where}";
+                    var lista = conn.Query<dVeiculos>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVeiculos();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Veiculos[" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dVeiculos dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Veiculo ( clienteid, placa, marca, modelo, cor, ano, combustivel ) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.clienteId) + "," +
-                    PersistirTexto(dados.Placa) + "," +
-                    PersistirTexto(dados.Marca) + "," +
-                    PersistirTexto(dados.Modelo) + "," +
-                    PersistirTexto(dados.Cor) + "," +
-                    PersistirTexto(dados.Ano) + "," +
-                    PersistirTexto(dados.Combustivel) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute("INSERT INTO Veiculo (clienteid, placa, marca, modelo, cor, ano, combustivel) VALUES (@clienteId, @Placa, @Marca, @Modelo, @Cor, @Ano, @Combustivel)",
+                        new { dados.clienteId, dados.Placa, dados.Marca, dados.Modelo, dados.Cor, dados.Ano, dados.Combustivel });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Veiculos [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dVeiculos dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE Veiculo SET " +
-                    " clienteid = " + PersistirInteiro(dados.clienteId) + "," +
-                    " placa = " + PersistirTexto(dados.Placa) + "," +
-                    " marca = " + PersistirTexto(dados.Marca) + "," +
-                    " modelo = " + PersistirTexto(dados.Modelo) + "," +
-                    " cor = " + PersistirTexto(dados.Cor) + "," +
-                    " ano = " + PersistirTexto(dados.Ano) + "," +
-                    " combustivel = " + PersistirTexto(dados.Combustivel) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE Veiculo SET clienteid=@clienteId, placa=@Placa, marca=@Marca, modelo=@Modelo, cor=@Cor, ano=@Ano, combustivel=@Combustivel WHERE cid=@cid",
+                        new { dados.clienteId, dados.Placa, dados.Marca, dados.Modelo, dados.Cor, dados.Ano, dados.Combustivel, dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Veiculos [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dVeiculos dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Veiculo " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM Veiculo WHERE cid=@cid", new { dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Veiculos [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ExcluirVeiculosCliente(dVeiculos dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Veiculo " +
-                    " WHERE clienteid = " + dados.clienteId.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM Veiculo WHERE clienteid=@clienteId", new { dados.clienteId });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Veiculos [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

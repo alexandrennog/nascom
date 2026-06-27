@@ -1,136 +1,108 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsEFD;
 
 namespace ncPersistencia.nsEFD
 {
-    public class pEfdUnidadeMedida
+    public class pEfdUnidadeMedida : RepositorioBase, IpEfdUnidadeMedida
     {
         public ColecaoEfdUnidadeMedida Listar()
         {
-            ColecaoEfdUnidadeMedida retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select codigo, descricao From EfdUnidadeMedida Order By descricao ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoEfdUnidadeMedida();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dEfdUnidadeMedida();
-                            item.codigo = RetornarTexto(row["codigo"]);
-                            item.descricao = RetornarTexto(row["descricao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dEfdUnidadeMedida>(
+                        "SELECT codigo, descricao FROM EfdUnidadeMedida ORDER BY descricao").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoEfdUnidadeMedida();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar EfdUnidadeMedida [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public dEfdUnidadeMedida Consultar(dEfdUnidadeMedida dados)
         {
-            dEfdUnidadeMedida retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select codigo, descricao ";
-                string sqlFrom = " From EfdUnidadeMedida ";
-                string sqlWhere = string.Empty;
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.codigo, "codigo");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.descricao, "descricao");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " Order By descricao ");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new dEfdUnidadeMedida();
-                        retorno.codigo = RetornarTexto(dt.Rows[0]["codigo"]);
-                        retorno.descricao = RetornarTexto(dt.Rows[0]["descricao"]);
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (!string.IsNullOrEmpty(dados.codigo)) { conditions.Add("codigo=@codigo"); p.Add("codigo", dados.codigo); }
+                    if (!string.IsNullOrEmpty(dados.descricao)) { conditions.Add("descricao=@descricao"); p.Add("descricao", dados.descricao); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT codigo, descricao FROM EfdUnidadeMedida {where} ORDER BY descricao";
+                    return conn.QueryFirstOrDefault<dEfdUnidadeMedida>(sql, p);
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar EfdUnidadeMedida [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dEfdUnidadeMedida dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM EfdUnidadeMedida " +
-                    " WHERE codigo = " + PersistirTexto(dados.codigo);
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM EfdUnidadeMedida WHERE codigo=@codigo", new { codigo = dados.codigo });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir EfdUnidadeMedida [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dEfdUnidadeMedida dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " EfdUnidadeMedida ( codigo, descricao ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.codigo) + "," +
-                    PersistirTexto(dados.descricao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO EfdUnidadeMedida (codigo, descricao) VALUES (@codigo, @descricao)",
+                        new { codigo = dados.codigo, descricao = dados.descricao });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir EfdUnidadeMedida [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dEfdUnidadeMedida dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE EfdUnidadeMedida SET " +
-                    " descricao = " + PersistirTexto(dados.descricao) +
-                    " WHERE " +
-                    " codigo = " + dados.codigo;
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute(
+                        "UPDATE EfdUnidadeMedida SET descricao=@descricao WHERE codigo=@codigo",
+                        new { descricao = dados.descricao, codigo = dados.codigo });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar EfdUnidadeMedida [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

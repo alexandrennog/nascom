@@ -1,209 +1,145 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCliente;
 
 namespace ncPersistencia.nsCliente
 {
-    public class pClienteProfissional
+    public class pClienteProfissional : RepositorioBase, IpClienteProfissional
     {
         public ColecaoClienteProfissional Listar()
         {
-            ColecaoClienteProfissional retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select empresa, logradouro, numero, complemento, cidade, estado_cid, cep, " +
-                    " bairro, cliente_cid, ddd, telefone, ramal, dataAdmissao, cargo, salario From clienteprofissional ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoClienteProfissional();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dClienteProfissional();
-                            item.empresa = RetornarTexto(row["empresa"]);
-                            item.logradouro = RetornarTexto(row["logradouro"]);
-                            item.numero = RetornarInteiro(row["numero"]);
-                            item.complemento = RetornarTexto(row["complemento"]);
-                            item.cidade = RetornarTexto(row["cidade"]);
-                            item.estado_cid = RetornarInteiro(row["estado_cid"]);
-                            item.cep = RetornarInteiro(row["cep"]);
-                            item.bairro = RetornarTexto(row["bairro"]);
-                            item.cliente_cid = RetornarInteiro(row["cliente_cid"]);
-                            item.telefone = RetornarInteiro(row["telefone"]);
-                            item.ddd = RetornarInteiro(row["ddd"]);
-                            item.ramal = RetornarInteiro(row["ramal"]);
-                            item.dataAdmissao = RetornarTexto(row["dataAdmissao"]);
-                            item.salario = RetornarDecimal(row["salario"]);
-                            item.cargo = RetornarInteiro(row["cargo"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dClienteProfissional>(
+                        "SELECT empresa, logradouro, numero, complemento, cidade, estado_cid, cep, " +
+                        "bairro, cliente_cid, ddd, telefone, ramal, dataAdmissao, cargo, salario FROM clienteprofissional").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoClienteProfissional();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Cliente - Profissional [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoClienteProfissional Consultar(dClienteProfissional dados)
         {
-            ColecaoClienteProfissional retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select empresa, logradouro, numero, complemento, cidade, estado_cid, cep, " +
-                    " bairro, cliente_cid, ddd, telefone, ramal, dataAdmissao, cargo, salario ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From clienteprofissional ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.empresa, "empresa");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.logradouro, "logradouro");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.numero, "numero");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.complemento, "complemento");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cidade, "cidade");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.estado_cid, "estado_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cep, "cep");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.bairro, "bairro");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cliente_cid, "cliente_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.ddd, "ddd");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.telefone, "telefone");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.ramal, "ramal");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dataAdmissao, "dataAdmissao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.salario, "salario");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cargo, "cargo");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoClienteProfissional();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dClienteProfissional();
-                            item.empresa = RetornarTexto(row["empresa"]);
-                            item.logradouro = RetornarTexto(row["logradouro"]);
-                            item.numero = RetornarInteiro(row["numero"]);
-                            item.complemento = RetornarTexto(row["complemento"]);
-                            item.cidade = RetornarTexto(row["cidade"]);
-                            item.estado_cid = RetornarInteiro(row["estado_cid"]);
-                            item.cep = RetornarInteiro(row["cep"]);
-                            item.bairro = RetornarTexto(row["bairro"]);
-                            item.cliente_cid = RetornarInteiro(row["cliente_cid"]);
-                            item.telefone = RetornarTexto(row["telefone"]);
-                            item.ddd = RetornarTexto(row["ddd"]);
-                            item.ramal = RetornarTexto(row["ramal"]);
-                            item.dataAdmissao = RetornarTexto(row["dataAdmissao"]);
-                            item.salario = RetornarDecimal(row["salario"]);
-                            item.cargo = RetornarTexto(row["cargo"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (!string.IsNullOrEmpty(dados.empresa)) { conditions.Add("empresa=@empresa"); p.Add("empresa", dados.empresa); }
+                    if (!string.IsNullOrEmpty(dados.logradouro)) { conditions.Add("logradouro=@logradouro"); p.Add("logradouro", dados.logradouro); }
+                    if (dados.numero != null && dados.numero != 0) { conditions.Add("numero=@numero"); p.Add("numero", dados.numero); }
+                    if (!string.IsNullOrEmpty(dados.complemento)) { conditions.Add("complemento=@complemento"); p.Add("complemento", dados.complemento); }
+                    if (!string.IsNullOrEmpty(dados.cidade)) { conditions.Add("cidade=@cidade"); p.Add("cidade", dados.cidade); }
+                    if (dados.estado_cid != null && dados.estado_cid != 0) { conditions.Add("estado_cid=@estado_cid"); p.Add("estado_cid", dados.estado_cid); }
+                    if (dados.cep != null && dados.cep != 0) { conditions.Add("cep=@cep"); p.Add("cep", dados.cep); }
+                    if (!string.IsNullOrEmpty(dados.bairro)) { conditions.Add("bairro=@bairro"); p.Add("bairro", dados.bairro); }
+                    if (dados.cliente_cid != null && dados.cliente_cid != 0) { conditions.Add("cliente_cid=@cliente_cid"); p.Add("cliente_cid", dados.cliente_cid); }
+                    if (!string.IsNullOrEmpty(dados.ddd)) { conditions.Add("ddd=@ddd"); p.Add("ddd", dados.ddd); }
+                    if (!string.IsNullOrEmpty(dados.telefone)) { conditions.Add("telefone=@telefone"); p.Add("telefone", dados.telefone); }
+                    if (!string.IsNullOrEmpty(dados.ramal)) { conditions.Add("ramal=@ramal"); p.Add("ramal", dados.ramal); }
+                    if (!string.IsNullOrEmpty(dados.dataAdmissao)) { conditions.Add("dataAdmissao=@dataAdmissao"); p.Add("dataAdmissao", dados.dataAdmissao); }
+                    if (dados.salario != null && dados.salario != 0) { conditions.Add("salario=@salario"); p.Add("salario", dados.salario); }
+                    if (!string.IsNullOrEmpty(dados.cargo)) { conditions.Add("cargo=@cargo"); p.Add("cargo", dados.cargo); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT empresa, logradouro, numero, complemento, cidade, estado_cid, cep, " +
+                              $"bairro, cliente_cid, ddd, telefone, ramal, dataAdmissao, cargo, salario FROM clienteprofissional {where}";
+                    var lista = conn.Query<dClienteProfissional>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoClienteProfissional();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Cliente - Profissional [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dClienteProfissional dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " clienteprofissional (empresa, logradouro, numero, complemento, cidade, estado_cid, cep, " +
-                    " bairro, cliente_cid, ddd, telefone, ramal, dataAdmissao, cargo, salario) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.empresa) + "," +
-                    PersistirTexto(dados.logradouro) + "," +
-                    PersistirInteiro(dados.numero) + "," +
-                    PersistirTexto(dados.complemento) + "," +
-                    PersistirTexto(dados.cidade) + "," +
-                    PersistirInteiro(dados.estado_cid) + "," +
-                    PersistirInteiro(dados.cep) + "," +
-                    PersistirTexto(dados.bairro) + "," +
-                    PersistirInteiro(dados.cliente_cid) + "," +
-                    PersistirTexto(dados.ddd) + "," +
-                    PersistirTexto(dados.telefone) + "," +
-                    PersistirTexto(dados.ramal) + "," +
-                    PersistirData(dados.dataAdmissao) + "," +
-                    PersistirTexto(dados.cargo) + "," +
-                    PersistirDecimal(dados.salario) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO clienteprofissional (empresa, logradouro, numero, complemento, cidade, estado_cid, cep, " +
+                        "bairro, cliente_cid, ddd, telefone, ramal, dataAdmissao, cargo, salario) " +
+                        "VALUES (@empresa, @logradouro, @numero, @complemento, @cidade, @estado_cid, @cep, " +
+                        "@bairro, @cliente_cid, @ddd, @telefone, @ramal, @dataAdmissao, @cargo, @salario)",
+                        new {
+                            empresa = dados.empresa, logradouro = dados.logradouro, numero = dados.numero,
+                            complemento = dados.complemento, cidade = dados.cidade, estado_cid = dados.estado_cid,
+                            cep = dados.cep, bairro = dados.bairro, cliente_cid = dados.cliente_cid,
+                            ddd = dados.ddd, telefone = dados.telefone, ramal = dados.ramal,
+                            dataAdmissao = dados.dataAdmissao, cargo = dados.cargo, salario = dados.salario
+                        });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Cliente - Profissional [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dClienteProfissional dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE clienteprofissional SET " +
-                    " empresa = " + PersistirTexto(dados.empresa) + "," +
-                    " logradouro = " + PersistirTexto(dados.logradouro) + "," +
-                    " numero = " + PersistirInteiro(dados.numero) + "," +
-                    " complemento = " + PersistirTexto(dados.complemento) + "," +
-                    " cidade = " + PersistirTexto(dados.cidade) + "," +
-                    " estado_cid = " + PersistirInteiro(dados.estado_cid) + "," +
-                    " cep = " + PersistirInteiro(dados.cep) + "," +
-                    " bairro = " + PersistirTexto(dados.bairro) + "," +
-                    " ddd = " + PersistirTexto(dados.ddd) + "," +
-                    " telefone = " + PersistirTexto(dados.telefone) + "," +
-                    " ramal = " + PersistirTexto(dados.ramal) + "," +
-                    " cargo = " + PersistirTexto(dados.cargo) + "," +
-                    " dataAdmissao = " + PersistirData(dados.dataAdmissao) + "," +
-                    " salario = " + PersistirDecimal(dados.salario) +
-                    " WHERE " +
-                    " cliente_cid = " + PersistirInteiro(dados.cliente_cid);
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute(
+                        "UPDATE clienteprofissional SET empresa=@empresa, logradouro=@logradouro, numero=@numero, " +
+                        "complemento=@complemento, cidade=@cidade, estado_cid=@estado_cid, cep=@cep, bairro=@bairro, " +
+                        "ddd=@ddd, telefone=@telefone, ramal=@ramal, cargo=@cargo, dataAdmissao=@dataAdmissao, salario=@salario " +
+                        "WHERE cliente_cid=@cliente_cid",
+                        new {
+                            empresa = dados.empresa, logradouro = dados.logradouro, numero = dados.numero,
+                            complemento = dados.complemento, cidade = dados.cidade, estado_cid = dados.estado_cid,
+                            cep = dados.cep, bairro = dados.bairro, ddd = dados.ddd, telefone = dados.telefone,
+                            ramal = dados.ramal, cargo = dados.cargo, dataAdmissao = dados.dataAdmissao,
+                            salario = dados.salario, cliente_cid = dados.cliente_cid
+                        });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Cliente - Profissional [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ExcluirPorCliente(int cliente_cid)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM clienteprofissional " +
-                    " WHERE cliente_cid = " + cliente_cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM clienteprofissional WHERE cliente_cid=@cliente_cid", new { cliente_cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Cliente - Profissional [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

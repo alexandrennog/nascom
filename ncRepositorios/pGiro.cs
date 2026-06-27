@@ -1,215 +1,167 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsGiro;
 
 namespace ncPersistencia.nsGiro
 {
-    public class pGiro
+    public class pGiro : RepositorioBase, IpGiro
     {
         public ColecaoGiro Listar()
         {
-            ColecaoGiro retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
-                    " usuario_cid, usuario_nomeCompleto, situacao From Giro ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoGiro();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dGiro();
-                            item.produto_cid = RetornarInteiro(row["produto_cid"]);
-                            item.codigoBarras = RetornarTexto(row["codigoBarras"]);
-                            item.dataInicio = RetornarTexto(row["dataInicio"]);
-                            item.dataFim = RetornarTexto(row["dataFim"]);
-                            item.dias = RetornarInteiro(row["dias"]);
-                            item.quantidade = RetornarDecimal(row["quantidade"]);
-                            item.dataAtual = RetornarTexto(row["dataAtual"]);
-                            item.usuario_cid = RetornarInteiro(row["usuario_cid"]);
-                            item.usuario_nomeCompleto = RetornarTexto(row["usuario_nomeCompleto"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dGiro>(
+                        "SELECT produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
+                        "usuario_cid, usuario_nomeCompleto, situacao FROM Giro").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoGiro();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Giro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoGiro Consultar(dGiro dados)
         {
-            ColecaoGiro retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
-                    " usuario_cid, usuario_nomeCompleto, situacao ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From Giro ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.produto_cid, "produto_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.codigoBarras, "codigoBarras");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dataInicio, "dataInicio");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dataFim, "dataFim");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dias, "dias");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.quantidade, "quantidade");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.usuario_cid, "usuario_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.usuario_nomeCompleto, "usuario_nomeCompleto");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoGiro();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dGiro();
-                            item.produto_cid = RetornarInteiro(row["produto_cid"]);
-                            item.codigoBarras = RetornarTexto(row["codigoBarras"]);
-                            item.dataInicio = RetornarTexto(row["dataInicio"]);
-                            item.dataFim = RetornarTexto(row["dataFim"]);
-                            item.dias = RetornarInteiro(row["dias"]);
-                            item.quantidade = RetornarDecimal(row["quantidade"]);
-                            item.dataAtual = RetornarTexto(row["dataAtual"]);
-                            item.usuario_cid = RetornarInteiro(row["usuario_cid"]);
-                            item.usuario_nomeCompleto = RetornarTexto(row["usuario_nomeCompleto"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.produto_cid != null && dados.produto_cid != 0) { conditions.Add("produto_cid=@produto_cid"); p.Add("produto_cid", dados.produto_cid); }
+                    if (!string.IsNullOrEmpty(dados.codigoBarras)) { conditions.Add("codigoBarras=@codigoBarras"); p.Add("codigoBarras", dados.codigoBarras); }
+                    if (!string.IsNullOrEmpty(dados.dataInicio)) { conditions.Add("dataInicio=@dataInicio"); p.Add("dataInicio", dados.dataInicio); }
+                    if (!string.IsNullOrEmpty(dados.dataFim)) { conditions.Add("dataFim=@dataFim"); p.Add("dataFim", dados.dataFim); }
+                    if (dados.dias != null && dados.dias != 0) { conditions.Add("dias=@dias"); p.Add("dias", dados.dias); }
+                    if (dados.quantidade != null && dados.quantidade != 0) { conditions.Add("quantidade=@quantidade"); p.Add("quantidade", dados.quantidade); }
+                    if (dados.usuario_cid != null && dados.usuario_cid != 0) { conditions.Add("usuario_cid=@usuario_cid"); p.Add("usuario_cid", dados.usuario_cid); }
+                    if (!string.IsNullOrEmpty(dados.usuario_nomeCompleto)) { conditions.Add("usuario_nomeCompleto=@usuario_nomeCompleto"); p.Add("usuario_nomeCompleto", dados.usuario_nomeCompleto); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("situacao=@situacao"); p.Add("situacao", dados.situacao); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
+                              $"usuario_cid, usuario_nomeCompleto, situacao FROM Giro {where}";
+                    var lista = conn.Query<dGiro>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoGiro();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Giro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dGiro dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Giro ( produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
-                    " usuario_cid, usuario_nomeCompleto, situacao ) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.produto_cid) + "," +
-                    PersistirTexto(dados.codigoBarras) + "," +
-                    PersistirData(dados.dataInicio) + "," +
-                    PersistirData(dados.dataFim) + "," +
-                    PersistirInteiro(dados.dias) + "," +
-                    PersistirDecimal(dados.quantidade) + "," +
-                    PersistirData(dados.dataAtual) + "," +
-                    PersistirInteiro(dados.usuario_cid) + "," +
-                    PersistirTexto(dados.usuario_nomeCompleto) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO Giro (produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
+                        "usuario_cid, usuario_nomeCompleto, situacao) " +
+                        "VALUES (@produto_cid, @codigoBarras, @dataInicio, @dataFim, @dias, @quantidade, @dataAtual, " +
+                        "@usuario_cid, @usuario_nomeCompleto, @situacao)",
+                        new {
+                            produto_cid = dados.produto_cid, codigoBarras = dados.codigoBarras,
+                            dataInicio = dados.dataInicio, dataFim = dados.dataFim, dias = dados.dias,
+                            quantidade = dados.quantidade, dataAtual = dados.dataAtual,
+                            usuario_cid = dados.usuario_cid, usuario_nomeCompleto = dados.usuario_nomeCompleto,
+                            situacao = dados.situacao
+                        });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Giro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Importar(dGiro dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Giro ( produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
-                    " usuario_cid, usuario_nomeCompleto, situacao ) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.produto_cid) + "," +
-                    PersistirTexto(dados.codigoBarras) + "," +
-                    PersistirData(dados.dataInicio) + "," +
-                    PersistirData(dados.dataFim) + "," +
-                    PersistirInteiro(dados.dias) + "," +
-                    PersistirDecimal(dados.quantidade) + "," +
-                    PersistirData(dados.dataAtual) + "," +
-                    PersistirInteiro(dados.usuario_cid) + "," +
-                    PersistirTexto(dados.usuario_nomeCompleto) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO Giro (produto_cid, codigoBarras, dataInicio, dataFim, dias, quantidade, dataAtual, " +
+                        "usuario_cid, usuario_nomeCompleto, situacao) " +
+                        "VALUES (@produto_cid, @codigoBarras, @dataInicio, @dataFim, @dias, @quantidade, @dataAtual, " +
+                        "@usuario_cid, @usuario_nomeCompleto, @situacao)",
+                        new {
+                            produto_cid = dados.produto_cid, codigoBarras = dados.codigoBarras,
+                            dataInicio = dados.dataInicio, dataFim = dados.dataFim, dias = dados.dias,
+                            quantidade = dados.quantidade, dataAtual = dados.dataAtual,
+                            usuario_cid = dados.usuario_cid, usuario_nomeCompleto = dados.usuario_nomeCompleto,
+                            situacao = dados.situacao
+                        });
+                    return 1;
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Importar Giro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dGiro dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE Giro SET " +
-                    " dataInicio = " + PersistirData(dados.dataInicio) + "," +
-                    " dataFim = " + PersistirData(dados.dataFim) + "," +
-                    " dias = " + PersistirInteiro(dados.dias) + "," +
-                    " quantidade= " + PersistirDecimal(dados.quantidade) + "," +
-                    " dataAtual = " + PersistirData(dados.dataAtual) + "," +
-                    " usuario_cid = " + PersistirInteiro(dados.usuario_cid) + "," +
-                    " usuario_nomeCompleto = " + PersistirTexto(dados.usuario_nomeCompleto) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) + " " +
-                    " WHERE " +
-                    " produto_cid = " + PersistirInteiro(dados.produto_cid) + " AND " +
-                    " codigoBarras = " + PersistirTexto(dados.codigoBarras);
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute(
+                        "UPDATE Giro SET dataInicio=@dataInicio, dataFim=@dataFim, dias=@dias, quantidade=@quantidade, " +
+                        "dataAtual=@dataAtual, usuario_cid=@usuario_cid, usuario_nomeCompleto=@usuario_nomeCompleto, situacao=@situacao " +
+                        "WHERE produto_cid=@produto_cid AND codigoBarras=@codigoBarras",
+                        new {
+                            dataInicio = dados.dataInicio, dataFim = dados.dataFim, dias = dados.dias,
+                            quantidade = dados.quantidade, dataAtual = dados.dataAtual,
+                            usuario_cid = dados.usuario_cid, usuario_nomeCompleto = dados.usuario_nomeCompleto,
+                            situacao = dados.situacao, produto_cid = dados.produto_cid, codigoBarras = dados.codigoBarras
+                        });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Giro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dGiro dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Giro " +
-                    " WHERE " +
-                    " produto_cid = " + PersistirInteiro(dados.produto_cid) + " AND " +
-                    " codigoBarras = " + PersistirTexto(dados.codigoBarras);
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute(
+                        "DELETE FROM Giro WHERE produto_cid=@produto_cid AND codigoBarras=@codigoBarras",
+                        new { produto_cid = dados.produto_cid, codigoBarras = dados.codigoBarras });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Giro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

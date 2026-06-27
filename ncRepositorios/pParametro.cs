@@ -1,218 +1,145 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsParametro;
 using nsdParametroEstoque;
 
 namespace ncPersistencia.nsParametro
 {
-    public class pParametro
+    public class pParametro : RepositorioBase, IpParametro
     {
         public ColecaoParametro Listar()
         {
-            ColecaoParametro retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, descricao, valor From Parametros ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoParametro();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dParametro();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.descricao = RetornarTexto(row["descricao"]);
-                            item.valor = RetornarTexto(row["valor"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dParametro>("SELECT cid, descricao, valor FROM Parametros").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoParametro();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Parametro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoParametro Consultar(dParametro dados)
         {
-            ColecaoParametro retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, descricao, valor ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From Parametros ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.descricao, "descricao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.valor, "valor");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoParametro();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dParametro();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.descricao = RetornarTexto(row["descricao"]);
-                            item.valor = RetornarTexto(row["valor"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid=@cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.descricao)) { conditions.Add("descricao=@descricao"); p.Add("descricao", dados.descricao); }
+                    if (!string.IsNullOrEmpty(dados.valor)) { conditions.Add("valor=@valor"); p.Add("valor", dados.valor); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, descricao, valor FROM Parametros {where}";
+                    var lista = conn.Query<dParametro>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoParametro();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (ExcecaoNascomercio)
-            {
-                throw;
-            }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Parametro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoParametroEstoque ConsultarEstoque(dParametroEstoque dados)
         {
-            ColecaoParametroEstoque retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " SELECT e.fabricante, e.cid, p.descricao, e.referencia, e.item, e.valorCompra, e.valorVenda, e.valor, c.nome as cor";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " FROM nascomercio.produtos as p ";
-                sqlFrom += "  INNER JOIN nascomercio.v_estoque as e ON e.cid = p.cid ";
-                sqlFrom += "  INNER Join nascomercio.cor as c ON c.cid = p.cor_cid ";
-
-                if (dados.valor == "1")
-                    sqlWhere = sqlWhere + " e.valor > 0";
-                else
-                    sqlWhere = sqlWhere + " e.valor = 0";
-
-                if (dados.cidGrupo > 0)
-                    sqlWhere = sqlWhere + " AND p.grupo_cid = " + dados.cidGrupo.ToString();
-
-                if (dados.cidFornecedor > 0)
-                    sqlWhere = sqlWhere + " AND e.fornecedor_cid = " + dados.cidFornecedor.ToString();
-
-                if (dados.cidFabricante > 0)
-                    sqlWhere = sqlWhere + " AND e.fabricante_cid = " + dados.cidFabricante.ToString();
-
-                if (!string.IsNullOrEmpty(dados.descricao))
-                    sqlWhere = sqlWhere + "AND descricao = '" + dados.descricao + "'";
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " order by p.codigo, e.item");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoParametroEstoque();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dEstoque();
-                            item.Fabricante = RetornarTexto(row["fabricante"]);
-                            item.CID = RetornarTexto(row["cid"]);
-                            item.Descricao = RetornarTexto(row["descricao"]);
-                            item.Referencia = RetornarTexto(row["referencia"]);
-                            item.Item = RetornarTexto(row["item"]);
-                            item.ValorCompra = (decimal)RetornarDecimal(row["valorCompra"]);
-                            item.ValorVenda = (decimal)RetornarDecimal(row["valorVenda"]);
-                            item.Valor = (decimal)RetornarDecimal(row["valor"]);
-                            item.Cor = RetornarTexto(row["cor"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    conditions.Add(dados.valor == "1" ? "e.valor > 0" : "e.valor = 0");
+                    if (dados.cidGrupo > 0) { conditions.Add("p.grupo_cid = @grupo"); p.Add("grupo", dados.cidGrupo); }
+                    if (dados.cidFornecedor > 0) { conditions.Add("e.fornecedor_cid = @fornecedor"); p.Add("fornecedor", dados.cidFornecedor); }
+                    if (dados.cidFabricante > 0) { conditions.Add("e.fabricante_cid = @fabricante"); p.Add("fabricante", dados.cidFabricante); }
+                    if (!string.IsNullOrEmpty(dados.descricao)) { conditions.Add("descricao = @descricao"); p.Add("descricao", dados.descricao); }
+                    var where = "WHERE " + string.Join(" AND ", conditions);
+                    var sql = $"SELECT e.fabricante AS Fabricante, e.cid AS CID, p.descricao AS Descricao, e.referencia AS Referencia, " +
+                              $"e.item AS Item, e.valorCompra AS ValorCompra, e.valorVenda AS ValorVenda, e.valor AS Valor, c.nome AS Cor " +
+                              $"FROM nascomercio.produtos AS p " +
+                              $"INNER JOIN nascomercio.v_estoque AS e ON e.cid = p.cid " +
+                              $"INNER JOIN nascomercio.cor AS c ON c.cid = p.cor_cid " +
+                              $"{where} ORDER BY p.codigo, e.item";
+                    var lista = conn.Query<dEstoque>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoParametroEstoque();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (ExcecaoNascomercio)
-            {
-                throw;
-            }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Parametro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dParametro dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Parametros ( descricao, valor ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.descricao) + "," +
-                    PersistirTexto(dados.valor) + ")";
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute("INSERT INTO Parametros (descricao, valor) VALUES (@descricao, @valor)",
+                        new { descricao = dados.descricao, valor = dados.valor });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Parametro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dParametro dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE Parametros SET " +
-                    " descricao = " + PersistirTexto(dados.descricao) + "," +
-                    " valor = " + PersistirTexto(dados.valor) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE Parametros SET descricao=@descricao, valor=@valor WHERE cid=@cid",
+                        new { descricao = dados.descricao, valor = dados.valor, cid = dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Parametro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dParametro dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Parametros " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM Parametros WHERE cid=@cid", new { cid = dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Parametro [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

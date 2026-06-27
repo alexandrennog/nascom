@@ -1,233 +1,141 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
 using nsModelos;
-using static ncNComum.nsFuncoes.cFuncoes;
-
-
 
 namespace ncPersistencia.nsUsuario
 {
-    public class pUsuario
+    public class pUsuario : RepositorioBase, IpUsuario
     {
         public ColecaoUsuario Listar()
         {
-            ColecaoUsuario retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, nomeCompleto, senha, situacao, usuario, descontoProduto, descontoPedido, " +
-                    " comissao, usuarioPerfil_cid, email From usuarios where situacao like 'A'";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoUsuario();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dUsuario();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nomeCompleto = RetornarTexto(row["nomeCompleto"]);
-                            item.senha = RetornarTexto(row["senha"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.usuario = RetornarTexto(row["usuario"]);
-                            item.descontoProduto = RetornarDecimal(row["descontoProduto"]);
-                            item.descontoPedido = RetornarDecimal(row["descontoPedido"]);
-                            item.comissao = RetornarDecimal(row["comissao"]);
-                            item.usuarioPerfil_cid = RetornarInteiro(row["usuarioPerfil_cid"]);
-                            item.Email = RetornarTexto(row["email"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dUsuario>(
+                        "SELECT cid, nomeCompleto, senha, situacao, usuario, descontoProduto, descontoPedido, comissao, usuarioPerfil_cid, email AS Email FROM usuarios WHERE situacao LIKE 'A'").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoUsuario();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Usuario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoUsuario Consultar(dUsuario dados)
         {
-            ColecaoUsuario retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select u.cid, u.nomeCompleto, u.senha, u.situacao, u.usuario, u.usuarioPerfil_cid, " +
-                    " up.codigo, u.descontoPedido, u.descontoProduto, u.comissao, email ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From usuarios u INNER JOIN usuarioperfil up " +
-                    " ON up.cid = u.usuarioPerfil_cid ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "u.cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.usuario, "u.usuario");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.senha, "u.senha");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "u.situacao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.nomeCompleto, "u.nomeCompleto");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.usuarioPerfil_cid, "u.usuarioPerfil_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.descontoProduto, "u.descontoProduto");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.descontoPedido, "u.descontoPedido");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.comissao, "u.comissao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.Email, "u.email");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoUsuario();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dUsuario();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nomeCompleto = RetornarTexto(row["nomeCompleto"]);
-                            item.senha = RetornarTexto(row["senha"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.usuario = RetornarTexto(row["usuario"]);
-                            item.usuarioPerfil_cid = RetornarInteiro(row["usuarioPerfil_cid"]);
-                            item.usuarioPerfil_codigo = RetornarTexto(row["codigo"]);
-                            item.descontoProduto = RetornarDecimal(row["descontoProduto"]);
-                            item.descontoPedido = RetornarDecimal(row["descontoPedido"]);
-                            item.comissao = RetornarDecimal(row["comissao"]);
-                            item.Email = RetornarTexto(row["email"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.cid != 0) { conditions.Add("u.cid=@cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.usuario)) { conditions.Add("u.usuario=@usuario"); p.Add("usuario", dados.usuario); }
+                    if (!string.IsNullOrEmpty(dados.senha)) { conditions.Add("u.senha=@senha"); p.Add("senha", dados.senha); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("u.situacao=@situacao"); p.Add("situacao", dados.situacao); }
+                    if (!string.IsNullOrEmpty(dados.nomeCompleto)) { conditions.Add("u.nomeCompleto=@nomeCompleto"); p.Add("nomeCompleto", dados.nomeCompleto); }
+                    if (dados.usuarioPerfil_cid != 0) { conditions.Add("u.usuarioPerfil_cid=@usuarioPerfil_cid"); p.Add("usuarioPerfil_cid", dados.usuarioPerfil_cid); }
+                    if (dados.descontoProduto != 0) { conditions.Add("u.descontoProduto=@descontoProduto"); p.Add("descontoProduto", dados.descontoProduto); }
+                    if (dados.descontoPedido != 0) { conditions.Add("u.descontoPedido=@descontoPedido"); p.Add("descontoPedido", dados.descontoPedido); }
+                    if (dados.comissao != 0) { conditions.Add("u.comissao=@comissao"); p.Add("comissao", dados.comissao); }
+                    if (!string.IsNullOrEmpty(dados.Email)) { conditions.Add("u.email=@email"); p.Add("email", dados.Email); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT u.cid, u.nomeCompleto, u.senha, u.situacao, u.usuario, u.usuarioPerfil_cid, up.codigo AS usuarioPerfil_codigo, u.descontoPedido, u.descontoProduto, u.comissao, u.email AS Email FROM usuarios u INNER JOIN usuarioperfil up ON up.cid = u.usuarioPerfil_cid {where}";
+                    var lista = conn.Query<dUsuario>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoUsuario();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw ex;
             }
-            return retorno;
         }
 
         public ColecaoUsuario ConsultarADM(string perfil)
         {
-            ColecaoUsuario retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select u.cid, u.nomeCompleto, u.senha, u.situacao, u.usuario, u.usuarioPerfil_cid, " +
-                    " up.codigo, u.descontoPedido, u.descontoProduto, u.comissao, u.email ";
-                string sqlFrom = " From usuarios u INNER JOIN usuarioperfil up " +
-                    " ON up.cid = u.usuarioPerfil_cid " +
-                    $"where up.nome = '{perfil}'" +
-                    "and u.email IS NOT NULL;";
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoUsuario();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dUsuario();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nomeCompleto = RetornarTexto(row["nomeCompleto"]);
-                            item.senha = RetornarTexto(row["senha"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.usuario = RetornarTexto(row["usuario"]);
-                            item.usuarioPerfil_cid = RetornarInteiro(row["usuarioPerfil_cid"]);
-                            item.usuarioPerfil_codigo = RetornarTexto(row["codigo"]);
-                            item.descontoProduto = RetornarDecimal(row["descontoProduto"]);
-                            item.descontoPedido = RetornarDecimal(row["descontoPedido"]);
-                            item.comissao = RetornarDecimal(row["comissao"]);
-                            item.Email = RetornarTexto(row["email"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var p = new DynamicParameters();
+                    p.Add("perfil", perfil);
+                    var sql = "SELECT u.cid, u.nomeCompleto, u.senha, u.situacao, u.usuario, u.usuarioPerfil_cid, up.codigo AS usuarioPerfil_codigo, u.descontoPedido, u.descontoProduto, u.comissao, u.email AS Email FROM usuarios u INNER JOIN usuarioperfil up ON up.cid = u.usuarioPerfil_cid WHERE up.nome=@perfil AND u.email IS NOT NULL";
+                    var lista = conn.Query<dUsuario>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoUsuario();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw ex;
             }
-            return retorno;
         }
 
         public int Incluir(dUsuario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " usuarios (usuario, senha, nomeCompleto, situacao, descontoProduto, descontoPedido, " +
-                    " comissao, email, usuarioPerfil_cid) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.usuario) + "," +
-                    PersistirTexto(dados.senha) + "," +
-                    PersistirTexto(dados.nomeCompleto) + "," +
-                    PersistirTexto(dados.situacao) + "," +
-                    PersistirDecimal(dados.descontoProduto) + "," +
-                    PersistirDecimal(dados.descontoPedido) + "," +
-                    PersistirDecimal(dados.comissao) + "," +
-                    PersistirTexto(dados.Email) + "," +
-                    PersistirInteiro(dados.usuarioPerfil_cid) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute("INSERT INTO usuarios (usuario, senha, nomeCompleto, situacao, descontoProduto, descontoPedido, comissao, email, usuarioPerfil_cid) VALUES (@usuario, @senha, @nomeCompleto, @situacao, @descontoProduto, @descontoPedido, @comissao, @Email, @usuarioPerfil_cid)",
+                        new { dados.usuario, dados.senha, dados.nomeCompleto, dados.situacao, dados.descontoProduto, dados.descontoPedido, dados.comissao, dados.Email, dados.usuarioPerfil_cid });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Usuario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dUsuario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE usuarios SET " +
-                    " usuario = " + PersistirTexto(dados.usuario) + "," +
-                    " senha = " + PersistirTexto(dados.senha) + "," +
-                    " nomeCompleto = " + PersistirTexto(dados.nomeCompleto) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) + "," +
-                    " descontoProduto = " + PersistirDecimal(dados.descontoProduto) + "," +
-                    " descontoPedido = " + PersistirDecimal(dados.descontoPedido) + "," +
-                    " comissao = " + PersistirDecimal(dados.comissao) + "," +
-                    " usuarioPerfil_cid = " + PersistirInteiro(dados.usuarioPerfil_cid) + "," +
-                    " email = " + PersistirTexto(dados.Email) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE usuarios SET usuario=@usuario, senha=@senha, nomeCompleto=@nomeCompleto, situacao=@situacao, descontoProduto=@descontoProduto, descontoPedido=@descontoPedido, comissao=@comissao, usuarioPerfil_cid=@usuarioPerfil_cid, email=@Email WHERE cid=@cid",
+                        new { dados.usuario, dados.senha, dados.nomeCompleto, dados.situacao, dados.descontoProduto, dados.descontoPedido, dados.comissao, dados.usuarioPerfil_cid, dados.Email, dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Usuario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dUsuario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM usuarios " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM usuarios WHERE cid=@cid", new { dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Usuario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

@@ -1,149 +1,99 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCondicao;
 
 namespace ncPersistencia.nsCondicao
 {
-    public class pCondicao
+    public class pCondicao : RepositorioBase, IpCondicao
     {
         public ColecaoCondicao Listar()
         {
-            ColecaoCondicao retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, nome, desconto, situacao From condicao WHERE situacao='A' Order By nome ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCondicao();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCondicao();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.desconto = RetornarDecimal(row["desconto"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var sql = "SELECT cid, nome, desconto, situacao FROM condicao WHERE situacao='A' ORDER BY nome";
+                    var lista = conn.Query<dCondicao>(sql).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCondicao();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Listar Condicao [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Condicao [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCondicao Consultar(dCondicao dados)
         {
-            ColecaoCondicao retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, nome, desconto, situacao ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From condicao ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.nome, "nome");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " Order By nome");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCondicao();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCondicao();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.desconto = RetornarDecimal(row["desconto"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid = @cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.nome)) { conditions.Add("nome = @nome"); p.Add("nome", dados.nome); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("situacao = @situacao"); p.Add("situacao", dados.situacao); }
+
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, nome, desconto, situacao FROM condicao {where} ORDER BY nome";
+
+                    var lista = conn.Query<dCondicao>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCondicao();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Consultar Condicao [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Condicao [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dCondicao dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " condicao ( nome, desconto, situacao ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.nome) + "," +
-                    PersistirDecimal(dados.desconto) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "INSERT INTO condicao (nome, desconto, situacao) VALUES (@nome, @desconto, @situacao)";
+                    conn.Execute(sql, new { nome = dados.nome, desconto = dados.desconto, situacao = dados.situacao });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Incluir Condicao [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Condicao [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dCondicao dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE condicao SET " +
-                    " nome = " + PersistirTexto(dados.nome) + "," +
-                    " desconto = " + PersistirDecimal(dados.desconto) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "UPDATE condicao SET nome=@nome, desconto=@desconto, situacao=@situacao WHERE cid=@cid";
+                    return conn.Execute(sql, new { nome = dados.nome, desconto = dados.desconto, situacao = dados.situacao, cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Alterar Condicao [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Condicao [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dCondicao dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM condicao " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM condicao WHERE cid=@cid", new { cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Excluir Condicao [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Condicao [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

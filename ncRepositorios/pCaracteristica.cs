@@ -1,150 +1,100 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCaracteristica;
 
 namespace ncPersistencia.nsCaracteristica
 {
-    public class pCaracteristica
+    public class pCaracteristica : RepositorioBase, IpCaracteristica
     {
         public ColecaoCaracteristica Listar()
         {
-            ColecaoCaracteristica retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, nome, situacao, codigo From Caracteristicas Order By nome ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCaracteristica();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCaracteristica();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.codigo = RetornarTexto(row["codigo"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var sql = "SELECT cid, nome, situacao, codigo FROM Caracteristicas ORDER BY nome";
+                    var lista = conn.Query<dCaracteristica>(sql).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCaracteristica();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Listar Caracteristica [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Caracteristica [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoCaracteristica Consultar(dCaracteristica dados)
         {
-            ColecaoCaracteristica retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, nome, situacao, codigo ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From Caracteristicas ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.nome, "nome");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.codigo, "codigo");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " Order By nome");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCaracteristica();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCaracteristica();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.codigo = RetornarTexto(row["codigo"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid = @cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.nome)) { conditions.Add("nome = @nome"); p.Add("nome", dados.nome); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("situacao = @situacao"); p.Add("situacao", dados.situacao); }
+                    if (!string.IsNullOrEmpty(dados.codigo)) { conditions.Add("codigo = @codigo"); p.Add("codigo", dados.codigo); }
+
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, nome, situacao, codigo FROM Caracteristicas {where} ORDER BY nome";
+
+                    var lista = conn.Query<dCaracteristica>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCaracteristica();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Consultar Caracteristica [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Caracteristica [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dCaracteristica dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Caracteristicas ( nome, situacao, codigo ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.nome) + "," +
-                    PersistirTexto(dados.situacao) + "," +
-                    PersistirTexto(dados.codigo) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "INSERT INTO Caracteristicas (nome, situacao, codigo) VALUES (@nome, @situacao, @codigo)";
+                    conn.Execute(sql, new { nome = dados.nome, situacao = dados.situacao, codigo = dados.codigo });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Incluir Caracteristica [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Caracteristica [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dCaracteristica dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE Caracteristicas SET " +
-                    " nome = " + PersistirTexto(dados.nome) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) + "," +
-                    " codigo = " + PersistirTexto(dados.codigo) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "UPDATE Caracteristicas SET nome=@nome, situacao=@situacao, codigo=@codigo WHERE cid=@cid";
+                    return conn.Execute(sql, new { nome = dados.nome, situacao = dados.situacao, codigo = dados.codigo, cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Alterar Caracteristica [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Caracteristica [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dCaracteristica dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Caracteristicas " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM Caracteristicas WHERE cid=@cid", new { cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Excluir Caracteristica [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Caracteristica [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

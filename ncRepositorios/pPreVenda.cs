@@ -1,255 +1,126 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsVenda;
 
 namespace ncPersistencia.nsVenda
 {
-    public class pPreVenda
+    public class pPreVenda : RepositorioBase, IpPreVenda
     {
         public ColecaoVenda Listar()
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select controle, usuarioId, clienteId, data, " +
-                    "dinheiro, cheque, chequepre, cartaodebito, cartaocredito, crediario, terminal, " +
-                    "parcelas, desconto, condicao, troca, vale, defeito, total, Original From prevendas";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = RetornarInteiro(row["controle"]);
-                            item.usuarioId = RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = RetornarInteiro(row["clienteId"]);
-                            item.Data = RetornarData(row["data"]);
-                            item.Dinheiro = RetornarDecimal(row["dinheiro"]);
-                            item.Pix = RetornarDecimal(row["Original"]);
-                            item.Cheque = RetornarDecimal(row["cheque"]);
-                            item.ChequePre = RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = RetornarDecimal(row["cartaodedito"]);
-                            item.CartaoCredito = RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = RetornarDecimal(row["crediario"]);
-                            item.Terminal = RetornarTexto(row["terminal"]);
-                            item.Parcelas = RetornarInteiro(row["parcelas"]);
-                            item.Desconto = RetornarDecimal(row["desconto"]);
-                            item.Condicao = RetornarInteiro(row["condicao"]);
-                            item.Troca = RetornarDecimal(row["troca"]);
-                            item.Vale = RetornarDecimal(row["vale"]);
-                            item.Defeito = RetornarDecimal(row["defeito"]);
-                            item.Total = RetornarDecimal(row["total"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dVenda>(
+                        "SELECT controle, usuarioId, clienteId, data AS Data, dinheiro AS Dinheiro, cheque AS Cheque, chequepre AS ChequePre, cartaodebito AS CartaoDebito, cartaocredito AS CartaoCredito, crediario AS Crediario, terminal AS Terminal, parcelas AS Parcelas, desconto AS Desconto, condicao AS Condicao, troca AS Troca, vale AS Vale, defeito AS Defeito, total AS Total, Original AS Pix FROM prevendas").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVenda Consultar(dVenda dados)
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select controle, usuarioId, clienteId, data, vendedor, " +
-                    "dinheiro, cheque, chequepre, cartaodebito, cartaocredito, crediario, terminal, " +
-                    "parcelas, desconto, condicao, troca, vale, defeito, total, vendedor, ordemservico, Original ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From prevendas ";
-
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.controle, "controle");
-
-                if (dados.Terminal != "")
-                    sqlWhere = MontarParametrosSQL(sqlWhere, dados.Terminal, "terminal");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = RetornarInteiro(row["controle"]);
-                            item.usuarioId = RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = RetornarInteiro(row["clienteId"]);
-                            item.Vendedor = RetornarTexto(row["vendedor"]);
-                            item.Data = RetornarData(row["data"]);
-                            item.Dinheiro = RetornarDecimal(row["dinheiro"]);
-                            item.Pix = RetornarDecimal(row["Original"]);
-                            item.Cheque = RetornarDecimal(row["cheque"]);
-                            item.ChequePre = RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = RetornarDecimal(row["cartaodebito"]);
-                            item.CartaoCredito = RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = RetornarDecimal(row["crediario"]);
-                            item.Terminal = RetornarTexto(row["terminal"]);
-                            item.Parcelas = RetornarInteiro(row["parcelas"]);
-                            item.Desconto = RetornarDecimal(row["desconto"]);
-                            item.Condicao = RetornarInteiro(row["condicao"]);
-                            item.Troca = RetornarDecimal(row["troca"]);
-                            item.Vale = RetornarDecimal(row["vale"]);
-                            item.Defeito = RetornarDecimal(row["defeito"]);
-                            item.Total = RetornarDecimal(row["total"]);
-                            item.Vendedor = RetornarTexto(row["vendedor"]);
-                            item.ordemServicoId = RetornarTexto(row["ordemservico"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.controle != 0) { conditions.Add("controle=@controle"); p.Add("controle", dados.controle); }
+                    if (dados.Terminal != "") { conditions.Add("terminal=@terminal"); p.Add("terminal", dados.Terminal); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT controle, usuarioId, clienteId, data AS Data, vendedor AS Vendedor, dinheiro AS Dinheiro, cheque AS Cheque, chequepre AS ChequePre, cartaodebito AS CartaoDebito, cartaocredito AS CartaoCredito, crediario AS Crediario, terminal AS Terminal, parcelas AS Parcelas, desconto AS Desconto, condicao AS Condicao, troca AS Troca, vale AS Vale, defeito AS Defeito, total AS Total, Original AS Pix, ordemservico AS ordemServicoId FROM prevendas {where}";
+                    var lista = conn.Query<dVenda>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ConsultarMax()
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select MAX(controle) as controle";
-                string sqlFrom = " From prevendas ";
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            retorno = row["controle"] == DBNull.Value ? 0 : RetornarInteiro(row["controle"]);
-                        }
-                    }
+                    return conn.QueryFirstOrDefault<int?>("SELECT MAX(controle) FROM prevendas") ?? 0;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em ConsultarMax Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " prevendas (controle, usuarioId, clienteId, data, " +
-                    "dinheiro, cheque, chequepre, cartaodebito, cartaocredito, crediario, terminal, ordemServico, " +
-                    "parcelas, desconto, condicao, troca, vale, defeito, total, Original) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.controle) + "," +
-                    PersistirInteiro(dados.usuarioId) + "," +
-                    PersistirInteiro(dados.clienteId) + "," +
-                    PersistirData(dados.Data) + "," +
-                    PersistirDecimal(dados.Dinheiro) + "," +
-                    PersistirDecimal(dados.Cheque) + "," +
-                    PersistirDecimal(dados.ChequePre) + "," +
-                    PersistirDecimal(dados.CartaoDebito) + "," +
-                    PersistirDecimal(dados.CartaoCredito) + "," +
-                    PersistirDecimal(dados.Crediario) + "," +
-                    PersistirTexto(dados.Terminal) + "," +
-                    PersistirTexto(dados.ordemServicoId) + "," +
-                    PersistirInteiro(dados.Parcelas) + "," +
-                    PersistirDecimal(dados.Desconto) + "," +
-                    PersistirInteiro(dados.Condicao) + "," +
-                    PersistirDecimal(dados.Troca) + "," +
-                    PersistirDecimal(dados.Vale) + "," +
-                    PersistirDecimal(dados.Defeito) + "," +
-                    PersistirDecimal(dados.Total) + "," +
-                    PersistirDecimal(dados.Pix) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute("INSERT INTO prevendas (controle, usuarioId, clienteId, data, dinheiro, cheque, chequepre, cartaodebito, cartaocredito, crediario, terminal, ordemServico, parcelas, desconto, condicao, troca, vale, defeito, total, Original) VALUES (@controle, @usuarioId, @clienteId, @Data, @Dinheiro, @Cheque, @ChequePre, @CartaoDebito, @CartaoCredito, @Crediario, @Terminal, @ordemServicoId, @Parcelas, @Desconto, @Condicao, @Troca, @Vale, @Defeito, @Total, @Pix)",
+                        new { dados.controle, dados.usuarioId, dados.clienteId, dados.Data, dados.Dinheiro, dados.Cheque, dados.ChequePre, dados.CartaoDebito, dados.CartaoCredito, dados.Crediario, dados.Terminal, dados.ordemServicoId, dados.Parcelas, dados.Desconto, dados.Condicao, dados.Troca, dados.Vale, dados.Defeito, dados.Total, dados.Pix });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE prevendas SET " +
-                    " usuarioId = " + PersistirInteiro(dados.usuarioId) + "," +
-                    " clienteId = " + PersistirInteiro(dados.clienteId) + "," +
-                    " data = " + PersistirData(dados.Data) + "," +
-                    " dinheiro = " + PersistirDecimal(dados.Dinheiro) + "," +
-                    " cheque = " + PersistirDecimal(dados.Cheque) + "," +
-                    " chequepre = " + PersistirDecimal(dados.ChequePre) + "," +
-                    " cartaodebito = " + PersistirDecimal(dados.CartaoDebito) + "," +
-                    " cartaocredito = " + PersistirDecimal(dados.CartaoCredito) + "," +
-                    " crediario = " + PersistirDecimal(dados.Crediario) + "," +
-                    " terminal = " + PersistirTexto(dados.Terminal) + "," +
-                    " ordemservico = " + PersistirTexto(dados.ordemServicoId) + "," +
-                    " parcelas = " + PersistirInteiro(dados.Parcelas) + "," +
-                    " desconto = " + PersistirDecimal(dados.Desconto) + "," +
-                    " condicao = " + PersistirInteiro(dados.Condicao) + "," +
-                    " troca = " + PersistirDecimal(dados.Troca) + "," +
-                    " vale = " + PersistirDecimal(dados.Vale) + "," +
-                    " defeito = " + PersistirDecimal(dados.Defeito) + "," +
-                    " vendedor = " + PersistirTexto(dados.Vendedor) + "," +
-                    " Original = " + PersistirDecimal(dados.Pix) + "," +
-                    " total = " + PersistirDecimal(dados.Total) +
-                    " WHERE " +
-                    " controle = " + dados.controle.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE prevendas SET usuarioId=@usuarioId, clienteId=@clienteId, data=@Data, dinheiro=@Dinheiro, cheque=@Cheque, chequepre=@ChequePre, cartaodebito=@CartaoDebito, cartaocredito=@CartaoCredito, crediario=@Crediario, terminal=@Terminal, ordemservico=@ordemServicoId, parcelas=@Parcelas, desconto=@Desconto, condicao=@Condicao, troca=@Troca, vale=@Vale, defeito=@Defeito, vendedor=@Vendedor, Original=@Pix, total=@Total WHERE controle=@controle",
+                        new { dados.usuarioId, dados.clienteId, dados.Data, dados.Dinheiro, dados.Cheque, dados.ChequePre, dados.CartaoDebito, dados.CartaoCredito, dados.Crediario, dados.Terminal, dados.ordemServicoId, dados.Parcelas, dados.Desconto, dados.Condicao, dados.Troca, dados.Vale, dados.Defeito, dados.Vendedor, dados.Pix, dados.Total, dados.controle });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM prevendas " +
-                    " WHERE controle = " + dados.controle.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM prevendas WHERE controle=@controle", new { dados.controle });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

@@ -1,149 +1,99 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 
 namespace ncPersistencia.nsEstado
 {
-    public class pEstado
+    public class pEstado : RepositorioBase, IpEstado
     {
         public ColecaoEstado Listar()
         {
-            ColecaoEstado retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, sigla, nome, situacao From Estados Order By nome ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoEstado();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dEstado();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.sigla = RetornarTexto(row["sigla"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var sql = "SELECT cid, sigla, nome, situacao FROM Estados ORDER BY nome";
+                    var lista = conn.Query<dEstado>(sql).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoEstado();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Listar Estado [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Estado [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoEstado Consultar(dEstado dados)
         {
-            ColecaoEstado retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, sigla, nome, situacao ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From Estados ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.sigla, "sigla");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.nome, "nome");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " Order By nome");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoEstado();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dEstado();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.sigla = RetornarTexto(row["sigla"]);
-                            item.nome = RetornarTexto(row["nome"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid = @cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.sigla)) { conditions.Add("sigla = @sigla"); p.Add("sigla", dados.sigla); }
+                    if (!string.IsNullOrEmpty(dados.nome)) { conditions.Add("nome = @nome"); p.Add("nome", dados.nome); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("situacao = @situacao"); p.Add("situacao", dados.situacao); }
+
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, sigla, nome, situacao FROM Estados {where} ORDER BY nome";
+
+                    var lista = conn.Query<dEstado>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoEstado();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
-            catch (Exception ex)
-            {
-                retorno = null;
-                throw new ExcecaoNascomercio("Erro em Consultar Estado [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Estado [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dEstado dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " Estados ( sigla, nome, situacao ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.sigla) + "," +
-                    PersistirTexto(dados.nome) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "INSERT INTO Estados (sigla, nome, situacao) VALUES (@sigla, @nome, @situacao)";
+                    conn.Execute(sql, new { sigla = dados.sigla, nome = dados.nome, situacao = dados.situacao });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Incluir Estado [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Estado [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dEstado dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE Estados SET " +
-                    " sigla = " + PersistirTexto(dados.sigla) + "," +
-                    " nome = " + PersistirTexto(dados.nome) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    var sql = "UPDATE Estados SET sigla=@sigla, nome=@nome, situacao=@situacao WHERE cid=@cid";
+                    return conn.Execute(sql, new { sigla = dados.sigla, nome = dados.nome, situacao = dados.situacao, cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Alterar Estado [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Estado [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dEstado dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM Estados " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM Estados WHERE cid=@cid", new { cid = dados.cid });
+                }
             }
-            catch (Exception ex)
-            {
-                retorno = 0;
-                throw new ExcecaoNascomercio("Erro em Excluir Estado [" + ToString() + "] - " + ex.Message);
-            }
-            return retorno;
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Estado [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

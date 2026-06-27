@@ -1,161 +1,114 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCliente;
 
 namespace ncPersistencia.nsCliente
 {
-    public class pClienteEndereco
+    public class pClienteEndereco : RepositorioBase, IpClienteEndereco
     {
         public ColecaoClienteEndereco Listar()
         {
-            ColecaoClienteEndereco retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select logradouro, numero, complemento, cidade, estado_cid, cep, " +
-                    " dataInclusao, tipoResidencia, bairro, tipoEndereco, cliente_cid From clienteenderecos ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoClienteEndereco();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dClienteEndereco();
-                            item.logradouro = RetornarTexto(row["logradouro"]);
-                            item.numero = RetornarInteiro(row["numero"]);
-                            item.complemento = RetornarTexto(row["complemento"]);
-                            item.cidade = RetornarTexto(row["cidade"]);
-                            item.estado_cid = RetornarInteiro(row["estado_cid"]);
-                            item.cep = RetornarInteiro(row["cep"]);
-                            item.dataInclusao = RetornarTexto(row["dataInclusao"]);
-                            item.tipoResidencia = RetornarTexto(row["tipoResidencia"]);
-                            item.bairro = RetornarTexto(row["bairro"]);
-                            item.tipoEndereco = RetornarTexto(row["tipoEndereco"]);
-                            item.cliente_cid = RetornarInteiro(row["cliente_cid"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dClienteEndereco>(
+                        "SELECT logradouro, numero, complemento, cidade, estado_cid, cep, " +
+                        "dataInclusao, tipoResidencia, bairro, tipoEndereco, cliente_cid FROM clienteenderecos").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoClienteEndereco();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Cliente - Endereço [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoClienteEndereco Consultar(dClienteEndereco dados)
         {
-            ColecaoClienteEndereco retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " SELECT c.logradouro, c.numero, c.complemento, c.cidade, c.estado_cid, c.cep, " +
-                    " c.dataInclusao, c.tipoResidencia, c.bairro, c.tipoEndereco, c.cliente_cid, e.sigla ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From clienteenderecos c LEFT OUTER JOIN estados e ON c.estado_cid = e.cid ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.logradouro, "c.logradouro");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.numero, "c.numero");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.complemento, "c.complemento");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cidade, "c.cidade");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.estado_cid, "c.estado_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cep, "c.cep");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dataInclusao, "c.dataInclusao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.tipoResidencia, "c.tipoResidencia");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.bairro, "c.bairro");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.tipoEndereco, "c.tipoEndereco");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cliente_cid, "c.cliente_cid");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoClienteEndereco();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dClienteEndereco();
-                            item.logradouro = RetornarTexto(row["logradouro"]);
-                            item.numero = RetornarInteiro(row["numero"]);
-                            item.complemento = RetornarTexto(row["complemento"]);
-                            item.cidade = RetornarTexto(row["cidade"]);
-                            item.estado_cid = RetornarInteiro(row["estado_cid"]);
-                            item.cep = RetornarInteiro(row["cep"]);
-                            item.dataInclusao = RetornarTexto(row["dataInclusao"]);
-                            item.tipoResidencia = RetornarTexto(row["tipoResidencia"]);
-                            item.bairro = RetornarTexto(row["bairro"]);
-                            item.tipoEndereco = RetornarTexto(row["tipoEndereco"]);
-                            item.cliente_cid = RetornarInteiro(row["cliente_cid"]);
-                            item.siglaEstado = RetornarTexto(row["sigla"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (!string.IsNullOrEmpty(dados.logradouro)) { conditions.Add("c.logradouro=@logradouro"); p.Add("logradouro", dados.logradouro); }
+                    if (dados.numero != null && dados.numero != 0) { conditions.Add("c.numero=@numero"); p.Add("numero", dados.numero); }
+                    if (!string.IsNullOrEmpty(dados.complemento)) { conditions.Add("c.complemento=@complemento"); p.Add("complemento", dados.complemento); }
+                    if (!string.IsNullOrEmpty(dados.cidade)) { conditions.Add("c.cidade=@cidade"); p.Add("cidade", dados.cidade); }
+                    if (dados.estado_cid != null && dados.estado_cid != 0) { conditions.Add("c.estado_cid=@estado_cid"); p.Add("estado_cid", dados.estado_cid); }
+                    if (dados.cep != null && dados.cep != 0) { conditions.Add("c.cep=@cep"); p.Add("cep", dados.cep); }
+                    if (!string.IsNullOrEmpty(dados.dataInclusao)) { conditions.Add("c.dataInclusao=@dataInclusao"); p.Add("dataInclusao", dados.dataInclusao); }
+                    if (!string.IsNullOrEmpty(dados.tipoResidencia)) { conditions.Add("c.tipoResidencia=@tipoResidencia"); p.Add("tipoResidencia", dados.tipoResidencia); }
+                    if (!string.IsNullOrEmpty(dados.bairro)) { conditions.Add("c.bairro=@bairro"); p.Add("bairro", dados.bairro); }
+                    if (!string.IsNullOrEmpty(dados.tipoEndereco)) { conditions.Add("c.tipoEndereco=@tipoEndereco"); p.Add("tipoEndereco", dados.tipoEndereco); }
+                    if (dados.cliente_cid != null && dados.cliente_cid != 0) { conditions.Add("c.cliente_cid=@cliente_cid"); p.Add("cliente_cid", dados.cliente_cid); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT c.logradouro, c.numero, c.complemento, c.cidade, c.estado_cid, c.cep, " +
+                              $"c.dataInclusao, c.tipoResidencia, c.bairro, c.tipoEndereco, c.cliente_cid, e.sigla AS siglaEstado " +
+                              $"FROM clienteenderecos c LEFT OUTER JOIN estados e ON c.estado_cid = e.cid {where}";
+                    var lista = conn.Query<dClienteEndereco>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoClienteEndereco();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Cliente - Endereço [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dClienteEndereco dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " clienteenderecos (logradouro, numero, complemento, cidade, estado_cid, cep, " +
-                    " dataInclusao, tipoResidencia, bairro, tipoEndereco, cliente_cid) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.logradouro) + "," +
-                    PersistirInteiro(dados.numero) + "," +
-                    PersistirTexto(dados.complemento) + "," +
-                    PersistirTexto(dados.cidade) + "," +
-                    PersistirInteiro(dados.estado_cid) + "," +
-                    PersistirInteiro(dados.cep) + "," +
-                    PersistirTexto(dados.dataInclusao) + "," +
-                    PersistirTexto(dados.tipoResidencia) + "," +
-                    PersistirTexto(dados.bairro) + "," +
-                    PersistirTexto(dados.tipoEndereco) + "," +
-                    PersistirInteiro(dados.cliente_cid) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO clienteenderecos (logradouro, numero, complemento, cidade, estado_cid, cep, " +
+                        "dataInclusao, tipoResidencia, bairro, tipoEndereco, cliente_cid) " +
+                        "VALUES (@logradouro, @numero, @complemento, @cidade, @estado_cid, @cep, " +
+                        "@dataInclusao, @tipoResidencia, @bairro, @tipoEndereco, @cliente_cid)",
+                        new {
+                            logradouro = dados.logradouro, numero = dados.numero, complemento = dados.complemento,
+                            cidade = dados.cidade, estado_cid = dados.estado_cid, cep = dados.cep,
+                            dataInclusao = dados.dataInclusao, tipoResidencia = dados.tipoResidencia,
+                            bairro = dados.bairro, tipoEndereco = dados.tipoEndereco, cliente_cid = dados.cliente_cid
+                        });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Cliente - Endereço [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ExcluirPorCliente(int cliente_cid)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM clienteenderecos " +
-                    " WHERE cliente_cid = " + cliente_cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM clienteenderecos WHERE cliente_cid=@cliente_cid", new { cliente_cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Cliente - Endereço [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

@@ -1,103 +1,61 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsProdutoEtiqueta;
 
 namespace ncPersistencia.nsProdutoEtiqueta
 {
-    public class pProdutoEtiqueta
+    public class pProdutoEtiqueta : RepositorioBase, IpProdutoEtiqueta
     {
         public ColecaoProdutoEtiqueta Listar(string dataDe, string dataAte, int ImprimeTodos)
         {
-            ColecaoProdutoEtiqueta retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select data, impressao, produto_cid, produtoItem_codigoBarras, quantidade, " +
-                    " usuario_cid, usuario_nomeCompleto, referencia, c.nome as cor";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From LogEstoque le " +
-                    " inner join produtos p on p.cid = le.produto_cid " +
-                    " inner join cor c on p.cor_cid = c.cid " +
-                    " inner join produtoitem pi on pi.valor = le.produtoItem_codigoBarras ";
-
-                if (!string.IsNullOrEmpty(dataDe))
+                using (var conn = CriarConexao())
                 {
-                    if (!sqlWhere.Trim().Equals(string.Empty))
-                        sqlWhere = sqlWhere + " AND ";
-                    sqlWhere = sqlWhere + " data >= '" + dataDe + "'";
-                }
-
-                if (!string.IsNullOrEmpty(dataAte))
-                {
-                    if (!sqlWhere.Trim().Equals(string.Empty))
-                        sqlWhere = sqlWhere + " AND ";
-                    sqlWhere = sqlWhere + " data <= '" + dataAte + "'";
-                }
-
-                if (ImprimeTodos == 0)
-                {
-                    if (!sqlWhere.Trim().Equals(string.Empty))
-                        sqlWhere = sqlWhere + " AND ";
-                    sqlWhere = sqlWhere + " impressao is null";
-                }
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoProdutoEtiqueta();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dProdutoEtiqueta();
-                            item.data = RetornarData(row["data"]);
-                            item.impressao = RetornarTexto(row["impressao"]);
-                            item.produto_cid = RetornarInteiro(row["produto_cid"]);
-                            item.produtoItem_codigoBarras = RetornarTexto(row["produtoItem_codigoBarras"]);
-                            item.quantidade = RetornarDecimal(row["quantidade"]);
-                            item.usuario_cid = RetornarInteiro(row["usuario_cid"]);
-                            item.usuario_nomeCompleto = RetornarTexto(row["usuario_nomeCompleto"]);
-                            item.referencia = RetornarTexto(row["referencia"]);
-                            item.cor = RetornarTexto(row["cor"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (!string.IsNullOrEmpty(dataDe)) { conditions.Add("data >= @dataDe"); p.Add("dataDe", dataDe); }
+                    if (!string.IsNullOrEmpty(dataAte)) { conditions.Add("data <= @dataAte"); p.Add("dataAte", dataAte); }
+                    if (ImprimeTodos == 0) { conditions.Add("impressao IS NULL"); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $@"SELECT data, impressao, produto_cid, produtoItem_codigoBarras, quantidade, usuario_cid, usuario_nomeCompleto, referencia, c.nome AS cor
+                        FROM LogEstoque le
+                        INNER JOIN produtos p ON p.cid = le.produto_cid
+                        INNER JOIN cor c ON p.cor_cid = c.cid
+                        INNER JOIN produtoitem pi ON pi.valor = le.produtoItem_codigoBarras
+                        {where}";
+                    var lista = conn.Query<dProdutoEtiqueta>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoProdutoEtiqueta();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar ProdutoEtiqueta [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(string data, string produto, string codigoBarras)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE logEstoque SET " +
-                    " impressao = 'S' " +
-                    " WHERE " +
-                    " produto_cid = " + PersistirInteiro(Convert.ToInt32(produto)) + " AND " +
-                    " produtoItem_codigoBarras = " + PersistirTexto(codigoBarras);
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE logEstoque SET impressao='S' WHERE produto_cid=@produto_cid AND produtoItem_codigoBarras=@codigoBarras",
+                        new { produto_cid = Convert.ToInt32(produto), codigoBarras });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Produto [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

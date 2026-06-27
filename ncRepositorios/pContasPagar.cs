@@ -1,197 +1,161 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsContasPagar;
 
 namespace ncPersistencia.nsContasPagar
 {
-    public class pContasPagar
+    public class pContasPagar : RepositorioBase, IpContasPagar
     {
         public ColecaoContasPagar Listar()
         {
-            ColecaoContasPagar retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select * From ContasPagar ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoContasPagar();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dContasPagar();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.descricao = RetornarTexto(row["descricao"]);
-                            item.valor = RetornarDecimal(row["valor"]);
-                            item.dataEmissao = RetornarTexto(row["dataEmissao"]);
-                            item.dataVencimento = RetornarTexto(row["dataVencimento"]);
-                            item.dataPagamento = RetornarTexto(row["dataPagamento"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.fornecedor = RetornarTexto(row["fornecedor"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dContasPagar>(
+                        "SELECT cid, descricao, valor, dataEmissao, dataVencimento, dataPagamento, situacao, fornecedor FROM ContasPagar").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoContasPagar();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar ContasPagar [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoContasPagar Consultar(dContasPagar dados)
         {
-            ColecaoContasPagar retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select * ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From ContasPagar ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.descricao, "descricao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.valor, "valor");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dataEmissao, "dataEmissao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dataVencimento, "dataVencimento");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.dataPagamento, "dataPagamento");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.fornecedor, "fornecedor");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid=@cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.observacao)) { conditions.Add("descricao=@descricao"); p.Add("descricao", dados.observacao); }
+                    if (dados.valor != null && dados.valor != 0) { conditions.Add("valor=@valor"); p.Add("valor", dados.valor); }
+                    if (!string.IsNullOrEmpty(dados.dataEmissao)) { conditions.Add("dataEmissao=@dataEmissao"); p.Add("dataEmissao", dados.dataEmissao); }
+                    if (!string.IsNullOrEmpty(dados.dataVencimento)) { conditions.Add("dataVencimento=@dataVencimento"); p.Add("dataVencimento", dados.dataVencimento); }
+                    if (!string.IsNullOrEmpty(dados.dataPagamento)) { conditions.Add("dataPagamento=@dataPagamento"); p.Add("dataPagamento", dados.dataPagamento); }
+                    if (dados.pago.HasValue && dados.pago.Value)
                     {
-                        retorno = new ColecaoContasPagar();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dContasPagar();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.descricao = RetornarTexto(row["descricao"]);
-                            item.valor = RetornarDecimal(row["valor"]);
-                            item.dataEmissao = RetornarTexto(row["dataEmissao"]);
-                            item.dataVencimento = RetornarTexto(row["dataVencimento"]);
-                            item.dataPagamento = RetornarTexto(row["dataPagamento"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            item.fornecedor = RetornarTexto(row["fornecedor"]);
-                            retorno.Add(item);
-                        }
+                        conditions.Add("situacao=@situacao");
+                        p.Add("situacao", dados.pago);
                     }
+                    if (dados.fornecedor_cid != null && dados.fornecedor_cid != 0)
+                    {
+                        conditions.Add("fornecedor=@fornecedor");
+                        p.Add("fornecedor", dados.fornecedor_cid);
+                    }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, descricao, valor, dataEmissao, dataVencimento, dataPagamento, situacao, fornecedor FROM ContasPagar {where}";
+                    var lista = conn.Query<dContasPagar>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoContasPagar();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar ContasPagar [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dContasPagar dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " ContasPagar ( descricao, valor, dataEmissao, dataVencimento, dataPagamento, situacao, fornecedor ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.descricao) + "," +
-                    PersistirDecimal(dados.valor) + "," +
-                    PersistirData(dados.dataEmissao) + "," +
-                    PersistirData(dados.dataVencimento) + "," +
-                    PersistirData(dados.dataPagamento) + "," +
-                    PersistirTexto(dados.situacao) + "," +
-                    PersistirTexto(dados.fornecedor) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO ContasPagar (descricao, valor, dataEmissao, dataVencimento, dataPagamento, situacao, fornecedor) " +
+                        "VALUES (@descricao, @valor, @dataEmissao, @dataVencimento, @dataPagamento, @situacao, @fornecedor)",
+                        new {
+                            descricao = dados.observacao, valor = dados.valor, dataEmissao = dados.dataEmissao,
+                            dataVencimento = dados.dataVencimento, dataPagamento = dados.dataPagamento,
+                            situacao = dados.pago, fornecedor = dados.fornecedor_cid
+                        });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir ContasPagar [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Importar(dContasPagar dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " ContasPagar ( cid, descricao, valor, dataEmissao, dataVencimento, dataPagamento, situacao, fornecedor ) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.cid) + "," +
-                    PersistirTexto(dados.descricao) + "," +
-                    PersistirDecimal(dados.valor) + "," +
-                    PersistirData(dados.dataEmissao) + "," +
-                    PersistirData(dados.dataVencimento) + "," +
-                    PersistirData(dados.dataPagamento) + "," +
-                    PersistirTexto(dados.situacao) + "," +
-                    PersistirTexto(dados.fornecedor) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(
+                        "INSERT INTO ContasPagar (cid, descricao, valor, dataEmissao, dataVencimento, dataPagamento, situacao, fornecedor) " +
+                        "VALUES (@cid, @descricao, @valor, @dataEmissao, @dataVencimento, @dataPagamento, @situacao, @fornecedor)",
+                        new {
+                            cid = dados.cid, descricao = dados.observacao, valor = dados.valor,
+                            dataEmissao = dados.dataEmissao, dataVencimento = dados.dataVencimento,
+                            dataPagamento = dados.dataPagamento, situacao = dados.pago, fornecedor = dados.fornecedor_cid
+                        });
+                    return 1;
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Importar ContasPagar [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dContasPagar dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE ContasPagar SET " +
-                    " descricao = " + PersistirTexto(dados.descricao) + "," +
-                    " valor = " + PersistirDecimal(dados.valor) + "," +
-                    " dataEmissao = " + PersistirData(dados.dataEmissao) + "," +
-                    " dataVencimento = " + PersistirData(dados.dataVencimento) + "," +
-                    " dataPagamento = " + PersistirData(dados.dataPagamento) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) + "," +
-                    " fornecedor = " + PersistirTexto(dados.fornecedor) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute(
+                        "UPDATE ContasPagar SET descricao=@descricao, valor=@valor, dataEmissao=@dataEmissao, " +
+                        "dataVencimento=@dataVencimento, dataPagamento=@dataPagamento, situacao=@situacao, fornecedor=@fornecedor " +
+                        "WHERE cid=@cid",
+                        new {
+                            descricao = dados.observacao, valor = dados.valor, dataEmissao = dados.dataEmissao,
+                            dataVencimento = dados.dataVencimento, dataPagamento = dados.dataPagamento,
+                            situacao = dados.pago, fornecedor = dados.fornecedor_cid, cid = dados.cid
+                        });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar ContasPagar [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dContasPagar dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM ContasPagar " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM ContasPagar WHERE cid=@cid", new { cid = dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir ContasPagar [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

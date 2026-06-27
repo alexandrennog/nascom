@@ -1,243 +1,170 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsGradeItem;
 
 namespace ncPersistencia.nsGradeItem
 {
-    public class pGradeItem
+    public class pGradeItem : RepositorioBase, IpGradeItem
     {
         public ColecaoGradeItem ConsultarReferencia(dGradeItem dados)
         {
-            ColecaoGradeItem retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " select p.referencia, p.descricao ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " from produtos p ";
-
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.fornecedor_cid, "p.fornecedor_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.fabricante_cid, "p.fabricante_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.grupo_cid, "p.grupo_cid");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                DataSet ds;
-                if (dados.ordem == true)
-                    ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " group by p.referencia order by p.descricao ");
-                else
-                    ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " group by p.referencia ");
-
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoGradeItem();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dGradeItem();
-                            item.referencia = RetornarTexto(row["referencia"]);
-                            item.descricao = RetornarTexto(row["descricao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.fornecedor_cid != null && dados.fornecedor_cid != 0) { conditions.Add("p.fornecedor_cid=@fornecedor_cid"); p.Add("fornecedor_cid", dados.fornecedor_cid); }
+                    if (dados.fabricante_cid != null && dados.fabricante_cid != 0) { conditions.Add("p.fabricante_cid=@fabricante_cid"); p.Add("fabricante_cid", dados.fabricante_cid); }
+                    if (dados.grupo_cid != null && dados.grupo_cid != 0) { conditions.Add("p.grupo_cid=@grupo_cid"); p.Add("grupo_cid", dados.grupo_cid); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var order = dados.ordem ? "ORDER BY p.descricao" : "";
+                    var sql = $"SELECT p.referencia, p.descricao FROM produtos p {where} GROUP BY p.referencia {order}";
+                    var lista = conn.Query<dGradeItem>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoGradeItem();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Referência [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public dGradeItem ConsultarUltimaVenda(string referencia, dGradeItem gradeItem)
         {
-            dGradeItem retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " select v.data, c.nome ";
-                string sqlFrom = " from vendasprodutos vp " +
-                    " inner join vendas v " +
-                    "   on v.controle = vp.controle " +
-                    " inner join produtos p " +
-                    "   on p.cid = vp.produto " +
-                    " inner join cor c " +
-                    "   on c.cid = p.cor_cid ";
-                string sqlWhere = string.Empty;
-
-                sqlWhere = MontarParametrosSQL(sqlWhere, referencia, "p.referencia");
-                sqlWhere = MontarParametrosSQL(sqlWhere, gradeItem.fabricante_cid, "p.fabricante_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, gradeItem.fornecedor_cid, "p.fornecedor_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, gradeItem.grupo_cid, "p.grupo_cid");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " order by v.data desc limit 1 ");
-
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new dGradeItem();
-                        DataRow row = dt.Rows[0];
-                        retorno.dataUltimaVenda = RetornarData(row["data"]);
-                        retorno.corMaterial = RetornarTexto(row["nome"]);
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (!string.IsNullOrEmpty(referencia)) { conditions.Add("p.referencia=@referencia"); p.Add("referencia", referencia); }
+                    if (gradeItem.fabricante_cid != null && gradeItem.fabricante_cid != 0) { conditions.Add("p.fabricante_cid=@fabricante_cid"); p.Add("fabricante_cid", gradeItem.fabricante_cid); }
+                    if (gradeItem.fornecedor_cid != null && gradeItem.fornecedor_cid != 0) { conditions.Add("p.fornecedor_cid=@fornecedor_cid"); p.Add("fornecedor_cid", gradeItem.fornecedor_cid); }
+                    if (gradeItem.grupo_cid != null && gradeItem.grupo_cid != 0) { conditions.Add("p.grupo_cid=@grupo_cid"); p.Add("grupo_cid", gradeItem.grupo_cid); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT v.data AS dataUltimaVenda, c.nome AS corMaterial " +
+                              $"FROM vendasprodutos vp " +
+                              $"INNER JOIN vendas v ON v.controle = vp.controle " +
+                              $"INNER JOIN produtos p ON p.cid = vp.produto " +
+                              $"INNER JOIN cor c ON c.cid = p.cor_cid " +
+                              $"{where} ORDER BY v.data DESC LIMIT 1";
+                    return conn.QueryFirstOrDefault<dGradeItem>(sql, p);
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Ultima Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoGradeItem ConsultarProdutos(string referencia, dGradeItem gradeItem)
         {
-            ColecaoGradeItem retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " select p.cid, c.nome as corMat ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " from produtos p " +
-                    "   inner join cor c " +
-                    "     on c.cid = p.cor_cid ";
-
-                sqlWhere = MontarParametrosSQL(sqlWhere, referencia, "p.referencia");
-                sqlWhere = MontarParametrosSQL(sqlWhere, gradeItem.fabricante_cid, "p.fabricante_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, gradeItem.fornecedor_cid, "p.fornecedor_cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, gradeItem.grupo_cid, "p.grupo_cid");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                DataSet ds;
-                if (gradeItem.ordem == true)
-                    ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " order by c.nome ");
-                else
-                    ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoGradeItem();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dGradeItem();
-                            item.produto_cid = RetornarInteiro(row["cid"]);
-                            item.corMaterial = RetornarTexto(row["corMat"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (!string.IsNullOrEmpty(referencia)) { conditions.Add("p.referencia=@referencia"); p.Add("referencia", referencia); }
+                    if (gradeItem.fabricante_cid != null && gradeItem.fabricante_cid != 0) { conditions.Add("p.fabricante_cid=@fabricante_cid"); p.Add("fabricante_cid", gradeItem.fabricante_cid); }
+                    if (gradeItem.fornecedor_cid != null && gradeItem.fornecedor_cid != 0) { conditions.Add("p.fornecedor_cid=@fornecedor_cid"); p.Add("fornecedor_cid", gradeItem.fornecedor_cid); }
+                    if (gradeItem.grupo_cid != null && gradeItem.grupo_cid != 0) { conditions.Add("p.grupo_cid=@grupo_cid"); p.Add("grupo_cid", gradeItem.grupo_cid); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var order = gradeItem.ordem ? "ORDER BY c.nome" : "";
+                    var sql = $"SELECT p.cid AS produto_cid, c.nome AS corMaterial " +
+                              $"FROM produtos p INNER JOIN cor c ON c.cid = p.cor_cid {where} {order}";
+                    var lista = conn.Query<dGradeItem>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoGradeItem();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Produtos [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoGradeItem ConsultarItens(int pProdutoCid)
         {
-            ColecaoGradeItem retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " select " +
-                    "   tabProduto.produto, tabProduto.item, tabProduto.tamanho, " +
-                    "   tabProduto.estoque, tabProduto.codigoBarras, tabProduto.dataEntrada, " +
-                    "   ifnull(sum(le2.quantidade), 0) as quantidade " +
-                    " from " +
-                    "   ( " +
-                    " select distinct " +
-                    "   pi.produtos_cid as produto, pi.item, tabTamanho.valor as tamanho, " +
-                    "   tabEstoque.valor as estoque, tabBarra.valor as codigoBarras, " +
-                    "   tabData.data as dataEntrada " +
-                    " from " +
-                    "   produtoitem pi " +
-                    "   inner join " +
-                    "     ( " +
-                    "       select pi1.* from produtoitem pi1 " +
-                    "       where pi1.produtos_cid = " + pProdutoCid.ToString() + " and pi1.caracteristicas_cid = 3 " +
-                    "     ) as tabTamanho " +
-                    "     on tabTamanho.produtos_cid = pi.produtos_cid and tabTamanho.item = pi.item " +
-                    "   inner join " +
-                    "     ( " +
-                    "       select pi2.* from produtoitem pi2 " +
-                    "       where pi2.produtos_cid = " + pProdutoCid.ToString() + " and pi2.caracteristicas_cid = 2 " +
-                    "     ) as tabEstoque " +
-                    "     on tabEstoque.produtos_cid = pi.produtos_cid and tabEstoque.item = pi.item " +
-                    "   inner join " +
-                    "     ( " +
-                    "       select pi3.* from produtoitem pi3 " +
-                    "       where pi3.produtos_cid = " + pProdutoCid.ToString() + " and pi3.caracteristicas_cid = 1 " +
-                    "     ) as tabBarra " +
-                    "     on tabBarra.produtos_cid = pi.produtos_cid and tabBarra.item = pi.item " +
-                    "   left outer join " +
-                    "     ( " +
-                    "       select distinct DATE_FORMAT(le1.data,'%Y-%m-%d') as data, le1.produto_cid " +
-                    "       from logestoque le1 where le1.produto_cid = " + pProdutoCid.ToString() + " " +
-                    "       order by le1.data desc limit 1 " +
-                    "     ) as tabData " +
-                    "     on tabData.produto_cid = pi.produtos_cid " +
-                    " where " +
-                    "   pi.produtos_cid = " + pProdutoCid.ToString() + " " +
-                    "   ) as tabProduto " +
-                    " left outer join " +
-                    "   logestoque le2 " +
-                    "   on le2.produto_cid = tabProduto.produto and " +
-                    "      le2.produtoItem_codigoBarras = tabProduto.codigoBarras and " +
-                    "      DATE_FORMAT(le2.data,'%Y-%m-%d') = DATE_FORMAT(tabProduto.dataEntrada,'%Y-%m-%d') " +
-                    " group by " +
-                    "   tabProduto.produto, tabProduto.item, tabProduto.tamanho, " +
-                    "   tabProduto.estoque, tabProduto.codigoBarras, tabProduto.dataEntrada " +
-                    " order by " +
-                    "   tabProduto.tamanho ";
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect);
-
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoGradeItem();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dGradeItem();
-                            item.produto_cid = RetornarInteiro(row["produto"]);
-                            item.item = RetornarInteiro(row["item"]);
-                            item.tamanho = RetornarTexto(row["tamanho"]);
-                            item.estoque = RetornarTexto(row["estoque"]);
-                            item.codigoBarras = RetornarTexto(row["codigoBarras"]);
-                            item.dataEntrada = RetornarData(row["dataEntrada"]);
-                            item.quantidade = RetornarDecimal(row["quantidade"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    string sql = " select " +
+                        "   tabProduto.produto, tabProduto.item, tabProduto.tamanho, " +
+                        "   tabProduto.estoque, tabProduto.codigoBarras, tabProduto.dataEntrada, " +
+                        "   ifnull(sum(le2.quantidade), 0) as quantidade " +
+                        " from " +
+                        "   ( " +
+                        " select distinct " +
+                        "   pi.produtos_cid as produto, pi.item, tabTamanho.valor as tamanho, " +
+                        "   tabEstoque.valor as estoque, tabBarra.valor as codigoBarras, " +
+                        "   tabData.data as dataEntrada " +
+                        " from " +
+                        "   produtoitem pi " +
+                        "   inner join " +
+                        "     ( " +
+                        "       select pi1.* from produtoitem pi1 " +
+                        "       where pi1.produtos_cid = " + pProdutoCid.ToString() + " and pi1.caracteristicas_cid = 3 " +
+                        "     ) as tabTamanho " +
+                        "     on tabTamanho.produtos_cid = pi.produtos_cid and tabTamanho.item = pi.item " +
+                        "   inner join " +
+                        "     ( " +
+                        "       select pi2.* from produtoitem pi2 " +
+                        "       where pi2.produtos_cid = " + pProdutoCid.ToString() + " and pi2.caracteristicas_cid = 2 " +
+                        "     ) as tabEstoque " +
+                        "     on tabEstoque.produtos_cid = pi.produtos_cid and tabEstoque.item = pi.item " +
+                        "   inner join " +
+                        "     ( " +
+                        "       select pi3.* from produtoitem pi3 " +
+                        "       where pi3.produtos_cid = " + pProdutoCid.ToString() + " and pi3.caracteristicas_cid = 1 " +
+                        "     ) as tabBarra " +
+                        "     on tabBarra.produtos_cid = pi.produtos_cid and tabBarra.item = pi.item " +
+                        "   left outer join " +
+                        "     ( " +
+                        "       select distinct DATE_FORMAT(le1.data,'%Y-%m-%d') as data, le1.produto_cid " +
+                        "       from logestoque le1 where le1.produto_cid = " + pProdutoCid.ToString() + " " +
+                        "       order by le1.data desc limit 1 " +
+                        "     ) as tabData " +
+                        "     on tabData.produto_cid = pi.produtos_cid " +
+                        " where " +
+                        "   pi.produtos_cid = " + pProdutoCid.ToString() + " " +
+                        "   ) as tabProduto " +
+                        " left outer join " +
+                        "   logestoque le2 " +
+                        "   on le2.produto_cid = tabProduto.produto and " +
+                        "      le2.produtoItem_codigoBarras = tabProduto.codigoBarras and " +
+                        "      DATE_FORMAT(le2.data,'%Y-%m-%d') = DATE_FORMAT(tabProduto.dataEntrada,'%Y-%m-%d') " +
+                        " group by " +
+                        "   tabProduto.produto, tabProduto.item, tabProduto.tamanho, " +
+                        "   tabProduto.estoque, tabProduto.codigoBarras, tabProduto.dataEntrada " +
+                        " order by " +
+                        "   tabProduto.tamanho ";
+
+                    var lista = conn.Query<dGradeItem>(sql).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoGradeItem();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Itens [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

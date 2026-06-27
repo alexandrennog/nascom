@@ -1,913 +1,504 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCurvaABC;
 using nsVenda;
 
 namespace ncPersistencia.nsVenda
 {
-    public class pVenda
+    public class pVenda : RepositorioBase, IpVenda
     {
+        private const string SelectVenda = @"SELECT controle, usuarioId, clienteId, data AS Data, dinheiro AS Dinheiro, cheque AS Cheque,
+            chequePre AS ChequePre, cartaoDebito AS CartaoDebito, cartaoCredito AS CartaoCredito, crediario AS Crediario,
+            parcelas AS Parcelas, desconto AS Desconto, condicao AS Condicao, recebido AS Recebido, troco AS Troco, troca AS Troca,
+            vale AS Vale, defeito AS Defeito, terminal AS Terminal, total AS Total, Original AS Pix, txID AS TXID";
+
         public ColecaoVenda Listar()
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, Original, txID From Vendas";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = (int)RetornarInteiro(row["controle"]);
-                            item.usuarioId = (int)RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = (int)RetornarInteiro(row["clienteId"]);
-                            item.Data = RetornarDataValida(row["data"].ToString());
-                            item.Dinheiro = (decimal)RetornarDecimal(row["dinheiro"]);
-                            item.Cheque = (decimal)RetornarDecimal(row["cheque"]);
-                            item.ChequePre = (decimal)RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = (decimal)RetornarDecimal(row["cartaodebito"]);
-                            item.CartaoCredito = (decimal)RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = (decimal)RetornarDecimal(row["crediario"]);
-                            item.Parcelas = (int)RetornarInteiro(row["parcelas"]);
-                            item.Desconto = (decimal)RetornarDecimal(row["desconto"]);
-                            item.Condicao = (int)RetornarInteiro(row["condicao"]);
-                            item.Recebido = (decimal)RetornarDecimal(row["recebido"]);
-                            item.Troco = (decimal)RetornarDecimal(row["troco"]);
-                            item.Troca = (decimal)RetornarDecimal(row["troca"]);
-                            item.Vale = (decimal)RetornarDecimal(row["vale"]);
-                            item.Defeito = (decimal)RetornarDecimal(row["defeito"]);
-                            item.Terminal = row["terminal"].ToString();
-                            item.Total = (decimal)RetornarDecimal(row["total"]);
-                            item.Pix = (decimal)RetornarDecimal(row["Original"]);
-                            item.TXID = RetornarTexto(row["txID"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dVenda>(
+                        SelectVenda + " FROM Vendas").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaodVendasNfe ListarVendasNfe(string dataIni, string dataFim)
         {
-            ColecaodVendasNfe retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " SELECT SUBSTRING(chNFe, 25, 9) as cupom, DATE_FORMAT(dhrecbto, '%d/%m/%Y') as datavenda, total  " +
-                    "FROM nascomercio.vendas INNER JOIN nascomercio.infprot ON chNFe = chave and cstat = 100 " +
-                    $"where chave is not null and data >= '{dataIni}' and data <= '{dataFim}'";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaodVendasNfe();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVendasNfe();
-                            item.Cupom = RetornarTexto(row["cupom"]);
-                            item.DataVenda = RetornarTexto(row["datavenda"]);
-                            item.Valor = RetornarTexto(row["total"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var p = new DynamicParameters();
+                    p.Add("dataIni", dataIni);
+                    p.Add("dataFim", dataFim);
+                    var sql = "SELECT SUBSTRING(chNFe, 25, 9) AS Cupom, DATE_FORMAT(dhrecbto, '%d/%m/%Y') AS DataVenda, total AS Valor FROM nascomercio.vendas INNER JOIN nascomercio.infprot ON chNFe = chave AND cstat = 100 WHERE chave IS NOT NULL AND data >= @dataIni AND data <= @dataFim";
+                    var lista = conn.Query<dVendasNfe>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaodVendasNfe();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaodVendasABC ListarVendasABC(string dataIni, string dataFim, string tipo)
         {
-            ColecaodVendasABC retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL;
-                if (tipo == "V")
+                using (var conn = CriarConexao())
                 {
-                    acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores('{dataIni}','{dataFim}')");
-                    comandoSQL = " select * from ranking_resultado_valor;";
-                }
-                else
-                {
-                    acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores_quantidade('{dataIni}','{dataFim}')");
-                    comandoSQL = " select * from ranking_resultado_quantidade;";
-                }
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
+                    string resultTable;
+                    if (tipo == "V")
                     {
-                        retorno = new ColecaodVendasABC();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCurvaAbc();
-                            item.PeriodoIni = RetornarTexto(row["data_inicio"]);
-                            item.PeriodoFim = RetornarTexto(row["data_fim"]);
-                            item.Fabricante = RetornarTexto(row["fabricante"]);
-                            item.valor = RetornarTexto(row["valor"]);
-                            item.PercReceita = (decimal)RetornarDecimal(row["individual"]);
-                            item.PercAcumulado = (decimal)RetornarDecimal(row["acumulado"]);
-                            item.ClasseAbc = RetornarTexto(row["classificacao_abc"]);
-                            item.Estrategia = RetornarTexto(row["estrategia_sugerida"]);
-                            retorno.Add(item);
-                        }
+                        conn.Execute($"call sp_curva_abc_fornecedores('{dataIni}','{dataFim}')", commandTimeout: 300);
+                        resultTable = "ranking_resultado_valor";
                     }
+                    else
+                    {
+                        conn.Execute($"call sp_curva_abc_fornecedores_quantidade('{dataIni}','{dataFim}')", commandTimeout: 300);
+                        resultTable = "ranking_resultado_quantidade";
+                    }
+                    var lista = conn.Query<dCurvaAbc>($"SELECT data_inicio AS PeriodoIni, data_fim AS PeriodoFim, fabricante AS Fabricante, valor, individual AS PercReceita, acumulado AS PercAcumulado, classificacao_abc AS ClasseAbc, estrategia_sugerida AS Estrategia FROM {resultTable}").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaodVendasABC();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em ListarVendasABC Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVenda Consultar(dVenda dados)
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID, chave ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From vendas ";
-
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.controle, "controle");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = (int)RetornarInteiro(row["controle"]);
-                            item.usuarioId = (int)RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = (int)RetornarInteiro(row["clienteId"]);
-                            item.Vendedor = RetornarTexto(row["vendedor"]);
-                            item.Data = RetornarDataValida(row["data"].ToString());
-                            item.Dinheiro = (decimal)RetornarDecimal(row["dinheiro"]);
-                            item.Cheque = (decimal)RetornarDecimal(row["cheque"]);
-                            item.ChequePre = (decimal)RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = (decimal)RetornarDecimal(row["cartaodebito"]);
-                            item.CartaoCredito = (decimal)RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = (decimal)RetornarDecimal(row["crediario"]);
-                            item.Parcelas = (int)RetornarInteiro(row["parcelas"]);
-                            item.Desconto = (decimal)RetornarDecimal(row["desconto"]);
-                            item.Condicao = (int)RetornarInteiro(row["condicao"]);
-                            item.Recebido = (decimal)RetornarDecimal(row["recebido"]);
-                            item.Troco = (decimal)RetornarDecimal(row["troco"]);
-                            item.Troca = (decimal)RetornarDecimal(row["troca"]);
-                            item.Vale = (decimal)RetornarDecimal(row["vale"]);
-                            item.Defeito = (decimal)RetornarDecimal(row["defeito"]);
-                            item.Terminal = RetornarTexto(row["terminal"]);
-                            item.Total = (decimal)RetornarDecimal(row["total"]);
-                            item.Pix = (decimal)RetornarDecimal(row["Original"]);
-                            item.ordemServicoId = RetornarTexto(row["ordemservico"]);
-                            item.TXID = RetornarTexto(row["txID"]);
-                            item.Chave = RetornarTexto(row["chave"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.controle != 0) { conditions.Add("controle=@controle"); p.Add("controle", dados.controle); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $@"{SelectVenda}, vendedor AS Vendedor, ordemservico AS ordemServicoId, chave AS Chave FROM vendas {where}";
+                    var lista = conn.Query<dVenda>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVenda ConsultarPix(dVenda dados)
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, Original, txID ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From vendas ";
-
-                sqlWhere = sqlWhere + " data between '" + FormatarDataUniversal(dados.Data.ToString()) + "' AND '" + FormatarDataUniversal(dados.DataFim.ToString()) + "'";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.Caixa, "caixa");
-                sqlWhere = sqlWhere + " AND  Original > 0 ";
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = (int)RetornarInteiro(row["controle"]);
-                            item.usuarioId = (int)RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = (int)RetornarInteiro(row["clienteId"]);
-                            item.Vendedor = RetornarTexto(row["vendedor"]);
-                            item.Data = RetornarDataValida(row["data"].ToString());
-                            item.Dinheiro = (decimal)RetornarDecimal(row["dinheiro"]);
-                            item.Cheque = (decimal)RetornarDecimal(row["cheque"]);
-                            item.ChequePre = (decimal)RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = (decimal)RetornarDecimal(row["cartaodebito"]);
-                            item.CartaoCredito = (decimal)RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = (decimal)RetornarDecimal(row["crediario"]);
-                            item.Parcelas = (int)RetornarInteiro(row["parcelas"]);
-                            item.Desconto = (decimal)RetornarDecimal(row["desconto"]);
-                            item.Condicao = (int)RetornarInteiro(row["condicao"]);
-                            item.Recebido = (decimal)RetornarDecimal(row["recebido"]);
-                            item.Troco = (decimal)RetornarDecimal(row["troco"]);
-                            item.Troca = (decimal)RetornarDecimal(row["troca"]);
-                            item.Vale = (decimal)RetornarDecimal(row["vale"]);
-                            item.Defeito = (decimal)RetornarDecimal(row["defeito"]);
-                            item.Terminal = RetornarTexto(row["terminal"]);
-                            item.Total = (decimal)RetornarDecimal(row["total"]);
-                            item.Pix = (decimal)RetornarDecimal(row["Original"]);
-                            item.TXID = RetornarTexto(row["txID"]);
-                            item.ordemServicoId = RetornarTexto(row["ordemservico"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    conditions.Add("data BETWEEN @dataIni AND @dataFim");
+                    p.Add("dataIni", dados.Data.ToString("yyyy-MM-dd"));
+                    p.Add("dataFim", dados.DataFim.ToString("yyyy-MM-dd"));
+                    if (!string.IsNullOrEmpty(dados.Caixa)) { conditions.Add("caixa=@Caixa"); p.Add("Caixa", dados.Caixa); }
+                    conditions.Add("Original > 0");
+                    var where = "WHERE " + string.Join(" AND ", conditions);
+                    var sql = $@"{SelectVenda}, vendedor AS Vendedor, ordemservico AS ordemServicoId FROM vendas {where}";
+                    var lista = conn.Query<dVenda>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVendasPorVendedor ConsultarVendasPorVendedor(dVendasPorVendedor dados)
         {
-            ColecaoVendasPorVendedor retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                DataSet ds;
-                if (dados.Nome == "Todos")
-                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas(null, '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00"}');");
-                else
-                    ds = acessoBanco.ExecutarDS($"call sp_recuperavendas('{dados.Nome}', '{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00"}');");
-
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0 && Convert.ToInt32(ds.Tables[0].Rows[0].ItemArray[1]) > -1)
-                    {
-                        retorno = new ColecaoVendasPorVendedor();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVendasPorVendedor();
-                            item.Nome = RetornarTexto(row["vendedor"]);
-                            item.TotalVendas = (int)RetornarInteiro(row["totalvendas"]);
-                            item.QuantidadeProdutos = (int)RetornarInteiro(row["qtdprod"]);
-                            item.ValorTotalVendas = (decimal)RetornarDecimal(row["valor"]);
-                            item.TicketMedio = (decimal)RetornarDecimal(row["ticket"]);
-                            item.PercentualAtingimento = (decimal)RetornarDecimal(row["pa"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    string sql;
+                    DynamicParameters p = new DynamicParameters();
+                    string dataIni = dados.Data.ToString("yyyy-MM-dd") + " 00:00:00";
+                    string dataFim = dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00";
+                    if (dados.Nome == "Todos")
+                        sql = $"CALL sp_recuperavendas(null, '{dataIni}', '{dataFim}')";
+                    else
+                        sql = $"CALL sp_recuperavendas('{dados.Nome}', '{dataIni}', '{dataFim}')";
+                    var lista = conn.Query<dVendasPorVendedor>(sql).AsList();
+                    if (lista.Count == 0 || Convert.ToInt32(lista[0].TotalVendas) <= -1) return null;
+                    var retorno = new ColecaoVendasPorVendedor();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVendasPorVendedor ConsultarVendasDaLoja(dVendasPorVendedor dados)
         {
-            ColecaoVendasPorVendedor retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                var ds = acessoBanco.ExecutarDS($"call sp_recuperavendasloja('{dados.Data.ToString("yyyy-MM-dd") + " 00:00:00"}' , '{dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00"}');");
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0 && Convert.ToInt32(ds.Tables[0].Rows[0].ItemArray[0]) > -1)
-                    {
-                        retorno = new ColecaoVendasPorVendedor();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVendasPorVendedor();
-                            item.Nome = RetornarTexto("");
-                            item.TotalVendas = (int)RetornarInteiro(row["totalvendas"]);
-                            item.QuantidadeProdutos = (int)RetornarInteiro(row["qtdprod"]);
-                            item.ValorTotalVendas = (decimal)RetornarDecimal(row["valor"]);
-                            item.TicketMedio = (decimal)RetornarDecimal(row["ticket"]);
-                            item.PercentualAtingimento = (decimal)RetornarDecimal(row["pa"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    string dataIni = dados.Data.ToString("yyyy-MM-dd") + " 00:00:00";
+                    string dataFim = dados.DataFim.ToString("yyyy-MM-dd") + " 00:00:00";
+                    var lista = conn.Query<dVendasPorVendedor>($"CALL sp_recuperavendasloja('{dataIni}', '{dataFim}')").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVendasPorVendedor();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVenda ConsultarCrediarioPix(dVenda dados)
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, parcelas, desconto,  " +
-                    "condicao, recebido, troco, troca, vale, defeito, terminal, total, Original, txID ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From credpag ";
-
-                sqlWhere = sqlWhere + " data between '" + FormatarDataUniversal(dados.Data.ToString()) + "' AND '" + FormatarDataUniversal(dados.DataFim.ToString()) + "'";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.Caixa, "caixa");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = (int)RetornarInteiro(row["controle"]);
-                            item.usuarioId = (int)RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = (int)RetornarInteiro(row["clienteId"]);
-                            item.Data = RetornarDataValida(row["data"].ToString());
-                            item.Dinheiro = (decimal)RetornarDecimal(row["dinheiro"]);
-                            item.Cheque = (decimal)RetornarDecimal(row["cheque"]);
-                            item.ChequePre = (decimal)RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = (decimal)RetornarDecimal(row["cartaodebito"]);
-                            item.CartaoCredito = (decimal)RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = (decimal)RetornarDecimal(row["crediario"]);
-                            item.CrediarioPagamento = (decimal)RetornarDecimal(row["crediariopagamento"]);
-                            item.Parcelas = (int)RetornarInteiro(row["parcelas"]);
-                            item.Desconto = (decimal)RetornarDecimal(row["desconto"]);
-                            item.Condicao = (int)RetornarInteiro(row["condicao"]);
-                            item.Recebido = (decimal)RetornarDecimal(row["recebido"]);
-                            item.Troco = (decimal)RetornarDecimal(row["troco"]);
-                            item.Troca = (decimal)RetornarDecimal(row["troca"]);
-                            item.Vale = (decimal)RetornarDecimal(row["vale"]);
-                            item.Defeito = (decimal)RetornarDecimal(row["defeito"]);
-                            item.Terminal = RetornarTexto(row["terminal"]);
-                            item.Total = (decimal)RetornarDecimal(row["total"]);
-                            item.Pix = (decimal)RetornarDecimal(row["Original"]);
-                            item.TXID = RetornarTexto(row["txID"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    conditions.Add("data BETWEEN @dataIni AND @dataFim");
+                    p.Add("dataIni", dados.Data.ToString("yyyy-MM-dd"));
+                    p.Add("dataFim", dados.DataFim.ToString("yyyy-MM-dd"));
+                    if (!string.IsNullOrEmpty(dados.Caixa)) { conditions.Add("caixa=@Caixa"); p.Add("Caixa", dados.Caixa); }
+                    var where = "WHERE " + string.Join(" AND ", conditions);
+                    var sql = $@"SELECT controle, usuarioId, clienteId, data AS Data, dinheiro AS Dinheiro, cheque AS Cheque,
+                        chequePre AS ChequePre, cartaoDebito AS CartaoDebito, cartaoCredito AS CartaoCredito, crediario AS Crediario,
+                        crediariopagamento AS CrediarioPagamento, parcelas AS Parcelas, desconto AS Desconto, condicao AS Condicao,
+                        recebido AS Recebido, troco AS Troco, troca AS Troca, vale AS Vale, defeito AS Defeito, terminal AS Terminal,
+                        total AS Total, Original AS Pix, txID AS TXID FROM credpag {where}";
+                    var lista = conn.Query<dVenda>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVenda ConsultarTroca(dVenda dados)
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, txID";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From vales ";
-
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.controle, "controle");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = (int)RetornarInteiro(row["controle"]);
-                            item.usuarioId = (int)RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = (int)RetornarInteiro(row["clienteId"]);
-                            item.Vendedor = RetornarTexto(row["vendedor"]);
-                            item.Data = RetornarDataValida(row["data"].ToString());
-                            item.Dinheiro = (decimal)RetornarDecimal(row["dinheiro"]);
-                            item.Cheque = (decimal)RetornarDecimal(row["cheque"]);
-                            item.ChequePre = (decimal)RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = (decimal)RetornarDecimal(row["cartaodebito"]);
-                            item.CartaoCredito = (decimal)RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = (decimal)RetornarDecimal(row["crediario"]);
-                            item.Parcelas = (int)RetornarInteiro(row["parcelas"]);
-                            item.Desconto = (decimal)RetornarDecimal(row["desconto"]);
-                            item.Condicao = (int)RetornarInteiro(row["condicao"]);
-                            item.Recebido = (decimal)RetornarDecimal(row["recebido"]);
-                            item.Troco = (decimal)RetornarDecimal(row["troco"]);
-                            item.Troca = (decimal)RetornarDecimal(row["troca"]);
-                            item.Vale = (decimal)RetornarDecimal(row["vale"]);
-                            item.Defeito = (decimal)RetornarDecimal(row["defeito"]);
-                            item.Terminal = RetornarTexto(row["terminal"]);
-                            item.Total = (decimal)RetornarDecimal(row["total"]);
-                            item.TXID = RetornarTexto(row["txID"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.controle != 0) { conditions.Add("controle=@controle"); p.Add("controle", dados.controle); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $@"SELECT controle, usuarioId, clienteId, data AS Data, dinheiro AS Dinheiro, cheque AS Cheque,
+                        chequePre AS ChequePre, cartaoDebito AS CartaoDebito, cartaoCredito AS CartaoCredito, crediario AS Crediario,
+                        vendedor AS Vendedor, parcelas AS Parcelas, desconto AS Desconto, condicao AS Condicao, recebido AS Recebido,
+                        troco AS Troco, troca AS Troca, vale AS Vale, defeito AS Defeito, terminal AS Terminal, total AS Total, txID AS TXID
+                        FROM vales {where}";
+                    var lista = conn.Query<dVenda>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public dVenda ConsultarUltimaVenda(int produtos_cid)
         {
-            dVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " SELECT v.*, vp.valor as valorProduto, p.valorCompra as valorCusto ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " FROM vendasprodutos vp " +
-                    " INNER JOIN vendas v ON v.controle = vp.controle " +
-                    " INNER JOIN produtos p ON p.cid = vp.produto ";
-                string sqlSelect2 = " ORDER BY v.data DESC LIMIT 1 ";
-
-                sqlWhere = MontarParametrosSQL(sqlWhere, produtos_cid, "vp.produto");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " " + sqlSelect2);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new dVenda();
-                        DataRow row = dt.Rows[0];
-                        retorno.controle = (int)RetornarInteiro(row["controle"]);
-                        retorno.usuarioId = (int)RetornarInteiro(row["usuarioId"]);
-                        retorno.clienteId = (int)RetornarInteiro(row["clienteId"]);
-                        retorno.Data = RetornarDataValida(row["data"].ToString());
-                        retorno.Dinheiro = (decimal)RetornarDecimal(row["dinheiro"]);
-                        retorno.Cheque = (decimal)RetornarDecimal(row["cheque"]);
-                        retorno.ChequePre = (decimal)RetornarDecimal(row["chequepre"]);
-                        retorno.CartaoDebito = (decimal)RetornarDecimal(row["cartaodebito"]);
-                        retorno.CartaoCredito = (decimal)RetornarDecimal(row["cartaocredito"]);
-                        retorno.Crediario = (decimal)RetornarDecimal(row["crediario"]);
-                        retorno.Parcelas = (int)RetornarInteiro(row["parcelas"]);
-                        retorno.Desconto = (decimal)RetornarDecimal(row["desconto"]);
-                        retorno.Condicao = (int)RetornarInteiro(row["condicao"]);
-                        retorno.Recebido = (decimal)RetornarDecimal(row["recebido"]);
-                        retorno.Troco = (decimal)RetornarDecimal(row["troco"]);
-                        retorno.Troca = (decimal)RetornarDecimal(row["troca"]);
-                        retorno.Vale = (decimal)RetornarDecimal(row["vale"]);
-                        retorno.Defeito = (decimal)RetornarDecimal(row["defeito"]);
-                        retorno.Terminal = RetornarTexto(row["terminal"]);
-                        retorno.Total = (decimal)RetornarDecimal(row["total"]);
-                        retorno.valorProduto = (decimal)RetornarDecimal(row["valorProduto"]);
-                        retorno.valorCusto = (decimal)RetornarDecimal(row["valorCusto"]);
-                    }
+                    var p = new DynamicParameters();
+                    p.Add("produto", produtos_cid);
+                    var sql = @"SELECT v.controle, v.usuarioId, v.clienteId, v.data AS Data, v.dinheiro AS Dinheiro, v.cheque AS Cheque,
+                        v.chequePre AS ChequePre, v.cartaoDebito AS CartaoDebito, v.cartaoCredito AS CartaoCredito, v.crediario AS Crediario,
+                        v.parcelas AS Parcelas, v.desconto AS Desconto, v.condicao AS Condicao, v.recebido AS Recebido, v.troco AS Troco,
+                        v.troca AS Troca, v.vale AS Vale, v.defeito AS Defeito, v.terminal AS Terminal, v.total AS Total,
+                        vp.valor AS valorProduto, p.valorCompra AS valorCusto
+                        FROM vendasprodutos vp
+                        INNER JOIN vendas v ON v.controle = vp.controle
+                        INNER JOIN produtos p ON p.cid = vp.produto
+                        WHERE vp.produto=@produto
+                        ORDER BY v.data DESC LIMIT 1";
+                    return conn.QueryFirstOrDefault<dVenda>(sql, p);
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em ConsultarUltimaVenda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ConsultarMax()
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select MAX(controle) as controle";
-                string sqlFrom = " From vendas ";
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
-                            retorno = row["controle"] == DBNull.Value ? 0 : (int)RetornarInteiro(row["controle"]);
-                    }
+                    return conn.QueryFirstOrDefault<int?>("SELECT MAX(controle) FROM vendas") ?? 0;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em ConsultarMax Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " vendas (controle, usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, " +
-                    "vale, valeEmitido, defeito, retirada, terminal, ordemServico, vendedor, caixa, total, Original, txID ) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.controle) + "," +
-                    PersistirTexto(dados.usuarioId.ToString()) + "," +
-                    PersistirTexto(dados.clienteId.ToString()) + "," +
-                    PersistirDataHora(dados.Data) + "," +
-                    PersistirDecimal(dados.Dinheiro) + "," +
-                    PersistirDecimal(dados.Cheque) + "," +
-                    PersistirDecimal(dados.ChequePre) + "," +
-                    PersistirDecimal(dados.CartaoDebito) + "," +
-                    PersistirDecimal(dados.CartaoCredito) + "," +
-                    PersistirDecimal(dados.Crediario) + "," +
-                    PersistirDecimal(dados.CrediarioPagamento) + "," +
-                    PersistirInteiro(dados.Parcelas) + "," +
-                    PersistirDecimal(dados.Desconto) + "," +
-                    PersistirInteiro(dados.Condicao) + "," +
-                    PersistirDecimal(dados.Recebido) + "," +
-                    PersistirDecimal(dados.Troco) + "," +
-                    PersistirDecimal(dados.Troca) + "," +
-                    PersistirDecimal(dados.Vale) + "," +
-                    PersistirDecimal(dados.ValeEmitido) + "," +
-                    PersistirDecimal(dados.Defeito) + "," +
-                    PersistirDecimal(dados.Retirada) + "," +
-                    PersistirTexto(dados.Terminal) + "," +
-                    PersistirTexto(dados.ordemServicoId) + "," +
-                    PersistirTexto(dados.Vendedor) + "," +
-                    PersistirTexto(dados.Caixa) + "," +
-                    PersistirDecimal(dados.Total) + "," +
-                    PersistirDecimal(dados.Pix) + "," +
-                    PersistirTexto(dados.TXID) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(@"INSERT INTO vendas (controle, usuarioId, clienteId, data, dinheiro, cheque, chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento,
+                        parcelas, desconto, condicao, recebido, troco, troca, vale, valeEmitido, defeito, retirada, terminal, ordemServico, vendedor, caixa, total, Original, txID)
+                        VALUES (@controle, @usuarioId, @clienteId, @Data, @Dinheiro, @Cheque, @ChequePre, @CartaoDebito, @CartaoCredito, @Crediario, @CrediarioPagamento,
+                        @Parcelas, @Desconto, @Condicao, @Recebido, @Troco, @Troca, @Vale, @ValeEmitido, @Defeito, @Retirada, @Terminal, @ordemServicoId, @Vendedor, @Caixa, @Total, @Pix, @TXID)",
+                        new { dados.controle, dados.usuarioId, dados.clienteId, dados.Data, dados.Dinheiro, dados.Cheque, dados.ChequePre, dados.CartaoDebito, dados.CartaoCredito, dados.Crediario, dados.CrediarioPagamento,
+                            dados.Parcelas, dados.Desconto, dados.Condicao, dados.Recebido, dados.Troco, dados.Troca, dados.Vale, dados.ValeEmitido, dados.Defeito, dados.Retirada, dados.Terminal, dados.ordemServicoId, dados.Vendedor, dados.Caixa, dados.Total, dados.Pix, dados.TXID });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int IncluirVale(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " vales (usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, " +
-                    "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total, Original ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.usuarioId.ToString()) + "," +
-                    PersistirTexto(dados.clienteId.ToString()) + "," +
-                    PersistirDataHora(dados.Data) + "," +
-                    PersistirDecimal(dados.Dinheiro) + "," +
-                    PersistirDecimal(dados.Cheque) + "," +
-                    PersistirDecimal(dados.ChequePre) + "," +
-                    PersistirDecimal(dados.CartaoDebito) + "," +
-                    PersistirDecimal(dados.CartaoCredito) + "," +
-                    PersistirDecimal(dados.Crediario) + "," +
-                    PersistirDecimal(dados.CrediarioPagamento) + "," +
-                    PersistirInteiro(dados.Parcelas) + "," +
-                    PersistirDecimal(dados.Desconto) + "," +
-                    PersistirInteiro(dados.Condicao) + "," +
-                    PersistirDecimal(dados.Recebido) + "," +
-                    PersistirDecimal(dados.Troco) + "," +
-                    PersistirDecimal(dados.Troca) + "," +
-                    PersistirDecimal(dados.Vale) + "," +
-                    PersistirDecimal(dados.ValeEmitido) + "," +
-                    PersistirDecimal(dados.Defeito) + "," +
-                    PersistirDecimal(dados.Retirada) + "," +
-                    PersistirTexto(dados.Terminal) + "," +
-                    PersistirTexto(dados.Vendedor) + "," +
-                    PersistirTexto(dados.Caixa) + "," +
-                    PersistirDecimal(dados.Total) + "," +
-                    PersistirDecimal(dados.Pix) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(@"INSERT INTO vales (usuarioId, clienteId, data, dinheiro, cheque, chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento,
+                        parcelas, desconto, condicao, recebido, troco, troca, vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total, Original)
+                        VALUES (@usuarioId, @clienteId, @Data, @Dinheiro, @Cheque, @ChequePre, @CartaoDebito, @CartaoCredito, @Crediario, @CrediarioPagamento,
+                        @Parcelas, @Desconto, @Condicao, @Recebido, @Troco, @Troca, @Vale, @ValeEmitido, @Defeito, @Retirada, @Terminal, @Vendedor, @Caixa, @Total, @Pix)",
+                        new { dados.usuarioId, dados.clienteId, dados.Data, dados.Dinheiro, dados.Cheque, dados.ChequePre, dados.CartaoDebito, dados.CartaoCredito, dados.Crediario, dados.CrediarioPagamento,
+                            dados.Parcelas, dados.Desconto, dados.Condicao, dados.Recebido, dados.Troco, dados.Troca, dados.Vale, dados.ValeEmitido, dados.Defeito, dados.Retirada, dados.Terminal, dados.Vendedor, dados.Caixa, dados.Total, dados.Pix });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Vale [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int IncluirnNF(dBasennf dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " basennf (chnfe) " +
-                    " VALUES (" + PersistirTexto(dados.chnfe) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute("INSERT INTO basennf (chnfe) VALUES (@chnfe)", new { dados.chnfe });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int IncluirCrediarioPagamento(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " credpag (usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, " +
-                    "vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total, txID,  Original ) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.usuarioId.ToString()) + "," +
-                    PersistirTexto(dados.clienteId.ToString()) + "," +
-                    PersistirDataHora(dados.Data) + "," +
-                    PersistirDecimal(dados.Dinheiro) + "," +
-                    PersistirDecimal(dados.Cheque) + "," +
-                    PersistirDecimal(dados.ChequePre) + "," +
-                    PersistirDecimal(dados.CartaoDebito) + "," +
-                    PersistirDecimal(dados.CartaoCredito) + "," +
-                    PersistirDecimal(dados.Crediario) + "," +
-                    PersistirDecimal(dados.CrediarioPagamento) + "," +
-                    PersistirInteiro(dados.Parcelas) + "," +
-                    PersistirDecimal(dados.Desconto) + "," +
-                    PersistirInteiro(dados.Condicao) + "," +
-                    PersistirDecimal(dados.Recebido) + "," +
-                    PersistirDecimal(dados.Troco) + "," +
-                    PersistirDecimal(dados.Troca) + "," +
-                    PersistirDecimal(dados.Vale) + "," +
-                    PersistirDecimal(dados.ValeEmitido) + "," +
-                    PersistirDecimal(dados.Defeito) + "," +
-                    PersistirDecimal(dados.Retirada) + "," +
-                    PersistirTexto(dados.Terminal) + "," +
-                    PersistirTexto(dados.Vendedor) + "," +
-                    PersistirTexto(dados.Caixa) + "," +
-                    PersistirDecimal(dados.Total) + "," +
-                    PersistirTexto(dados.TXID) + "," +
-                    PersistirDecimal(dados.Pix) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute(@"INSERT INTO credpag (usuarioId, clienteId, data, dinheiro, cheque, chequePre, cartaoDebito, cartaoCredito, crediario, crediariopagamento,
+                        parcelas, desconto, condicao, recebido, troco, troca, vale, valeEmitido, defeito, retirada, terminal, vendedor, caixa, total, txID, Original)
+                        VALUES (@usuarioId, @clienteId, @Data, @Dinheiro, @Cheque, @ChequePre, @CartaoDebito, @CartaoCredito, @Crediario, @CrediarioPagamento,
+                        @Parcelas, @Desconto, @Condicao, @Recebido, @Troco, @Troca, @Vale, @ValeEmitido, @Defeito, @Retirada, @Terminal, @Vendedor, @Caixa, @Total, @TXID, @Pix)",
+                        new { dados.usuarioId, dados.clienteId, dados.Data, dados.Dinheiro, dados.Cheque, dados.ChequePre, dados.CartaoDebito, dados.CartaoCredito, dados.Crediario, dados.CrediarioPagamento,
+                            dados.Parcelas, dados.Desconto, dados.Condicao, dados.Recebido, dados.Troco, dados.Troca, dados.Vale, dados.ValeEmitido, dados.Defeito, dados.Retirada, dados.Terminal, dados.Vendedor, dados.Caixa, dados.Total, dados.TXID, dados.Pix });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Vale [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE vendas SET " +
-                    " usuarioId = " + PersistirTexto(dados.usuarioId.ToString()) + "," +
-                    " clienteId = " + PersistirTexto(dados.clienteId.ToString()) + "," +
-                    " data = " + PersistirData(dados.Data) + "," +
-                    " dinheiro = " + PersistirDecimal(dados.Dinheiro) + "," +
-                    " cheque = " + PersistirDecimal(dados.Cheque) + "," +
-                    " chequepre = " + PersistirDecimal(dados.ChequePre) + "," +
-                    " cartaodebito = " + PersistirDecimal(dados.CartaoDebito) + "," +
-                    " cartaocredito = " + PersistirDecimal(dados.CartaoCredito) + "," +
-                    " crediario = " + PersistirDecimal(dados.Crediario) + "," +
-                    " parcelas = " + PersistirInteiro(dados.Parcelas) + "," +
-                    " desconto = " + PersistirDecimal(dados.Desconto) + "," +
-                    " condicao = " + PersistirInteiro(dados.Condicao) + "," +
-                    " recebido = " + PersistirDecimal(dados.Recebido) + "," +
-                    " troco = " + PersistirDecimal(dados.Troco) + "," +
-                    " troca = " + PersistirDecimal(dados.Troca) + "," +
-                    " vale = " + PersistirDecimal(dados.Vale) + "," +
-                    " defeito = " + PersistirDecimal(dados.Defeito) + "," +
-                    " ordemservico = " + PersistirTexto(dados.ordemServicoId) + "," +
-                    " terminal = " + PersistirTexto(dados.Terminal) +
-                    " total = " + PersistirDecimal(dados.Total) +
-                    " txID = " + PersistirTexto(dados.TXID) +
-                    " WHERE " +
-                    " controle = " + dados.controle.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute(@"UPDATE vendas SET usuarioId=@usuarioId, clienteId=@clienteId, data=@Data, dinheiro=@Dinheiro, cheque=@Cheque,
+                        chequepre=@ChequePre, cartaodebito=@CartaoDebito, cartaocredito=@CartaoCredito, crediario=@Crediario, parcelas=@Parcelas,
+                        desconto=@Desconto, condicao=@Condicao, recebido=@Recebido, troco=@Troco, troca=@Troca, vale=@Vale, defeito=@Defeito,
+                        ordemservico=@ordemServicoId, terminal=@Terminal, total=@Total, txID=@TXID
+                        WHERE controle=@controle",
+                        new { dados.usuarioId, dados.clienteId, dados.Data, dados.Dinheiro, dados.Cheque, dados.ChequePre, dados.CartaoDebito, dados.CartaoCredito, dados.Crediario,
+                            dados.Parcelas, dados.Desconto, dados.Condicao, dados.Recebido, dados.Troco, dados.Troca, dados.Vale, dados.Defeito, dados.ordemServicoId, dados.Terminal, dados.Total, dados.TXID, dados.controle });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(string controle, string chave)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE vendas SET " +
-                    " chave = " + PersistirTexto(chave) +
-                    " WHERE " +
-                    " controle = " + controle.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE vendas SET chave=@chave WHERE controle=@controle", new { chave, controle });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int AlterarBaseNnf(dBasennf dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE basennf SET " +
-                    " chnfe = " + PersistirTexto(dados.chnfe) +
-                    " WHERE " +
-                    " seqNFe = " + PersistirTexto(dados.SeqNFe.ToString());
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE basennf SET chnfe=@chnfe WHERE seqNFe=@SeqNFe", new { dados.chnfe, dados.SeqNFe });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar basennf [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM vendas " +
-                    " WHERE controle = " + dados.controle.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM vendas WHERE controle=@controle", new { dados.controle });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ExcluirVale(dVenda dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM vales " +
-                    " WHERE controle = " + dados.controle.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM vales WHERE controle=@controle", new { dados.controle });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir Vale [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoVenda ConsultarFechamento(dVenda dados)
         {
-            ColecaoVenda retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select controle, usuarioId, clienteId, data, dinheiro, cheque, " +
-                    "chequePre, cartaoDebito, cartaoCredito, crediario, vendedor, " +
-                    "parcelas, desconto, condicao, recebido, troco, troca, vale, defeito, terminal, total, ordemservico, txID, Original ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From vendas ";
-
-                sqlWhere = sqlWhere + " data between '" + FormatarDataUniversal(dados.Data.ToString()) + "' AND '" + FormatarDataUniversal(dados.DataFim.ToString()) + "'";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.Terminal, "terminal");
-
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoVenda();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dVenda();
-                            item.controle = (int)RetornarInteiro(row["controle"]);
-                            item.usuarioId = (int)RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = (int)RetornarInteiro(row["clienteId"]);
-                            item.Vendedor = RetornarTexto(row["vendedor"]);
-                            item.Data = RetornarDataValida(row["data"].ToString());
-                            item.Dinheiro = (decimal)RetornarDecimal(row["dinheiro"]);
-                            item.Cheque = (decimal)RetornarDecimal(row["cheque"]);
-                            item.ChequePre = (decimal)RetornarDecimal(row["chequepre"]);
-                            item.CartaoDebito = (decimal)RetornarDecimal(row["cartaodebito"]);
-                            item.CartaoCredito = (decimal)RetornarDecimal(row["cartaocredito"]);
-                            item.Crediario = (decimal)RetornarDecimal(row["crediario"]);
-                            item.Parcelas = (int)RetornarInteiro(row["parcelas"]);
-                            item.Desconto = (decimal)RetornarDecimal(row["desconto"]);
-                            item.Condicao = (int)RetornarInteiro(row["condicao"]);
-                            item.Recebido = (decimal)RetornarDecimal(row["recebido"]);
-                            item.Troco = (decimal)RetornarDecimal(row["troco"]);
-                            item.Troca = (decimal)RetornarDecimal(row["troca"]);
-                            item.Vale = (decimal)RetornarDecimal(row["vale"]);
-                            item.Defeito = (decimal)RetornarDecimal(row["defeito"]);
-                            item.Terminal = RetornarTexto(row["terminal"]);
-                            item.Total = (decimal)RetornarDecimal(row["total"]);
-                            item.ordemServicoId = RetornarTexto(row["ordemservico"]);
-                            item.TXID = RetornarTexto(row["txID"]);
-                            item.valorOriginal = (decimal)RetornarDecimal(row["Original"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    conditions.Add("data BETWEEN @dataIni AND @dataFim");
+                    p.Add("dataIni", dados.Data.ToString("yyyy-MM-dd"));
+                    p.Add("dataFim", dados.DataFim.ToString("yyyy-MM-dd"));
+                    if (!string.IsNullOrEmpty(dados.Terminal)) { conditions.Add("terminal=@Terminal"); p.Add("Terminal", dados.Terminal); }
+                    var where = "WHERE " + string.Join(" AND ", conditions);
+                    var sql = $@"SELECT controle, usuarioId, clienteId, data AS Data, dinheiro AS Dinheiro, cheque AS Cheque,
+                        chequePre AS ChequePre, cartaoDebito AS CartaoDebito, cartaoCredito AS CartaoCredito, crediario AS Crediario,
+                        vendedor AS Vendedor, parcelas AS Parcelas, desconto AS Desconto, condicao AS Condicao, recebido AS Recebido,
+                        troco AS Troco, troca AS Troca, vale AS Vale, defeito AS Defeito, terminal AS Terminal, total AS Total,
+                        ordemservico AS ordemServicoId, txID AS TXID, Original AS valorOriginal FROM vendas {where}";
+                    var lista = conn.Query<dVenda>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoVenda();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

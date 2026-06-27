@@ -1,252 +1,162 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsCrediario;
 
 namespace ncPersistencia.nsCrediario
 {
-    public class pCrediario
+    public class pCrediario : RepositorioBase, IpCrediario
     {
         public ColecaoCrediario Listar()
         {
-            ColecaoCrediario retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, controle, usuarioId, clienteId, " +
-                    "parcelas, valortotal, valorpago, saldodevedor, dataVenda From crediario";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCrediario();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCrediario();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.controle = RetornarInteiro(row["controle"]);
-                            item.ValorTotal = PersistirDecimal(row["valortotal"]);
-                            item.ValorTotal = PersistirDecimal(row["valorpago"]);
-                            item.ValorTotal = PersistirDecimal(row["saldodevedor"]);
-                            item.usuarioId = RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = RetornarInteiro(row["clienteId"]);
-                            item.Parcelas = PersistirInteiro(row["parcelas"]);
-                            item.DataVenda = RetornarData(row["dataVenda"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dCrediario>(
+                        "SELECT cid, controle, usuarioId, clienteId, parcelas AS Parcelas, valortotal AS ValorTotal, valorpago AS ValorPago, saldodevedor AS SaldoDevedor, dataVenda AS DataVenda FROM crediario").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCrediario();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar Crediário [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ConsultarMax()
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select MAX(controle) as controle";
-                string sqlFrom = " From crediario ";
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
-                            retorno = row["controle"] == DBNull.Value ? 0 : RetornarInteiro(row["controle"]);
-                    }
+                    return conn.QueryFirstOrDefault<int?>("SELECT MAX(controle) FROM crediario") ?? 0;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em ConsultarMax Venda [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoCrediario Consultar(dCrediario dados)
         {
-            ColecaoCrediario retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, controle, usuarioId, clienteId, " +
-                    "parcelas, valortotal, valorpago, saldodevedor, dataVenda ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From crediario ";
-                if (dados.cid != 0)
-                    sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                if (dados.controle != 0)
-                    sqlWhere = MontarParametrosSQL(sqlWhere, dados.controle, "controle");
-                if (dados.usuarioId != 0)
-                    sqlWhere = MontarParametrosSQL(sqlWhere, dados.usuarioId, "usuarioId");
-                if (dados.clienteId != 0)
-                    sqlWhere = MontarParametrosSQL(sqlWhere, dados.clienteId, "clienteId");
-                if (dados.SaldoDevedor > 0.001m)
+                using (var conn = CriarConexao())
                 {
-                    if (!sqlWhere.Equals(string.Empty))
-                        sqlWhere += " AND saldodevedor > 0.001 ";
-                    else
-                        sqlWhere = " saldodevedor > 0.001 ";
-                }
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere + " order by year(dataVenda), month(dataVenda)");
-                if (ds != null && ds.Tables.Count > 0)
-                {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoCrediario();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dCrediario();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.controle = RetornarInteiro(row["controle"]);
-                            item.usuarioId = RetornarInteiro(row["usuarioId"]);
-                            item.clienteId = RetornarInteiro(row["clienteId"]);
-                            item.Parcelas = RetornarInteiro(row["parcelas"]);
-                            item.ValorTotal = RetornarDecimal(row["valortotal"]);
-                            item.ValorPago = RetornarDecimal(row["valorpago"]);
-                            item.SaldoDevedor = RetornarDecimal(row["saldodevedor"]);
-                            item.DataVenda = RetornarData(row["dataVenda"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.cid != 0) { conditions.Add("cid=@cid"); p.Add("cid", dados.cid); }
+                    if (dados.controle != 0) { conditions.Add("controle=@controle"); p.Add("controle", dados.controle); }
+                    if (dados.usuarioId != 0) { conditions.Add("usuarioId=@usuarioId"); p.Add("usuarioId", dados.usuarioId); }
+                    if (dados.clienteId != 0) { conditions.Add("clienteId=@clienteId"); p.Add("clienteId", dados.clienteId); }
+                    if (dados.SaldoDevedor > 0.001m) { conditions.Add("saldodevedor > 0.001"); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, controle, usuarioId, clienteId, parcelas AS Parcelas, valortotal AS ValorTotal, valorpago AS ValorPago, saldodevedor AS SaldoDevedor, dataVenda AS DataVenda FROM crediario {where} ORDER BY YEAR(dataVenda), MONTH(dataVenda)";
+                    var lista = conn.Query<dCrediario>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoCrediario();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar Crediario[" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dCrediario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " crediario (controle, usuarioId, clienteId, observacao, " +
-                    "parcelas, valortotal, valorpago, saldodevedor, dataVenda, loja_cid, terminal) " +
-                    " VALUES (" +
-                    PersistirTexto(dados.controle) + "," +
-                    PersistirTexto(dados.usuarioId) + "," +
-                    PersistirTexto(dados.clienteId) + "," +
-                    PersistirTexto(dados.NotaFiscal) + "," +
-                    PersistirInteiro(dados.Parcelas) + "," +
-                    PersistirDecimal(dados.ValorTotal) + "," +
-                    PersistirDecimal(dados.ValorPago) + "," +
-                    PersistirDecimal(dados.SaldoDevedor) + "," +
-                    PersistirData(dados.DataVenda) + "," +
-                    PersistirInteiro(dados.LojaId) + "," +
-                    PersistirTexto(dados.Terminal) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute("INSERT INTO crediario (controle, usuarioId, clienteId, observacao, parcelas, valortotal, valorpago, saldodevedor, dataVenda, loja_cid, terminal) VALUES (@controle, @usuarioId, @clienteId, @NotaFiscal, @Parcelas, @ValorTotal, @ValorPago, @SaldoDevedor, @DataVenda, @LojaId, @Terminal)",
+                        new { dados.controle, dados.usuarioId, dados.clienteId, dados.NotaFiscal, dados.Parcelas, dados.ValorTotal, dados.ValorPago, dados.SaldoDevedor, dados.DataVenda, dados.LojaId, dados.Terminal });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir Crediario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dCrediario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE crediario SET " +
-                    " controle = " + PersistirInteiro(dados.controle) + "," +
-                    " usuarioId = " + PersistirTexto(dados.usuarioId) + "," +
-                    " clienteId = " + PersistirTexto(dados.clienteId) + "," +
-                    " parcelas = " + PersistirInteiro(dados.Parcelas) + "," +
-                    " valortotal = " + PersistirDecimal(dados.ValorTotal) + "," +
-                    " valorpago = " + PersistirDecimal(dados.ValorPago) + "," +
-                    " dataVenda = " + PersistirData(dados.DataVenda) + "," +
-                    " saldodevedor = " + PersistirDecimal(dados.SaldoDevedor) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE crediario SET controle=@controle, usuarioId=@usuarioId, clienteId=@clienteId, parcelas=@Parcelas, valortotal=@ValorTotal, valorpago=@ValorPago, dataVenda=@DataVenda, saldodevedor=@SaldoDevedor WHERE cid=@cid",
+                        new { dados.controle, dados.usuarioId, dados.clienteId, dados.Parcelas, dados.ValorTotal, dados.ValorPago, dados.DataVenda, dados.SaldoDevedor, dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar crediario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int AlterarControle(dCrediario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE crediario SET " +
-                    " controle = " + PersistirInteiro(dados.controle) +
-                    " WHERE " +
-                    " controle = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE crediario SET controle=@controle WHERE controle=@cid",
+                        new { dados.controle, dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar crediario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dCrediario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM crediario " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM crediario WHERE cid=@cid", new { dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir crediario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ExcluirParcelas(dCrediario dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM parcelas " +
-                    " WHERE crediarioid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM parcelas WHERE crediarioid=@cid", new { dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir crediario [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }

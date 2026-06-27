@@ -1,185 +1,125 @@
 using System;
-using System.Data;
-using ncNComum.nsAcessoBD;
+using System.Collections.Generic;
+using Dapper;
+using MySql.Data.MySqlClient;
 using ncNComum.nsExcecao;
-using static ncNComum.nsFuncoes.cFuncoes;
 using nsOrdemServico;
 
 namespace ncPersistencia.nsOrdemServico
 {
-    public class pOrdemServico
+    public class pOrdemServico : RepositorioBase, IpOrdemServico
     {
         public ColecaoOrdemServico Listar()
         {
-            ColecaoOrdemServico retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " Select cid, clienteid, veiculoid, observacoes, emissao, vendedor, loja, situacao  From OrdemServico ";
-                var ds = acessoBanco.ExecutarDS(comandoSQL);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoOrdemServico();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dOrdemServico();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.observacoes = RetornarTexto(row["observacoes"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var lista = conn.Query<dOrdemServico>("SELECT cid, clienteid, veiculoid, observacoes, emissao, vendedor, loja, situacao FROM OrdemServico").AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoOrdemServico();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Listar OS [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public ColecaoOrdemServico Consultar(dOrdemServico dados)
         {
-            ColecaoOrdemServico retorno = null;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select cid, clienteid, veiculoid, observacoes, emissao, vendedor, loja, situacao ";
-                string sqlWhere = string.Empty;
-                string sqlFrom = " From OrdemServico ";
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.cid, "cid");
-                sqlWhere = MontarParametrosSQL(sqlWhere, dados.situacao, "situacao");
-                if (!sqlWhere.Equals(string.Empty))
-                    sqlWhere = " WHERE " + sqlWhere;
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom + " " + sqlWhere);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        retorno = new ColecaoOrdemServico();
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            var item = new dOrdemServico();
-                            item.cid = RetornarInteiro(row["cid"]);
-                            item.clienteid = RetornarInteiro(row["clienteid"]);
-                            item.veiculoid = RetornarInteiro(row["veiculoid"]);
-                            item.observacoes = RetornarTexto(row["observacoes"]);
-                            item.emissao = RetornarTexto(row["emissao"]);
-                            item.vendedor = RetornarTexto(row["vendedor"]);
-                            item.loja = RetornarTexto(row["loja"]);
-                            item.situacao = RetornarTexto(row["situacao"]);
-                            retorno.Add(item);
-                        }
-                    }
+                    var conditions = new List<string>();
+                    var p = new DynamicParameters();
+                    if (dados.cid != null && dados.cid != 0) { conditions.Add("cid=@cid"); p.Add("cid", dados.cid); }
+                    if (!string.IsNullOrEmpty(dados.situacao)) { conditions.Add("situacao=@situacao"); p.Add("situacao", dados.situacao); }
+                    var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
+                    var sql = $"SELECT cid, clienteid, veiculoid, observacoes, emissao, vendedor, loja, situacao FROM OrdemServico {where}";
+                    var lista = conn.Query<dOrdemServico>(sql, p).AsList();
+                    if (lista.Count == 0) return null;
+                    var retorno = new ColecaoOrdemServico();
+                    retorno.AddRange(lista);
+                    return retorno;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = null;
                 throw new ExcecaoNascomercio("Erro em Consultar OS [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int ConsultarMax()
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string sqlSelect = " Select MAX(cid) as cid";
-                string sqlFrom = " From ordemservico ";
-                var ds = acessoBanco.ExecutarDS(sqlSelect + " " + sqlFrom);
-                if (ds != null && ds.Tables.Count > 0)
+                using (var conn = CriarConexao())
                 {
-                    DataTable dt = ds.Tables[0];
-                    if (dt.Rows.Count > 0)
-                    {
-                        foreach (DataRow row in dt.Rows)
-                            retorno = row["cid"] == DBNull.Value ? 0 : RetornarInteiro(row["cid"]);
-                    }
+                    return conn.QueryFirstOrDefault<int?>("SELECT MAX(cid) FROM ordemservico") ?? 0;
                 }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em ConsultarMax ordemservico [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Incluir(dOrdemServico dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " INSERT INTO " +
-                    " OrdemServico ( clienteid, veiculoid, observacoes, emissao, vendedor, loja, situacao ) " +
-                    " VALUES (" +
-                    PersistirInteiro(dados.clienteid) + "," +
-                    PersistirInteiro(dados.veiculoid) + "," +
-                    PersistirTexto(dados.observacoes) + "," +
-                    PersistirDataHora(dados.emissao) + "," +
-                    PersistirTexto(dados.vendedor) + "," +
-                    PersistirTexto(dados.loja) + "," +
-                    PersistirTexto(dados.situacao) + ")";
-                retorno = acessoBanco.ExecutarCID(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    conn.Execute("INSERT INTO OrdemServico (clienteid, veiculoid, observacoes, emissao, vendedor, loja, situacao) VALUES (@clienteid, @veiculoid, @observacoes, @emissao, @vendedor, @loja, @situacao)",
+                        new { dados.clienteid, dados.veiculoid, dados.observacoes, dados.emissao, dados.vendedor, dados.loja, dados.situacao });
+                    return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Incluir OS [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Alterar(dOrdemServico dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " UPDATE OrdemServico SET " +
-                    " clienteid = " + PersistirInteiro(dados.clienteid) + "," +
-                    " veiculoid = " + PersistirInteiro(dados.veiculoid) + "," +
-                    " observacoes = " + PersistirTexto(dados.observacoes) + "," +
-                    " vendedor = " + PersistirTexto(dados.vendedor) + "," +
-                    " loja = " + PersistirTexto(dados.loja) + "," +
-                    " situacao = " + PersistirTexto(dados.situacao) +
-                    " WHERE " +
-                    " cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("UPDATE OrdemServico SET clienteid=@clienteid, veiculoid=@veiculoid, observacoes=@observacoes, vendedor=@vendedor, loja=@loja, situacao=@situacao WHERE cid=@cid",
+                        new { dados.clienteid, dados.veiculoid, dados.observacoes, dados.vendedor, dados.loja, dados.situacao, dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Alterar OS [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
 
         public int Excluir(dOrdemServico dados)
         {
-            int retorno = 0;
             try
             {
-                var acessoBanco = new cAcessoBD();
-                string comandoSQL = " DELETE FROM OrdemServico " +
-                    " WHERE cid = " + dados.cid.ToString();
-                retorno = acessoBanco.ExecutarINT(comandoSQL);
+                using (var conn = CriarConexao())
+                {
+                    return conn.Execute("DELETE FROM OrdemServico WHERE cid=@cid", new { dados.cid });
+                }
             }
+            catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex)
             {
-                retorno = 0;
                 throw new ExcecaoNascomercio("Erro em Excluir OS [" + ToString() + "] - " + ex.Message);
             }
-            return retorno;
         }
     }
 }
