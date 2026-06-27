@@ -24,12 +24,11 @@ Namespace nsProdutoEtiqueta
                 acessoBanco = New cAcessoBD
 
                 sqlSelect = " Select data, impressao, produto_cid, produtoItem_codigoBarras, quantidade, " &
-            " usuario_cid, usuario_nomeCompleto, referencia, c.nome as cor"
-                sqlWhere = String.Empty
+                " usuario_cid, usuario_nomeCompleto, referencia, c.nome as cor"
+                sqlWhere = " EXISTS (SELECT 1 FROM produtoitem pi WHERE pi.valor = le.produtoItem_codigoBarras AND pi.produtos_cid = le.produto_cid)"
                 sqlFrom = " From LogEstoque le " &
-        " inner join produtos p on p.cid = le.produto_cid " &
-        " inner join cor c on p.cor_cid = c.cid " &
-        " inner join produtoitem pi on pi.valor = le.produtoItem_codigoBarras "
+                " inner join produtos p on p.cid = le.produto_cid " &
+                " inner join cor c on p.cor_cid = c.cid "
 
                 '-- dataDe
                 If String.IsNullOrEmpty(dataDe) = False Then

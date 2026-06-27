@@ -103,311 +103,311 @@ Public Class fProdutoFiltro
 
     Catch ex As Exception
 
-      MessageBox.Show("Erro na consulta dos dados de Características de Tipo de Produto.")
+            MessageBox.Show("Erro na consulta dos dados de Caracterï¿½sticas de Tipo de Produto.")
 
-    End Try
-  End Sub
+        End Try
+    End Sub
 
-  Private Sub MontarGradeCaracteristicas()
-    Dim item As dProdutoTipoCaracteristica
-    Dim colecaoCaracteristicaItem As ColecaoCaracteristicaItem
-    Dim regraCaracteristicaItem As rCaracteristicaItem
-    Dim qtde As Integer
+    Private Sub MontarGradeCaracteristicas()
+        Dim item As dProdutoTipoCaracteristica
+        Dim colecaoCaracteristicaItem As ColecaoCaracteristicaItem
+        Dim regraCaracteristicaItem As rCaracteristicaItem
+        Dim qtde As Integer
 
-    Try
+        Try
 
-      dgvProduto.Rows.Clear()
-      dgvProduto.Columns.Clear()
-      dgvProduto.Refresh()
+            dgvProduto.Rows.Clear()
+            dgvProduto.Columns.Clear()
+            dgvProduto.Refresh()
 
-      If Not colecaoProdutoTipoCaracteristica Is Nothing Then
-        regraCaracteristicaItem = New rCaracteristicaItem()
+            If Not colecaoProdutoTipoCaracteristica Is Nothing Then
+                regraCaracteristicaItem = New rCaracteristicaItem()
 
-        For Each item In colecaoProdutoTipoCaracteristica
-          If item.quantidade.Equals(Nothing) Then
-            qtde = 0
-          Else
-            qtde = item.quantidade
-          End If
+                For Each item In colecaoProdutoTipoCaracteristica
+                    If item.quantidade.Equals(Nothing) Then
+                        qtde = 0
+                    Else
+                        qtde = item.quantidade
+                    End If
 
-          If qtde > 0 Then
-            Dim coluna As DataGridViewComboBoxColumn
+                    If qtde > 0 Then
+                        Dim coluna As DataGridViewComboBoxColumn
 
-            coluna = New DataGridViewComboBoxColumn()
-            coluna.Name = item.caracteristica_nome
+                        coluna = New DataGridViewComboBoxColumn()
+                        coluna.Name = item.caracteristica_nome
 
-            colecaoCaracteristicaItem = regraCaracteristicaItem.ConsultarPorCaracteristica(item.caracteristica_cid)
-            If Not colecaoCaracteristicaItem Is Nothing Then
-              coluna.DisplayMember = "valor"
-              coluna.DataSource = colecaoCaracteristicaItem
+                        colecaoCaracteristicaItem = regraCaracteristicaItem.ConsultarPorCaracteristica(item.caracteristica_cid)
+                        If Not colecaoCaracteristicaItem Is Nothing Then
+                            coluna.DisplayMember = "valor"
+                            coluna.DataSource = colecaoCaracteristicaItem
+                        End If
+
+                        colecaoCaracteristicaItem.Insert(0, New dCaracteristicaItem())
+
+                        dgvProduto.Columns.Add(coluna)
+                    Else
+                        Dim coluna As DataGridViewTextBoxColumn
+
+                        coluna = New DataGridViewTextBoxColumn()
+
+                        coluna.Name = item.caracteristica_nome
+
+                        dgvProduto.Columns.Add(coluna)
+                    End If
+                Next
+
+                dgvProduto.Refresh()
             End If
 
-            colecaoCaracteristicaItem.Insert(0, New dCaracteristicaItem())
+            If dgvProduto.Columns.Count > 0 Then
+                dgvProduto.Rows.Add()
+            End If
 
-            dgvProduto.Columns.Add(coluna)
-          Else
-            Dim coluna As DataGridViewTextBoxColumn
+        Catch nex As ExcecaoNascomercio
 
-            coluna = New DataGridViewTextBoxColumn()
+            MessageBox.Show(nex.Message)
 
-            coluna.Name = item.caracteristica_nome
+        Catch ex As Exception
 
-            dgvProduto.Columns.Add(coluna)
-          End If
-        Next
+            MessageBox.Show("Erro na consulta dos dados de Caracterï¿½sticas de Tipo de Produto.")
 
-        dgvProduto.Refresh()
-      End If
+        End Try
+    End Sub
 
-      If dgvProduto.Columns.Count > 0 Then
-        dgvProduto.Rows.Add()
-      End If
+    Private Sub fProdutoFiltro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        LimparCampos()
+        CarregarComboSituacao()
+        CarregarComboProdutoTipo()
+        CarregarComboFornecedor()
+        CarregarComboFabricante()
+        CarregarComboCor()
+        CarregarComboGrupo()
+        CarregarProdutoTipoCaracteristica()
+        MontarGradeCaracteristicas()
+    End Sub
 
-    Catch nex As ExcecaoNascomercio
+    Private Sub LimparCampos()
+        txtCodigo.Text = String.Empty
+        txtReferencia.Text = String.Empty
+        txtEstoqueMinimo.Text = String.Empty
+        txtAliquota.Text = String.Empty
+        txtDescricao.Text = String.Empty
+        txtValorCompra.Text = String.Empty
+        txtValorVenda.Text = String.Empty
+        cboFornecedor.Items.Clear()
+        cboFabricante.Items.Clear()
+        cboGrupo.Items.Clear()
+        cboCor.Items.Clear()
+        cboTipo.Items.Clear()
+        cboSituacao.Items.Clear()
+        colecaoProdutoTipoCaracteristica = Nothing
+    End Sub
 
-      MessageBox.Show(nex.Message)
+    Private Sub CarregarComboProdutoTipo()
+        Dim regras As rProdutoTipo
+        Dim colecao As ColecaoProdutoTipo
 
-    Catch ex As Exception
+        Try
 
-      MessageBox.Show("Erro na consulta dos dados de Características de Tipo de Produto.")
+            cboTipo.Items.Clear()
 
-    End Try
-  End Sub
+            regras = New rProdutoTipo()
+            colecao = regras.Listar()
 
-  Private Sub fProdutoFiltro_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-    LimparCampos()
-    CarregarComboSituacao()
-    CarregarComboProdutoTipo()
-    CarregarComboFornecedor()
-    CarregarComboFabricante()
-    CarregarComboCor()
-    CarregarComboGrupo()
-    CarregarProdutoTipoCaracteristica()
-    MontarGradeCaracteristicas()
-  End Sub
+            If Not colecao Is Nothing Then
+                colecao.Insert(0, New dProdutoTipo())
 
-  Private Sub LimparCampos()
-    txtCodigo.Text = String.Empty
-    txtReferencia.Text = String.Empty
-    txtEstoqueMinimo.Text = String.Empty
-    txtAliquota.Text = String.Empty
-    txtDescricao.Text = String.Empty
-    txtValorCompra.Text = String.Empty
-    txtValorVenda.Text = String.Empty
-    cboFornecedor.Items.Clear()
-    cboFabricante.Items.Clear()
-    cboGrupo.Items.Clear()
-    cboCor.Items.Clear()
-    cboTipo.Items.Clear()
-    cboSituacao.Items.Clear()
-    colecaoProdutoTipoCaracteristica = Nothing
-  End Sub
+                cboTipo.ValueMember = "cid"
+                cboTipo.DisplayMember = "nome"
+                cboTipo.DataSource = colecao
+                cboTipo.Refresh()
+            End If
 
-  Private Sub CarregarComboProdutoTipo()
-    Dim regras As rProdutoTipo
-    Dim colecao As ColecaoProdutoTipo
+        Catch nex As ExcecaoNascomercio
 
-    Try
+            MessageBox.Show(nex.Message)
 
-      cboTipo.Items.Clear()
+        Catch ex As Exception
 
-      regras = New rProdutoTipo()
-      colecao = regras.Listar()
+            MessageBox.Show("Erro na consulta dos dados de Tipo de Produto.")
 
-      If Not colecao Is Nothing Then
-        colecao.Insert(0, New dProdutoTipo())
+        End Try
+    End Sub
 
-        cboTipo.ValueMember = "cid"
-        cboTipo.DisplayMember = "nome"
-        cboTipo.DataSource = colecao
-        cboTipo.Refresh()
-      End If
+    Private Sub CarregarComboFornecedor()
+        Dim regras As rFornecedor
+        Dim colecao As ColecaoFornecedor
 
-    Catch nex As ExcecaoNascomercio
+        Try
 
-      MessageBox.Show(nex.Message)
+            cboFornecedor.Items.Clear()
 
-    Catch ex As Exception
+            regras = New rFornecedor()
+            colecao = regras.Listar()
 
-      MessageBox.Show("Erro na consulta dos dados de Tipo de Produto.")
+            If Not colecao Is Nothing Then
+                colecao.Insert(0, New dFornecedor())
 
-    End Try
-  End Sub
+                cboFornecedor.ValueMember = "cid"
+                cboFornecedor.DisplayMember = "nome"
+                cboFornecedor.DataSource = colecao
+                cboFornecedor.Refresh()
+            End If
 
-  Private Sub CarregarComboFornecedor()
-    Dim regras As rFornecedor
-    Dim colecao As ColecaoFornecedor
+        Catch nex As ExcecaoNascomercio
 
-    Try
+            MessageBox.Show(nex.Message)
 
-      cboFornecedor.Items.Clear()
+        Catch ex As Exception
 
-      regras = New rFornecedor()
-      colecao = regras.Listar()
+            MessageBox.Show("Erro na consulta dos dados de Fornecedor.")
 
-      If Not colecao Is Nothing Then
-        colecao.Insert(0, New dFornecedor())
+        End Try
+    End Sub
 
-        cboFornecedor.ValueMember = "cid"
-        cboFornecedor.DisplayMember = "nome"
-        cboFornecedor.DataSource = colecao
-        cboFornecedor.Refresh()
-      End If
+    Private Sub CarregarComboFabricante()
+        Dim regras As rFabricante
+        Dim colecao As ColecaoFabricante
 
-    Catch nex As ExcecaoNascomercio
+        Try
 
-      MessageBox.Show(nex.Message)
+            cboFabricante.Items.Clear()
 
-    Catch ex As Exception
+            regras = New rFabricante()
+            colecao = regras.Listar()
 
-      MessageBox.Show("Erro na consulta dos dados de Fornecedor.")
+            If Not colecao Is Nothing Then
+                colecao.Insert(0, New dFabricante())
 
-    End Try
-  End Sub
+                cboFabricante.ValueMember = "cid"
+                cboFabricante.DisplayMember = "nome"
+                cboFabricante.DataSource = colecao
+                cboFabricante.Refresh()
+            End If
 
-  Private Sub CarregarComboFabricante()
-    Dim regras As rFabricante
-    Dim colecao As ColecaoFabricante
+        Catch nex As ExcecaoNascomercio
 
-    Try
+            MessageBox.Show(nex.Message)
 
-      cboFabricante.Items.Clear()
+        Catch ex As Exception
 
-      regras = New rFabricante()
-      colecao = regras.Listar()
+            MessageBox.Show("Erro na consulta dos dados de Fabricante.")
 
-      If Not colecao Is Nothing Then
-        colecao.Insert(0, New dFabricante())
+        End Try
+    End Sub
 
-        cboFabricante.ValueMember = "cid"
-        cboFabricante.DisplayMember = "nome"
-        cboFabricante.DataSource = colecao
-        cboFabricante.Refresh()
-      End If
+    Private Sub CarregarComboGrupo()
+        Dim regras As rGrupo
+        Dim colecao As ColecaoGrupo
 
-    Catch nex As ExcecaoNascomercio
+        Try
 
-      MessageBox.Show(nex.Message)
+            cboGrupo.Items.Clear()
 
-    Catch ex As Exception
+            regras = New rGrupo()
+            colecao = regras.Listar()
 
-      MessageBox.Show("Erro na consulta dos dados de Fabricante.")
+            If Not colecao Is Nothing Then
+                colecao.Insert(0, New dGrupo())
 
-    End Try
-  End Sub
+                cboGrupo.ValueMember = "cid"
+                cboGrupo.DisplayMember = "nome"
+                cboGrupo.DataSource = colecao
+                cboGrupo.Refresh()
+            End If
 
-  Private Sub CarregarComboGrupo()
-    Dim regras As rGrupo
-    Dim colecao As ColecaoGrupo
+        Catch nex As ExcecaoNascomercio
 
-    Try
+            MessageBox.Show(nex.Message)
 
-      cboGrupo.Items.Clear()
+        Catch ex As Exception
 
-      regras = New rGrupo()
-      colecao = regras.Listar()
+            MessageBox.Show("Erro na consulta dos dados de Grupo.")
 
-      If Not colecao Is Nothing Then
-        colecao.Insert(0, New dGrupo())
+        End Try
+    End Sub
 
-        cboGrupo.ValueMember = "cid"
-        cboGrupo.DisplayMember = "nome"
-        cboGrupo.DataSource = colecao
-        cboGrupo.Refresh()
-      End If
+    Private Sub CarregarComboCor()
+        Dim regras As rCor
+        Dim colecao As ColecaoCor
 
-    Catch nex As ExcecaoNascomercio
+        Try
 
-      MessageBox.Show(nex.Message)
+            cboCor.Items.Clear()
 
-    Catch ex As Exception
+            regras = New rCor()
+            colecao = regras.Listar()
 
-      MessageBox.Show("Erro na consulta dos dados de Grupo.")
+            If Not colecao Is Nothing Then
+                colecao.Insert(0, New dCor())
 
-    End Try
-  End Sub
+                cboCor.ValueMember = "cid"
+                cboCor.DisplayMember = "nome"
+                cboCor.DataSource = colecao
+                cboCor.Refresh()
+            End If
 
-  Private Sub CarregarComboCor()
-    Dim regras As rCor
-    Dim colecao As ColecaoCor
+        Catch nex As ExcecaoNascomercio
 
-    Try
+            MessageBox.Show(nex.Message)
 
-      cboCor.Items.Clear()
+        Catch ex As Exception
 
-      regras = New rCor()
-      colecao = regras.Listar()
+            MessageBox.Show("Erro na consulta dos dados de Cor.")
 
-      If Not colecao Is Nothing Then
-        colecao.Insert(0, New dCor())
+        End Try
+    End Sub
 
-        cboCor.ValueMember = "cid"
-        cboCor.DisplayMember = "nome"
-        cboCor.DataSource = colecao
-        cboCor.Refresh()
-      End If
+    Private Sub CarregarComboSituacao()
+        Dim regras As rSituacao
+        Dim colecao As ColecaoSituacao
 
-    Catch nex As ExcecaoNascomercio
+        Try
 
-      MessageBox.Show(nex.Message)
+            cboSituacao.Items.Clear()
 
-    Catch ex As Exception
+            regras = New rSituacao()
+            colecao = regras.Listar()
 
-      MessageBox.Show("Erro na consulta dos dados de Cor.")
+            If Not colecao Is Nothing Then
 
-    End Try
-  End Sub
 
-  Private Sub CarregarComboSituacao()
-    Dim regras As rSituacao
-    Dim colecao As ColecaoSituacao
+                cboSituacao.ValueMember = "codigo"
+                cboSituacao.DisplayMember = "descricao"
+                cboSituacao.DataSource = colecao
+                cboSituacao.Refresh()
+            End If
 
-    Try
+        Catch nex As ExcecaoNascomercio
 
-      cboSituacao.Items.Clear()
+            MessageBox.Show(nex.Message)
 
-      regras = New rSituacao()
-      colecao = regras.Listar()
+        Catch ex As Exception
 
-      If Not colecao Is Nothing Then
+            MessageBox.Show("Erro na consulta dos dados de Situaï¿½ï¿½o.")
 
+        End Try
+    End Sub
 
-        cboSituacao.ValueMember = "codigo"
-        cboSituacao.DisplayMember = "descricao"
-        cboSituacao.DataSource = colecao
-        cboSituacao.Refresh()
-      End If
+    Private Sub CarregarFabricanteFiltro()
+        mdiPrincipal.CarregarFabricanteFiltro()
+    End Sub
 
-    Catch nex As ExcecaoNascomercio
+    Private Sub CarregarFornecedorFiltro()
+        mdiPrincipal.CarregarFornecedorFiltro()
+    End Sub
 
-      MessageBox.Show(nex.Message)
+    Private Sub btoFornecedores_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFornecedores.Click
+        CarregarFornecedorFiltro()
+    End Sub
 
-    Catch ex As Exception
+    Private Sub btoFabricantes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFabricantes.Click
+        CarregarFabricanteFiltro()
+    End Sub
 
-      MessageBox.Show("Erro na consulta dos dados de Situação.")
-
-    End Try
-  End Sub
-
-  Private Sub CarregarFabricanteFiltro()
-    mdiPrincipal.CarregarFabricanteFiltro()
-  End Sub
-
-  Private Sub CarregarFornecedorFiltro()
-    mdiPrincipal.CarregarFornecedorFiltro()
-  End Sub
-
-  Private Sub btoFornecedores_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFornecedores.Click
-    CarregarFornecedorFiltro()
-  End Sub
-
-  Private Sub btoFabricantes_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFabricantes.Click
-    CarregarFabricanteFiltro()
-  End Sub
-
-  Private Sub ImprimirEtiquetaES()
-    fProdutoEtiquetaES.ShowDialog()
-  End Sub
+    Private Sub ImprimirEtiquetaES()
+        fProdutoEtiquetaES.ShowDialog(mdiPrincipal)
+    End Sub
 
   Private Sub btoEtiquetaES_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoEtiquetaES.Click
     ImprimirEtiquetaES()

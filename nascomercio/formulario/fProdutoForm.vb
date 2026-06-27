@@ -66,7 +66,7 @@ Public Class fProdutoForm
             If colecaoP IsNot Nothing Then
                 If colecaoP.Count > 0 Then
                     If Not colecaoP.Item(0).cid.Equals(Me.cid) Then
-                        If MessageBox.Show("Já existe um produto com os dados (Fornecedor, Fabricante, Cor e Referência) informados. " & vbCrLf & _
+                        If MessageBox.Show("Jï¿½ existe um produto com os dados (Fornecedor, Fabricante, Cor e Referï¿½ncia) informados. " & vbCrLf &
                             "Deseja consultar o produto existente?", "Cadastro de Produto", MessageBoxButtons.YesNo, MessageBoxIcon.Information) = Windows.Forms.DialogResult.Yes Then
                             retorno = "A"
                             Me.cid = colecaoP.Item(0).cid
@@ -185,9 +185,9 @@ Public Class fProdutoForm
 
                 If Not atual.ToLower().Equals(codigoBarras) Then
 
-                    '-- verifica se codigo é válido
+                    '-- verifica se codigo ï¿½ vï¿½lido
                     If codigoBarras.Length > 13 Then
-                        MessageBox.Show("Código de Barras deve possuir no máximo 13 caracteres")
+                        MessageBox.Show("Cï¿½digo de Barras deve possuir no mï¿½ximo 13 caracteres")
                         retorno = False
                         Exit For
                     End If
@@ -211,14 +211,14 @@ Public Class fProdutoForm
         Try
 
             If txtReferencia.Text.Trim().Equals(String.Empty) Then
-                MessageBox.Show("Informe a Referência do produto", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Informe a Referï¿½ncia do produto", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtReferencia.Focus()
                 retorno = False
                 Exit Try
             End If
 
             If txtDescricao.Text.Trim().Equals(String.Empty) Then
-                MessageBox.Show("Informe a Descrição do produto", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Informe a Descriï¿½ï¿½o do produto", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtDescricao.Focus()
                 retorno = False
                 Exit Try
@@ -271,7 +271,7 @@ Public Class fProdutoForm
             End If
 
             If Decimal.TryParse(txtValorCompra.Text, valorCompra) = False Then
-                MessageBox.Show("Valor de Custo inválido", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Valor de Custo invï¿½lido", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtValorCompra.Focus()
                 retorno = False
                 Exit Try
@@ -285,7 +285,7 @@ Public Class fProdutoForm
             End If
 
             If Decimal.TryParse(txtValorVenda.Text, valorVenda) = False Then
-                MessageBox.Show("Valor de Venda inválido", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Valor de Venda invï¿½lido", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtValorVenda.Focus()
                 retorno = False
                 Exit Try
@@ -297,20 +297,20 @@ Public Class fProdutoForm
             If Not txtAliquota.Text.Trim().Equals(String.Empty) Then
                 If Not listaAliquota.Contains("|" & txtAliquota.Text.ToUpper() & "|") Then
                     If Not Double.TryParse(txtAliquota.Text, aux) Then
-                        MessageBox.Show("Alíquota inválida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Alï¿½quota invï¿½lida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         txtAliquota.Focus()
                         retorno = False
                     Else
                         txtAliquota.Text = aux.ToString("00.00")
                         If (Convert.ToDouble(txtAliquota.Text) <= 0) Or (Convert.ToDouble(txtAliquota.Text) >= 100) Then
-                            MessageBox.Show("Alíquota inválida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Alï¿½quota invï¿½lida", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             txtAliquota.Focus()
                             retorno = False
                         End If
                     End If
                 End If
             Else
-                MessageBox.Show("Informe a Alíquota", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Informe a Alï¿½quota", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 txtAliquota.Focus()
                 retorno = False
             End If
@@ -340,19 +340,19 @@ Public Class fProdutoForm
         Try
             If ValidarNovoCodigoBarras() Then
 
-                tipoMsg = "INCLUSÃO"
+                tipoMsg = "INCLUSï¿½O"
                 tipoAcao = "i"
 
                 If Not cid.Equals(Nothing) Then
                     If Not cid.ToString().Equals(String.Empty) Then
                         If Not cid.Equals(0) Then
-                            tipoMsg = "ALTERAÇÃO"
+                            tipoMsg = "ALTERAï¿½ï¿½O"
                             tipoAcao = "a"
                         End If
                     End If
                 End If
 
-                If MessageBox.Show("Confirma " & tipoMsg & " das informações?", tipoMsg, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+                If MessageBox.Show("Confirma " & tipoMsg & " das informaï¿½ï¿½es?", tipoMsg, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
                     dados = New dProduto()
                     regras = New rProduto()
 
@@ -360,7 +360,7 @@ Public Class fProdutoForm
                     txtNotaFiscalSerie.Text = txtNotaFiscalSerie.Text.Trim()
 
                     If (String.IsNullOrEmpty(txtNotaFiscalNumero.Text)) <> (String.IsNullOrEmpty(txtNotaFiscalSerie.Text)) Then
-                        MessageBox.Show("Nota Fiscal inválida.", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Nota Fiscal invï¿½lida.", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Return
                     End If
 
@@ -376,11 +376,11 @@ Public Class fProdutoForm
 
                         If nfColecao IsNot Nothing Then
                             If nfColecao.Count <= 0 Then
-                                MessageBox.Show("Nota Fiscal inválida.", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                MessageBox.Show("Nota Fiscal invï¿½lida.", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Return
                             End If
                         Else
-                            MessageBox.Show("Nota Fiscal inválida.", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Nota Fiscal invï¿½lida.", "Produtos", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Return
                         End If
                     End If
@@ -406,11 +406,11 @@ Public Class fProdutoForm
                     Else
                         dados.efdIntegracao = False
                     End If
-                    dados.dataInclusao = Now().Year.ToString().PadLeft(4, "0"c) + "-" + _
-                      Now().Month.ToString().PadLeft(2, "0"c) + "-" + _
-                      Now().Day.ToString().PadLeft(2, "0"c) + " " + _
-                      Now().Hour.ToString().PadLeft(2, "0"c) + ":" + _
-                      Now().Minute.ToString().PadLeft(2, "0"c) + ":" + _
+                    dados.dataInclusao = Now().Year.ToString().PadLeft(4, "0"c) + "-" +
+                      Now().Month.ToString().PadLeft(2, "0"c) + "-" +
+                      Now().Day.ToString().PadLeft(2, "0"c) + " " +
+                      Now().Hour.ToString().PadLeft(2, "0"c) + ":" +
+                      Now().Minute.ToString().PadLeft(2, "0"c) + ":" +
                       Now().Second.ToString().PadLeft(2, "0"c)
 
                     If dgvProduto.Rows.Count > 0 Then
@@ -457,7 +457,7 @@ Public Class fProdutoForm
                                                 codBarraAtual = String.Empty
                                             End If
 
-                                            If (estoqueNovo > 0) And (Not codBarraAtual.Trim().Equals(String.Empty)) And _
+                                            If (estoqueNovo > 0) And (Not codBarraAtual.Trim().Equals(String.Empty)) And
                                                 (Not Me.cid.Equals(Nothing)) Then
                                                 '-- Gravar Log Estoque
                                                 GravarLogEstoque(mdiPrincipal.gUsuario.cid, mdiPrincipal.gUsuario.nomeCompleto, Me.cid, codBarraAtual, estoqueNovo, dados.notaFiscalNumero, dados.notaFiscalSerie)
@@ -492,14 +492,14 @@ Public Class fProdutoForm
 
                         Me.cid = novoCID
 
-                        MessageBox.Show("Informações incluídas com sucesso", "Inclusão de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Informaï¿½ï¿½es incluï¿½das com sucesso", "Inclusï¿½o de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                         'ExibirInformacoesTela()
                         Limpar()
                     ElseIf tipoAcao.Equals("a") Then
                         regras.Alterar(dados, colecaoItensProdutos, mdiPrincipal.gUsuario)
 
-                        MessageBox.Show("Informações alteradas com sucesso", "Inclusão de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Informaï¿½ï¿½es alteradas com sucesso", "Inclusï¿½o de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                         'ExibirInformacoesTela()
                         Limpar()
@@ -527,7 +527,7 @@ Public Class fProdutoForm
             If Not Me.cid.Equals(Nothing) Then
                 If Not Me.cid.ToString().Equals(String.Empty) Then
                     If Not Me.cid.Equals(0) Then
-                        If MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+                        If MessageBox.Show("Confirma EXCLUSï¿½O das informaï¿½ï¿½es?", "EXCLUSï¿½O", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
                             dados = New dProduto
                             regras = New rProduto
 
@@ -548,7 +548,7 @@ Public Class fProdutoForm
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na exclusão dos dados de Produto.")
+            MessageBox.Show("Erro na exclusï¿½o dos dados de Produto.")
 
         End Try
     End Sub
@@ -581,7 +581,7 @@ Public Class fProdutoForm
                             For Each celulaSelecionada As DataGridViewCell In linhaSelecionada.Cells
 
                                 For Each celulaNova As DataGridViewCell In linhaNova.Cells
-                                    If (celulaNova.OwningColumn.Name.ToLower().Equals("codigobarrasatual")) Or _
+                                    If (celulaNova.OwningColumn.Name.ToLower().Equals("codigobarrasatual")) Or
                                         (celulaNova.OwningColumn.Name.ToLower().Equals("estoquenovo")) Then
                                         celulaNova.Value = String.Empty
                                     Else
@@ -590,11 +590,11 @@ Public Class fProdutoForm
                                             dadosCaracteristica = regraCaracteristica.fConsultarPorCodigo(celulaNova.OwningColumn.Name)
 
                                             If dadosCaracteristica Is Nothing Then
-                                                MessageBox.Show("Erro na inclusão de novo item")
+                                                MessageBox.Show("Erro na inclusï¿½o de novo item")
                                                 Exit Sub
                                             End If
 
-                                            If (dadosCaracteristica.codigo.ToLower().Equals("codigobarras")) Or _
+                                            If (dadosCaracteristica.codigo.ToLower().Equals("codigobarras")) Or
                                                (dadosCaracteristica.codigo.ToLower().Equals("estoque")) Then
                                                 celulaNova.Value = String.Empty
                                             Else
@@ -611,15 +611,15 @@ Public Class fProdutoForm
                         End If
                     End If
                 Else
-                    MessageBox.Show("É necessário selecionar um Tipo de Produto!", "ITEM DE PRODUTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("ï¿½ necessï¿½rio selecionar um Tipo de Produto!", "ITEM DE PRODUTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     cboTipo.Focus()
                 End If
             Else
-                MessageBox.Show("É necessário selecionar um Tipo de Produto!", "ITEM DE PRODUTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("ï¿½ necessï¿½rio selecionar um Tipo de Produto!", "ITEM DE PRODUTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 cboTipo.Focus()
             End If
         Else
-            MessageBox.Show("É necessário Incluir um produto ou Selecionar um existente!", "ITEM DE PRODUTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("ï¿½ necessï¿½rio Incluir um produto ou Selecionar um existente!", "ITEM DE PRODUTO", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
     End Sub
 
@@ -1087,7 +1087,7 @@ Public Class fProdutoForm
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Situação.")
+            MessageBox.Show("Erro na consulta dos dados de Situaï¿½ï¿½o.")
 
         End Try
     End Sub
@@ -1119,7 +1119,7 @@ Public Class fProdutoForm
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Situação.")
+            MessageBox.Show("Erro na consulta dos dados de Situaï¿½ï¿½o.")
 
         End Try
     End Sub
@@ -1185,7 +1185,7 @@ Public Class fProdutoForm
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Características de Tipo de Produto.")
+            MessageBox.Show("Erro na consulta dos dados de Caracterï¿½sticas de Tipo de Produto.")
 
         End Try
     End Sub
@@ -1276,7 +1276,7 @@ Public Class fProdutoForm
     End Sub
 
     Private Sub ExcluirItem()
-        If MessageBox.Show("Confirma EXCLUSÃO do item?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+        If MessageBox.Show("Confirma EXCLUSï¿½O do item?", "EXCLUSï¿½O", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
             If dgvProduto.Rows.Count > 0 Then
                 dgvProduto.Rows.RemoveAt(dgvProduto.CurrentRow.Index)
             End If
@@ -1317,31 +1317,23 @@ Public Class fProdutoForm
 
 
     Private Sub ImprimirEtiqueta()
-        Dim valido As Boolean = False
-
-        If Not Me.cid.Equals(Nothing) Then
-            If Not Me.cid.ToString().Equals(String.Empty) Then
-                If Not Me.cid.Equals(0) Then
-                    If dgvProduto.Rows.Count > 0 Then
-                        If dgvProduto.CurrentRow.Index >= 0 Then
-                            valido = True
-                        End If
-                    End If
-                End If
-            End If
+        If Me.cid Is Nothing OrElse Me.cid = 0 Then
+            MessageBox.Show("Selecione um produto antes de imprimir a etiqueta.", "Atenï¿½ï¿½o", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
         End If
 
-        If valido = True Then
-            fProdutoEtiqueta.produto_cid = Me.cid
-            fProdutoEtiqueta.item = dgvProduto.CurrentRow.Index
-            fProdutoEtiqueta.ShowDialog()
-        Else
-
+        If dgvProduto.Rows.Count = 0 OrElse dgvProduto.CurrentRow Is Nothing Then
+            MessageBox.Show("Selecione um item na grade do produto.", "Atenï¿½ï¿½o", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
         End If
+
+        fProdutoEtiqueta.produto_cid = Me.cid
+        fProdutoEtiqueta.item = dgvProduto.CurrentRow.Index
+        fProdutoEtiqueta.ShowDialog()
     End Sub
 
     Private Sub ImprimirEtiquetaES()
-        fProdutoEtiquetaES.ShowDialog()
+        fProdutoEtiquetaES.ShowDialog(mdiPrincipal)
     End Sub
 
     Private Sub btoTipo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -1489,7 +1481,7 @@ Public Class fProdutoForm
             fGradeForm.ShowDialog()
             Me.dgvProduto.Focus()
         Else
-            MessageBox.Show("É necesário selecionar um tipo de produto", "Grade", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("ï¿½ necesï¿½rio selecionar um tipo de produto", "Grade", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
