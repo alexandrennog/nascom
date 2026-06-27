@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ncModelos</RootNamespace>
+    <AssemblyName>ncModelos</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <ProjectGuid>{4F04E009-DD00-D736-BDA5-8F1FA1E9E3FD}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="dBasennf.cs" />
+    <Compile Include="dCaixa.cs" />
+    <Compile Include="dCaixaFechamento.cs" />
+    <Compile Include="dCaracteristica.cs" />
+    <Compile Include="dCaracteristicaItem.cs" />
+    <Compile Include="dCategoria.cs" />
+    <Compile Include="dCheques.cs" />
+    <Compile Include="dCliente.cs" />
+    <Compile Include="dClienteEndereco.cs" />
+    <Compile Include="dClienteFinanceiro.cs" />
+    <Compile Include="dClienteProfissional.cs" />
+    <Compile Include="dCobrancaAutomatica.cs" />
+    <Compile Include="dCondicao.cs" />
+    <Compile Include="dContasPagar.cs" />
+    <Compile Include="dCor.cs" />
+    <Compile Include="dCrediario.cs" />
+    <Compile Include="dCurvaABC.cs" />
+    <Compile Include="dEfd.cs" />
+    <Compile Include="dEfdArquivo.cs" />
+    <Compile Include="dEfdContabilidade.cs" />
+    <Compile Include="dEfdEnderecoContato.cs" />
+    <Compile Include="dEfdEntidade.cs" />
+    <Compile Include="dEfdFinalidadeArquivo.cs" />
+    <Compile Include="dEfdItem.cs" />
+    <Compile Include="dEfdPerfilArquivoFiscal.cs" />
+    <Compile Include="dEfdRegistro.cs" />
+    <Compile Include="dEfdTipoAtividade.cs" />
+    <Compile Include="dEfdTipoPessoa.cs" />
+    <Compile Include="dEfdUnidadeMedida.cs" />
+    <Compile Include="dEstado.cs" />
+    <Compile Include="dEstadoCivil.cs" />
+    <Compile Include="dEstoque.cs" />
+    <Compile Include="dEtiquetaProdutoImpressao.cs" />
+    <Compile Include="dFabricante.cs" />
+    <Compile Include="dFechamento.cs" />
+    <Compile Include="dFornecedor.cs" />
+    <Compile Include="dGiro.cs" />
+    <Compile Include="dGradeEntrada.cs" />
+    <Compile Include="dGradeItem.cs" />
+    <Compile Include="dGrupo.cs" />
+    <Compile Include="dLoja.cs" />
+    <Compile Include="dMunicipios.cs" />
+    <Compile Include="dNotaFiscalFornecedor.cs" />
+    <Compile Include="dNotaFiscalItem.cs" />
+    <Compile Include="dOrdemServico.cs" />
+    <Compile Include="dParametro.cs" />
+    <Compile Include="dParametroEstoque.cs" />
+    <Compile Include="dParcelas.cs" />
+    <Compile Include="dPix.cs" />
+    <Compile Include="dPixConfig.cs" />
+    <Compile Include="dProduto.cs" />
+    <Compile Include="dProdutoEtiqueta.cs" />
+    <Compile Include="dProdutoItem.cs" />
+    <Compile Include="dProdutoTipo.cs" />
+    <Compile Include="dProdutoTipoCaracteristica.cs" />
+    <Compile Include="dServico.cs" />
+    <Compile Include="dSexo.cs" />
+    <Compile Include="dSimNao.cs" />
+    <Compile Include="dSituacao.cs" />
+    <Compile Include="dSituacaoNotaFiscal.cs" />
+    <Compile Include="dTipoEmissao.cs" />
+    <Compile Include="dTipoFluxo.cs" />
+    <Compile Include="dTipoFrete.cs" />
+    <Compile Include="dTipoNotaFiscal.cs" />
+    <Compile Include="dTipoPagamento.cs" />
+    <Compile Include="dTipoResidencia.cs" />
+    <Compile Include="dUsuario.cs" />
+    <Compile Include="dUsuarioPerfil.cs" />
+    <Compile Include="dVeiculos.cs" />
+    <Compile Include="dVenda.cs" />
+    <Compile Include="dVendaProduto.cs" />
+    <Compile Include="dVendasNfe.cs" />
+    <Compile Include="dVendasPorVendedor.cs" />
+    <Compile Include="ncEfd\dReg0990.cs" />
+    <Compile Include="ncEfd\dRegC170.cs" />
+    <Compile Include="ncEfd\dRegC190.cs" />
+    <Compile Include="ncEfd\dRegC990.cs" />
+    <Compile Include="ncEfd\dRegE110.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+
+namespace nsModelos
+{
+    public class ColecaoTipoFrete : List<dTipoFrete>
+    {
+    }
+
+    public class dTipoFrete
+    {
+        private int _cid;
+        private string _codigo;
+        private string _descricao;
+
+        public int cid
+        {
+            get => _cid;
+            set => _cid = value;
+        }
+
+        public string codigo
+        {
+            get => _codigo;
+            set => _codigo = value;
+        }
+
+        public string descricao
+        {
+            get => _descricao;
+            set => _descricao = value;
+        }
+    }
+}

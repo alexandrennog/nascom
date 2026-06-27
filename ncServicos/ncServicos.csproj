@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE51B0CD-1E1D-448B-8DB6-EE788967CAE8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ncServicos</RootNamespace>
+    <AssemblyName>ncServicos</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sCaixa.cs" />
+    <Compile Include="sCaracteristica.cs" />
+    <Compile Include="sCaracteristicaItem.cs" />
+    <Compile Include="sCategoria.cs" />
+    <Compile Include="sCheque.cs" />
+    <Compile Include="sCliente.cs" />
+    <Compile Include="sClienteEndereco.cs" />
+    <Compile Include="sClienteFinanceiro.cs" />
+    <Compile Include="sClienteProfissional.cs" />
+    <Compile Include="sCobranca.cs" />
+    <Compile Include="sCondicao.cs" />
+    <Compile Include="sContasPagar.cs" />
+    <Compile Include="sCor.cs" />
+    <Compile Include="sCrediario.cs" />
+    <Compile Include="sEfdArquivo.cs" />
+    <Compile Include="sEfdContabilidade.cs" />
+    <Compile Include="sEfdEnderecoContato.cs" />
+    <Compile Include="sEfdEntidade.cs" />
+    <Compile Include="sEfdFinalidadeArquivo.cs" />
+    <Compile Include="sEfdPerfilArquivoFiscal.cs" />
+    <Compile Include="sEfdTipoAtividade.cs" />
+    <Compile Include="sEfdTipoPessoa.cs" />
+    <Compile Include="sEfdUnidadeMedida.cs" />
+    <Compile Include="sEstado.cs" />
+    <Compile Include="sEstadoCivil.cs" />
+    <Compile Include="sFabricante.cs" />
+    <Compile Include="sFornecedor.cs" />
+    <Compile Include="sGiro.cs" />
+    <Compile Include="sGradeItem.cs" />
+    <Compile Include="sGrupo.cs" />
+    <Compile Include="sLoja.cs" />
+    <Compile Include="sMunicipios.cs" />
+    <Compile Include="sNotaFiscalFornecedor.cs" />
+    <Compile Include="sOrdemServico.cs" />
+    <Compile Include="sParametro.cs" />
+    <Compile Include="sPix.cs" />
+    <Compile Include="sPixConfig.cs" />
+    <Compile Include="sPreVenda.cs" />
+    <Compile Include="sPreVendaProduto.cs" />
+    <Compile Include="sProduto.cs" />
+    <Compile Include="sProdutoEtiqueta.cs" />
+    <Compile Include="sProdutoItem.cs" />
+    <Compile Include="sProdutoTipo.cs" />
+    <Compile Include="sProdutoTipoCaracteristica.cs" />
+    <Compile Include="sServico.cs" />
+    <Compile Include="sSexo.cs" />
+    <Compile Include="sSimNao.cs" />
+    <Compile Include="sSituacao.cs" />
+    <Compile Include="sSituacaoNotaFiscal.cs" />
+    <Compile Include="sTipoEmissao.cs" />
+    <Compile Include="sTipoFluxo.cs" />
+    <Compile Include="sTipoFrete.cs" />
+    <Compile Include="sTipoNotaFiscal.cs" />
+    <Compile Include="sTipoPagamento.cs" />
+    <Compile Include="sTipoResidencia.cs" />
+    <Compile Include="sUsuario.cs" />
+    <Compile Include="sUsuarioPerfil.cs" />
+    <Compile Include="sVeiculos.cs" />
+    <Compile Include="sVenda.cs" />
+    <Compile Include="sVendaProduto.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
