@@ -1,122 +1,73 @@
 using System;
 using ncDados.nsMunicipios;
-using ncRegras.nsMunicipios;
+using ncPersistencia.nsMunicipios;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsMunicipios
 {
     public class sMunicipios
     {
+        private readonly IpMunicipios _repo;
+        public sMunicipios(IpMunicipios repo) { _repo = repo; }
+
         public ColecaoMunicipios Listar()
         {
-            try
-            {
-                var regra = new rMunicipios();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Municipios [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoMunicipios ListarPorEstados(int estados_cid)
         {
-            try
-            {
-                var regra = new rMunicipios();
-                return regra.ListarPorEstados(estados_cid);
-            }
+            try { return _repo.ListarPorEstado(estados_cid); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ListarPorEstados Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ListarPorEstados Municipios [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoMunicipios Consultar(dMunicipios dados)
         {
-            try
-            {
-                var regra = new rMunicipios();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Municipios [" + ToString() + "] - " + ex.Message); }
         }
 
         public dMunicipios Consultar(int cid)
         {
             try
             {
-                var regra = new rMunicipios();
-                return regra.Consultar(cid);
+                var lista = _repo.Consultar(new dMunicipios { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Municipios [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dMunicipios dados)
         {
-            try
-            {
-                var regra = new rMunicipios();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Municipios [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Importar(dMunicipios dados)
         {
-            try
-            {
-                var regra = new rMunicipios();
-                return regra.Importar(dados);
-            }
+            try { return _repo.Importar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Importar Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Importar Municipios [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dMunicipios dados)
         {
-            try
-            {
-                var regra = new rMunicipios();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Municipios [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dMunicipios dados)
         {
-            try
-            {
-                var regra = new rMunicipios();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir Municipios [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Municipios [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

@@ -1,108 +1,66 @@
 using System;
 using ncDados.nsParametro;
-using ncRegras.nsParametro;
+using ncPersistencia.nsParametro;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsParametro
 {
     public class sParametro
     {
+        private readonly IpParametro _repo;
+        public sParametro(IpParametro repo) { _repo = repo; }
+
         public ColecaoParametro Listar()
         {
-            try
-            {
-                var regra = new rParametro();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar Parametro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Parametro [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoParametro Consultar(dParametro dados)
         {
-            try
-            {
-                var regra = new rParametro();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Parametro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Parametro [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoParametroEstoque ConsultarEstoque(dParametroEstoque dados)
         {
-            try
-            {
-                var regra = new rParametro();
-                return regra.ConsultarEstoque(dados);
-            }
+            try { return _repo.ConsultarEstoque(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarEstoque Parametro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarEstoque Parametro [" + ToString() + "] - " + ex.Message); }
         }
 
         public dParametro Consultar(int cid)
         {
             try
             {
-                var regra = new rParametro();
-                return regra.Consultar(cid);
+                var lista = _repo.Consultar(new dParametro { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Parametro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Parametro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dParametro dados)
         {
-            try
-            {
-                var regra = new rParametro();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Parametro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Parametro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dParametro dados)
         {
-            try
-            {
-                var regra = new rParametro();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar Parametro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Parametro [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dParametro dados)
         {
-            try
-            {
-                var regra = new rParametro();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir Parametro [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Parametro [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

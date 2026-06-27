@@ -1,94 +1,55 @@
 using System;
 using ncDados.nsVenda;
-using ncRegras.nsVenda;
+using ncPersistencia.nsVenda;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsVenda
 {
     public class sPreVenda
     {
+        private readonly IpPreVenda _repo;
+        public sPreVenda(IpPreVenda repo) { _repo = repo; }
+
         public ColecaoVenda Listar()
         {
-            try
-            {
-                var regra = new rPreVenda();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar PreVenda [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar PreVenda [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoVenda Consultar(dVenda dados)
         {
-            try
-            {
-                var regra = new rPreVenda();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar PreVenda [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar PreVenda [" + ToString() + "] - " + ex.Message); }
         }
 
         public int ConsultarMax()
         {
-            try
-            {
-                var regra = new rPreVenda();
-                return regra.ConsultarMax();
-            }
+            try { return _repo.ConsultarMax(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarMax PreVenda [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarMax PreVenda [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dVenda dados)
         {
-            try
-            {
-                var regra = new rPreVenda();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir PreVenda [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir PreVenda [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dVenda dados)
         {
-            try
-            {
-                var regra = new rPreVenda();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar PreVenda [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar PreVenda [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dVenda dados)
         {
-            try
-            {
-                var regra = new rPreVenda();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir PreVenda [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir PreVenda [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

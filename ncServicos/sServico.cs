@@ -1,94 +1,59 @@
 using System;
 using ncDados.nsServico;
-using ncRegras.nsServico;
+using ncPersistencia.nsServico;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsServico
 {
     public class sServico
     {
+        private readonly IpServico _repo;
+        public sServico(IpServico repo) { _repo = repo; }
+
         public ColecaoServico Listar()
         {
-            try
-            {
-                var regra = new rServico();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar Servico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar Servico [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoServico Consultar(dServico dados)
         {
-            try
-            {
-                var regra = new rServico();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Servico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Servico [" + ToString() + "] - " + ex.Message); }
         }
 
         public dServico Consultar(int cid)
         {
             try
             {
-                var regra = new rServico();
-                return regra.Consultar(cid);
+                var lista = _repo.Consultar(new dServico { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar Servico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Servico [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dServico dados)
         {
-            try
-            {
-                var regra = new rServico();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir Servico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Servico [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dServico dados)
         {
-            try
-            {
-                var regra = new rServico();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar Servico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Servico [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dServico dados)
         {
-            try
-            {
-                var regra = new rServico();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir Servico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir Servico [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

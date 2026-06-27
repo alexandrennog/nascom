@@ -1,94 +1,55 @@
 using System;
 using ncDados.nsOrdemServico;
-using ncRegras.nsOrdemServico;
+using ncPersistencia.nsOrdemServico;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsOrdemServico
 {
     public class sOrdemServico
     {
+        private readonly IpOrdemServico _repo;
+        public sOrdemServico(IpOrdemServico repo) { _repo = repo; }
+
         public ColecaoOrdemServico Listar()
         {
-            try
-            {
-                var regra = new rOrdemServico();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar OrdemServico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar OrdemServico [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoOrdemServico Consultar(dOrdemServico dados)
         {
-            try
-            {
-                var regra = new rOrdemServico();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar OrdemServico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar OrdemServico [" + ToString() + "] - " + ex.Message); }
         }
 
         public int ConsultarMax()
         {
-            try
-            {
-                var regra = new rOrdemServico();
-                return regra.ConsultarMax();
-            }
+            try { return _repo.ConsultarMax(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarMax OrdemServico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarMax OrdemServico [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dOrdemServico dados)
         {
-            try
-            {
-                var regra = new rOrdemServico();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir OrdemServico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir OrdemServico [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dOrdemServico dados)
         {
-            try
-            {
-                var regra = new rOrdemServico();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar OrdemServico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar OrdemServico [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dOrdemServico dados)
         {
-            try
-            {
-                var regra = new rOrdemServico();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir OrdemServico [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir OrdemServico [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

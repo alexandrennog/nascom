@@ -1,5 +1,6 @@
 using System;
 using ncDados.nsVenda;
+using ncPersistencia.nsVenda;
 using ncRegras.nsVenda;
 using ncComum.nsExcecao;
 
@@ -7,130 +8,71 @@ namespace ncServicos.nsVenda
 {
     public class sVendaProduto
     {
+        private readonly IpVendaProduto _repo;
+        public sVendaProduto(IpVendaProduto repo) { _repo = repo; }
+
         public ColecaoVendaProduto Listar()
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoVendaProduto Consultar(dVendaProduto dados)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoVendaProduto ConsultarTroca(dVendaProduto dados)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.ConsultarTroca(dados);
-            }
+            try { return _repo.ConsultarTroca(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ConsultarTroca VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarTroca VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dVendaProduto dados)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dVendaProduto dados)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dVendaProduto dados)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
+        // ExcluirTroca com dVendaProduto não mapeado em IpVendaProduto — mantém rVendaProduto
         public int ExcluirTroca(dVendaProduto dados)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.ExcluirTroca(dados);
-            }
+            try { var regra = new rVendaProduto(); return regra.ExcluirTroca(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ExcluirTroca VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ExcluirTroca VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
         public int ExcluirControle(int controle)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.ExcluirControle(controle);
-            }
+            try { return _repo.ExcluirControle(controle); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ExcluirControle VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ExcluirControle VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
 
         public int ExcluirControleTroca(int controle)
         {
-            try
-            {
-                var regra = new rVendaProduto();
-                return regra.ExcluirControleTroca(controle);
-            }
+            try { return _repo.ExcluirControleTroca(controle); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em ExcluirControleTroca VendaProduto [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ExcluirControleTroca VendaProduto [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

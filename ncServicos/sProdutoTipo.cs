@@ -1,94 +1,59 @@
 using System;
 using ncDados.nsProduto;
-using ncRegras.nsProduto;
+using ncPersistencia.nsProduto;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsProduto
 {
     public class sProdutoTipo
     {
+        private readonly IpProdutoTipo _repo;
+        public sProdutoTipo(IpProdutoTipo repo) { _repo = repo; }
+
         public ColecaoProdutoTipo Listar()
         {
-            try
-            {
-                var regra = new rProdutoTipo();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar ProdutoTipo [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar ProdutoTipo [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoProdutoTipo Consultar(dProdutoTipo dados)
         {
-            try
-            {
-                var regra = new rProdutoTipo();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar ProdutoTipo [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar ProdutoTipo [" + ToString() + "] - " + ex.Message); }
         }
 
         public dProdutoTipo Consultar(int cid)
         {
             try
             {
-                var regra = new rProdutoTipo();
-                return regra.Consultar(cid);
+                var lista = _repo.Consultar(new dProdutoTipo { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar ProdutoTipo [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar ProdutoTipo [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dProdutoTipo dados)
         {
-            try
-            {
-                var regra = new rProdutoTipo();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir ProdutoTipo [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir ProdutoTipo [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dProdutoTipo dados)
         {
-            try
-            {
-                var regra = new rProdutoTipo();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar ProdutoTipo [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar ProdutoTipo [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dProdutoTipo dados)
         {
-            try
-            {
-                var regra = new rProdutoTipo();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir ProdutoTipo [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir ProdutoTipo [" + ToString() + "] - " + ex.Message); }
         }
     }
 }

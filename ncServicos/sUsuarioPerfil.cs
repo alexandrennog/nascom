@@ -1,94 +1,59 @@
 using System;
 using ncDados.nsUsuarioPerfil;
-using ncRegras.nsUsuarioPerfil;
+using ncPersistencia.nsUsuarioPerfil;
 using ncComum.nsExcecao;
 
 namespace ncServicos.nsUsuarioPerfil
 {
     public class sUsuarioPerfil
     {
+        private readonly IpUsuarioPerfil _repo;
+        public sUsuarioPerfil(IpUsuarioPerfil repo) { _repo = repo; }
+
         public ColecaoUsuarioPerfil Listar()
         {
-            try
-            {
-                var regra = new rUsuarioPerfil();
-                return regra.Listar();
-            }
+            try { return _repo.Listar(); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Listar UsuarioPerfil [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Listar UsuarioPerfil [" + ToString() + "] - " + ex.Message); }
         }
 
         public ColecaoUsuarioPerfil Consultar(dUsuarioPerfil dados)
         {
-            try
-            {
-                var regra = new rUsuarioPerfil();
-                return regra.Consultar(dados);
-            }
+            try { return _repo.Consultar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" + ToString() + "] - " + ex.Message); }
         }
 
         public dUsuarioPerfil Consultar(int cid)
         {
             try
             {
-                var regra = new rUsuarioPerfil();
-                return regra.Consultar(cid);
+                var lista = _repo.Consultar(new dUsuarioPerfil { cid = cid });
+                return lista != null && lista.Count > 0 ? lista[0] : null;
             }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Incluir(dUsuarioPerfil dados)
         {
-            try
-            {
-                var regra = new rUsuarioPerfil();
-                return regra.Incluir(dados);
-            }
+            try { return _repo.Incluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Incluir UsuarioPerfil [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir UsuarioPerfil [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dUsuarioPerfil dados)
         {
-            try
-            {
-                var regra = new rUsuarioPerfil();
-                return regra.Alterar(dados);
-            }
+            try { return _repo.Alterar(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Alterar UsuarioPerfil [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar UsuarioPerfil [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Excluir(dUsuarioPerfil dados)
         {
-            try
-            {
-                var regra = new rUsuarioPerfil();
-                return regra.Excluir(dados);
-            }
+            try { return _repo.Excluir(dados); }
             catch (ExcecaoNascomercio) { throw; }
-            catch (Exception ex)
-            {
-                throw new ExcecaoNascomercio("Erro em Excluir UsuarioPerfil [" + ToString() + "] - " + ex.Message);
-            }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Excluir UsuarioPerfil [" + ToString() + "] - " + ex.Message); }
         }
     }
 }
