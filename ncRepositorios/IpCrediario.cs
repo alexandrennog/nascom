@@ -1,7 +1,7 @@
 using System;
-using nsCrediario;
+using ncModelos;
 
-namespace ncPersistencia.nsCrediario
+namespace ncRepositorios
 {
     public interface IpCrediario
     {

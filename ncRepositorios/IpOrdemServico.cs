@@ -1,7 +1,7 @@
 using System;
-using nsOrdemServico;
+using ncModelos;
 
-namespace ncPersistencia.nsOrdemServico
+namespace ncRepositorios
 {
     public interface IpOrdemServico
     {

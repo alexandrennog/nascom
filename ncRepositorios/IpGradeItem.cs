@@ -1,7 +1,7 @@
 using System;
-using nsGradeItem;
+using ncModelos;
 
-namespace ncPersistencia.nsGradeItem
+namespace ncRepositorios
 {
     public interface IpGradeItem
     {

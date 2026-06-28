@@ -2,7 +2,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
+using ncNComum;
 
 namespace ncNComum.nsAcessoBD
 {

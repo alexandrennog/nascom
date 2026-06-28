@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsProduto
+namespace ncModelos
 {
     public class ColecaoProduto : List<dProduto>
     {
@@ -199,4 +199,5 @@ namespace nsProduto
             set => _efdIntegracao = value;
         }
     }
+
 }

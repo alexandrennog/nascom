@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCheques
+namespace ncModelos
 {
     public class ColecaoCheques : List<dCheques>
     {
@@ -94,4 +94,5 @@ namespace nsCheques
             set => _conta = value;
         }
     }
+
 }

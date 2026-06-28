@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsFabricante;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsFabricante
+namespace ncRepositorios
 {
     public class pFabricante : RepositorioBase, IpFabricante
     {

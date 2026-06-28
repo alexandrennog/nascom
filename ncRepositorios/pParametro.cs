@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsParametro;
-using nsdParametroEstoque;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsParametro
+namespace ncRepositorios
 {
     public class pParametro : RepositorioBase, IpParametro
     {

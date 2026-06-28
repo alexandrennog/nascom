@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsUsuarioPerfil
+namespace ncModelos
 {
     public class ColecaoUsuarioPerfil : List<dUsuarioPerfil>
     {
@@ -38,4 +38,5 @@ namespace nsUsuarioPerfil
             set => _situacao = value;
         }
     }
+
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCrediario
+namespace ncModelos
 {
     public class ColecaoCrediario : List<dCrediario>
     {
@@ -101,4 +101,5 @@ namespace nsCrediario
             set => _notafiscal = value;
         }
     }
+
 }

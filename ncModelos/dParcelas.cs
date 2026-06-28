@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCrediario
+namespace ncModelos
 {
     public class ColecaoParcelas : List<dParcelas>
     {
@@ -94,4 +94,5 @@ namespace nsCrediario
             set => _diasAtraso = value;
         }
     }
+
 }

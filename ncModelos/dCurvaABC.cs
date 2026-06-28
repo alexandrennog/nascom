@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCurvaABC
+namespace ncModelos
 {
     public class ColecaodVendasABC : List<dCurvaAbc>
     {
@@ -18,4 +18,5 @@ namespace nsCurvaABC
         public string ClasseAbc { get; set; }
         public string Estrategia { get; set; }
     }
+
 }

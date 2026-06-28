@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class ColecaoEfdItem : List<dEfdItem>
     {
@@ -73,4 +73,5 @@ namespace nsEFD
             set => _valorUnitario = value;
         }
     }
+
 }

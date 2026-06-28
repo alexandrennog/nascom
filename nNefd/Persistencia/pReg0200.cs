@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Text;
 using ncNComum.nsAcessoBD;
-using static ncNComum.nsFuncoes.cFuncoes;
+
 
 namespace nsEfd
 {
@@ -24,9 +24,9 @@ namespace nsEfd
             comando.Append(" FROM produtos p INNER JOIN vendasprodutos vp ON vp.produto = p.cid INNER JOIN vendas v ON v.controle = vp.controle ");
             comando.Append(" INNER JOIN produtoitem pi ON pi.produtos_cid = p.cid AND pi.item = vp.item AND pi.caracteristicas_cid = 1 ");
             comando.Append(" WHERE v.data BETWEEN '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataInicio)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataInicio.ToString())));
             comando.Append("  00:00:00.000' AND ' ");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataFim)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataFim.ToString())));
             comando.Append("  23:59:59.999' AND IFNULL(p.efdIntegracao, 1) = 1 AND pi.valor > 0");
 
             comando.Append(" UNION ALL ");
@@ -37,9 +37,9 @@ namespace nsEfd
             comando.Append(" FROM logestoque le INNER JOIN produtos p ON p.cid = le.produto_cid ");
             comando.Append(" INNER JOIN produtoitem pt ON pt.produtos_cid = p.cid AND pt.caracteristicas_cid = 1 AND pt.valor = le.produtoItem_codigoBarras ");
             comando.Append(" WHERE le.data BETWEEN '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataInicio)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataInicio.ToString())));
             comando.Append(" 00:00:00.000' AND '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataFim)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataFim.ToString())));
             comando.Append(" 23:59:59.999' AND IFNULL(p.efdIntegracao, 1) = 1 AND pt.valor > 0 ");
 
             comando.Append(" ORDER BY 1, 2 ");
@@ -56,10 +56,10 @@ namespace nsEfd
                     foreach (DataRow linha in dt.Rows)
                     {
                         var item = new dReg0200();
-                        item.cod_item = RetornarTexto(linha["codigo"]);
-                        item.descr_item = RetornarTexto(linha["descricao"]);
-                        item.aliq_icms = RetornarTexto(linha["aliquotaIcms"]);
-                        item.unid_inv = RetornarTexto(linha["efdUnidadeMedidaCodigo"]);
+                        item.cod_item = ncNComum.cFuncoes.RetornarTexto(linha["codigo"]);
+                        item.descr_item = ncNComum.cFuncoes.RetornarTexto(linha["descricao"]);
+                        item.aliq_icms = ncNComum.cFuncoes.RetornarTexto(linha["aliquotaIcms"]);
+                        item.unid_inv = ncNComum.cFuncoes.RetornarTexto(linha["efdUnidadeMedidaCodigo"]);
                         retorno.Add(item);
                     }
                 }

@@ -1,8 +1,8 @@
-using nsCaracteristica;
 using System;
+using ncModelos;
 
 
-namespace ncPersistencia.nsCaracteristica
+namespace ncRepositorios
 {
     public interface IpCaracteristicaItem
     {

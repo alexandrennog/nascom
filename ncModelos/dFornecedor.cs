@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsFornecedor
+namespace ncModelos
 {
     public class ColecaoFornecedor : List<dFornecedor>
     {
@@ -136,4 +136,5 @@ namespace nsFornecedor
             set => _situacao = value;
         }
     }
+
 }

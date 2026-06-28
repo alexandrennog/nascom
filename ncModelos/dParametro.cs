@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsParametro
+namespace ncModelos
 {
     public class ColecaoParametro : List<dParametro> { }
 
@@ -11,4 +11,5 @@ namespace nsParametro
         public string descricao { get; set; }
         public string valor { get; set; }
     }
+
 }

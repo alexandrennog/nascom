@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsEstado
+namespace ncRepositorios
 {
     public class pEstado : RepositorioBase, IpEstado
     {

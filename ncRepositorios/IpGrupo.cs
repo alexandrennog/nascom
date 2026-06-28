@@ -1,7 +1,7 @@
 using System;
-using nsGrupo;
+using ncModelos;
 
-namespace ncPersistencia.nsGrupo
+namespace ncRepositorios
 {
     public interface IpGrupo
     {

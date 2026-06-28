@@ -2,9 +2,10 @@ using System;
 using System.Data;
 using System.Text;
 using ncNComum.nsAcessoBD;
-using static ncNComum.nsFuncoes.cFuncoes;
+using nsEfd;
 
-namespace nsEfd
+
+namespace nNefd.Persistencia
 {
     public class pReg0150
     {
@@ -21,9 +22,9 @@ namespace nsEfd
             comando.Append(" INNER JOIN notafiscalfornecedor nff ON nff.fornecedor_cid = f.cid ");
             comando.Append(" INNER JOIN municipios m ON m.cid = f.cidade_cid ");
             comando.Append(" WHERE nff.dataEmissao BETWEEN '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataInicio)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataInicio.ToString())));
             comando.Append(" 00:00:00.000' AND '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataFim)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataFim.ToString())));
             comando.Append(" 23:59:59.999' ");
             comando.Append(" ORDER BY f.cid ");
 
@@ -38,15 +39,15 @@ namespace nsEfd
                     foreach (DataRow linha in dt.Rows)
                     {
                         var item = new dReg0150();
-                        item.cod_part = RetornarTexto(linha["cid"]);
-                        item.nome = RetornarTexto(linha["nome"]);
-                        item.cnpj = RetornarTexto(linha["cnpj"]);
-                        item.ie = RetornarTexto(linha["inscricaoEstadual"]);
-                        item.cod_mun = RetornarTexto(linha["codigo_ibge"]);
-                        item.ende = RetornarTexto(linha["logradouro"]);
-                        item.num = RetornarTexto(linha["numero"]);
-                        item.compl = RetornarTexto(linha["complemento"]);
-                        item.bairro = RetornarTexto(linha["bairro"]);
+                        item.cod_part = ncNComum.cFuncoes.RetornarTexto(linha["cid"]);
+                        item.nome = ncNComum.cFuncoes.RetornarTexto(linha["nome"]);
+                        item.cnpj = ncNComum.cFuncoes.RetornarTexto(linha["cnpj"]);
+                        item.ie = ncNComum.cFuncoes.RetornarTexto(linha["inscricaoEstadual"]);
+                        item.cod_mun = ncNComum.cFuncoes.RetornarTexto(linha["codigo_ibge"]);
+                        item.ende = ncNComum.cFuncoes.RetornarTexto(linha["logradouro"]);
+                        item.num = ncNComum.cFuncoes.RetornarTexto(linha["numero"]);
+                        item.compl = ncNComum.cFuncoes.RetornarTexto(linha["complemento"]);
+                        item.bairro = ncNComum.cFuncoes.RetornarTexto(linha["bairro"]);
                         retorno.Add(item);
                     }
                 }

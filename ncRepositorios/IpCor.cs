@@ -1,7 +1,7 @@
 using System;
-using nsCor;
+using ncModelos;
 
-namespace ncPersistencia.nsCor
+namespace ncRepositorios
 {
     public interface IpCor
     {

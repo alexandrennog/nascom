@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsGradeItem
+namespace ncModelos
 {
     public class ColecaoGradeItem : List<dGradeItem>
     {
@@ -115,4 +115,5 @@ namespace nsGradeItem
             set => _ordem = value;
         }
     }
+
 }

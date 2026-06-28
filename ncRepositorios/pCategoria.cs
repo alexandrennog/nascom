@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsCategoria;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsCategoria
+namespace ncRepositorios
 {
     public class pCategoria : RepositorioBase, IpCategoria
     {

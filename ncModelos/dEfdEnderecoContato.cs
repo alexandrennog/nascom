@@ -1,6 +1,6 @@
 using System;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class dEfdEnderecoContato
     {
@@ -61,4 +61,5 @@ namespace nsEFD
             set => _email = value;
         }
     }
+
 }

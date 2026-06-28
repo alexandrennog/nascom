@@ -1,6 +1,6 @@
 using System;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class dEfdContabilidade
     {
@@ -117,4 +117,5 @@ namespace nsEFD
             set => _contaAnaliticaContabil = value;
         }
     }
+
 }

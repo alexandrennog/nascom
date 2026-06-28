@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using nsProduto;
 
-namespace nsEtiquetaProdutoImpressao
+namespace ncModelos
 {
     public class ColecaoEtiquetaProdutoImpressao : List<dEtiquetaProdutoImpressao>
     {
@@ -67,4 +66,5 @@ namespace nsEtiquetaProdutoImpressao
             set => _codigoBarras = value;
         }
     }
+                    
 }

@@ -184,6 +184,7 @@
     <Compile Include="pVeiculos.cs" />
     <Compile Include="pVenda.cs" />
     <Compile Include="pVendaProdutos.cs" />
+    <Compile Include="teste.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ncDados\ncDados.vbproj">

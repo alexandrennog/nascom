@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsGiro
+namespace ncModelos
 {
     public class ColecaoGiro : List<dGiro>
     {
@@ -80,4 +80,5 @@ namespace nsGiro
             set => _situacao = value;
         }
     }
+
 }

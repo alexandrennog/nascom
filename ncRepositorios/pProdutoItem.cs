@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsProduto;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsProduto
+namespace ncRepositorios
 {
     public class pProdutoItem : RepositorioBase, IpProdutoItem
     {
@@ -216,6 +216,33 @@ namespace ncPersistencia.nsProduto
             catch (Exception ex)
             {
                 throw new ExcecaoNascomercio("Erro em Alterar ProdutoItem [" + ToString() + "] - " + ex.Message);
+            }
+        }
+
+        public int AlterarEstoque(string codigoBarras, decimal quantidade, bool somar)
+        {
+            try
+            {
+                using (var conn = CriarConexao())
+                {
+                    string setClause = somar
+                        ? "SET pi.valor = CAST(pi.valor AS DECIMAL(10,2)) + @quantidade"
+                        : "SET pi.valor = @quantidade";
+
+                    string sql = $@"UPDATE produtoitem pi
+                        INNER JOIN produtoitem pi2 ON pi2.produtos_cid = pi.produtos_cid AND pi2.item = pi.item
+                        INNER JOIN caracteristicas c  ON c.cid  = pi.caracteristicas_cid  AND c.codigo  = 'estoque'
+                        INNER JOIN caracteristicas c2 ON c2.cid = pi2.caracteristicas_cid AND c2.codigo = 'codigoBarras'
+                        {setClause}
+                        WHERE pi2.valor = @codigoBarras";
+
+                    return conn.Execute(sql, new { codigoBarras, quantidade });
+                }
+            }
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex)
+            {
+                throw new ExcecaoNascomercio("Erro em AlterarEstoque ProdutoItem [" + ToString() + "] - " + ex.Message);
             }
         }
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsModelos
+namespace ncModelos
 {
     public class ColecaoTipoNotaFiscal : List<dTipoNotaFiscal>
     {
@@ -45,4 +45,5 @@ namespace nsModelos
             set => _modeloDescricao = value;
         }
     }
+
 }

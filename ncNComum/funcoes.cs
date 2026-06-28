@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace ncNComum.nsFuncoes
+namespace ncNComum
 {
     public class cFuncoes
     {

@@ -1,8 +1,7 @@
 using System;
-using nsParametro;
-using nsdParametroEstoque;
+using ncModelos;
 
-namespace ncPersistencia.nsParametro
+namespace ncRepositorios
 {
     public interface IpParametro
     {

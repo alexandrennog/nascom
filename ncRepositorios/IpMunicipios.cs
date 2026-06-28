@@ -1,7 +1,7 @@
 using System;
-using nsMunicipios;
+using ncModelos;
 
-namespace ncPersistencia.nsMunicipios
+namespace ncRepositorios
 {
     public interface IpMunicipios
     {

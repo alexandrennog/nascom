@@ -1,7 +1,7 @@
 using System;
-using nsVeiculos;
+using ncModelos;
 
-namespace ncPersistencia.nsVeiculos
+namespace ncRepositorios
 {
     public interface IpVeiculos
     {

@@ -1,7 +1,7 @@
 using System;
-using nsCategoria;
+using ncModelos;
 
-namespace ncPersistencia.nsCategoria
+namespace ncRepositorios
 {
     public interface IpCategoria
     {

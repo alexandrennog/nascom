@@ -1,7 +1,7 @@
 using System;
-using nsGiro;
+using ncModelos;
 
-namespace ncPersistencia.nsGiro
+namespace ncRepositorios
 {
     public interface IpGiro
     {

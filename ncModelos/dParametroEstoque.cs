@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsdParametroEstoque
+namespace ncModelos
 {
     public class ColecaoParametroEstoque : List<dEstoque>
     {
@@ -45,4 +45,5 @@ namespace nsdParametroEstoque
             set => _valor = value;
         }
     }
+
 }

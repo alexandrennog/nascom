@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsEFD;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsEFD
+namespace ncRepositorios
 {
     public class pEfdContabilidade : RepositorioBase, IpEfdContabilidade
     {

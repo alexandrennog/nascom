@@ -2,9 +2,10 @@ using System;
 using System.Data;
 using System.Text;
 using ncNComum.nsAcessoBD;
-using ncNComum.nsFuncoes;
+using ncNComum;
+using nsEfd;
 
-namespace nsEfd
+namespace nNefd.Persistencia
 {
     public class pReg0000
     {

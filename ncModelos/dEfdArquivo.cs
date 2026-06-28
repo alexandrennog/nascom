@@ -1,6 +1,6 @@
 using System;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class dEfdArquivo
     {
@@ -26,4 +26,5 @@ namespace nsEFD
             set => _perfilArquivoFiscal = value;
         }
     }
+
 }

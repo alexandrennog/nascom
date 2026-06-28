@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsProduto
+namespace ncModelos
 {
     public class ColecaoItensProdutos : List<ColecaoProdutoItem>
     {
@@ -98,4 +98,5 @@ namespace nsProduto
             set => _produtos_cor = value;
         }
     }
+
 }

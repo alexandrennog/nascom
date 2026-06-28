@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsVeiculos;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsVeiculos
+namespace ncRepositorios
 {
     public class pVeiculos : RepositorioBase, IpVeiculos
     {

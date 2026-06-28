@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCobranca
+namespace ncModelos
 {
     public class ColecaoCobranca : List<dCobrancaAutomatica>
     {
@@ -87,4 +87,5 @@ namespace nsCobranca
             set => _datavencimento = value;
         }
     }
+
 }

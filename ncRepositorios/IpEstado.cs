@@ -1,6 +1,7 @@
 using System;
+using ncModelos;
 
-namespace ncPersistencia.nsEstado
+namespace ncRepositorios
 {
     public interface IpEstado
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsGradeEntrada
+namespace ncModelos
 {
     public class ColecaoGradeEntrada : List<dGradeEntrada>
     {
@@ -52,4 +52,5 @@ namespace nsGradeEntrada
             set => _entrada_qtde = value;
         }
     }
+
 }

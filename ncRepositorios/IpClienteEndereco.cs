@@ -1,8 +1,8 @@
-using nsCliente;
 using System;
+using ncModelos;
 
 
-namespace ncPersistencia.nsCliente
+namespace ncRepositorios
 {
     public interface IpClienteEndereco
     {

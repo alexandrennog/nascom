@@ -1,9 +1,10 @@
 using System;
 using System.Configuration;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia
+namespace ncRepositorios
 {
     public abstract class RepositorioBase
     {

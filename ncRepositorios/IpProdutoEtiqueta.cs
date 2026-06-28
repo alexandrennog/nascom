@@ -1,7 +1,7 @@
 using System;
-using nsProdutoEtiqueta;
+using ncModelos;
 
-namespace ncPersistencia.nsProdutoEtiqueta
+namespace ncRepositorios
 {
     public interface IpProdutoEtiqueta
     {

@@ -1,7 +1,7 @@
 using System;
-using nsCliente;
+using ncModelos;
 
-namespace ncPersistencia.nsCliente
+namespace ncRepositorios
 {
     public interface IpCliente
     {

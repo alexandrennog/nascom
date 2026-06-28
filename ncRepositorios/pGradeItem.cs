@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsGradeItem;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsGradeItem
+namespace ncRepositorios
 {
     public class pGradeItem : RepositorioBase, IpGradeItem
     {

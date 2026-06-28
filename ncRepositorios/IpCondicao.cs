@@ -1,7 +1,7 @@
 using System;
-using nsCondicao;
+using ncModelos;
 
-namespace ncPersistencia.nsCondicao
+namespace ncRepositorios
 {
     public interface IpCondicao
     {

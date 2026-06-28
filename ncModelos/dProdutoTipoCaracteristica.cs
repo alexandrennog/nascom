@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsProduto
+namespace ncModelos
 {
     public class ColecaoProdutoTipoCaracteristica : List<dProdutoTipoCaracteristica>
     {
@@ -52,4 +52,5 @@ namespace nsProduto
             set => _quantidade = value;
         }
     }
+
 }

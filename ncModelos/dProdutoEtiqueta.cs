@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsProdutoEtiqueta
+namespace ncModelos
 {
     public class ColecaoProdutoEtiqueta : List<dProdutoEtiqueta>
     {
@@ -73,4 +73,5 @@ namespace nsProdutoEtiqueta
             set => _cor = value;
         }
     }
+
 }

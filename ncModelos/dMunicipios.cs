@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsMunicipios
+namespace ncModelos
 {
     public class ColecaoMunicipios : List<dMunicipios>
     {
@@ -45,4 +45,5 @@ namespace nsMunicipios
             set => _situacao = value;
         }
     }
+
 }

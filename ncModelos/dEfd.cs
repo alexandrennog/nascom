@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class ColC190 : List<dC190>
     {
@@ -98,4 +98,5 @@ namespace nsEFD
     public class dEfd
     {
     }
+
 }

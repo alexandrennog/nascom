@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsModelos
+namespace ncModelos
 {
     public class ColecaoUsuario : List<dUsuario>
     {

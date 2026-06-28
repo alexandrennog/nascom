@@ -3,7 +3,7 @@ using System.Diagnostics;
 using LibNF65;
 using LibNF65.Modelo;
 
-namespace ncNComum.nsComum
+namespace ncNComum
 {
     public class cComum
     {

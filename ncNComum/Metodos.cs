@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ncNComum.DFW
+namespace ncNComum
 {
     public class Declaracoes
     {

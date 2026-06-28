@@ -1,7 +1,7 @@
 using System;
-using nsCaracteristica;
+using ncModelos;
 
-namespace ncPersistencia.nsCaracteristica
+namespace ncRepositorios
 {
     public interface IpCaracteristica
     {

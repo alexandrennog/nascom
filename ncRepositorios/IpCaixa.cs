@@ -1,7 +1,7 @@
-using System;
-using nsCaixa;
+using ncModelos;
 
-namespace ncPersistencia.nsCaixa
+
+namespace ncRepositorios
 {
     public interface IpCaixa
     {

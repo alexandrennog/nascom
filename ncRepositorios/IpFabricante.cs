@@ -1,7 +1,7 @@
 using System;
-using nsFabricante;
+using ncModelos;
 
-namespace ncPersistencia.nsFabricante
+namespace ncRepositorios
 {
     public interface IpFabricante
     {

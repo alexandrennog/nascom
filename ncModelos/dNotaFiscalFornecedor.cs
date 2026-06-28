@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsNotaFiscalFornecedor
+namespace ncModelos
 {
     public class ColecaoNotaFiscalFornecedor : List<dNotaFiscalFornecedor> { }
 
@@ -40,4 +40,5 @@ namespace nsNotaFiscalFornecedor
         public decimal? valorCofinsRetidoSubstituicao { get; set; }
         public string produtoCodigo { get; set; }
     }
+
 }

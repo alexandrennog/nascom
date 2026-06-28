@@ -1,7 +1,7 @@
 using System;
-using nsContasPagar;
+using ncModelos;
 
-namespace ncPersistencia.nsContasPagar
+namespace ncRepositorios
 {
     public interface IpContasPagar
     {

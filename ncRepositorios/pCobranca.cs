@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using ncPersistencia;
-using nsCobranca;
+using ncNComum;
+using ncModelos;
+using ncRepositorios;
 
 public class pCobranca : RepositorioBase, IpCobranca
 {

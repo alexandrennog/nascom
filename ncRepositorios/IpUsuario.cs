@@ -1,8 +1,8 @@
-using nsModelos;
 using System;
+using ncModelos;
 
 
-namespace ncPersistencia.nsUsuario
+namespace ncRepositorios
 {
     public interface IpUsuario
     {

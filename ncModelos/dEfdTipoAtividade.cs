@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class ColecaoEfdTipoAtividade : List<dEfdTipoAtividade>
     {
@@ -24,4 +24,5 @@ namespace nsEFD
             set => _descricao = value;
         }
     }
+
 }

@@ -1,7 +1,7 @@
 using System;
-using nsFornecedor;
+using ncModelos;
 
-namespace ncPersistencia.nsFornecedor
+namespace ncRepositorios
 {
     public interface IpFornecedor
     {

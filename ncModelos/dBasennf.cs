@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace nsVenda
+namespace ncModelos
 {
     public class ColecaoBasennf : List<dBasennf> { }
 
@@ -9,4 +9,5 @@ namespace nsVenda
         public int SeqNFe { get; set; }
         public string chnfe { get; set; }
     }
+
 }

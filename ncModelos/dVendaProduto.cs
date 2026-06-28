@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsVenda
+namespace ncModelos
 {
     public class ColecaoVendaProduto : List<dVendaProduto>
     {
@@ -73,4 +73,5 @@ namespace nsVenda
             set => _aliquota = value;
         }
     }
+
 }

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsOrdemServico;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsOrdemServico
+namespace ncRepositorios
 {
     public class pOrdemServico : RepositorioBase, IpOrdemServico
     {

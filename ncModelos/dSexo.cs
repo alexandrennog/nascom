@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsModelos
+namespace ncModelos
 {
     public class ColecaoSexo : List<dSexo>
     {
@@ -24,4 +24,5 @@ namespace nsModelos
             set => _descricao = value;
         }
     }
+
 }

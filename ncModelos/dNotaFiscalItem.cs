@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsNotaFiscalFornecedor
+namespace ncModelos
 {
     public class ColecaoNotaFiscalItem : List<dNotaFiscalItem>
     {
@@ -73,4 +73,5 @@ namespace nsNotaFiscalFornecedor
             set => _produtos_referencia = value;
         }
     }
+
 }

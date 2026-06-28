@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsFabricante
+namespace ncModelos
 {
     public class ColecaoFabricante : List<dFabricante>
     {
@@ -31,4 +31,5 @@ namespace nsFabricante
             set => _situacao = value;
         }
     }
+
 }

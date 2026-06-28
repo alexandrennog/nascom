@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsCurvaABC;
-using nsVenda;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsVenda
+namespace ncRepositorios
 {
     public class pVenda : RepositorioBase, IpVenda
     {

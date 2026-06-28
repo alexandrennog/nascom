@@ -1,7 +1,7 @@
 using System;
-using nsLoja;
+using ncModelos;
 
-namespace ncPersistencia.nsLoja
+namespace ncRepositorios
 {
     public interface IpLoja
     {

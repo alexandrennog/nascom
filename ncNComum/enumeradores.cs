@@ -1,4 +1,4 @@
-namespace ncNComum.nsEnumeradores
+namespace ncNComum
 {
     public class cEnumeradores
     {

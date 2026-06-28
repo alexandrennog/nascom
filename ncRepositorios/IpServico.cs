@@ -1,7 +1,7 @@
 using System;
-using nsServico;
+using ncModelos;
 
-namespace ncPersistencia.nsServico
+namespace ncRepositorios
 {
     public interface IpServico
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsGrupo
+namespace ncModelos
 {
     public class ColecaoGrupo : List<dGrupo>
     {
@@ -31,4 +31,5 @@ namespace nsGrupo
             set => _situacao = value;
         }
     }
+
 }

@@ -1,7 +1,7 @@
-using nsProduto;
 using System;
+using ncModelos;
 
-namespace ncPersistencia.nsProduto
+namespace ncRepositorios
 {
     public interface IpProdutoTipo
     {

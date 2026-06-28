@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsOrdemServico
+namespace ncModelos
 {
     public class ColecaoOrdemServico : List<dOrdemServico>
     {
@@ -66,4 +66,5 @@ namespace nsOrdemServico
             set => _situacao = value;
         }
     }
+
 }

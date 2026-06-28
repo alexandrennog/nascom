@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsGiro;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsGiro
+namespace ncRepositorios
 {
     public class pGiro : RepositorioBase, IpGiro
     {

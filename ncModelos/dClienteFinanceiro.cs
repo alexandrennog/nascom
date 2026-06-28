@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCliente
+namespace ncModelos
 {
     public class ColecaoClienteFinanceiro : List<dClienteFinanceiro>
     {
@@ -150,4 +150,5 @@ namespace nsCliente
             set => _motivo = value;
         }
     }
+
 }

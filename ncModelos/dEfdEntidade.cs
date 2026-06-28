@@ -1,6 +1,6 @@
 using System;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class dEfdEntidade
     {
@@ -96,4 +96,5 @@ namespace nsEFD
             set => _nomeFantasia = value;
         }
     }
+
 }

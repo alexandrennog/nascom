@@ -1,7 +1,7 @@
 using System;
-using nsEFD;
+using ncModelos;
 
-namespace ncPersistencia.nsEFD
+namespace ncRepositorios
 {
     public interface IpEfdUnidadeMedida
     {

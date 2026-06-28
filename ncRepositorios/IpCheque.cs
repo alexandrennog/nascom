@@ -1,8 +1,8 @@
-using nsCheques;
 using System;
+using ncModelos;
 
 
-namespace ncPersistencia.nsCheques
+namespace ncRepositorios
 {
     public interface IpCheques
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCliente
+namespace ncModelos
 {
     public class ColecaoClienteProfissional : List<dClienteProfissional>
     {
@@ -115,4 +115,5 @@ namespace nsCliente
             set => _salario = value;
         }
     }
+
 }

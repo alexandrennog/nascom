@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsVenda
+namespace ncModelos
 {
     public class ColecaodVendasNfe : List<dVendasNfe>
     {
@@ -31,4 +31,5 @@ namespace nsVenda
             set => _valor = value;
         }
     }
+
 }

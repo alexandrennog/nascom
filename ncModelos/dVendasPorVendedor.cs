@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsVenda
+namespace ncModelos
 {
     public class ColecaoVendasPorVendedor : List<dVendasPorVendedor>
     {
@@ -66,4 +66,5 @@ namespace nsVenda
             set => _dataFim = value;
         }
     }
+
 }

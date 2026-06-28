@@ -2,7 +2,8 @@ using System;
 using System.Data;
 using System.Text;
 using ncNComum.nsAcessoBD;
-using static ncNComum.nsFuncoes.cFuncoes;
+
+
 
 namespace nsEfd
 {
@@ -23,9 +24,9 @@ namespace nsEfd
             comando.Append(" FROM produtos p ");
             comando.Append(" INNER JOIN vendasprodutos vp on vp.produto = p.cid INNER JOIN vendas v ON v.controle = vp.controle ");
             comando.Append(" WHERE IFNULL(p.efdIntegracao, 1) = 1 AND V.DATA BETWEEN '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataInicio)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataInicio.ToString())));
             comando.Append(" 00:00:00.000' AND '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataFim)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataFim.ToString())));
             comando.Append(" 23:59:59.999' ");
 
             comando.Append(" UNION ALL ");
@@ -34,9 +35,9 @@ namespace nsEfd
             comando.Append(" p.efdUnidadeMedidaCodigo ");
             comando.Append(" FROM logestoque le INNER JOIN produtos p ON p.cid = le.produto_cid ");
             comando.Append(" WHERE IFNULL(p.efdIntegracao, 1) = 1 AND le.data BETWEEN '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataInicio)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataInicio.ToString())));
             comando.Append(" 00:00:00.000' AND '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataFim)));
+            comando.Append(ncNComum.cFuncoes.FormatarDataUniversal(ncNComum.cFuncoes.FormatarDataBarras(dataFim.ToString())));
             comando.Append(" 23:59:59.999' ");
 
             comando.Append(" ) AS tmp ");
@@ -54,8 +55,8 @@ namespace nsEfd
                     foreach (DataRow linha in dt.Rows)
                     {
                         var item = new dReg0190();
-                        item.unid = RetornarTexto(linha["codigo"]);
-                        item.descr = RetornarTexto(linha["descricao"]);
+                        item.unid = ncNComum.cFuncoes.RetornarTexto(linha["codigo"]);
+                        item.descr = ncNComum.cFuncoes.RetornarTexto(linha["descricao"]);
                         retorno.Add(item);
                     }
                 }

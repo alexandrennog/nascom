@@ -1,7 +1,7 @@
 using System;
-using nsNotaFiscalFornecedor;
+using ncModelos;
 
-namespace ncPersistencia.nsNotaFiscalFornecedor
+namespace ncRepositorios
 {
     public interface IpNotaFiscalFornecedor
     {

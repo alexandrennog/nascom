@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCliente
+namespace ncModelos
 {
     public class ColecaoClienteEndereco : List<dClienteEndereco>
     {
@@ -108,4 +108,5 @@ namespace nsCliente
             set => _siglaEstado = value;
         }
     }
+
 }

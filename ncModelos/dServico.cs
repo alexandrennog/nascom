@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsServico
+namespace ncModelos
 {
     public class ColecaoServico : List<dServico> { }
 
@@ -12,4 +12,5 @@ namespace nsServico
         public string situacao { get; set; }
         public decimal valor { get; set; }
     }
+
 }

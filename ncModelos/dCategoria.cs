@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCategoria
+namespace ncModelos
 {
     public class ColecaoCategoria : List<dCategoria> { }
 
@@ -11,4 +11,5 @@ namespace nsCategoria
         public string nome { get; set; }
         public string situacao { get; set; }
     }
+
 }

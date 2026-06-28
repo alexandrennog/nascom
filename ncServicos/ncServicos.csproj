@@ -42,14 +42,16 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ncDados\ncDados.vbproj">
-      <Name>ncDados</Name>
+    <ProjectReference Include="..\ncModelos\ncModelos.csproj">
+      <Project>{4f04e009-dd00-d736-bda5-8f1fa1e9e3fd}</Project>
+      <Name>ncModelos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ncNComum\ncNComum.csproj">
+      <Project>{992264e8-a306-4fd9-afba-01906adf33ba}</Project>
+      <Name>ncNComum</Name>
     </ProjectReference>
     <ProjectReference Include="..\ncRegras\ncRegras.vbproj">
       <Name>ncRegras</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ncComum\ncComum.vbproj">
-      <Name>ncComum</Name>
     </ProjectReference>
     <ProjectReference Include="..\ncRepositorios\ncRepositorios.csproj">
       <Name>ncRepositorios</Name>
@@ -57,66 +59,69 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="sCaixa.cs" />
-    <Compile Include="sCaracteristica.cs" />
-    <Compile Include="sCaracteristicaItem.cs" />
-    <Compile Include="sCategoria.cs" />
-    <Compile Include="sCheque.cs" />
-    <Compile Include="sCliente.cs" />
-    <Compile Include="sClienteEndereco.cs" />
-    <Compile Include="sClienteFinanceiro.cs" />
-    <Compile Include="sClienteProfissional.cs" />
-    <Compile Include="sCobranca.cs" />
-    <Compile Include="sCondicao.cs" />
-    <Compile Include="sContasPagar.cs" />
-    <Compile Include="sCor.cs" />
-    <Compile Include="sCrediario.cs" />
-    <Compile Include="sEfdArquivo.cs" />
-    <Compile Include="sEfdContabilidade.cs" />
-    <Compile Include="sEfdEnderecoContato.cs" />
-    <Compile Include="sEfdEntidade.cs" />
-    <Compile Include="sEfdFinalidadeArquivo.cs" />
-    <Compile Include="sEfdPerfilArquivoFiscal.cs" />
-    <Compile Include="sEfdTipoAtividade.cs" />
-    <Compile Include="sEfdTipoPessoa.cs" />
-    <Compile Include="sEfdUnidadeMedida.cs" />
-    <Compile Include="sEstado.cs" />
-    <Compile Include="sEstadoCivil.cs" />
-    <Compile Include="sFabricante.cs" />
-    <Compile Include="sFornecedor.cs" />
-    <Compile Include="sGiro.cs" />
-    <Compile Include="sGradeItem.cs" />
-    <Compile Include="sGrupo.cs" />
-    <Compile Include="sLoja.cs" />
-    <Compile Include="sMunicipios.cs" />
-    <Compile Include="sNotaFiscalFornecedor.cs" />
-    <Compile Include="sOrdemServico.cs" />
-    <Compile Include="sParametro.cs" />
-    <Compile Include="sPix.cs" />
-    <Compile Include="sPixConfig.cs" />
-    <Compile Include="sPreVenda.cs" />
-    <Compile Include="sPreVendaProduto.cs" />
-    <Compile Include="sProduto.cs" />
-    <Compile Include="sProdutoEtiqueta.cs" />
-    <Compile Include="sProdutoItem.cs" />
-    <Compile Include="sProdutoTipo.cs" />
-    <Compile Include="sProdutoTipoCaracteristica.cs" />
-    <Compile Include="sServico.cs" />
-    <Compile Include="sSexo.cs" />
-    <Compile Include="sSimNao.cs" />
-    <Compile Include="sSituacao.cs" />
-    <Compile Include="sSituacaoNotaFiscal.cs" />
-    <Compile Include="sTipoEmissao.cs" />
-    <Compile Include="sTipoFluxo.cs" />
-    <Compile Include="sTipoFrete.cs" />
-    <Compile Include="sTipoNotaFiscal.cs" />
-    <Compile Include="sTipoPagamento.cs" />
-    <Compile Include="sTipoResidencia.cs" />
-    <Compile Include="sUsuario.cs" />
-    <Compile Include="sUsuarioPerfil.cs" />
-    <Compile Include="sVeiculos.cs" />
-    <Compile Include="sVenda.cs" />
-    <Compile Include="sVendaProduto.cs" />
+    <Compile Include="rCaixa.cs" />
+    <Compile Include="rCaracteristica.cs" />
+    <Compile Include="rCaracteristicaItem.cs" />
+    <Compile Include="rCategoria.cs" />
+    <Compile Include="rCheque.cs" />
+    <Compile Include="rCliente.cs" />
+    <Compile Include="rClienteEndereco.cs" />
+    <Compile Include="rClienteFinanceiro.cs" />
+    <Compile Include="rClienteProfissional.cs" />
+    <Compile Include="rCobranca.cs" />
+    <Compile Include="rCondicao.cs" />
+    <Compile Include="rContasPagar.cs" />
+    <Compile Include="rCor.cs" />
+    <Compile Include="rCrediario.cs" />
+    <Compile Include="rEfdArquivo.cs" />
+    <Compile Include="rEfdContabilidade.cs" />
+    <Compile Include="rEfdEnderecoContato.cs" />
+    <Compile Include="rEfdEntidade.cs" />
+    <Compile Include="rEfdFinalidadeArquivo.cs" />
+    <Compile Include="rEfdPerfilArquivoFiscal.cs" />
+    <Compile Include="rEfdTipoAtividade.cs" />
+    <Compile Include="rEfdTipoPessoa.cs" />
+    <Compile Include="rEfdUnidadeMedida.cs" />
+    <Compile Include="rEstado.cs" />
+    <Compile Include="rEstadoCivil.cs" />
+    <Compile Include="rFabricante.cs" />
+    <Compile Include="rFornecedor.cs" />
+    <Compile Include="rGiro.cs" />
+    <Compile Include="rGradeItem.cs" />
+    <Compile Include="rGrupo.cs" />
+    <Compile Include="rLoja.cs" />
+    <Compile Include="rMunicipios.cs" />
+    <Compile Include="rNotaFiscalFornecedor.cs" />
+    <Compile Include="rOrdemServico.cs" />
+    <Compile Include="rParametro.cs" />
+    <Compile Include="rPix.cs" />
+    <Compile Include="rPixConfig.cs" />
+    <Compile Include="rPreVenda.cs" />
+    <Compile Include="rPreVendaProduto.cs" />
+    <Compile Include="rProduto.cs" />
+    <Compile Include="rProdutoEtiqueta.cs" />
+    <Compile Include="rProdutoItem.cs" />
+    <Compile Include="rProdutoTipo.cs" />
+    <Compile Include="rProdutoTipoCaracteristica.cs" />
+    <Compile Include="rServico.cs" />
+    <Compile Include="rSexo.cs" />
+    <Compile Include="rSimNao.cs" />
+    <Compile Include="rSituacao.cs" />
+    <Compile Include="rSituacaoNotaFiscal.cs" />
+    <Compile Include="rTipoEmissao.cs" />
+    <Compile Include="rTipoFluxo.cs" />
+    <Compile Include="rTipoFrete.cs" />
+    <Compile Include="rTipoNotaFiscal.cs" />
+    <Compile Include="rTipoPagamento.cs" />
+    <Compile Include="rTipoResidencia.cs" />
+    <Compile Include="rUsuario.cs" />
+    <Compile Include="rUsuarioPerfil.cs" />
+    <Compile Include="rVeiculos.cs" />
+    <Compile Include="rVenda.cs" />
+    <Compile Include="rVendaProduto.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

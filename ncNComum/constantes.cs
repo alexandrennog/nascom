@@ -1,4 +1,4 @@
-namespace ncNComum.nsConstantes
+namespace ncNComum
 {
     public class cConstantes
     {

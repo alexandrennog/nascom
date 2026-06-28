@@ -1,6 +1,6 @@
 using System;
 
-namespace ncNComum.nsExcecao
+namespace ncNComum
 {
     public class ExcecaoNascomercio : Exception
     {

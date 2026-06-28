@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsCheques;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsCheques
+namespace ncRepositorios
 {
     public class pCheques : RepositorioBase, IpCheques
     {

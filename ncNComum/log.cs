@@ -1,8 +1,8 @@
 using System;
 using ncNComum.nsAcessoBD;
-using static ncNComum.nsFuncoes.cFuncoes;
 
-namespace ncNComum.nsLog
+
+namespace ncNComum
 {
     public class cLog
     {
@@ -24,9 +24,9 @@ namespace ncNComum.nsLog
                     " INSERT INTO " +
                     " log ( data, descricao, usuario ) " +
                     " VALUES (" +
-                    PersistirTexto(dataHoraFormatada) + "," +
-                    PersistirTexto(descricao) + "," +
-                    PersistirTexto(usuario) + ")";
+                    cFuncoes.PersistirTexto(dataHoraFormatada) + "," +
+                    cFuncoes.PersistirTexto(descricao) + "," +
+                    cFuncoes.PersistirTexto(usuario) + ")";
 
                 acessoBanco.ExecutarINT(comandoSQL);
             }
@@ -54,16 +54,16 @@ namespace ncNComum.nsLog
                     " logtransferencia ( data, usuario_cid, usuario_nomeCompleto, lojaOrigem_cid, lojaOrigem_razaoSocial, " +
                     " lojaDestino_cid, lojaDestino_razaoSocial, produto_cid, produtoItem_codigoBarras, quantidade ) " +
                     " VALUES (" +
-                    PersistirTexto(dataHoraFormatada) + "," +
-                    PersistirInteiro(usuarioCID) + "," +
-                    PersistirTexto(usuarioNome) + "," +
-                    PersistirInteiro(origemCID) + "," +
-                    PersistirTexto(origemRazao) + "," +
-                    PersistirInteiro(destinoCID) + "," +
-                    PersistirTexto(destinoRazao) + "," +
-                    PersistirInteiro(produtoCID) + "," +
-                    PersistirTexto(codigoBarras) + "," +
-                    PersistirInteiro(quantidade) + ")";
+                    cFuncoes.PersistirTexto(dataHoraFormatada) + "," +
+                    cFuncoes.PersistirInteiro(usuarioCID) + "," +
+                    cFuncoes.PersistirTexto(usuarioNome) + "," +
+                    cFuncoes.PersistirInteiro(origemCID) + "," +
+                    cFuncoes.PersistirTexto(origemRazao) + "," +
+                    cFuncoes.PersistirInteiro(destinoCID) + "," +
+                    cFuncoes.PersistirTexto(destinoRazao) + "," +
+                    cFuncoes.PersistirInteiro(produtoCID) + "," +
+                    cFuncoes.PersistirTexto(codigoBarras) + "," +
+                    cFuncoes.PersistirInteiro(quantidade) + ")";
 
                 acessoBanco.ExecutarINT(comandoSQL);
             }
@@ -91,14 +91,14 @@ namespace ncNComum.nsLog
                     " logestoque ( data, usuario_cid, usuario_nomeCompleto, " +
                     " produto_cid, produtoItem_codigoBarras, quantidade, impressao, notaFiscalNumero, notaFiscalSerie ) " +
                     " VALUES (" +
-                    PersistirTexto(dataHoraFormatada) + "," +
-                    PersistirInteiro(usuarioCID) + "," +
-                    PersistirTexto(usuarioNome) + "," +
-                    PersistirInteiro(produtoCID) + "," +
-                    PersistirTexto(codigoBarras) + "," +
-                    PersistirInteiro(quantidade) + ",null," +
-                    PersistirTexto(notaFiscalNumero) + "," +
-                    PersistirTexto(notaFiscalSerie) + ")";
+                    cFuncoes.PersistirTexto(dataHoraFormatada) + "," +
+                    cFuncoes.PersistirInteiro(usuarioCID) + "," +
+                    cFuncoes.PersistirTexto(usuarioNome) + "," +
+                    cFuncoes.PersistirInteiro(produtoCID) + "," +
+                    cFuncoes.PersistirTexto(codigoBarras) + "," +
+                    cFuncoes.PersistirInteiro(quantidade) + ",null," +
+                    cFuncoes.PersistirTexto(notaFiscalNumero) + "," +
+                    cFuncoes.PersistirTexto(notaFiscalSerie) + ")";
 
                 acessoBanco.ExecutarINT(comandoSQL);
             }
@@ -127,13 +127,13 @@ namespace ncNComum.nsLog
                     " produto_cid, produtoItem_codigoBarras, data, " +
                     " quantidadeEstoque, quantidadeAtualizacao ) " +
                     " VALUES (" +
-                    PersistirInteiro(usuarioCID) + "," +
-                    PersistirTexto(usuarioNome) + "," +
-                    PersistirInteiro(produtoCID) + "," +
-                    PersistirTexto(codigoBarras) + "," +
-                    PersistirData(dataHoraFormatada) + "," +
-                    PersistirInteiro(quantidadeEstoque) + "," +
-                    PersistirInteiro(quantidadeAtualizacao) + ")";
+                    cFuncoes.PersistirInteiro(usuarioCID) + "," +
+                    cFuncoes.PersistirTexto(usuarioNome) + "," +
+                    cFuncoes.PersistirInteiro(produtoCID) + "," +
+                    cFuncoes.PersistirTexto(codigoBarras) + "," +
+                    cFuncoes.PersistirData(dataHoraFormatada) + "," +
+                    cFuncoes.PersistirInteiro(quantidadeEstoque) + "," +
+                    cFuncoes.PersistirInteiro(quantidadeAtualizacao) + ")";
 
                 acessoBanco.ExecutarINT(comandoSQL);
             }

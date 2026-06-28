@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsUsuarioPerfil;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsUsuarioPerfil
+namespace ncRepositorios
 {
     public class pUsuarioPerfil : RepositorioBase, IpUsuarioPerfil
     {

@@ -1,8 +1,7 @@
 using System;
-using nsProduto;
-using nsGradeEntrada;
+using ncModelos;
 
-namespace ncPersistencia.nsProduto
+namespace ncRepositorios
 {
     public interface IpProduto
     {

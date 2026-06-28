@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsCaixa;
+using ncNComum;
+using ncModelos;
 
 
-namespace ncPersistencia.nsCaixa
+namespace ncRepositorios
 {
     public class pCaixa : RepositorioBase, IpCaixa
     {

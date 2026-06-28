@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsProduto
+namespace ncModelos
 {
     public class ColecaoProdutoTipo : List<dProdutoTipo>
     {
@@ -31,4 +31,5 @@ namespace nsProduto
             set => _situacao = value;
         }
     }
+
 }

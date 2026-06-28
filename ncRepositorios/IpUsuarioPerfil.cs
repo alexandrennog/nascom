@@ -1,7 +1,7 @@
 using System;
-using nsUsuarioPerfil;
+using ncModelos;
 
-namespace ncPersistencia.nsUsuarioPerfil
+namespace ncRepositorios
 {
     public interface IpUsuarioPerfil
     {

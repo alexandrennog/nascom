@@ -1,5 +1,6 @@
+using nNefd.Persistencia;
 using System;
-using static ncNComum.nsFuncoes.cFuncoes;
+using static ncNComum.cFuncoes;
 
 namespace nsEfd
 {

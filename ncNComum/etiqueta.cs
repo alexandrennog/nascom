@@ -1,11 +1,9 @@
+using ncModelos;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using nsCrediario;
-using nsProduto;
-using nsEtiquetaProdutoImpressao;
 
-namespace ncNComum.nsEtiqueta
+namespace ncNComum
 {
     public class ColecaoLinha : List<string> { }
 

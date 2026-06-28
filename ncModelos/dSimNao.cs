@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace nsDados
+namespace ncModelos
 {
     public class ColecaoSimNao : List<dSimNao> { }
 
@@ -9,4 +9,5 @@ namespace nsDados
         public string codigo { get; set; }
         public string descricao { get; set; }
     }
+
 }

@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using ncPersistencia;
+using ncNComum;
+using ncModelos;
+using ncRepositorios;
 
 public class ColecaoPix : System.Collections.Generic.List<dPix> { }
 

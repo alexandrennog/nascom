@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCaixa
+namespace ncModelos
 {
     public class ColecaoCaixa : List<dCaixa>
     {
@@ -45,4 +45,5 @@ namespace nsCaixa
             set => _usuario = value;
         }
     }
+
 }

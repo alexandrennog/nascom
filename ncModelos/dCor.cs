@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCor
+namespace ncModelos
 {
     public class ColecaoCor : List<dCor>
     {
@@ -31,4 +31,5 @@ namespace nsCor
             set => _situacao = value;
         }
     }
+
 }

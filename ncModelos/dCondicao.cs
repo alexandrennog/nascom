@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsCondicao
+namespace ncModelos
 {
     public class ColecaoCondicao : List<dCondicao>
     {
@@ -38,4 +38,5 @@ namespace nsCondicao
             set => _desconto = value;
         }
     }
+
 }

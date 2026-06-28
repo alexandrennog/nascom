@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsCor;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsCor
+namespace ncRepositorios
 {
     public class pCor : RepositorioBase, IpCor
     {

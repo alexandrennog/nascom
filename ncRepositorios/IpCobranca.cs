@@ -1,5 +1,5 @@
 using System;
-using nsCobranca;
+using ncModelos;
 
 public interface IpCobranca
 {

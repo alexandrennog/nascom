@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsEFD
+namespace ncModelos
 {
     public class ColecaoRegistro : List<dEfdRegistro>
     {
@@ -31,4 +31,5 @@ namespace nsEFD
             set => _quantidade = value;
         }
     }
+
 }

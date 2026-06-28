@@ -1,4 +1,5 @@
 using System;
+using ncModelos;
 
 public interface IpPix
 {

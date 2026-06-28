@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsLoja
+namespace ncModelos
 {
     public class ColecaoLoja : List<dLoja>
     {
@@ -157,4 +157,5 @@ namespace nsLoja
             set => _inscestadual = value;
         }
     }
+
 }

@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsProduto;
-using nsNotaFiscalFornecedor;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsNotaFiscalFornecedor
+namespace ncRepositorios
 {
     public class pNotaFiscalFornecedor : RepositorioBase, IpNotaFiscalFornecedor
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsContasPagar
+namespace ncModelos
 {
     public class ColecaoContasPagar : List<dContasPagar>
     {
@@ -94,4 +94,5 @@ namespace nsContasPagar
             set => _pago = value;
         }
     }
+
 }

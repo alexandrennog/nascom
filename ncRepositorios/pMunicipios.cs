@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
-using ncNComum.nsExcecao;
-using nsMunicipios;
+using ncNComum;
+using ncModelos;
 
-namespace ncPersistencia.nsMunicipios
+namespace ncRepositorios
 {
     public class pMunicipios : RepositorioBase, IpMunicipios
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace nsVeiculos
+namespace ncModelos
 {
     public class ColecaoVeiculos : List<dVeiculos>
     {
@@ -66,4 +66,5 @@ namespace nsVeiculos
             set => _combustivel = value;
         }
     }
+
 }

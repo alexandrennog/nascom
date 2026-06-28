@@ -1,7 +1,7 @@
 using System;
-using nsVenda;
+using ncModelos;
 
-namespace ncPersistencia.nsVenda
+namespace ncRepositorios
 {
     public interface IpPreVenda
     {

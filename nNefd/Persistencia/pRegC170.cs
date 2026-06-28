@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Text;
 using ncNComum.nsAcessoBD;
-using static ncNComum.nsFuncoes.cFuncoes;
+using static ncNComum.cFuncoes;
 
 namespace nsEfd
 {
@@ -24,9 +24,9 @@ namespace nsEfd
             comando.Append(" FROM logestoque le INNER JOIN produtos p ON p.cid = le.produto_cid AND IFNULL(p.efdIntegracao, 1) = 1 ");
             comando.Append(" INNER JOIN notafiscalfornecedor nff ON le.notaFiscalNumero = nff.numero ");
             comando.Append(" WHERE nff.dataEmissao BETWEEN '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataInicio)));
+            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataInicio.ToString())));
             comando.Append(" 00:00:00.000' AND '");
-            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataFim)));
+            comando.Append(FormatarDataUniversal(FormatarDataBarras(dataFim.ToString())));
             comando.Append(" 23:59:59.999' AND notaFiscalNumero is not null ");
 
             comando.Append(" ORDER BY 1, 2 ");

@@ -1,8 +1,8 @@
-using nsProduto;
 using System;
+using ncModelos;
 
 
-namespace ncPersistencia.nsProduto
+namespace ncRepositorios
 {
     public interface IpProdutoItem
     {
@@ -15,6 +15,7 @@ namespace ncPersistencia.nsProduto
         string ConsultarUltimoCodigoBarras();
         int Incluir(dProdutoItem dados);
         int Alterar(dProdutoItem dados);
+        int AlterarEstoque(string codigoBarras, decimal quantidade, bool somar);
         int Excluir(dProdutoItem dados);
         int ExcluirPorProduto(dProdutoItem dados);
     }
