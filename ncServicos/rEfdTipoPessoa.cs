@@ -1,6 +1,6 @@
 using System;
 
-using ncRegras;
+
 using ncNComum;
 using ncRepositorios;
 using ncModelos;

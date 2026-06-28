@@ -187,10 +187,6 @@
     <Compile Include="teste.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ncDados\ncDados.vbproj">
-      <Project>{0989AA3A-D886-427D-A635-355D5B93D95F}</Project>
-      <Name>ncDados</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ncModelos\ncModelos.csproj">
       <Project>{4f04e009-dd00-d736-bda5-8f1fa1e9e3fd}</Project>
       <Name>ncModelos</Name>

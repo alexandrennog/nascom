@@ -50,9 +50,6 @@
       <Project>{992264e8-a306-4fd9-afba-01906adf33ba}</Project>
       <Name>ncNComum</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ncRegras\ncRegras.vbproj">
-      <Name>ncRegras</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ncRepositorios\ncRepositorios.csproj">
       <Name>ncRepositorios</Name>
     </ProjectReference>
