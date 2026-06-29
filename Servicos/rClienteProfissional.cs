@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCliente
 {
-    public class rClienteProfissional
+    public class rClienteProfissional : IsClienteProfissional
     {
         private readonly IpClienteProfissional _repo;
         public rClienteProfissional(IpClienteProfissional repo) { _repo = repo; }
@@ -46,3 +46,4 @@ namespace Servicos.nsCliente
         }
     }
 }
+

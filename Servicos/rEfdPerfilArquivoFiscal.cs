@@ -6,7 +6,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEfdPerfilArquivoFiscal
+    public class rEfdPerfilArquivoFiscal : IsEfdPerfilArquivoFiscal
     {
         public ColecaoEfdPerfilArquivoFiscal Listar()
         {
@@ -23,3 +23,4 @@ namespace Servicos
         }
     }
 }
+

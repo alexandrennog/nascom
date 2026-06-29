@@ -6,7 +6,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEfdFinalidadeArquivo
+    public class rEfdFinalidadeArquivo : IsEfdFinalidadeArquivo
     {
         public ColecaoEfdFinalidadeArquivo Listar()
         {
@@ -23,3 +23,4 @@ namespace Servicos
         }
     }
 }
+

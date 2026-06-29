@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsFabricante
 {
-    public class rFabricante
+    public class rFabricante : IsFabricante
     {
         private readonly IpFabricante _repo;
         public rFabricante(IpFabricante repo) { _repo = repo; }
@@ -57,3 +57,4 @@ namespace Servicos.nsFabricante
         }
     }
 }
+

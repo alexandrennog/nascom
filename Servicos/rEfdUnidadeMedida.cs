@@ -7,7 +7,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEfdUnidadeMedida
+    public class rEfdUnidadeMedida : IsEfdUnidadeMedida
     {
         private readonly IpEfdUnidadeMedida _repo;
         public rEfdUnidadeMedida(IpEfdUnidadeMedida repo) { _repo = repo; }
@@ -45,3 +45,4 @@ namespace Servicos
         }
     }
 }
+

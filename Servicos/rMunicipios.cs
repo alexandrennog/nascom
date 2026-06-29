@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsMunicipios
 {
-    public class rMunicipios
+    public class rMunicipios : IsMunicipios
     {
         private readonly IpMunicipios _repo;
         public rMunicipios(IpMunicipios repo) { _repo = repo; }
@@ -71,3 +71,4 @@ namespace Servicos.nsMunicipios
         }
     }
 }
+

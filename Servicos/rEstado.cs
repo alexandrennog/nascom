@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsEstado
 {
-    public class rEstado
+    public class rEstado : IsEstado
     {
         private readonly IpEstado _repo;
         public rEstado(IpEstado repo) { _repo = repo; }
@@ -57,3 +57,4 @@ namespace Servicos.nsEstado
         }
     }
 }
+

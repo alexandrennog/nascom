@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rTipoEmissao
+    public class rTipoEmissao : IsTipoEmissao
     {
         public ColecaoTipoEmissao Listar()
         {
@@ -36,3 +36,4 @@ namespace Servicos
         }
     }
 }
+

@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsLoja
 {
-    public class rLoja
+    public class rLoja : IsLoja
     {
         private readonly IpLoja _repo;
         public rLoja(IpLoja repo) { _repo = repo; }
@@ -57,3 +57,4 @@ namespace Servicos.nsLoja
         }
     }
 }
+

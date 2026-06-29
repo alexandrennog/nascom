@@ -7,7 +7,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEfdContabilidade
+    public class rEfdContabilidade : IsEfdContabilidade
     {
         private readonly IpEfdContabilidade _repo;
         public rEfdContabilidade(IpEfdContabilidade repo) { _repo = repo; }
@@ -38,3 +38,4 @@ namespace Servicos
         }
     }
 }
+

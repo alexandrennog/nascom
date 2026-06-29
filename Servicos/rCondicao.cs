@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCondicao
 {
-    public class rCondicao
+    public class rCondicao : IsCondicao
     {
         private readonly IpCondicao _repo;
         public rCondicao(IpCondicao repo) { _repo = repo; }
@@ -57,3 +57,4 @@ namespace Servicos.nsCondicao
         }
     }
 }
+

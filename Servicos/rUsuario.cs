@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsUsuario
 {
-    public class rUsuario
+    public class rUsuario : IsUsuario
     {
         private readonly IpUsuario _repo;
         public rUsuario(IpUsuario repo) { _repo = repo; }
@@ -75,3 +75,4 @@ namespace Servicos.nsUsuario
         }
     }
 }
+

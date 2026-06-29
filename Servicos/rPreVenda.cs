@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using Comum;
 using Repositorios;
 using Modelos;
 
 namespace Servicos.nsVenda
 {
-    public class rPreVenda
+    public class rPreVenda : IsPreVenda
     {
         private readonly IpPreVenda _repo;
         public rPreVenda(IpPreVenda repo) { _repo = repo; }

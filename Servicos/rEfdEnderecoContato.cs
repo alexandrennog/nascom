@@ -7,7 +7,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEfdEnderecoContato
+    public class rEfdEnderecoContato : IsEfdEnderecoContato
     {
         private readonly IpEfdEnderecoContato _repo;
         public rEfdEnderecoContato(IpEfdEnderecoContato repo) { _repo = repo; }
@@ -38,3 +38,4 @@ namespace Servicos
         }
     }
 }
+

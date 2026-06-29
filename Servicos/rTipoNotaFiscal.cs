@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rTipoNotaFiscal
+    public class rTipoNotaFiscal : IsTipoNotaFiscal
     {
         public ColecaoTipoNotaFiscal Listar()
         {
@@ -36,3 +36,4 @@ namespace Servicos
         }
     }
 }
+

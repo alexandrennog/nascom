@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsGradeItem
 {
-    public class rGradeItem
+    public class rGradeItem : IsGradeItem
     {
         private readonly IpGradeItem _repo;
         public rGradeItem(IpGradeItem repo) { _repo = repo; }
@@ -39,3 +39,4 @@ namespace Servicos.nsGradeItem
         }
     }
 }
+

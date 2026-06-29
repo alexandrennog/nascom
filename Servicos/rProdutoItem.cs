@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsProduto
 {
-    public class rProdutoItem
+    public class rProdutoItem : IsProdutoItem
     {
         private readonly IpProdutoItem _repo;
         public rProdutoItem(IpProdutoItem repo) { _repo = repo; }
@@ -132,3 +132,4 @@ namespace Servicos.nsProduto
         }
     }
 }
+

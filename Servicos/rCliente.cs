@@ -6,7 +6,7 @@ using Modelos;
 
 namespace Servicos.nsCliente
 {
-    public class rCliente
+    public class rCliente : IsCliente
     {
         private readonly IpCliente _repo;
         private readonly IpClienteEndereco _clienteEndereco;
@@ -87,3 +87,4 @@ namespace Servicos.nsCliente
         }
     }
 }
+

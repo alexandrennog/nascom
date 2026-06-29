@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEstadoCivil
+    public class rEstadoCivil : IsEstadoCivil
     {
         public ColecaoEstadoCivil Listar()
         {
@@ -22,3 +22,4 @@ namespace Servicos
         }
     }
 }
+

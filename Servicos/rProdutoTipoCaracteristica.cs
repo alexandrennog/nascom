@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsProduto
 {
-    public class rProdutoTipoCaracteristica
+    public class rProdutoTipoCaracteristica : IsProdutoTipoCaracteristica
     {
         private readonly IpProdutoTipoCaracteristica _repo;
         public rProdutoTipoCaracteristica(IpProdutoTipoCaracteristica repo) { _repo = repo; }
@@ -60,3 +60,4 @@ namespace Servicos.nsProduto
         }
     }
 }
+

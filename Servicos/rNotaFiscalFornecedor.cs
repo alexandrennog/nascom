@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsNotaFiscalFornecedor
 {
-    public class rNotaFiscalFornecedor
+    public class rNotaFiscalFornecedor : IsNotaFiscalFornecedor
     {
         private readonly IpNotaFiscalFornecedor _repo;
         public rNotaFiscalFornecedor(IpNotaFiscalFornecedor repo) { _repo = repo; }
@@ -57,3 +57,4 @@ namespace Servicos.nsNotaFiscalFornecedor
         }
     }
 }
+

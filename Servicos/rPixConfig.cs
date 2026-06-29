@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsPix
 {
-    public class rPixConfig
+    public class rPixConfig : IsPixConfig
     {
         private readonly IpPix _repo;
         public rPixConfig(IpPix repo) { _repo = repo; }
@@ -25,3 +25,4 @@ namespace Servicos.nsPix
         }
     }
 }
+

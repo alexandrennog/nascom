@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsParametro
 {
-    public class rParametro
+    public class rParametro : IsParametro
     {
         private readonly IpParametro _repo;
         public rParametro(IpParametro repo) { _repo = repo; }

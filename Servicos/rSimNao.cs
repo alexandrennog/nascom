@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rSimNao
+    public class rSimNao : IsSimNao
     {
         public ColecaoSimNao Listar()
         {
@@ -22,3 +22,4 @@ namespace Servicos
         }
     }
 }
+

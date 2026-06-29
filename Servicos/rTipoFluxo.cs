@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rTipoFluxo
+    public class rTipoFluxo : IsTipoFluxo
     {
         public ColecaoTipoFluxo Listar()
         {
@@ -36,3 +36,4 @@ namespace Servicos
         }
     }
 }
+

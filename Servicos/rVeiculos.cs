@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsVeiculos
 {
-    public class rVeiculos
+    public class rVeiculos : IsVeiculos
     {
         private readonly IpVeiculos _repo;
         public rVeiculos(IpVeiculos repo) { _repo = repo; }
@@ -81,3 +81,4 @@ namespace Servicos.nsVeiculos
         }
     }
 }
+

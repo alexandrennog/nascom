@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsContasPagar
 {
-    public class rContasPagar
+    public class rContasPagar : IsContasPagar
     {
         private readonly IpContasPagar _repo;
         public rContasPagar(IpContasPagar repo) { _repo = repo; }
@@ -64,3 +64,4 @@ namespace Servicos.nsContasPagar
         }
     }
 }
+

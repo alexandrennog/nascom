@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCategoria
 {
-    public class rCategoria
+    public class rCategoria : IsCategoria
     {
         private readonly IpCategoria _repo;
         public rCategoria(IpCategoria repo) { _repo = repo; }
@@ -64,3 +64,4 @@ namespace Servicos.nsCategoria
         }
     }
 }
+

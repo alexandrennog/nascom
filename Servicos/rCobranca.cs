@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCobranca
 {
-    public class rCobranca
+    public class rCobranca : IsCobranca
     {
         private readonly IpCobranca _repo;
         public rCobranca(IpCobranca repo) { _repo = repo; }
@@ -18,3 +18,4 @@ namespace Servicos.nsCobranca
         }
     }
 }
+

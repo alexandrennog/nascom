@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsGiro
 {
-    public class rGiro
+    public class rGiro : IsGiro
     {
         private readonly IpGiro _repo;
         public rGiro(IpGiro repo) { _repo = repo; }
@@ -64,3 +64,4 @@ namespace Servicos.nsGiro
         }
     }
 }
+

@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCliente
 {
-    public class rClienteFinanceiro
+    public class rClienteFinanceiro : IsClienteFinanceiro
     {
         private readonly IpClienteFinanceiro _repo;
         public rClienteFinanceiro(IpClienteFinanceiro repo) { _repo = repo; }
@@ -46,3 +46,4 @@ namespace Servicos.nsCliente
         }
     }
 }
+

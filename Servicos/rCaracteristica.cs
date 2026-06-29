@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCaracteristica
 {
-    public class rCaracteristica
+    public class rCaracteristica : IsCaracteristica
     {
         private readonly IpCaracteristica _repo;
         public rCaracteristica(IpCaracteristica repo) { _repo = repo; }

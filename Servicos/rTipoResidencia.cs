@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rTipoResidencia
+    public class rTipoResidencia : IsTipoResidencia
     {
         public ColecaoTipoResidencia Listar()
         {
@@ -22,3 +22,4 @@ namespace Servicos
         }
     }
 }
+

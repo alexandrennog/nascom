@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rTipoFrete
+    public class rTipoFrete : IsTipoFrete
     {
         public ColecaoTipoFrete Listar()
         {
@@ -36,3 +36,4 @@ namespace Servicos
         }
     }
 }
+

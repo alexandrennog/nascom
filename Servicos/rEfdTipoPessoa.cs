@@ -8,7 +8,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEfdTipoPessoa
+    public class rEfdTipoPessoa : IsEfdTipoPessoa
     {
         public ColecaoEfdTipoPessoa Listar()
         {
@@ -25,3 +25,4 @@ namespace Servicos
         }
     }
 }
+

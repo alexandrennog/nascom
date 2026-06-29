@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsGrupo
 {
-    public class rGrupo
+    public class rGrupo : IsGrupo
     {
         private readonly IpGrupo _repo;
         public rGrupo(IpGrupo repo) { _repo = repo; }
@@ -64,3 +64,4 @@ namespace Servicos.nsGrupo
         }
     }
 }
+

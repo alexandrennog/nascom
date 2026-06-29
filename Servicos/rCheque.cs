@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCheques
 {
-    public class rCheque
+    public class rCheque : IsCheque
     {
         private readonly IpCheques _repo;
         public rCheque(IpCheques repo) { _repo = repo; }
@@ -78,3 +78,4 @@ namespace Servicos.nsCheques
         }
     }
 }
+

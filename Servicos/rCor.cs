@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCor
 {
-    public class rCor
+    public class rCor : IsCor
     {
         private readonly IpCor _repo;
         public rCor(IpCor repo) { _repo = repo; }
@@ -64,3 +64,4 @@ namespace Servicos.nsCor
         }
     }
 }
+

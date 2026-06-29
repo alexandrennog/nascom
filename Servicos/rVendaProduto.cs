@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsVenda
 {
-    public class rVendaProduto
+    public class rVendaProduto : IsVendaProduto
     {
         private readonly IpVendaProduto _repo;
         public rVendaProduto(IpVendaProduto repo) { _repo = repo; }
@@ -74,3 +74,4 @@ namespace Servicos.nsVenda
         }
     }
 }
+

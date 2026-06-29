@@ -6,7 +6,7 @@ using Modelos;
 
 namespace Servicos.nsCrediario
 {
-    public class rCrediario
+    public class rCrediario : IsCrediario
     {
         private readonly IpCrediario _crediario;
         private readonly IpParcela _parcela;
@@ -195,3 +195,4 @@ namespace Servicos.nsCrediario
         }
     }
 }
+

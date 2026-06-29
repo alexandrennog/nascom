@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rTipoPagamento
+    public class rTipoPagamento : IsTipoPagamento
     {
         public ColecaoTipoPagamento Listar()
         {
@@ -36,3 +36,4 @@ namespace Servicos
         }
     }
 }
+

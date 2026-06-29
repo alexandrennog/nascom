@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsCaracteristica
 {
-    public class rCaracteristicaItem
+    public class rCaracteristicaItem : IsCaracteristicaItem
     {
         private readonly IpCaracteristicaItem _repo;
         public rCaracteristicaItem(IpCaracteristicaItem repo) { _repo = repo; }
@@ -71,3 +71,4 @@ namespace Servicos.nsCaracteristica
         }
     }
 }
+

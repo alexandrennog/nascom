@@ -6,7 +6,7 @@ using Modelos;
 
 namespace Servicos
 {
-    public class rEfdTipoAtividade
+    public class rEfdTipoAtividade : IsEfdTipoAtividade
     {
         public ColecaoEfdTipoAtividade Listar()
         {
@@ -23,3 +23,4 @@ namespace Servicos
         }
     }
 }
+

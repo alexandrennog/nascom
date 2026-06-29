@@ -5,7 +5,7 @@ using Modelos;
 
 namespace Servicos.nsFornecedor
 {
-    public class rFornecedor
+    public class rFornecedor : IsFornecedor
     {
         private readonly IpFornecedor _repo;
         public rFornecedor(IpFornecedor repo) { _repo = repo; }
@@ -64,3 +64,4 @@ namespace Servicos.nsFornecedor
         }
     }
 }
+

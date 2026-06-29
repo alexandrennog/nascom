@@ -5,7 +5,7 @@ using Comum;
 
 namespace Servicos
 {
-    public class rCaixa
+    public class rCaixa : IsCaixa
     {
         private readonly IpCaixa _repo;
         public rCaixa(IpCaixa repo) { _repo = repo; }
