@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsEstado
+namespace Servicos
 {
     public class rEstado : IsEstado
     {

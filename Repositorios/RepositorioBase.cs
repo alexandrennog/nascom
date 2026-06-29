@@ -8,13 +8,24 @@ namespace Repositorios
 {
     public abstract class RepositorioBase
     {
+        // Definido uma vez na inicialização da aplicação (ex: Program.cs)
+        public static string? ConnectionString { get; set; }
+
         protected MySqlConnection CriarConexao()
         {
             try
             {
-                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                var connStr = config.ConnectionStrings.ConnectionStrings["nascomercio"].ConnectionString;
-                connStr = ExtrairSenha(connStr);
+                string connStr;
+                if (!string.IsNullOrEmpty(ConnectionString))
+                {
+                    connStr = ConnectionString;
+                }
+                else
+                {
+                    var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                    connStr = config.ConnectionStrings.ConnectionStrings["nascomercio"].ConnectionString;
+                    connStr = ExtrairSenha(connStr);
+                }
                 var conn = new MySqlConnection(connStr);
                 conn.Open();
                 return conn;

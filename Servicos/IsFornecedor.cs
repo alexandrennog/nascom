@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsFornecedor
+namespace Servicos
 {
     public interface IsFornecedor
     {

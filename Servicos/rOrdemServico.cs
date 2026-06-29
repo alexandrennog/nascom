@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsOrdemServico
+namespace Servicos
 {
     public class rOrdemServico : IsOrdemServico
     {

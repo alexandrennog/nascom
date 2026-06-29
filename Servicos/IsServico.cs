@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsServico
+namespace Servicos
 {
     public interface IsServico
     {

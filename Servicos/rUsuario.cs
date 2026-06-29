@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsUsuario
+namespace Servicos
 {
     public class rUsuario : IsUsuario
     {

@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsProduto
+namespace Servicos
 {
     public class rProdutoTipo : IsProdutoTipo
     {

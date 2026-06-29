@@ -1,8 +1,8 @@
-using Comum;
+﻿using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsPix
+namespace Servicos
 {
     public interface IsPix
     {

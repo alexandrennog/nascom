@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsCliente
+namespace Servicos
 {
     public interface IsClienteEndereco
     {

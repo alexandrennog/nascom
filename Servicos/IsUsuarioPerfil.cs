@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsUsuarioPerfil
+namespace Servicos
 {
     public interface IsUsuarioPerfil
     {

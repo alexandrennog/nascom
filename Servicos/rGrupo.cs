@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsGrupo
+namespace Servicos
 {
     public class rGrupo : IsGrupo
     {

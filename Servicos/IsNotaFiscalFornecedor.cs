@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsNotaFiscalFornecedor
+namespace Servicos
 {
     public interface IsNotaFiscalFornecedor
     {

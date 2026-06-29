@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsCor
+namespace Servicos
 {
     public class rCor : IsCor
     {

@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsMunicipios
+namespace Servicos
 {
     public class rMunicipios : IsMunicipios
     {

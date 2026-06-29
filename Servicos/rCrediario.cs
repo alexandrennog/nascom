@@ -4,7 +4,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsCrediario
+namespace Servicos
 {
     public class rCrediario : IsCrediario
     {

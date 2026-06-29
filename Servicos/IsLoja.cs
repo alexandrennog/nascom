@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsLoja
+namespace Servicos
 {
     public interface IsLoja
     {

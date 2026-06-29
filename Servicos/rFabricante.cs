@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsFabricante
+namespace Servicos
 {
     public class rFabricante : IsFabricante
     {

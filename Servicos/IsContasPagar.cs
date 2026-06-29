@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsContasPagar
+namespace Servicos
 {
     public interface IsContasPagar
     {

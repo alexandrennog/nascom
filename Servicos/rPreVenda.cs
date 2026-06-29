@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsVenda
+namespace Servicos
 {
     public class rPreVenda : IsPreVenda
     {

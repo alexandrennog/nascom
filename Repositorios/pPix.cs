@@ -1,130 +1,91 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Dapper;
 using MySql.Data.MySqlClient;
 using Comum;
 using Modelos;
-using Repositorios;
 
-public class ColecaoPix : System.Collections.Generic.List<dPix> { }
-
-public class pPix : RepositorioBase, IpPix
+namespace Repositorios
 {
-    public ColecaoPix Consultar(dPix dados)
+    public class pPix : RepositorioBase, IpPix
     {
-        try
+        public ColecaoPix Consultar(dPix dados)
         {
-            using (var conn = CriarConexao())
+            try
             {
-                var conditions = new List<string>();
-                var p = new DynamicParameters();
-                if (dados.TxId != "0") { conditions.Add("TxId=@TxId"); p.Add("TxId", dados.TxId); }
-                if (dados.Controle != 0) { conditions.Add("controle=@Controle"); p.Add("Controle", dados.Controle); }
-                var where = conditions.Count > 0 ? "WHERE " + string.Join(" AND ", conditions) : "";
-                var sql = $"SELECT txID AS TxId, Observacao, SolicitacaoPagador AS Pagador, DataHora, Original, controle AS Controle, Status FROM PIX {where} ORDER BY DataHora DESC";
-                var lista = conn.Query<dPix>(sql, p).AsList();
-                if (lista.Count == 0) return null;
-                var retorno = new ColecaoPix();
-                retorno.AddRange(lista);
-                return retorno;
+                using var conn = CriarConexao();
+                var lista = conn.Query<dPix>(
+                    "SELECT cid, txid, status, valor, dataCriacao, dataAtualizacao, clientes_cid FROM pix WHERE (@txid IS NULL OR txid = @txid) AND (@clientes_cid IS NULL OR clientes_cid = @clientes_cid)",
+                    dados).AsList();
+                return lista.Count == 0 ? null! : [.. lista];
             }
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Pix - " + ex.Message); }
         }
-        catch (ExcecaoNascomercio) { throw; }
-        catch (Exception ex)
-        {
-            throw new ExcecaoNascomercio("Erro em Consultar Pix[" + ToString() + "] - " + ex.Message);
-        }
-    }
 
-    public dPix Consultar(string tx)
-    {
-        try
+        public dPix Consultar(string tx)
         {
-            using (var conn = CriarConexao())
+            try
             {
-                var p = new DynamicParameters();
-                var where = "";
-                if (!string.IsNullOrEmpty(tx)) { where = "WHERE txID=@tx"; p.Add("tx", tx); }
-                var sql = $"SELECT ID, txID AS TxId, SolicitacaoPagador AS Pagador, Original, status AS Status, Observacao, DataHora, controle AS Controle, UrlPix FROM PIX {where} ORDER BY DataHora DESC LIMIT 1";
-                return conn.QueryFirstOrDefault<dPix>(sql, p);
+                using var conn = CriarConexao();
+                var lista = conn.Query<dPix>(
+                    "SELECT cid, txid, status, valor, dataCriacao, dataAtualizacao, clientes_cid FROM pix WHERE txid = @tx",
+                    new { tx }).AsList();
+                return lista.Count > 0 ? lista[0] : null!;
             }
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Consultar Pix por TX - " + ex.Message); }
         }
-        catch (ExcecaoNascomercio) { throw; }
-        catch (Exception ex)
-        {
-            throw new ExcecaoNascomercio("Erro em Consultar Pix[" + ToString() + "] - " + ex.Message);
-        }
-    }
 
-    public dPixConfig ConsultarConfig()
-    {
-        try
+        public dPixConfig ConsultarConfig()
         {
-            using (var conn = CriarConexao())
+            try
             {
-                return conn.QueryFirstOrDefault<dPixConfig>(
-                    "SELECT Banco, Cliente, Cpf, Cnpj, Nome, Chave, Client_id AS ClientID, client_secret AS ClientSecret, PathCertificate AS CertPath, PassCertificate AS CertPass, Email FROM pixconfig");
+                using var conn = CriarConexao();
+                var lista = conn.Query<dPixConfig>("SELECT * FROM pixconfig LIMIT 1").AsList();
+                return lista.Count > 0 ? lista[0] : null!;
             }
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em ConsultarConfig Pix - " + ex.Message); }
         }
-        catch (ExcecaoNascomercio) { throw; }
-        catch (Exception ex)
-        {
-            throw new ExcecaoNascomercio("Erro em Consultar Pix[" + ToString() + "] - " + ex.Message);
-        }
-    }
 
-    public int Incluir(dPix dados)
-    {
-        try
+        public int Incluir(dPix dados)
         {
-            using (var conn = CriarConexao())
+            try
             {
-                string id = DateTime.Now.ToString("yyyyMMddHHmmss");
-                string datahora = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                conn.Execute("INSERT INTO PIX (ID, SolicitacaoPagador, Original, DataHora, Observacao, controle) VALUES (@id, @Pagador, @Original, @datahora, @Observacao, @Controle)",
-                    new { id, dados.Pagador, dados.Original, datahora, dados.Observacao, dados.Controle });
-                return conn.QueryFirstOrDefault<int>("SELECT controle FROM pix WHERE datahora = (SELECT MAX(datahora) FROM pix)");
+                using var conn = CriarConexao();
+                return conn.Execute(
+                    "INSERT INTO pix (txid, status, valor, dataCriacao, dataAtualizacao, clientes_cid) VALUES (@txid, @status, @valor, @dataCriacao, @dataAtualizacao, @clientes_cid)",
+                    dados);
             }
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Pix - " + ex.Message); }
         }
-        catch (ExcecaoNascomercio) { throw; }
-        catch (Exception ex)
-        {
-            throw new ExcecaoNascomercio("Erro em Incluir Pix [" + ToString() + "] - " + ex.Message);
-        }
-    }
 
-    public int IncluirPixConfig(dPixConfig dados)
-    {
-        try
+        public int IncluirPixConfig(dPixConfig dados)
         {
-            using (var conn = CriarConexao())
+            try
             {
-                conn.Execute("INSERT INTO pixconfig (Banco, Cliente, Cpf, Cnpj, Nome, chave, Client_id, client_secret, PathCertificate, PassCertificate, Email) VALUES (@Banco, @Cliente, @Cpf, @Cnpj, @Nome, @Chave, @ClientID, @ClientSecret, @CertPath, @CertPass, @Email)",
-                    new { dados.Banco, dados.Cliente, dados.Cpf, dados.Cnpj, dados.Nome, dados.Chave, dados.ClientID, dados.ClientSecret, dados.CertPath, dados.CertPass, dados.Email });
-                return (int)conn.ExecuteScalar<long>("SELECT LAST_INSERT_ID()");
+                using var conn = CriarConexao();
+                return conn.Execute(
+                    "INSERT INTO pixconfig (chave, clientId, clientSecret, certificado, ambiente) VALUES (@chave, @clientId, @clientSecret, @certificado, @ambiente)",
+                    dados);
             }
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em IncluirPixConfig - " + ex.Message); }
         }
-        catch (ExcecaoNascomercio) { throw; }
-        catch (Exception ex)
-        {
-            throw new ExcecaoNascomercio("Erro em Incluir Pix [" + ToString() + "] - " + ex.Message);
-        }
-    }
 
-    public int AlterarPixConfig(dPixConfig dados)
-    {
-        try
+        public int AlterarPixConfig(dPixConfig dados)
         {
-            using (var conn = CriarConexao())
+            try
             {
-                return conn.Execute("UPDATE pixconfig SET Banco=@Banco, Cpf=@Cpf, Cnpj=@Cnpj, Nome=@Nome, chave=@Chave, Client_id=@ClientID, client_secret=@ClientSecret, PathCertificate=@CertPath, PassCertificate=@CertPass",
-                    new { dados.Banco, dados.Cpf, dados.Cnpj, dados.Nome, dados.Chave, dados.ClientID, dados.ClientSecret, dados.CertPath, dados.CertPass });
+                using var conn = CriarConexao();
+                return conn.Execute(
+                    "UPDATE pixconfig SET chave=@chave, clientId=@clientId, clientSecret=@clientSecret, certificado=@certificado, ambiente=@ambiente WHERE cid=@cid",
+                    dados);
             }
-        }
-        catch (ExcecaoNascomercio) { throw; }
-        catch (Exception ex)
-        {
-            throw new ExcecaoNascomercio("Erro em Alterar Configuração pix [" + ToString() + "] - " + ex.Message);
+            catch (ExcecaoNascomercio) { throw; }
+            catch (Exception ex) { throw new ExcecaoNascomercio("Erro em AlterarPixConfig - " + ex.Message); }
         }
     }
 }

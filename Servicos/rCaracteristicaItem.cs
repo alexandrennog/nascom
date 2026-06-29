@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsCaracteristica
+namespace Servicos
 {
     public class rCaracteristicaItem : IsCaracteristicaItem
     {

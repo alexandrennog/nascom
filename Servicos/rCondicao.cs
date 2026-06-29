@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsCondicao
+namespace Servicos
 {
     public class rCondicao : IsCondicao
     {

@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsGradeItem
+namespace Servicos
 {
     public interface IsGradeItem
     {

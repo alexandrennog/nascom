@@ -3,7 +3,7 @@ using Comum;
 using Repositorios;
 using Modelos;
 
-namespace Servicos.nsParametro
+namespace Servicos
 {
     public interface IsParametro
     {
