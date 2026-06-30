@@ -1,3 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Repositorios;
 using Servicos;
 
@@ -11,7 +15,49 @@ RepositorioBase.ConnectionString = builder.Configuration.GetConnectionString("na
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Informe o token JWT: Bearer {token}"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+// ── Autenticação JWT ────────────────────────────────────────────────────────
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("Jwt:Key não configurada");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 // ── Repositórios ──────────────────────────────────────────────────────────────
 builder.Services.AddScoped<IpCaixa, pCaixa>();
@@ -116,6 +162,7 @@ builder.Services.AddScoped<IsTipoFrete, rTipoFrete>();
 builder.Services.AddScoped<IsTipoNotaFiscal, rTipoNotaFiscal>();
 builder.Services.AddScoped<IsTipoPagamento, rTipoPagamento>();
 builder.Services.AddScoped<IsTipoResidencia, rTipoResidencia>();
+builder.Services.AddScoped<IsJwt, rJwt>();
 builder.Services.AddScoped<IsUsuario, rUsuario>();
 builder.Services.AddScoped<IsUsuarioPerfil, rUsuarioPerfil>();
 builder.Services.AddScoped<IsVeiculos, rVeiculos>();
@@ -131,6 +178,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

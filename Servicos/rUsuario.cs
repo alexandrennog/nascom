@@ -55,14 +55,23 @@ namespace Servicos
 
         public int Incluir(dUsuario dados)
         {
-            try { return _repo.Incluir(dados); }
+            try
+            {
+                dados.senha = BCrypt.Net.BCrypt.HashPassword(dados.senha);
+                return _repo.Incluir(dados);
+            }
             catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Incluir Usuario [" + ToString() + "] - " + ex.Message); }
         }
 
         public int Alterar(dUsuario dados)
         {
-            try { return _repo.Alterar(dados); }
+            try
+            {
+                if (!string.IsNullOrEmpty(dados.senha))
+                    dados.senha = BCrypt.Net.BCrypt.HashPassword(dados.senha);
+                return _repo.Alterar(dados);
+            }
             catch (ExcecaoNascomercio) { throw; }
             catch (Exception ex) { throw new ExcecaoNascomercio("Erro em Alterar Usuario [" + ToString() + "] - " + ex.Message); }
         }

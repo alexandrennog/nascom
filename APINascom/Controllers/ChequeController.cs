@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Modelos;
 using Servicos;
 using APINascom.Requests;
 
 namespace APINascom.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ChequeController : ControllerBase
