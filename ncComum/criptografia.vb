@@ -77,5 +77,28 @@ Public Class criptografia
         End Try
     End Function
 
+    ''' <summary>
+    ''' Recebe uma connection string com a senha criptografada (via Criptografar) e devolve
+    ''' a mesma string com a senha decodificada, pronta para uso em uma conexao real.
+    ''' </summary>
+    Public Shared Function DecodificarConnectionString(ByVal strConn As String) As String
+        Dim builder As New System.Data.Common.DbConnectionStringBuilder()
+        builder.ConnectionString = strConn
+
+        If Not builder.ContainsKey("Password") Then
+            Return strConn
+        End If
+
+        Dim senhaCriptografada As String = builder("Password").ToString()
+
+        If String.IsNullOrEmpty(senhaCriptografada) Then
+            Return strConn
+        End If
+
+        Dim cripto As New criptografia()
+        Dim senhaDecodificada As String = Split(cripto.Descriptografar(senhaCriptografada), vbNullChar)(0)
+
+        Return strConn.Replace(senhaCriptografada, senhaDecodificada)
+    End Function
 
 End Class
