@@ -1,0 +1,30 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card shadow-sm" style="width: 22rem;">
+        <div class="card-body">
+            <h1 class="h4 card-title mb-3 text-center">Nascomercio</h1>
+
+            @if (!string.IsNullOrEmpty(Model.Erro))
+            {
+                <div class="alert alert-danger py-2">@Model.Erro</div>
+            }
+
+            <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                <div class="mb-3">
+                    <label asp-for="Usuario" class="form-label">Usuário</label>
+                    <input asp-for="Usuario" class="form-control" autofocus />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Senha" class="form-label">Senha</label>
+                    <input asp-for="Senha" type="password" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </form>
+        </div>
+    </div>
+</div>

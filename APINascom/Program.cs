@@ -163,6 +163,8 @@ builder.Services.AddScoped<IsTipoNotaFiscal, rTipoNotaFiscal>();
 builder.Services.AddScoped<IsTipoPagamento, rTipoPagamento>();
 builder.Services.AddScoped<IsTipoResidencia, rTipoResidencia>();
 builder.Services.AddScoped<IsJwt, rJwt>();
+builder.Services.AddScoped<IpRefreshToken, pRefreshToken>();
+builder.Services.AddScoped<IsRefreshToken, rRefreshToken>();
 builder.Services.AddScoped<IsUsuario, rUsuario>();
 builder.Services.AddScoped<IsUsuarioPerfil, rUsuarioPerfil>();
 builder.Services.AddScoped<IsVeiculos, rVeiculos>();

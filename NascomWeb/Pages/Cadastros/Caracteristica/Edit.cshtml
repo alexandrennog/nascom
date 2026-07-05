@@ -1,0 +1,84 @@
+@page "{id:int?}"
+@model NascomWeb.Pages.Cadastros.Caracteristica.EditModel
+@{
+    ViewData["Title"] = Model.Dados.cid is null or 0 ? "Nova Característica" : "Editar Característica";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="row g-3" data-confirm="Confirma a gravação das informações?" style="max-width: 480px;">
+    <input type="hidden" asp-for="Dados.cid" />
+
+    <div class="col-12">
+        <label asp-for="Dados.nome" class="form-label">Nome</label>
+        <input asp-for="Dados.nome" class="form-control" autofocus />
+        <span asp-validation-for="Dados.nome" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Dados.codigo" class="form-label">Código</label>
+        <input asp-for="Dados.codigo" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Dados.situacao" class="form-label">Situação</label>
+        <select asp-for="Dados.situacao" class="form-select">
+            <option value="A">Ativa</option>
+            <option value="I">Inativa</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@if (Model.CaracteristicaJaSalva)
+{
+    <hr />
+    <h2 class="h4">Valores possíveis</h2>
+    <p class="text-muted">Ex.: para a característica "Tamanho", cadastre aqui P, M, G etc.</p>
+
+    <table class="table table-sm table-striped" style="max-width: 480px;">
+        <thead>
+            <tr>
+                <th>Valor</th>
+                <th class="text-end">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Itens)
+            {
+                <tr>
+                    <td>@item.valor</td>
+                    <td class="text-end">
+                        <form method="post" asp-page-handler="RemoverItem" asp-route-id="@Model.Dados.cid" asp-route-itemCid="@item.cid"
+                              data-confirm="Confirma a remoção do valor '@item.valor'?" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Remover</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            @if (Model.Itens.Count == 0)
+            {
+                <tr>
+                    <td colspan="2" class="text-center text-muted">Nenhum valor cadastrado.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <form method="post" asp-page-handler="AdicionarItem" asp-route-id="@Model.Dados.cid" class="row g-3" style="max-width: 480px;">
+        <div class="col-8">
+            <input asp-for="NovoValor" class="form-control" placeholder="Novo valor (ex.: P, M, G)" />
+        </div>
+        <div class="col-4">
+            <button type="submit" class="btn btn-primary w-100">Adicionar</button>
+        </div>
+    </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

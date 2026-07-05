@@ -1,0 +1,103 @@
+@page "{id:int?}"
+@model NascomWeb.Pages.Cadastros.Loja.EditModel
+@{
+    ViewData["Title"] = Model.Dados.cid is null or 0 ? "Nova Loja" : "Editar Loja";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="row g-3" data-confirm="Confirma a gravação das informações?">
+    <input type="hidden" asp-for="Dados.cid" />
+
+    <div class="col-md-2">
+        <label asp-for="Dados.codigo" class="form-label">Código</label>
+        <input asp-for="Dados.codigo" class="form-control" />
+    </div>
+    <div class="col-md-5">
+        <label asp-for="Dados.nomeFantasia" class="form-label">Nome Fantasia</label>
+        <input asp-for="Dados.nomeFantasia" class="form-control" autofocus />
+        <span asp-validation-for="Dados.nomeFantasia" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Dados.razaoSocial" class="form-label">Razão Social</label>
+        <input asp-for="Dados.razaoSocial" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label asp-for="Dados.situacao" class="form-label">Situação</label>
+        <select asp-for="Dados.situacao" class="form-select">
+            <option value="A">Ativa</option>
+            <option value="I">Inativa</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Dados.cnpj" class="form-label">CNPJ</label>
+        <input asp-for="Dados.cnpj" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Dados.Inscestadual" class="form-label">Inscrição Estadual</label>
+        <input asp-for="Dados.Inscestadual" class="form-control" />
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Dados.logradouro" class="form-label">Logradouro</label>
+        <input asp-for="Dados.logradouro" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label asp-for="Dados.numero" class="form-label">Número</label>
+        <input asp-for="Dados.numero" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Dados.complemento" class="form-label">Complemento</label>
+        <input asp-for="Dados.complemento" class="form-control" />
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Dados.bairro" class="form-label">Bairro</label>
+        <input asp-for="Dados.bairro" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Dados.cidade" class="form-label">Cidade</label>
+        <input asp-for="Dados.cidade" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label asp-for="Dados.estado_cid" class="form-label">Estado</label>
+        <select asp-for="Dados.estado_cid" class="form-select">
+            <option value="">Selecione</option>
+            @foreach (var e in Model.Estados)
+            {
+                <option value="@e.cid">@e.sigla</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Dados.cep" class="form-label">CEP</label>
+        <input asp-for="Dados.cep" class="form-control" />
+    </div>
+
+    <div class="col-md-2">
+        <label asp-for="Dados.ddd" class="form-label">DDD</label>
+        <input asp-for="Dados.ddd" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Dados.telefone" class="form-label">Telefone</label>
+        <input asp-for="Dados.telefone" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <label asp-for="Dados.ramal" class="form-label">Ramal</label>
+        <input asp-for="Dados.ramal" class="form-control" />
+    </div>
+    <div class="col-md-5">
+        <label asp-for="Dados.nomeContato" class="form-label">Nome do Contato</label>
+        <input asp-for="Dados.nomeContato" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

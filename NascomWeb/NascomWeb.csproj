@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Reutiliza os DTOs da API (dCor, dCliente, dTokenResposta, ...) como client tipado,
+         evitando duplicar classes equivalentes só para o frontend. -->
+    <ProjectReference Include="..\Modelos\Modelos.csproj" />
+  </ItemGroup>
+
+</Project>

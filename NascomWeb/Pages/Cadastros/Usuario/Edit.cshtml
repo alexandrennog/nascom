@@ -1,0 +1,73 @@
+@page "{id:int?}"
+@model NascomWeb.Pages.Cadastros.Usuario.EditModel
+@{
+    ViewData["Title"] = Model.Dados.cid is null or 0 ? "Novo Usuário" : "Editar Usuário";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="row g-3" data-confirm="Confirma a gravação das informações?">
+    <input type="hidden" asp-for="Dados.cid" />
+
+    <div class="col-md-4">
+        <label asp-for="Dados.usuario" class="form-label">Usuário</label>
+        <input asp-for="Dados.usuario" class="form-control" autofocus autocomplete="off" />
+        <span asp-validation-for="Dados.usuario" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="NovaSenha" class="form-label">Senha</label>
+        <input asp-for="NovaSenha" type="password" class="form-control" autocomplete="new-password"
+               placeholder="@(Model.Dados.cid is null or 0 ? "" : "Deixe em branco para manter a atual")" />
+        <span asp-validation-for="NovaSenha" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Dados.situacao" class="form-label">Situação</label>
+        <select asp-for="Dados.situacao" class="form-select">
+            <option value="A">Ativo</option>
+            <option value="I">Inativo</option>
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Dados.nomeCompleto" class="form-label">Nome Completo</label>
+        <input asp-for="Dados.nomeCompleto" class="form-control" />
+        <span asp-validation-for="Dados.nomeCompleto" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Dados.usuarioPerfil_cid" class="form-label">Perfil</label>
+        <select asp-for="Dados.usuarioPerfil_cid" class="form-select">
+            <option value="">Selecione</option>
+            @foreach (var p in Model.Perfis)
+            {
+                <option value="@p.cid">@p.nome</option>
+            }
+        </select>
+        <span asp-validation-for="Dados.usuarioPerfil_cid" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Dados.Email" class="form-label">E-mail</label>
+        <input asp-for="Dados.Email" type="email" class="form-control" />
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Dados.descontoProduto" class="form-label">Desconto Produto (%)</label>
+        <input asp-for="Dados.descontoProduto" type="number" step="0.01" min="0" max="100" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Dados.descontoPedido" class="form-label">Desconto Pedido (%)</label>
+        <input asp-for="Dados.descontoPedido" type="number" step="0.01" min="0" max="100" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Dados.comissao" class="form-label">Comissão (%)</label>
+        <input asp-for="Dados.comissao" type="number" step="0.01" min="0" max="100" class="form-control" />
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

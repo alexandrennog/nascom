@@ -1,0 +1,34 @@
+@page "{id:int?}"
+@model NascomWeb.Pages.Cadastros.Categoria.EditModel
+@{
+    ViewData["Title"] = Model.Dados.cid is null or 0 ? "Nova Categoria" : "Editar Categoria";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="row g-3" data-confirm="Confirma a gravação das informações?" style="max-width: 480px;">
+    <input type="hidden" asp-for="Dados.cid" />
+
+    <div class="col-12">
+        <label asp-for="Dados.nome" class="form-label">Nome</label>
+        <input asp-for="Dados.nome" class="form-control" autofocus />
+        <span asp-validation-for="Dados.nome" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Dados.situacao" class="form-label">Situação</label>
+        <select asp-for="Dados.situacao" class="form-select">
+            <option value="A">Ativa</option>
+            <option value="I">Inativa</option>
+        </select>
+    </div>
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

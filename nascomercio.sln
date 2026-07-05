@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servicos", "Servicos\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEFd", "NEFd\NEFd.csproj", "{FD8D1EEC-E778-467F-AAF9-58A555D05CE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NascomWeb", "NascomWeb\NascomWeb.csproj", "{27F1E14C-3915-41E5-B65E-78D1FC6B1651}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{FD8D1EEC-E778-467F-AAF9-58A555D05CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD8D1EEC-E778-467F-AAF9-58A555D05CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD8D1EEC-E778-467F-AAF9-58A555D05CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27F1E14C-3915-41E5-B65E-78D1FC6B1651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27F1E14C-3915-41E5-B65E-78D1FC6B1651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27F1E14C-3915-41E5-B65E-78D1FC6B1651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27F1E14C-3915-41E5-B65E-78D1FC6B1651}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

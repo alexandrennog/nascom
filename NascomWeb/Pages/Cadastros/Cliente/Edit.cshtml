@@ -1,0 +1,411 @@
+@page "{id:int?}"
+@model NascomWeb.Pages.Cadastros.Cliente.EditModel
+@{
+    ViewData["Title"] = Model.ClienteJaSalvo ? "Editar Cliente" : "Novo Cliente";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<ul class="nav nav-tabs mb-3" id="clienteTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(Model.Tab == "geral" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tab-geral" type="button">Dados Gerais</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(Model.Tab == "endereco" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tab-endereco" type="button" @(Model.ClienteJaSalvo ? "" : "disabled")>Endereço</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(Model.Tab == "financeiro" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tab-financeiro" type="button" @(Model.ClienteJaSalvo ? "" : "disabled")>Financeiro</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(Model.Tab == "profissional" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tab-profissional" type="button" @(Model.ClienteJaSalvo ? "" : "disabled")>Profissional</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link @(Model.Tab == "veiculos" ? "active" : "")" data-bs-toggle="tab" data-bs-target="#tab-veiculos" type="button" @(Model.ClienteJaSalvo ? "" : "disabled")>Veículos</button>
+    </li>
+</ul>
+
+@if (!Model.ClienteJaSalvo)
+{
+    <div class="alert alert-info">Salve os Dados Gerais para liberar Endereço, Financeiro, Profissional e Veículos.</div>
+}
+
+<div class="tab-content">
+    <div class="tab-pane fade @(Model.Tab == "geral" ? "show active" : "")" id="tab-geral">
+        <form method="post" asp-page-handler="DadosGerais" asp-route-id="@Model.Dados.cid" class="row g-3" data-confirm="Confirma a gravação das informações?">
+            <input type="hidden" asp-for="Dados.cid" />
+
+            <div class="col-md-6">
+                <label asp-for="Dados.nome" class="form-label">Nome</label>
+                <input asp-for="Dados.nome" class="form-control" autofocus />
+                <span asp-validation-for="Dados.nome" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Dados.cpf" class="form-label">CPF</label>
+                <input asp-for="Dados.cpf" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Dados.situacao" class="form-label">Situação</label>
+                <select asp-for="Dados.situacao" class="form-select">
+                    <option value="A">Ativo</option>
+                    <option value="I">Inativo</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="Dados.rg" class="form-label">RG</label>
+                <input asp-for="Dados.rg" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Dados.rgOrgaoEmissor" class="form-label">Órgão Emissor</label>
+                <input asp-for="Dados.rgOrgaoEmissor" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Dados.dataNascimento" class="form-label">Data Nascimento</label>
+                <input asp-for="Dados.dataNascimento" class="form-control" placeholder="dd/mm/aaaa" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Dados.sexo" class="form-label">Sexo</label>
+                <select asp-for="Dados.sexo" class="form-select">
+                    <option value="">Selecione</option>
+                    @foreach (var s in Model.Sexos)
+                    {
+                        <option value="@s.codigo">@s.descricao</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Dados.estadoCivil" class="form-label">Estado Civil</label>
+                <select asp-for="Dados.estadoCivil" class="form-select">
+                    <option value="">Selecione</option>
+                    @foreach (var e in Model.EstadosCivis)
+                    {
+                        <option value="@e.codigo">@e.descricao</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Dados.nomePai" class="form-label">Nome do Pai</label>
+                <input asp-for="Dados.nomePai" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Dados.nomeMae" class="form-label">Nome da Mãe</label>
+                <input asp-for="Dados.nomeMae" class="form-control" />
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Dados.email" class="form-label">E-mail</label>
+                <input asp-for="Dados.email" type="email" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Dados.ddd" class="form-label">DDD</label>
+                <input asp-for="Dados.ddd" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Dados.telefone" class="form-label">Telefone</label>
+                <input asp-for="Dados.telefone" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Dados.celular" class="form-label">Celular</label>
+                <input asp-for="Dados.celular" class="form-control" />
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="tab-pane fade @(Model.Tab == "endereco" ? "show active" : "")" id="tab-endereco">
+        @if (Model.ClienteJaSalvo)
+        {
+            <form method="post" asp-page-handler="Endereco" asp-route-id="@Model.Dados.cid" class="row g-3" data-confirm="Confirma a gravação do endereço?">
+                <div class="col-md-8">
+                    <label asp-for="Endereco.logradouro" class="form-label">Logradouro</label>
+                    <input asp-for="Endereco.logradouro" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Endereco.numero" class="form-label">Número</label>
+                    <input asp-for="Endereco.numero" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Endereco.complemento" class="form-label">Complemento</label>
+                    <input asp-for="Endereco.complemento" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Endereco.bairro" class="form-label">Bairro</label>
+                    <input asp-for="Endereco.bairro" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Endereco.cidade" class="form-label">Cidade</label>
+                    <input asp-for="Endereco.cidade" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Endereco.estado_cid" class="form-label">Estado</label>
+                    <select asp-for="Endereco.estado_cid" class="form-select">
+                        <option value="">Selecione</option>
+                        @foreach (var e in Model.Estados)
+                        {
+                            <option value="@e.cid">@e.sigla</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Endereco.cep" class="form-label">CEP</label>
+                    <input asp-for="Endereco.cep" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Endereco.tipoResidencia" class="form-label">Tipo de Residência</label>
+                    <select asp-for="Endereco.tipoResidencia" class="form-select">
+                        <option value="">Selecione</option>
+                        @foreach (var t in Model.TiposResidencia)
+                        {
+                            <option value="@t.codigo">@t.descricao</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Endereco.tempo" class="form-label">Tempo de Residência</label>
+                    <input asp-for="Endereco.tempo" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Endereco.valor" class="form-label">Valor (aluguel/prestação)</label>
+                    <input asp-for="Endereco.valor" type="number" step="0.01" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Salvar Endereço</button>
+                </div>
+            </form>
+        }
+    </div>
+
+    <div class="tab-pane fade @(Model.Tab == "financeiro" ? "show active" : "")" id="tab-financeiro">
+        @if (Model.ClienteJaSalvo)
+        {
+            <form method="post" asp-page-handler="Financeiro" asp-route-id="@Model.Dados.cid" class="row g-3" data-confirm="Confirma a gravação dos dados financeiros?">
+                <div class="col-md-3">
+                    <label asp-for="Financeiro.limite" class="form-label">Limite de Crédito</label>
+                    <input asp-for="Financeiro.limite" type="number" step="0.01" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Financeiro.situacaoCrediario" class="form-label">Situação Crediário</label>
+                    <select asp-for="Financeiro.situacaoCrediario" class="form-select">
+                        <option value="A">Ativo</option>
+                        <option value="B">Bloqueado</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="Financeiro.banco1" class="form-label">Banco 1</label>
+                    <input asp-for="Financeiro.banco1" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Financeiro.agencia1" class="form-label">Agência 1</label>
+                    <input asp-for="Financeiro.agencia1" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Financeiro.conta1" class="form-label">Conta 1</label>
+                    <input asp-for="Financeiro.conta1" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Financeiro.gerente1" class="form-label">Gerente 1</label>
+                    <input asp-for="Financeiro.gerente1" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="Financeiro.referencia1" class="form-label">Referência 1</label>
+                    <input asp-for="Financeiro.referencia1" class="form-control" />
+                </div>
+                <div class="col-md-1">
+                    <label asp-for="Financeiro.ddd1" class="form-label">DDD</label>
+                    <input asp-for="Financeiro.ddd1" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Financeiro.telefone1" class="form-label">Telefone 1</label>
+                    <input asp-for="Financeiro.telefone1" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="Financeiro.referencia2" class="form-label">Referência 2</label>
+                    <input asp-for="Financeiro.referencia2" class="form-control" />
+                </div>
+                <div class="col-md-1">
+                    <label asp-for="Financeiro.ddd2" class="form-label">DDD</label>
+                    <input asp-for="Financeiro.ddd2" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Financeiro.telefone2" class="form-label">Telefone 2</label>
+                    <input asp-for="Financeiro.telefone2" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Financeiro.observacoes" class="form-label">Observações</label>
+                    <textarea asp-for="Financeiro.observacoes" class="form-control" rows="2"></textarea>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Salvar Financeiro</button>
+                </div>
+            </form>
+        }
+    </div>
+
+    <div class="tab-pane fade @(Model.Tab == "profissional" ? "show active" : "")" id="tab-profissional">
+        @if (Model.ClienteJaSalvo)
+        {
+            <form method="post" asp-page-handler="Profissional" asp-route-id="@Model.Dados.cid" class="row g-3" data-confirm="Confirma a gravação dos dados profissionais?">
+                <div class="col-md-6">
+                    <label asp-for="Profissional.empresa" class="form-label">Empresa</label>
+                    <input asp-for="Profissional.empresa" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Profissional.cargo" class="form-label">Cargo</label>
+                    <input asp-for="Profissional.cargo" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Profissional.dataAdmissao" class="form-label">Data Admissão</label>
+                    <input asp-for="Profissional.dataAdmissao" class="form-control" placeholder="dd/mm/aaaa" />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Profissional.logradouro" class="form-label">Logradouro</label>
+                    <input asp-for="Profissional.logradouro" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Profissional.numero" class="form-label">Número</label>
+                    <input asp-for="Profissional.numero" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Profissional.complemento" class="form-label">Complemento</label>
+                    <input asp-for="Profissional.complemento" class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Profissional.bairro" class="form-label">Bairro</label>
+                    <input asp-for="Profissional.bairro" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Profissional.cidade" class="form-label">Cidade</label>
+                    <input asp-for="Profissional.cidade" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Profissional.estado_cid" class="form-label">Estado</label>
+                    <select asp-for="Profissional.estado_cid" class="form-select">
+                        <option value="">Selecione</option>
+                        @foreach (var e in Model.Estados)
+                        {
+                            <option value="@e.cid">@e.sigla</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Profissional.cep" class="form-label">CEP</label>
+                    <input asp-for="Profissional.cep" class="form-control" />
+                </div>
+
+                <div class="col-md-2">
+                    <label asp-for="Profissional.ddd" class="form-label">DDD</label>
+                    <input asp-for="Profissional.ddd" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Profissional.telefone" class="form-label">Telefone</label>
+                    <input asp-for="Profissional.telefone" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Profissional.ramal" class="form-label">Ramal</label>
+                    <input asp-for="Profissional.ramal" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Profissional.salario" class="form-label">Salário</label>
+                    <input asp-for="Profissional.salario" type="number" step="0.01" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Salvar Profissional</button>
+                </div>
+            </form>
+        }
+    </div>
+
+    <div class="tab-pane fade @(Model.Tab == "veiculos" ? "show active" : "")" id="tab-veiculos">
+        @if (Model.ClienteJaSalvo)
+        {
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Cor</th>
+                        <th>Ano</th>
+                        <th>Combustível</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model.Veiculos)
+                    {
+                        <tr>
+                            <td>@v.Placa</td>
+                            <td>@v.Marca</td>
+                            <td>@v.Modelo</td>
+                            <td>@v.Cor</td>
+                            <td>@v.Ano</td>
+                            <td>@v.Combustivel</td>
+                            <td class="text-end">
+                                <form method="post" asp-page-handler="VeiculoRemover" asp-route-id="@Model.Dados.cid" asp-route-veiculoCid="@v.cid"
+                                      data-confirm="Confirma a remoção do veículo placa '@v.Placa'?" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Remover</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    @if (Model.Veiculos.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Nenhum veículo cadastrado.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <form method="post" asp-page-handler="VeiculoAdicionar" asp-route-id="@Model.Dados.cid" class="row g-3">
+                <div class="col-md-2">
+                    <label asp-for="NovoVeiculo.Placa" class="form-label">Placa</label>
+                    <input asp-for="NovoVeiculo.Placa" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="NovoVeiculo.Marca" class="form-label">Marca</label>
+                    <input asp-for="NovoVeiculo.Marca" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="NovoVeiculo.Modelo" class="form-label">Modelo</label>
+                    <input asp-for="NovoVeiculo.Modelo" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="NovoVeiculo.Cor" class="form-label">Cor</label>
+                    <input asp-for="NovoVeiculo.Cor" class="form-control" />
+                </div>
+                <div class="col-md-1">
+                    <label asp-for="NovoVeiculo.Ano" class="form-label">Ano</label>
+                    <input asp-for="NovoVeiculo.Ano" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="NovoVeiculo.Combustivel" class="form-label">Combustível</label>
+                    <input asp-for="NovoVeiculo.Combustivel" class="form-control" />
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Adicionar</button>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
