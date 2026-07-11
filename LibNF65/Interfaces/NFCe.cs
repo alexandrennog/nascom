@@ -337,6 +337,23 @@ namespace LibNF65
                             VOutro = 0,
                             VNF = valorTotal,
                             VTotTrib = valorTotalTributos
+                        },
+                        IBSCBSTot = new XmlNFe.IBSCBSTot
+                        {
+                            // Base de cálculo total
+                            VBCIBSCBS = valorTotal,
+                            VBCIBSCBSField = valorTotal.ToString("F2"),
+
+                            // Grupo IBS
+                            GIBS = new XmlNFe.GIBSTot
+                            {
+                                VIBS = 10.00
+                            },
+                            // Grupo CBS
+                            GCBS = new XmlNFe.GCBSTot
+                            {
+                                VCBS = 90.00
+                            }
                         }
                     },
                     Transp = new XmlNFe.Transp
@@ -510,7 +527,23 @@ namespace LibNF65
                                 CST = configImposto.Imposto.COFINS.COFINSNT.CST ?? "00"
                             },
 
+                        },
+                        IBSCBS = new XmlNFe.IBSCBS
+                        {
+                            CST = "000",
+                            CClassTrib = "000001",
+                            GIBSCBS = new XmlNFe.GIBSCBS
+                            {
+                                VBC = 1000d,
+                                VIBS = 1.00d,
+                                GCBS = new XmlNFe.GCBS
+                                {
+                                    PCBS = 0.90d,
+                                    VCBS = 9.00d
+                                }
+                            }
                         }
+                        
                     }
                 });
             }

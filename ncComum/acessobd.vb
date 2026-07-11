@@ -42,8 +42,13 @@ Namespace nsAcessoBD
 
             Dim password As String = builder("Password").ToString()
 
-            result = Split(cripto.Descriptografar(password), vbNullChar)(0)
-            cripto = Nothing
+            If Len(password) > 10 Then
+                result = Split(cripto.Descriptografar(password), vbNullChar)(0)
+                cripto = Nothing
+            Else
+                result = Split(password, vbNullChar)(0)
+            End If
+
 
             strConn = strConn.Replace(password, result)
 

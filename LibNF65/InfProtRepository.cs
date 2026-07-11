@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unimake.Business.DFe;
 using Unimake.Business.DFe.Xml.NFe;
+using Unimake.Business.DFe.Xml.NFSe.NACIONAL;
 
 namespace LibNF65
 {
@@ -23,8 +24,11 @@ namespace LibNF65
 
         public InfProtRepository()
         {
-            _connectionString = ExtrairPass(ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString);
-            //_connectionString = ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString;
+
+         
+
+            string connectionString = ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString;
+            _connectionString = ExtrairPass(connectionString);
 
             if (string.IsNullOrEmpty(_connectionString))
             {
@@ -34,20 +38,25 @@ namespace LibNF65
 
         private string ExtrairPass(string strConn)
         {
-            var builder = new System.Data.Common.DbConnectionStringBuilder();
+            var builder = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var cripto = new Criptografia();
+            string descriptografado = string.Empty;
 
-            builder.ConnectionString = strConn;
+            string password = ConfigurationManager.AppSettings["Password"];
 
-            string password = builder["Password"].ToString();
-
-            string descriptografado = cripto.Descriptografar(password);
-
-            string result = descriptografado.Split('\0')[0]; // '\0' = vbNullChar
+            if (!string.IsNullOrEmpty(password) && password.Length > 10)
+            {
+                descriptografado = cripto.Descriptografar(password).Split('\0')[0];
+                cripto = null;
+            }
+            else
+            {
+                descriptografado = password?.Split('\0')[0];
+            }
 
             cripto = null;
 
-            strConn = strConn.Replace(password, result);
+            strConn = strConn.Replace(password, descriptografado);
 
             return strConn;
         }
