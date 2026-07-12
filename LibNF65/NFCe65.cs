@@ -79,25 +79,6 @@ namespace LibNF65
             DateTime dhEmi = DateTime.Now; // Data e hora de emissão
             string cnpjEmitente = resultado.InfCons.CNPJ; // CNPJ do emitente (14 dígitos)
 
-            //int serie = 2; // Série da nota fiscal
-            //int nNF = nNFTemp;  //GerarNF(); // Número da nota fiscal  //TODO informar o controle
-            //int cNF = XMLUtility.GerarCodigoNumerico(nNF); // Código Numérico Aleatório (cNF)
-
-            //var conteudoChave = new XMLUtility.ConteudoChaveDFe
-            //{
-
-            //};
-
-            //conteudoChave.UFEmissor = UFBrasil.SP;
-            //conteudoChave.TipoEmissao = TipoEmissao.Normal;
-            //conteudoChave.Modelo = ModeloDFe.NFCe;
-            //conteudoChave.Serie = serie;
-            //conteudoChave.CodigoNumerico = XMLUtility.GerarCodigoNumerico(nNF).ToString();
-            //conteudoChave.CNPJCPFEmissor = cnpjEmitente;
-            //conteudoChave.NumeroDoctoFiscal = nNF;
-            //conteudoChave.AnoEmissao = DateTime.Now.ToString("yy");
-            //conteudoChave.MesEmissao = DateTime.Now.ToString("MM");
-
             var configImposto = RecuperarConfiguracao();
 
             var prods = objNFCe.RecuperarProdutos(produtos, nNFTemp, configuracao, configImposto, resultado, x509Cert, meiosPagamentos, cpf, controle);

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Unimake.Business.DFe;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Business.DFe.Xml.NFSe.NACIONAL;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace LibNF65
 {
@@ -21,15 +22,13 @@ namespace LibNF65
     {
 
         private readonly string _connectionString;
+        private string strConn = string.Empty;
 
         public InfProtRepository()
-        {
-
-         
-
-            string connectionString = ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString;
-            _connectionString = ExtrairPass(connectionString);
-
+        {            
+            var connStr = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);  //ConfigurationManager.ConnectionStrings["nascomercio"].ConnectionString;
+            _connectionString = ExtrairPass(connStr.ConnectionStrings.ConnectionStrings["nascomercio"].ConnectionString);
+      
             if (string.IsNullOrEmpty(_connectionString))
             {
                 throw new InvalidOperationException("A string de conexão 'MySqlConnection' não foi encontrada no App.config.");
@@ -38,11 +37,14 @@ namespace LibNF65
 
         private string ExtrairPass(string strConn)
         {
-            var builder = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var builder = new MySqlConnectionStringBuilder(strConn);
+            string password = builder.Password; // "15mysql"
+
+
             var cripto = new Criptografia();
             string descriptografado = string.Empty;
 
-            string password = ConfigurationManager.AppSettings["Password"];
+
 
             if (!string.IsNullOrEmpty(password) && password.Length > 10)
             {

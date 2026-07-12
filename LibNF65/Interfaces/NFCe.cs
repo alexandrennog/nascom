@@ -16,11 +16,13 @@ using Unimake.Business.DFe.Servicos;
 using Unimake.Business.DFe.Servicos.NFCe;
 using Unimake.Business.DFe.Utility;
 using Unimake.Business.DFe.Xml.ESocial;
+using Unimake.Business.DFe.Xml.GNRE;
 using Unimake.Business.DFe.Xml.NF3e;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Business.DFe.Xml.NFSe.NACIONAL;
 using Unimake.Security.Platform;
 using Unimake.Unidanfe.Configurations;
+using static LibNF65.NFCeModel;
 using Configuracao = Unimake.Business.DFe.Servicos.Configuracao;
 using DANFe = Unimake.Unidanfe;
 using Det = Unimake.Business.DFe.Xml.NFe.Det;
@@ -255,8 +257,30 @@ namespace LibNF65
             double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor, 2, MidpointRounding.AwayFromZero));
             double valorTotalTributos = dVendaProdutos.Sum(x => Math.Round((double)x.valorTributacao, 2, MidpointRounding.AwayFromZero));
 
-            
-                var infe = new XmlNFe.InfNFe
+            double totalBase = 0;
+            double totalIBSUF = 0;
+            double totalIBSMun = 0;
+            double totalIBS = 0;
+            double totalCBS = 0;
+
+            foreach (var produto in dVendaProdutos)
+            {
+                double baseCalculo = Math.Round((double)produto.valor, 2);
+
+                double vIBSUF = Math.Round(baseCalculo * 0.10 / 100.0, 2);
+                double vIBSMun = 0.00;
+                double vIBS = Math.Round(baseCalculo * 0.001, 2);
+                double vCBS = Math.Round(baseCalculo * 0.009, 2);
+
+                totalBase += baseCalculo;
+                totalIBSUF += vIBSUF;
+                totalIBSMun += vIBSMun;
+                totalIBS += vIBS;
+                totalCBS += vCBS;
+            }
+
+
+            var infe = new XmlNFe.InfNFe
                 {
                     //Id = "NFe" + chaveAcesso,
                     Versao = "4.00",
@@ -340,21 +364,38 @@ namespace LibNF65
                         },
                         IBSCBSTot = new XmlNFe.IBSCBSTot
                         {
-                            // Base de cálculo total
-                            VBCIBSCBS = valorTotal,
-                            VBCIBSCBSField = valorTotal.ToString("F2"),
+                            VBCIBSCBS = totalBase,
+                            //VBCIBSCBSField = totalBase.ToString("F2"),
 
-                            // Grupo IBS
                             GIBS = new XmlNFe.GIBSTot
                             {
-                                VIBS = 10.00
+                                GIBSUF = new XmlNFe.GIBSUFTot
+                                {
+                                    VIBSUF = Math.Round(totalIBSUF, 2)
+                                },
+
+                                GIBSMun = new XmlNFe.GIBSMunTot
+                                {
+                                    VIBSMun = Math.Round(totalIBSMun, 2)
+                                },
+
+                                VIBS = Math.Round(totalIBS, 2),
+
+                                VCredPres = 0.00,
+                                VCredPresCondSus = 0.00
                             },
-                            // Grupo CBS
+
                             GCBS = new XmlNFe.GCBSTot
                             {
-                                VCBS = 90.00
+                                VCBS = Math.Round(totalCBS, 2),
+
+                                VDif = 0.00,
+                                VDevTrib = 0.00,
+                                VCredPres = 0.00,
+                                VCredPresCondSus = 0.00
                             }
                         }
+
                     },
                     Transp = new XmlNFe.Transp
                     {
@@ -379,6 +420,22 @@ namespace LibNF65
             return nfe;
 
         }
+
+        //private static XmlNFe.IBSCBSTot RecuperarICBSTotal()
+        //{
+        //    foreach (var produto in produtos)
+        //    {
+        //        double baseCalculo = Math.Round((double)produto.valor, 2);
+        //        double valorIBS = Math.Round(baseCalculo * 0.12, 2);
+        //        double valorCBS = Math.Round(baseCalculo * 0.085, 2);
+
+        //        totalBase += baseCalculo;
+        //        totalIBS += valorIBS;
+        //        totalCBS += valorCBS;
+
+        //        // monta o det.IBSCBS
+        //    }
+        //}
 
         private static XmlNFe.Dest RecDest(string cpf)
         {
@@ -477,6 +534,8 @@ namespace LibNF65
 
             var lista = new List<Det>();
 
+                
+
             foreach (var produto in dVendaProdutos)
             {
 
@@ -493,18 +552,18 @@ namespace LibNF65
                         CFOP = configImposto.Prod.CFOP,
                         UCom = "UN",
                         QCom = produto.quantidade,
-                        VUnCom = Math.Round(produto.valor, 4, MidpointRounding.AwayFromZero),
-                        VProd = Math.Round((double)produto.valor, 4, MidpointRounding.AwayFromZero),
+                        VUnCom = Math.Round(produto.valor, 2, MidpointRounding.AwayFromZero),
+                        VProd = Math.Round((double)produto.valor, 2, MidpointRounding.AwayFromZero),
                         CEANTrib = "SEM GTIN",
                         UTrib = "UN",
                         QTrib = produto.quantidade,
-                        VUnTrib = Math.Round(produto.valor, 4, MidpointRounding.AwayFromZero),
+                        VUnTrib = Math.Round(produto.valor, 2, MidpointRounding.AwayFromZero),
                         IndTot = SimNao.Sim,
                         XPed = produto.controle.ToString()
                     },
                     Imposto = new XmlNFe.Imposto
                     {
-                        VTotTrib = Math.Round((double)produto.valorTributacao, 4, MidpointRounding.AwayFromZero),
+                        VTotTrib = Math.Round((double)produto.valorTributacao, 2, MidpointRounding.AwayFromZero),
                         ICMS = new XmlNFe.ICMS
                         {
                             ICMSSN102 = new XmlNFe.ICMSSN102
@@ -528,23 +587,40 @@ namespace LibNF65
                             },
 
                         },
+
                         IBSCBS = new XmlNFe.IBSCBS
                         {
+   
                             CST = "000",
                             CClassTrib = "000001",
+
                             GIBSCBS = new XmlNFe.GIBSCBS
                             {
-                                VBC = 1000d,
-                                VIBS = 1.00d,
+                                VBC = Math.Round((double)produto.valor, 2),
+
+                                GIBSUF = new XmlNFe.GIBSUF
+                                {
+                                    PIBSUF = (double) 0.10m,
+                                    VIBSUF = Math.Round((double)(produto.valor * 0.10m / 100m), 2)
+                                },
+
+                                GIBSMun = new XmlNFe.GIBSMun
+                                {
+                                    PIBSMun = 0.00,
+                                    VIBSMun = 0.00
+                                },
+
+                                VIBS = Math.Round((double)(produto.valor * 0.001m), 2),
+
                                 GCBS = new XmlNFe.GCBS
                                 {
-                                    PCBS = 0.90d,
-                                    VCBS = 9.00d
+                                    PCBS = 0.90,
+                                    VCBS = Math.Round((double)(produto.valor * 0.009m), 2)
                                 }
                             }
                         }
-                        
                     }
+                       
                 });
             }
             return lista;
