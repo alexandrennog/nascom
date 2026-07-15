@@ -126,6 +126,7 @@ namespace LibNF65.Modelo
         public PISST PISST { get; set; }
         public COFINS COFINS { get; set; }
         public COFINSST COFINSST { get; set; }
+        public IBSCBS IBSCBS { get; set; }
     }
 
     public class ICMS
@@ -261,5 +262,64 @@ namespace LibNF65.Modelo
         public string pCOFINS { get; set; }
         public string vAliqProd { get; set; }
         public string TipoAliq { get; set; }
+    }
+
+
+    [XmlRoot("IBSCBS")]
+    public class IBSCBS
+    {
+        [XmlElement("CST")]
+        public string CST { get; set; }
+
+        [XmlElement("cClassTrib")]
+        public string CClassTrib { get; set; }
+
+        [XmlElement("gIBSCBS")]
+        public GIBSCBS GIBSCBS { get; set; }
+    }
+
+    public class GIBSCBS
+    {
+        [XmlElement("vBC")]
+        public decimal VBC { get; set; }
+
+        [XmlElement("gIBSUF")]
+        public GIBSUF GIBSUF { get; set; }
+
+        [XmlElement("gIBSMun")]
+        public GIBSMun GIBSMun { get; set; }
+
+        [XmlElement("vIBS")]
+        public decimal VIBS { get; set; }
+
+        [XmlElement("gCBS")]
+        public GCBS GCBS { get; set; }
+    }
+
+    public class GIBSUF
+    {
+        [XmlElement("pIBSUF")]
+        public decimal PIBSUF { get; set; }
+
+        [XmlElement("vIBSUF")]
+        public decimal VIBSUF { get; set; }
+    }
+
+    public class GIBSMun
+    {
+        [XmlElement("pIBSMun")]
+        public decimal PIBSMun { get; set; }
+
+        [XmlElement("vIBSMun")]
+        public decimal VIBSMun { get; set; }
+    }
+
+    public class GCBS
+    {
+        [XmlElement("pCBS")]
+        public decimal PCBS { get; set; }
+
+        [XmlElement("vCBS")]
+        public decimal VCBS { get; set; }
     }
 }

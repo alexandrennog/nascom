@@ -254,8 +254,8 @@ namespace LibNF65
             var nfe = new XmlNFe.NFe();
             nfe.InfNFe = new List<XmlNFe.InfNFe>();
 
-            double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor, 2, MidpointRounding.AwayFromZero));
-            double valorTotalTributos = dVendaProdutos.Sum(x => Math.Round((double)x.valorTributacao, 2, MidpointRounding.AwayFromZero));
+            double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor, 2));
+            double valorTotalTributos = dVendaProdutos.Sum(x => Math.Round((double)x.valorTributacao, 2));
 
             double totalBase = 0;
             double totalIBSUF = 0;
@@ -267,10 +267,10 @@ namespace LibNF65
             {
                 double baseCalculo = Math.Round((double)produto.valor, 2);
 
-                double vIBSUF = Math.Round(baseCalculo * 0.10 / 100.0, 2);
-                double vIBSMun = 0.00;
-                double vIBS = Math.Round(baseCalculo * 0.001, 2);
-                double vCBS = Math.Round(baseCalculo * 0.009, 2);
+                double vIBSUF = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF / 100m), 2, MidpointRounding.AwayFromZero);
+                double vIBSMun = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun / 100m), 2, MidpointRounding.AwayFromZero);
+                double vIBS = vIBSUF + vIBSMun;
+                double vCBS = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GCBS.PCBS / 100m), 2, MidpointRounding.AwayFromZero);
 
                 totalBase += baseCalculo;
                 totalIBSUF += vIBSUF;
@@ -421,21 +421,6 @@ namespace LibNF65
 
         }
 
-        //private static XmlNFe.IBSCBSTot RecuperarICBSTotal()
-        //{
-        //    foreach (var produto in produtos)
-        //    {
-        //        double baseCalculo = Math.Round((double)produto.valor, 2);
-        //        double valorIBS = Math.Round(baseCalculo * 0.12, 2);
-        //        double valorCBS = Math.Round(baseCalculo * 0.085, 2);
-
-        //        totalBase += baseCalculo;
-        //        totalIBS += valorIBS;
-        //        totalCBS += valorCBS;
-
-        //        // monta o det.IBSCBS
-        //    }
-        //}
 
         private static XmlNFe.Dest RecDest(string cpf)
         {
@@ -552,18 +537,18 @@ namespace LibNF65
                         CFOP = configImposto.Prod.CFOP,
                         UCom = "UN",
                         QCom = produto.quantidade,
-                        VUnCom = Math.Round(produto.valor, 2, MidpointRounding.AwayFromZero),
-                        VProd = Math.Round((double)produto.valor, 2, MidpointRounding.AwayFromZero),
+                        VUnCom = Math.Round(produto.valor, 2),
+                        VProd = Math.Round((double)produto.valor, 2),
                         CEANTrib = "SEM GTIN",
                         UTrib = "UN",
                         QTrib = produto.quantidade,
-                        VUnTrib = Math.Round(produto.valor, 2, MidpointRounding.AwayFromZero),
+                        VUnTrib = Math.Round(produto.valor, 2),
                         IndTot = SimNao.Sim,
                         XPed = produto.controle.ToString()
                     },
                     Imposto = new XmlNFe.Imposto
                     {
-                        VTotTrib = Math.Round((double)produto.valorTributacao, 2, MidpointRounding.AwayFromZero),
+                        VTotTrib = Math.Round((double)produto.valorTributacao, 2),
                         ICMS = new XmlNFe.ICMS
                         {
                             ICMSSN102 = new XmlNFe.ICMSSN102
@@ -591,8 +576,8 @@ namespace LibNF65
                         IBSCBS = new XmlNFe.IBSCBS
                         {
    
-                            CST = "000",
-                            CClassTrib = "000001",
+                            CST = configImposto.Imposto.IBSCBS.CST,
+                            CClassTrib = configImposto.Imposto.IBSCBS.CClassTrib,
 
                             GIBSCBS = new XmlNFe.GIBSCBS
                             {
@@ -600,22 +585,22 @@ namespace LibNF65
 
                                 GIBSUF = new XmlNFe.GIBSUF
                                 {
-                                    PIBSUF = (double) 0.10m,
-                                    VIBSUF = Math.Round((double)(produto.valor * 0.10m / 100m), 2)
+                                    PIBSUF = (double)configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF,
+                                    VIBSUF = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF / 100m), 2, MidpointRounding.AwayFromZero)
                                 },
 
                                 GIBSMun = new XmlNFe.GIBSMun
                                 {
-                                    PIBSMun = 0.00,
-                                    VIBSMun = 0.00
+                                    PIBSMun = (double)configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun,
+                                    VIBSMun = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun / 100m), 2, MidpointRounding.AwayFromZero)
                                 },
 
-                                VIBS = Math.Round((double)(produto.valor * 0.001m), 2),
+                                VIBS = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF / 100m), 2, MidpointRounding.AwayFromZero) + Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun / 100m), 2, MidpointRounding.AwayFromZero),
 
                                 GCBS = new XmlNFe.GCBS
                                 {
-                                    PCBS = 0.90,
-                                    VCBS = Math.Round((double)(produto.valor * 0.009m), 2)
+                                    PCBS = (double)configImposto.Imposto.IBSCBS.GIBSCBS.GCBS.PCBS,
+                                    VCBS = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GCBS.PCBS / 100m), 2, MidpointRounding.AwayFromZero)
                                 }
                             }
                         }

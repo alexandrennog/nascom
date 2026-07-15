@@ -1170,7 +1170,7 @@ Public Class fProdutoForm
             colecaoProdutoTipoCaracteristica = Nothing
 
             If cboTipo.Items.Count > 0 Then
-                If Not cboTipo.SelectedIndex.Equals(0) Then
+                If Not cboTipo.SelectedIndex.Equals(0) And Not cboTipo.SelectedIndex = -1 Then
                     If Not cboTipo.SelectedValue.ToString().Trim().Equals(String.Empty) Then
                         regras = New rProdutoTipoCaracteristica()
 
