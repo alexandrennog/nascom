@@ -1,6 +1,8 @@
-Imports ncRegras.nsFabricante
-Imports ncDados.nsFabricante
+Imports System.Configuration
+Imports MySql.Data.MySqlClient
 Imports ncComum.nsExcecao
+Imports ncDados.nsFabricante
+Imports ncRegras.nsFabricante
 
 Public Class fRelatorioFechamento
 
@@ -40,40 +42,131 @@ Public Class fRelatorioFechamento
   Private Sub btoFiltro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFiltro.Click
     Filtrar()
   End Sub
+    'Private Sub Filtrar()
+    '    Dim acesso As New ncComum.nsAcessoBD.cAcessoBD
+    '    Dim sql As String =
+    '    "SELECT controle, clienteId, usuarioId, data, dinheiro, cheque, chequePre, " &
+    '    "cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, " &
+    '    "troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, " &
+    '    "crediarioPagamento, pix " &
+    '    "FROM v_fechamento " &
+    '    $"WHERE data BETWEEN ' DATE_FORMAT(" + txtDataInicial.Text + ", '%Y-%m-%d')" & "' " &
+    '    "AND ' DATE_FORMAT(" + txtDataInicial.Text + ", '%Y-%m-%d')" & "' " &
+    '    "AND (caixa = '" & Me.txtCaixa.Text & "' OR '" & Me.txtCaixa.Text & "' = '')"
 
-  Private Sub fFabricanteLista_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    '    Dim ds As DataSet = acesso.ExecutarDS(sql)
+    '    Me.nascomercioDataSet.v_fechamento.Rows.Clear()
+    '    Me.nascomercioDataSet.v_fechamento.Merge(ds.Tables(0))
+
+    '    ' ... resto do SetParameters/RefreshReport
+    'End Sub
+    'Private Sub fFabricanteLista_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
 
-    Try
+    '    Try
 
-      Me.v_fechamentoTableAdapter.Fill(Me.nascomercioDataSet.v_fechamento)
+    '        Me.v_fechamentoTableAdapter.Fill(Me.nascomercioDataSet.v_fechamento)
 
-    Catch nex As ExcecaoNascomercio
+    '    Catch nex As ExcecaoNascomercio
 
-      MessageBox.Show(nex.Message)
+    '        MessageBox.Show(nex.Message)
 
-    Catch ex As Exception
+    '    Catch ex As Exception
 
-      MessageBox.Show("Erro na consulta do Fabricante [" & Me.ToString() & "]")
+    '        MessageBox.Show("Erro na consulta do Fabricante [" & Me.ToString() & "]")
 
-    End Try
+    '    End Try
 
-    Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
-    Me.txtDataFinal.Text = DateAdd(DateInterval.Day, 1, Today).ToString("dd/MM/yyyy")
-    Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
-      Case "a", "g"
-        Me.txtCaixa.Text = ""
-        Me.txtCaixa.ReadOnly = False
-      Case "c"
-        Me.txtCaixa.Text = mdiPrincipal.gUsuario.usuario
-        Me.txtCaixa.ReadOnly = True
-    End Select
+    '    Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
+    '    Me.txtDataFinal.Text = DateAdd(DateInterval.Day, 1, Today).ToString("dd/MM/yyyy")
+    '    Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
+    '        Case "a", "g"
+    '            Me.txtCaixa.Text = ""
+    '            Me.txtCaixa.ReadOnly = False
+    '        Case "c"
+    '            Me.txtCaixa.Text = mdiPrincipal.gUsuario.usuario
+    '            Me.txtCaixa.ReadOnly = True
+    '    End Select
 
-    Filtrar()
+    '    Filtrar()
 
-  End Sub
+    'End Sub
+    Private Sub fFabricanteLista_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-  Private Sub fFabricanteLista_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+
+        Try
+
+
+            'Me.v_fechamentoTableAdapter.Connection.ConnectionString = ConfigurationManager.ConnectionStrings("nascomercio").ConnectionString
+
+            'Me.v_fechamentoTableAdapter.ClearBeforeFill = True
+            'Me.v_fechamentoTableAdapter.Fill(Me.nascomercioDataSet.v_fechamento)
+
+
+            Dim acesso As New ncComum.nsAcessoBD.cAcessoBD
+
+            'Dim ds As DataSet = acesso.ExecutarDS(sql)
+
+
+            Dim dataInicial As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"))
+            Dim dataFinal As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.ToString("dd/MM/yyyy"))
+
+            If dataInicial Is Nothing OrElse dataFinal Is Nothing Then
+                MessageBox.Show("Data inválida.")
+                Exit Sub
+            End If
+
+            Dim sql As String =
+            "SELECT controle, clienteId, usuarioId, data, dinheiro, cheque, chequePre, " &
+            "cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, " &
+            "troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, " &
+            "crediarioPagamento, pix " &
+            "FROM v_fechamento " &
+            "WHERE data BETWEEN '" + dataInicial + " 00:00' AND  '" + dataFinal + " 23:59'"
+
+
+            Dim ds As DataSet = acesso.ExecutarDS(sql)
+
+            Me.nascomercioDataSet.v_fechamento.Rows.Clear()
+            For Each origem As DataRow In ds.Tables(0).Rows
+                Dim novaLinha As DataRow = Me.nascomercioDataSet.v_fechamento.NewRow()
+                For Each coluna As DataColumn In ds.Tables(0).Columns
+                    If coluna.ColumnName = "data" Then
+                        novaLinha("data") = Convert.ToDateTime(origem("data").ToString())
+                    Else
+                        novaLinha(coluna.ColumnName) = origem(coluna.ColumnName)
+                    End If
+                Next
+                Me.nascomercioDataSet.v_fechamento.Rows.Add(novaLinha)
+            Next
+
+
+        Catch nex As ExcecaoNascomercio
+
+            MessageBox.Show(nex.Message)
+
+        Catch ex As Exception
+
+            MessageBox.Show("Erro na consulta do Fabricante [" & Me.ToString() & "]")
+
+        End Try
+
+        Me.txtDataInicial.Text = Today.ToString("dd/MM/yyyy")
+        Me.txtDataFinal.Text = DateAdd(DateInterval.Day, 1, Today).ToString("dd/MM/yyyy")
+        Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
+            Case "a", "g"
+                Me.txtCaixa.Text = ""
+                Me.txtCaixa.ReadOnly = False
+            Case "c"
+                Me.txtCaixa.Text = mdiPrincipal.gUsuario.usuario
+                Me.txtCaixa.ReadOnly = True
+        End Select
+
+        Filtrar()
+
+    End Sub
+
+    Private Sub fFabricanteLista_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
     Select Case e.KeyCode
       Case Keys.Escape
         mdiPrincipal.FecharTela()

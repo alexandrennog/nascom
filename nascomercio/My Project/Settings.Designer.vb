@@ -53,12 +53,12 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("server=localhost; port=3306; database=nascomercio; user id=root; password=; pooli"& _ 
-            "ng=false")>  _
+
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=127.0.1.1;Database=nascomercio;User ID=root;Password=15mysql;Allow User Variables=True;Allow Zero Datetime=True;Convert Zero Datetime=True;persist security info=True; pooli" &
+            "ng=false")>
         Public ReadOnly Property nascomercioConnectionString() As String
             Get
                 Return CType(Me("nascomercioConnectionString"),String)

@@ -18,6 +18,15 @@ Public Class fRelatorioCobrancaAutomatica
         Me.Close()
     End Sub
     Private Sub Filtrar()
+        ' Validar campo de data inicial
+        If String.IsNullOrWhiteSpace(txtDataInicial.Text) Then
+            MessageBox.Show("Por favor, informe a data inicial.", "Validação", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtDataInicial.Focus()
+            Exit Sub
+        End If
+
+
+
         Dim dadosVenda As New dCobrancaAutomatica
 
         Dim parametros(1) As Microsoft.Reporting.WinForms.ReportParameter
@@ -58,7 +67,6 @@ Public Class fRelatorioCobrancaAutomatica
         Dim li As ListViewItem
 
         Dim totTotal As Decimal
-
 
         For Each item As dCobrancaAutomatica In cobrancas
             li = New ListViewItem

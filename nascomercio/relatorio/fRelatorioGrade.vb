@@ -187,125 +187,130 @@ Public Class fRelatorioGrade
           filtro.grupo_cid = cboGrupo.SelectedValue
           filtro.ordem = chkOrdem.Checked
 
-          colReferencia = regras.ConsultarReferencia(filtro)
+                    colReferencia = regras.ConsultarReferencia(filtro)
 
-          pbGrade.Step = 1
-          pbGrade.Minimum = 0
-          pbGrade.Maximum = colReferencia.Count
-          pbGrade.Value = 0
+                    If colReferencia Is Nothing Then
+                        MessageBox.Show("Não foram encontrados registros para os filtros informados.", "Grade", MessageBoxButtons.OK)
+                        Return
+                    End If
 
-          If Not IsNothing(colReferencia) Then
-            totalGeral = 0
-            pbGrade.Show()
-            For Each itemRef As dGradeItem In colReferencia
+                    pbGrade.Step = 1
+                        pbGrade.Minimum = 0
+                        pbGrade.Maximum = colReferencia.Count
+                        pbGrade.Value = 0
 
-              pbGrade.PerformStep()
-                            'ultimaVenda = regras.ConsultarUltimaVenda(itemRef.referencia)
-                            ultimaVenda = regras.ConsultarUltimaVenda(itemRef.referencia, filtro)
+                        If Not IsNothing(colReferencia) Then
+                            totalGeral = 0
+                            pbGrade.Show()
+                            For Each itemRef As dGradeItem In colReferencia
 
-                            regraParametro = New rParametro()
-                            dadosParametro = regraParametro.Consultar(cConstantes.Parametros.IsDecimal)
+                                pbGrade.PerformStep()
+                                'ultimaVenda = regras.ConsultarUltimaVenda(itemRef.referencia)
+                                ultimaVenda = regras.ConsultarUltimaVenda(itemRef.referencia, filtro)
 
-                            ' Consultar chave de acesso/validação
-                            If Not IsNothing(dadosParametro) Then
-                                ehDecimal = dadosParametro.valor
-                            End If
+                                regraParametro = New rParametro()
+                                dadosParametro = regraParametro.Consultar(cConstantes.Parametros.IsDecimal)
 
-
-                            AlterarFundoCinza(True)
-              AlterarNegrito()
-              If Not IsNothing(itemRef.descricao) Then
-                rtbGrade.AppendText("REF: " & itemRef.referencia.PadRight(15, " ") & " " & itemRef.descricao.PadRight(40, " ").Substring(0, 40))
-              Else
-                rtbGrade.AppendText("REF: " & itemRef.referencia.PadRight(15, " ") & " " & New String(" ", 40))
-              End If
-              If ultimaVenda IsNot Nothing Then
-                rtbGrade.AppendText(" ULT. VENDA: " & FormatarDataBarras(RetornarTexto(ultimaVenda.dataUltimaVenda)) & "      " & ultimaVenda.corMaterial.PadRight(15, " ").Substring(0, 15))
-              Else
-                rtbGrade.AppendText(" ULT. VENDA:                                ")
-              End If
-              rtbGrade.AppendText(vbCrLf)
-
-              'colProdutos = regras.ConsultarProdutos(itemRef.referencia, filtro.ordem)
-              colProdutos = regras.ConsultarProdutos(itemRef.referencia, filtro)
-
-              If Not IsNothing(colProdutos) Then
-                totalRef = 0
-
-                For Each itemPro As dGradeItem In colProdutos
-
-                  colItens = regras.ConsultarItens(itemPro.produto_cid)
-
-                  If Not IsNothing(colItens) Then
-                    linhaTamanho = ""
-                    linhaEstoque = " " & itemPro.corMaterial.PadRight(18, " ").Substring(0, 18) & "|"
-                    linhaEntrada = ""
-
-                    somaEstoque = 0
-                    somaEntrada = 0
-
-                    For Each itemItem As dGradeItem In colItens
-                      If linhaEntrada = "" Then
-                        If RetornarTexto(itemItem.dataEntrada) = "" Then
-                          linhaEntrada = "                   |"
-                        Else
-                          linhaEntrada = " " & FormatarDataBarras(RetornarTexto(itemItem.dataEntrada)) & "        |"
-                        End If
-                      End If
-
-                      If itemItem.quantidade.Equals(Nothing) Then
-                        linhaEntrada = linhaEntrada & "      |"
-                      Else
-                                                linhaEntrada = linhaEntrada & cFuncoes.FormatarTextoDecimal(itemItem.quantidade, ehDecimal).PadLeft(5, " ") & " |"
-                                                somaEntrada = somaEntrada + Convert.ToDecimal(itemItem.quantidade)
-                                            End If
-
-                      If Not String.IsNullOrEmpty(itemItem.estoque) Then
-                                                somaEstoque = somaEstoque + Convert.ToDecimal(itemItem.estoque)
-                                                linhaEstoque = linhaEstoque & cFuncoes.FormatarTextoDecimal(itemItem.estoque, ehDecimal).PadLeft(5, " ") & " |"
-                                            Else
-                        linhaEstoque = linhaEstoque & "      |"
-                      End If
+                                ' Consultar chave de acesso/validação
+                                If Not IsNothing(dadosParametro) Then
+                                    ehDecimal = dadosParametro.valor
+                                End If
 
 
-                                            If Not String.IsNullOrEmpty(itemItem.tamanho) Then
-                        linhaTamanho = linhaTamanho & itemItem.tamanho.PadLeft(5, " ") & " |"
-                      Else
-                        linhaTamanho = linhaTamanho & "      |"
-                      End If
-                    Next
+                                AlterarFundoCinza(True)
+                                AlterarNegrito()
+                                If Not IsNothing(itemRef.descricao) Then
+                                    rtbGrade.AppendText("REF: " & itemRef.referencia.PadRight(15, " ") & " " & itemRef.descricao.PadRight(40, " ").Substring(0, 40))
+                                Else
+                                    rtbGrade.AppendText("REF: " & itemRef.referencia.PadRight(15, " ") & " " & New String(" ", 40))
+                                End If
+                                If ultimaVenda IsNot Nothing Then
+                                    rtbGrade.AppendText(" ULT. VENDA: " & FormatarDataBarras(RetornarTexto(ultimaVenda.dataUltimaVenda)) & "      " & ultimaVenda.corMaterial.PadRight(15, " ").Substring(0, 15))
+                                Else
+                                    rtbGrade.AppendText(" ULT. VENDA:                                ")
+                                End If
+                                rtbGrade.AppendText(vbCrLf)
 
-                    AlterarSublinhado()
-                    rtbGrade.AppendText(("                         |" & linhaTamanho.PadLeft(5, " ") & " ").PadRight(105, " "))
-                    rtbGrade.AppendText(vbCrLf)
-                    AlterarNegrito()
-                                        rtbGrade.AppendText(" " & cFuncoes.FormatarTextoDecimal(somaEstoque, ehDecimal).ToString().PadLeft(4, " ") & " " & linhaEstoque)
+                                'colProdutos = regras.ConsultarProdutos(itemRef.referencia, filtro.ordem)
+                                colProdutos = regras.ConsultarProdutos(itemRef.referencia, filtro)
+
+                                If Not IsNothing(colProdutos) Then
+                                    totalRef = 0
+
+                                    For Each itemPro As dGradeItem In colProdutos
+
+                                        colItens = regras.ConsultarItens(itemPro.produto_cid)
+
+                                        If Not IsNothing(colItens) Then
+                                            linhaTamanho = ""
+                                            linhaEstoque = " " & itemPro.corMaterial.PadRight(18, " ").Substring(0, 18) & "|"
+                                            linhaEntrada = ""
+
+                                            somaEstoque = 0
+                                            somaEntrada = 0
+
+                                            For Each itemItem As dGradeItem In colItens
+                                                If linhaEntrada = "" Then
+                                                    If RetornarTexto(itemItem.dataEntrada) = "" Then
+                                                        linhaEntrada = "                   |"
+                                                    Else
+                                                        linhaEntrada = " " & FormatarDataBarras(RetornarTexto(itemItem.dataEntrada)) & "        |"
+                                                    End If
+                                                End If
+
+                                                If itemItem.quantidade.Equals(Nothing) Then
+                                                    linhaEntrada = linhaEntrada & "      |"
+                                                Else
+                                                    linhaEntrada = linhaEntrada & cFuncoes.FormatarTextoDecimal(itemItem.quantidade, ehDecimal).PadLeft(5, " ") & " |"
+                                                    somaEntrada = somaEntrada + Convert.ToDecimal(itemItem.quantidade)
+                                                End If
+
+                                                If Not String.IsNullOrEmpty(itemItem.estoque) Then
+                                                    somaEstoque = somaEstoque + Convert.ToDecimal(itemItem.estoque)
+                                                    linhaEstoque = linhaEstoque & cFuncoes.FormatarTextoDecimal(itemItem.estoque, ehDecimal).PadLeft(5, " ") & " |"
+                                                Else
+                                                    linhaEstoque = linhaEstoque & "      |"
+                                                End If
+
+
+                                                If Not String.IsNullOrEmpty(itemItem.tamanho) Then
+                                                    linhaTamanho = linhaTamanho & itemItem.tamanho.PadLeft(5, " ") & " |"
+                                                Else
+                                                    linhaTamanho = linhaTamanho & "      |"
+                                                End If
+                                            Next
+
+                                            AlterarSublinhado()
+                                            rtbGrade.AppendText(("                         |" & linhaTamanho.PadLeft(5, " ") & " ").PadRight(105, " "))
+                                            rtbGrade.AppendText(vbCrLf)
+                                            AlterarNegrito()
+                                            rtbGrade.AppendText(" " & cFuncoes.FormatarTextoDecimal(somaEstoque, ehDecimal).ToString().PadLeft(4, " ") & " " & linhaEstoque)
+                                            rtbGrade.AppendText(vbCrLf)
+                                            AlterarVermelho()
+                                            AlterarNegrito()
+                                            rtbGrade.AppendText(" " & cFuncoes.FormatarTextoDecimal(somaEntrada, ehDecimal).ToString().PadLeft(4, " ") & " " & linhaEntrada)
+                                            rtbGrade.AppendText(vbCrLf)
+                                            totalRef = totalRef + somaEstoque
+                                        End If
+
                                         rtbGrade.AppendText(vbCrLf)
-                    AlterarVermelho()
-                    AlterarNegrito()
-                                        rtbGrade.AppendText(" " & cFuncoes.FormatarTextoDecimal(somaEntrada, ehDecimal).ToString().PadLeft(4, " ") & " " & linhaEntrada)
-                                        rtbGrade.AppendText(vbCrLf)
-                    totalRef = totalRef + somaEstoque
-                  End If
+                                    Next
+                                    totalGeral = totalGeral + totalRef
+                                End If
 
-                  rtbGrade.AppendText(vbCrLf)
-                Next
-                totalGeral = totalGeral + totalRef
-              End If
+                                rtbGrade.AppendText(" TOTAL = " & cFuncoes.FormatarTextoDecimal(totalRef.ToString(), ehDecimal))
+                                rtbGrade.AppendText(vbCrLf)
+                                rtbGrade.AppendText(vbCrLf)
+                                Application.DoEvents()
+                            Next
+                            pbGrade.Hide()
 
-                            rtbGrade.AppendText(" TOTAL = " & cFuncoes.FormatarTextoDecimal(totalRef.ToString(), ehDecimal))
+                            rtbGrade.AppendText(" TOTAL GERAL = " & cFuncoes.FormatarTextoDecimal(totalGeral.ToString(), ehDecimal))
                             rtbGrade.AppendText(vbCrLf)
-              rtbGrade.AppendText(vbCrLf)
-              Application.DoEvents()
-            Next
-            pbGrade.Hide()
+                            rtbGrade.AppendText(vbCrLf)
+                        End If
 
-                        rtbGrade.AppendText(" TOTAL GERAL = " & cFuncoes.FormatarTextoDecimal(totalGeral.ToString(), ehDecimal))
-                        rtbGrade.AppendText(vbCrLf)
-            rtbGrade.AppendText(vbCrLf)
-          End If
-
-        End If
+                    End If
 
       Catch nex As ExcecaoNascomercio
 

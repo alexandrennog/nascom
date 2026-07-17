@@ -1213,6 +1213,16 @@ Public Class fPagamento
     Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
                                                        senhaCertificado As String,
                                                        certificado As CertificadoDigital) As Task(Of X509Certificate2)
+
+        If String.IsNullOrWhiteSpace(caminhoCertificado) Then
+            Throw New ExcecaoNascomercio("Caminho do certificado digital não configurado.")
+        End If
+
+        If Not File.Exists(caminhoCertificado) Then
+            Throw New ExcecaoNascomercio("Certificado digital não encontrado no caminho: " & caminhoCertificado)
+        End If
+
+
         ' Executa o carregamento do certificado em uma thread separada (sem travar a UI)
         Return Await Task.Run(Function()
                                   Return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado)
