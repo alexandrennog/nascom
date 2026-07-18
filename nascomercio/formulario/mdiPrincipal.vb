@@ -296,12 +296,14 @@ Public Class mdiPrincipal
         btoRelatorio.Visible = False
         btoConfigurar.Visible = False
         btoESProduto.Visible = False
+        btoEmpresas.Visible = False
 
         ' Administrador
         If gUsuario.usuarioPerfil_codigo = "a" Then
             btoContasPagar.Visible = True
             btoLoja.Visible = True
             btoConfigurar.Visible = True
+            btoEmpresas.Visible = True
         End If
 
         ' Gerente
@@ -671,6 +673,30 @@ Public Class mdiPrincipal
     Public Sub CarregarCorLista()
         FecharTela()
         formulario = fCorLista
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarEmpresaForm()
+        FecharTela()
+        formulario = fEmpresaForm
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarEmpresaFiltro()
+        FecharTela()
+        formulario = fEmpresaFiltro
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarEmpresaLista()
+        FecharTela()
+        formulario = fEmpresaLista
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarImpostoForm()
+        FecharTela()
+        formulario = fImpostoForm
         AbrirTela()
     End Sub
 
@@ -1113,6 +1139,10 @@ Public Class mdiPrincipal
 
     Private Sub btoLoja_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoLoja.Click
         CarregarLojaFiltro()
+    End Sub
+
+    Private Sub btoEmpresas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoEmpresas.Click
+        CarregarEmpresaFiltro()
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)

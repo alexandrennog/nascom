@@ -76,6 +76,15 @@
     <Compile Include="pGradeItem.vb" />
     <Compile Include="pGrupo.vb" />
     <Compile Include="pCor.vb" />
+    <Compile Include="pEmpresa.vb" />
+    <Compile Include="pRegraTributaria.vb" />
+    <Compile Include="pProdutoRegraTributaria.vb" />
+    <Compile Include="pImpostoIcms.vb" />
+    <Compile Include="pImpostoPis.vb" />
+    <Compile Include="pImpostoCofins.vb" />
+    <Compile Include="pImpostoIpi.vb" />
+    <Compile Include="pImpostoIbsCbs.vb" />
+    <Compile Include="pRegraCfop.vb" />
     <Compile Include="pMunicipios.vb" />
     <Compile Include="pNotaFiscalFornecedor.vb" />
     <Compile Include="pParametro.vb" />

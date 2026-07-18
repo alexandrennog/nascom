@@ -44,6 +44,7 @@ Partial Class mdiPrincipal
         Me.lblLoja = New System.Windows.Forms.Label()
         Me.lblUsuario = New System.Windows.Forms.Label()
         Me.pnlMenu = New System.Windows.Forms.Panel()
+        Me.btoEmpresas = New System.Windows.Forms.Button()
         Me.btoOrdemServico = New System.Windows.Forms.Button()
         Me.btoFabricante = New System.Windows.Forms.Button()
         Me.btoContasPagar = New System.Windows.Forms.Button()
@@ -99,7 +100,7 @@ Partial Class mdiPrincipal
         Me.botaoMenuUsuarios.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.botaoMenuUsuarios.Name = "botaoMenuUsuarios"
         Me.botaoMenuUsuarios.Size = New System.Drawing.Size(52, 59)
-        Me.botaoMenuUsuarios.Text = "&Usuários"
+        Me.botaoMenuUsuarios.Text = "&Usuï¿½rios"
         Me.botaoMenuUsuarios.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal
         Me.botaoMenuUsuarios.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -243,11 +244,12 @@ Partial Class mdiPrincipal
         Me.lblUsuario.Name = "lblUsuario"
         Me.lblUsuario.Size = New System.Drawing.Size(54, 15)
         Me.lblUsuario.TabIndex = 0
-        Me.lblUsuario.Text = "Usuário:"
+        Me.lblUsuario.Text = "Usuï¿½rio:"
         '
         'pnlMenu
         '
         Me.pnlMenu.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.pnlMenu.Controls.Add(Me.btoEmpresas)
         Me.pnlMenu.Controls.Add(Me.btoOrdemServico)
         Me.pnlMenu.Controls.Add(Me.btoFabricante)
         Me.pnlMenu.Controls.Add(Me.btoContasPagar)
@@ -265,7 +267,7 @@ Partial Class mdiPrincipal
         Me.pnlMenu.Dock = System.Windows.Forms.DockStyle.Top
         Me.pnlMenu.Location = New System.Drawing.Point(0, 0)
         Me.pnlMenu.Name = "pnlMenu"
-        Me.pnlMenu.Size = New System.Drawing.Size(1016, 87)
+        Me.pnlMenu.Size = New System.Drawing.Size(1085, 87)
         Me.pnlMenu.TabIndex = 39
         Me.pnlMenu.Visible = False
         '
@@ -284,7 +286,7 @@ Partial Class mdiPrincipal
         Me.btoOrdemServico.Name = "btoOrdemServico"
         Me.btoOrdemServico.Size = New System.Drawing.Size(62, 83)
         Me.btoOrdemServico.TabIndex = 56
-        Me.btoOrdemServico.Text = "Ordem Serviço"
+        Me.btoOrdemServico.Text = "Ordem Serviï¿½o"
         Me.btoOrdemServico.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoOrdemServico.UseVisualStyleBackColor = False
         '
@@ -360,7 +362,7 @@ Partial Class mdiPrincipal
         Me.btoConfigurar.Name = "btoConfigurar"
         Me.btoConfigurar.Size = New System.Drawing.Size(84, 83)
         Me.btoConfigurar.TabIndex = 52
-        Me.btoConfigurar.Text = "Configurações [F12]"
+        Me.btoConfigurar.Text = "Configuraï¿½ï¿½es [F12]"
         Me.btoConfigurar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoConfigurar.UseVisualStyleBackColor = False
         '
@@ -379,7 +381,7 @@ Partial Class mdiPrincipal
         Me.btoESProduto.Name = "btoESProduto"
         Me.btoESProduto.Size = New System.Drawing.Size(76, 83)
         Me.btoESProduto.TabIndex = 51
-        Me.btoESProduto.Text = "Inventário" & Global.Microsoft.VisualBasic.ChrW(10) & "Produtos [F11]"
+        Me.btoESProduto.Text = "Inventï¿½rio" & Global.Microsoft.VisualBasic.ChrW(10) & "Produtos [F11]"
         Me.btoESProduto.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoESProduto.UseVisualStyleBackColor = False
         '
@@ -398,9 +400,28 @@ Partial Class mdiPrincipal
         Me.btoRelatorio.Name = "btoRelatorio"
         Me.btoRelatorio.Size = New System.Drawing.Size(73, 83)
         Me.btoRelatorio.TabIndex = 50
-        Me.btoRelatorio.Text = "Relatórios" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "[F10]"
+        Me.btoRelatorio.Text = "Relatï¿½rios" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "[F10]"
         Me.btoRelatorio.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoRelatorio.UseVisualStyleBackColor = False
+        '
+        'btoEmpresas
+        '
+        Me.btoEmpresas.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.btoEmpresas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btoEmpresas.FlatAppearance.BorderSize = 0
+        Me.btoEmpresas.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.btoEmpresas.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.btoEmpresas.ForeColor = System.Drawing.Color.Black
+        Me.btoEmpresas.Image = Global.nascomercio.My.Resources.Resources.loja
+        Me.btoEmpresas.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+        Me.btoEmpresas.Location = New System.Drawing.Point(1014, 2)
+        Me.btoEmpresas.Margin = New System.Windows.Forms.Padding(0)
+        Me.btoEmpresas.Name = "btoEmpresas"
+        Me.btoEmpresas.Size = New System.Drawing.Size(64, 83)
+        Me.btoEmpresas.TabIndex = 54
+        Me.btoEmpresas.Text = "Empresas"
+        Me.btoEmpresas.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.btoEmpresas.UseVisualStyleBackColor = False
         '
         'btoLoja
         '
@@ -557,7 +578,7 @@ Partial Class mdiPrincipal
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(1016, 734)
+        Me.ClientSize = New System.Drawing.Size(1085, 734)
         Me.Controls.Add(Me.pnlMenu)
         Me.Controls.Add(Me.pnlInformacoes)
         Me.Controls.Add(Me.menuPrincipal)
@@ -602,6 +623,7 @@ Partial Class mdiPrincipal
     Friend WithEvents btnCaixa As System.Windows.Forms.Button
     Friend WithEvents btoCaixa As System.Windows.Forms.Button
     Friend WithEvents btoLoja As System.Windows.Forms.Button
+    Friend WithEvents btoEmpresas As System.Windows.Forms.Button
     Friend WithEvents btoRelatorio As System.Windows.Forms.Button
     Friend WithEvents btoESProduto As System.Windows.Forms.Button
     Friend WithEvents btoConfigurar As System.Windows.Forms.Button

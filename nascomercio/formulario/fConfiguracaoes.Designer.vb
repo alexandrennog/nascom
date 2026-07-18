@@ -39,6 +39,7 @@ Partial Class fConfiguracaoes
         Me.btoSair = New System.Windows.Forms.Button()
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.rbtPix = New System.Windows.Forms.RadioButton()
+        Me.rbtEmpresas = New System.Windows.Forms.RadioButton()
         Me.Panel1.SuspendLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -65,7 +66,7 @@ Partial Class fConfiguracaoes
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(158, 24)
         Me.lblTitulo.TabIndex = 89
-        Me.lblTitulo.Text = "Configurações"
+        Me.lblTitulo.Text = "Configuraï¿½ï¿½es"
         '
         'rbtParametros
         '
@@ -75,7 +76,7 @@ Partial Class fConfiguracaoes
         Me.rbtParametros.Name = "rbtParametros"
         Me.rbtParametros.Size = New System.Drawing.Size(204, 23)
         Me.rbtParametros.TabIndex = 2
-        Me.rbtParametros.Text = "Parâmetros do Sistema"
+        Me.rbtParametros.Text = "Parï¿½metros do Sistema"
         Me.rbtParametros.UseVisualStyleBackColor = True
         '
         'rbtCores
@@ -119,7 +120,7 @@ Partial Class fConfiguracaoes
         Me.rbtCaracteristicas.Name = "rbtCaracteristicas"
         Me.rbtCaracteristicas.Size = New System.Drawing.Size(141, 23)
         Me.rbtCaracteristicas.TabIndex = 7
-        Me.rbtCaracteristicas.Text = "Características"
+        Me.rbtCaracteristicas.Text = "Caracterï¿½sticas"
         Me.rbtCaracteristicas.UseVisualStyleBackColor = True
         '
         'rbtCondicoes
@@ -130,12 +131,13 @@ Partial Class fConfiguracaoes
         Me.rbtCondicoes.Name = "rbtCondicoes"
         Me.rbtCondicoes.Size = New System.Drawing.Size(224, 23)
         Me.rbtCondicoes.TabIndex = 8
-        Me.rbtCondicoes.Text = "Condições de Pagamento"
+        Me.rbtCondicoes.Text = "Condiï¿½ï¿½es de Pagamento"
         Me.rbtCondicoes.UseVisualStyleBackColor = True
         '
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.rbtEmpresas)
         Me.Panel1.Controls.Add(Me.rbtPix)
         Me.Panel1.Controls.Add(Me.rbtChaveValidacao)
         Me.Panel1.Controls.Add(Me.btoFiltro)
@@ -163,7 +165,7 @@ Partial Class fConfiguracaoes
         Me.rbtChaveValidacao.Size = New System.Drawing.Size(177, 23)
         Me.rbtChaveValidacao.TabIndex = 1
         Me.rbtChaveValidacao.TabStop = True
-        Me.rbtChaveValidacao.Text = "Chave de Validação"
+        Me.rbtChaveValidacao.Text = "Chave de Validaï¿½ï¿½o"
         Me.rbtChaveValidacao.UseVisualStyleBackColor = True
         '
         'btoFiltro
@@ -259,6 +261,17 @@ Partial Class fConfiguracaoes
         Me.rbtPix.Text = "PIX"
         Me.rbtPix.UseVisualStyleBackColor = True
         '
+        'rbtEmpresas
+        '
+        Me.rbtEmpresas.AutoSize = True
+        Me.rbtEmpresas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtEmpresas.Location = New System.Drawing.Point(320, 92)
+        Me.rbtEmpresas.Name = "rbtEmpresas"
+        Me.rbtEmpresas.Size = New System.Drawing.Size(107, 23)
+        Me.rbtEmpresas.TabIndex = 13
+        Me.rbtEmpresas.Text = "Empresas"
+        Me.rbtEmpresas.UseVisualStyleBackColor = True
+        '
         'fConfiguracaoes
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -303,4 +316,5 @@ Partial Class fConfiguracaoes
     Friend WithEvents rbtCategorias As System.Windows.Forms.RadioButton
     Friend WithEvents rbtChaveValidacao As System.Windows.Forms.RadioButton
     Friend WithEvents rbtPix As RadioButton
+    Friend WithEvents rbtEmpresas As System.Windows.Forms.RadioButton
 End Class

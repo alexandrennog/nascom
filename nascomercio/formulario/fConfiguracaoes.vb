@@ -39,6 +39,8 @@ Public Class fConfiguracaoes
             mdiPrincipal.CarregarChaveValidacao()
         ElseIf rbtPIx.Checked Then
             mdiPrincipal.CarregarPix()
+        ElseIf rbtEmpresas.Checked Then
+            mdiPrincipal.CarregarEmpresaFiltro()
         End If
     End Sub
 

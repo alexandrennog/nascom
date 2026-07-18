@@ -1659,4 +1659,27 @@ Public Class fProdutoForm
     Private Sub btoCategoria_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoCategoria.Click
         CarregarCategoriaFiltro()
     End Sub
+
+    Private Sub btoImpostos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoImpostos.Click
+        CarregarImpostos()
+    End Sub
+
+    Private Sub CarregarImpostos()
+        Dim valido As Boolean = False
+
+        If Not Me.cid.Equals(Nothing) Then
+            If Not Me.cid.ToString().Equals(String.Empty) Then
+                If Not Me.cid.Equals(0) Then
+                    valido = True
+                End If
+            End If
+        End If
+
+        If valido = True Then
+            fImpostoForm.produto_cid = Me.cid
+            mdiPrincipal.CarregarImpostoForm()
+        Else
+            MessageBox.Show("Salve o produto antes de configurar os Impostos.")
+        End If
+    End Sub
 End Class
