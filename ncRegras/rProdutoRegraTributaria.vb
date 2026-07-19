@@ -9,7 +9,7 @@ Namespace nsProdutoRegraTributaria
 
   Public Class rProdutoRegraTributaria
 
-    '-- M�todos de controle ( V�rias chamadas; Controle de transa��o )
+    '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
     Public Function Listar() As ColecaoProdutoRegraTributaria
 
@@ -120,7 +120,7 @@ Namespace nsProdutoRegraTributaria
 
     End Function
 
-    '-- M�todos padr�o ( Incluir; Alterar; Excluir; Consultar; Listar )
+    '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
 
     Public Function fListar() As ColecaoProdutoRegraTributaria
 

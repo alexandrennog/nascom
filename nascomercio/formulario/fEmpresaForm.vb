@@ -19,17 +19,17 @@ Public Class fEmpresaForm
     Try
 
       If String.IsNullOrEmpty(txtRazaoSocial.Text.Trim()) Then
-        MessageBox.Show("� necess�rio informar a Raz�o Social!")
+        MessageBox.Show("É necessário informar a Razão Social!")
         Return False
       End If
 
       If String.IsNullOrEmpty(txtCnpj.Text.Trim()) Then
-        MessageBox.Show("� necess�rio informar o CNPJ!")
+        MessageBox.Show("É necessário informar o CNPJ!")
         Return False
       End If
 
       If Not cFuncoes.ValidarValor(cboCrt.SelectedValue) Then
-        MessageBox.Show("� necess�rio informar o CRT!")
+        MessageBox.Show("É necessário informar o CRT!")
         Return False
       End If
 
@@ -54,19 +54,19 @@ Public Class fEmpresaForm
         Exit Sub
       End If
 
-      tipoMsg = "INCLUS�O"
+      tipoMsg = "INCLUSÃO"
       tipoAcao = "i"
 
       If Not Me.cid.Equals(Nothing) Then
         If Not Me.cid.ToString().Equals(String.Empty) Then
           If Not Me.cid.Equals(0) Then
-            tipoMsg = "ALTERA��O"
+            tipoMsg = "ALTERAÇÃO"
             tipoAcao = "a"
           End If
         End If
       End If
 
-      If MessageBox.Show("Confirma " & tipoMsg & " das informa��es?", tipoMsg, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+      If MessageBox.Show("Confirma " & tipoMsg & " das informações?", tipoMsg, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
         dados = New dEmpresa
         regras = New rEmpresa
 
@@ -87,7 +87,7 @@ Public Class fEmpresaForm
             Me.cid = novoCID
             ExibirInformacoesTela()
           Else
-            MessageBox.Show("J� existe uma Empresa cadastrada com este CNPJ.")
+            MessageBox.Show("Já existe uma Empresa cadastrada com este CNPJ.")
           End If
         ElseIf tipoAcao.Equals("a") Then
           regras.Alterar(dados)
@@ -116,7 +116,7 @@ Public Class fEmpresaForm
       If Not Me.cid.Equals(Nothing) Then
         If Not Me.cid.ToString().Equals(String.Empty) Then
           If Not Me.cid.Equals(0) Then
-            If MessageBox.Show("Confirma EXCLUS�O das informa��es?", "EXCLUS�O", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+            If MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
               dados = New dEmpresa
               regras = New rEmpresa
 
@@ -137,7 +137,7 @@ Public Class fEmpresaForm
 
     Catch ex As Exception
 
-      MessageBox.Show("Erro na exclus�o dos dados da Empresa.")
+      MessageBox.Show("Erro na exclusão dos dados da Empresa.")
 
     End Try
   End Sub
@@ -254,7 +254,7 @@ Public Class fEmpresaForm
 
     Catch ex As Exception
 
-      MessageBox.Show("Erro na consulta dos dados de Munic�pios.")
+      MessageBox.Show("Erro na consulta dos dados de Municípios.")
 
     End Try
   End Sub

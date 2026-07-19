@@ -9,7 +9,7 @@ Namespace nsImpostoIpi
 
   Public Class rImpostoIpi
 
-    '-- M�todos de controle ( V�rias chamadas; Controle de transa��o )
+    '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
     Public Function Listar() As ColecaoImpostoIpi
 
@@ -169,7 +169,7 @@ Namespace nsImpostoIpi
 
     End Function
 
-    '-- M�todos padr�o ( Incluir; Alterar; Excluir; Consultar; Listar )
+    '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
 
     Public Function fListar() As ColecaoImpostoIpi
 

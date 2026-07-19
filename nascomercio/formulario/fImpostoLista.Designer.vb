@@ -1,5 +1,5 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class fEmpresaLista
+Partial Class fImpostoLista
   Inherits System.Windows.Forms.Form
 
   'Form overrides dispose to clean up the component list.
@@ -22,22 +22,23 @@ Partial Class fEmpresaLista
   'Do not modify it using the code editor.
   <System.Diagnostics.DebuggerStepThrough()> _
   Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle
-        Me.lblSubTitulo = New System.Windows.Forms.Label
-        Me.lblTitulo = New System.Windows.Forms.Label
-        Me.dgvEmpresa = New System.Windows.Forms.DataGridView
-        Me.cid = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.RazaoSocial = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.Cnpj = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.Uf = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.btoFiltro = New System.Windows.Forms.Button
-        Me.imgLogo = New System.Windows.Forms.PictureBox
-        Me.btoCadastro = New System.Windows.Forms.Button
-        Me.btoSair = New System.Windows.Forms.Button
-        Me.Panel1 = New System.Windows.Forms.Panel
-        CType(Me.dgvEmpresa, System.ComponentModel.ISupportInitialize).BeginInit()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Me.lblSubTitulo = New System.Windows.Forms.Label()
+        Me.lblTitulo = New System.Windows.Forms.Label()
+        Me.dgvImposto = New System.Windows.Forms.DataGridView()
+        Me.colRegraCid = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colCrt = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colTipoOperacao = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.colAtivo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.imgLogo = New System.Windows.Forms.PictureBox()
+        Me.btoCadastro = New System.Windows.Forms.Button()
+        Me.btoSair = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        CType(Me.dgvImposto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblSubTitulo
@@ -60,21 +61,21 @@ Partial Class fEmpresaLista
         Me.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblTitulo.Location = New System.Drawing.Point(64, 10)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(101, 24)
+        Me.lblTitulo.Size = New System.Drawing.Size(104, 24)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "Empresas"
+        Me.lblTitulo.Text = "Impostos"
         '
-        'dgvEmpresa
+        'dgvImposto
         '
-        Me.dgvEmpresa.AllowUserToAddRows = False
-        Me.dgvEmpresa.AllowUserToDeleteRows = False
-        Me.dgvEmpresa.AllowUserToOrderColumns = True
-        Me.dgvEmpresa.AllowUserToResizeColumns = False
-        Me.dgvEmpresa.AllowUserToResizeRows = False
-        Me.dgvEmpresa.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
-        Me.dgvEmpresa.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.dgvEmpresa.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.dgvEmpresa.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
+        Me.dgvImposto.AllowUserToAddRows = False
+        Me.dgvImposto.AllowUserToDeleteRows = False
+        Me.dgvImposto.AllowUserToOrderColumns = True
+        Me.dgvImposto.AllowUserToResizeColumns = False
+        Me.dgvImposto.AllowUserToResizeRows = False
+        Me.dgvImposto.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells
+        Me.dgvImposto.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.dgvImposto.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.dgvImposto.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
         DataGridViewCellStyle1.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold)
@@ -82,9 +83,9 @@ Partial Class fEmpresaLista
         DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgvEmpresa.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
-        Me.dgvEmpresa.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvEmpresa.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.cid, Me.RazaoSocial, Me.Cnpj, Me.Uf})
+        Me.dgvImposto.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.dgvImposto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvImposto.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colRegraCid, Me.colDescricao, Me.colCrt, Me.colTipoOperacao, Me.colAtivo})
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle2.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold)
@@ -92,67 +93,55 @@ Partial Class fEmpresaLista
         DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
         DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
         DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.dgvEmpresa.DefaultCellStyle = DataGridViewCellStyle2
-        Me.dgvEmpresa.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.dgvEmpresa.Location = New System.Drawing.Point(8, 70)
-        Me.dgvEmpresa.Name = "dgvEmpresa"
-        Me.dgvEmpresa.ReadOnly = True
-        Me.dgvEmpresa.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
-        Me.dgvEmpresa.RowHeadersVisible = False
-        Me.dgvEmpresa.Size = New System.Drawing.Size(684, 270)
-        Me.dgvEmpresa.TabIndex = 133
+        Me.dgvImposto.DefaultCellStyle = DataGridViewCellStyle2
+        Me.dgvImposto.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
+        Me.dgvImposto.Location = New System.Drawing.Point(20, 65)
+        Me.dgvImposto.Name = "dgvImposto"
+        Me.dgvImposto.ReadOnly = True
+        Me.dgvImposto.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
+        Me.dgvImposto.RowHeadersVisible = False
+        Me.dgvImposto.Size = New System.Drawing.Size(581, 270)
+        Me.dgvImposto.TabIndex = 133
         '
-        'cid
+        'colRegraCid
         '
-        Me.cid.HeaderText = "CID"
-        Me.cid.Name = "cid"
-        Me.cid.ReadOnly = True
-        Me.cid.Width = 55
+        Me.colRegraCid.HeaderText = "CID"
+        Me.colRegraCid.Name = "colRegraCid"
+        Me.colRegraCid.ReadOnly = True
+        Me.colRegraCid.Visible = False
         '
-        'RazaoSocial
+        'colDescricao
         '
-        Me.RazaoSocial.HeaderText = "Razão Social"
-        Me.RazaoSocial.Name = "RazaoSocial"
-        Me.RazaoSocial.ReadOnly = True
-        Me.RazaoSocial.Width = 300
+        Me.colDescricao.HeaderText = "Descrição"
+        Me.colDescricao.Name = "colDescricao"
+        Me.colDescricao.ReadOnly = True
+        Me.colDescricao.Width = 94
         '
-        'Cnpj
+        'colCrt
         '
-        Me.Cnpj.HeaderText = "CNPJ"
-        Me.Cnpj.Name = "Cnpj"
-        Me.Cnpj.ReadOnly = True
-        Me.Cnpj.Width = 150
+        Me.colCrt.HeaderText = "CRT"
+        Me.colCrt.Name = "colCrt"
+        Me.colCrt.ReadOnly = True
+        Me.colCrt.Width = 58
         '
-        'Uf
+        'colTipoOperacao
         '
-        Me.Uf.HeaderText = "UF"
-        Me.Uf.Name = "Uf"
-        Me.Uf.ReadOnly = True
-        Me.Uf.Width = 60
+        Me.colTipoOperacao.HeaderText = "Tipo Operação"
+        Me.colTipoOperacao.Name = "colTipoOperacao"
+        Me.colTipoOperacao.ReadOnly = True
+        Me.colTipoOperacao.Width = 115
         '
-        'btoFiltro
+        'colAtivo
         '
-        Me.btoFiltro.BackColor = System.Drawing.Color.Transparent
-        Me.btoFiltro.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btoFiltro.FlatAppearance.BorderSize = 0
-        Me.btoFiltro.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btoFiltro.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btoFiltro.ForeColor = System.Drawing.Color.Black
-        Me.btoFiltro.Image = Global.nascomercio.My.Resources.Resources.pesquisar
-        Me.btoFiltro.ImageAlign = System.Drawing.ContentAlignment.TopCenter
-        Me.btoFiltro.Location = New System.Drawing.Point(270, 346)
-        Me.btoFiltro.Margin = New System.Windows.Forms.Padding(0)
-        Me.btoFiltro.Name = "btoFiltro"
-        Me.btoFiltro.Size = New System.Drawing.Size(150, 72)
-        Me.btoFiltro.TabIndex = 139
-        Me.btoFiltro.Text = "Filtrar <F6>"
-        Me.btoFiltro.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btoFiltro.UseVisualStyleBackColor = False
+        Me.colAtivo.HeaderText = "Ativo"
+        Me.colAtivo.Name = "colAtivo"
+        Me.colAtivo.ReadOnly = True
+        Me.colAtivo.Width = 64
         '
         'imgLogo
         '
         Me.imgLogo.BackColor = System.Drawing.Color.Transparent
-        Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.loja
+        Me.imgLogo.Image = Global.nascomercio.My.Resources.Resources.balanco
         Me.imgLogo.Location = New System.Drawing.Point(8, 10)
         Me.imgLogo.Name = "imgLogo"
         Me.imgLogo.Size = New System.Drawing.Size(50, 50)
@@ -199,22 +188,21 @@ Partial Class fEmpresaLista
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.dgvImposto)
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(700, 420)
+        Me.Panel1.Size = New System.Drawing.Size(705, 352)
         Me.Panel1.TabIndex = 140
         '
-        'fEmpresaLista
+        'fImpostoLista
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(700, 420)
+        Me.ClientSize = New System.Drawing.Size(700, 350)
         Me.Controls.Add(Me.lblSubTitulo)
-        Me.Controls.Add(Me.btoFiltro)
         Me.Controls.Add(Me.lblTitulo)
         Me.Controls.Add(Me.imgLogo)
-        Me.Controls.Add(Me.dgvEmpresa)
         Me.Controls.Add(Me.btoCadastro)
         Me.Controls.Add(Me.btoSair)
         Me.Controls.Add(Me.Panel1)
@@ -222,27 +210,28 @@ Partial Class fEmpresaLista
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "fEmpresaLista"
+        Me.Name = "fImpostoLista"
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "fEmpresaLista"
-        CType(Me.dgvEmpresa, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Text = "fImpostoLista"
+        CType(Me.dgvImposto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-  Friend WithEvents lblSubTitulo As System.Windows.Forms.Label
-  Friend WithEvents btoFiltro As System.Windows.Forms.Button
+    Friend WithEvents lblSubTitulo As System.Windows.Forms.Label
   Friend WithEvents lblTitulo As System.Windows.Forms.Label
   Friend WithEvents imgLogo As System.Windows.Forms.PictureBox
-  Friend WithEvents dgvEmpresa As System.Windows.Forms.DataGridView
+  Friend WithEvents dgvImposto As System.Windows.Forms.DataGridView
   Friend WithEvents btoCadastro As System.Windows.Forms.Button
   Friend WithEvents btoSair As System.Windows.Forms.Button
-  Friend WithEvents cid As System.Windows.Forms.DataGridViewTextBoxColumn
-  Friend WithEvents RazaoSocial As System.Windows.Forms.DataGridViewTextBoxColumn
-  Friend WithEvents Cnpj As System.Windows.Forms.DataGridViewTextBoxColumn
-  Friend WithEvents Uf As System.Windows.Forms.DataGridViewTextBoxColumn
+  Friend WithEvents colRegraCid As System.Windows.Forms.DataGridViewTextBoxColumn
+  Friend WithEvents colDescricao As System.Windows.Forms.DataGridViewTextBoxColumn
+  Friend WithEvents colCrt As System.Windows.Forms.DataGridViewTextBoxColumn
+  Friend WithEvents colTipoOperacao As System.Windows.Forms.DataGridViewTextBoxColumn
+  Friend WithEvents colAtivo As System.Windows.Forms.DataGridViewTextBoxColumn
   Friend WithEvents Panel1 As System.Windows.Forms.Panel
 End Class

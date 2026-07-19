@@ -73,7 +73,7 @@ Partial Class fEmpresaFiltro
     Me.lblRazaoSocial.Name = "lblRazaoSocial"
     Me.lblRazaoSocial.Size = New System.Drawing.Size(112, 18)
     Me.lblRazaoSocial.TabIndex = 122
-    Me.lblRazaoSocial.Text = "Raz�o Social"
+    Me.lblRazaoSocial.Text = "Razão Social"
     '
     'txtRazaoSocial
     '

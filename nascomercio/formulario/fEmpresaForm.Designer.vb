@@ -54,7 +54,7 @@ Partial Class fEmpresaForm
     Me.lblRazaoSocial.Name = "lblRazaoSocial"
     Me.lblRazaoSocial.Size = New System.Drawing.Size(112, 18)
     Me.lblRazaoSocial.TabIndex = 101
-    Me.lblRazaoSocial.Text = "Raz�o Social"
+    Me.lblRazaoSocial.Text = "Razão Social"
     '
     'txtRazaoSocial
     '
@@ -142,7 +142,7 @@ Partial Class fEmpresaForm
     Me.lblMunicipio.Name = "lblMunicipio"
     Me.lblMunicipio.Size = New System.Drawing.Size(94, 18)
     Me.lblMunicipio.TabIndex = 105
-    Me.lblMunicipio.Text = "Munic�pio"
+    Me.lblMunicipio.Text = "Município"
     '
     'cboMunicipio
     '

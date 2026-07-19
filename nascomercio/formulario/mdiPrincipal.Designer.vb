@@ -100,7 +100,7 @@ Partial Class mdiPrincipal
         Me.botaoMenuUsuarios.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.botaoMenuUsuarios.Name = "botaoMenuUsuarios"
         Me.botaoMenuUsuarios.Size = New System.Drawing.Size(52, 59)
-        Me.botaoMenuUsuarios.Text = "&Usuï¿½rios"
+        Me.botaoMenuUsuarios.Text = "&Usuários"
         Me.botaoMenuUsuarios.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal
         Me.botaoMenuUsuarios.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
@@ -244,7 +244,7 @@ Partial Class mdiPrincipal
         Me.lblUsuario.Name = "lblUsuario"
         Me.lblUsuario.Size = New System.Drawing.Size(54, 15)
         Me.lblUsuario.TabIndex = 0
-        Me.lblUsuario.Text = "Usuï¿½rio:"
+        Me.lblUsuario.Text = "Usuário:"
         '
         'pnlMenu
         '
@@ -286,7 +286,7 @@ Partial Class mdiPrincipal
         Me.btoOrdemServico.Name = "btoOrdemServico"
         Me.btoOrdemServico.Size = New System.Drawing.Size(62, 83)
         Me.btoOrdemServico.TabIndex = 56
-        Me.btoOrdemServico.Text = "Ordem Serviï¿½o"
+        Me.btoOrdemServico.Text = "Ordem Serviço"
         Me.btoOrdemServico.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoOrdemServico.UseVisualStyleBackColor = False
         '
@@ -362,7 +362,7 @@ Partial Class mdiPrincipal
         Me.btoConfigurar.Name = "btoConfigurar"
         Me.btoConfigurar.Size = New System.Drawing.Size(84, 83)
         Me.btoConfigurar.TabIndex = 52
-        Me.btoConfigurar.Text = "Configuraï¿½ï¿½es [F12]"
+        Me.btoConfigurar.Text = "Configurações [F12]"
         Me.btoConfigurar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoConfigurar.UseVisualStyleBackColor = False
         '
@@ -381,7 +381,7 @@ Partial Class mdiPrincipal
         Me.btoESProduto.Name = "btoESProduto"
         Me.btoESProduto.Size = New System.Drawing.Size(76, 83)
         Me.btoESProduto.TabIndex = 51
-        Me.btoESProduto.Text = "Inventï¿½rio" & Global.Microsoft.VisualBasic.ChrW(10) & "Produtos [F11]"
+        Me.btoESProduto.Text = "Inventário" & Global.Microsoft.VisualBasic.ChrW(10) & "Produtos [F11]"
         Me.btoESProduto.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoESProduto.UseVisualStyleBackColor = False
         '
@@ -400,7 +400,7 @@ Partial Class mdiPrincipal
         Me.btoRelatorio.Name = "btoRelatorio"
         Me.btoRelatorio.Size = New System.Drawing.Size(73, 83)
         Me.btoRelatorio.TabIndex = 50
-        Me.btoRelatorio.Text = "Relatï¿½rios" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "[F10]"
+        Me.btoRelatorio.Text = "Relatórios" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "[F10]"
         Me.btoRelatorio.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoRelatorio.UseVisualStyleBackColor = False
         '

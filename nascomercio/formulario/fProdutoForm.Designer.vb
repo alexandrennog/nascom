@@ -156,7 +156,7 @@ Partial Class fProdutoForm
         Me.lblNome.Name = "lblNome"
         Me.lblNome.Size = New System.Drawing.Size(83, 18)
         Me.lblNome.TabIndex = 119
-        Me.lblNome.Text = "Descriï¿½ï¿½o"
+        Me.lblNome.Text = "Descrição"
         '
         'lblCodigo
         '
@@ -167,7 +167,7 @@ Partial Class fProdutoForm
         Me.lblCodigo.Name = "lblCodigo"
         Me.lblCodigo.Size = New System.Drawing.Size(60, 18)
         Me.lblCodigo.TabIndex = 118
-        Me.lblCodigo.Text = "Cï¿½digo"
+        Me.lblCodigo.Text = "Código"
         '
         'cboSituacao
         '
@@ -314,7 +314,7 @@ Partial Class fProdutoForm
         Me.lblReferencia.Name = "lblReferencia"
         Me.lblReferencia.Size = New System.Drawing.Size(87, 18)
         Me.lblReferencia.TabIndex = 156
-        Me.lblReferencia.Text = "Referï¿½ncia"
+        Me.lblReferencia.Text = "Referência"
         '
         'Label1
         '
@@ -347,7 +347,7 @@ Partial Class fProdutoForm
         Me.lblSituacao.Name = "lblSituacao"
         Me.lblSituacao.Size = New System.Drawing.Size(73, 18)
         Me.lblSituacao.TabIndex = 163
-        Me.lblSituacao.Text = "Situaï¿½ï¿½o"
+        Me.lblSituacao.Text = "Situação"
         '
         'txtEstoqueTotal
         '
@@ -424,7 +424,7 @@ Partial Class fProdutoForm
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(96, 18)
         Me.Label7.TabIndex = 181
-        Me.Label7.Text = "Est. Mï¿½nimo"
+        Me.Label7.Text = "Est. Mínimo"
         '
         'txtEstoqueMinimo
         '
@@ -448,7 +448,7 @@ Partial Class fProdutoForm
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(71, 18)
         Me.Label10.TabIndex = 184
-        Me.Label10.Text = "Alï¿½quota"
+        Me.Label10.Text = "Alíquota"
         '
         'btoFornecedores
         '
@@ -756,7 +756,7 @@ Partial Class fProdutoForm
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(47, 18)
         Me.Label11.TabIndex = 207
-        Me.Label11.Text = "Sï¿½rie"
+        Me.Label11.Text = "Série"
         '
         'txtNotaFiscalNumero
         '

@@ -9,7 +9,7 @@ Namespace nsImpostoIbsCbs
 
   Public Class rImpostoIbsCbs
 
-    '-- M�todos de controle ( V�rias chamadas; Controle de transa��o )
+    '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
     Public Function Listar() As ColecaoImpostoIbsCbs
 
@@ -171,7 +171,7 @@ Namespace nsImpostoIbsCbs
 
     End Function
 
-    '-- M�todos padr�o ( Incluir; Alterar; Excluir; Consultar; Listar )
+    '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
 
     Public Function fListar() As ColecaoImpostoIbsCbs
 

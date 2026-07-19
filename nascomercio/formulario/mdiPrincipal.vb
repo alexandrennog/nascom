@@ -700,6 +700,12 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
 
+    Public Sub CarregarImpostoLista()
+        FecharTela()
+        formulario = fImpostoLista
+        AbrirTela()
+    End Sub
+
     Public Sub CarregarCategoriaForm()
         FecharTela()
         formulario = fCategoriaForm

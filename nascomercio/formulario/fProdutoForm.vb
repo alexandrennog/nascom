@@ -1676,8 +1676,8 @@ Public Class fProdutoForm
         End If
 
         If valido = True Then
-            fImpostoForm.produto_cid = Me.cid
-            mdiPrincipal.CarregarImpostoForm()
+            fImpostoLista.produto_cid = Me.cid
+            mdiPrincipal.CarregarImpostoLista()
         Else
             MessageBox.Show("Salve o produto antes de configurar os Impostos.")
         End If

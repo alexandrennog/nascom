@@ -9,7 +9,7 @@ Namespace nsImpostoPis
 
   Public Class rImpostoPis
 
-    '-- M�todos de controle ( V�rias chamadas; Controle de transa��o )
+    '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
     Public Function Listar() As ColecaoImpostoPis
 
@@ -168,7 +168,7 @@ Namespace nsImpostoPis
 
     End Function
 
-    '-- M�todos padr�o ( Incluir; Alterar; Excluir; Consultar; Listar )
+    '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
 
     Public Function fListar() As ColecaoImpostoPis
 

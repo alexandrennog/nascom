@@ -66,7 +66,7 @@ Partial Class fConfiguracaoes
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(158, 24)
         Me.lblTitulo.TabIndex = 89
-        Me.lblTitulo.Text = "Configuraï¿½ï¿½es"
+        Me.lblTitulo.Text = "Configurações"
         '
         'rbtParametros
         '
@@ -76,7 +76,7 @@ Partial Class fConfiguracaoes
         Me.rbtParametros.Name = "rbtParametros"
         Me.rbtParametros.Size = New System.Drawing.Size(204, 23)
         Me.rbtParametros.TabIndex = 2
-        Me.rbtParametros.Text = "Parï¿½metros do Sistema"
+        Me.rbtParametros.Text = "Parâmetros do Sistema"
         Me.rbtParametros.UseVisualStyleBackColor = True
         '
         'rbtCores
@@ -120,7 +120,7 @@ Partial Class fConfiguracaoes
         Me.rbtCaracteristicas.Name = "rbtCaracteristicas"
         Me.rbtCaracteristicas.Size = New System.Drawing.Size(141, 23)
         Me.rbtCaracteristicas.TabIndex = 7
-        Me.rbtCaracteristicas.Text = "Caracterï¿½sticas"
+        Me.rbtCaracteristicas.Text = "Características"
         Me.rbtCaracteristicas.UseVisualStyleBackColor = True
         '
         'rbtCondicoes
@@ -131,7 +131,7 @@ Partial Class fConfiguracaoes
         Me.rbtCondicoes.Name = "rbtCondicoes"
         Me.rbtCondicoes.Size = New System.Drawing.Size(224, 23)
         Me.rbtCondicoes.TabIndex = 8
-        Me.rbtCondicoes.Text = "Condiï¿½ï¿½es de Pagamento"
+        Me.rbtCondicoes.Text = "Condições de Pagamento"
         Me.rbtCondicoes.UseVisualStyleBackColor = True
         '
         'Panel1
@@ -165,7 +165,7 @@ Partial Class fConfiguracaoes
         Me.rbtChaveValidacao.Size = New System.Drawing.Size(177, 23)
         Me.rbtChaveValidacao.TabIndex = 1
         Me.rbtChaveValidacao.TabStop = True
-        Me.rbtChaveValidacao.Text = "Chave de Validaï¿½ï¿½o"
+        Me.rbtChaveValidacao.Text = "Chave de Validação"
         Me.rbtChaveValidacao.UseVisualStyleBackColor = True
         '
         'btoFiltro

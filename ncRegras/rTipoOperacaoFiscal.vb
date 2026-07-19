@@ -5,7 +5,7 @@ Namespace nsRegras
 
   Public Class rTipoOperacaoFiscal
 
-    '-- M�todos de controle ( V�rias chamadas; Controle de transa��o )
+    '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
     Public Function Listar() As ColecaoTipoOperacaoFiscal
 
@@ -26,7 +26,7 @@ Namespace nsRegras
 
     End Function
 
-    '-- M�todos padr�o ( Incluir; Alterar; Excluir; Consultar; Listar )
+    '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
 
     Public Function fListar() As ColecaoTipoOperacaoFiscal
 
@@ -44,7 +44,7 @@ Namespace nsRegras
 
         dados = New dTipoOperacaoFiscal()
         dados.codigo = "S"
-        dados.descricao = "S - Sa�da"
+        dados.descricao = "S - Saída"
         retorno.Add(dados)
 
       Catch ex As Exception
