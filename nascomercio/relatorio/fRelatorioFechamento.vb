@@ -3,6 +3,7 @@ Imports MySql.Data.MySqlClient
 Imports ncComum.nsExcecao
 Imports ncDados.nsFabricante
 Imports ncRegras.nsFabricante
+Imports Unimake.Business.DFe.Xml.ESocial
 
 Public Class fRelatorioFechamento
 
@@ -24,9 +25,43 @@ Public Class fRelatorioFechamento
 
     parametros(3) = New Microsoft.Reporting.WinForms.ReportParameter
     parametros(3).Name = "Caixa"
-    parametros(3).Values.Add(Me.txtCaixa.Text)
+        parametros(3).Values.Add(Me.txtCaixa.Text)
 
-    Try
+        Dim acesso As New ncComum.nsAcessoBD.cAcessoBD
+
+        Dim dataInicial As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(Convert.ToDateTime(Me.txtDataInicial.Text).AddDays(-1).ToString("dd/MM/yyyy"))
+        Dim dataFinal As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(Convert.ToDateTime(Me.txtDataFinal.Text).ToString("dd/MM/yyyy"))
+
+        If dataInicial Is Nothing OrElse dataFinal Is Nothing Then
+            MessageBox.Show("Data inválida.")
+            Exit Sub
+        End If
+
+        Dim sql As String =
+            "SELECT controle, clienteId, usuarioId, data, dinheiro, cheque, chequePre, " &
+            "cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, " &
+            "troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, " &
+            "crediarioPagamento, pix " &
+            "FROM v_fechamento " &
+            "WHERE data BETWEEN '" + dataInicial + " 00:00' AND  '" + dataFinal + " 23:59'"
+
+
+        Dim ds As DataSet = acesso.ExecutarDS(sql)
+
+        Me.nascomercioDataSet.v_fechamento.Rows.Clear()
+        For Each origem As DataRow In ds.Tables(0).Rows
+            Dim novaLinha As DataRow = Me.nascomercioDataSet.v_fechamento.NewRow()
+            For Each coluna As DataColumn In ds.Tables(0).Columns
+                If coluna.ColumnName = "data" Then
+                    novaLinha("data") = Convert.ToDateTime(origem("data").ToString())
+                Else
+                    novaLinha(coluna.ColumnName) = origem(coluna.ColumnName)
+                End If
+            Next
+            Me.nascomercioDataSet.v_fechamento.Rows.Add(novaLinha)
+        Next
+
+        Try
       rptFechamento.LocalReport.SetParameters(parametros)
       rptFechamento.RefreshReport()
     Catch ex As Exception
@@ -108,37 +143,37 @@ Public Class fRelatorioFechamento
             'Dim ds As DataSet = acesso.ExecutarDS(sql)
 
 
-            Dim dataInicial As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"))
-            Dim dataFinal As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.ToString("dd/MM/yyyy"))
+            'Dim dataInicial As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy"))
+            'Dim dataFinal As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.ToString("dd/MM/yyyy"))
 
-            If dataInicial Is Nothing OrElse dataFinal Is Nothing Then
-                MessageBox.Show("Data inválida.")
-                Exit Sub
-            End If
+            'If dataInicial Is Nothing OrElse dataFinal Is Nothing Then
+            '    MessageBox.Show("Data inválida.")
+            '    Exit Sub
+            'End If
 
-            Dim sql As String =
-            "SELECT controle, clienteId, usuarioId, data, dinheiro, cheque, chequePre, " &
-            "cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, " &
-            "troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, " &
-            "crediarioPagamento, pix " &
-            "FROM v_fechamento " &
-            "WHERE data BETWEEN '" + dataInicial + " 00:00' AND  '" + dataFinal + " 23:59'"
+            'Dim sql As String =
+            '"SELECT controle, clienteId, usuarioId, data, dinheiro, cheque, chequePre, " &
+            '"cartaoDebito, cartaoCredito, crediario, parcelas, desconto, condicao, recebido, " &
+            '"troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, " &
+            '"crediarioPagamento, pix " &
+            '"FROM v_fechamento " &
+            '"WHERE data BETWEEN '" + dataInicial + " 00:00' AND  '" + dataFinal + " 23:59'"
 
 
-            Dim ds As DataSet = acesso.ExecutarDS(sql)
+            'Dim ds As DataSet = acesso.ExecutarDS(sql)
 
-            Me.nascomercioDataSet.v_fechamento.Rows.Clear()
-            For Each origem As DataRow In ds.Tables(0).Rows
-                Dim novaLinha As DataRow = Me.nascomercioDataSet.v_fechamento.NewRow()
-                For Each coluna As DataColumn In ds.Tables(0).Columns
-                    If coluna.ColumnName = "data" Then
-                        novaLinha("data") = Convert.ToDateTime(origem("data").ToString())
-                    Else
-                        novaLinha(coluna.ColumnName) = origem(coluna.ColumnName)
-                    End If
-                Next
-                Me.nascomercioDataSet.v_fechamento.Rows.Add(novaLinha)
-            Next
+            'Me.nascomercioDataSet.v_fechamento.Rows.Clear()
+            'For Each origem As DataRow In ds.Tables(0).Rows
+            '    Dim novaLinha As DataRow = Me.nascomercioDataSet.v_fechamento.NewRow()
+            '    For Each coluna As DataColumn In ds.Tables(0).Columns
+            '        If coluna.ColumnName = "data" Then
+            '            novaLinha("data") = Convert.ToDateTime(origem("data").ToString())
+            '        Else
+            '            novaLinha(coluna.ColumnName) = origem(coluna.ColumnName)
+            '        End If
+            '    Next
+            '    Me.nascomercioDataSet.v_fechamento.Rows.Add(novaLinha)
+            'Next
 
 
         Catch nex As ExcecaoNascomercio
