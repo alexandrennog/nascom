@@ -217,7 +217,7 @@ namespace LibNF65
         }
         
         //USO
-        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle)
+        public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, dDadosImpostos dadosImpostos)
         {
 
             var infCons = new InfCons
@@ -267,10 +267,11 @@ namespace LibNF65
             {
                 double baseCalculo = Math.Round((double)produto.valor, 2);
 
-                double vIBSUF = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF / 100m), 2, MidpointRounding.AwayFromZero);
-                double vIBSMun = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun / 100m), 2, MidpointRounding.AwayFromZero);
+                 
+                double vIBSUF = Math.Round((double)(produto.valor * dadosImpostos.ibsCbs.aliquotaIbsUf / 100m), 2, MidpointRounding.AwayFromZero);
+                double vIBSMun = Math.Round((double)(produto.valor * dadosImpostos.ibsCbs.aliquotaIbsMunicipio / 100m), 2, MidpointRounding.AwayFromZero);
                 double vIBS = vIBSUF + vIBSMun;
-                double vCBS = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GCBS.PCBS / 100m), 2, MidpointRounding.AwayFromZero);
+                double vCBS = Math.Round((double)(produto.valor * dadosImpostos.ibsCbs.aliquotaCbs / 100m), 2, MidpointRounding.AwayFromZero);
 
                 totalBase += baseCalculo;
                 totalIBSUF += vIBSUF;
@@ -278,7 +279,7 @@ namespace LibNF65
                 totalIBS += vIBS;
                 totalCBS += vCBS;
             }
-
+           
 
             var infe = new XmlNFe.InfNFe
                 {
@@ -334,7 +335,7 @@ namespace LibNF65
                     Dest = RecDest(cpf),
 
 
-                    Det = addProdutos(configImposto, dVendaProdutos),
+                    Det = addProdutos(configImposto, dVendaProdutos, dadosImpostos),
 
 
                     Total = new XmlNFe.Total
@@ -514,12 +515,11 @@ namespace LibNF65
             };
         }
 
-        private static List<Det> addProdutos(DarumaFrameworkSat configImposto, List<ProdutoVendido> dVendaProdutos)
+        private static List<Det> addProdutos(DarumaFrameworkSat configImposto, List<ProdutoVendido> dVendaProdutos, dDadosImpostos dadosImpostos)
         {
 
             var lista = new List<Det>();
 
-                
 
             foreach (var produto in dVendaProdutos)
             {
@@ -531,15 +531,15 @@ namespace LibNF65
                     Prod = new XmlNFe.Prod
                     {
                         CProd = produto.produtoId.ToString(),
-                        CEAN = "SEM GTIN",
+                        CEAN = produto.codigobarras.IsNullOrEmpty() ? "SEM GTIN" : produto.codigobarras,
                         XProd = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? produto.descricao : "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL\r\n",
-                        NCM = configImposto.Prod.NCM,
-                        CFOP = configImposto.Prod.CFOP,
+                        NCM = configImposto.Prod.NCM.IsNullOrEmpty() ? produto.ncm : configImposto.Prod.NCM,
+                        CFOP = configImposto.Prod.CFOP.IsNullOrEmpty() ? dadosImpostos.cfops.FirstOrDefault().cfop : configImposto.Prod.CFOP,
                         UCom = "UN",
                         QCom = produto.quantidade,
                         VUnCom = Math.Round(produto.valor, 2),
                         VProd = Math.Round((double)produto.valor, 2),
-                        CEANTrib = "SEM GTIN",
+                        CEANTrib = produto.codigobarras.IsNullOrEmpty() ? "SEM GTIN" : produto.codigobarras,
                         UTrib = "UN",
                         QTrib = produto.quantidade,
                         VUnTrib = Math.Round(produto.valor, 2),
@@ -554,30 +554,30 @@ namespace LibNF65
                             ICMSSN102 = new XmlNFe.ICMSSN102
                             {
                                 Orig = OrigemMercadoria.Nacional,
-                                CSOSN = "102"
+                                CSOSN = dadosImpostos.icms.csosn  
                             },
                         },
                         PIS = new XmlNFe.PIS
                         {
                             PISNT = new XmlNFe.PISNT
                             {
-                                CST = configImposto.Imposto.PIS.PISNT.CST ?? "00"
+                                CST = dadosImpostos.pis.cst ?? "00"
                             },
                         },
                         COFINS = new XmlNFe.COFINS
                         {
                             COFINSNT = new XmlNFe.COFINSNT
                             {
-                                CST = configImposto.Imposto.COFINS.COFINSNT.CST ?? "00"
+                                CST = dadosImpostos.cofins.cst ?? "00"
                             },
 
                         },
 
                         IBSCBS = new XmlNFe.IBSCBS
                         {
-   
-                            CST = configImposto.Imposto.IBSCBS.CST,
-                            CClassTrib = configImposto.Imposto.IBSCBS.CClassTrib,
+
+                            CST = dadosImpostos.ibsCbs.cstIbsCbs,
+                            CClassTrib = dadosImpostos.ibsCbs.cClassTrib,
 
                             GIBSCBS = new XmlNFe.GIBSCBS
                             {
@@ -585,27 +585,27 @@ namespace LibNF65
 
                                 GIBSUF = new XmlNFe.GIBSUF
                                 {
-                                    PIBSUF = (double)configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF,
-                                    VIBSUF = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF / 100m), 2, MidpointRounding.AwayFromZero)
+                                    PIBSUF = (double)dadosImpostos.ibsCbs.aliquotaIbsUf,
+                                    VIBSUF = Math.Round((double)(produto.valor * dadosImpostos.ibsCbs.aliquotaIbsUf / 100m), 2, MidpointRounding.AwayFromZero)
                                 },
 
                                 GIBSMun = new XmlNFe.GIBSMun
                                 {
-                                    PIBSMun = (double)configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun,
-                                    VIBSMun = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun / 100m), 2, MidpointRounding.AwayFromZero)
+                                    PIBSMun = (double)dadosImpostos.ibsCbs.aliquotaIbsMunicipio,
+                                    VIBSMun = Math.Round((double)(produto.valor * dadosImpostos.ibsCbs.aliquotaIbsMunicipio / 100m), 2, MidpointRounding.AwayFromZero)
                                 },
 
-                                VIBS = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSUF.PIBSUF / 100m), 2, MidpointRounding.AwayFromZero) + Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun / 100m), 2, MidpointRounding.AwayFromZero),
+                                VIBS = Math.Round((double)(produto.valor * dadosImpostos.ibsCbs.aliquotaIbsUf / 100m), 2, MidpointRounding.AwayFromZero) + Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GIBSMun.PIBSMun / 100m), 2, MidpointRounding.AwayFromZero),
 
                                 GCBS = new XmlNFe.GCBS
                                 {
-                                    PCBS = (double)configImposto.Imposto.IBSCBS.GIBSCBS.GCBS.PCBS,
-                                    VCBS = Math.Round((double)(produto.valor * configImposto.Imposto.IBSCBS.GIBSCBS.GCBS.PCBS / 100m), 2, MidpointRounding.AwayFromZero)
+                                    PCBS = (double)dadosImpostos.ibsCbs.aliquotaCbs,
+                                    VCBS = Math.Round((double)(produto.valor * dadosImpostos.ibsCbs.aliquotaCbs / 100m), 2, MidpointRounding.AwayFromZero)
                                 }
                             }
                         }
                     }
-                       
+
                 });
             }
             return lista;

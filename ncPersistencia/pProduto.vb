@@ -98,9 +98,9 @@ Namespace nsProduto
 
                 acessoBanco = New cAcessoBD
 
-                sqlSelect = " Select Distinct p.cid, p.codigo, p.descricao, p.situacao, p.produtoTipo_cid, p.fornecedor_cid, p.fabricante_cid, " & _
-                    " p.dataInclusao, p.valorCompra, p.valorVenda, p.referencia, p.imagem, p.estoqueMinimo, p.cor_cid, " & _
-                    " p.grupo_cid, p.aliquota, c.nome as cor, g.nome as grupo, p.efdUnidadeMedidaCodigo, p.efdCodigoCategoria, p.efdIntegracao, ct.nome as categoria "
+                sqlSelect = " Select Distinct p.cid, p.codigo, p.descricao, p.situacao, p.produtoTipo_cid, p.fornecedor_cid, p.fabricante_cid, " &
+                    " p.dataInclusao, p.valorCompra, p.valorVenda, p.referencia, p.imagem, p.estoqueMinimo, p.cor_cid, " &
+                    " p.grupo_cid, p.aliquota, c.nome as cor, g.nome as grupo, p.efdUnidadeMedidaCodigo, p.efdCodigoCategoria, p.efdIntegracao, ct.nome as categoria, p.ncm, p.cest "
                 sqlFrom = " From produtos p " & _
                     " Left Outer Join produtoitem pi On pi.produtos_cid = p.cid " & _
                     " And pi.caracteristicas_cid = 1 " & _
@@ -198,6 +198,8 @@ Namespace nsProduto
                                 item.efdCodigoCategoria = cFuncoes.RetornarTexto(row("efdCodigoCategoria"))
                                 item.efdIntegracao = cFuncoes.RetornarBoleano(row("efdIntegracao"))
                                 item.efdCategoria = cFuncoes.RetornarTexto(row("categoria"))
+                                item.ncm = cFuncoes.RetornarTexto(row("ncm"))
+                                item.cest = cFuncoes.RetornarTexto(row("cest"))
 
                                 retorno.Add(item)
                             Next

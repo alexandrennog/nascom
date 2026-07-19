@@ -34,7 +34,7 @@ namespace LibNF65
         X509Certificate2 x509Cert;
         static string chaveAcesso = string.Empty;
 
-        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, dDadosImpostos dadosImpostos)
         {
 
             PixConfig pixConfig = GetPixConfig();
@@ -81,7 +81,7 @@ namespace LibNF65
 
             var configImposto = RecuperarConfiguracao();
 
-            var prods = objNFCe.RecuperarProdutos(produtos, nNFTemp, configuracao, configImposto, resultado, x509Cert, meiosPagamentos, cpf, controle);
+            var prods = objNFCe.RecuperarProdutos(produtos, nNFTemp, configuracao, configImposto, resultado, x509Cert, meiosPagamentos, cpf, controle, dadosImpostos);
 
             var xml = new XmlNFe.EnviNFe
             {

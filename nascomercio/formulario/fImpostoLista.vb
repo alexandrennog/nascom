@@ -117,8 +117,11 @@ Public Class fImpostoLista
     End Select
   End Sub
 
-  Private Sub dgvImposto_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvImposto.CellDoubleClick
-    SelecionarItem()
-  End Sub
+    Private Sub dgvImposto_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvImposto.CellDoubleClick
+        SelecionarItem()
+    End Sub
 
+    Private Sub dgvImposto_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvImposto.CellContentClick
+
+    End Sub
 End Class

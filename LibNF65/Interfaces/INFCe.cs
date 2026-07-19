@@ -16,7 +16,7 @@ namespace LibNF65
         string ConsultarCupom(Configuracao configuracao, string chaveAcesso);
         RetConsCad ConsultarCadastro(Unimake.Business.DFe.Servicos.Configuracao configuracao, ConsCad consCad);
 
-        XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNFTemp, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle);
+        XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNFTemp, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, dDadosImpostos dadosImpostos);
         string ConsultarCupomNFCe();
 
     }

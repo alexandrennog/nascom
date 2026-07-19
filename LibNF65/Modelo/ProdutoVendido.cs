@@ -11,8 +11,10 @@
         public string descricao { get; set; }
         public string referencia { get; set; }
         public string aliquota { get; set; }
-
         public decimal valorTributacao { get; set; }
+        public string ncm { get; set; }
+        public string cest { get; set; }
+
 
     }
 }

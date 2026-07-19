@@ -370,6 +370,8 @@ Public Class fCaixa
                             linha.Cells(3).Tag = dadosProduto.aliquota
                             linha.Cells(4).Value = CDec(IIf(txtQuantidade.Visible, txtQuantidade.Text, 1)).ToString("N")
                             linha.Cells(5).Value = CDec(dadosProduto.valorVenda).ToString("N")
+                            linha.Cells(6).Value = CDec(dadosProduto.ncm)
+                            linha.Cells(7).Value = CDec(dadosProduto.cest)
 
                             If Not lblMsg.Text = "TROCA" And Not lblMsg.Text = "DEVOLUÇÃO" Then
                                 If dadosProduto.estoqueMinimo.HasValue Then
@@ -491,6 +493,8 @@ Public Class fCaixa
             produto.valor = linha.Cells(3).Value
             produto.aliquota = linha.Cells(3).Tag
             produto.codigobarras = linha.Cells(0).Value
+            produto.ncm = linha.Cells(6).Value
+            produto.cest = linha.Cells(7).Value
             janela.dadosVendaProdutos.Add(produto)
         Next
         janela.dadosTroca = dadosTroca
@@ -971,6 +975,8 @@ Public Class fCaixa
                 produto.valor = linha.Cells(3).Value
                 produto.aliquota = linha.Cells(3).Tag
                 produto.codigobarras = linha.Cells(0).Value
+                produto.ncm = linha.Cells(6).Value
+                produto.cest = linha.Cells(7).Value
                 dadosTroca.Add(produto)
             Next
             ' limpa lista tela

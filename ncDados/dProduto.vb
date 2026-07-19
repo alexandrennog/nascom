@@ -33,7 +33,24 @@ Namespace nsProduto
         Private _efdCodigoCategoria As String
         Private _efdCategoria As String
         Private _efdIntegracao As Nullable(Of Boolean)
-
+        Private _ncm As String
+        Private _cest As String
+        Public Property ncm() As String
+            Get
+                Return _ncm
+            End Get
+            Set(ByVal value As String)
+                _ncm = value
+            End Set
+        End Property
+        Public Property cest() As String
+            Get
+                Return _cest
+            End Get
+            Set(ByVal value As String)
+                _cest = value
+            End Set
+        End Property
         Public Property cid() As Nullable(Of Integer)
             Get
                 Return _cid

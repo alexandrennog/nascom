@@ -15,7 +15,24 @@ Namespace nsVenda
         Private _descricao As String
         Private _referencia As String
         Private _aliquota As String
-
+        Private _ncm As String
+        Private _cest As String
+        Public Property ncm() As String
+            Get
+                Return _ncm
+            End Get
+            Set(ByVal value As String)
+                _ncm = value
+            End Set
+        End Property
+        Public Property cest() As String
+            Get
+                Return _cest
+            End Get
+            Set(ByVal value As String)
+                _cest = value
+            End Set
+        End Property
         Public Property controle() As Integer
             Get
                 Return _controle

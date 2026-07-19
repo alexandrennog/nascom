@@ -20,13 +20,30 @@ Imports ncComum.nsFuncoes.cFuncoes
 Imports ncComum.nsLog.cLog
 Imports ncDados
 Imports ncDados.nsCliente
+Imports ncDados.nsDadosImpostos
+Imports ncDados.nsImpostoCofins
+Imports ncDados.nsImpostoIbsCbs
+Imports ncDados.nsImpostoIcms
+Imports ncDados.nsImpostoIpi
+Imports ncDados.nsImpostoPis
 Imports ncDados.nsParametro
 Imports ncDados.nsProduto
+Imports ncDados.nsProdutoRegraTributaria
+Imports ncDados.nsRegraCfop
+Imports ncDados.nsRegraTributaria
 Imports ncPersistencia
 Imports ncRegras
 Imports ncRegras.nsCliente
+Imports ncRegras.nsImpostoCofins
+Imports ncRegras.nsImpostoIbsCbs
+Imports ncRegras.nsImpostoIcms
+Imports ncRegras.nsImpostoIpi
+Imports ncRegras.nsImpostoPis
 Imports ncRegras.nsParametro
 Imports ncRegras.nsProduto
+Imports ncRegras.nsProdutoRegraTributaria
+Imports ncRegras.nsRegraCfop
+Imports ncRegras.nsRegraTributaria
 Imports Unimake.Business.DFe.Servicos
 Imports Unimake.Business.DFe.Xml.SNCM
 Imports Unimake.Business.Security
@@ -63,7 +80,7 @@ Public Class fPagamento
 
 
     ''' <summary>
-    ''' Mostra informações de valores recebidos e troco
+    ''' Mostra informaï¿½ï¿½es de valores recebidos e troco
     ''' </summary>
     ''' <remarks></remarks>
     Private Sub calculaRecebido()
@@ -176,7 +193,7 @@ Public Class fPagamento
                                                                                                txtVale.Leave,
                                                                                                txtDesconto.Leave,
                                                                                                txtPix.Leave
-        'Mostra informações de valores recebidos e troco
+        'Mostra informaï¿½ï¿½es de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         VerificarAlcada()
@@ -194,7 +211,7 @@ Public Class fPagamento
 
             dadosUsuario = regraUsuario.ConsultarPorCid(mdiPrincipal.gUsuario.cid)
             If IsNothing(dadosUsuario) Then
-                MessageBox.Show("Erro ao consultar usuário")
+                MessageBox.Show("Erro ao consultar usuï¿½rio")
             Else
                 If Not dadosUsuario.descontoPedido.HasValue Then
                     dadosUsuario.descontoPedido = 0
@@ -284,7 +301,7 @@ Public Class fPagamento
                 If txtCliente.Tag <> 1 Then
 
                     If Me.txtCliente.ForeColor = Color.Red And Not EhAdmin() Then
-                        MessageBox.Show("Cliente com pendências!")
+                        MessageBox.Show("Cliente com pendï¿½ncias!")
                         acessoGerente = New fAcessoGerente()
                         acessoGerente.ShowDialog()
                         If Not acessoGerente.gRetorno Then
@@ -337,7 +354,7 @@ Public Class fPagamento
 
                     Catch ex As Exception
 
-                        MessageBox.Show("Erro na consulta dos parâmetros.")
+                        MessageBox.Show("Erro na consulta dos parï¿½metros.")
 
                     End Try
 
@@ -348,7 +365,7 @@ Public Class fPagamento
                 End If
 
                 If Not retornoCrediario Then
-                    MessageBox.Show("Incluir Crediário!")
+                    MessageBox.Show("Incluir Crediï¿½rio!")
                 End If
 
             End If
@@ -479,7 +496,7 @@ Public Class fPagamento
             MessageBox.Show(nex.Message)
 
         Catch ex As Exception
-            MessageBox.Show("Erro na consulta do crediário.")
+            MessageBox.Show("Erro na consulta do crediï¿½rio.")
 
         End Try
 
@@ -645,7 +662,7 @@ Public Class fPagamento
 
         objImpressao = New ncComum.Impressao()
 
-        GravarLog(mdiPrincipal.gUsuario.usuario, "Emissão de vale [" & (CDec(lblTroco.Text)).ToString("C") & "]")
+        GravarLog(mdiPrincipal.gUsuario.usuario, "Emissï¿½o de vale [" & (CDec(lblTroco.Text)).ToString("C") & "]")
 
         lblVale.Text = lblTroco.Text
         lblTroco.Text = 0.ToString("N")
@@ -741,7 +758,7 @@ Public Class fPagamento
 
                     ' ECF - Impressora Fiscal
 
-                    'se não informou cpf pergunta
+                    'se nï¿½o informou cpf pergunta
                     If String.IsNullOrEmpty(Str_CPF) And Len(Str_CPF) = 11 Then
                         Str_CPF = InputBox("Deseja informar o CPF ?").Trim()
                         Do While Not ValidaCpf(Str_CPF)
@@ -807,7 +824,7 @@ Public Class fPagamento
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
                     End If
                     If CDec(txtCrediario.Text) > 0.001 Then
-                        Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Crediário", txtCrediario.Text)
+                        Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Crediï¿½rio", txtCrediario.Text)
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
                     End If
                     If CDec(txtTroca.Text) > 0.001 Then
@@ -835,10 +852,10 @@ Public Class fPagamento
 
                 ElseIf ConfigurationManager.AppSettings("FISCAL") = "SAT" Then
 
-                    ' SAT - Cupom Eletrônico
+                    ' SAT - Cupom Eletrï¿½nico
                     Try
 
-                        'se não informou cpf pergunta
+                        'se nï¿½o informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
                             Str_CPF = InputBox("Deseja informar o CPF/CNPJ ?").Trim()
                             If Str_CPF.Length > 11 Then
@@ -907,22 +924,22 @@ Public Class fPagamento
                             End If
                         End If
                         If CDec(txtCartaoDebito.Text) > 0.001 Then
-                            '04 - Cartão de Débito
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartão de Débito", txtCartaoDebito.Text.Replace(".", ""), "")
+                            '04 - Cartï¿½o de Dï¿½bito
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartï¿½o de Dï¿½bito", txtCartaoDebito.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
                         End If
                         If CDec(txtCartaoCredito.Text) > 0.001 Then
-                            '03 - Cartão de Crédito
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartão de Crédito", txtCartaoCredito.Text.Replace(".", ""), "")
+                            '03 - Cartï¿½o de Crï¿½dito
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartï¿½o de Crï¿½dito", txtCartaoCredito.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
                         End If
                         If CDec(txtCrediario.Text) > 0.001 Then
-                            '05 - Crédito Loja
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Crédito Loja", txtCrediario.Text.Replace(".", ""), "")
+                            '05 - Crï¿½dito Loja
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Crï¿½dito Loja", txtCrediario.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
@@ -966,14 +983,14 @@ Public Class fPagamento
                     End Try
                 ElseIf ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
 
-                    ' SAT - Cupom Eletrônico
+                    ' SAT - Cupom Eletrï¿½nico
                     Try
 
-                        'se não informou cpf pergunta
+                        'se nï¿½o informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
                             Dim resposta As String = InputBox("Deseja informar o CPF/CNPJ? (deixe em branco para ignorar)").Trim()
 
-                            ' Se o usuário não quiser informar, simplesmente seguimos.
+                            ' Se o usuï¿½rio nï¿½o quiser informar, simplesmente seguimos.
                             If String.IsNullOrEmpty(resposta) Then
                                 Str_CPF = ""
                             Else
@@ -981,13 +998,13 @@ Public Class fPagamento
 
                                 ' Decide se valida como CNPJ ou CPF apenas se for informado.
                                 If Str_CPF.Length > 11 Then
-                                    ' Validação de CNPJ
+                                    ' Validaï¿½ï¿½o de CNPJ
                                     While Not ValidaCnpj(Str_CPF)
                                         Str_CPF = InputBox("CNPJ incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
                                         If String.IsNullOrEmpty(Str_CPF) Then Exit While
                                     End While
                                 Else
-                                    ' Validação de CPF
+                                    ' Validaï¿½ï¿½o de CPF
                                     While Not ValidaCpf(Str_CPF)
                                         Str_CPF = InputBox("CPF incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
                                         If String.IsNullOrEmpty(Str_CPF) Then Exit While
@@ -1030,34 +1047,34 @@ Public Class fPagamento
                             meiosPagamentos.Add(pagamentoMeio)
                         End If
                         If CDec(txtCartaoDebito.Text) > 0.001 Then
-                            '04 - Cartão de Débito
+                            '04 - Cartï¿½o de Dï¿½bito
 
                             Dim cartaoDebito As String = txtCartaoDebito.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "04"
-                            pagamentoMeio.DescricaoPagamento = "Cartão de Débito"
+                            pagamentoMeio.DescricaoPagamento = "Cartï¿½o de Dï¿½bito"
                             pagamentoMeio.Valor = cartaoDebito
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If
                         If CDec(txtCartaoCredito.Text) > 0.001 Then
-                            '03 - Cartão de Crédito
+                            '03 - Cartï¿½o de Crï¿½dito
 
                             Dim cartaoCredito As String = txtCartaoCredito.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "03"
-                            pagamentoMeio.DescricaoPagamento = "Cartão de Crédito"
+                            pagamentoMeio.DescricaoPagamento = "Cartï¿½o de Crï¿½dito"
                             pagamentoMeio.Valor = cartaoCredito
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If
                         If CDec(txtCrediario.Text) > 0.001 Then
-                            '05 - Crédito Loja
+                            '05 - Crï¿½dito Loja
 
                             Dim crediarioPagamento As String = txtCrediario.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "05"
-                            pagamentoMeio.DescricaoPagamento = "Crédito Loja"
+                            pagamentoMeio.DescricaoPagamento = "Crï¿½dito Loja"
                             pagamentoMeio.Valor = crediarioPagamento
                             meiosPagamentos.Add(pagamentoMeio)
 
@@ -1119,7 +1136,17 @@ Public Class fPagamento
                         dados.chnfe = "temporario"
                         Dim nNF = novaVenda.IncluirnNF(dados)
                         Dim lista = ConverterLista(dadosVendaProdutos.ToList)
-                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString(), nNF)
+                        Dim regraCid As Nullable(Of Integer) = Nothing
+                        Dim primeiroProduto = dadosVendaProdutos.FirstOrDefault()
+                        If Not primeiroProduto Is Nothing Then
+                            Dim regrasProduto = New rProdutoRegraTributaria().ListarPorProduto(primeiroProduto.produtoId)
+                            If Not regrasProduto Is Nothing AndAlso regrasProduto.Count > 0 Then
+                                regraCid = regrasProduto(0).regra_cid
+                            End If
+                        End If
+                        Dim dadosImpostos = RecuperarImpostos(regraCid)
+                        Dim dadosImpostosNFCe = ConverterParaModeloImpostos(dadosImpostos)
+                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString(), nNF, dadosImpostosNFCe)
                         regraVenda.Alterar(controle.ToString(), chave)
                         dados.chnfe = chave
                         dados.SeqNFe = nNF
@@ -1207,7 +1234,7 @@ Public Class fPagamento
                 MessageBox.Show("Erro ao imprimir: " & ex.Message)
             End Try
         Else
-            MessageBox.Show("Venda concluída em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
+            MessageBox.Show("Venda concluï¿½da em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
         End If
     End Sub
     Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
@@ -1215,11 +1242,11 @@ Public Class fPagamento
                                                        certificado As CertificadoDigital) As Task(Of X509Certificate2)
 
         If String.IsNullOrWhiteSpace(caminhoCertificado) Then
-            Throw New ExcecaoNascomercio("Caminho do certificado digital não configurado.")
+            Throw New ExcecaoNascomercio("Caminho do certificado digital nï¿½o configurado.")
         End If
 
         If Not File.Exists(caminhoCertificado) Then
-            Throw New ExcecaoNascomercio("Certificado digital não encontrado no caminho: " & caminhoCertificado)
+            Throw New ExcecaoNascomercio("Certificado digital nï¿½o encontrado no caminho: " & caminhoCertificado)
         End If
 
 
@@ -1227,6 +1254,187 @@ Public Class fPagamento
         Return Await Task.Run(Function()
                                   Return certificado.CarregarCertificadoDigitalA1(caminhoCertificado, senhaCertificado)
                               End Function)
+    End Function
+
+    Private Function RecuperarImpostos(ByVal regra_cid As Nullable(Of Integer)) As ncDados.nsDadosImpostos.dDadosImpostos
+        Dim regrasRegra As rRegraTributaria
+        Dim dadosRegra As dRegraTributaria
+        Dim dadosIcms As ncDados.nsImpostoIcms.dImpostoIcms
+        Dim dadosPis As ncDados.nsImpostoPis.dImpostoPis
+        Dim dadosCofins As ncDados.nsImpostoCofins.dImpostoCofins
+        Dim dadosIpi As ncDados.nsImpostoIpi.dImpostoIpi
+        Dim dadosIbsCbs As ncDados.nsImpostoIbsCbs.dImpostoIbsCbs
+        Dim dadosImpostos As ncDados.nsDadosImpostos.dDadosImpostos
+
+        Try
+            ' Validaï¿½ï¿½o de entrada
+            If Not regra_cid.HasValue Then
+                Throw New ArgumentNullException(NameOf(regra_cid), "Regra de ID nï¿½o pode ser nula")
+            End If
+
+            dadosImpostos = New ncDados.nsDadosImpostos.dDadosImpostos
+            regrasRegra = New rRegraTributaria
+            dadosRegra = regrasRegra.Consultar(regra_cid.Value)
+
+            ' Sem regra tributï¿½ria localizada, nï¿½o hï¿½ impostos a recuperar
+            If dadosRegra Is Nothing Then
+                Return dadosImpostos
+            End If
+
+            ' ICMS
+            dadosIcms = New rImpostoIcms().Consultar(regra_cid.Value)
+            If Not dadosIcms Is Nothing Then
+                dadosImpostos.icms = dadosIcms
+            End If
+
+            ' PIS
+            dadosPis = New rImpostoPis().Consultar(regra_cid.Value)
+            If Not dadosPis Is Nothing Then
+                dadosImpostos.pis = dadosPis
+            End If
+
+            ' COFINS
+            dadosCofins = New rImpostoCofins().Consultar(regra_cid.Value)
+            If Not dadosCofins Is Nothing Then
+                dadosImpostos.cofins = dadosCofins
+            End If
+
+            ' IPI
+            dadosIpi = New rImpostoIpi().Consultar(regra_cid.Value)
+            If Not dadosIpi Is Nothing Then
+                dadosImpostos.ipi = dadosIpi
+            End If
+
+            ' IBS/CBS
+            dadosIbsCbs = New rImpostoIbsCbs().Consultar(regra_cid.Value)
+            If Not dadosIbsCbs Is Nothing Then
+                dadosImpostos.ibsCbs = dadosIbsCbs
+            End If
+
+            dadosImpostos.cfop = CarregarGridCfop(regra_cid.Value)
+
+            Return dadosImpostos
+
+        Catch nex As ExcecaoNascomercio
+            GravarLog(mdiPrincipal.gUsuario.usuario, "Erro em RecuperarImpostos: " & nex.Message)
+            MessageBox.Show(nex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return Nothing
+
+        Catch ex As ArgumentNullException
+            GravarLog(mdiPrincipal.gUsuario.usuario, "Validaï¿½ï¿½o falhou em RecuperarImpostos: " & ex.Message)
+            MessageBox.Show("Regra de ID ï¿½ obrigatï¿½ria.", "Validaï¿½ï¿½o", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return Nothing
+
+        Catch ex As Exception
+            GravarLog(mdiPrincipal.gUsuario.usuario, "Erro inesperado em RecuperarImpostos: " & ex.Message)
+            MessageBox.Show("Erro na consulta dos dados de Impostos: " & ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return Nothing
+
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Converte o dDadosImpostos consultado das regras tributï¿½rias (ncDados) para o
+    ''' modelo esperado por NFCe65.GerarNF (LibNF65.Modelo), usado na montagem do XML da NFCe.
+    ''' </summary>
+    Private Function ConverterParaModeloImpostos(ByVal dados As ncDados.nsDadosImpostos.dDadosImpostos) As LibNF65.Modelo.dDadosImpostos
+        If dados Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim modelo As New LibNF65.Modelo.dDadosImpostos
+        modelo.regra_cid = dados.regra_cid
+
+        If Not dados.icms Is Nothing Then
+            modelo.icms = New LibNF65.Modelo.dImpostoIcms With {
+                .regra_cid = dados.icms.regra_cid,
+                .origem = dados.icms.origem,
+                .cst = dados.icms.cst,
+                .csosn = dados.icms.csosn,
+                .aliquota = dados.icms.aliquota,
+                .reducaoBase = dados.icms.reducaoBase,
+                .modalidadeBc = dados.icms.modalidadeBc,
+                .aliquotaSt = dados.icms.aliquotaSt,
+                .margemValorAgregado = dados.icms.margemValorAgregado
+            }
+        End If
+
+        If Not dados.pis Is Nothing Then
+            modelo.pis = New LibNF65.Modelo.dImpostoPis With {
+                .regra_cid = dados.pis.regra_cid,
+                .cst = dados.pis.cst,
+                .aliquota = dados.pis.aliquota
+            }
+        End If
+
+        If Not dados.cofins Is Nothing Then
+            modelo.cofins = New LibNF65.Modelo.dImpostoCofins With {
+                .regra_cid = dados.cofins.regra_cid,
+                .cst = dados.cofins.cst,
+                .aliquota = dados.cofins.aliquota
+            }
+        End If
+
+        If Not dados.ipi Is Nothing Then
+            modelo.ipi = New LibNF65.Modelo.dImpostoIpi With {
+                .regra_cid = dados.ipi.regra_cid,
+                .cst = dados.ipi.cst,
+                .aliquota = dados.ipi.aliquota,
+                .codigoEnquadramento = dados.ipi.codigoEnquadramento
+            }
+        End If
+
+        If Not dados.ibsCbs Is Nothing Then
+            modelo.ibsCbs = New LibNF65.Modelo.dImpostoIbsCbs With {
+                .regra_cid = dados.ibsCbs.regra_cid,
+                .cstIbsCbs = dados.ibsCbs.cstIbsCbs,
+                .cClassTrib = dados.ibsCbs.cClassTrib,
+                .aliquotaIbsUf = dados.ibsCbs.aliquotaIbsUf,
+                .aliquotaIbsMunicipio = dados.ibsCbs.aliquotaIbsMunicipio,
+                .aliquotaCbs = dados.ibsCbs.aliquotaCbs
+            }
+        End If
+
+        If Not dados.cfop Is Nothing Then
+            modelo.cfops = New LibNF65.Modelo.ColecaoRegraCfop From {
+                New LibNF65.Modelo.dRegraCfop With {
+                    .cid = dados.cfop.cid,
+                    .regra_cid = dados.cfop.regra_cid,
+                    .cfop = dados.cfop.cfop
+                }
+            }
+        End If
+
+        Return modelo
+    End Function
+
+    Private Function CarregarGridCfop(ByVal regra_cid As Integer) As ncDados.nsRegraCfop.dRegraCfop
+        Dim regras As rRegraCfop
+        Dim dregra As ncDados.nsRegraCfop.dRegraCfop
+        Dim colecao As ncDados.nsRegraCfop.ColecaoRegraCfop
+
+        Try
+
+            regras = New rRegraCfop
+            dregra = New ncDados.nsRegraCfop.dRegraCfop
+            colecao = regras.ListarPorRegra(regra_cid)
+
+            If Not colecao Is Nothing Then
+                dregra = colecao.FirstOrDefault()
+            End If
+
+            CarregarGridCfop = dregra
+
+        Catch nex As ExcecaoNascomercio
+
+            MessageBox.Show(nex.Message)
+
+        Catch ex As Exception
+
+            MessageBox.Show("Erro na consulta dos CFOPs da regra.")
+
+        End Try
+
     End Function
     Public Shared Function ConverterLista(listaOrigem As List(Of ncDados.nsVenda.dVendaProduto)) As List(Of LibNF65.Modelo.ProdutoVendido)
         Dim listaDestino As New List(Of LibNF65.Modelo.ProdutoVendido)
@@ -1252,6 +1460,9 @@ Public Class fPagamento
             novoItem.referencia = item.referencia
             novoItem.aliquota = item.aliquota
             novoItem.valorTributacao = Double.Parse(item.valor.ToString()) * (Double.Parse(item.aliquota) / 100)
+            novoItem.ncm = item.ncm
+            novoItem.cest = item.cest
+
             listaDestino.Add(novoItem)
         Next
 
@@ -1331,7 +1542,7 @@ Public Class fPagamento
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Condição.")
+            MessageBox.Show("Erro na consulta dos dados de Condiï¿½ï¿½o.")
 
         End Try
     End Sub
@@ -1546,7 +1757,7 @@ Public Class fPagamento
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs)
-        'Declare um variável do tipo Timer: 
+        'Declare um variï¿½vel do tipo Timer: 
         Dim tempo As New System.Timers.Timer(50000) '5000 = 5 segundos
 
         'Adicione um handler para capturar o evento tick do timer: 
@@ -1555,7 +1766,7 @@ Public Class fPagamento
         'Adicione a sub que representa o evento tick do timer:
 
 
-        'Por último, no load do formulário, habilite o timer:
+        'Por ï¿½ltimo, no load do formulï¿½rio, habilite o timer:
         tempo.Enabled = True
     End Sub
 
@@ -1578,7 +1789,7 @@ Public Class fPagamento
                                                                 txtDesconto.Leave
 
 
-        'Mostra informações de valores recebidos e troco
+        'Mostra informaï¿½ï¿½es de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         formataCampos()
@@ -1589,7 +1800,7 @@ Public Class fPagamento
         If btnPix.Text = "Cobrar" Then
 
             If txtPix.Text = "0,00" Or txtPix.Text = "0" Then
-                MessageBox.Show("É preciso informar um valor para a cobrança")
+                MessageBox.Show("ï¿½ preciso informar um valor para a cobranï¿½a")
                 txtPix.Select()
             Else
                 Cadastrar()
@@ -1598,7 +1809,7 @@ Public Class fPagamento
             End If
 
 
-        ElseIf btnPix.Text = "Nova Cobrança" Then
+        ElseIf btnPix.Text = "Nova Cobranï¿½a" Then
             Cadastrar()
             btnPix.Text = "Cobrar"
             btnPix.Image = nascomercio.My.Resources.Resources.cobrar
@@ -1685,7 +1896,7 @@ Public Class fPagamento
             colecaoPIX = regras.Consultar(dados)
 
             If colecaoPIX Is Nothing Then
-                MessageBox.Show("Não há ítens na lista.")
+                MessageBox.Show("Nï¿½o hï¿½ ï¿½tens na lista.")
                 Exit Sub
             End If
 
@@ -1773,7 +1984,7 @@ Public Class fPagamento
                                                                 txtDesconto.Leave
 
 
-        'Mostra informações de valores recebidos e troco
+        'Mostra informaï¿½ï¿½es de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         formataCampos()
@@ -1803,7 +2014,7 @@ Public Class fPagamento
         clientes = New ColecaoCliente
 
         If txtIdCliente.Text = "" Then
-            MessageBox.Show("Informe um código")
+            MessageBox.Show("Informe um cï¿½digo")
             Exit Sub
         End If
 
@@ -1816,7 +2027,7 @@ Public Class fPagamento
 
         If clientes Is Nothing Then
 
-            MessageBox.Show("Não existe cliente com esse código!")
+            MessageBox.Show("Nï¿½o existe cliente com esse cï¿½digo!")
             txtIdCliente.Focus()
             txtIdCliente.Select()
             txtIdCliente.Text = ""
