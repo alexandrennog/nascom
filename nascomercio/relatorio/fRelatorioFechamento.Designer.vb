@@ -23,7 +23,7 @@ Partial Class fRelatorioFechamento
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ReportDataSource2 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource1 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.v_fechamentoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.nascomercioDataSet = New nascomercio.nascomercioDataSet()
         Me.lblSubTitulo = New System.Windows.Forms.Label()
@@ -32,13 +32,13 @@ Partial Class fRelatorioFechamento
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.rptFechamento = New Microsoft.Reporting.WinForms.ReportViewer()
-        Me.txtDataInicial = New System.Windows.Forms.MaskedTextBox()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.txtDataFinal = New System.Windows.Forms.MaskedTextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtCaixa = New System.Windows.Forms.TextBox()
         Me.lblProduto = New System.Windows.Forms.Label()
         Me.v_fechamentoTableAdapter = New nascomercio.nascomercioDataSetTableAdapters.v_fechamentoTableAdapter()
+        Me.txtDataInicial = New System.Windows.Forms.MaskedTextBox()
+        Me.txtDataFinal = New System.Windows.Forms.MaskedTextBox()
         CType(Me.v_fechamentoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -129,26 +129,15 @@ Partial Class fRelatorioFechamento
         '
         'rptFechamento
         '
-        ReportDataSource2.Name = "nascomercioDataSet_v_fechamento"
-        ReportDataSource2.Value = Me.v_fechamentoBindingSource
-        Me.rptFechamento.LocalReport.DataSources.Add(ReportDataSource2)
+        ReportDataSource1.Name = "nascomercioDataSet_v_fechamento"
+        ReportDataSource1.Value = Me.v_fechamentoBindingSource
+        Me.rptFechamento.LocalReport.DataSources.Add(ReportDataSource1)
         Me.rptFechamento.LocalReport.ReportEmbeddedResource = "nascomercio.Fechamento.rdlc"
         Me.rptFechamento.Location = New System.Drawing.Point(3, 106)
         Me.rptFechamento.Name = "rptFechamento"
+        Me.rptFechamento.ServerReport.BearerToken = Nothing
         Me.rptFechamento.Size = New System.Drawing.Size(950, 489)
         Me.rptFechamento.TabIndex = 140
-        '
-        'txtDataInicial
-        '
-        Me.txtDataInicial.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtDataInicial.Culture = New System.Globalization.CultureInfo("")
-        Me.txtDataInicial.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtDataInicial.Location = New System.Drawing.Point(161, 78)
-        Me.txtDataInicial.Mask = "00/00/0000"
-        Me.txtDataInicial.Name = "txtDataInicial"
-        Me.txtDataInicial.Size = New System.Drawing.Size(85, 18)
-        Me.txtDataInicial.TabIndex = 205
-        Me.txtDataInicial.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
         'Label4
         '
@@ -161,23 +150,11 @@ Partial Class fRelatorioFechamento
         Me.Label4.Text = "Período: de"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'txtDataFinal
-        '
-        Me.txtDataFinal.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtDataFinal.Culture = New System.Globalization.CultureInfo("")
-        Me.txtDataFinal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtDataFinal.Location = New System.Drawing.Point(288, 78)
-        Me.txtDataFinal.Mask = "00/00/0000"
-        Me.txtDataFinal.Name = "txtDataFinal"
-        Me.txtDataFinal.Size = New System.Drawing.Size(85, 18)
-        Me.txtDataFinal.TabIndex = 207
-        Me.txtDataFinal.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label1.Location = New System.Drawing.Point(252, 78)
+        Me.Label1.Location = New System.Drawing.Point(267, 78)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(30, 18)
         Me.Label1.TabIndex = 206
@@ -188,7 +165,7 @@ Partial Class fRelatorioFechamento
         '
         Me.txtCaixa.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtCaixa.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCaixa.Location = New System.Drawing.Point(486, 78)
+        Me.txtCaixa.Location = New System.Drawing.Point(519, 80)
         Me.txtCaixa.MaxLength = 20
         Me.txtCaixa.Name = "txtCaixa"
         Me.txtCaixa.Size = New System.Drawing.Size(212, 18)
@@ -199,7 +176,7 @@ Partial Class fRelatorioFechamento
         Me.lblProduto.AutoSize = True
         Me.lblProduto.BackColor = System.Drawing.Color.Transparent
         Me.lblProduto.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.lblProduto.Location = New System.Drawing.Point(429, 78)
+        Me.lblProduto.Location = New System.Drawing.Point(462, 80)
         Me.lblProduto.Name = "lblProduto"
         Me.lblProduto.Size = New System.Drawing.Size(51, 18)
         Me.lblProduto.TabIndex = 209
@@ -209,17 +186,35 @@ Partial Class fRelatorioFechamento
         '
         Me.v_fechamentoTableAdapter.ClearBeforeFill = True
         '
+        'txtDataInicial
+        '
+        Me.txtDataInicial.Location = New System.Drawing.Point(161, 78)
+        Me.txtDataInicial.Mask = "00/00/0000"
+        Me.txtDataInicial.Name = "txtDataInicial"
+        Me.txtDataInicial.Size = New System.Drawing.Size(100, 20)
+        Me.txtDataInicial.TabIndex = 210
+        Me.txtDataInicial.ValidatingType = GetType(Date)
+        '
+        'txtDataFinal
+        '
+        Me.txtDataFinal.Location = New System.Drawing.Point(303, 78)
+        Me.txtDataFinal.Mask = "00/00/0000"
+        Me.txtDataFinal.Name = "txtDataFinal"
+        Me.txtDataFinal.Size = New System.Drawing.Size(100, 20)
+        Me.txtDataFinal.TabIndex = 211
+        Me.txtDataFinal.ValidatingType = GetType(Date)
+        '
         'fRelatorioFechamento
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(968, 610)
+        Me.Controls.Add(Me.txtDataFinal)
+        Me.Controls.Add(Me.txtDataInicial)
         Me.Controls.Add(Me.txtCaixa)
         Me.Controls.Add(Me.lblProduto)
-        Me.Controls.Add(Me.txtDataFinal)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.txtDataInicial)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.rptFechamento)
         Me.Controls.Add(Me.lblSubTitulo)
@@ -248,9 +243,7 @@ Partial Class fRelatorioFechamento
     Friend WithEvents lblTitulo As System.Windows.Forms.Label
     Friend WithEvents imgLogo As System.Windows.Forms.PictureBox
     Friend WithEvents btoSair As System.Windows.Forms.Button
-    Friend WithEvents txtDataInicial As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents txtDataFinal As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtCaixa As System.Windows.Forms.TextBox
     Friend WithEvents lblProduto As System.Windows.Forms.Label
@@ -258,4 +251,6 @@ Partial Class fRelatorioFechamento
     Friend WithEvents nascomercioDataSet As nascomercio.nascomercioDataSet
     Friend WithEvents v_fechamentoTableAdapter As nascomercio.nascomercioDataSetTableAdapters.v_fechamentoTableAdapter
     Private WithEvents rptFechamento As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents txtDataInicial As MaskedTextBox
+    Friend WithEvents txtDataFinal As MaskedTextBox
 End Class
