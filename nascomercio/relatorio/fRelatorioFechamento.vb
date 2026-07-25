@@ -8,32 +8,32 @@ Imports Unimake.Business.DFe.Xml.ESocial
 Public Class fRelatorioFechamento
 
 
-  Private Sub Filtrar()
-    Dim parametros(3) As Microsoft.Reporting.WinForms.ReportParameter
+    Private Sub Filtrar()
+        Dim parametros(3) As Microsoft.Reporting.WinForms.ReportParameter
 
-    parametros(0) = New Microsoft.Reporting.WinForms.ReportParameter
-    parametros(0).Name = "DataInicial"
-    parametros(0).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataInicial.Text))
+        parametros(0) = New Microsoft.Reporting.WinForms.ReportParameter
+        parametros(0).Name = "DataInicial"
+        parametros(0).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataInicial.Text))
 
-    parametros(1) = New Microsoft.Reporting.WinForms.ReportParameter
-    parametros(1).Name = "DataFinal"
-    parametros(1).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
+        parametros(1) = New Microsoft.Reporting.WinForms.ReportParameter
+        parametros(1).Name = "DataFinal"
+        parametros(1).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
 
-    parametros(2) = New Microsoft.Reporting.WinForms.ReportParameter
-    parametros(2).Name = "Loja"
-    parametros(2).Values.Add(mdiPrincipal.lblLoja.Text)
+        parametros(2) = New Microsoft.Reporting.WinForms.ReportParameter
+        parametros(2).Name = "Loja"
+        parametros(2).Values.Add(mdiPrincipal.lblLoja.Text)
 
-    parametros(3) = New Microsoft.Reporting.WinForms.ReportParameter
-    parametros(3).Name = "Caixa"
+        parametros(3) = New Microsoft.Reporting.WinForms.ReportParameter
+        parametros(3).Name = "Caixa"
         parametros(3).Values.Add(Me.txtCaixa.Text)
 
         Dim acesso As New ncComum.nsAcessoBD.cAcessoBD
 
-        Dim dataInicial As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(Convert.ToDateTime(Me.txtDataInicial.Text).AddDays(-1).ToString("dd/MM/yyyy"))
-        Dim dataFinal As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(Convert.ToDateTime(Me.txtDataFinal.Text).ToString("dd/MM/yyyy"))
+        Dim dataInicial As Date = Me.txtDataInicial.Text
+        Dim dataFinal As Date = Me.txtDataFinal.Text
 
-        If dataInicial Is Nothing OrElse dataFinal Is Nothing Then
-            MessageBox.Show("Data inválida.")
+        If Not Date.TryParse(Me.txtDataInicial.Text, dataInicial) OrElse Not Date.TryParse(Me.txtDataFinal.Text, dataFinal) Then
+            MessageBox.Show("Data invï¿½lida.")
             Exit Sub
         End If
 
@@ -43,7 +43,7 @@ Public Class fRelatorioFechamento
             "troco, total, troca, vale, defeito, terminal, retirada, valeEmitido, vendedor, caixa, " &
             "crediarioPagamento, pix " &
             "FROM v_fechamento " &
-            "WHERE data BETWEEN '" + dataInicial + " 00:00' AND  '" + dataFinal + " 23:59'"
+            "WHERE data BETWEEN '" + dataInicial.ToString("yyyy-MM-dd") + " 00:00' AND  '" + dataFinal.ToString("yyyy-MM-dd") + " 23:59'"
 
 
         Dim ds As DataSet = acesso.ExecutarDS(sql)
@@ -62,21 +62,21 @@ Public Class fRelatorioFechamento
         Next
 
         Try
-      rptFechamento.LocalReport.SetParameters(parametros)
-      rptFechamento.RefreshReport()
-    Catch ex As Exception
-      MessageBox.Show(ex.Message)
-    End Try
-  End Sub
+            rptFechamento.LocalReport.SetParameters(parametros)
+            rptFechamento.RefreshReport()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
 
-  Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
-    Me.Close()
-  End Sub
+    Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
+        Me.Close()
+    End Sub
 
 
-  Private Sub btoFiltro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFiltro.Click
-    Filtrar()
-  End Sub
+    Private Sub btoFiltro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoFiltro.Click
+        Filtrar()
+    End Sub
     'Private Sub Filtrar()
     '    Dim acesso As New ncComum.nsAcessoBD.cAcessoBD
     '    Dim sql As String =
@@ -147,7 +147,7 @@ Public Class fRelatorioFechamento
             'Dim dataFinal As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.ToString("dd/MM/yyyy"))
 
             'If dataInicial Is Nothing OrElse dataFinal Is Nothing Then
-            '    MessageBox.Show("Data inválida.")
+            '    MessageBox.Show("Data invï¿½lida.")
             '    Exit Sub
             'End If
 
