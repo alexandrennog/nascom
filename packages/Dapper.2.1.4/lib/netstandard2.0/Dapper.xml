@@ -96,103 +96,6 @@
             Should the plan cache be bypassed?
             </summary>
         </member>
-        <member name="M:Dapper.CompiledRegex.LegacyParameterGen">
-            <remarks>
-            Pattern:<br/>
-            <code>(?&lt;![\\p{L}\\p{N}@_])[?@:](?![\\p{L}\\p{N}@_])</code><br/>
-            Options:<br/>
-            <code>RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant</code><br/>
-            Explanation:<br/>
-            <code>
-            ○ Zero-width negative lookbehind.<br/>
-                ○ Match a character in the set [@_\p{L}\p{N}] right-to-left.<br/>
-            ○ Match a character in the set [:?@].<br/>
-            ○ Zero-width negative lookahead.<br/>
-                ○ Match a character in the set [@_\p{L}\p{N}].<br/>
-            </code>
-            </remarks>
-        </member>
-        <member name="M:Dapper.CompiledRegex.LiteralTokensGen">
-            <remarks>
-            Pattern:<br/>
-            <code>(?&lt;![\\p{L}\\p{N}_])\\{=([\\p{L}\\p{N}_]+)\\}</code><br/>
-            Options:<br/>
-            <code>RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant</code><br/>
-            Explanation:<br/>
-            <code>
-            ○ Zero-width negative lookbehind.<br/>
-                ○ Match a character in the set [_\p{L}\p{N}] right-to-left.<br/>
-            ○ Match the string "{=".<br/>
-            ○ 1st capture group.<br/>
-                ○ Match a character in the set [_\p{L}\p{N}] atomically at least once.<br/>
-            ○ Match '}'.<br/>
-            </code>
-            </remarks>
-        </member>
-        <member name="M:Dapper.CompiledRegex.PseudoPositionalGen">
-            <remarks>
-            Pattern:<br/>
-            <code>\\?([\\p{L}_][\\p{L}\\p{N}_]*)\\?</code><br/>
-            Options:<br/>
-            <code>RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.CultureInvariant</code><br/>
-            Explanation:<br/>
-            <code>
-            ○ Match '?'.<br/>
-            ○ 1st capture group.<br/>
-                ○ Match a character in the set [_\p{L}].<br/>
-                ○ Match a character in the set [_\p{L}\p{N}] atomically any number of times.<br/>
-            ○ Match '?'.<br/>
-            </code>
-            </remarks>
-        </member>
-        <member name="M:Dapper.CompiledRegex.WhitespaceOrReservedGen">
-            <remarks>
-            Pattern:<br/>
-            <code>[\\s;/\\-+*]|^vacuum$|^commit$|^rollback$|^revert$</code><br/>
-            Options:<br/>
-            <code>RegexOptions.IgnoreCase</code><br/>
-            Explanation:<br/>
-            <code>
-            ○ Match with 5 alternative expressions, atomically.<br/>
-                ○ Match a character in the set [*+-/;\s].<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Match if at the beginning of the string.<br/>
-                    ○ Match a character in the set [Vv].<br/>
-                    ○ Match a character in the set [Aa].<br/>
-                    ○ Match a character in the set [Cc].<br/>
-                    ○ Match a character in the set [Uu] exactly 2 times.<br/>
-                    ○ Match a character in the set [Mm].<br/>
-                    ○ Match if at the end of the string or if before an ending newline.<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Match if at the beginning of the string.<br/>
-                    ○ Match a character in the set [Cc].<br/>
-                    ○ Match a character in the set [Oo].<br/>
-                    ○ Match a character in the set [Mm] exactly 2 times.<br/>
-                    ○ Match a character in the set [Ii\u0130].<br/>
-                    ○ Match a character in the set [Tt].<br/>
-                    ○ Match if at the end of the string or if before an ending newline.<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Match if at the beginning of the string.<br/>
-                    ○ Match a character in the set [Rr].<br/>
-                    ○ Match a character in the set [Oo].<br/>
-                    ○ Match a character in the set [Ll] exactly 2 times.<br/>
-                    ○ Match a character in the set [Bb].<br/>
-                    ○ Match a character in the set [Aa].<br/>
-                    ○ Match a character in the set [Cc].<br/>
-                    ○ Match a character in the set [Kk\u212A].<br/>
-                    ○ Match if at the end of the string or if before an ending newline.<br/>
-                ○ Match a sequence of expressions.<br/>
-                    ○ Match if at the beginning of the string.<br/>
-                    ○ Match a character in the set [Rr].<br/>
-                    ○ Match a character in the set [Ee].<br/>
-                    ○ Match a character in the set [Vv].<br/>
-                    ○ Match a character in the set [Ee].<br/>
-                    ○ Match a character in the set [Rr].<br/>
-                    ○ Match a character in the set [Tt].<br/>
-                    ○ Match if at the end of the string or if before an ending newline.<br/>
-            </code>
-            </remarks>
-        </member>
         <member name="T:Dapper.CustomPropertyTypeMap">
             <summary>
             Implements custom property mapping by user provided criteria (usually presence of some custom attribute with column to member mapping)
@@ -252,11 +155,6 @@
             </summary>
         </member>
         <member name="M:Dapper.DbString.#ctor">
-            <summary>
-            Create a new DbString
-            </summary>
-        </member>
-        <member name="M:Dapper.DbString.#ctor(System.String,System.Int32)">
             <summary>
             Create a new DbString
             </summary>
@@ -428,9 +326,6 @@
             <summary>
             Tell Dapper to use an explicit constructor, passing nulls or 0s for all parameters
             </summary>
-            <remarks>
-            Usage on methods is limited to the usage with Dapper.AOT (https://github.com/DapperLib/DapperAOT)
-            </remarks>
         </member>
         <member name="M:Dapper.Extensions.CastResult``2(System.Threading.Tasks.Task{``0})">
             <summary>
@@ -1245,36 +1140,6 @@
             <param name="command">The command to execute.</param>
             <returns>The first cell selected as <typeparamref name="T"/>.</returns>
         </member>
-        <member name="M:Dapper.SqlMapper.QueryUnbufferedAsync(System.Data.Common.DbConnection,System.String,System.Object,System.Data.Common.DbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
-            <summary>
-            Execute a query asynchronously using <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/>.
-            </summary>
-            <param name="cnn">The connection to query on.</param>
-            <param name="sql">The SQL to execute for the query.</param>
-            <param name="param">The parameters to pass, if any.</param>
-            <param name="transaction">The transaction to use, if any.</param>
-            <param name="commandTimeout">The command timeout (in seconds).</param>
-            <param name="commandType">The type of command to execute.</param>
-            <returns>
-            A sequence of data of dynamic data
-            </returns>
-        </member>
-        <member name="M:Dapper.SqlMapper.QueryUnbufferedAsync``1(System.Data.Common.DbConnection,System.String,System.Object,System.Data.Common.DbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
-            <summary>
-            Execute a query asynchronously using <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/>.
-            </summary>
-            <typeparam name="T">The type of results to return.</typeparam>
-            <param name="cnn">The connection to query on.</param>
-            <param name="sql">The SQL to execute for the query.</param>
-            <param name="param">The parameters to pass, if any.</param>
-            <param name="transaction">The transaction to use, if any.</param>
-            <param name="commandTimeout">The command timeout (in seconds).</param>
-            <param name="commandType">The type of command to execute.</param>
-            <returns>
-            A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column is assumed, otherwise an instance is
-            created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
-            </returns>
-        </member>
         <member name="E:Dapper.SqlMapper.QueryCachePurged">
             <summary>
             Called if the query cache is purged via PurgeQueryCache
@@ -1302,6 +1167,7 @@
             <summary>
             Deep diagnostics only: find any hash collisions in the cache
             </summary>
+            <returns></returns>
         </member>
         <member name="M:Dapper.SqlMapper.ResetTypeHandlers">
             <summary>
@@ -2050,11 +1916,6 @@
             <param name="length"></param>
             <param name="returnNullIfFirstMissing"></param>
         </member>
-        <member name="M:Dapper.SqlMapper.ThrowNullCustomQueryParameter(System.String)">
-            <summary>
-            For internal use only
-            </summary>
-        </member>
         <member name="M:Dapper.SqlMapper.ThrowDataException(System.Exception,System.Int32,System.Data.IDataReader,System.Object)">
             <summary>
             Throws a data exception, only used internally
@@ -2215,22 +2076,6 @@
         <member name="M:Dapper.SqlMapper.GridReader.OnAfterGridAsync(System.Int32)">
             <summary>
             Marks the current grid as consumed, and moves to the next result
-            </summary>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.ReadUnbufferedAsync``1">
-            <summary>
-            Read the next grid of results.
-            </summary>
-            <typeparam name="T">The type to read.</typeparam>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.ReadUnbufferedAsync">
-            <summary>
-            Read the next grid of results.
-            </summary>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.DisposeAsync">
-            <summary>
-            Dispose the grid, closing and disposing both the underlying reader and command.
             </summary>
         </member>
         <member name="M:Dapper.SqlMapper.GridReader.#ctor(System.Data.IDbCommand,System.Data.Common.DbDataReader,Dapper.SqlMapper.Identity,System.Action{System.Object},System.Object,System.Boolean,System.Threading.CancellationToken)">
@@ -2606,17 +2451,7 @@
             The raw SQL command.
             </summary>
         </member>
-        <member name="P:Dapper.SqlMapper.Identity.Sql">
-            <summary>
-            The raw SQL command.
-            </summary>
-        </member>
         <member name="F:Dapper.SqlMapper.Identity.commandType">
-            <summary>
-            The SQL command type.
-            </summary>
-        </member>
-        <member name="P:Dapper.SqlMapper.Identity.CommandType">
             <summary>
             The SQL command type.
             </summary>
@@ -2631,19 +2466,9 @@
             The grid index (position in the reader) of this Identity.
             </summary>
         </member>
-        <member name="P:Dapper.SqlMapper.Identity.GridIndex">
-            <summary>
-            The grid index (position in the reader) of this Identity.
-            </summary>
-        </member>
         <member name="F:Dapper.SqlMapper.Identity.type">
             <summary>
-            The <see cref="P:Dapper.SqlMapper.Identity.Type"/> of this Identity.
-            </summary>
-        </member>
-        <member name="P:Dapper.SqlMapper.Identity.Type">
-            <summary>
-            The <see cref="P:Dapper.SqlMapper.Identity.Type"/> of this Identity.
+            This <see cref="T:System.Type"/> of this Identity.
             </summary>
         </member>
         <member name="F:Dapper.SqlMapper.Identity.connectionString">
@@ -2652,11 +2477,6 @@
             </summary>
         </member>
         <member name="F:Dapper.SqlMapper.Identity.parametersType">
-            <summary>
-            The type of the parameters object for this Identity.
-            </summary>
-        </member>
-        <member name="P:Dapper.SqlMapper.Identity.ParametersType">
             <summary>
             The type of the parameters object for this Identity.
             </summary>
@@ -2887,13 +2707,6 @@
             can only be set globally - it is not intended for frequent/contextual changing.
             </summary>
         </member>
-        <member name="P:Dapper.SqlMapper.Settings.SupportLegacyParameterTokens">
-            <summary>
-            Indicates whether single-character parameter tokens (<c>?</c> etc) will be detected and used where possible;
-            this feature is not recommended and will be disabled by default in future versions;
-            where possible, prefer named parameters (<c>@yourParam</c> etc) or Dapper's "pseudo-positional" parameters (<c>?yourParam? etc</c>).
-            </summary>
-        </member>
         <member name="T:Dapper.SqlMapper.TypeHandler`1">
             <summary>
             Base-class for simple type-handlers
@@ -3010,149 +2823,6 @@
             <summary>
             Obtain the underlying command
             </summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.LegacyParameterGen_0">
-            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the LegacyParameterGen method.</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.Instance">
-            <summary>Cached, thread-safe singleton instance.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.#ctor">
-            <summary>Initializes the instance.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.RunnerFactory">
-            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.RunnerFactory.CreateInstance">
-            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.RunnerFactory.Runner">
-            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
-            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if a possible match was found; false if no more matches are possible.</returns>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LegacyParameterGen_0.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.LiteralTokensGen_1">
-            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the LiteralTokensGen method.</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.Instance">
-            <summary>Cached, thread-safe singleton instance.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.#ctor">
-            <summary>Initializes the instance.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.RunnerFactory">
-            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.RunnerFactory.CreateInstance">
-            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.RunnerFactory.Runner">
-            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
-            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if a possible match was found; false if no more matches are possible.</returns>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.LiteralTokensGen_1.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2">
-            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the PseudoPositionalGen method.</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.Instance">
-            <summary>Cached, thread-safe singleton instance.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.#ctor">
-            <summary>Initializes the instance.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.RunnerFactory">
-            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.RunnerFactory.CreateInstance">
-            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.RunnerFactory.Runner">
-            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
-            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if a possible match was found; false if no more matches are possible.</returns>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.PseudoPositionalGen_2.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3">
-            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the WhitespaceOrReservedGen method.</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.Instance">
-            <summary>Cached, thread-safe singleton instance.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.#ctor">
-            <summary>Initializes the instance.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.RunnerFactory">
-            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.RunnerFactory.CreateInstance">
-            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.RunnerFactory.Runner">
-            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
-            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if a possible match was found; false if no more matches are possible.</returns>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.WhitespaceOrReservedGen_3.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
-            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
-            <param name="inputSpan">The text being scanned by the regular expression.</param>
-            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
-        </member>
-        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
-            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
-            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
-            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
-        </member>
-        <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfNonAsciiOrAny_DB8FA48114DF366B64CF51E7C5E06CBCE2EF4223A15139A0013BE637F565CEB9(System.ReadOnlySpan{System.Char})">
-            <summary>Finds the next index of any character that matches a character in the set [*+-/;CRVcrv\s].</summary>
-        </member>
-        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_FFC1FFFFFE53FFF7F7FFBBFFF7FFBBFF">
-            <summary>Supports searching for characters in or not in "\0\u0001\u0002\u0003\u0004\u0005\u0006\a\b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f!\"#$%&amp;'(),.0123456789:&lt;=&gt;?@ABDEFGHIJKLMNOPQSTUWXYZ[\\]^_`abdefghijklmnopqstuwxyz{|}~\u007f".</summary>
         </member>
     </members>
 </doc>

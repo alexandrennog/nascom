@@ -32,9 +32,37 @@ namespace LibNF65
     public class NFCe65
     {
         X509Certificate2 x509Cert;
-        static string chaveAcesso = string.Empty;
+
+        private static readonly object gerarNFLock = new object();
 
         public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
+        {
+            lock (gerarNFLock)
+            {
+                return GerarNFInterno(produtos, x509Cert, meiosPagamentos, cpf, controle, nNFTemp);
+            }
+        }
+
+        private static string GerarNFInterno(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
+        {
+            string chaveAcesso = null;
+
+            try
+            {
+                return GerarNFExecutar(produtos, x509Cert, meiosPagamentos, cpf, controle, nNFTemp, ref chaveAcesso);
+            }
+            catch (Exception ex)
+            {
+                if (!string.IsNullOrEmpty(chaveAcesso))
+                {
+                    MoverArquivo(chaveAcesso, false);
+                }
+
+                throw new Exception($"Erro ao gerar NFC-e: {ex.Message}", ex);
+            }
+        }
+
+        private static string GerarNFExecutar(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, ref string chaveAcesso)
         {
 
             PixConfig pixConfig = GetPixConfig();
@@ -134,8 +162,6 @@ namespace LibNF65
                 XMsg = autorizacao.Result.ProtNFe.InfProt.XMsg
             }, repository);
 
-            Imprimir(chaveAcesso);
-
             if (autorizacao.Result.ProtNFe != null)
             {
                 switch (autorizacao.Result.ProtNFe.InfProt.CStat)
@@ -149,6 +175,17 @@ namespace LibNF65
                         break;
                 }
             }
+
+            try
+            {
+                Imprimir(chaveAcesso);
+            }
+            catch (Exception ex)
+            {
+                //Falha na impressão não invalida a NFC-e já autorizada/persistida junto à SEFAZ.
+                MessageBox.Show($"NFC-e {chaveAcesso} processada, porém ocorreu um erro ao imprimir o cupom: {ex.Message}");
+            }
+
             return chaveAcesso;
 
         }

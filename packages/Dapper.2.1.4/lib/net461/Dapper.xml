@@ -159,11 +159,6 @@
             Create a new DbString
             </summary>
         </member>
-        <member name="M:Dapper.DbString.#ctor(System.String,System.Int32)">
-            <summary>
-            Create a new DbString
-            </summary>
-        </member>
         <member name="P:Dapper.DbString.IsAnsi">
             <summary>
             Ansi vs Unicode 
@@ -331,9 +326,6 @@
             <summary>
             Tell Dapper to use an explicit constructor, passing nulls or 0s for all parameters
             </summary>
-            <remarks>
-            Usage on methods is limited to the usage with Dapper.AOT (https://github.com/DapperLib/DapperAOT)
-            </remarks>
         </member>
         <member name="M:Dapper.Extensions.CastResult``2(System.Threading.Tasks.Task{``0})">
             <summary>
@@ -1148,36 +1140,6 @@
             <param name="command">The command to execute.</param>
             <returns>The first cell selected as <typeparamref name="T"/>.</returns>
         </member>
-        <member name="M:Dapper.SqlMapper.QueryUnbufferedAsync(System.Data.Common.DbConnection,System.String,System.Object,System.Data.Common.DbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
-            <summary>
-            Execute a query asynchronously using <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/>.
-            </summary>
-            <param name="cnn">The connection to query on.</param>
-            <param name="sql">The SQL to execute for the query.</param>
-            <param name="param">The parameters to pass, if any.</param>
-            <param name="transaction">The transaction to use, if any.</param>
-            <param name="commandTimeout">The command timeout (in seconds).</param>
-            <param name="commandType">The type of command to execute.</param>
-            <returns>
-            A sequence of data of dynamic data
-            </returns>
-        </member>
-        <member name="M:Dapper.SqlMapper.QueryUnbufferedAsync``1(System.Data.Common.DbConnection,System.String,System.Object,System.Data.Common.DbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
-            <summary>
-            Execute a query asynchronously using <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/>.
-            </summary>
-            <typeparam name="T">The type of results to return.</typeparam>
-            <param name="cnn">The connection to query on.</param>
-            <param name="sql">The SQL to execute for the query.</param>
-            <param name="param">The parameters to pass, if any.</param>
-            <param name="transaction">The transaction to use, if any.</param>
-            <param name="commandTimeout">The command timeout (in seconds).</param>
-            <param name="commandType">The type of command to execute.</param>
-            <returns>
-            A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column is assumed, otherwise an instance is
-            created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
-            </returns>
-        </member>
         <member name="E:Dapper.SqlMapper.QueryCachePurged">
             <summary>
             Called if the query cache is purged via PurgeQueryCache
@@ -1205,6 +1167,7 @@
             <summary>
             Deep diagnostics only: find any hash collisions in the cache
             </summary>
+            <returns></returns>
         </member>
         <member name="M:Dapper.SqlMapper.ResetTypeHandlers">
             <summary>
@@ -1953,11 +1916,6 @@
             <param name="length"></param>
             <param name="returnNullIfFirstMissing"></param>
         </member>
-        <member name="M:Dapper.SqlMapper.ThrowNullCustomQueryParameter(System.String)">
-            <summary>
-            For internal use only
-            </summary>
-        </member>
         <member name="M:Dapper.SqlMapper.ThrowDataException(System.Exception,System.Int32,System.Data.IDataReader,System.Object)">
             <summary>
             Throws a data exception, only used internally
@@ -2118,22 +2076,6 @@
         <member name="M:Dapper.SqlMapper.GridReader.OnAfterGridAsync(System.Int32)">
             <summary>
             Marks the current grid as consumed, and moves to the next result
-            </summary>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.ReadUnbufferedAsync``1">
-            <summary>
-            Read the next grid of results.
-            </summary>
-            <typeparam name="T">The type to read.</typeparam>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.ReadUnbufferedAsync">
-            <summary>
-            Read the next grid of results.
-            </summary>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.DisposeAsync">
-            <summary>
-            Dispose the grid, closing and disposing both the underlying reader and command.
             </summary>
         </member>
         <member name="M:Dapper.SqlMapper.GridReader.#ctor(System.Data.IDbCommand,System.Data.Common.DbDataReader,Dapper.SqlMapper.Identity,System.Action{System.Object},System.Object,System.Boolean,System.Threading.CancellationToken)">
@@ -2509,17 +2451,7 @@
             The raw SQL command.
             </summary>
         </member>
-        <member name="P:Dapper.SqlMapper.Identity.Sql">
-            <summary>
-            The raw SQL command.
-            </summary>
-        </member>
         <member name="F:Dapper.SqlMapper.Identity.commandType">
-            <summary>
-            The SQL command type.
-            </summary>
-        </member>
-        <member name="P:Dapper.SqlMapper.Identity.CommandType">
             <summary>
             The SQL command type.
             </summary>
@@ -2534,19 +2466,9 @@
             The grid index (position in the reader) of this Identity.
             </summary>
         </member>
-        <member name="P:Dapper.SqlMapper.Identity.GridIndex">
-            <summary>
-            The grid index (position in the reader) of this Identity.
-            </summary>
-        </member>
         <member name="F:Dapper.SqlMapper.Identity.type">
             <summary>
-            The <see cref="P:Dapper.SqlMapper.Identity.Type"/> of this Identity.
-            </summary>
-        </member>
-        <member name="P:Dapper.SqlMapper.Identity.Type">
-            <summary>
-            The <see cref="P:Dapper.SqlMapper.Identity.Type"/> of this Identity.
+            This <see cref="T:System.Type"/> of this Identity.
             </summary>
         </member>
         <member name="F:Dapper.SqlMapper.Identity.connectionString">
@@ -2555,11 +2477,6 @@
             </summary>
         </member>
         <member name="F:Dapper.SqlMapper.Identity.parametersType">
-            <summary>
-            The type of the parameters object for this Identity.
-            </summary>
-        </member>
-        <member name="P:Dapper.SqlMapper.Identity.ParametersType">
             <summary>
             The type of the parameters object for this Identity.
             </summary>
@@ -2788,13 +2705,6 @@
             If assigned a non-negative value, then that value is applied to any commands <c>FetchSize</c> property, if it exists;
             see https://docs.oracle.com/en/database/oracle/oracle-database/18/odpnt/CommandFetchSize.html; note that this value
             can only be set globally - it is not intended for frequent/contextual changing.
-            </summary>
-        </member>
-        <member name="P:Dapper.SqlMapper.Settings.SupportLegacyParameterTokens">
-            <summary>
-            Indicates whether single-character parameter tokens (<c>?</c> etc) will be detected and used where possible;
-            this feature is not recommended and will be disabled by default in future versions;
-            where possible, prefer named parameters (<c>@yourParam</c> etc) or Dapper's "pseudo-positional" parameters (<c>?yourParam? etc</c>).
             </summary>
         </member>
         <member name="T:Dapper.SqlMapper.TypeHandler`1">

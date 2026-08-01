@@ -118,5 +118,12 @@ Para a versão 2.3.0.0
 Para a versão 2.3.1.0 
 
 1 - Remoção de dados sensíveis do ap.config
+
+
+Para a versão 2.3.2.2 
+
+1 - Melhorada a performance para relatórios
+1 - Melhorada a performance para etiquetas
+1 - Criado relatório para curva abc
 		
 	
