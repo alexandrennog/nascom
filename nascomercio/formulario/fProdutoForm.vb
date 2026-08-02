@@ -66,7 +66,7 @@ Public Class fProdutoForm
             If colecaoP IsNot Nothing Then
                 If colecaoP.Count > 0 Then
                     If Not colecaoP.Item(0).cid.Equals(Me.cid) Then
-                        If MessageBox.Show("J� existe um produto com os dados (Fornecedor, Fabricante, Cor e Refer�ncia) informados. " & vbCrLf &
+                        If MessageBox.Show("Ja existe um produto com os dados (Fornecedor, Fabricante, Cor e Referencia) informados. " & vbCrLf &
                             "Deseja consultar o produto existente?", "Cadastro de Produto", MessageBoxButtons.YesNo, MessageBoxIcon.Information) = Windows.Forms.DialogResult.Yes Then
                             retorno = "A"
                             Me.cid = colecaoP.Item(0).cid
@@ -401,6 +401,9 @@ Public Class fProdutoForm
                     dados.aliquota = TratarTexto(txtAliquota.Text)
                     dados.efdUnidadeMedidaCodigo = TratarTexto(cboEfdUnidadeMedida.SelectedValue)
                     dados.efdCodigoCategoria = TratarTexto(cboCategoria.SelectedValue)
+                    dados.ncm = TratarTexto(txtNCM.Text)
+                    dados.cest = TratarTexto(txtCEST.Text)
+
                     If Not String.IsNullOrEmpty(cboCategoria.Text.Trim()) Then
                         dados.efdIntegracao = True
                     Else
@@ -492,14 +495,14 @@ Public Class fProdutoForm
 
                         Me.cid = novoCID
 
-                        MessageBox.Show("Informa��es inclu�das com sucesso", "Inclus�o de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Informacoes incluidas com sucesso", "Inclusao de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                         'ExibirInformacoesTela()
                         Limpar()
                     ElseIf tipoAcao.Equals("a") Then
                         regras.Alterar(dados, colecaoItensProdutos, mdiPrincipal.gUsuario)
 
-                        MessageBox.Show("Informa��es alteradas com sucesso", "Inclus�o de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Informacoes alteradas com sucesso", "Inclusao de Produto", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                         'ExibirInformacoesTela()
                         Limpar()
@@ -855,6 +858,8 @@ Public Class fProdutoForm
         txtAliquota.Text = RetornarTexto(Me.produto.aliquota)
         txtValorCompra.Text = RetornarTexto(Me.produto.valorCompra)
         txtValorVenda.Text = RetornarTexto(Me.produto.valorVenda)
+        txtNCM.Text = RetornarTexto(Me.produto.ncm)
+        txtCEST.Text = RetornarTexto(Me.produto.cest)
         If cboFabricante.Items.Count > 0 Then
             cboFabricante.SelectedIndex = 0
         End If

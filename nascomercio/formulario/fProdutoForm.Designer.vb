@@ -86,6 +86,10 @@ Partial Class fProdutoForm
         Me.cboEfdUnidadeMedida = New System.Windows.Forms.ComboBox()
         Me.btoGrupo = New System.Windows.Forms.Button()
         Me.btoImpostos = New System.Windows.Forms.Button()
+        Me.lblNCM = New System.Windows.Forms.Label()
+        Me.lblCEST = New System.Windows.Forms.Label()
+        Me.txtNCM = New System.Windows.Forms.TextBox()
+        Me.txtCEST = New System.Windows.Forms.TextBox()
         CType(Me.dgvProduto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -154,7 +158,7 @@ Partial Class fProdutoForm
         Me.lblNome.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.lblNome.Location = New System.Drawing.Point(20, 92)
         Me.lblNome.Name = "lblNome"
-        Me.lblNome.Size = New System.Drawing.Size(83, 18)
+        Me.lblNome.Size = New System.Drawing.Size(79, 18)
         Me.lblNome.TabIndex = 119
         Me.lblNome.Text = "Descrição"
         '
@@ -165,7 +169,7 @@ Partial Class fProdutoForm
         Me.lblCodigo.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.lblCodigo.Location = New System.Drawing.Point(40, 68)
         Me.lblCodigo.Name = "lblCodigo"
-        Me.lblCodigo.Size = New System.Drawing.Size(60, 18)
+        Me.lblCodigo.Size = New System.Drawing.Size(59, 18)
         Me.lblCodigo.TabIndex = 118
         Me.lblCodigo.Text = "Código"
         '
@@ -287,11 +291,11 @@ Partial Class fProdutoForm
         Me.dgvProduto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvProduto.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke
         Me.dgvProduto.GridColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.dgvProduto.Location = New System.Drawing.Point(10, 335)
+        Me.dgvProduto.Location = New System.Drawing.Point(10, 380)
         Me.dgvProduto.Name = "dgvProduto"
         Me.dgvProduto.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None
         Me.dgvProduto.RowHeadersVisible = False
-        Me.dgvProduto.Size = New System.Drawing.Size(636, 130)
+        Me.dgvProduto.Size = New System.Drawing.Size(636, 76)
         Me.dgvProduto.TabIndex = 16
         Me.dgvProduto.TabStop = False
         '
@@ -312,7 +316,7 @@ Partial Class fProdutoForm
         Me.lblReferencia.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.lblReferencia.Location = New System.Drawing.Point(352, 68)
         Me.lblReferencia.Name = "lblReferencia"
-        Me.lblReferencia.Size = New System.Drawing.Size(87, 18)
+        Me.lblReferencia.Size = New System.Drawing.Size(86, 18)
         Me.lblReferencia.TabIndex = 156
         Me.lblReferencia.Text = "Referência"
         '
@@ -345,7 +349,7 @@ Partial Class fProdutoForm
         Me.lblSituacao.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.lblSituacao.Location = New System.Drawing.Point(28, 236)
         Me.lblSituacao.Name = "lblSituacao"
-        Me.lblSituacao.Size = New System.Drawing.Size(73, 18)
+        Me.lblSituacao.Size = New System.Drawing.Size(69, 18)
         Me.lblSituacao.TabIndex = 163
         Me.lblSituacao.Text = "Situação"
         '
@@ -420,9 +424,9 @@ Partial Class fProdutoForm
         Me.Label7.AutoSize = True
         Me.Label7.BackColor = System.Drawing.Color.Transparent
         Me.Label7.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.Label7.Location = New System.Drawing.Point(459, 239)
+        Me.Label7.Location = New System.Drawing.Point(361, 239)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(96, 18)
+        Me.Label7.Size = New System.Drawing.Size(90, 18)
         Me.Label7.TabIndex = 181
         Me.Label7.Text = "Est. Mínimo"
         '
@@ -431,7 +435,7 @@ Partial Class fProdutoForm
         Me.txtEstoqueMinimo.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtEstoqueMinimo.Culture = New System.Globalization.CultureInfo("")
         Me.txtEstoqueMinimo.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
-        Me.txtEstoqueMinimo.Location = New System.Drawing.Point(555, 239)
+        Me.txtEstoqueMinimo.Location = New System.Drawing.Point(455, 239)
         Me.txtEstoqueMinimo.Mask = "000000"
         Me.txtEstoqueMinimo.Name = "txtEstoqueMinimo"
         Me.txtEstoqueMinimo.PromptChar = Global.Microsoft.VisualBasic.ChrW(32)
@@ -446,7 +450,7 @@ Partial Class fProdutoForm
         Me.Label10.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.Label10.Location = New System.Drawing.Point(436, 5)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(71, 18)
+        Me.Label10.Size = New System.Drawing.Size(65, 18)
         Me.Label10.TabIndex = 184
         Me.Label10.Text = "Alíquota"
         '
@@ -754,7 +758,7 @@ Partial Class fProdutoForm
         Me.Label11.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
         Me.Label11.Location = New System.Drawing.Point(259, 5)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(47, 18)
+        Me.Label11.Size = New System.Drawing.Size(46, 18)
         Me.Label11.TabIndex = 207
         Me.Label11.Text = "Série"
         '
@@ -784,6 +788,10 @@ Partial Class fProdutoForm
         '
         Me.Panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.Window
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel1.Controls.Add(Me.txtCEST)
+        Me.Panel1.Controls.Add(Me.txtNCM)
+        Me.Panel1.Controls.Add(Me.lblNCM)
+        Me.Panel1.Controls.Add(Me.lblCEST)
         Me.Panel1.Controls.Add(Me.btoNF)
         Me.Panel1.Controls.Add(Me.cboGrupo)
         Me.Panel1.Controls.Add(Me.Label8)
@@ -850,7 +858,7 @@ Partial Class fProdutoForm
         Me.Panel2.Controls.Add(Me.txtNotaFiscalSerie)
         Me.Panel2.Controls.Add(Me.txtNotaFiscalNumero)
         Me.Panel2.Controls.Add(Me.cboEfdUnidadeMedida)
-        Me.Panel2.Location = New System.Drawing.Point(11, 266)
+        Me.Panel2.Location = New System.Drawing.Point(11, 311)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(635, 63)
         Me.Panel2.TabIndex = 212
@@ -965,6 +973,42 @@ Partial Class fProdutoForm
         Me.btoImpostos.Text = "Impostos"
         Me.btoImpostos.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoImpostos.UseVisualStyleBackColor = False
+        '
+        'lblNCM
+        '
+        Me.lblNCM.AutoSize = True
+        Me.lblNCM.BackColor = System.Drawing.Color.Transparent
+        Me.lblNCM.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblNCM.Location = New System.Drawing.Point(24, 272)
+        Me.lblNCM.Name = "lblNCM"
+        Me.lblNCM.Size = New System.Drawing.Size(43, 18)
+        Me.lblNCM.TabIndex = 215
+        Me.lblNCM.Text = "NCM"
+        '
+        'lblCEST
+        '
+        Me.lblCEST.AutoSize = True
+        Me.lblCEST.BackColor = System.Drawing.Color.Transparent
+        Me.lblCEST.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblCEST.Location = New System.Drawing.Point(400, 272)
+        Me.lblCEST.Name = "lblCEST"
+        Me.lblCEST.Size = New System.Drawing.Size(49, 18)
+        Me.lblCEST.TabIndex = 216
+        Me.lblCEST.Text = "CEST"
+        '
+        'txtNCM
+        '
+        Me.txtNCM.Location = New System.Drawing.Point(102, 275)
+        Me.txtNCM.Name = "txtNCM"
+        Me.txtNCM.Size = New System.Drawing.Size(154, 20)
+        Me.txtNCM.TabIndex = 217
+        '
+        'txtCEST
+        '
+        Me.txtCEST.Location = New System.Drawing.Point(455, 273)
+        Me.txtCEST.Name = "txtCEST"
+        Me.txtCEST.Size = New System.Drawing.Size(128, 20)
+        Me.txtCEST.TabIndex = 218
         '
         'fProdutoForm
         '
@@ -1081,4 +1125,8 @@ Partial Class fProdutoForm
     Friend WithEvents cboCategoria As System.Windows.Forms.ComboBox
     Friend WithEvents btoCategoria As System.Windows.Forms.Button
     Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents txtCEST As TextBox
+    Friend WithEvents txtNCM As TextBox
+    Friend WithEvents lblNCM As Label
+    Friend WithEvents lblCEST As Label
 End Class

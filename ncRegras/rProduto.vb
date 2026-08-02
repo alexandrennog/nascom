@@ -17,7 +17,7 @@ Namespace nsProduto
 
         Public _usuario As dUsuario
 
-        '-- Métodos de controle ( Várias chamadas; Controle de transação )
+        '-- Mï¿½todos de controle ( Vï¿½rias chamadas; Controle de transaï¿½ï¿½o )
 
         Public Function Listar() As ColecaoProduto
 
@@ -136,6 +136,8 @@ Namespace nsProduto
                         retorno.efdUnidadeMedidaCodigo = RetornarTexto(item.efdUnidadeMedidaCodigo)
                         retorno.efdCodigoCategoria = RetornarTexto(item.efdCodigoCategoria)
                         retorno.efdIntegracao = RetornarBoleano(item.efdIntegracao)
+                        retorno.ncm = RetornarTexto(item.ncm)
+                        retorno.cest = RetornarTexto(item.cest)
                     Else
                         retorno = Nothing
                     End If
@@ -242,14 +244,14 @@ Namespace nsProduto
                     '-- Incluir produto
                     retorno = fIncluir(dados)
 
-                    '-- Se retornou novo cid, verifica inclusão de itens
+                    '-- Se retornou novo cid, verifica inclusï¿½o de itens
                     If retorno > 0 Then
                         '-- Se possuir itens, inclui
                         If Not colecaoItem Is Nothing Then
                             If colecaoItem.Count > 0 Then
                                 '-- Excluir itens do produto
                                 regraProdutoItem.fExcluirPorProduto(retorno)
-                                GravarLog(usuario.usuario, "Exclusão dos itens do produto cid[" & retorno.ToString() & "] - rProduto.Incluir")
+                                GravarLog(usuario.usuario, "Exclusï¿½o dos itens do produto cid[" & retorno.ToString() & "] - rProduto.Incluir")
 
                                 '-- Incluir itens atualizados
                                 For Each itemColecao As ColecaoProdutoItem In colecaoItem
@@ -295,12 +297,12 @@ Namespace nsProduto
                                                 End If
                                             End If
 
-                                            If (Not codigoBarras.Equals(String.Empty)) And _
+                                            If (Not codigoBarras.Equals(String.Empty)) And
                                                 (Not estoque.Equals(String.Empty)) Then
                                                 'If novoItem = True Then
                                                 '-- Gravar Log Estoque
                                                 GravarLogEstoque(_usuario.cid, _usuario.nomeCompleto, item.produtos_cid, codigoBarras, Convert.ToInt32(estoque), dados.notaFiscalNumero, dados.notaFiscalSerie)
-                                                GravarLog(usuario.usuario, "Inclusão de novo item - codigoBarras[" & codigoBarras & "] - rProduto.Incluir")
+                                                GravarLog(usuario.usuario, "Inclusï¿½o de novo item - codigoBarras[" & codigoBarras & "] - rProduto.Incluir")
                                                 'End If
 
                                                 codigoBarras = String.Empty
@@ -376,12 +378,12 @@ Namespace nsProduto
 
                     '-- Excluir itens do produto, inclui
                     regraProdutoItem.fExcluirPorProduto(dados.cid)
-                    GravarLog(usuario.usuario, "Exclusão dos itens do produto cid[" & retorno.ToString() & "] - rProduto.Alterar")
+                    GravarLog(usuario.usuario, "Exclusï¿½o dos itens do produto cid[" & retorno.ToString() & "] - rProduto.Alterar")
 
                     '-- Se possuir itens
                     If Not colecaoItem Is Nothing Then
                         If colecaoItem.Count > 0 Then
-                            '-- Incluir itens com codigobarras ( existentes / alteração )
+                            '-- Incluir itens com codigobarras ( existentes / alteraï¿½ï¿½o )
                             For Each itemColecao As ColecaoProdutoItem In colecaoItem
                                 incluiProduto = False
 
@@ -412,7 +414,7 @@ Namespace nsProduto
 
                                                 regraProdutoItem.fIncluir(item2)
                                                 If item2.caracteristicas_codigo.ToLower().Equals("codigobarras") Then
-                                                    GravarLog(usuario.usuario, "Inclusão de item existente - codigobarras[" & item2.valor & "] - rProduto.Alterar")
+                                                    GravarLog(usuario.usuario, "Inclusï¿½o de item existente - codigobarras[" & item2.valor & "] - rProduto.Alterar")
                                                 End If
                                             Else
                                                 Throw New Exception()
@@ -421,11 +423,11 @@ Namespace nsProduto
 
                                     Next
 
-                                    '-- LogEstoque já foi gravado 
+                                    '-- LogEstoque jï¿½ foi gravado 
                                 End If
                             Next
 
-                            '-- Incluir itens sem codigobarras ( novos / inclusão )
+                            '-- Incluir itens sem codigobarras ( novos / inclusï¿½o )
                             For Each itemColecao As ColecaoProdutoItem In colecaoItem
                                 incluiProduto = False
 
@@ -463,7 +465,7 @@ Namespace nsProduto
                                                     item4.valor = novoCB
 
                                                     regraProdutoItem.fIncluir(item4)
-                                                    GravarLog(usuario.usuario, "Inclusão de novo item - codigobarras[" & novoCB & "] - rProduto.Alterar")
+                                                    GravarLog(usuario.usuario, "Inclusï¿½o de novo item - codigobarras[" & novoCB & "] - rProduto.Alterar")
                                                 End If
 
                                                 If dadosCaracteristica.codigo.ToLower().Equals("codigobarras") Then
@@ -482,8 +484,8 @@ Namespace nsProduto
                                     Next
 
                                     '-- Gravar LogEstoque
-                                    If (Not _codigoBarras.Equals(String.Empty)) And _
-                                        (Not _estoque.Equals(String.Empty)) And _
+                                    If (Not _codigoBarras.Equals(String.Empty)) And
+                                        (Not _estoque.Equals(String.Empty)) And
                                         (Not _produtos_cid.Equals(String.Empty)) Then
 
                                         If _estoque > 0 Then
@@ -529,11 +531,11 @@ Namespace nsProduto
                     '-- Excluir itens do produto
                     dadosItem.produtos_cid = dados.cid
                     regraProdutoItem.fExcluirPorProduto(dadosItem)
-                    GravarLog(usuario.usuario, "Exclusão de itens de produto - " & dados.descricao & " referência: " & dados.referencia)
+                    GravarLog(usuario.usuario, "Exclusï¿½o de itens de produto - " & dados.descricao & " referï¿½ncia: " & dados.referencia)
 
                     '-- Excluir produto
                     retorno = fExcluir(dados)
-                    GravarLog(usuario.usuario, "Exclusão de produto - " & dados.descricao & " referência: " & dados.referencia)
+                    GravarLog(usuario.usuario, "Exclusï¿½o de produto - " & dados.descricao & " referï¿½ncia: " & dados.referencia)
 
                     ts.Complete()
                 End Using
@@ -549,7 +551,7 @@ Namespace nsProduto
 
         End Function
 
-        '-- Métodos padrão ( Incluir; Alterar; Excluir; Consultar; Listar )
+        '-- Mï¿½todos padrï¿½o ( Incluir; Alterar; Excluir; Consultar; Listar )
 
         Public Function fListar() As ColecaoProduto
 

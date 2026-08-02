@@ -380,28 +380,30 @@ Namespace nsProduto
                 acessoBanco = New cAcessoBD
 
 
-                comandoSQL = " INSERT INTO " & _
-                    " produtos (codigo, descricao, produtoTipo_cid, fornecedor_cid, fabricante_cid, valorCompra, valorVenda, " & _
-                    " referencia, imagem, situacao, cor_cid, grupo_cid, estoqueMinimo, aliquota, dataInclusao, " & _
-                    " efdUnidadeMedidaCodigo, efdCodigoCategoria, efdIntegracao ) " & _
-                    " VALUES (" & _
-                    cFuncoes.PersistirTexto(dados.codigo) & "," & _
-                    cFuncoes.PersistirTexto(dados.descricao) & "," & _
-                    cFuncoes.PersistirInteiro(dados.produtoTipo_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.fornecedor_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.fabricante_cid) & "," & _
-                    cFuncoes.PersistirDecimal(dados.valorCompra) & "," & _
-                    cFuncoes.PersistirDecimal(dados.valorVenda) & "," & _
-                    cFuncoes.PersistirTexto(dados.referencia) & "," & _
-                    cFuncoes.PersistirTexto(dados.imagem) & "," & _
-                    cFuncoes.PersistirTexto(dados.situacao) & "," & _
-                    cFuncoes.PersistirInteiro(dados.cor_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.grupo_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.estoqueMinimo) & "," & _
-                    cFuncoes.PersistirTexto(dados.aliquota) & "," & _
-                    cFuncoes.PersistirTexto(dados.dataInclusao) & "," & _
-                    cFuncoes.PersistirTexto(dados.efdUnidadeMedidaCodigo) & "," & _
-                    cFuncoes.PersistirTexto(dados.efdCodigoCategoria) & "," & _
+                comandoSQL = " INSERT INTO " &
+                    " produtos (codigo, descricao, produtoTipo_cid, fornecedor_cid, fabricante_cid, valorCompra, valorVenda, " &
+                    " referencia, imagem, situacao, cor_cid, grupo_cid, estoqueMinimo, aliquota, dataInclusao, " &
+                    " efdUnidadeMedidaCodigo, efdCodigoCategoria, ncm, cest, efdIntegracao ) " &
+                    " VALUES (" &
+                    cFuncoes.PersistirTexto(dados.codigo) & "," &
+                    cFuncoes.PersistirTexto(dados.descricao) & "," &
+                    cFuncoes.PersistirInteiro(dados.produtoTipo_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.fornecedor_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.fabricante_cid) & "," &
+                    cFuncoes.PersistirDecimal(dados.valorCompra) & "," &
+                    cFuncoes.PersistirDecimal(dados.valorVenda) & "," &
+                    cFuncoes.PersistirTexto(dados.referencia) & "," &
+                    cFuncoes.PersistirTexto(dados.imagem) & "," &
+                    cFuncoes.PersistirTexto(dados.situacao) & "," &
+                    cFuncoes.PersistirInteiro(dados.cor_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.grupo_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.estoqueMinimo) & "," &
+                    cFuncoes.PersistirTexto(dados.aliquota) & "," &
+                    cFuncoes.PersistirTexto(dados.dataInclusao) & "," &
+                    cFuncoes.PersistirTexto(dados.efdUnidadeMedidaCodigo) & "," &
+                    cFuncoes.PersistirTexto(dados.efdCodigoCategoria) & "," &
+                    cFuncoes.PersistirTexto(dados.ncm) & "," &
+                    cFuncoes.PersistirTexto(dados.cest) & "," &
                     cFuncoes.PersistirBoleano(dados.efdIntegracao) & ")"
 
                 retorno = acessoBanco.ExecutarCID(comandoSQL)
@@ -428,26 +430,28 @@ Namespace nsProduto
                 acessoBanco = New cAcessoBD
 
 
-                comandoSQL = " INSERT INTO " & _
-                    " produtos (cid, codigo, descricao, produtoTipo_cid, fornecedor_cid, fabricante_cid, valorCompra, valorVenda, " & _
-                    " referencia, imagem, situacao, cor_cid, grupo_cid, estoqueMinimo, aliquota, dataInclusao ) " & _
-                    " VALUES (" & _
-                    cFuncoes.PersistirInteiro(dados.cid) & "," & _
-                    cFuncoes.PersistirTexto(dados.codigo) & "," & _
-                    cFuncoes.PersistirTexto(dados.descricao) & "," & _
-                    cFuncoes.PersistirInteiro(dados.produtoTipo_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.fornecedor_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.fabricante_cid) & "," & _
-                    cFuncoes.PersistirDecimal(dados.valorCompra) & "," & _
-                    cFuncoes.PersistirDecimal(dados.valorVenda) & "," & _
-                    cFuncoes.PersistirTexto(dados.referencia) & "," & _
-                    cFuncoes.PersistirTexto(dados.imagem) & "," & _
-                    cFuncoes.PersistirTexto(dados.situacao) & "," & _
-                    cFuncoes.PersistirInteiro(dados.cor_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.grupo_cid) & "," & _
-                    cFuncoes.PersistirInteiro(dados.estoqueMinimo) & "," & _
-                    cFuncoes.PersistirTexto(dados.aliquota) & "," & _
-                    cFuncoes.PersistirTexto(dados.dataInclusao) & ")"
+                comandoSQL = " INSERT INTO " &
+                    " produtos (cid, codigo, descricao, produtoTipo_cid, fornecedor_cid, fabricante_cid, valorCompra, valorVenda, " &
+                    " referencia, imagem, situacao, cor_cid, grupo_cid, estoqueMinimo, aliquota, dataInclusao, ncm, cest) " &
+                    " VALUES (" &
+                    cFuncoes.PersistirInteiro(dados.cid) & "," &
+                    cFuncoes.PersistirTexto(dados.codigo) & "," &
+                    cFuncoes.PersistirTexto(dados.descricao) & "," &
+                    cFuncoes.PersistirInteiro(dados.produtoTipo_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.fornecedor_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.fabricante_cid) & "," &
+                    cFuncoes.PersistirDecimal(dados.valorCompra) & "," &
+                    cFuncoes.PersistirDecimal(dados.valorVenda) & "," &
+                    cFuncoes.PersistirTexto(dados.referencia) & "," &
+                    cFuncoes.PersistirTexto(dados.imagem) & "," &
+                    cFuncoes.PersistirTexto(dados.situacao) & "," &
+                    cFuncoes.PersistirInteiro(dados.cor_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.grupo_cid) & "," &
+                    cFuncoes.PersistirInteiro(dados.estoqueMinimo) & "," &
+                    cFuncoes.PersistirTexto(dados.aliquota) & "," &
+                    cFuncoes.PersistirTexto(dados.dataInclusao) & "," &
+                    cFuncoes.PersistirTexto(dados.ncm) & "," &
+                    cFuncoes.PersistirTexto(dados.cest) & ")"
 
                 retorno = acessoBanco.ExecutarCID(comandoSQL)
 
@@ -473,26 +477,28 @@ Namespace nsProduto
                 acessoBanco = New cAcessoBD
 
 
-                comandoSQL = " UPDATE produtos SET " & _
-                    " codigo = " & cFuncoes.PersistirTexto(dados.codigo) & "," & _
-                    " descricao = " & cFuncoes.PersistirTexto(dados.descricao) & "," & _
-                    " produtoTipo_cid = " & cFuncoes.PersistirInteiro(dados.produtoTipo_cid) & "," & _
-                    " fornecedor_cid = " & cFuncoes.PersistirInteiro(dados.fornecedor_cid) & "," & _
-                    " fabricante_cid = " & cFuncoes.PersistirInteiro(dados.fabricante_cid) & "," & _
-                    " valorCompra = " & cFuncoes.PersistirDecimal(dados.valorCompra) & "," & _
-                    " valorVenda = " & cFuncoes.PersistirDecimal(dados.valorVenda) & "," & _
-                    " imagem = " & cFuncoes.PersistirTexto(dados.imagem) & "," & _
-                    " referencia = " & cFuncoes.PersistirTexto(dados.referencia) & "," & _
-                    " situacao = " & cFuncoes.PersistirTexto(dados.situacao) & "," & _
-                    " cor_cid = " & cFuncoes.PersistirInteiro(dados.cor_cid) & "," & _
-                    " grupo_cid = " & cFuncoes.PersistirInteiro(dados.grupo_cid) & "," & _
-                    " estoqueMinimo = " & cFuncoes.PersistirInteiro(dados.estoqueMinimo) & "," & _
-                    " aliquota = " & cFuncoes.PersistirTexto(dados.aliquota) & "," & _
-                    " dataInclusao = " & cFuncoes.PersistirTexto(dados.dataInclusao) & "," & _
-                    " efdUnidadeMedidaCodigo = " & cFuncoes.PersistirTexto(dados.efdUnidadeMedidaCodigo) & "," & _
-                    " efdCodigoCategoria = " & cFuncoes.PersistirTexto(dados.efdCodigoCategoria) & "," & _
-                    " efdIntegracao = " & cFuncoes.PersistirBoleano(dados.efdIntegracao) & _
-                    " WHERE " & _
+                comandoSQL = " UPDATE produtos SET " &
+                    " codigo = " & cFuncoes.PersistirTexto(dados.codigo) & "," &
+                    " descricao = " & cFuncoes.PersistirTexto(dados.descricao) & "," &
+                    " produtoTipo_cid = " & cFuncoes.PersistirInteiro(dados.produtoTipo_cid) & "," &
+                    " fornecedor_cid = " & cFuncoes.PersistirInteiro(dados.fornecedor_cid) & "," &
+                    " fabricante_cid = " & cFuncoes.PersistirInteiro(dados.fabricante_cid) & "," &
+                    " valorCompra = " & cFuncoes.PersistirDecimal(dados.valorCompra) & "," &
+                    " valorVenda = " & cFuncoes.PersistirDecimal(dados.valorVenda) & "," &
+                    " imagem = " & cFuncoes.PersistirTexto(dados.imagem) & "," &
+                    " referencia = " & cFuncoes.PersistirTexto(dados.referencia) & "," &
+                    " situacao = " & cFuncoes.PersistirTexto(dados.situacao) & "," &
+                    " cor_cid = " & cFuncoes.PersistirInteiro(dados.cor_cid) & "," &
+                    " grupo_cid = " & cFuncoes.PersistirInteiro(dados.grupo_cid) & "," &
+                    " estoqueMinimo = " & cFuncoes.PersistirInteiro(dados.estoqueMinimo) & "," &
+                    " aliquota = " & cFuncoes.PersistirTexto(dados.aliquota) & "," &
+                    " dataInclusao = " & cFuncoes.PersistirTexto(dados.dataInclusao) & "," &
+                    " efdUnidadeMedidaCodigo = " & cFuncoes.PersistirTexto(dados.efdUnidadeMedidaCodigo) & "," &
+                    " efdCodigoCategoria = " & cFuncoes.PersistirTexto(dados.efdCodigoCategoria) & "," &
+                    " efdIntegracao = " & cFuncoes.PersistirBoleano(dados.efdIntegracao) & "," &
+                    " ncm = " & cFuncoes.PersistirTexto(dados.ncm) & "," &
+                    " cest = " & cFuncoes.PersistirTexto(dados.cest) &
+                    " WHERE " &
                     " cid = " & dados.cid.ToString()
 
                 retorno = acessoBanco.ExecutarINT(comandoSQL)
