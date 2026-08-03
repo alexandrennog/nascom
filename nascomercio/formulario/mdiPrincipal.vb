@@ -15,7 +15,7 @@ Imports ncRegras.nsUsuarioPerfil
 
 Public Class mdiPrincipal
 
-    '-- Par�metros globais
+    '-- Parâmetros globais
     Public gUsuario As New dUsuario
     Public gLoja As New dLoja
     Public formulario As New Form
@@ -42,7 +42,7 @@ Public Class mdiPrincipal
         regraParametro = New rParametro()
         dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ChaveSistema)
 
-        ' Verificar se existe chave de acesso/valida��o
+        ' Verificar se existe chave de acesso/validação
         If Not IsNothing(dadosParametro) Then
             If Not String.IsNullOrEmpty(dadosParametro.valor) Then
                 If dadosParametro.valor.Trim() <> "" Then
@@ -103,10 +103,10 @@ Public Class mdiPrincipal
         Dim regraParametro As New rParametro
         Dim dadosParametro As dParametro
 
-        '1- verificando quantos elementos o array possui , se possuir mais de um ent�o existe duas inst�ncias
+        '1- verificando quantos elementos o array possui , se possuir mais de um então existe duas instâncias
         emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length
 
-        '2- verificando o limite superior do array , se for  maior que zero ent�o existe duas inst�ncias
+        '2- verificando o limite superior do array , se for  maior que zero então existe duas instâncias
         'emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).GetUpperBound(0) > 0
 
         dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Instancias)

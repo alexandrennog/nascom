@@ -103,7 +103,7 @@ Public Class fProdutoFiltro
 
     Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Caracter�sticas de Tipo de Produto.")
+            MessageBox.Show("Erro na consulta dos dados de Características de Tipo de Produto.")
 
         End Try
     End Sub
@@ -169,7 +169,7 @@ Public Class fProdutoFiltro
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Caracter�sticas de Tipo de Produto.")
+            MessageBox.Show("Erro na consulta dos dados de Características de Tipo de Produto.")
 
         End Try
     End Sub
@@ -384,7 +384,7 @@ Public Class fProdutoFiltro
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Situa��o.")
+            MessageBox.Show("Erro na consulta dos dados de Situação.")
 
         End Try
     End Sub

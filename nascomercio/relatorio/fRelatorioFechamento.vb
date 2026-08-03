@@ -33,7 +33,7 @@ Public Class fRelatorioFechamento
         Dim dataFinal As Date = Me.txtDataFinal.Text
 
         If Not Date.TryParse(Me.txtDataInicial.Text, dataInicial) OrElse Not Date.TryParse(Me.txtDataFinal.Text, dataFinal) Then
-            MessageBox.Show("Data inv�lida.")
+            MessageBox.Show("Data inválida.")
             Exit Sub
         End If
 
@@ -147,7 +147,7 @@ Public Class fRelatorioFechamento
             'Dim dataFinal As String = ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(DateTime.Now.ToString("dd/MM/yyyy"))
 
             'If dataInicial Is Nothing OrElse dataFinal Is Nothing Then
-            '    MessageBox.Show("Data inv�lida.")
+            '    MessageBox.Show("Data inválida.")
             '    Exit Sub
             'End If
 
