@@ -86,7 +86,7 @@ Public Class mdiPrincipal
     End Function
     Private Async Function ExecutarBackup() As Task
 
-        Await Libackup.RotinaDeCriarBackup()
+        'Await Libackup.RotinaDeCriarBackup()
 
     End Function
 

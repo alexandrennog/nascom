@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Unimake.Business.DFe;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Business.DFe.Xml.NFSe.NACIONAL;
-using static Org.BouncyCastle.Math.EC.ECCurve;
+
 
 namespace LibNF65
 {

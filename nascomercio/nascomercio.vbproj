@@ -1580,10 +1580,6 @@
     <None Include="Resources\fundo_supermercado.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NasLibackup\NasLibackup.csproj">
-      <Project>{408f1cdf-ebbf-4a05-86de-ad4a92b8bf20}</Project>
-      <Name>NasLibackup</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LibNF65\LibNF65.csproj">
       <Project>{b1234567-89ab-4cde-f012-3456789abcde}</Project>
       <Name>LibNF65</Name>
