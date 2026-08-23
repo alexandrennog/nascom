@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7F978C05-01F9-4E79-A676-FC43A994324E}</ProjectGuid>
+    <ProjectGuid>{20D12D44-BB71-457A-90BA-19357108B3C0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ncPersistencia</RootNamespace>
-    <AssemblyName>ncPersistencia</AssemblyName>
+    <RootNamespace>ncComum</RootNamespace>
+    <AssemblyName>ncComum</AssemblyName>
     <MyType>Windows</MyType>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -24,7 +24,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>ncPersistencia.xml</DocumentationFile>
+    <DocumentationFile>ncComum.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -34,7 +34,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>ncPersistencia.xml</DocumentationFile>
+    <DocumentationFile>ncComum.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -43,9 +43,8 @@
       <HintPath>..\packages\MySql.Data.6.7.9\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -57,50 +56,18 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="pCaixa.vb" />
-    <Compile Include="pCategoria.vb" />
-    <Compile Include="pCobranca.vb" />
-    <Compile Include="pOrdemServico.vb" />
-    <Compile Include="pPix.vb" />
-    <Compile Include="pVeiculos.vb" />
-    <Compile Include="pCondicao.vb" />
-    <Compile Include="pServico.vb" />
-    <Compile Include="pContasPagar.vb" />
-    <Compile Include="pEfdArquivo.vb" />
-    <Compile Include="pEfdContabilidade.vb" />
-    <Compile Include="pEfdEnderecoContato.vb" />
-    <Compile Include="pEfdEntidade.vb" />
-    <Compile Include="pEfdUnidadeMedida.vb" />
-    <Compile Include="pGiro.vb" />
-    <Compile Include="pGradeItem.vb" />
-    <Compile Include="pGrupo.vb" />
-    <Compile Include="pCor.vb" />
-    <Compile Include="pMunicipios.vb" />
-    <Compile Include="pNotaFiscalFornecedor.vb" />
-    <Compile Include="pParametro.vb" />
-    <Compile Include="pCheque.vb" />
-    <Compile Include="pParcela.vb" />
-    <Compile Include="pCrediario.vb" />
-    <Compile Include="pPreVenda.vb" />
-    <Compile Include="pLoja.vb" />
-    <Compile Include="pClienteEndereco.vb" />
-    <Compile Include="pClienteFinanceiro.vb" />
-    <Compile Include="pClienteProfissional.vb" />
-    <Compile Include="pProdutoEtiqueta.vb" />
-    <Compile Include="pVendaProdutos.vb" />
-    <Compile Include="pPreVendaProduto.vb" />
-    <Compile Include="pVenda.vb" />
-    <Compile Include="pCaracteristica.vb" />
-    <Compile Include="pCaracteristicaItem.vb" />
-    <Compile Include="pCliente.vb" />
-    <Compile Include="pEstado.vb" />
-    <Compile Include="pFabricante.vb" />
-    <Compile Include="pFornecedor.vb" />
-    <Compile Include="pProduto.vb" />
-    <Compile Include="pProdutoItem.vb" />
-    <Compile Include="pProdutoTipo.vb" />
-    <Compile Include="pProdutoTipoCaracteristica.vb" />
-    <Compile Include="pUsuario.vb" />
+    <Compile Include="acessobd.vb" />
+    <Compile Include="comum.vb" />
+    <Compile Include="constantes.vb" />
+    <Compile Include="criptografia.vb" />
+    <Compile Include="EncDec.vb" />
+    <Compile Include="enumeradores.vb" />
+    <Compile Include="etiqueta.vb" />
+    <Compile Include="excecao.vb" />
+    <Compile Include="funcoes.vb" />
+    <Compile Include="impressao.vb" />
+    <Compile Include="log.vb" />
+    <Compile Include="Metodos.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -117,7 +84,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="pUsuarioPerfil.vb" />
+    <Compile Include="RawPrinterHelper.vb" />
+    <Compile Include="SendMailService.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -138,21 +106,22 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <!-- PackageReference: migrated from packages.config -->
-  <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="6.7.9" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ncComum\ncComum.vbproj">
-      <Project>{20D12D44-BB71-457A-90BA-19357108B3C0}</Project>
-      <Name>ncComum</Name>
+    <ProjectReference Include="..\LibNF65\LibNF65.csproj">
+      <Project>{b1234567-89ab-4cde-f012-3456789abcde}</Project>
+      <Name>LibNF65</Name>
     </ProjectReference>
     <ProjectReference Include="..\ncDados\ncDados.vbproj">
       <Project>{0989AA3A-D886-427D-A635-355D5B93D95F}</Project>
       <Name>ncDados</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fundo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

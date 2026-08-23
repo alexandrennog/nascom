@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\\$(MSBuildToolsVersion)\\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\\$(MSBuildToolsVersion)\\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -139,22 +139,11 @@
   </ItemGroup>
   <ItemGroup>
     <!-- PackageReference entries added to support SDK-style package management.
-         Existing assembly Reference entries above are left intact for compatibility.
-         (trimmed System.* entries to rely on framework references) -->
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
-    <PackageReference Include="Dapper" Version="2.1.4" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Bcl.Cryptography" Version="9.0.10" />
-    <PackageReference Include="MySql.Data" Version="6.7.9" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="QRCoder" Version="1.7.0" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
-    <PackageReference Include="Unimake.Cryptography" Version="20250912.1810.37" />
-    <PackageReference Include="Unimake.DFe" Version="20251106.1829.56" />
-    <PackageReference Include="Unimake.Extensions" Version="20250912.1810.37" />
-    <PackageReference Include="Unimake.Security.Platform" Version="20230706.1027.33" />
-    <PackageReference Include="Unimake.Unidanfe" Version="20251029.1843.31" />
-    <PackageReference Include="Unimake.Utils" Version="20250912.1810.37" />
+         Existing assembly Reference entries above are left intact for compatibility. -->
+    <PackageReference Include="System.Security.Cryptography.Cng" Version="5.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
+    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
+    <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Criptografia.cs" />

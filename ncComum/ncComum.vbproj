@@ -106,7 +106,11 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+  </ItemGroup>
+
+  <!-- PackageReference: migrated from packages.config -->
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="6.7.9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibNF65\LibNF65.csproj">

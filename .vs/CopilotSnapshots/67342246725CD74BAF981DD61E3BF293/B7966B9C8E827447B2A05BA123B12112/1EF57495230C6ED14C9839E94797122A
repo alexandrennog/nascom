@@ -144,6 +144,7 @@
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="6.7.9" />
   </ItemGroup>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ncComum\ncComum.vbproj">
       <Project>{20D12D44-BB71-457A-90BA-19357108B3C0}</Project>

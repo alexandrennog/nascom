@@ -1414,7 +1414,7 @@
     <PackageReference Include="Microsoft.SqlServer.Types" Version="14.0.314.76" />
     <PackageReference Include="MySql.Data" Version="6.7.9" />
     <PackageReference Include="NETStandard.Library" Version="1.6.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Unimake.Cryptography" Version="20250912.1810.37" />
     <PackageReference Include="Unimake.DFe" Version="20251106.1829.56" />
     <PackageReference Include="Unimake.Extensions" Version="20250912.1810.37" />
