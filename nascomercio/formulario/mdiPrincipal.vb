@@ -85,8 +85,9 @@ Public Class mdiPrincipal
         Await ExecutarBackup()
     End Function
     Private Async Function ExecutarBackup() As Task
-
-        Await Libackup.RotinaDeCriarBackup()
+        ' TODO: NasLibackup não disponível nesta cópia do projeto — backup automático desativado temporariamente
+        'Await Libackup.RotinaDeCriarBackup()
+        Await Task.CompletedTask
 
     End Function
 
