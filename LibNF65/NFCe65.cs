@@ -31,13 +31,43 @@ namespace LibNF65
 {
     public class NFCe65
     {
-        X509Certificate2 x509Cert;
-        static string chaveAcesso = string.Empty;
+        // Pasta base ABSOLUTA para os XMLs das NFC-e.
+        // Usar caminho absoluto evita que a leitura/gravação dependa do
+        // diretório de trabalho atual (Environment.CurrentDirectory), que
+        // pode ser alterado internamente por bibliotecas de terceiros
+        // (assinatura, validação de schema, chamadas SOAP, etc.) durante
+        // a execução de GerarNF, causando "arquivo não encontrado" na
+        // hora de imprimir mesmo com a nota autorizada com sucesso.
+        private static readonly string PastaBase =
+            System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NFs");
+
+        private static string CaminhoArquivo(string chave) =>
+            System.IO.Path.Combine(PastaBase, chave + ".xml");
+
+        private static string CaminhoArquivoOK(string chave) =>
+            System.IO.Path.Combine(PastaBase, "OK", chave + ".xml");
+
+        private static string CaminhoArquivoNOK(string chave) =>
+            System.IO.Path.Combine(PastaBase, "NOK", chave + ".xml");
 
         public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
         {
+            // chaveAcesso agora é variável LOCAL, não mais campo estático da classe.
+            // Antes, "static string chaveAcesso" era um estado global compartilhado por
+            // TODAS as chamadas de GerarNF. Em um PDV que pode processar vendas em
+            // paralelo (múltiplas threads / múltiplos terminais usando a mesma lib),
+            // isso podia causar uma venda sobrescrever a chave de outra antes da
+            // impressão ou da movimentação do arquivo (OK/NOK) — imprimindo o cupom
+            // errado ou movendo o XML errado.
+            string chaveAcesso;
 
             PixConfig pixConfig = GetPixConfig();
+
+            int cscIdToken;
+            if (!int.TryParse(ConfigurationManager.AppSettings["CSCIDToken"], out cscIdToken))
+            {
+                throw new Exception("Configuração inválida: 'CSCIDToken' não encontrado ou não é um número válido no arquivo de configuração.");
+            }
 
             var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
             {
@@ -47,7 +77,7 @@ namespace LibNF65
                 TipoAmbiente = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
                 UsaCertificadoDigital = true,
                 CSC = ConfigurationManager.AppSettings["CSC"],
-                CSCIDToken = int.Parse(ConfigurationManager.AppSettings["CSCIDToken"]),
+                CSCIDToken = cscIdToken,
                 SchemaVersao = ConfigurationManager.AppSettings["SchemaVersao"],
                 VersaoConfiguracao = ConfigurationManager.AppSettings["VersaoConfiguracao"]
             };
@@ -63,13 +93,20 @@ namespace LibNF65
                 InfCons = infCons
             };
 
-
             var objNFCe = new NasNFCe();
 
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             // 3. Executando a consulta
             var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
-            consultaCadastro.Executar();
+            try
+            {
+                consultaCadastro.Executar();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Falha ao consultar cadastro na SEFAZ: {ex.Message}", ex);
+            }
 
             // 4. Interpretando o resultado
             var resultado = consultaCadastro.Result; // Retorno do objeto
@@ -78,25 +115,6 @@ namespace LibNF65
             string cUF = resultado.InfCons.CUF.ToString(); // Código da UF do emitente (SP = 35)
             DateTime dhEmi = DateTime.Now; // Data e hora de emissão
             string cnpjEmitente = resultado.InfCons.CNPJ; // CNPJ do emitente (14 dígitos)
-
-            //int serie = 2; // Série da nota fiscal
-            //int nNF = nNFTemp;  //GerarNF(); // Número da nota fiscal  //TODO informar o controle
-            //int cNF = XMLUtility.GerarCodigoNumerico(nNF); // Código Numérico Aleatório (cNF)
-
-            //var conteudoChave = new XMLUtility.ConteudoChaveDFe
-            //{
-
-            //};
-
-            //conteudoChave.UFEmissor = UFBrasil.SP;
-            //conteudoChave.TipoEmissao = TipoEmissao.Normal;
-            //conteudoChave.Modelo = ModeloDFe.NFCe;
-            //conteudoChave.Serie = serie;
-            //conteudoChave.CodigoNumerico = XMLUtility.GerarCodigoNumerico(nNF).ToString();
-            //conteudoChave.CNPJCPFEmissor = cnpjEmitente;
-            //conteudoChave.NumeroDoctoFiscal = nNF;
-            //conteudoChave.AnoEmissao = DateTime.Now.ToString("yy");
-            //conteudoChave.MesEmissao = DateTime.Now.ToString("MM");
 
             var configImposto = RecuperarConfiguracao();
 
@@ -117,91 +135,157 @@ namespace LibNF65
 
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlString.InnerXml);
-            xmlDoc.Save("NFs\\" + chaveAcesso + ".xml");
+            xmlDoc.Save(CaminhoArquivo(chaveAcesso));
 
-            // With the corrected code:
-            if (!AssinaturaDigital.EstaAssinado(xmlDoc, "infNFe"))
+            try
             {
-                AssinaturaDigital.Assinar(xmlDoc, "infNFe", x509Cert, AlgorithmType.Sha1, false);
+                if (!AssinaturaDigital.EstaAssinado(xmlDoc, "infNFe"))
+                {
+                    AssinaturaDigital.Assinar(xmlDoc, "infNFe", x509Cert, AlgorithmType.Sha1, false);
+
+                    // Regrava o XML já assinado, para que o arquivo em disco
+                    // (usado depois na impressão/reimpressão) contenha a assinatura.
+                    xmlDoc.Save(CaminhoArquivo(chaveAcesso));
+                }
+            }
+            catch (Exception ex)
+            {
+                MoverArquivo(chaveAcesso, false);
+                throw new Exception($"Falha ao assinar digitalmente o XML da NFC-e {chaveAcesso}: {ex.Message}", ex);
             }
 
             bool validar = true;
             if (validar)
             {
-                var validador = new ValidarSchema();
-                validador.Validar(xmlString, "NFe");
+                try
+                {
+                    var validador = new ValidarSchema();
+                    validador.Validar(xmlString, "NFe");
+                }
+                catch (Exception ex)
+                {
+                    MoverArquivo(chaveAcesso, false);
+                    throw new Exception($"XML da NFC-e {chaveAcesso} não passou na validação de schema: {ex.Message}", ex);
+                }
             }
 
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             var autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
-            autorizacao.Executar();
+            try
+            {
+                autorizacao.Executar();
+            }
+            catch (Exception ex)
+            {
+                // Falha de comunicação com a SEFAZ (timeout, indisponibilidade, etc).
+                // Não sabemos se a nota foi ou não autorizada do lado da SEFAZ, então
+                // movemos para NOK para que seja tratada manualmente (consulta de
+                // situação / reenvio), em vez de deixar o XML "solto" na pasta raiz.
+                MoverArquivo(chaveAcesso, false);
+                throw new Exception($"Falha ao comunicar com a SEFAZ para autorizar a NFC-e {chaveAcesso}: {ex.Message}", ex);
+            }
+
+            // A partir daqui, só seguimos se realmente recebemos um protocolo de
+            // resposta da SEFAZ. Antes, quando autorizacao.Result.ProtNFe vinha nulo
+            // (ex.: rejeição de lote), o código: (a) já ia estourar NullReferenceException
+            // no AdicionarInfoProduto logo abaixo, OU, se isso não acontecesse, o XML
+            // ficava esquecido na pasta raiz sem aviso nenhum ao operador do caixa.
+            if (autorizacao.Result?.ProtNFe == null)
+            {
+                MoverArquivo(chaveAcesso, false);
+                MessageBox.Show($"A SEFAZ não retornou um protocolo de autorização para a NFC-e {chaveAcesso}. Verifique a situação da nota antes de liberar o cupom.");
+                return chaveAcesso;
+            }
+
+            var infProt = autorizacao.Result.ProtNFe.InfProt;
 
             IInfProtRepository repository = new InfProtRepository();
-
             var infoProdutoService = new InfoProdutoService();
             infoProdutoService.AdicionarInfoProduto(new InfoProduto
             {
                 ChNFe = chaveAcesso,
-                VerAplic = autorizacao.Result.ProtNFe.InfProt.VerAplic,
-                DhRecbto = autorizacao.Result.ProtNFe.InfProt.DhRecbto.DateTime,
-                NProt = autorizacao.Result.ProtNFe.InfProt.NProt,
-                DigVal = autorizacao.Result.ProtNFe.InfProt.DigVal,
-                CStat = autorizacao.Result.ProtNFe.InfProt.CStat,
-                XMotivo = autorizacao.Result.ProtNFe.InfProt.XMotivo,
-                CMsg = autorizacao.Result.ProtNFe.InfProt.CMsg?.ToString(),
-                XMsg = autorizacao.Result.ProtNFe.InfProt.XMsg
+                VerAplic = infProt.VerAplic,
+                DhRecbto = infProt.DhRecbto.DateTime,
+                NProt = infProt.NProt,
+                DigVal = infProt.DigVal,
+                CStat = infProt.CStat,
+                XMotivo = infProt.XMotivo,
+                CMsg = infProt.CMsg?.ToString(),
+                XMsg = infProt.XMsg
             }, repository);
 
-            Imprimir(chaveAcesso);
-
-            if (autorizacao.Result.ProtNFe != null)
+            switch (infProt.CStat)
             {
-                switch (autorizacao.Result.ProtNFe.InfProt.CStat)
-                {
-                    case 100: //Autorizado o uso da NFe
-                        MoverArquivo(chaveAcesso, true);
-                        break;
-                    default:
-                        MessageBox.Show($"Ocorreu o erro ao comunicar com a sefas {autorizacao.Result.ProtNFe.InfProt.CStat}: {autorizacao.Result.ProtNFe.InfProt.XMotivo}");
-                        MoverArquivo(chaveAcesso, false);
-                        break;
-                }
+                case 100: //Autorizado o uso da NFe
+                    // Impressão só acontece DEPOIS de confirmar CStat == 100.
+                    // Antes, Imprimir(chaveAcesso) era chamado incondicionalmente,
+                    // então uma nota REJEITADA pela SEFAZ ainda assim gerava um
+                    // cupom impresso para o cliente — problema fiscal sério.
+                    Imprimir(chaveAcesso);
+                    MoverArquivo(chaveAcesso, true);
+                    break;
+                default:
+                    MessageBox.Show($"Ocorreu um erro ao comunicar com a SEFAZ {infProt.CStat}: {infProt.XMotivo}");
+                    MoverArquivo(chaveAcesso, false);
+                    break;
             }
+
             return chaveAcesso;
-
         }
-
-        
 
         private static void CriarDiretorios()
         {
-            if (!Directory.Exists("NFs"))
+            if (!Directory.Exists(PastaBase))
             {
-                Directory.CreateDirectory("NFs");
-                Directory.CreateDirectory("NFs\\OK");
-                Directory.CreateDirectory("NFs\\NOK");
+                Directory.CreateDirectory(PastaBase);
+                Directory.CreateDirectory(System.IO.Path.Combine(PastaBase, "OK"));
+                Directory.CreateDirectory(System.IO.Path.Combine(PastaBase, "NOK"));
             }
             else
             {
-                if (!Directory.Exists("NFs\\OK"))
+                if (!Directory.Exists(System.IO.Path.Combine(PastaBase, "OK")))
                 {
-                    Directory.CreateDirectory("NFs\\OK");
+                    Directory.CreateDirectory(System.IO.Path.Combine(PastaBase, "OK"));
                 }
-                if (!Directory.Exists("NFs\\NOK"))
+                if (!Directory.Exists(System.IO.Path.Combine(PastaBase, "NOK")))
                 {
-                    Directory.CreateDirectory("NFs\\NOK");
+                    Directory.CreateDirectory(System.IO.Path.Combine(PastaBase, "NOK"));
                 }
             }
         }
 
         private static void MoverArquivo(string chaveAcesso, bool sucesso)
         {
-            string sourcePath = "NFs\\" + chaveAcesso + ".xml";
-            string destinationPath = sucesso ? "NFs\\OK\\" + chaveAcesso + ".xml" : "NFs\\NOK\\" + chaveAcesso + ".xml";
-            if (File.Exists(sourcePath))
+            string sourcePath = CaminhoArquivo(chaveAcesso);
+            string destinationPath = sucesso ? CaminhoArquivoOK(chaveAcesso) : CaminhoArquivoNOK(chaveAcesso);
+
+            if (!File.Exists(sourcePath))
             {
+                return;
+            }
+
+            try
+            {
+                // File.Move lança exceção se o destino já existir (ex.: reprocessamento
+                // da mesma chave). Removemos o destino antigo antes de mover para evitar
+                // que uma IOException aqui derrube o fluxo inteiro depois que a nota já
+                // foi autorizada/rejeitada pela SEFAZ.
+                if (File.Exists(destinationPath))
+                {
+                    File.Delete(destinationPath);
+                }
+
                 File.Move(sourcePath, destinationPath);
+            }
+            catch (Exception ex)
+            {
+                // Não relançamos: nesse ponto a NFC-e já foi processada pela SEFAZ
+                // (autorizada ou rejeitada). Uma falha ao mover o arquivo de pasta
+                // não pode mascarar o resultado fiscal real da operação. Registramos
+                // o erro para investigação, mas o XML original permanece na pasta
+                // raiz (PastaBase) em vez de ser perdido.
+                MessageBox.Show($"Atenção: a NFC-e {chaveAcesso} foi processada, mas houve falha ao mover o arquivo XML para a pasta {(sucesso ? "OK" : "NOK")}: {ex.Message}");
             }
         }
 
@@ -233,15 +317,14 @@ namespace LibNF65
                         //Tratamentos necessários quando o evento é rejeitado
                         break;
                 }
-                
             }
 
             return retorno;
-
         }
+
         public static void Imprimir(string chaveAcesso)
         {
-            NFCeModel nfce = NFCeXMLParser.ParseXML("NFs\\" + chaveAcesso + ".xml");
+            NFCeModel nfce = NFCeXMLParser.ParseXML(CaminhoArquivo(chaveAcesso));
             nfce.QRCodeUrl = NasNFCe.GerarQRCode(chaveAcesso);   // XMLParser. GerarUrlQRCode(nfce, configuracao);
 
             // Imprimir
@@ -263,7 +346,6 @@ namespace LibNF65
         {
             PixConfig config = GetPixConfig();
 
-
             return config;
         }
 
@@ -272,13 +354,15 @@ namespace LibNF65
             NFCeModel nfce;
             try
             {
-                nfce = NFCeXMLParser.ParseXML("NFs\\OK\\" + chaveAcesso + ".xml");
-            }catch (FileNotFoundException)
+                nfce = NFCeXMLParser.ParseXML(CaminhoArquivoOK(chaveAcesso));
+            }
+            catch (FileNotFoundException)
             {
-                nfce = NFCeXMLParser.ParseXML("NFs\\NOK\\" + chaveAcesso + ".xml");
+                nfce = NFCeXMLParser.ParseXML(CaminhoArquivoNOK(chaveAcesso));
             }
 
-            if(nfce == null)             {
+            if (nfce == null)
+            {
                 throw new Exception("NFC-e não encontrada para reimpressão.");
             }
 
@@ -300,13 +384,6 @@ namespace LibNF65
         {
             return DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
         }
-
-        //public static int GerarNF()
-        //{
-        //    var random = new Random();
-        //    int cNF = random.Next(0, 99999999);
-        //    return cNF;
-        //}
 
         private static DarumaFrameworkSat RecuperarConfiguracao()
         {
@@ -336,7 +413,6 @@ namespace LibNF65
                 TipoDFe = TipoDFe.NFCe,
                 TipoEmissao = TipoEmissao.Normal,
                 CertificadoDigital = x509Cert
-                
             };
 
             var consultaProtocolo = new ServicoNFCe.ConsultaProtocolo(xml, configuracao);
