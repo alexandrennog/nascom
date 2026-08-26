@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36212.18
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12112.369 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NCImport", "NCImport\NCImport.vbproj", "{AB45C104-4D02-4694-9338-D965C6AF6789}"
 EndProject
@@ -20,8 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssinadorCertificado", "AssinadorCertificado\AssinadorCertificado.csproj", "{7B1ED004-F190-4ECA-877A-3B282DFD74A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibNF65", "LibNF65\LibNF65.csproj", "{B1234567-89AB-4CDE-F012-3456789ABCDE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NasLibackup", "..\NasLibackup\NasLibackup.csproj", "{408F1CDF-EBBF-4A05-86DE-AD4A92B8BF20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +63,6 @@ Global
 		{B1234567-89AB-4CDE-F012-3456789ABCDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1234567-89AB-4CDE-F012-3456789ABCDE}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{B1234567-89AB-4CDE-F012-3456789ABCDE}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{408F1CDF-EBBF-4A05-86DE-AD4A92B8BF20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{408F1CDF-EBBF-4A05-86DE-AD4A92B8BF20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{408F1CDF-EBBF-4A05-86DE-AD4A92B8BF20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{408F1CDF-EBBF-4A05-86DE-AD4A92B8BF20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
