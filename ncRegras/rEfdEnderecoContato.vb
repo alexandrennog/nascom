@@ -43,12 +43,12 @@ Namespace nsEFD
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -70,7 +70,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -92,7 +92,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -114,7 +114,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -151,12 +151,12 @@ Namespace nsEFD
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -177,7 +177,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -198,7 +198,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -219,7 +219,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir EfdEnderecoContato [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

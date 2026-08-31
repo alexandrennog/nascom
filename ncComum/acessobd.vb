@@ -26,7 +26,7 @@ Namespace nsAcessoBD
             Catch ex As Exception
 
                 con = Nothing
-                Throw New ExcecaoNascomercio("Problema na conexão com o banco de dados! " & vbCrLf & vbCrLf & ex.Message)
+                Throw New ExcecaoNascomercio("Problema na conexão com o banco de dados! " & vbCrLf & vbCrLf & ex.Message, ex)
 
             End Try
 
@@ -51,44 +51,41 @@ Namespace nsAcessoBD
         End Function
         Public Function ExecutarINT(ByVal comandoSQL As String) As Integer
 
-            Dim cmd As MySqlCommand = Nothing
             Dim retorno As Integer
 
-            Try
+            Using cmd As New MySqlCommand()
 
-                cmd = New MySqlCommand
-                cmd.Connection = ConectarBD()
+                Try
 
-                If Not cmd.Connection Is Nothing Then
-                    cmd.CommandText = comandoSQL
-                    cmd.CommandType = CommandType.Text
-                    retorno = cmd.ExecuteNonQuery()
-                Else
-                    retorno = 0
-                End If
+                    cmd.Connection = ConectarBD()
 
-            Catch nex As ExcecaoNascomercio
+                    Using cmd.Connection
 
-                Throw nex
+                        If Not cmd.Connection Is Nothing Then
+                            cmd.CommandText = comandoSQL
+                            cmd.CommandType = CommandType.Text
+                            retorno = cmd.ExecuteNonQuery()
+                        Else
+                            retorno = 0
+                        End If
 
-            Catch ex As Exception
+                    End Using
 
-                If ex.Message.ToUpper().Contains("FOREIGN KEY") Then
-                    Throw New ExcecaoNascomercio("NÃO FOI POSSÍVEL EXCLUIR POR EXISTIR REGISTROS RELACIONADOS: " & ex.Message)
-                Else
-                    Throw New ExcecaoNascomercio("Erro ao executar comando [" & Me.ToString() & "] - " & ex.Message)
-                End If
+                Catch nex As ExcecaoNascomercio
 
+                    Throw
 
-            Finally
+                Catch ex As Exception
 
-                If Not cmd Is Nothing Then
-                    If cmd.Connection.State = ConnectionState.Open Then
-                        cmd.Connection.Close()
+                    If ex.Message.ToUpper().Contains("FOREIGN KEY") Then
+                        Throw New ExcecaoNascomercio("NÃO FOI POSSÍVEL EXCLUIR POR EXISTIR REGISTROS RELACIONADOS: " & ex.Message, ex)
+                    Else
+                        Throw New ExcecaoNascomercio("Erro ao executar comando [" & Me.ToString() & "] - " & ex.Message, ex)
                     End If
-                End If
 
-            End Try
+                End Try
+
+            End Using
 
             ExecutarINT = retorno
 
@@ -96,42 +93,38 @@ Namespace nsAcessoBD
 
         Public Function ExecutarCID(ByVal comandoSQL As String) As Integer
 
-            Dim cmd As MySqlCommand = Nothing
             Dim retorno As Integer
 
-            Try
+            Using cmd As New MySqlCommand()
 
-                cmd = New MySqlCommand
-                cmd.Connection = ConectarBD()
+                Try
 
-                If Not cmd.Connection Is Nothing Then
-                    cmd.CommandText = comandoSQL
-                    cmd.CommandType = CommandType.Text
-                    cmd.ExecuteNonQuery()
-                    retorno = cmd.LastInsertedId
-                Else
-                    retorno = 0
-                End If
+                    cmd.Connection = ConectarBD()
 
-            Catch nex As ExcecaoNascomercio
+                    Using cmd.Connection
 
-                Throw nex
-
-            Catch ex As Exception
-
-                Throw New ExcecaoNascomercio("Erro ao executar comando [" & Me.ToString() & "] - " & ex.Message)
-
-            Finally
-
-                If Not cmd Is Nothing Then
-                    If Not cmd.Connection Is Nothing Then
-                        If cmd.Connection.State = ConnectionState.Open Then
-                            cmd.Connection.Close()
+                        If Not cmd.Connection Is Nothing Then
+                            cmd.CommandText = comandoSQL
+                            cmd.CommandType = CommandType.Text
+                            cmd.ExecuteNonQuery()
+                            retorno = cmd.LastInsertedId
+                        Else
+                            retorno = 0
                         End If
-                    End If
-                End If
 
-            End Try
+                    End Using
+
+                Catch nex As ExcecaoNascomercio
+
+                    Throw
+
+                Catch ex As Exception
+
+                    Throw New ExcecaoNascomercio("Erro ao executar comando [" & Me.ToString() & "] - " & ex.Message, ex)
+
+                End Try
+
+            End Using
 
             ExecutarCID = retorno
 
@@ -150,63 +143,54 @@ Namespace nsAcessoBD
 
         Public Function ExecutarDS(ByVal comandoSQL As String, ByVal colecaoParametro As MySqlParameterCollection) As DataSet
 
-            Dim cmd As MySqlCommand = Nothing
-            Dim da As MySqlDataAdapter
             Dim retorno As DataSet
             Dim param As MySqlParameter
 
-            Try
+            Using cmd As New MySqlCommand()
 
-                cmd = New MySqlCommand
-                cmd.Connection = ConectarBD()
+                Try
 
-                If Not cmd.Connection Is Nothing Then
-                    cmd.CommandText = comandoSQL
+                    cmd.Connection = ConectarBD()
 
-                    If Not colecaoParametro Is Nothing Then
-                        cmd.CommandType = CommandType.StoredProcedure
+                    Using cmd.Connection
 
-                        For Each param In colecaoParametro
-                            cmd.Parameters.Add(param)
-                        Next
-                    Else
-                        cmd.CommandType = CommandType.Text
-                    End If
+                        If Not cmd.Connection Is Nothing Then
+                            cmd.CommandText = comandoSQL
 
-                    retorno = New DataSet
-                    da = New MySqlDataAdapter
-                    da.SelectCommand = cmd
-                    da.Fill(retorno)
+                            If Not colecaoParametro Is Nothing Then
+                                cmd.CommandType = CommandType.StoredProcedure
 
-                    da.Dispose()
-                Else
+                                For Each param In colecaoParametro
+                                    cmd.Parameters.Add(param)
+                                Next
+                            Else
+                                cmd.CommandType = CommandType.Text
+                            End If
+
+                            retorno = New DataSet
+
+                            Using da As New MySqlDataAdapter
+                                da.SelectCommand = cmd
+                                da.Fill(retorno)
+                            End Using
+                        Else
+                            retorno = Nothing
+                        End If
+
+                    End Using
+
+                Catch nex As ExcecaoNascomercio
+
+                    Throw
+
+                Catch ex As Exception
+
                     retorno = Nothing
-                End If
+                    Throw New ExcecaoNascomercio("Erro ao executar comando: [" & Me.ToString() & "] - " & ex.Message, ex)
 
-                If cmd.Connection.State = ConnectionState.Open Then
-                    cmd.Connection.Close()
-                End If
+                End Try
 
-                cmd.Dispose()
-
-            Catch nex As ExcecaoNascomercio
-
-                Throw nex
-
-            Catch ex As Exception
-
-                retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro ao executar comando: [" & Me.ToString() & "] - " & ex.Message)
-
-            Finally
-
-                If Not cmd Is Nothing AndAlso Not cmd.Connection Is Nothing Then
-                    If cmd.Connection.State = ConnectionState.Open Then
-                        cmd.Connection.Close()
-                    End If
-                End If
-
-            End Try
+            End Using
 
             Return retorno
 
@@ -214,72 +198,63 @@ Namespace nsAcessoBD
 
         Public Function ExecutarDSLongo(ByVal comandoSQL As String, ByVal colecaoParametro As MySqlParameterCollection, Optional ByVal timeoutSegundos As Integer? = Nothing) As DataSet
 
-            Dim cmd As MySqlCommand = Nothing
-            Dim da As MySqlDataAdapter
             Dim retorno As DataSet
             Dim param As MySqlParameter
 
-            Try
+            Using cmd As New MySqlCommand()
 
-                cmd = New MySqlCommand
-                cmd.Connection = ConectarBD()
+                Try
 
-                If Not cmd.Connection Is Nothing Then
-                    cmd.CommandText = comandoSQL
-                    cmd.CommandTimeout = timeoutSegundos.Value
+                    cmd.Connection = ConectarBD()
 
-                    ' aplica timeout customizado se informado; caso contrario mantém o padrão da conexão
-                    If timeoutSegundos.HasValue Then
-                        If timeoutSegundos.Value < 0 Then
-                            Throw New ArgumentException("O timeout não pode ser negativo.", NameOf(timeoutSegundos))
+                    Using cmd.Connection
+
+                        If Not cmd.Connection Is Nothing Then
+                            cmd.CommandText = comandoSQL
+                            cmd.CommandTimeout = timeoutSegundos.Value
+
+                            ' aplica timeout customizado se informado; caso contrario mantém o padrão da conexão
+                            If timeoutSegundos.HasValue Then
+                                If timeoutSegundos.Value < 0 Then
+                                    Throw New ArgumentException("O timeout não pode ser negativo.", NameOf(timeoutSegundos))
+                                End If
+
+                            End If
+
+                            If Not colecaoParametro Is Nothing Then
+                                cmd.CommandType = CommandType.StoredProcedure
+
+                                For Each param In colecaoParametro
+                                    cmd.Parameters.Add(param)
+                                Next
+                            Else
+                                cmd.CommandType = CommandType.Text
+                            End If
+
+                            retorno = New DataSet
+
+                            Using da As New MySqlDataAdapter
+                                da.SelectCommand = cmd
+                                da.Fill(retorno)
+                            End Using
+                        Else
+                            retorno = Nothing
                         End If
 
-                    End If
+                    End Using
 
-                    If Not colecaoParametro Is Nothing Then
-                        cmd.CommandType = CommandType.StoredProcedure
+                Catch nex As ExcecaoNascomercio
 
-                        For Each param In colecaoParametro
-                            cmd.Parameters.Add(param)
-                        Next
-                    Else
-                        cmd.CommandType = CommandType.Text
-                    End If
+                    Throw
 
-                    retorno = New DataSet
-                    da = New MySqlDataAdapter
-                    da.SelectCommand = cmd
-                    da.Fill(retorno)
+                Catch ex As Exception
 
-                    da.Dispose()
-                Else
                     retorno = Nothing
-                End If
+                    Throw New ExcecaoNascomercio("Erro ao executar comando: [" & Me.ToString() & "] - " & ex.Message, ex)
 
-                If cmd.Connection.State = ConnectionState.Open Then
-                    cmd.Connection.Close()
-                End If
+                End Try
 
-                cmd.Dispose()
-
-            Catch nex As ExcecaoNascomercio
-
-                Throw nex
-
-            Catch ex As Exception
-
-                retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro ao executar comando: [" & Me.ToString() & "] - " & ex.Message)
-
-            Finally
-
-                If Not cmd Is Nothing AndAlso Not cmd.Connection Is Nothing Then
-                    If cmd.Connection.State = ConnectionState.Open Then
-                        cmd.Connection.Close()
-                    End If
-                End If
-
-            End Try
+            End Using
 
             Return retorno
 

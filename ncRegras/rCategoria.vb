@@ -22,7 +22,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -40,12 +40,12 @@ Namespace nsCategoria
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -89,12 +89,12 @@ Namespace nsCategoria
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -116,7 +116,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -138,7 +138,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Importar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Importar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -160,7 +160,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -182,7 +182,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -218,7 +218,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fListar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fListar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -251,12 +251,12 @@ Namespace nsCategoria
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -277,7 +277,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fIncluir Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fIncluir Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -298,7 +298,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fImportar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fImportar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -319,7 +319,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fAlterar Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fAlterar Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -340,7 +340,7 @@ Namespace nsCategoria
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fExcluir Categoria [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fExcluir Categoria [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

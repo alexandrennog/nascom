@@ -22,7 +22,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -40,12 +40,12 @@ Namespace nsCor
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -89,12 +89,12 @@ Namespace nsCor
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -116,7 +116,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -138,7 +138,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Importar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Importar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -160,7 +160,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -182,7 +182,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -218,7 +218,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -251,12 +251,12 @@ Namespace nsCor
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -277,7 +277,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -298,7 +298,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fImportar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fImportar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -319,7 +319,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -340,7 +340,7 @@ Namespace nsCor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir Cor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir Cor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

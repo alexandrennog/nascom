@@ -55,7 +55,7 @@ Namespace nsCondicao
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Condição [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Condição [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -129,7 +129,7 @@ Namespace nsCondicao
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Condição [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Condição [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -160,7 +160,7 @@ Namespace nsCondicao
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Condição [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Condição [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -191,7 +191,7 @@ Namespace nsCondicao
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Condição [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Condição [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -217,7 +217,7 @@ Namespace nsCondicao
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Condição [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Condição [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

@@ -22,7 +22,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -40,12 +40,12 @@ Namespace nsServico
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -90,12 +90,12 @@ Namespace nsServico
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -117,7 +117,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -139,7 +139,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -161,7 +161,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -197,7 +197,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -230,12 +230,12 @@ Namespace nsServico
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -256,7 +256,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -277,7 +277,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -298,7 +298,7 @@ Namespace nsServico
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir Servico [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir Servico [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

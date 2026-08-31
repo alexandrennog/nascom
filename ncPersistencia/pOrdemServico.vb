@@ -55,7 +55,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar OS [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar OS [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -130,7 +130,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar OS [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar OS [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -180,7 +180,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarMax ordemservico [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarMax ordemservico [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -215,7 +215,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir OS [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir OS [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -249,7 +249,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar OS [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar OS [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -275,7 +275,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir OS [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir OS [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

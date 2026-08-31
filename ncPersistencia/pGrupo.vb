@@ -55,7 +55,7 @@ Namespace nsGrupo
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Grupo [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Grupo [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -128,7 +128,7 @@ Namespace nsGrupo
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Grupo [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Grupo [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -157,7 +157,7 @@ Namespace nsGrupo
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Grupo [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Grupo [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -188,7 +188,7 @@ Namespace nsGrupo
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Importar Grupo [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Importar Grupo [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -218,7 +218,7 @@ Namespace nsGrupo
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Grupo [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Grupo [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -244,7 +244,7 @@ Namespace nsGrupo
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Grupo [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Grupo [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

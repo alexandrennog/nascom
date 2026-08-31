@@ -65,7 +65,7 @@ Namespace nsEFD
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar EfdEntidade [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar EfdEntidade [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -90,7 +90,7 @@ Namespace nsEFD
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir EfdEntidade [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir EfdEntidade [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -128,7 +128,7 @@ Namespace nsEFD
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir EfdEntidade [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir EfdEntidade [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -163,7 +163,7 @@ Namespace nsEFD
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar EfdEntidade [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar EfdEntidade [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

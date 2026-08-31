@@ -75,7 +75,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Referência [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Referência [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -142,7 +142,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Ultima Venda [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Ultima Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -215,7 +215,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Produtos [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Produtos [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -323,7 +323,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Itens [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Itens [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

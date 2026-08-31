@@ -30,7 +30,7 @@ Namespace nsCobranca
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Crediario [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Crediario [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

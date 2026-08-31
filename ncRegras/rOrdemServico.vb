@@ -37,7 +37,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar OrdemServico [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar OrdemServico [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -71,7 +71,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar OrdemServico [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar OrdemServico [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -92,7 +92,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarMax OrdemServico [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarMax OrdemServico [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -118,7 +118,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir OrdemServico [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir OrdemServico [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -143,7 +143,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar OrdemServico [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar OrdemServico [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -177,7 +177,7 @@ Namespace nsOrdemServico
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir OrdemServico [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir OrdemServico [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

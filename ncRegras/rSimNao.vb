@@ -19,7 +19,7 @@ Namespace nsRegras
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar SimNao [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar SimNao [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -51,7 +51,7 @@ Namespace nsRegras
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar SimNao [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar SimNao [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

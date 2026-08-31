@@ -59,7 +59,7 @@ Namespace nsParametro
 
                 retorno = Nothing
 
-                Throw New ExcecaoNascomercio("Erro em Listar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -131,12 +131,12 @@ Namespace nsParametro
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -230,12 +230,12 @@ Namespace nsParametro
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -265,7 +265,7 @@ Namespace nsParametro
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -295,7 +295,7 @@ Namespace nsParametro
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -321,7 +321,7 @@ Namespace nsParametro
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

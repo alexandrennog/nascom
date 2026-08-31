@@ -21,7 +21,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em fIncluir pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em fIncluir pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -46,7 +46,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em fIncluir pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em fIncluir pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -71,7 +71,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em fAlterarConfig[" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em fAlterarConfig[" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -96,7 +96,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em fConsultar Pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em fConsultar Pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -121,7 +121,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em fConsultar Pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em fConsultar Pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -144,7 +144,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em fConsultar Pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em fConsultar Pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -163,7 +163,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Consultar Pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Consultar Pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -181,7 +181,7 @@ Public Class rPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Consultar Pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Consultar Pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 

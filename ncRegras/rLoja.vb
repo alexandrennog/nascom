@@ -22,7 +22,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -41,7 +41,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -104,7 +104,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -126,7 +126,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -148,7 +148,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -170,7 +170,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -206,7 +206,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -240,7 +240,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -261,7 +261,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -282,7 +282,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -303,7 +303,7 @@ Namespace nsLoja
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir Loja [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir Loja [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

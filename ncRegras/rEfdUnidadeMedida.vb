@@ -44,7 +44,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -62,12 +62,12 @@ Namespace nsEFD
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -89,7 +89,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -111,7 +111,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -133,7 +133,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -171,7 +171,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -204,12 +204,12 @@ Namespace nsEFD
 
       Catch nex As ExcecaoNascomercio
 
-        Throw nex
+        Throw
 
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -230,7 +230,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -251,7 +251,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -272,7 +272,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir EfdUnidadeMedida [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

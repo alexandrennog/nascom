@@ -81,7 +81,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -138,7 +138,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -202,7 +202,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ListarVendasABC Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ListarVendasABC Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -300,7 +300,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -402,7 +402,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -471,7 +471,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -536,7 +536,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -635,7 +635,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -729,7 +729,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -819,7 +819,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarUltimaVenda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarUltimaVenda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -869,7 +869,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarMax Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarMax Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -928,7 +928,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -985,7 +985,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1012,7 +1012,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1069,7 +1069,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1119,7 +1119,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1149,7 +1149,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1176,7 +1176,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar basennf [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar basennf [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1202,7 +1202,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1228,7 +1228,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Vale [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Vale [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1324,7 +1324,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

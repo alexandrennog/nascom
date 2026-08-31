@@ -64,7 +64,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Crediário [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Crediário [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -161,7 +161,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Crediario[" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Crediario[" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -241,7 +241,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Crediario[" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Crediario[" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -324,7 +324,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Crediario[" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Crediario[" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -364,7 +364,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Crediario [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Crediario [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -435,7 +435,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Pagamentos[" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Pagamentos[" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -468,7 +468,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Pagamento [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Pagamento [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -491,7 +491,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em corrigir parcelas [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em corrigir parcelas [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -528,7 +528,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar crediario [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar crediario [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -554,7 +554,7 @@ Namespace nsCrediario
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir crediario [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir crediario [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

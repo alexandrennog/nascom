@@ -22,7 +22,7 @@ Namespace nsProdutoEtiqueta
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -44,7 +44,7 @@ Namespace nsProdutoEtiqueta
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -80,7 +80,7 @@ Namespace nsProdutoEtiqueta
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fListar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fListar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -101,7 +101,7 @@ Namespace nsProdutoEtiqueta
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar ProdutoEtiqueta [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

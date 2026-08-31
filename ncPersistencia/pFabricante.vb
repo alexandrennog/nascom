@@ -55,7 +55,7 @@ Namespace nsFabricante
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Fabricante [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Fabricante [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -128,7 +128,7 @@ Namespace nsFabricante
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Fabricante [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Fabricante [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -158,7 +158,7 @@ Namespace nsFabricante
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Fabricante [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Fabricante [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -188,7 +188,7 @@ Namespace nsFabricante
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Fabricante [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Fabricante [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -214,7 +214,7 @@ Namespace nsFabricante
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Fabricante [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Fabricante [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

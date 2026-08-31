@@ -67,7 +67,7 @@ Namespace nsCheques
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Cheques [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Cheques [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -152,7 +152,7 @@ Namespace nsCheques
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Cheques[" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Cheques[" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -192,7 +192,7 @@ Namespace nsCheques
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Cheques [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Cheques [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -230,7 +230,7 @@ Namespace nsCheques
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Cheque [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Cheque [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -258,7 +258,7 @@ Namespace nsCheques
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Cheque [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Cheque [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -283,7 +283,7 @@ Namespace nsCheques
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Cheque [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Cheque [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

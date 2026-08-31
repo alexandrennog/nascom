@@ -22,7 +22,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -41,7 +41,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -86,7 +86,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em ConsultarPorCID CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em ConsultarPorCID CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -110,7 +110,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em ConsultarPorCaracteristica CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em ConsultarPorCaracteristica CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -132,7 +132,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -154,7 +154,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -176,7 +176,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -203,7 +203,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -239,7 +239,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -273,7 +273,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -294,7 +294,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -315,7 +315,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -336,7 +336,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir CaracteristicaItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

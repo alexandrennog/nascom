@@ -22,7 +22,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -41,7 +41,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -103,7 +103,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -125,7 +125,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -147,7 +147,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -169,7 +169,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -191,7 +191,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -227,7 +227,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fListar Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fListar Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -261,7 +261,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -286,7 +286,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fIncluir Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fIncluir Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -311,7 +311,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fIncluir Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fIncluir Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -332,7 +332,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fAlterar Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fAlterar Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -363,7 +363,7 @@ Namespace nsCliente
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fExcluir Cliente [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fExcluir Cliente [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

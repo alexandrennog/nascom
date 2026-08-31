@@ -56,7 +56,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Caracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Caracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -133,7 +133,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Caracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Caracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -164,7 +164,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Caracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Caracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -194,7 +194,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Caracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Caracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -220,7 +220,7 @@ Namespace nsCaracteristica
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Caracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Caracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

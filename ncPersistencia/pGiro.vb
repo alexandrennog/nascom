@@ -62,7 +62,7 @@ Namespace nsGiro
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Giro [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Giro [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -160,7 +160,7 @@ Namespace nsGiro
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Giro [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Giro [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -198,7 +198,7 @@ Namespace nsGiro
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Giro [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Giro [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -236,7 +236,7 @@ Namespace nsGiro
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Importar Giro [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Importar Giro [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -272,7 +272,7 @@ Namespace nsGiro
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Giro [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Giro [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -300,7 +300,7 @@ Namespace nsGiro
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Giro [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Giro [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

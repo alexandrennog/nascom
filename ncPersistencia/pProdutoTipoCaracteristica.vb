@@ -59,7 +59,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -83,7 +83,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -162,7 +162,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -193,7 +193,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -221,7 +221,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -249,7 +249,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -276,7 +276,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoTipoCaracteristica [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

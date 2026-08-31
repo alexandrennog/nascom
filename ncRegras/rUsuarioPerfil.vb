@@ -22,7 +22,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -41,7 +41,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -87,7 +87,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -109,7 +109,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -131,7 +131,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -153,7 +153,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -189,7 +189,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -223,7 +223,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -244,7 +244,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -265,7 +265,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -286,7 +286,7 @@ Namespace nsUsuarioPerfil
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir UsuarioPerfil [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

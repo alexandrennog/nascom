@@ -37,7 +37,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -71,7 +71,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -119,7 +119,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -147,7 +147,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -173,7 +173,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -199,7 +199,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -224,7 +224,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -248,7 +248,7 @@ Namespace nsVeiculos
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Veiculos [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Veiculos [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
