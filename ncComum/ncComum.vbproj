@@ -68,6 +68,7 @@
     <Compile Include="funcoes.vb" />
     <Compile Include="impressao.vb" />
     <Compile Include="log.vb" />
+    <Compile Include="manutencaoBanco.vb" />
     <Compile Include="Metodos.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

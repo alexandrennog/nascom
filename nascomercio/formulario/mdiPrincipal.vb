@@ -79,7 +79,22 @@ Public Class mdiPrincipal
     End Sub
 
     Public Sub Iniciar()
+        VerificarIndicesRelatorios()
         CarregarUsuario()
+    End Sub
+
+    ' Cria (uma unica vez, por loja) os indices que aceleram os relatorios de vendas.
+    ' So mostra o aviso na execucao em que realmente falta algum indice; nas proximas
+    ' vezes, a checagem e rapida e nada aparece. Nunca interrompe o login por causa disso.
+    Private Sub VerificarIndicesRelatorios()
+        Try
+            If ncComum.nsManutencaoBanco.cManutencaoBanco.ExisteIndicePendente() Then
+                MessageBox.Show("Otimizando banco de dados, isso pode levar alguns instantes." & vbCrLf & "Isso acontece apenas uma vez.", "Nascomercio", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ncComum.nsManutencaoBanco.cManutencaoBanco.CriarIndicesPendentes()
+            End If
+        Catch ex As Exception
+            ' Indice e otimizacao, nao requisito - nunca interrompe o login por causa disso.
+        End Try
     End Sub
     Public Async Function CarregarBackupAutomaticoAsync() As Task
         Await ExecutarBackup()
