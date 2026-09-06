@@ -190,6 +190,16 @@ Namespace nsParametro
                     sqlWhere = sqlWhere + "AND descricao = '" + dados.descricao + "'"
                 End If
 
+                ' Filtro por periodo de cadastro do produto (dataInclusao). dados.dataCadastroInicio/Fim ja chegam
+                ' validados e normalizados para AAAA-MM-DD (cFuncoes.FormatarData), entao entram direto no BETWEEN.
+                If Not String.IsNullOrEmpty(dados.dataCadastroInicio) And Not String.IsNullOrEmpty(dados.dataCadastroFim) Then
+                    sqlWhere = sqlWhere + " AND p.dataInclusao BETWEEN '" + dados.dataCadastroInicio + "' AND '" + dados.dataCadastroFim + "'"
+                ElseIf Not String.IsNullOrEmpty(dados.dataCadastroInicio) Then
+                    sqlWhere = sqlWhere + " AND p.dataInclusao >= '" + dados.dataCadastroInicio + "'"
+                ElseIf Not String.IsNullOrEmpty(dados.dataCadastroFim) Then
+                    sqlWhere = sqlWhere + " AND p.dataInclusao <= '" + dados.dataCadastroFim + "'"
+                End If
+
 
                 If Not sqlWhere.Equals(String.Empty) Then
                     sqlWhere = " WHERE " & sqlWhere

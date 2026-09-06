@@ -20,6 +20,7 @@ Imports QRCoder.PayloadGenerator.SwissQrCode
 Imports System.Security.Cryptography
 Imports Newtonsoft.Json.Linq
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports ncComum.nsFuncoes
 
 Public Class fRelatorioEstoque
 
@@ -158,6 +159,32 @@ Public Class fRelatorioEstoque
             dados.valor = 1
         Else
             dados.valor = 0
+        End If
+
+        If Not String.IsNullOrEmpty(txtDataCadastroInicio.Text.Trim()) Then
+            If Not cFuncoes.ValidarData(txtDataCadastroInicio.Text) Then
+                MessageBox.Show("Data inicial de cadastro invalida!", "Relatorio de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                txtDataCadastroInicio.Focus()
+                Exit Sub
+            End If
+            dados.dataCadastroInicio = cFuncoes.FormatarData(txtDataCadastroInicio.Text)
+        End If
+
+        If Not String.IsNullOrEmpty(txtDataCadastroFim.Text.Trim()) Then
+            If Not cFuncoes.ValidarData(txtDataCadastroFim.Text) Then
+                MessageBox.Show("Data final de cadastro invalida!", "Relatorio de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                txtDataCadastroFim.Focus()
+                Exit Sub
+            End If
+            dados.dataCadastroFim = cFuncoes.FormatarData(txtDataCadastroFim.Text)
+        End If
+
+        If Not String.IsNullOrEmpty(dados.dataCadastroInicio) And Not String.IsNullOrEmpty(dados.dataCadastroFim) Then
+            If dados.dataCadastroFim < dados.dataCadastroInicio Then
+                MessageBox.Show("Data final de cadastro nao pode ser anterior a data inicial!", "Relatorio de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                txtDataCadastroInicio.Focus()
+                Exit Sub
+            End If
         End If
 
 
