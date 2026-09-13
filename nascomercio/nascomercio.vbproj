@@ -55,6 +55,10 @@
     </WarningsAsErrors>
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <!-- Desativa a geracao do manifesto ClickOnce durante builds locais de Debug -
+         evita a falha da tarefa ResolveManifestFiles bloqueada por politica do Windows.
+         Nao afeta o Release, usado para o Publish real (GenerateManifests continua true la). -->
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

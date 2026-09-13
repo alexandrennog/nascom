@@ -77,7 +77,7 @@ Namespace nsGradeItem
 
     End Function
 
-    Public Function ConsultarItens(ByVal pProdutoCid As Integer) As ColecaoGradeItem
+    Public Function ConsultarItens(ByVal pProdutoCid As Integer, Optional ByVal pFiltro As dGradeItem = Nothing) As ColecaoGradeItem
 
       Dim retorno As ColecaoGradeItem
       Dim persistencia As pGradeItem
@@ -88,7 +88,7 @@ Namespace nsGradeItem
         retorno = New ColecaoGradeItem
 
         persistencia = New pGradeItem
-        retornoPersistencia = persistencia.ConsultarItens(pProdutoCid)
+        retornoPersistencia = persistencia.ConsultarItens(pProdutoCid, pFiltro)
 
         If Not retornoPersistencia Is Nothing Then
           If retornoPersistencia.Count > 0 Then
