@@ -4,11 +4,46 @@ Imports ncDados.nsFabricante
 Imports ncRegras.nsFabricante
 Imports ncDados.nsGrupo
 Imports ncRegras.nsGrupo
+Imports ncDados.nsProduto
+Imports ncRegras.nsProduto
 Imports ncComum.nsExcecao
 
 Public Class fRelatorioBalanco
 
     Public filtro As dFabricante
+
+    ' Carrega os nomes dos produtos uma vez (ao abrir a tela) para o
+    ' autocompletar do campo "Produto" - pedido do usuario: "ir aparecendo os
+    ' nomes compativeis quando a pessoa estiver digitando". Usa o recurso
+    ' nativo do TextBox (AutoCompleteMode/AutoCompleteSource) em vez de montar
+    ' um dropdown customizado - mais simples e consistente com o resto do
+    ' sistema, que nao tem nenhum padrao proprio de autocomplete ainda.
+    Private Sub CarregarAutocompleteProduto()
+
+        Try
+            Dim regras As New rProduto
+            Dim produtos As ColecaoProduto = regras.Listar()
+            Dim fonte As New AutoCompleteStringCollection
+
+            If Not produtos Is Nothing Then
+                For Each item As dProduto In produtos
+                    If Not String.IsNullOrWhiteSpace(item.descricao) Then
+                        fonte.Add(item.descricao)
+                    End If
+                Next
+            End If
+
+            txtProduto.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+            txtProduto.AutoCompleteSource = AutoCompleteSource.CustomSource
+            txtProduto.AutoCompleteCustomSource = fonte
+
+        Catch ex As Exception
+            ' Autocompletar e um extra - se a lista de produtos nao carregar por
+            ' qualquer motivo, a tela continua funcionando normal (campo livre,
+            ' sem sugestao), sem travar a abertura do relatorio por causa disso.
+        End Try
+
+    End Sub
 
     Private Sub Filtrar()
 
@@ -57,6 +92,8 @@ Public Class fRelatorioBalanco
 
         Me.txtDataInicial.Text = Today.AddMonths(-1).ToString("dd/MM/yyyy")
         Me.txtDataFinal.Text = Today.ToString("dd/MM/yyyy")
+
+        CarregarAutocompleteProduto()
 
     End Sub
 

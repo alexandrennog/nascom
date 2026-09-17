@@ -56,6 +56,7 @@ Partial Class fRelatorio
         Me.rbtVendasPorVendedor = New System.Windows.Forms.RadioButton()
         Me.rbtVendasNFe = New System.Windows.Forms.RadioButton()
         Me.rbtVendasABC = New System.Windows.Forms.RadioButton()
+        Me.rbtPainelCompras = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -81,7 +82,7 @@ Partial Class fRelatorio
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(112, 24)
         Me.lblTitulo.TabIndex = 89
-        Me.lblTitulo.Text = "RelatÛrios"
+        Me.lblTitulo.Text = "Relat√≥rios"
         '
         'rbtFechamento
         '
@@ -128,7 +129,7 @@ Partial Class fRelatorio
         Me.rbtCrediario.Size = New System.Drawing.Size(101, 23)
         Me.rbtCrediario.TabIndex = 5
         Me.rbtCrediario.TabStop = True
-        Me.rbtCrediario.Text = "Credi·rio "
+        Me.rbtCrediario.Text = "Credi√°rio "
         Me.rbtCrediario.UseVisualStyleBackColor = True
         '
         'rbtClientes
@@ -188,7 +189,7 @@ Partial Class fRelatorio
         Me.rbtAuditoria.Size = New System.Drawing.Size(160, 23)
         Me.rbtAuditoria.TabIndex = 10
         Me.rbtAuditoria.TabStop = True
-        Me.rbtAuditoria.Text = "Auditoria Usu·rio"
+        Me.rbtAuditoria.Text = "Auditoria Usu√°rio"
         Me.rbtAuditoria.UseVisualStyleBackColor = True
         '
         'rbtGrade
@@ -212,7 +213,7 @@ Partial Class fRelatorio
         Me.rdbVendasSintetico.Size = New System.Drawing.Size(155, 23)
         Me.rdbVendasSintetico.TabIndex = 2
         Me.rdbVendasSintetico.TabStop = True
-        Me.rdbVendasSintetico.Text = "Vendas SintÈtico"
+        Me.rdbVendasSintetico.Text = "Vendas Sint√©tico"
         Me.rdbVendasSintetico.UseVisualStyleBackColor = True
         '
         'rbtSPED
@@ -224,7 +225,7 @@ Partial Class fRelatorio
         Me.rbtSPED.Size = New System.Drawing.Size(328, 23)
         Me.rbtSPED.TabIndex = 92
         Me.rbtSPED.TabStop = True
-        Me.rbtSPED.Text = "SPED / EFD - EscrituraÁ„o Fiscal Digital"
+        Me.rbtSPED.Text = "SPED / EFD - Escritura√ß√£o Fiscal Digital"
         Me.rbtSPED.UseVisualStyleBackColor = True
         '
         'rbtNFe
@@ -236,7 +237,7 @@ Partial Class fRelatorio
         Me.rbtNFe.Size = New System.Drawing.Size(237, 23)
         Me.rbtNFe.TabIndex = 94
         Me.rbtNFe.TabStop = True
-        Me.rbtNFe.Text = "NFe - Nota Fiscal EletrÙnica"
+        Me.rbtNFe.Text = "NFe - Nota Fiscal Eletr√¥nica"
         Me.rbtNFe.UseVisualStyleBackColor = True
         '
         'rbtConsultaVendas
@@ -322,7 +323,7 @@ Partial Class fRelatorio
         Me.rbtTransferencia.Size = New System.Drawing.Size(140, 23)
         Me.rbtTransferencia.TabIndex = 97
         Me.rbtTransferencia.TabStop = True
-        Me.rbtTransferencia.Text = "TransferÍncias"
+        Me.rbtTransferencia.Text = "Transfer√™ncias"
         Me.rbtTransferencia.UseVisualStyleBackColor = True
         '
         'rbtVendasVendedor
@@ -346,7 +347,7 @@ Partial Class fRelatorio
         Me.rbtReducaoZ.Size = New System.Drawing.Size(109, 23)
         Me.rbtReducaoZ.TabIndex = 99
         Me.rbtReducaoZ.TabStop = True
-        Me.rbtReducaoZ.Text = "ReduÁ„o Z"
+        Me.rbtReducaoZ.Text = "Redu√ß√£o Z"
         Me.rbtReducaoZ.UseVisualStyleBackColor = True
         '
         'rbtLeituraX
@@ -382,7 +383,7 @@ Partial Class fRelatorio
         Me.rbtBalanco.Size = New System.Drawing.Size(90, 23)
         Me.rbtBalanco.TabIndex = 102
         Me.rbtBalanco.TabStop = True
-        Me.rbtBalanco.Text = "BalanÁo"
+        Me.rbtBalanco.Text = "Balan√ßo"
         Me.rbtBalanco.UseVisualStyleBackColor = True
         '
         'rbtSAT
@@ -418,7 +419,7 @@ Partial Class fRelatorio
         Me.rbtCrediarioPix.Size = New System.Drawing.Size(188, 23)
         Me.rbtCrediarioPix.TabIndex = 105
         Me.rbtCrediarioPix.TabStop = True
-        Me.rbtCrediarioPix.Text = "Credi·rio Pagamento"
+        Me.rbtCrediarioPix.Text = "Credi√°rio Pagamento"
         Me.rbtCrediarioPix.UseVisualStyleBackColor = True
         '
         'rbtCobrancaPIX
@@ -430,7 +431,7 @@ Partial Class fRelatorio
         Me.rbtCobrancaPIX.Size = New System.Drawing.Size(176, 23)
         Me.rbtCobrancaPIX.TabIndex = 106
         Me.rbtCobrancaPIX.TabStop = True
-        Me.rbtCobrancaPIX.Text = "CobranÁa Crediario"
+        Me.rbtCobrancaPIX.Text = "Cobran√ßa Credi√°rio"
         Me.rbtCobrancaPIX.UseVisualStyleBackColor = True
         '
         'rbtVendasPorLoja
@@ -481,12 +482,25 @@ Partial Class fRelatorio
         Me.rbtVendasABC.Text = "Vendas Curva ABC"
         Me.rbtVendasABC.UseVisualStyleBackColor = True
         '
+        'rbtPainelCompras
+        '
+        Me.rbtPainelCompras.AutoSize = True
+        Me.rbtPainelCompras.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtPainelCompras.Location = New System.Drawing.Point(536, 318)
+        Me.rbtPainelCompras.Name = "rbtPainelCompras"
+        Me.rbtPainelCompras.Size = New System.Drawing.Size(172, 23)
+        Me.rbtPainelCompras.TabIndex = 113
+        Me.rbtPainelCompras.TabStop = True
+        Me.rbtPainelCompras.Text = "Painel de Compras"
+        Me.rbtPainelCompras.UseVisualStyleBackColor = True
+        '
         'fRelatorio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(763, 538)
+        Me.Controls.Add(Me.rbtPainelCompras)
         Me.Controls.Add(Me.rbtVendasABC)
         Me.Controls.Add(Me.rbtVendasNFe)
         Me.Controls.Add(Me.rbtVendasPorLoja)
@@ -569,4 +583,5 @@ Partial Class fRelatorio
     Friend WithEvents rbtVendasPorVendedor As RadioButton
     Friend WithEvents rbtVendasNFe As RadioButton
     Friend WithEvents rbtVendasABC As RadioButton
+    Friend WithEvents rbtPainelCompras As RadioButton
 End Class

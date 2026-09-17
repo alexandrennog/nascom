@@ -1119,6 +1119,16 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
 
+    ' Painel de Compras: ticket medio, marca campea e oportunidades de reposicao
+    ' numa unica tela (script "38 - dashboard_compras.sql" precisa estar aplicado
+    ' no banco da loja). Acessivel pelo radio button "Painel de Compras" em
+    ' Relatorios (fRelatorio.vb / fRelatorio.Designer.vb).
+    Public Sub CarregarPainelCompras()
+        FecharTela()
+        formulario = fPainelCompras
+        AbrirTela()
+    End Sub
+
     Private Sub btoCaixa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoCaixa.Click
         If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
             CarregarCaixa(True)

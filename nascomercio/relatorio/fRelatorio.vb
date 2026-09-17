@@ -82,6 +82,8 @@ Public Class fRelatorio
             mdiPrincipal.CarregarRelVendasNFe()
         ElseIf rbtVendasABC.Checked Then
             mdiPrincipal.CarregarRelVendasABC()
+        ElseIf rbtPainelCompras.Checked Then
+            mdiPrincipal.CarregarPainelCompras()
         End If
 
     End Sub

@@ -648,6 +648,12 @@
     <Compile Include="relatorio\fRelatorioVendasFornecedor.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="relatorio\fPainelCompras.Designer.vb">
+      <DependentUpon>fPainelCompras.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fPainelCompras.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="relatorio\fRelatorioGrade.Designer.vb">
       <DependentUpon>fRelatorioGrade.vb</DependentUpon>
     </Compile>
@@ -1256,6 +1262,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioVendas.resx">
       <DependentUpon>fRelatorioVendas.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fPainelCompras.resx">
+      <DependentUpon>fPainelCompras.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioVendasFornecedor.resx">

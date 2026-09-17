@@ -70,7 +70,7 @@ Partial Class fRelatorioBalanco
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(188, 24)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "RelatÛrio BalanÁo"
+        Me.lblTitulo.Text = "Relat√≥rio Balan√ßo"
         '
         'btoFiltro
         '
@@ -171,7 +171,7 @@ Partial Class fRelatorioBalanco
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(30, 18)
         Me.Label1.TabIndex = 244
-        Me.Label1.Text = "atÈ"
+        Me.Label1.Text = "at√©"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtDataInicial
@@ -194,7 +194,7 @@ Partial Class fRelatorioBalanco
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(90, 18)
         Me.Label4.TabIndex = 242
-        Me.Label4.Text = "PerÌodo: de"
+        Me.Label4.Text = "Per√≠odo: de"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'v_BalancoTableAdapter
@@ -227,7 +227,7 @@ Partial Class fRelatorioBalanco
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "RelatÛrio de Estoque"
+        Me.Text = "Relat√≥rio de Balan√ßo"
         CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

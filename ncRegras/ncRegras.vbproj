@@ -76,6 +76,7 @@
     <Compile Include="rEfdTipoAtividade.vb" />
     <Compile Include="rEfdTipoPessoa.vb" />
     <Compile Include="rEfdUnidadeMedida.vb" />
+    <Compile Include="rDashboardCompras.vb" />
     <Compile Include="rGiro.vb" />
     <Compile Include="rGradeItem.vb" />
     <Compile Include="rGrupo.vb" />
