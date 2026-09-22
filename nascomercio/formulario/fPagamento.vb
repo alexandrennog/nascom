@@ -1150,7 +1150,7 @@ Public Class fPagamento
                                 Sub()
                                     Application.DoEvents()
                                 End Sub)
-                        Catch exRejeicao As NFCe65.NFCeRejeitadaException
+                        Catch exRejeicao As NFCeRejeitadaException
                             ' A SEFAZ processou a nota e REJEITOU (CStat diferente de 100) — não é
                             ' falha de comunicação, GerarNF já tentou de novo e não adianta tentar
                             ' mais vezes com os mesmos dados errados.
