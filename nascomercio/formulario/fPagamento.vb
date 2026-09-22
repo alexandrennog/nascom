@@ -63,7 +63,7 @@ Public Class fPagamento
 
 
     ''' <summary>
-    ''' Mostra informações de valores recebidos e troco
+    ''' Mostra informaï¿½ï¿½es de valores recebidos e troco
     ''' </summary>
     ''' <remarks></remarks>
     Private Sub calculaRecebido()
@@ -176,7 +176,7 @@ Public Class fPagamento
                                                                                                txtVale.Leave,
                                                                                                txtDesconto.Leave,
                                                                                                txtPix.Leave
-        'Mostra informações de valores recebidos e troco
+        'Mostra informaï¿½ï¿½es de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         VerificarAlcada()
@@ -194,7 +194,7 @@ Public Class fPagamento
 
             dadosUsuario = regraUsuario.ConsultarPorCid(mdiPrincipal.gUsuario.cid)
             If IsNothing(dadosUsuario) Then
-                MessageBox.Show("Erro ao consultar usuário")
+                MessageBox.Show("Erro ao consultar usuï¿½rio")
             Else
                 If Not dadosUsuario.descontoPedido.HasValue Then
                     dadosUsuario.descontoPedido = 0
@@ -284,7 +284,7 @@ Public Class fPagamento
                 If txtCliente.Tag <> 1 Then
 
                     If Me.txtCliente.ForeColor = Color.Red And Not EhAdmin() Then
-                        MessageBox.Show("Cliente com pendências!")
+                        MessageBox.Show("Cliente com pendï¿½ncias!")
                         acessoGerente = New fAcessoGerente()
                         acessoGerente.ShowDialog()
                         If Not acessoGerente.gRetorno Then
@@ -337,7 +337,7 @@ Public Class fPagamento
 
                     Catch ex As Exception
 
-                        MessageBox.Show("Erro na consulta dos parâmetros.")
+                        MessageBox.Show("Erro na consulta dos parï¿½metros.")
 
                     End Try
 
@@ -348,7 +348,7 @@ Public Class fPagamento
                 End If
 
                 If Not retornoCrediario Then
-                    MessageBox.Show("Incluir Crediário!")
+                    MessageBox.Show("Incluir Crediï¿½rio!")
                 End If
 
             End If
@@ -479,7 +479,7 @@ Public Class fPagamento
             MessageBox.Show(nex.Message)
 
         Catch ex As Exception
-            MessageBox.Show("Erro na consulta do crediário.")
+            MessageBox.Show("Erro na consulta do crediï¿½rio.")
 
         End Try
 
@@ -645,7 +645,7 @@ Public Class fPagamento
 
         objImpressao = New ncComum.Impressao()
 
-        GravarLog(mdiPrincipal.gUsuario.usuario, "Emissão de vale [" & (CDec(lblTroco.Text)).ToString("C") & "]")
+        GravarLog(mdiPrincipal.gUsuario.usuario, "Emissï¿½o de vale [" & (CDec(lblTroco.Text)).ToString("C") & "]")
 
         lblVale.Text = lblTroco.Text
         lblTroco.Text = 0.ToString("N")
@@ -741,7 +741,7 @@ Public Class fPagamento
 
                     ' ECF - Impressora Fiscal
 
-                    'se não informou cpf pergunta
+                    'se nï¿½o informou cpf pergunta
                     If String.IsNullOrEmpty(Str_CPF) And Len(Str_CPF) = 11 Then
                         Str_CPF = InputBox("Deseja informar o CPF ?").Trim()
                         Do While Not ValidaCpf(Str_CPF)
@@ -807,7 +807,7 @@ Public Class fPagamento
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
                     End If
                     If CDec(txtCrediario.Text) > 0.001 Then
-                        Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Crediário", txtCrediario.Text)
+                        Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Crediï¿½rio", txtCrediario.Text)
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
                     End If
                     If CDec(txtTroca.Text) > 0.001 Then
@@ -835,10 +835,10 @@ Public Class fPagamento
 
                 ElseIf ConfigurationManager.AppSettings("FISCAL") = "SAT" Then
 
-                    ' SAT - Cupom Eletrônico
+                    ' SAT - Cupom Eletrï¿½nico
                     Try
 
-                        'se não informou cpf pergunta
+                        'se nï¿½o informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
                             Str_CPF = InputBox("Deseja informar o CPF/CNPJ ?").Trim()
                             If Str_CPF.Length > 11 Then
@@ -907,22 +907,22 @@ Public Class fPagamento
                             End If
                         End If
                         If CDec(txtCartaoDebito.Text) > 0.001 Then
-                            '04 - Cartão de Débito
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartão de Débito", txtCartaoDebito.Text.Replace(".", ""), "")
+                            '04 - Cartï¿½o de Dï¿½bito
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartï¿½o de Dï¿½bito", txtCartaoDebito.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
                         End If
                         If CDec(txtCartaoCredito.Text) > 0.001 Then
-                            '03 - Cartão de Crédito
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartão de Crédito", txtCartaoCredito.Text.Replace(".", ""), "")
+                            '03 - Cartï¿½o de Crï¿½dito
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartï¿½o de Crï¿½dito", txtCartaoCredito.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
                         End If
                         If CDec(txtCrediario.Text) > 0.001 Then
-                            '05 - Crédito Loja
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Crédito Loja", txtCrediario.Text.Replace(".", ""), "")
+                            '05 - Crï¿½dito Loja
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Crï¿½dito Loja", txtCrediario.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
@@ -966,14 +966,14 @@ Public Class fPagamento
                     End Try
                 ElseIf ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
 
-                    ' SAT - Cupom Eletrônico
+                    ' SAT - Cupom Eletrï¿½nico
                     Try
 
-                        'se não informou cpf pergunta
+                        'se nï¿½o informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
                             Dim resposta As String = InputBox("Deseja informar o CPF/CNPJ? (deixe em branco para ignorar)").Trim()
 
-                            ' Se o usuário não quiser informar, simplesmente seguimos.
+                            ' Se o usuï¿½rio nï¿½o quiser informar, simplesmente seguimos.
                             If String.IsNullOrEmpty(resposta) Then
                                 Str_CPF = ""
                             Else
@@ -981,13 +981,13 @@ Public Class fPagamento
 
                                 ' Decide se valida como CNPJ ou CPF apenas se for informado.
                                 If Str_CPF.Length > 11 Then
-                                    ' Validação de CNPJ
+                                    ' Validaï¿½ï¿½o de CNPJ
                                     While Not ValidaCnpj(Str_CPF)
                                         Str_CPF = InputBox("CNPJ incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
                                         If String.IsNullOrEmpty(Str_CPF) Then Exit While
                                     End While
                                 Else
-                                    ' Validação de CPF
+                                    ' Validaï¿½ï¿½o de CPF
                                     While Not ValidaCpf(Str_CPF)
                                         Str_CPF = InputBox("CPF incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
                                         If String.IsNullOrEmpty(Str_CPF) Then Exit While
@@ -1030,34 +1030,34 @@ Public Class fPagamento
                             meiosPagamentos.Add(pagamentoMeio)
                         End If
                         If CDec(txtCartaoDebito.Text) > 0.001 Then
-                            '04 - Cartão de Débito
+                            '04 - Cartï¿½o de Dï¿½bito
 
                             Dim cartaoDebito As String = txtCartaoDebito.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "04"
-                            pagamentoMeio.DescricaoPagamento = "Cartão de Débito"
+                            pagamentoMeio.DescricaoPagamento = "Cartï¿½o de Dï¿½bito"
                             pagamentoMeio.Valor = cartaoDebito
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If
                         If CDec(txtCartaoCredito.Text) > 0.001 Then
-                            '03 - Cartão de Crédito
+                            '03 - Cartï¿½o de Crï¿½dito
 
                             Dim cartaoCredito As String = txtCartaoCredito.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "03"
-                            pagamentoMeio.DescricaoPagamento = "Cartão de Crédito"
+                            pagamentoMeio.DescricaoPagamento = "Cartï¿½o de Crï¿½dito"
                             pagamentoMeio.Valor = cartaoCredito
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If
                         If CDec(txtCrediario.Text) > 0.001 Then
-                            '05 - Crédito Loja
+                            '05 - Crï¿½dito Loja
 
                             Dim crediarioPagamento As String = txtCrediario.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "05"
-                            pagamentoMeio.DescricaoPagamento = "Crédito Loja"
+                            pagamentoMeio.DescricaoPagamento = "Crï¿½dito Loja"
                             pagamentoMeio.Valor = crediarioPagamento
                             meiosPagamentos.Add(pagamentoMeio)
 
@@ -1119,11 +1119,65 @@ Public Class fPagamento
                         dados.chnfe = "temporario"
                         Dim nNF = novaVenda.IncluirnNF(dados)
                         Dim lista = ConverterLista(dadosVendaProdutos.ToList)
-                        Dim chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString(), nNF)
-                        regraVenda.Alterar(controle.ToString(), chave)
-                        dados.chnfe = chave
-                        dados.SeqNFe = nNF
-                        regraVenda.AlterarBaseNnf(dados)
+
+                        ' EmissÃ£o da NFC-e com nova tentativa automÃ¡tica (dentro de GerarNF) em caso
+                        ' de falha de comunicaÃ§Ã£o com a SEFAZ, atÃ© 3 tentativas ao todo. O operador Ã©
+                        ' avisado no tÃ­tulo da tela enquanto uma nova tentativa estÃ¡ em andamento, e
+                        ' recebe um aviso claro caso as 3 tentativas falhem (normalmente indisponibilidade
+                        ' ou lentidÃ£o da SEFAZ).
+                        Dim tituloOriginalPagamento As String = Me.Text
+                        Dim chave As String = Nothing
+                        Dim erroEmissaoNFCe As Exception = Nothing
+
+                        ' Desabilita a tela enquanto tenta emitir (com as tentativas automÃ¡ticas
+                        ' dentro de GerarNF). Isso evita que um clique duplo/impaciente do operador
+                        ' reentre no fluxo de pagamento enquanto a emissÃ£o ainda estÃ¡ em andamento
+                        ' (Application.DoEvents, abaixo, processa a fila de mensagens do Windows
+                        ' durante a espera para a tela nÃ£o travar/"NÃ£o Responder" â€” mas, com a tela
+                        ' desabilitada, cliques nÃ£o chegam a acionar os botÃµes nesse meio-tempo).
+                        Me.Enabled = False
+                        Try
+                            chave = NFCe65.GerarNF(lista, certificadoCarregado, meiosPagamentos, Str_CPF, controle.ToString(), nNF,
+                                Sub(tentativaAtual, maxTentativas)
+                                    Me.Text = "Emitindo NFC-e... tentativa " & tentativaAtual.ToString() & " de " & maxTentativas.ToString() & " (aguarde)"
+                                    Me.Refresh()
+                                End Sub,
+                                Sub()
+                                    Application.DoEvents()
+                                End Sub)
+                        Catch exEmissao As Exception
+                            erroEmissaoNFCe = exEmissao
+                        Finally
+                            Me.Enabled = True
+                            Me.Text = tituloOriginalPagamento
+                        End Try
+
+                        If Not String.IsNullOrEmpty(chave) Then
+                            regraVenda.Alterar(controle.ToString(), chave)
+                            dados.chnfe = chave
+                            dados.SeqNFe = nNF
+                            regraVenda.AlterarBaseNnf(dados)
+                        Else
+                            ' Falha definitiva (mesmo apÃ³s as tentativas automÃ¡ticas dentro de GerarNF).
+                            ' Marca a venda com um valor distinguÃ­vel de "temporario", para que ela possa
+                            ' ser localizada depois (relatÃ³rios/consultas) como venda sem NFC-e emitida,
+                            ' em vez de ficar com "temporario" para sempre e sem nenhum rastro.
+                            Try
+                                regraVenda.Alterar(controle.ToString(), "FALHA_EMISSAO")
+                                dados.chnfe = "FALHA_EMISSAO"
+                                dados.SeqNFe = nNF
+                                regraVenda.AlterarBaseNnf(dados)
+                            Catch
+                                ' Uma falha aqui nÃ£o pode mascarar o aviso abaixo ao operador.
+                            End Try
+
+                            MessageBox.Show(
+                                "NÃ£o foi possÃ­vel emitir a NFC-e desta venda (controle " & controle.ToString() & "), mesmo apÃ³s 3 tentativas." & vbCrLf & vbCrLf &
+                                "Isso normalmente acontece quando o site da SEFAZ estÃ¡ fora do ar ou muito lento no momento." & vbCrLf & vbCrLf &
+                                "A venda foi registrada, mas SEM nota fiscal emitida. Avise o responsÃ¡vel para reemitir a nota assim que a SEFAZ estiver disponÃ­vel." & vbCrLf & vbCrLf &
+                                "Detalhe tÃ©cnico: " & If(erroEmissaoNFCe IsNot Nothing, erroEmissaoNFCe.Message, "erro desconhecido"),
+                                "Falha ao emitir NFC-e", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        End If
 
                     Catch ex As Exception
                         MessageBox.Show(ex.Message)
@@ -1207,7 +1261,7 @@ Public Class fPagamento
                 MessageBox.Show("Erro ao imprimir: " & ex.Message)
             End Try
         Else
-            MessageBox.Show("Venda concluída em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
+            MessageBox.Show("Venda concluï¿½da em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
         End If
     End Sub
     Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
@@ -1321,7 +1375,7 @@ Public Class fPagamento
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Condição.")
+            MessageBox.Show("Erro na consulta dos dados de Condiï¿½ï¿½o.")
 
         End Try
     End Sub
@@ -1536,7 +1590,7 @@ Public Class fPagamento
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs)
-        'Declare um variável do tipo Timer: 
+        'Declare um variï¿½vel do tipo Timer: 
         Dim tempo As New System.Timers.Timer(50000) '5000 = 5 segundos
 
         'Adicione um handler para capturar o evento tick do timer: 
@@ -1545,7 +1599,7 @@ Public Class fPagamento
         'Adicione a sub que representa o evento tick do timer:
 
 
-        'Por último, no load do formulário, habilite o timer:
+        'Por ï¿½ltimo, no load do formulï¿½rio, habilite o timer:
         tempo.Enabled = True
     End Sub
 
@@ -1568,7 +1622,7 @@ Public Class fPagamento
                                                                 txtDesconto.Leave
 
 
-        'Mostra informações de valores recebidos e troco
+        'Mostra informaï¿½ï¿½es de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         formataCampos()
@@ -1579,7 +1633,7 @@ Public Class fPagamento
         If btnPix.Text = "Cobrar" Then
 
             If txtPix.Text = "0,00" Or txtPix.Text = "0" Then
-                MessageBox.Show("É preciso informar um valor para a cobrança")
+                MessageBox.Show("ï¿½ preciso informar um valor para a cobranï¿½a")
                 txtPix.Select()
             Else
                 Cadastrar()
@@ -1588,7 +1642,7 @@ Public Class fPagamento
             End If
 
 
-        ElseIf btnPix.Text = "Nova Cobrança" Then
+        ElseIf btnPix.Text = "Nova Cobranï¿½a" Then
             Cadastrar()
             btnPix.Text = "Cobrar"
             btnPix.Image = nascomercio.My.Resources.Resources.cobrar
@@ -1675,7 +1729,7 @@ Public Class fPagamento
             colecaoPIX = regras.Consultar(dados)
 
             If colecaoPIX Is Nothing Then
-                MessageBox.Show("Não há ítens na lista.")
+                MessageBox.Show("Nï¿½o hï¿½ ï¿½tens na lista.")
                 Exit Sub
             End If
 
@@ -1763,7 +1817,7 @@ Public Class fPagamento
                                                                 txtDesconto.Leave
 
 
-        'Mostra informações de valores recebidos e troco
+        'Mostra informaï¿½ï¿½es de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         formataCampos()
@@ -1793,7 +1847,7 @@ Public Class fPagamento
         clientes = New ColecaoCliente
 
         If txtIdCliente.Text = "" Then
-            MessageBox.Show("Informe um código")
+            MessageBox.Show("Informe um cï¿½digo")
             Exit Sub
         End If
 
@@ -1806,7 +1860,7 @@ Public Class fPagamento
 
         If clientes Is Nothing Then
 
-            MessageBox.Show("Não existe cliente com esse código!")
+            MessageBox.Show("Nï¿½o existe cliente com esse cï¿½digo!")
             txtIdCliente.Focus()
             txtIdCliente.Select()
             txtIdCliente.Text = ""

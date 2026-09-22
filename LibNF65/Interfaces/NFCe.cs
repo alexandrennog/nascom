@@ -33,6 +33,32 @@ namespace LibNF65
     public class NasNFCe : INFCe
     {
 
+        // Código do município (IBGE) usado como reserva quando a SEFAZ não devolve o
+        // código junto com o cadastro do emitente (endereco.CMun == 0). Vem do app.config
+        // (chave "CodigoMunicipio", ao lado de "CNPJ") em vez do arquivo
+        // DarumaFrameWork_SAT.xml, que era a fonte anterior — esse arquivo mistura
+        // configuração com dados de transação e o campo cMunFG lá estava vazio.
+        private static int ObterCodigoMunicipioConfigurado()
+        {
+            var valor = ConfigurationManager.AppSettings["CodigoMunicipio"];
+            return !string.IsNullOrWhiteSpace(valor) && int.TryParse(valor, out int codigo) ? codigo : 0;
+        }
+
+        // UF (estado) da loja, usada nas chamadas à SEFAZ (consulta de cadastro, emissão da
+        // NFC-e, cancelamento). Vem do app.config (chave "UF", ao lado de "CNPJ" e
+        // "CodigoMunicipio") em vez de fixa no código. Sem valor configurado (ou valor
+        // inválido), cai em SP — mesmo comportamento de antes dessa mudança, então lojas
+        // que ainda não tiverem essa chave no app.config continuam funcionando igual.
+        public static UFBrasil ObterUFConfigurada()
+        {
+            var valor = ConfigurationManager.AppSettings["UF"];
+            if (!string.IsNullOrWhiteSpace(valor) && Enum.TryParse<UFBrasil>(valor.Trim(), true, out var uf))
+            {
+                return uf;
+            }
+            return UFBrasil.SP;
+        }
+
         public RecepcaoEvento EventoCancelamentoNFCe(string chave, X509Certificate2 x509Cert, string nProt)
         {
             var xml = new XmlNFe.EnvEvento
@@ -51,7 +77,7 @@ namespace LibNF65
                             XJust = "Justificativa de teste de cancelamento"
                         })
                         {
-                            COrgao = UFBrasil.SP,
+                            COrgao = ObterUFConfigurada(),
                             ChNFe = chave,
                             CNPJ = ConfigurationManager.AppSettings["CNPJ"],
                             DhEvento = DateTime.Now,
@@ -218,18 +244,6 @@ namespace LibNF65
         public XmlNFe.NFe RecuperarProdutos(List<ProdutoVendido> dVendaProdutos, int nNF, Unimake.Business.DFe.Servicos.Configuracao configuracao, DarumaFrameworkSat configImposto, RetConsCad retConsCad, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle)
         {
 
-            var infCons = new InfCons
-            {
-                CNPJ = ConfigurationManager.AppSettings["CNPJ"],
-                UF = UFBrasil.SP
-            };
-
-            var consCad = new ConsCad
-            {
-                Versao = "2.00",
-                InfCons = infCons
-            };
-
             // 2. Carregar o certificado
             var certificado = new CertificadoDigital
             {
@@ -263,7 +277,7 @@ namespace LibNF65
                     Ide = new XmlNFe.Ide
                     {
                         NNF = nNF,
-                        CUF = UFBrasil.SP,
+                        CUF = ObterUFConfigurada(),
                         NatOp = "VENDA PRODUC.DO ESTABELEC",
                         Mod = ModeloDFe.NFCe,
                         Serie = 2,
@@ -271,7 +285,7 @@ namespace LibNF65
                         DhSaiEnt = DateTime.Now,
                         TpNF = TipoOperacao.Saida,
                         IdDest = DestinoOperacao.OperacaoInterna,
-                        CMunFG = (endereco.CMun == 0) ? (!string.IsNullOrWhiteSpace(configImposto.Imposto.ISSQN.cMunFG) ? int.Parse(configImposto.Imposto.ISSQN.cMunFG) : 0) : endereco.CMun,
+                        CMunFG = (endereco.CMun == 0) ? ObterCodigoMunicipioConfigurado() : endereco.CMun,
                         TpImp = FormatoImpressaoDANFE.NFCeMensagemEletronica,
                         TpEmis = TipoEmissao.Normal,
                         TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
@@ -292,7 +306,7 @@ namespace LibNF65
                             XLgr = endereco.XLgr,
                             Nro = endereco.Nro,
                             XBairro = endereco.XBairro,
-                            CMun = (endereco.CMun == 0) ? (!string.IsNullOrWhiteSpace(configImposto.Imposto.ISSQN.cMunFG) ? int.Parse(configImposto.Imposto.ISSQN.cMunFG) : 0) : endereco.CMun,
+                            CMun = (endereco.CMun == 0) ? ObterCodigoMunicipioConfigurado() : endereco.CMun,
                             XMun = endereco.XMun,
                             UF = retConsCad.InfCons.UF,
                             CEP = endereco.CEP,

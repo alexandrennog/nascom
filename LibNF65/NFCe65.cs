@@ -50,7 +50,68 @@ namespace LibNF65
         private static string CaminhoArquivoNOK(string chave) =>
             System.IO.Path.Combine(PastaBase, "NOK", chave + ".xml");
 
-        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
+        // Número de tentativas ao comunicar com a SEFAZ (consulta de cadastro e
+        // autorização da NFC-e) antes de desistir e sinalizar falha definitiva.
+        private const int MaxTentativasSefaz = 3;
+        private static readonly TimeSpan EsperaEntreTentativas = TimeSpan.FromSeconds(3);
+
+        // Executa uma chamada à SEFAZ com novas tentativas automáticas em caso de falha de
+        // comunicação (timeout, indisponibilidade, lentidão, etc). Antes de cada nova tentativa,
+        // invoca aoTentarNovamente (quando informado) para que a camada de UI possa avisar o
+        // operador de que está tentando novamente, antes de aguardar um pouco e tentar de novo.
+        // Erros que não são de comunicação (ex.: assinatura digital, validação de schema) não
+        // passam por aqui — não adianta tentar de novo, o resultado seria sempre o mesmo.
+        private static void ExecutarComRetentativas(Action acao, string nomeOperacao, Action<int, int> aoTentarNovamente, Action aoAguardar)
+        {
+            Exception ultimoErro = null;
+
+            for (int tentativa = 1; tentativa <= MaxTentativasSefaz; tentativa++)
+            {
+                try
+                {
+                    acao();
+                    return; // sucesso
+                }
+                catch (Exception ex)
+                {
+                    ultimoErro = ex;
+
+                    if (tentativa < MaxTentativasSefaz)
+                    {
+                        aoTentarNovamente?.Invoke(tentativa + 1, MaxTentativasSefaz);
+                        Aguardar(EsperaEntreTentativas, aoAguardar);
+                    }
+                }
+            }
+
+            throw new Exception($"Não foi possível {nomeOperacao} após {MaxTentativasSefaz} tentativas. Último erro: {ultimoErro.Message}", ultimoErro);
+        }
+
+        // Espera o tempo informado em pequenos pedaços (em vez de um único Thread.Sleep
+        // corrido), chamando aoAguardar a cada pedaço. Isso permite que a camada de UI
+        // (ex.: Application.DoEvents em WinForms) mantenha a tela respondendo/repintando
+        // durante a espera, em vez de deixar a janela parecer travada ("Não Responde").
+        // Sem aoAguardar informado, cai no comportamento simples de Thread.Sleep.
+        private static void Aguardar(TimeSpan tempo, Action aoAguardar)
+        {
+            if (aoAguardar == null)
+            {
+                System.Threading.Thread.Sleep(tempo);
+                return;
+            }
+
+            var passo = TimeSpan.FromMilliseconds(150);
+            var restante = tempo;
+            while (restante > TimeSpan.Zero)
+            {
+                var espera = restante < passo ? restante : passo;
+                System.Threading.Thread.Sleep(espera);
+                restante -= espera;
+                aoAguardar();
+            }
+        }
+
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, Action<int, int> aoTentarNovamente = null, Action aoAguardar = null)
         {
             // chaveAcesso agora é variável LOCAL, não mais campo estático da classe.
             // Antes, "static string chaveAcesso" era um estado global compartilhado por
@@ -84,7 +145,7 @@ namespace LibNF65
             var infCons = new InfCons
             {
                 CNPJ = ConfigurationManager.AppSettings["CNPJ"],
-                UF = UFBrasil.SP
+                UF = NasNFCe.ObterUFConfigurada()
             };
 
             var consCad = new ConsCad
@@ -98,10 +159,17 @@ namespace LibNF65
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             // 3. Executando a consulta
-            var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
+            // Uma nova instância é criada a cada tentativa dentro do laço de retentativas (em vez
+            // de reaproveitar sempre o mesmo objeto), pelo mesmo motivo aplicado à autorização mais
+            // abaixo: não há garantia de que o objeto da biblioteca suporte ser executado de novo.
+            ConsultaCadastro consultaCadastro = null;
             try
             {
-                consultaCadastro.Executar();
+                ExecutarComRetentativas(() =>
+                {
+                    consultaCadastro = new ConsultaCadastro(consCad, configuracao);
+                    consultaCadastro.Executar();
+                }, "consultar cadastro na SEFAZ", aoTentarNovamente, aoAguardar);
             }
             catch (Exception ex)
             {
@@ -171,19 +239,81 @@ namespace LibNF65
 
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            var autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
-            try
+            // Uma nova instância do serviço é criada a cada tentativa (em vez de reaproveitar o
+            // mesmo objeto entre elas) — não temos garantia de que o objeto da biblioteca Unimake
+            // suporte ser executado mais de uma vez. O conteúdo efetivamente enviado (xml, com a
+            // mesma chave de acesso e IdLote) continua idêntico entre as tentativas de qualquer
+            // forma, então isso não muda o que é submetido à SEFAZ.
+            ServicoNFCe.Autorizacao autorizacao = null;
+
+            bool autorizacaoRespondida = false;
+            Exception ultimoErroAutorizacao = null;
+
+            for (int tentativa = 1; tentativa <= MaxTentativasSefaz && !autorizacaoRespondida; tentativa++)
             {
-                autorizacao.Executar();
+                try
+                {
+                    if (tentativa > 1)
+                    {
+                        // Antes de reenviar, verifica se a tentativa anterior já foi autorizada do
+                        // lado da SEFAZ — a chamada pode ter dado erro no CLIENTE (timeout, conexão
+                        // caiu) depois que a SEFAZ já tinha processado e autorizado a nota. Reenviar
+                        // a mesma chave nesse caso arrisca uma rejeição por duplicidade em cima de
+                        // uma nota que já é fiscalmente válida.
+                        string statusExistente = null;
+                        try
+                        {
+                            statusExistente = ConsultarCupomNFCe(chaveAcesso, x509Cert);
+                        }
+                        catch
+                        {
+                            // A própria consulta de status falhou (ex.: SEFAZ ainda indisponível) —
+                            // segue e tenta reenviar normalmente.
+                        }
+
+                        if (!string.IsNullOrEmpty(statusExistente))
+                        {
+                            var cStatTexto = statusExistente.Split('-')[0].Trim();
+                            if (int.TryParse(cStatTexto, out int cStatExistente) && cStatExistente == 100)
+                            {
+                                // Já autorizada — não reenvia. Observação: sem os dados completos do
+                                // protocolo (NProt/DigVal) aqui, infoProdutoService.AdicionarInfoProduto
+                                // não é chamado nesse caminho; se essa nota específica precisar ser
+                                // cancelada depois, pode ser necessário consultar a SEFAZ manualmente
+                                // para obter o número do protocolo.
+                                Imprimir(chaveAcesso);
+                                MoverArquivo(chaveAcesso, true);
+                                return chaveAcesso;
+                            }
+                        }
+                    }
+
+                    autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
+                    autorizacao.Executar();
+                    autorizacaoRespondida = true;
+                }
+                catch (Exception ex)
+                {
+                    ultimoErroAutorizacao = ex;
+
+                    if (tentativa < MaxTentativasSefaz)
+                    {
+                        aoTentarNovamente?.Invoke(tentativa + 1, MaxTentativasSefaz);
+                        Aguardar(EsperaEntreTentativas, aoAguardar);
+                    }
+                }
             }
-            catch (Exception ex)
+
+            if (!autorizacaoRespondida)
             {
-                // Falha de comunicação com a SEFAZ (timeout, indisponibilidade, etc).
-                // Não sabemos se a nota foi ou não autorizada do lado da SEFAZ, então
-                // movemos para NOK para que seja tratada manualmente (consulta de
-                // situação / reenvio), em vez de deixar o XML "solto" na pasta raiz.
+                // Falha de comunicação com a SEFAZ mesmo após as tentativas automáticas
+                // (timeout, indisponibilidade, lentidão, etc), e a consulta de status entre
+                // tentativas também não confirmou autorização. Não sabemos com certeza se a
+                // nota foi ou não autorizada do lado da SEFAZ, então movemos para NOK para que
+                // seja tratada manualmente (consulta de situação / reenvio), em vez de deixar o
+                // XML "solto" na pasta raiz.
                 MoverArquivo(chaveAcesso, false);
-                throw new Exception($"Falha ao comunicar com a SEFAZ para autorizar a NFC-e {chaveAcesso}: {ex.Message}", ex);
+                throw new Exception($"Falha ao comunicar com a SEFAZ para autorizar a NFC-e {chaveAcesso} (após {MaxTentativasSefaz} tentativas): {ultimoErroAutorizacao?.Message}", ultimoErroAutorizacao);
             }
 
             // A partir daqui, só seguimos se realmente recebemos um protocolo de
