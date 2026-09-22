@@ -6,8 +6,58 @@ Public Class fRelatorioCheques
 
   Public filtro As dFabricante
 
+  Private Function PeriodoMuitoLargo() As Boolean
+    Dim dataInicial As DateTime
+    Dim dataFinal As DateTime
+
+    If Not DateTime.TryParse(txtDataInicial.Text, dataInicial) OrElse Not DateTime.TryParse(txtDataFinal.Text, dataFinal) Then
+      Return False
+    End If
+
+    Dim dias As Double = (dataFinal - dataInicial).TotalDays
+
+    If dias > 60 Then
+      Dim resposta = MessageBox.Show(
+        "O período selecionado (" & Math.Round(dias).ToString() & " dias) é bem largo e a consulta pode demorar bastante." & vbCrLf & vbCrLf &
+        "Deseja continuar mesmo assim?",
+        "Período largo", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+      Return resposta <> Windows.Forms.DialogResult.Yes
+    End If
+
+    Return False
+  End Function
+
+  Private Sub CarregarDados()
+    Me.nascomercioDataSet.v_cheques.Clear()
+
+    Using conexao As New MySql.Data.MySqlClient.MySqlConnection(Global.nascomercio.My.MySettings.Default.nascomercioConnectionString)
+      Dim sql As String = "SELECT cid, valor, dataemissao, datadeposito, numero, nome, banco, agencia, conta, baixado FROM v_cheques WHERE datadeposito BETWEEN @dataInicial AND @dataFinal"
+
+      If txtCliente.Text.Trim() <> "" Then
+        sql &= " AND nome LIKE @cliente"
+      End If
+
+      Using comando As New MySql.Data.MySqlClient.MySqlCommand(sql, conexao)
+        comando.Parameters.AddWithValue("@dataInicial", ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataInicial.Text))
+        comando.Parameters.AddWithValue("@dataFinal", ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataFinal.Text))
+
+        If txtCliente.Text.Trim() <> "" Then
+          comando.Parameters.AddWithValue("@cliente", "%" & txtCliente.Text.Trim() & "%")
+        End If
+
+        Using adapter As New MySql.Data.MySqlClient.MySqlDataAdapter(comando)
+          adapter.Fill(Me.nascomercioDataSet.v_cheques)
+        End Using
+      End Using
+    End Using
+  End Sub
 
   Private Sub Filtrar()
+    If PeriodoMuitoLargo() Then
+      Exit Sub
+    End If
+
     Dim parametros(3) As Microsoft.Reporting.WinForms.ReportParameter
 
     If txtCliente.Text.Trim <> "" Then
@@ -32,6 +82,7 @@ Public Class fRelatorioCheques
     parametros(3).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
 
     Try
+      CarregarDados()
       rptRelatorio.LocalReport.SetParameters(parametros)
       rptRelatorio.RefreshReport()
     Catch ex As Exception
@@ -56,8 +107,6 @@ Public Class fRelatorioCheques
       Me.txtDataFinal.Text = Today.ToString("dd/MM/yyyy")
 
       Filtrar()
-
-      Me.v_chequesTableAdapter.Fill(Me.nascomercioDataSet.v_cheques)
 
     Catch nex As ExcecaoNascomercio
 
@@ -86,6 +135,6 @@ Public Class fRelatorioCheques
 
     regrasCheques.Baixar()
 
-    MessageBox.Show("Cheques baixados at� a data corrente!")
+    MessageBox.Show("Cheques baixados at� a data corrente!")
   End Sub
 End Class
