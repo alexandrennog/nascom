@@ -1128,6 +1128,11 @@ Public Class fPagamento
                         Dim tituloOriginalPagamento As String = Me.Text
                         Dim chave As String = Nothing
                         Dim erroEmissaoNFCe As Exception = Nothing
+                        ' Distingue "SEFAZ rejeitou a nota" (erro fiscal real nos dados, precisa de
+                        ' correção antes de reemitir) de "falha ao comunicar com a SEFAZ" (site fora
+                        ' do ar/lento, basta reemitir depois) — são causas diferentes e o aviso ao
+                        ' operador deve deixar isso claro em cada caso.
+                        Dim notaRejeitadaPelaSefaz As Boolean = False
 
                         ' Desabilita a tela enquanto tenta emitir (com as tentativas automáticas
                         ' dentro de GerarNF). Isso evita que um clique duplo/impaciente do operador
@@ -1145,6 +1150,12 @@ Public Class fPagamento
                                 Sub()
                                     Application.DoEvents()
                                 End Sub)
+                        Catch exRejeicao As NFCe65.NFCeRejeitadaException
+                            ' A SEFAZ processou a nota e REJEITOU (CStat diferente de 100) — não é
+                            ' falha de comunicação, GerarNF já tentou de novo e não adianta tentar
+                            ' mais vezes com os mesmos dados errados.
+                            erroEmissaoNFCe = exRejeicao
+                            notaRejeitadaPelaSefaz = True
                         Catch exEmissao As Exception
                             erroEmissaoNFCe = exEmissao
                         Finally
@@ -1158,7 +1169,8 @@ Public Class fPagamento
                             dados.SeqNFe = nNF
                             regraVenda.AlterarBaseNnf(dados)
                         Else
-                            ' Falha definitiva (mesmo após as tentativas automáticas dentro de GerarNF).
+                            ' Falha definitiva (seja por rejeição da SEFAZ, seja por falha de
+                            ' comunicação mesmo após as tentativas automáticas dentro de GerarNF).
                             ' Marca a venda com um valor distinguível de "temporario", para que ela possa
                             ' ser localizada depois (relatórios/consultas) como venda sem NFC-e emitida,
                             ' em vez de ficar com "temporario" para sempre e sem nenhum rastro.
@@ -1171,12 +1183,21 @@ Public Class fPagamento
                                 ' Uma falha aqui não pode mascarar o aviso abaixo ao operador.
                             End Try
 
-                            MessageBox.Show(
-                                "Não foi possível emitir a NFC-e desta venda (controle " & controle.ToString() & "), mesmo após 3 tentativas." & vbCrLf & vbCrLf &
-                                "Isso normalmente acontece quando o site da SEFAZ está fora do ar ou muito lento no momento." & vbCrLf & vbCrLf &
-                                "A venda foi registrada, mas SEM nota fiscal emitida. Avise o responsável para reemitir a nota assim que a SEFAZ estiver disponível." & vbCrLf & vbCrLf &
-                                "Detalhe técnico: " & If(erroEmissaoNFCe IsNot Nothing, erroEmissaoNFCe.Message, "erro desconhecido"),
-                                "Falha ao emitir NFC-e", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            If notaRejeitadaPelaSefaz Then
+                                MessageBox.Show(
+                                    "A SEFAZ REJEITOU a NFC-e desta venda (controle " & controle.ToString() & ")." & vbCrLf & vbCrLf &
+                                    "Isso indica um erro nos dados fiscais da nota (cadastro, CFOP, etc) — NÃO é um problema de conexão, então reemitir sem corrigir o motivo abaixo provavelmente será rejeitado de novo." & vbCrLf & vbCrLf &
+                                    "A venda foi registrada, mas SEM nota fiscal emitida. Avise o responsável para verificar o motivo e corrigir antes de reemitir." & vbCrLf & vbCrLf &
+                                    "Motivo informado pela SEFAZ: " & If(erroEmissaoNFCe IsNot Nothing, erroEmissaoNFCe.Message, "desconhecido"),
+                                    "NFC-e rejeitada pela SEFAZ", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            Else
+                                MessageBox.Show(
+                                    "Não foi possível emitir a NFC-e desta venda (controle " & controle.ToString() & "), mesmo após 3 tentativas." & vbCrLf & vbCrLf &
+                                    "Isso normalmente acontece quando o site da SEFAZ está fora do ar ou muito lento no momento." & vbCrLf & vbCrLf &
+                                    "A venda foi registrada, mas SEM nota fiscal emitida. Avise o responsável para reemitir a nota assim que a SEFAZ estiver disponível." & vbCrLf & vbCrLf &
+                                    "Detalhe técnico: " & If(erroEmissaoNFCe IsNot Nothing, erroEmissaoNFCe.Message, "erro desconhecido"),
+                                    "Falha ao emitir NFC-e", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            End If
                         End If
 
                     Catch ex As Exception

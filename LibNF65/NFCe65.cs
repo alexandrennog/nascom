@@ -29,6 +29,28 @@ using XmlNFe = Unimake.Business.DFe.Xml.NFe;
 
 namespace LibNF65
 {
+    // Lançada quando a SEFAZ processa a NFC-e e a REJEITA (erro fiscal real nos dados da
+    // nota — CFOP inválido, cadastro divergente, etc), em contraste com uma falha de
+    // COMUNICAÇÃO (timeout, SEFAZ fora do ar). Antes, GerarNF devolvia a chaveAcesso
+    // normalmente nesse caso, então uma nota rejeitada era tratada pelo chamador exatamente
+    // como uma nota autorizada (venda salva como se a nota fosse válida). Ter um tipo de
+    // exceção próprio permite que a tela de pagamento diferencie os dois cenários e avise o
+    // operador com uma mensagem apropriada para cada um.
+    public class NFCeRejeitadaException : Exception
+    {
+        public string ChaveAcesso { get; }
+        public int CStat { get; }
+        public string XMotivo { get; }
+
+        public NFCeRejeitadaException(string chaveAcesso, int cStat, string xMotivo)
+            : base($"NFC-e {chaveAcesso} rejeitada pela SEFAZ ({cStat}): {xMotivo}")
+        {
+            ChaveAcesso = chaveAcesso;
+            CStat = cStat;
+            XMotivo = xMotivo;
+        }
+    }
+
     public class NFCe65
     {
         // Pasta base ABSOLUTA para os XMLs das NFC-e.
@@ -323,9 +345,13 @@ namespace LibNF65
             // ficava esquecido na pasta raiz sem aviso nenhum ao operador do caixa.
             if (autorizacao.Result?.ProtNFe == null)
             {
+                // Antes, esse caso mostrava um MessageBox aqui dentro da biblioteca e MESMO
+                // ASSIM devolvia chaveAcesso ao chamador — que enxergava isso como sucesso
+                // (chave não-nula) e salvava a venda com essa chave como se fosse uma nota
+                // válida. Agora lança, para que o chamador trate como falha de emissão (igual
+                // às outras falhas) em vez de gravar uma nota sem protocolo como se fosse boa.
                 MoverArquivo(chaveAcesso, false);
-                MessageBox.Show($"A SEFAZ não retornou um protocolo de autorização para a NFC-e {chaveAcesso}. Verifique a situação da nota antes de liberar o cupom.");
-                return chaveAcesso;
+                throw new Exception($"A SEFAZ não retornou um protocolo de autorização para a NFC-e {chaveAcesso}. Verifique a situação da nota antes de liberar o cupom.");
             }
 
             var infProt = autorizacao.Result.ProtNFe.InfProt;
@@ -354,14 +380,20 @@ namespace LibNF65
                     // cupom impresso para o cliente — problema fiscal sério.
                     Imprimir(chaveAcesso);
                     MoverArquivo(chaveAcesso, true);
-                    break;
+                    return chaveAcesso;
                 default:
-                    MessageBox.Show($"Ocorreu um erro ao comunicar com a SEFAZ {infProt.CStat}: {infProt.XMotivo}");
+                    // A SEFAZ respondeu e REJEITOU a nota (CStat diferente de 100 — erro
+                    // fiscal real nos dados, não falha de comunicação). Antes, esse caso só
+                    // mostrava um MessageBox aqui dentro da biblioteca e devolvia chaveAcesso
+                    // do mesmo jeito, então o chamador (fPagamento.vb) via uma chave não-nula
+                    // e tratava a venda como se a nota tivesse sido emitida com sucesso —
+                    // salvando uma nota REJEITADA no banco como se fosse válida. Agora lança
+                    // uma exceção específica (NFCeRejeitadaException), para o chamador poder
+                    // diferenciar "SEFAZ rejeitou a nota" de "falha ao comunicar com a SEFAZ"
+                    // e tratar (e avisar o operador) de forma correta em cada caso.
                     MoverArquivo(chaveAcesso, false);
-                    break;
+                    throw new NFCeRejeitadaException(chaveAcesso, infProt.CStat, infProt.XMotivo);
             }
-
-            return chaveAcesso;
         }
 
         private static void CriarDiretorios()
@@ -421,35 +453,52 @@ namespace LibNF65
 
         public static bool CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)
         {
-            bool retorno = false;
             IInfProtRepository repository = new InfProtRepository();
 
             var infoProdutoService = new InfoProdutoService();
             var ret = infoProdutoService.BuscarPorChNFe(chave, repository);
 
+            if (ret == null)
+            {
+                // Antes, "ret" nulo (chave não encontrada no cadastro local de protocolos)
+                // estourava NullReferenceException logo abaixo em ret.NProt, sem nenhuma
+                // mensagem explicando o motivo real — parecia um erro genérico/travamento.
+                throw new Exception($"Não foi possível cancelar a NFC-e {chave}: nota não encontrada no cadastro local de protocolos (NProt).");
+            }
+
             var objNFCe = new NasNFCe();
             var retCancelamento = objNFCe.EventoCancelamentoNFCe(chave, x509Cert, ret.NProt);
 
-            if (retCancelamento.Result.CStat == 128) //Lote de evento processado com sucesso
+            if (retCancelamento?.Result == null)
             {
-                switch (retCancelamento.Result.RetEvento[0].InfEvento.CStat)
-                {
-                    case 135: //Evento homologado
-                        infoProdutoService.UpdateEvent(chave, retCancelamento.Result.RetEvento[0].InfEvento.XEvento, ret.NProt, repository);
-                        retorno = true;
-                        break;
-                    case 155: //Evento homologado fora do prazo permitido
-                        infoProdutoService.UpdateEvent(chave, retCancelamento.Result.RetEvento[0].InfEvento.XEvento, ret.NProt, repository);
-                        retorno = true;
-                        break;
-
-                    default:
-                        //Tratamentos necessários quando o evento é rejeitado
-                        break;
-                }
+                throw new Exception($"A SEFAZ não retornou resposta para o cancelamento da NFC-e {chave}.");
             }
 
-            return retorno;
+            if (retCancelamento.Result.CStat != 128) //Lote de evento não processado
+            {
+                // Antes, qualquer CStat de lote diferente de 128 simplesmente pulava todo o
+                // bloco e devolvia "false" sem explicação nenhuma ao chamador.
+                throw new Exception($"Falha ao cancelar a NFC-e {chave}: lote de evento não processado pela SEFAZ (CStat {retCancelamento.Result.CStat}).");
+            }
+
+            var infEvento = retCancelamento.Result.RetEvento[0].InfEvento;
+
+            switch (infEvento.CStat)
+            {
+                case 135: //Evento homologado
+                case 155: //Evento homologado fora do prazo permitido
+                    infoProdutoService.UpdateEvent(chave, infEvento.XEvento, ret.NProt, repository);
+                    return true;
+
+                default:
+                    // Evento de cancelamento REJEITADO pela SEFAZ (ex.: prazo de cancelamento
+                    // expirado, evento já registrado, chave inválida). Antes disso era um
+                    // "return false" silencioso — nem o código nem o motivo da rejeição
+                    // chegavam a quem chamou o método, então o operador não tinha como saber
+                    // POR QUE o cancelamento falhou. Agora lançamos com o código e a descrição
+                    // devolvidos pela SEFAZ para esse evento.
+                    throw new Exception($"A SEFAZ rejeitou o cancelamento da NFC-e {chave} (CStat {infEvento.CStat}): {infEvento.XEvento}");
+            }
         }
 
         public static void Imprimir(string chaveAcesso)
