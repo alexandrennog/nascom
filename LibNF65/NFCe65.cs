@@ -191,6 +191,23 @@ namespace LibNF65
                 {
                     consultaCadastro = new ConsultaCadastro(consCad, configuracao);
                     consultaCadastro.Executar();
+
+                    // A chamada pode "ter sucesso" do ponto de vista de comunicação (sem lançar
+                    // exceção) mas a SEFAZ responder com o cadastro vazio quando o serviço de
+                    // consulta está temporariamente indisponível (ex.: CStat 108/109 - serviço
+                    // paralisado). Nesse caso InfCad vem sem nenhuma ocorrência. Antes, o código
+                    // seguia adiante com esse resultado vazio e estourava NullReferenceException
+                    // mais tarde em RecuperarProdutos, ao tentar ler o endereço do emitente de uma
+                    // lista vazia — falha que não passava pelas retentativas, porque acontecia
+                    // depois que ExecutarComRetentativas já tinha dado esta chamada como sucesso.
+                    // Agora, tratamos o cadastro vazio como falha retentável, para que caia no
+                    // mesmo mecanismo de nova tentativa usado para falha de comunicação.
+                    if (consultaCadastro.Result?.InfCons?.InfCad == null || !consultaCadastro.Result.InfCons.InfCad.Any())
+                    {
+                        var cStatConsulta = consultaCadastro.Result?.InfCons?.CStat;
+                        var xMotivoConsulta = consultaCadastro.Result?.InfCons?.XMotivo;
+                        throw new Exception($"Consulta de cadastro na SEFAZ não retornou o cadastro do emitente (CStat {cStatConsulta}: {xMotivoConsulta}).");
+                    }
                 }, "consultar cadastro na SEFAZ", aoTentarNovamente, aoAguardar);
             }
             catch (Exception ex)
@@ -312,6 +329,21 @@ namespace LibNF65
 
                     autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
                     autorizacao.Executar();
+
+                    // CStat 108/109 significam "serviço da SEFAZ paralisado" (momentaneamente ou
+                    // sem previsão) — a SEFAZ respondeu, mas está temporariamente fora do ar, não
+                    // é uma rejeição fiscal real da nota. Antes, esses códigos caíam no switch mais
+                    // abaixo junto com qualquer outro CStat diferente de 100 e eram tratados como
+                    // NFCeRejeitadaException — instruindo o operador a corrigir dados que não têm
+                    // nada de errado, e sem tentar de novo. Tratamos como falha retentável aqui
+                    // (mesmo caminho da falha de comunicação), então uma instabilidade passageira
+                    // da SEFAZ tem chance de se resolver sozinha nas próximas tentativas.
+                    var cStatResposta = autorizacao.Result?.ProtNFe?.InfProt?.CStat;
+                    if (cStatResposta == 108 || cStatResposta == 109)
+                    {
+                        throw new Exception($"SEFAZ temporariamente indisponível (CStat {cStatResposta}: {autorizacao.Result?.ProtNFe?.InfProt?.XMotivo}).");
+                    }
+
                     autorizacaoRespondida = true;
                 }
                 catch (Exception ex)
