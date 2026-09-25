@@ -63,6 +63,7 @@ Partial Class fPainelCompras
         Me.pnlCabecalho.Controls.Add(Me.pnlTopo, 0, 0)
         Me.pnlCabecalho.Controls.Add(Me.pnlResumo, 0, 1)
         Me.pnlCabecalho.Controls.Add(Me.lblReposicaoTitulo, 0, 2)
+        Me.pnlCabecalho.BackColor = System.Drawing.Color.Transparent
         Me.pnlCabecalho.Dock = System.Windows.Forms.DockStyle.Top
         Me.pnlCabecalho.Location = New System.Drawing.Point(0, 0)
         Me.pnlCabecalho.Name = "pnlCabecalho"
@@ -81,6 +82,7 @@ Partial Class fPainelCompras
         Me.pnlTopo.Controls.Add(Me.txtDataInicial)
         Me.pnlTopo.Controls.Add(Me.lblDe)
         Me.pnlTopo.Controls.Add(Me.lblTitulo)
+        Me.pnlTopo.BackColor = System.Drawing.Color.Transparent
         Me.pnlTopo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlTopo.Location = New System.Drawing.Point(0, 0)
         Me.pnlTopo.Margin = New System.Windows.Forms.Padding(0)
@@ -107,6 +109,7 @@ Partial Class fPainelCompras
         'lblAte
         '
         Me.lblAte.AutoSize = True
+        Me.lblAte.BackColor = System.Drawing.Color.Transparent
         Me.lblAte.Location = New System.Drawing.Point(290, 21)
         Me.lblAte.Name = "lblAte"
         Me.lblAte.Size = New System.Drawing.Size(24, 16)
@@ -123,6 +126,7 @@ Partial Class fPainelCompras
         'lblDe
         '
         Me.lblDe.AutoSize = True
+        Me.lblDe.BackColor = System.Drawing.Color.Transparent
         Me.lblDe.Location = New System.Drawing.Point(170, 21)
         Me.lblDe.Name = "lblDe"
         Me.lblDe.Size = New System.Drawing.Size(24, 16)
@@ -132,7 +136,9 @@ Partial Class fPainelCompras
         'lblTitulo
         '
         Me.lblTitulo.AutoSize = True
+        Me.lblTitulo.BackColor = System.Drawing.Color.Transparent
         Me.lblTitulo.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblTitulo.Location = New System.Drawing.Point(12, 14)
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(150, 25)
@@ -141,6 +147,7 @@ Partial Class fPainelCompras
         '
         'pnlResumo
         '
+        Me.pnlResumo.BackColor = System.Drawing.Color.Transparent
         Me.pnlResumo.ColumnCount = 5
         Me.pnlResumo.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
         Me.pnlResumo.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
@@ -171,6 +178,7 @@ Partial Class fPainelCompras
         'lblFaturamentoCaption
         '
         Me.lblFaturamentoCaption.AutoSize = True
+        Me.lblFaturamentoCaption.BackColor = System.Drawing.Color.Transparent
         Me.lblFaturamentoCaption.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblFaturamentoCaption.ForeColor = System.Drawing.Color.Gray
         Me.lblFaturamentoCaption.Name = "lblFaturamentoCaption"
@@ -179,6 +187,7 @@ Partial Class fPainelCompras
         'lblFaturamentoValor
         '
         Me.lblFaturamentoValor.AutoSize = True
+        Me.lblFaturamentoValor.BackColor = System.Drawing.Color.Transparent
         Me.lblFaturamentoValor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblFaturamentoValor.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.lblFaturamentoValor.Name = "lblFaturamentoValor"
@@ -187,6 +196,7 @@ Partial Class fPainelCompras
         'lblTicketMedioCaption
         '
         Me.lblTicketMedioCaption.AutoSize = True
+        Me.lblTicketMedioCaption.BackColor = System.Drawing.Color.Transparent
         Me.lblTicketMedioCaption.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblTicketMedioCaption.ForeColor = System.Drawing.Color.Gray
         Me.lblTicketMedioCaption.Name = "lblTicketMedioCaption"
@@ -195,6 +205,7 @@ Partial Class fPainelCompras
         'lblTicketMedioValor
         '
         Me.lblTicketMedioValor.AutoSize = True
+        Me.lblTicketMedioValor.BackColor = System.Drawing.Color.Transparent
         Me.lblTicketMedioValor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblTicketMedioValor.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.lblTicketMedioValor.Name = "lblTicketMedioValor"
@@ -203,6 +214,7 @@ Partial Class fPainelCompras
         'lblQtdVendasCaption
         '
         Me.lblQtdVendasCaption.AutoSize = True
+        Me.lblQtdVendasCaption.BackColor = System.Drawing.Color.Transparent
         Me.lblQtdVendasCaption.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblQtdVendasCaption.ForeColor = System.Drawing.Color.Gray
         Me.lblQtdVendasCaption.Name = "lblQtdVendasCaption"
@@ -211,6 +223,7 @@ Partial Class fPainelCompras
         'lblQtdVendasValor
         '
         Me.lblQtdVendasValor.AutoSize = True
+        Me.lblQtdVendasValor.BackColor = System.Drawing.Color.Transparent
         Me.lblQtdVendasValor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblQtdVendasValor.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.lblQtdVendasValor.Name = "lblQtdVendasValor"
@@ -219,6 +232,7 @@ Partial Class fPainelCompras
         'lblMarcaValorCaption
         '
         Me.lblMarcaValorCaption.AutoSize = True
+        Me.lblMarcaValorCaption.BackColor = System.Drawing.Color.Transparent
         Me.lblMarcaValorCaption.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblMarcaValorCaption.ForeColor = System.Drawing.Color.Gray
         Me.lblMarcaValorCaption.Name = "lblMarcaValorCaption"
@@ -227,6 +241,7 @@ Partial Class fPainelCompras
         'lblMarcaValorValor
         '
         Me.lblMarcaValorValor.AutoSize = True
+        Me.lblMarcaValorValor.BackColor = System.Drawing.Color.Transparent
         Me.lblMarcaValorValor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblMarcaValorValor.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
         Me.lblMarcaValorValor.Name = "lblMarcaValorValor"
@@ -235,6 +250,7 @@ Partial Class fPainelCompras
         'lblMarcaQtdCaption
         '
         Me.lblMarcaQtdCaption.AutoSize = True
+        Me.lblMarcaQtdCaption.BackColor = System.Drawing.Color.Transparent
         Me.lblMarcaQtdCaption.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblMarcaQtdCaption.ForeColor = System.Drawing.Color.Gray
         Me.lblMarcaQtdCaption.Name = "lblMarcaQtdCaption"
@@ -243,6 +259,7 @@ Partial Class fPainelCompras
         'lblMarcaQtdValor
         '
         Me.lblMarcaQtdValor.AutoSize = True
+        Me.lblMarcaQtdValor.BackColor = System.Drawing.Color.Transparent
         Me.lblMarcaQtdValor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblMarcaQtdValor.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
         Me.lblMarcaQtdValor.Name = "lblMarcaQtdValor"
@@ -251,6 +268,7 @@ Partial Class fPainelCompras
         'lblReposicaoTitulo
         '
         Me.lblReposicaoTitulo.AutoSize = True
+        Me.lblReposicaoTitulo.BackColor = System.Drawing.Color.Transparent
         Me.lblReposicaoTitulo.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblReposicaoTitulo.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
         Me.lblReposicaoTitulo.Location = New System.Drawing.Point(0, 132)
@@ -277,6 +295,7 @@ Partial Class fPainelCompras
         'pnlRodape
         '
         Me.pnlRodape.Controls.Add(Me.btoSair)
+        Me.pnlRodape.BackColor = System.Drawing.Color.Transparent
         Me.pnlRodape.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.pnlRodape.Location = New System.Drawing.Point(0, 476)
         Me.pnlRodape.Name = "pnlRodape"
@@ -297,6 +316,7 @@ Partial Class fPainelCompras
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(760, 522)
         Me.Controls.Add(Me.lstReposicao)
         Me.Controls.Add(Me.pnlCabecalho)
