@@ -23,6 +23,10 @@ Namespace nsDashboardCompras
         Public Property referencia As String
         Public Property descricao As String
         Public Property fabricante As String
+        ' Cor do item (o mesmo produto/referencia pode ter varias cores
+        ' cadastradas, cada uma com seu proprio estoque) - pedido da cliente,
+        ' pra nao precisar abrir cor por cor pra achar qual precisa repor.
+        Public Property cor As String
         Public Property quantidadeVendida As Decimal
         Public Property estoqueAtual As Decimal
         Public Property classeAbc As String

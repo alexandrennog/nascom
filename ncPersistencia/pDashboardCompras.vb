@@ -86,13 +86,12 @@ Namespace nsDashboardCompras
 
                 retorno = Nothing
 
-                ' sp_dashboard_compras_reposicao faz "CALL sp_curva_abc(...)" por dentro,
-                ' e sp_curva_abc termina com um SELECT proprio (linha final do script 33).
-                ' O MySQL devolve esse SELECT interno como um resultset A PARTE, antes do
-                ' resultset final de sp_dashboard_compras_reposicao - entao ds.Tables(0)
-                ' aqui seria o resultado BRUTO da Curva ABC (sem a coluna
-                ' "quantidade_vendida", por exemplo), nao a lista de reposicao filtrada.
-                ' O resultset certo e sempre o ULTIMO devolvido, nao o primeiro.
+                ' Desde o script 39, sp_dashboard_compras_reposicao nao chama mais
+                ' sp_curva_abc por dentro (calculo proprio, por referencia+cor) - devolve
+                ' um unico resultset. Mantido ds.Tables(ds.Tables.Count - 1) mesmo assim
+                ' (em vez de fixar em ds.Tables(0)) porque continua correto e nao custa
+                ' nada de robustez a mais caso a procedure volte a ter algum SELECT
+                ' intermediario no futuro.
                 If Not ds Is Nothing Then
                     If ds.Tables.Count > 0 Then
                         dt = ds.Tables(ds.Tables.Count - 1)
@@ -105,6 +104,7 @@ Namespace nsDashboardCompras
                                 item.referencia = cFuncoes.RetornarTexto(row("referencia"))
                                 item.descricao = cFuncoes.RetornarTexto(row("descricao"))
                                 item.fabricante = cFuncoes.RetornarTexto(row("fabricante"))
+                                item.cor = cFuncoes.RetornarTexto(row("cor"))
                                 item.quantidadeVendida = cFuncoes.RetornarDecimal(row("quantidade_vendida")).GetValueOrDefault()
                                 item.estoqueAtual = cFuncoes.RetornarDecimal(row("estoque_atual")).GetValueOrDefault()
                                 item.classeAbc = cFuncoes.RetornarTexto(row("classe_abc"))

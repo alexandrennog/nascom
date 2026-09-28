@@ -1,6 +1,7 @@
 ﻿Imports iTextSharp.text
 Imports iTextSharp.text.pdf
 Imports ncDados.nsCobranca
+Imports ncComum.nsExcecao
 Imports System.Configuration
 Imports System.IO
 
@@ -18,6 +19,28 @@ Public Class fRelatorioCobrancaAutomatica
         Me.Close()
     End Sub
     Private Sub Filtrar()
+        ' Antes, um erro aqui (por exemplo a tabela "cobrancas_automaticas" nao
+        ' existir ainda no banco dessa loja - a tabela usada pela cobranca
+        ' automatica via PIX/WhatsApp so e criada rodando o script "24 -
+        ' cobrancas_criar_tabelas_zap.sql") estourava sem tratamento nenhum,
+        ' derrubando a tela/travando no depurador. Agora mostra uma mensagem
+        ' explicando o problema em vez de quebrar sem aviso.
+        Try
+            FiltrarInterno()
+        Catch nex As ExcecaoNascomercio
+            MessageBox.Show("Erro ao consultar cobranças: " & nex.Message,
+                             "Erro",
+                             MessageBoxButtons.OK,
+                             MessageBoxIcon.Error)
+        Catch ex As Exception
+            MessageBox.Show("Erro inesperado ao consultar cobranças: " & ex.Message,
+                             "Erro",
+                             MessageBoxButtons.OK,
+                             MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub FiltrarInterno()
         Dim dadosVenda As New dCobrancaAutomatica
 
         Dim parametros(1) As Microsoft.Reporting.WinForms.ReportParameter

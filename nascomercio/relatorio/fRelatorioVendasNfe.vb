@@ -239,7 +239,7 @@ Public Class fRelatorioVendasNfe
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relatório de Fechamento em PIX", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relatório de Vendas NFe", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -248,62 +248,46 @@ Public Class fRelatorioVendasNfe
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
-        Dim table As New PdfPTable(4)
+        ' A tabela tem 3 colunas de verdade (Cupom, DataVenda, Valor) - antes estava
+        ' declarada com 4 colunas (PdfPTable(4)), com 4 células no cabeçalho mas só 3
+        ' células por linha de venda dentro do loop. O iTextSharp preenche a grade em
+        ' sequência a cada N células (N = número de colunas), então a partir da 2ª
+        ' venda cada linha ficava misturada com a venda seguinte - e a linha de Total
+        ' no final acabava caindo em colunas erradas (ou sumindo visualmente),
+        ' dependendo de quantas vendas tinham no período.
+        Dim table As New PdfPTable(3)
 
         Dim cell1 As New PdfPCell
-        'Dim cell2 As New PdfPCell
-        'Dim cell3 As New PdfPCell
         Dim cell4 As New PdfPCell
         Dim cell5 As New PdfPCell
-        Dim cell6 As New PdfPCell
-        Dim cell7 As New PdfPCell
         Dim cells As New List(Of PdfPCell)
 
         Dim fonte As Font
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Cupom", fonte)
-        'Dim coluna2 As New Paragraph("usuarioId", fonte)
-        'Dim coluna3 As New Paragraph("clienteId", fonte)
         Dim coluna4 As New Paragraph("DataVenda", fonte)
         Dim coluna5 As New Paragraph("Valor", fonte)
-        Dim coluna6 As New Paragraph("total", fonte)
 
         cell1.AddElement(coluna1)
-        'cell2.AddElement(coluna2)
-        'cell3.AddElement(coluna3)
         cell4.AddElement(coluna4)
         cell5.AddElement(coluna5)
-        cell6.AddElement(coluna6)
 
         table.AddCell(cell1)
-        'table.AddCell(cell2)
-        'table.AddCell(cell3)
         table.AddCell(cell4)
         table.AddCell(cell5)
-        table.AddCell(cell6)
 
         Dim totTotal As Decimal
 
-
         For Each item As dVendasNfe In vendas
-
-            'cells.Add(New PdfPCell(New Phrase(item.controle)))
             table.AddCell(New PdfPCell(New Phrase(item.Cupom.ToString())))
-            'cells.Add(New PdfPCell(New Phrase(item.Data)))
             table.AddCell(New PdfPCell(New Phrase(item.DataVenda)))
-            'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
             table.AddCell(New PdfPCell(New Phrase(item.Valor)))
-            'cells.Add(New PdfPCell(New Phrase(item.Total)))
             totTotal = totTotal + item.Valor
         Next
 
         table.AddCell(New PdfPCell(New Phrase("")))
-        'cells.Add(New PdfPCell(New Phrase(item.Data)))
-        table.AddCell(New PdfPCell(New Phrase("")))
-        'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
         table.AddCell(New PdfPCell(New Phrase("Total: ")))
-        'cells.Add(New PdfPCell(New Phrase(item.Total)))
         table.AddCell(New PdfPCell(New Phrase(totTotal.ToString())))
 
         If Not vendas Is Nothing Then
@@ -373,7 +357,11 @@ Public Class fRelatorioVendasNfe
     End Sub
 
     Private Sub Imprimir()
-        Dim arquivoPDF = "RelatorioPix" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
+        ' Precisa ser o MESMO nome de arquivo usado em ConfigurarRelatorio() para
+        ' gerar o PDF - antes estava "RelatorioPix" (resto de copia/cola de outra
+        ' tela), então o arquivo procurado aqui nunca existia e o botão Imprimir
+        ' não fazia nada (nem erro, nem abria o PDF).
+        Dim arquivoPDF = "RelatorioVendasNFe" & System.DateTime.Now.ToString("ddMMyyyy") & ".pdf"
         Dim ProcessApplication As String = "AcroRd32"
 
         If System.IO.File.Exists(ConfigurationManager.AppSettings("pathRelatorio") & arquivoPDF) Then

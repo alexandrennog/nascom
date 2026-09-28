@@ -219,12 +219,17 @@ Public Class fRelatorioGrade
 
                     colReferencia = regras.ConsultarReferencia(filtro)
 
-                    pbGrade.Step = 1
-                    pbGrade.Minimum = 0
-                    pbGrade.Maximum = colReferencia.Count
-                    pbGrade.Value = 0
-
                     If Not IsNothing(colReferencia) Then
+                        ' pbGrade.Maximum usava colReferencia.Count antes dessa checagem
+                        ' de Nothing - se a consulta não retornasse nada (ex.: nenhum
+                        ' produto pro fabricante/fornecedor escolhido), estourava
+                        ' NullReferenceException aqui mesmo, antes do "If" que já existia
+                        ' logo abaixo justamente pra tratar esse caso.
+                        pbGrade.Step = 1
+                        pbGrade.Minimum = 0
+                        pbGrade.Maximum = colReferencia.Count
+                        pbGrade.Value = 0
+
                         totalGeral = 0
                         pbGrade.Show()
                         For Each itemRef As dGradeItem In colReferencia

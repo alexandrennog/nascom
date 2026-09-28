@@ -5,10 +5,14 @@ Imports ncComum.nsFuncoes
 
 ' Painel de Compras: responde direto (sem precisar interpretar um relatorio
 ' cru) o que a cliente pediu - ticket medio, marca campea e o que precisa
-' repor. Reaproveita as procedures sp_dashboard_compras_resumo e
-' sp_dashboard_compras_reposicao (script "38 - dashboard_compras.sql"), que por
-' sua vez reaproveitam sp_curva_abc / sp_curva_abc_por_fabricante (script
-' "37 - curva_abc_unificada.sql").
+' repor. Usa as procedures sp_dashboard_compras_resumo e
+' sp_dashboard_compras_reposicao (script "38 - dashboard_compras.sql").
+' sp_dashboard_compras_reposicao foi reescrita no script "39 - dashboard_
+' compras_reposicao_por_cor.sql": agora quebra a lista de reposicao por
+' referencia + cor (nao so por referencia), exclui fabricante/produto
+' inativo e estoque negativo - deixou de reaproveitar sp_curva_abc (script
+' "37 - curva_abc_unificada.sql"), que segue existindo do jeito que estava
+' pros outros relatorios que dependem dela.
 Public Class fPainelCompras
 
     Private Sub ConfigurarListView()
@@ -19,8 +23,9 @@ Public Class fPainelCompras
         Me.lstReposicao.Items.Clear()
 
         Me.lstReposicao.Columns.Add("Referência").Width = 90
-        Me.lstReposicao.Columns.Add("Descrição").Width = 220
-        Me.lstReposicao.Columns.Add("Fabricante").Width = 130
+        Me.lstReposicao.Columns.Add("Descrição").Width = 190
+        Me.lstReposicao.Columns.Add("Cor").Width = 90
+        Me.lstReposicao.Columns.Add("Fabricante").Width = 110
         Me.lstReposicao.Columns.Add("Qtd. Vendida").Width = 90
         Me.lstReposicao.Columns.Add("Estoque Atual").Width = 90
         Me.lstReposicao.Columns.Add("Classe").Width = 60
@@ -70,6 +75,7 @@ Public Class fPainelCompras
                 For Each item As dDashboardReposicaoItem In reposicao
                     Dim li As New ListViewItem(item.referencia)
                     li.SubItems.Add(item.descricao)
+                    li.SubItems.Add(item.cor)
                     li.SubItems.Add(item.fabricante)
                     li.SubItems.Add(item.quantidadeVendida.ToString("N0"))
                     li.SubItems.Add(item.estoqueAtual.ToString("N0"))

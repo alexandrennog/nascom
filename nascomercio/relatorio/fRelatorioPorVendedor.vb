@@ -120,6 +120,13 @@ Public Class fRelatorioPorVendedor
 
         gLoja = regrasLoja.Consultar(1)
 
+        If gLoja Is Nothing Then
+            ' Mesmo problema já corrigido no Relatório por Loja: sem essa checagem, se
+            ' o cadastro de loja (cid=1) não existisse, "gLoja.nomeFantasia" logo abaixo
+            ' estourava NullReferenceException sem explicação nenhuma.
+            Throw New Exception("Não foi possível carregar os dados da loja para gerar o relatório (cadastro de loja não encontrado).")
+        End If
+
         Dim fonteLoja As Font
         fonteLoja = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 16)
 

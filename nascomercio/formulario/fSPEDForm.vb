@@ -520,7 +520,7 @@ Public Class fSPEDForm
             MessageBox.Show("Leiaute salvo")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na gravação dos dados de Arquivo.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravaï¿½ï¿½o dos dados de Arquivo.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -549,7 +549,7 @@ Public Class fSPEDForm
             MessageBox.Show("Entidade salva")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na gravação dos dados de Entidade.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravaï¿½ï¿½o dos dados de Entidade.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -573,10 +573,10 @@ Public Class fSPEDForm
 
             _rEnderecoContato.Salvar(_dEnderecoContato)
 
-            MessageBox.Show("Endereço salvo")
+            MessageBox.Show("Endereï¿½o salvo")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na gravação dos dados de EnderecoContato.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravaï¿½ï¿½o dos dados de EnderecoContato.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -602,10 +602,10 @@ Public Class fSPEDForm
 
                 CarregarInfoUnidadeMedida()
             Else
-                MessageBox.Show("Código já cadastrado.", "EFD", MessageBoxButtons.OK)
+                MessageBox.Show("Cï¿½digo jï¿½ cadastrado.", "EFD", MessageBoxButtons.OK)
             End If
         Catch ex As Exception
-            MessageBox.Show("Erro na gravação dos dados de UnidadeMedida.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravaï¿½ï¿½o dos dados de UnidadeMedida.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -640,7 +640,7 @@ Public Class fSPEDForm
             MessageBox.Show("Contabilidade salva")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na gravação dos dados de Contabilidade.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravaï¿½ï¿½o dos dados de Contabilidade.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -669,7 +669,7 @@ Public Class fSPEDForm
 
             CarregarInfoUnidadeMedida()
         Catch ex As Exception
-            MessageBox.Show("Erro na exclusão dos dados de Unidade de Medida.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na exclusï¿½o dos dados de Unidade de Medida.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -680,7 +680,19 @@ Public Class fSPEDForm
     Private Sub GerarArquivo()
         Dim dataAtual As Date = DateTime.Now
         Dim data As String = dataAtual.Day.ToString() + "/" + dataAtual.Month.ToString() + "/" + dataAtual.Year.ToString()
-        Dim arquivoNome As String = System.IO.Directory.GetCurrentDirectory() + "\arquivos_sped\sped_" + FormatarDataUniversal(data) + ".txt"
+        Dim arquivoPasta As String = System.IO.Directory.GetCurrentDirectory() + "\arquivos_sped"
+        Dim arquivoNome As String = arquivoPasta + "\sped_" + FormatarDataUniversal(data) + ".txt"
+
+        ' Corrigido em 28/09/2026: o StreamWriter la embaixo da erro
+        ' "DirectoryNotFoundException" quando a pasta "arquivos_sped" nao
+        ' existe dentro de bin\Debug (ou bin\Release) - ela nunca e criada
+        ' automaticamente, so e esperada existir. Cria a pasta aqui (se ja
+        ' existir, CreateDirectory nao faz nada e nao da erro) antes de
+        ' tentar gravar o arquivo.
+        If Not System.IO.Directory.Exists(arquivoPasta) Then
+            System.IO.Directory.CreateDirectory(arquivoPasta)
+        End If
+
         Dim _dArquivo As dArquivo = New dArquivo()
         Dim _rArquivo As rArquivo = New rArquivo()
         Dim linha As String
@@ -702,70 +714,70 @@ Public Class fSPEDForm
 
         arquivo = New System.IO.StreamWriter(arquivoNome)
 
-        '-- Registro 0000 -- ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DA ENTIDADE
+        '-- Registro 0000 -- ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAï¿½ï¿½O DA ENTIDADE
         If _dArquivo.reg0000 IsNot Nothing Then
-            linha = "|" & RetornarTexto(_dArquivo.reg0000.reg, 4) & "|" & _
-              RetornarTexto(_dArquivo.reg0000.cod_ver, 3) & "|" & _
-              RetornarTexto(_dArquivo.reg0000.cod_fin, 1) & "|" & _
-              FormatarDataDDMMAAAA(_dArquivo.reg0000.dt_ini) & "|" & _
-              FormatarDataDDMMAAAA(_dArquivo.reg0000.dt_fin) & "|" & _
+            linha = "|" & RetornarTexto(_dArquivo.reg0000.reg, 4) & "|" &
+              RetornarTexto(_dArquivo.reg0000.cod_ver, 3) & "|" &
+              RetornarTexto(_dArquivo.reg0000.cod_fin, 1) & "|" &
+              FormatarDataDDMMAAAA(_dArquivo.reg0000.dt_ini) & "|" &
+              FormatarDataDDMMAAAA(_dArquivo.reg0000.dt_fin) & "|" &
               RetornarTexto(_dArquivo.reg0000.nome, 100) & "|"
             If _dArquivo.reg0000.tipoPessoa = "J" Then
                 linha = linha & RetornarTexto(_dArquivo.reg0000.cnpj, 14) & "||"
             ElseIf _dArquivo.reg0000.tipoPessoa = "F" Then
                 linha = linha & "|" & RetornarTexto(_dArquivo.reg0000.cpf, 11) & "|"
             End If
-            linha = linha & _
-                RetornarTexto(_dArquivo.reg0000.uf, 2) & "|" & _
-                RetornarTexto(_dArquivo.reg0000.ie, 14) & "|" & _
-                RetornarTexto(_dArquivo.reg0000.cod_mun, 7) & "|" & _
-                RetornarTexto(_dArquivo.reg0000.im) & "|" & _
-                RetornarTexto(_dArquivo.reg0000.suframa, 9) & "|" & _
-                RetornarTexto(_dArquivo.reg0000.ind_perfil, 1) & "|" & _
+            linha = linha &
+                RetornarTexto(_dArquivo.reg0000.uf, 2) & "|" &
+                RetornarTexto(_dArquivo.reg0000.ie, 14) & "|" &
+                RetornarTexto(_dArquivo.reg0000.cod_mun, 7) & "|" &
+                RetornarTexto(_dArquivo.reg0000.im) & "|" &
+                RetornarTexto(_dArquivo.reg0000.suframa, 9) & "|" &
+                RetornarTexto(_dArquivo.reg0000.ind_perfil, 1) & "|" &
                 RetornarTexto(_dArquivo.reg0000.ind_ativ, 1) & "|"
             arquivo.WriteLine(linha)
         End If
 
         '-- Registro 0001 -- ABERTURA DO BLOCO 0
         If _dArquivo.reg0001 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.reg0001.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.reg0001.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.reg0001.ind_mov) & "|"
             arquivo.WriteLine(linha)
         End If
 
         '-- Registro 0005 -- DADOS COMPLEMENTARES DA ENTIDADE
         If _dArquivo.reg0005 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.reg0005.reg, 4) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.fantasia, 60) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.cep, 8) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.ende, 60) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.num, 10) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.compl, 60) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.bairro, 60) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.fone, 10) & "|" & _
-                RetornarTexto(_dArquivo.reg0005.fax, 10) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.reg0005.reg, 4) & "|" &
+                RetornarTexto(_dArquivo.reg0005.fantasia, 60) & "|" &
+                RetornarTexto(_dArquivo.reg0005.cep, 8) & "|" &
+                RetornarTexto(_dArquivo.reg0005.ende, 60) & "|" &
+                RetornarTexto(_dArquivo.reg0005.num, 10) & "|" &
+                RetornarTexto(_dArquivo.reg0005.compl, 60) & "|" &
+                RetornarTexto(_dArquivo.reg0005.bairro, 60) & "|" &
+                RetornarTexto(_dArquivo.reg0005.fone, 10) & "|" &
+                RetornarTexto(_dArquivo.reg0005.fax, 10) & "|" &
                 RetornarTexto(_dArquivo.reg0005.email) & "|"
             arquivo.WriteLine(linha)
         End If
 
         '-- Registro 0100 -- DADOS DO CONTABILISTA
         If _dArquivo.reg0100 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.reg0100.reg, 4) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.nome, 100) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.cpf, 11) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.crc, 15) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.cnpj, 14) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.cep, 8) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.ende, 60) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.num, 10) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.compl, 60) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.bairro, 60) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.fone, 10) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.fax, 10) & "|" & _
-                RetornarTexto(_dArquivo.reg0100.email) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.reg0100.reg, 4) & "|" &
+                RetornarTexto(_dArquivo.reg0100.nome, 100) & "|" &
+                RetornarTexto(_dArquivo.reg0100.cpf, 11) & "|" &
+                RetornarTexto(_dArquivo.reg0100.crc, 15) & "|" &
+                RetornarTexto(_dArquivo.reg0100.cnpj, 14) & "|" &
+                RetornarTexto(_dArquivo.reg0100.cep, 8) & "|" &
+                RetornarTexto(_dArquivo.reg0100.ende, 60) & "|" &
+                RetornarTexto(_dArquivo.reg0100.num, 10) & "|" &
+                RetornarTexto(_dArquivo.reg0100.compl, 60) & "|" &
+                RetornarTexto(_dArquivo.reg0100.bairro, 60) & "|" &
+                RetornarTexto(_dArquivo.reg0100.fone, 10) & "|" &
+                RetornarTexto(_dArquivo.reg0100.fax, 10) & "|" &
+                RetornarTexto(_dArquivo.reg0100.email) & "|" &
                 RetornarTexto(_dArquivo.reg0100.cod_mun, 7) & "|"
             arquivo.WriteLine(linha)
         End If
@@ -774,50 +786,50 @@ Public Class fSPEDForm
         '-- 1058 = Brasil
         If _dArquivo.col0150 IsNot Nothing Then
             For Each item As dReg0150 In _dArquivo.col0150
-                linha = "|" & _
-                    RetornarTexto(item.reg) & "|" & _
-                    RetornarTexto(item.cod_part) & "|" & _
-                    RetornarTexto(item.nome) & "|" & _
-                    "1058|" & _
-                    RetornarTexto(item.cnpj) & "|" & _
-                    RetornarTexto(item.cpf) & "|" & _
-                    RetornarTexto(item.ie) & "|" & _
-                    RetornarTexto(item.cod_mun) & "|" & _
-                    RetornarTexto(item.suframa) & "|" & _
-                    RetornarTexto(item.ende) & "|" & _
-                    RetornarTexto(item.num) & "|" & _
-                    RetornarTexto(item.compl) & "|" & _
+                linha = "|" &
+                    RetornarTexto(item.reg) & "|" &
+                    RetornarTexto(item.cod_part) & "|" &
+                    RetornarTexto(item.nome) & "|" &
+                    "1058|" &
+                    RetornarTexto(item.cnpj) & "|" &
+                    RetornarTexto(item.cpf) & "|" &
+                    RetornarTexto(item.ie) & "|" &
+                    RetornarTexto(item.cod_mun) & "|" &
+                    RetornarTexto(item.suframa) & "|" &
+                    RetornarTexto(item.ende) & "|" &
+                    RetornarTexto(item.num) & "|" &
+                    RetornarTexto(item.compl) & "|" &
                     RetornarTexto(item.bairro) & "|"
                 arquivo.WriteLine(linha)
             Next
         End If
 
-        '-- Registro 0190 -- IDENTIFICAÇÃO DAS UNIDADES DE MEDIDA
+        '-- Registro 0190 -- IDENTIFICAï¿½ï¿½O DAS UNIDADES DE MEDIDA
         If _dArquivo.col0190 IsNot Nothing Then
             For Each item As dReg0190 In _dArquivo.col0190
-                linha = "|" & _
-                    RetornarTexto(item.reg, 4) & "|" & _
-                    RetornarTexto(item.unid, 6) & "|" & _
+                linha = "|" &
+                    RetornarTexto(item.reg, 4) & "|" &
+                    RetornarTexto(item.unid, 6) & "|" &
                     RetornarTexto(item.descr) & "|"
                 arquivo.WriteLine(linha)
             Next
         End If
 
-        '-- Registro 0200 -- TABELA DE IDENTIFICAÇÃO DO ITEM (PRODUTO E SERVIÇOS)
+        '-- Registro 0200 -- TABELA DE IDENTIFICAï¿½ï¿½O DO ITEM (PRODUTO E SERVIï¿½OS)
         If _dArquivo.col0200 IsNot Nothing Then
             For Each item As dReg0200 In _dArquivo.col0200
-                linha = "|" & _
-                    RetornarTexto(item.reg, 4) & "|" & _
-                    RetornarTexto(item.cod_item, 60) & "|" & _
-                    RetornarTexto(item.descr_item) & "|" & _
-                    RetornarTexto(item.cod_barra) & "|" & _
-                    RetornarTexto(item.cod_ant_item, 60) & "|" & _
-                    RetornarTexto(item.unid_inv, 6) & "|" & _
-                    RetornarTexto(item.tipo_item) & "|" & _
-                    RetornarTexto(item.cod_ncm, 8) & "|" & _
-                    RetornarTexto(item.ex_ipi, 3) & "|" & _
-                    RetornarTexto(item.cod_gen) & "|" & _
-                    RetornarTexto(item.cod_lst) & "|" & _
+                linha = "|" &
+                    RetornarTexto(item.reg, 4) & "|" &
+                    RetornarTexto(item.cod_item, 60) & "|" &
+                    RetornarTexto(item.descr_item) & "|" &
+                    RetornarTexto(item.cod_barra) & "|" &
+                    RetornarTexto(item.cod_ant_item, 60) & "|" &
+                    RetornarTexto(item.unid_inv, 6) & "|" &
+                    RetornarTexto(item.tipo_item) & "|" &
+                    RetornarTexto(item.cod_ncm, 8) & "|" &
+                    RetornarTexto(item.ex_ipi, 3) & "|" &
+                    RetornarTexto(item.cod_gen) & "|" &
+                    RetornarTexto(item.cod_lst) & "|" &
                     RetornarTexto(item.aliq_icms) & "|"
                 arquivo.WriteLine(linha)
             Next
@@ -825,21 +837,21 @@ Public Class fSPEDForm
 
         '-- Registro 0990 -- ENCERRAMENTO DO BLOCO 0
         If _dArquivo.reg0990 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.reg0990.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.reg0990.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.reg0990.qtd_lin_0) & "|"
             arquivo.WriteLine(linha)
         End If
 
         '-- Registro C001 -- ABERTURA DO BLOCO C
         If _dArquivo.regC001 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regC001.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regC001.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regC001.ind_mov) & "|"
             arquivo.WriteLine(linha)
         End If
 
-        '-- Registro C100 -- NOTA FISCAL (CÓDIGO 01), NOTA FISCAL AVULSA (CÓDIGO 1B), NOTA FISCAL DE PRODUTOR (CÓDIGO 04) E NF-e (CÓDIGO 55).
+        '-- Registro C100 -- NOTA FISCAL (Cï¿½DIGO 01), NOTA FISCAL AVULSA (Cï¿½DIGO 1B), NOTA FISCAL DE PRODUTOR (Cï¿½DIGO 04) E NF-e (Cï¿½DIGO 55).
         If _dArquivo.colC100 IsNot Nothing Then
             For Each item As dRegC100 In _dArquivo.colC100
                 _tipoEmissao = ""
@@ -868,78 +880,78 @@ Public Class fSPEDForm
                     item.ind_frt = _rTipoFrete.RetornarCodigo(item.tipoFrete)
                 End If
 
-                linha = "|" & _
-                    RetornarTexto(item.reg, 4) & "|" & _
-                    RetornarTexto(item.ind_oper, 1) & "|" & _
-                    RetornarTexto(item.ind_emit, 1) & "|" & _
-                    RetornarTexto(item.cod_part, 60) & "|" & _
-                    RetornarTexto(item.cod_mod, 2) & "|" & _
-                    RetornarTexto(item.cod_sit) & "|" & _
-                    RetornarTexto(item.ser, 3) & "|" & _
-                    RetornarTexto(item.num_doc) & "|" & _
-                    RetornarTexto(item.chv_nfe, 44) & "|" & _
-                    RetornarTexto(FormatarDataDDMMAAAA(item.dt_doc), 8) & "|" & _
-                    RetornarTexto(FormatarDataDDMMAAAA(item.dt_e_s), 8) & "|" & _
-                    RetornarTexto(item.vl_doc) & "|" & _
-                    RetornarTexto(item.ind_pagto, 1) & "|" & _
-                    RetornarTexto(item.vl_desc) & "|" & _
-                    RetornarTexto(item.vl_abat_nt) & "|" & _
-                    RetornarTexto(item.vl_merc) & "|" & _
-                    RetornarTexto(item.ind_frt, 1) & "|" & _
-                    RetornarTexto(item.vl_frt) & "|" & _
-                    RetornarTexto(item.vl_seg) & "|" & _
-                    RetornarTexto(item.vl_out_da) & "|" & _
-                    RetornarTexto(item.vl_bc_icms) & "|" & _
-                    RetornarTexto(item.vl_icms) & "|" & _
-                    RetornarTexto(item.vl_bc_icms_st) & "|" & _
-                    RetornarTexto(item.vl_icms_st) & "|" & _
-                    RetornarTexto(item.vl_ipi) & "|" & _
-                    RetornarTexto(item.vl_pis) & "|" & _
-                    RetornarTexto(item.vl_cofins) & "|" & _
-                    RetornarTexto(item.vl_pis_st) & "|" & _
+                linha = "|" &
+                    RetornarTexto(item.reg, 4) & "|" &
+                    RetornarTexto(item.ind_oper, 1) & "|" &
+                    RetornarTexto(item.ind_emit, 1) & "|" &
+                    RetornarTexto(item.cod_part, 60) & "|" &
+                    RetornarTexto(item.cod_mod, 2) & "|" &
+                    RetornarTexto(item.cod_sit) & "|" &
+                    RetornarTexto(item.ser, 3) & "|" &
+                    RetornarTexto(item.num_doc) & "|" &
+                    RetornarTexto(item.chv_nfe, 44) & "|" &
+                    RetornarTexto(FormatarDataDDMMAAAA(item.dt_doc), 8) & "|" &
+                    RetornarTexto(FormatarDataDDMMAAAA(item.dt_e_s), 8) & "|" &
+                    RetornarTexto(item.vl_doc) & "|" &
+                    RetornarTexto(item.ind_pagto, 1) & "|" &
+                    RetornarTexto(item.vl_desc) & "|" &
+                    RetornarTexto(item.vl_abat_nt) & "|" &
+                    RetornarTexto(item.vl_merc) & "|" &
+                    RetornarTexto(item.ind_frt, 1) & "|" &
+                    RetornarTexto(item.vl_frt) & "|" &
+                    RetornarTexto(item.vl_seg) & "|" &
+                    RetornarTexto(item.vl_out_da) & "|" &
+                    RetornarTexto(item.vl_bc_icms) & "|" &
+                    RetornarTexto(item.vl_icms) & "|" &
+                    RetornarTexto(item.vl_bc_icms_st) & "|" &
+                    RetornarTexto(item.vl_icms_st) & "|" &
+                    RetornarTexto(item.vl_ipi) & "|" &
+                    RetornarTexto(item.vl_pis) & "|" &
+                    RetornarTexto(item.vl_cofins) & "|" &
+                    RetornarTexto(item.vl_pis_st) & "|" &
                     RetornarTexto(item.vl_cofins_st) & "|"
 
                 arquivo.WriteLine(linha)
-                '-- Registro C170 -- ITENS DO DOCUMENTO (CÓDIGO 01, 1B, 04 e 55).
+                '-- Registro C170 -- ITENS DO DOCUMENTO (Cï¿½DIGO 01, 1B, 04 e 55).
                 For Each itemNota As dRegC170 In _dArquivo.colC170
                     If item.num_doc = itemNota.num_doc Then
-                        linha = "|" & _
-                              RetornarTexto(itemNota.reg, 4) & "|" & _
-                              RetornarTexto(itemNota.num_item) & "|" & _
-                              RetornarTexto(itemNota.cod_item) & "|" & _
-                              RetornarTexto(itemNota.descr_compl) & "|" & _
-                              RetornarTexto(itemNota.qtd) & "|" & _
-                              RetornarTexto(itemNota.unid) & "|" & _
-                              RetornarTexto(itemNota.vl_item) & "|" & _
-                              RetornarTexto(itemNota.vl_desc) & "|" & _
-                              RetornarTexto(itemNota.ind_mov) & "|" & _
-                              RetornarTexto(itemNota.cst_icms) & "|" & _
-                              RetornarTexto(itemNota.cfop) & "|" & _
-                              RetornarTexto(itemNota.cod_nat) & "|" & _
-                              RetornarTexto(itemNota.vl_bc_icms) & "|" & _
-                              RetornarTexto(itemNota.aliq_icms) & "|" & _
-                              RetornarTexto(itemNota.vl_icms) & "|" & _
-                              RetornarTexto(itemNota.vl_bc_icms_st) & "|" & _
-                              RetornarTexto(itemNota.aliq_st) & "|" & _
-                              RetornarTexto(itemNota.vl_icms_st) & "|" & _
-                              RetornarTexto(itemNota.ind_apur) & "|" & _
-                              RetornarTexto(itemNota.cst_ipi) & "|" & _
-                              RetornarTexto(itemNota.cod_enq) & "|" & _
-                              RetornarTexto(itemNota.vl_bc_ipi) & "|" & _
-                              RetornarTexto(itemNota.aliq_ipi) & "|" & _
-                              RetornarTexto(itemNota.vl_ipi) & "|" & _
-                              RetornarTexto(itemNota.cst_pis) & "|" & _
-                              RetornarTexto(itemNota.vl_bc_pis) & "|" & _
-                              RetornarTexto(itemNota.aliq_pis) & "|" & _
-                              RetornarTexto(itemNota.quant_bc_pis) & "|" & _
-                              RetornarTexto(itemNota.aliq_pis_r) & "|" & _
-                              RetornarTexto(itemNota.vl_pis) & "|" & _
-                              RetornarTexto(itemNota.cst_cofins) & "|" & _
-                              RetornarTexto(itemNota.vl_bc_cofins) & "|" & _
-                              RetornarTexto(itemNota.aliq_cofins) & "|" & _
-                              RetornarTexto(itemNota.quant_bc_cofins) & "|" & _
-                              RetornarTexto(itemNota.aliq_cofins_r) & "|" & _
-                              RetornarTexto(itemNota.vl_cofins) & "|" & _
+                        linha = "|" &
+                              RetornarTexto(itemNota.reg, 4) & "|" &
+                              RetornarTexto(itemNota.num_item) & "|" &
+                              RetornarTexto(itemNota.cod_item) & "|" &
+                              RetornarTexto(itemNota.descr_compl) & "|" &
+                              RetornarTexto(itemNota.qtd) & "|" &
+                              RetornarTexto(itemNota.unid) & "|" &
+                              RetornarTexto(itemNota.vl_item) & "|" &
+                              RetornarTexto(itemNota.vl_desc) & "|" &
+                              RetornarTexto(itemNota.ind_mov) & "|" &
+                              RetornarTexto(itemNota.cst_icms) & "|" &
+                              RetornarTexto(itemNota.cfop) & "|" &
+                              RetornarTexto(itemNota.cod_nat) & "|" &
+                              RetornarTexto(itemNota.vl_bc_icms) & "|" &
+                              RetornarTexto(itemNota.aliq_icms) & "|" &
+                              RetornarTexto(itemNota.vl_icms) & "|" &
+                              RetornarTexto(itemNota.vl_bc_icms_st) & "|" &
+                              RetornarTexto(itemNota.aliq_st) & "|" &
+                              RetornarTexto(itemNota.vl_icms_st) & "|" &
+                              RetornarTexto(itemNota.ind_apur) & "|" &
+                              RetornarTexto(itemNota.cst_ipi) & "|" &
+                              RetornarTexto(itemNota.cod_enq) & "|" &
+                              RetornarTexto(itemNota.vl_bc_ipi) & "|" &
+                              RetornarTexto(itemNota.aliq_ipi) & "|" &
+                              RetornarTexto(itemNota.vl_ipi) & "|" &
+                              RetornarTexto(itemNota.cst_pis) & "|" &
+                              RetornarTexto(itemNota.vl_bc_pis) & "|" &
+                              RetornarTexto(itemNota.aliq_pis) & "|" &
+                              RetornarTexto(itemNota.quant_bc_pis) & "|" &
+                              RetornarTexto(itemNota.aliq_pis_r) & "|" &
+                              RetornarTexto(itemNota.vl_pis) & "|" &
+                              RetornarTexto(itemNota.cst_cofins) & "|" &
+                              RetornarTexto(itemNota.vl_bc_cofins) & "|" &
+                              RetornarTexto(itemNota.aliq_cofins) & "|" &
+                              RetornarTexto(itemNota.quant_bc_cofins) & "|" &
+                              RetornarTexto(itemNota.aliq_cofins_r) & "|" &
+                              RetornarTexto(itemNota.vl_cofins) & "|" &
                               RetornarTexto(itemNota.cod_cta) & "|"
 
                         arquivo.WriteLine(linha)
@@ -949,20 +961,20 @@ Public Class fSPEDForm
             Next
         End If
 
-        '-- Registro C190 -- REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
+        '-- Registro C190 -- REGISTRO ANALï¿½TICO DO DOCUMENTO (Cï¿½DIGO 01, 1B, 04 E 55).
         If _dArquivo.regC190 IsNot Nothing Then
-            linha = "|" & _
-              RetornarTexto(_dArquivo.regC190.reg, 4) & "|" & _
-              RetornarTexto(_dArquivo.regC190.cst_icms) & "|" & _
-              RetornarTexto(_dArquivo.regC190.cfop) & "|" & _
-              RetornarTexto(_dArquivo.regC190.aliq_icms) & "|" & _
-              RetornarTexto(_dArquivo.regC190.vl_opr) & "|" & _
-              RetornarTexto(_dArquivo.regC190.vl_bc_icms) & "|" & _
-              RetornarTexto(_dArquivo.regC190.vl_icms) & "|" & _
-              RetornarTexto(_dArquivo.regC190.vl_bc_icms_st) & "|" & _
-              RetornarTexto(_dArquivo.regC190.vl_icms_st) & "|" & _
-              RetornarTexto(_dArquivo.regC190.vl_red_bc) & "|" & _
-              RetornarTexto(_dArquivo.regC190.vl_ipi) & "|" & _
+            linha = "|" &
+              RetornarTexto(_dArquivo.regC190.reg, 4) & "|" &
+              RetornarTexto(_dArquivo.regC190.cst_icms) & "|" &
+              RetornarTexto(_dArquivo.regC190.cfop) & "|" &
+              RetornarTexto(_dArquivo.regC190.aliq_icms) & "|" &
+              RetornarTexto(_dArquivo.regC190.vl_opr) & "|" &
+              RetornarTexto(_dArquivo.regC190.vl_bc_icms) & "|" &
+              RetornarTexto(_dArquivo.regC190.vl_icms) & "|" &
+              RetornarTexto(_dArquivo.regC190.vl_bc_icms_st) & "|" &
+              RetornarTexto(_dArquivo.regC190.vl_icms_st) & "|" &
+              RetornarTexto(_dArquivo.regC190.vl_red_bc) & "|" &
+              RetornarTexto(_dArquivo.regC190.vl_ipi) & "|" &
               RetornarTexto(_dArquivo.regC190.cod_obs, 60) & "|"
 
             arquivo.WriteLine(linha)
@@ -970,8 +982,8 @@ Public Class fSPEDForm
 
         '-- Registro C990 -- ENCERRAMENTO DO BLOCO C
         If _dArquivo.regC990 IsNot Nothing Then
-            linha = "|" & _
-              RetornarTexto(_dArquivo.regC990.reg, 4) & "|" & _
+            linha = "|" &
+              RetornarTexto(_dArquivo.regC990.reg, 4) & "|" &
               RetornarTexto(_dArquivo.regC990.qtd_lin_c) & "|"
 
             arquivo.WriteLine(linha)
@@ -979,95 +991,95 @@ Public Class fSPEDForm
 
         '-- REGISTRO D001: ABERTURA DO BLOCO D
         If _dArquivo.regD001 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regD001.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regD001.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regD001.ind_mov) & "|"
             arquivo.WriteLine(linha)
         End If
 
         ''-- REGISTRO D990: ENCERRAMENTO DO BLOCO D.
         If _dArquivo.regD990 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regD990.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regD990.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regD990.qtd_lin_d) & "|"
             arquivo.WriteLine(linha)
         End If
 
         ''-- REGISTRO E001: ABERTURA DO BLOCO E
         If _dArquivo.regE001 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regE001.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regE001.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regE001.ind_mov) & "|"
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO E100: PERÍODO DA APURAÇÃO DO ICMS.
+        ''-- REGISTRO E100: PERï¿½ODO DA APURAï¿½ï¿½O DO ICMS.
         If _dArquivo.regE100 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regE100.reg, 4) & "|" & _
-                RetornarTexto(FormatarDataDDMMAAAA(_dArquivo.regE100.dt_ini), 8) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regE100.reg, 4) & "|" &
+                RetornarTexto(FormatarDataDDMMAAAA(_dArquivo.regE100.dt_ini), 8) & "|" &
                 RetornarTexto(FormatarDataDDMMAAAA(_dArquivo.regE100.dt_fin), 8) & "|"
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO E110: APURAÇÃO DO ICMS – OPERAÇÕES PRÓPRIAS.
+        ''-- REGISTRO E110: APURAï¿½ï¿½O DO ICMS ï¿½ OPERAï¿½ï¿½ES PRï¿½PRIAS.
         If _dArquivo.regE110 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regE110.reg, 4) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_tot_debitos) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_aj_debitos) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_tot_aj_debitos) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_estornos_cred) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_tot_creditos) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_aj_creditos) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_tot_aj_creditos) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_estornos_deb) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_sld_credor_ant) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_sld_apurado) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_tot_ded) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_icms_recolher) & "|" & _
-                RetornarTexto(_dArquivo.regE110.vl_sld_credor_transportar) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regE110.reg, 4) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_tot_debitos) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_aj_debitos) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_tot_aj_debitos) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_estornos_cred) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_tot_creditos) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_aj_creditos) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_tot_aj_creditos) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_estornos_deb) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_sld_credor_ant) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_sld_apurado) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_tot_ded) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_icms_recolher) & "|" &
+                RetornarTexto(_dArquivo.regE110.vl_sld_credor_transportar) & "|" &
                 RetornarTexto(_dArquivo.regE110.deb_esp) & "|"
             arquivo.WriteLine(linha)
         End If
 
         ''-- REGISTRO E990: ENCERRAMENTO DO BLOCO E
         If _dArquivo.regE990 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regE990.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regE990.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regE990.qtd_lin_e) & "|"
             arquivo.WriteLine(linha)
         End If
 
         ''-- REGISTRO G001: ABERTURA DO BLOCO G
         If _dArquivo.regG001 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regG001.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regG001.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regG001.ind_mov) & "|"
             arquivo.WriteLine(linha)
         End If
 
         ''-- REGISTRO G990: ENCERRAMENTO DO BLOCO G
         If _dArquivo.regG990 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regG990.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regG990.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regG990.qtd_lin_g) & "|"
             arquivo.WriteLine(linha)
         End If
 
         ''-- REGISTRO H001: ABERTURA DO BLOCO H
         If _dArquivo.regH001 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regH001.reg, 4) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regH001.reg, 4) & "|" &
                 RetornarTexto(_dArquivo.regH001.ind_mov) & "|"
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO H005: TOTAIS DO INVENTÁRIO
+        ''-- REGISTRO H005: TOTAIS DO INVENTï¿½RIO
         If _dArquivo.regH005 IsNot Nothing Then
-            linha = "|" & _
-                RetornarTexto(_dArquivo.regH005.reg, 4) & "|" & _
-                RetornarTexto(FormatarDataDDMMAAAA(_dArquivo.regH005.dt_inv), 8) & "|" & _
+            linha = "|" &
+                RetornarTexto(_dArquivo.regH005.reg, 4) & "|" &
+                RetornarTexto(FormatarDataDDMMAAAA(_dArquivo.regH005.dt_inv), 8) & "|" &
                 RetornarTexto(_dArquivo.regH005.vl_inv) & "|"
 
             ' Novo campo a partir da versao 005 de layout
@@ -1078,7 +1090,7 @@ Public Class fSPEDForm
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO H010: INVENTÁRIO.
+        ''-- REGISTRO H010: INVENTï¿½RIO.
         If _dArquivo.colH010 IsNot Nothing Then
             For Each item As dRegH010 In _dArquivo.colH010
                 linha = "|" & _

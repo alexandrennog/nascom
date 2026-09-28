@@ -126,11 +126,13 @@ Public Class fRelatorioCrediarioPix
         doc.Add(Chunk.NEWLINE)
         doc.Add(Chunk.NEWLINE)
 
-        Dim table As New PdfPTable(5)
+        ' Antes a tabela era declarada com 5 colunas (New PdfPTable(5)), mas o
+        ' cabecalho adicionava 6 celulas (Controle, data, terminal, Total, Dinheiro,
+        ' PIX) e cada linha de dados tambem adicionava 6 - a partir da segunda linha
+        ' as colunas iam desalinhando progressivamente. Corrigido pra 6 colunas.
+        Dim table As New PdfPTable(6)
 
         Dim cell1 As New PdfPCell
-        'Dim cell2 As New PdfPCell
-        'Dim cell3 As New PdfPCell
         Dim cell4 As New PdfPCell
         Dim cell5 As New PdfPCell
         Dim cell6 As New PdfPCell
@@ -142,8 +144,6 @@ Public Class fRelatorioCrediarioPix
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Controle", fonte)
-        'Dim coluna2 As New Paragraph("usuarioId", fonte)
-        'Dim coluna3 As New Paragraph("clienteId", fonte)
         Dim coluna4 As New Paragraph("data", fonte)
         Dim coluna5 As New Paragraph("terminal", fonte)
         Dim coluna6 As New Paragraph("Total", fonte)
@@ -151,8 +151,6 @@ Public Class fRelatorioCrediarioPix
         Dim coluna8 As New Paragraph("PIX", fonte)
 
         cell1.AddElement(coluna1)
-        'cell2.AddElement(coluna2)
-        'cell3.AddElement(coluna3)
         cell4.AddElement(coluna4)
         cell5.AddElement(coluna5)
         cell6.AddElement(coluna6)
@@ -160,8 +158,6 @@ Public Class fRelatorioCrediarioPix
         cell8.AddElement(coluna8)
 
         table.AddCell(cell1)
-        'table.AddCell(cell2)
-        'table.AddCell(cell3)
         table.AddCell(cell4)
         table.AddCell(cell5)
         table.AddCell(cell6)
@@ -173,31 +169,25 @@ Public Class fRelatorioCrediarioPix
         Dim totPIX As Decimal
 
         For Each item As dVenda In vendas
-
-            'cells.Add(New PdfPCell(New Phrase(item.controle)))
             table.AddCell(New PdfPCell(New Phrase(item.controle.ToString())))
-            'cells.Add(New PdfPCell(New Phrase(item.Data)))
             table.AddCell(New PdfPCell(New Phrase(item.Data)))
-            'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
             table.AddCell(New PdfPCell(New Phrase(item.Terminal)))
-            'cells.Add(New PdfPCell(New Phrase(item.Total)))
             table.AddCell(New PdfPCell(New Phrase(item.Total.ToString())))
-            table.AddCell(New PdfPCell(New Phrase((item.Total - item.CrediarioPagamento).ToString())))
-            'cells.Add(New PdfPCell(New Phrase(item.Pix)))
+            ' "Dinheiro" = Total - Pix, igual ao que a tela (lstPix) já mostra logo
+            ' acima - antes aqui usava "Total - CrediarioPagamento" (campo diferente),
+            ' então o valor impresso no PDF não batia com o que aparecia na tela.
+            table.AddCell(New PdfPCell(New Phrase((item.Total - item.Pix).ToString())))
             table.AddCell(New PdfPCell(New Phrase(item.Pix.ToString())))
-            totDinheiro = totDinheiro + (item.Total - item.CrediarioPagamento)
+            totDinheiro = totDinheiro + (item.Total - item.Pix)
             totTotal = totTotal + item.Total
             totPIX = totPIX + item.Pix
         Next
 
         table.AddCell(New PdfPCell(New Phrase("")))
-        'cells.Add(New PdfPCell(New Phrase(item.Data)))
         table.AddCell(New PdfPCell(New Phrase("")))
-        'cells.Add(New PdfPCell(New Phrase(item.Terminal)))
+        table.AddCell(New PdfPCell(New Phrase("")))
         table.AddCell(New PdfPCell(New Phrase("Total: " + totTotal.ToString())))
-        'cells.Add(New PdfPCell(New Phrase(item.Total)))
-        table.AddCell(New PdfPCell(New Phrase((totTotal - totDinheiro).ToString())))
-        'cells.Add(New PdfPCell(New Phrase(item.Pix)))
+        table.AddCell(New PdfPCell(New Phrase(totDinheiro.ToString())))
         table.AddCell(New PdfPCell(New Phrase(totPIX.ToString())))
 
 

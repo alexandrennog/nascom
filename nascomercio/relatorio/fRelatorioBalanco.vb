@@ -73,6 +73,17 @@ Public Class fRelatorioBalanco
         rptRelatorio.LocalReport.SetParameters(parametros)
 
         Try
+            ' Adicionado em 28/09/2026: essa tela nunca chamava o Fill do
+            ' TableAdapter - o relatorio ficava tentando mostrar uma tabela
+            ' (v_transferencia) sempre vazia/nao carregada, e isso e o que
+            ' disparava o erro "An error occurred during local report
+            ' processing / nascomercioDataSet_v_transferencia" ao abrir. O
+            ' filtro por Produto e por Data (DataInicial/DataFinal) ja e
+            ' feito dentro do proprio .rdlc (ver <Filters> do dataset), entao
+            ' aqui so precisa carregar a tabela inteira, sem parametros.
+            Me.nascomercioDataSet.v_transferencia.Clear()
+            Me.v_BalancoTableAdapter.Fill(Me.nascomercioDataSet.v_transferencia)
+
             rptRelatorio.RefreshReport()
         Catch ex As Exception
             MessageBox.Show(ex.Message)

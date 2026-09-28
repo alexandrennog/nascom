@@ -89,11 +89,14 @@ Public Class fRelatorioCrediario
 
     parametros(2) = New Microsoft.Reporting.WinForms.ReportParameter
     parametros(2).Name = "DataInicial"
-        parametros(2).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataInicial.Text))
+    ' Usava FormatarDataUniversal (formato ISO) aqui, diferente de todas as outras
+    ' telas de relatório, que usam FormatarDataBarras (dd/MM/yyyy) pro parâmetro que
+    ' o próprio relatório exibe como período - corrigido pra ficar consistente.
+    parametros(2).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataInicial.Text))
 
     parametros(3) = New Microsoft.Reporting.WinForms.ReportParameter
     parametros(3).Name = "DataFinal"
-        parametros(3).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataFinal.Text))
+    parametros(3).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
 
     parametros(4) = New Microsoft.Reporting.WinForms.ReportParameter
     parametros(4).Name = "Recebidos"

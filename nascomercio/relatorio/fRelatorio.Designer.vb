@@ -481,12 +481,20 @@ Partial Class fRelatorio
         Me.rbtVendasABC.TabStop = True
         Me.rbtVendasABC.Text = "Vendas Curva ABC"
         Me.rbtVendasABC.UseVisualStyleBackColor = True
+        ' Escondido (28/09/2026) a pedido da cliente - so o visual, ate o
+        ' relatorio de Curva ABC ser corrigido. O controle e o Sub que ele
+        ' aciona (mdiPrincipal.CarregarRelVendasABC) continuam existindo, so
+        ' nao aparecem/nao dao pra clicar - facil reverter depois bastando
+        ' tirar esta linha.
+        Me.rbtVendasABC.Visible = False
         '
         'rbtPainelCompras
         '
         Me.rbtPainelCompras.AutoSize = True
         Me.rbtPainelCompras.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtPainelCompras.Location = New System.Drawing.Point(536, 318)
+        ' Subiu de Y=318 para Y=283 (28/09/2026) pra fechar o espaco deixado
+        ' pelo "Vendas Curva ABC" escondido logo acima.
+        Me.rbtPainelCompras.Location = New System.Drawing.Point(536, 283)
         Me.rbtPainelCompras.Name = "rbtPainelCompras"
         Me.rbtPainelCompras.Size = New System.Drawing.Size(172, 23)
         Me.rbtPainelCompras.TabIndex = 113

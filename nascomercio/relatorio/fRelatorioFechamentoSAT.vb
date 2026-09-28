@@ -45,7 +45,7 @@ Partial Public Class fRelatorioFechamentoSAT
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relat�rio de Vendas SAT", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relat�rio de Vendas SAT", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -188,23 +188,22 @@ Partial Public Class fRelatorioFechamentoSAT
         li.SubItems.Add(totTotalVendas.ToString())
         Me.lstVendasSAT.Items.Add(li)
 
+        ' Os totais (totalDinheiro, totalCheque, totalvalorOriginal, totalCartaoDebito,
+        ' totalCartaoCredito, totalCrediario, totalDesconto) já foram somados
+        ' corretamente no primeiro loop acima, que preenche a lstVendasSAT. Esse
+        ' segundo loop só remonta as mesmas linhas para o PDF - antes ele reusava as
+        ' MESMAS variáveis e somava tudo de novo, então a linha "Total:" do PDF saía
+        ' sempre com o dobro do valor certo (a única coluna que não duplicava era
+        ' "Total", que usa totTotal, uma variável usada só aqui).
         For Each itemRef As dVenda In colVenda
             table.AddCell(New PdfPCell(New Phrase(itemRef.Data.ToString())))
-
             table.AddCell(New PdfPCell(New Phrase(itemRef.Dinheiro.ToString("N"))))
-            totalDinheiro = totalDinheiro + itemRef.Dinheiro
             table.AddCell(New PdfPCell(New Phrase(itemRef.Cheque.ToString("N"))))
-            totalCheque = totalCheque + itemRef.Cheque
             table.AddCell(New PdfPCell(New Phrase(itemRef.valorOriginal.ToString("N"))))
-            totalvalorOriginal = totalvalorOriginal + itemRef.valorOriginal
             table.AddCell(New PdfPCell(New Phrase(itemRef.CartaoDebito.ToString("N"))))
-            totalCartaoDebito = totalCartaoDebito + itemRef.CartaoDebito
             table.AddCell(New PdfPCell(New Phrase(itemRef.CartaoCredito.ToString("N"))))
-            totalCartaoCredito = totalCartaoCredito + itemRef.CartaoCredito
             table.AddCell(New PdfPCell(New Phrase(itemRef.Crediario.ToString("N"))))
-            totalCrediario = totalCrediario + itemRef.Crediario
             table.AddCell(New PdfPCell(New Phrase(itemRef.Desconto.ToString("N"))))
-            totalDesconto = totalDesconto + itemRef.Desconto
             table.AddCell(New PdfPCell(New Phrase(itemRef.Total.ToString("N"))))
             totTotal = totTotal + itemRef.Total
         Next
@@ -297,7 +296,7 @@ Partial Public Class fRelatorioFechamentoSAT
         '    altura = ((((qtdeLinhasRelatorio + contadorRelatorio) Mod qtdeLinhasRelatorio) + 1) * alturaLinha) + margemSup
 
         '    If contadorRelatorio = 1 Then
-        '        e.Graphics.DrawString("Relat�rio de Fechamento Fiscal", New Font("Arial", 14, FontStyle.Bold), Brushes.Red, margemEsq, 8)
+        '        e.Graphics.DrawString("Relat�rio de Fechamento Fiscal", New Font("Arial", 14, FontStyle.Bold), Brushes.Red, margemEsq, 8)
         '    End If
 
         '    e.Graphics.DrawString(linhasRelatorio(contadorRelatorio), fonteNormal, Brushes.Black, margemEsq, altura)
@@ -309,7 +308,7 @@ Partial Public Class fRelatorioFechamentoSAT
         '    End If
         'Loop
 
-        'e.Graphics.DrawString("P�gina " + paginaAtual.ToString(), New Font("Arial", 10, FontStyle.Bold), Brushes.Black, 720, 1050)
+        'e.Graphics.DrawString("P�gina " + paginaAtual.ToString(), New Font("Arial", 10, FontStyle.Bold), Brushes.Black, 720, 1050)
         'paginaAtual = paginaAtual + 1
 
         'If contadorRelatorio >= linhasRelatorio.Length Then

@@ -67,7 +67,7 @@ Partial Class fRelatorioEstoque
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(221, 24)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "Relatório de Estoque"
+        Me.lblTitulo.Text = "RelatÃ³rio de Estoque"
         '
         'btoFiltro
         '
@@ -319,7 +319,7 @@ Partial Class fRelatorioEstoque
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Relatório de Estoque"
+        Me.Text = "RelatÃ³rio de Estoque"
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

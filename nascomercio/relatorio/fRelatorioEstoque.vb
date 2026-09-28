@@ -192,7 +192,7 @@ Public Class fRelatorioEstoque
         dadosParametro = regraParametro.fConsultarEstoque(dados)
 
         Me.lstEstoque.Clear()
-        ' Consultar chave de acesso/validação
+        ' Consultar chave de acesso/validaÃ§Ã£o
         If IsNothing(dadosParametro) Then
             Exit Sub
         End If
@@ -204,9 +204,9 @@ Public Class fRelatorioEstoque
         Me.lstEstoque.Items.Clear()
 
         Me.lstEstoque.Columns.Add("Fabricante").Width = 160
-        Me.lstEstoque.Columns.Add("Código").Width = 80
-        Me.lstEstoque.Columns.Add("Descrição").Width = 200
-        Me.lstEstoque.Columns.Add("Referência").Width = 80
+        Me.lstEstoque.Columns.Add("CÃ³digo").Width = 80
+        Me.lstEstoque.Columns.Add("DescriÃ§Ã£o").Width = 200
+        Me.lstEstoque.Columns.Add("ReferÃªncia").Width = 80
         Me.lstEstoque.Columns.Add("item").Width = 80
         Me.lstEstoque.Columns.Add("Cor").Width = 80
         Me.lstEstoque.Columns.Add("ValorCompra").Width = 80
@@ -222,6 +222,11 @@ Public Class fRelatorioEstoque
 
         Dim refAux As Brush
 
+        ' Quantidade total do estoque somada (soma da coluna "Estoque" de todas as
+        ' linhas) - pedido do usuario, pra nao precisar contar/somar manualmente
+        ' o que ja aparece na tela.
+        Dim totalEstoqueGeral As Integer = 0
+
         For Each item As dEstoque In dadosParametro
             li = New ListViewItem
             li.Text = item.Fabricante.ToString
@@ -236,7 +241,28 @@ Public Class fRelatorioEstoque
             li.SubItems.Add(item.ValorCompra * item.Valor)
             li.SubItems.Add(item.ValorVenda * item.Valor)
             Me.lstEstoque.Items.Add(li)
+
+            totalEstoqueGeral += item.Valor
         Next
+
+        Dim liTotalGeral As New ListViewItem
+        liTotalGeral.Text = "Total"
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add(totalEstoqueGeral.ToString())
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        ' System.Drawing.Font, nao iTextSharp.text.Font - este arquivo importa os
+        ' dois (iTextSharp.text e' usado pro PDF), entao "Font" sozinho fica
+        ' ambiguo e o compilador tenta usar um construtor do Font do iTextSharp
+        ' (que espera BaseFont/FontFamily, nao um Font pra herdar estilo).
+        liTotalGeral.Font = New System.Drawing.Font(Me.lstEstoque.Font, FontStyle.Bold)
+        Me.lstEstoque.Items.Add(liTotalGeral)
 
         'PintarList()
 
@@ -302,7 +328,7 @@ Public Class fRelatorioEstoque
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relatório de Estoque", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("RelatÃ³rio de Estoque", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -339,7 +365,7 @@ Public Class fRelatorioEstoque
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Fabricante", fonte)
-        Dim coluna2 As New Paragraph("Código", fonte)
+        Dim coluna2 As New Paragraph("CÃ³digo", fonte)
         Dim coluna3 As New Paragraph("Descricao", fonte)
         Dim coluna4 As New Paragraph("Referencia", fonte)
         Dim coluna5 As New Paragraph("Item", fonte)

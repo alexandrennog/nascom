@@ -1114,9 +1114,21 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
     Public Sub CarregarRelVendasABC()
-        FecharTela()
-        formulario = fRelatorioVendasABC
-        AbrirTela()
+        ' Desativado temporariamente (28/09/2026) a pedido da cliente: o
+        ' relatorio de Curva ABC estava dando erro ao abrir. Em vez de deixar
+        ' o operador cair numa tela quebrada, o menu agora mostra um aviso
+        ' controlado. Nao apaguei a tela (fRelatorioVendasABC) nem o menu em
+        ' si - so a chamada que abriria a tela, pra ser facil reverter assim
+        ' que o problema real for identificado e corrigido.
+        MessageBox.Show("O Relatório de Curva ABC está temporariamente indisponível para manutenção." & vbCrLf & vbCrLf &
+                         "Assim que for corrigido, este aviso será removido.",
+                         "Relatório indisponível",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information)
+
+        'FecharTela()
+        'formulario = fRelatorioVendasABC
+        'AbrirTela()
     End Sub
 
     ' Painel de Compras: ticket medio, marca campea e oportunidades de reposicao
