@@ -72,9 +72,13 @@ Public Class fRelatorioVendasNfe
             totTotal = totTotal + item.Valor
         Next
 
+        ' Corrigido em 28/09/2026: a lista so tem 3 colunas (Cupom, DataVenda,
+        ' Total), mas essa linha adicionava 4 SubItems - o 4o (o valor da
+        ' soma em si) nao tinha coluna pra entrar e o ListView simplesmente
+        ' nao mostrava ele. Por isso a linha "Total:" aparecia sem o numero
+        ' do total do lado.
         li = New ListViewItem
         li.Text = ""
-        li.SubItems.Add("")
         li.SubItems.Add("Total:")
         li.SubItems.Add(totTotal.ToString())
         Me.lstPix.Items.Add(li)
