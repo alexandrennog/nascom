@@ -53,7 +53,7 @@ Public Class fRelatorio
         ElseIf rbtConsultaVendas.Checked Then
             mdiPrincipal.ConsultaVendas()
         ElseIf rdbVendasFabricantes.Checked Then
-            mdiPrincipal.CarregarGrupoProduto()
+            mdiPrincipal.CarregarRelatorioVendasFabricante()
         ElseIf rbtTransferencia.Checked Then
             mdiPrincipal.CarregarTransferencia()
         ElseIf rbtLeituraX.Checked Then

@@ -122,6 +122,36 @@ Public Class fRelatorioEstoque
         End Try
     End Sub
 
+    Private Sub CarregarComboNumeracao()
+        Dim regras As rParametro
+        Dim lista As List(Of String)
+
+        Try
+
+            cboNumeracao.DataSource = Nothing
+            cboNumeracao.Items.Clear()
+
+            regras = New rParametro()
+            lista = regras.ListarNumeracoes()
+
+            If Not lista Is Nothing Then
+                lista.Insert(0, String.Empty)
+
+                cboNumeracao.DataSource = lista
+                cboNumeracao.Refresh()
+            End If
+
+        Catch nex As ExcecaoNascomercio
+
+            MessageBox.Show(nex.Message)
+
+        Catch ex As Exception
+
+            MessageBox.Show("Erro na consulta dos dados de Numeração.")
+
+        End Try
+    End Sub
+
     Private Sub Filtrar()
 
         Dim dadosParametro As ColecaoParametroEstoque
@@ -135,6 +165,10 @@ Public Class fRelatorioEstoque
 
         If Not String.IsNullOrEmpty(txtProduto.Text) Then
             dados.descricao = txtProduto.Text
+        End If
+
+        If Not String.IsNullOrEmpty(cboNumeracao.Text.Trim()) Then
+            dados.numeracao = cboNumeracao.Text.Trim()
         End If
 
         If Not String.IsNullOrEmpty(cboFornecedor.Text) Then
@@ -207,7 +241,7 @@ Public Class fRelatorioEstoque
         Me.lstEstoque.Columns.Add("Código").Width = 80
         Me.lstEstoque.Columns.Add("Descrição").Width = 200
         Me.lstEstoque.Columns.Add("Referência").Width = 80
-        Me.lstEstoque.Columns.Add("item").Width = 80
+        Me.lstEstoque.Columns.Add("Numeração").Width = 80
         Me.lstEstoque.Columns.Add("Cor").Width = 80
         Me.lstEstoque.Columns.Add("ValorCompra").Width = 80
         Me.lstEstoque.Columns.Add("ValorVenda").Width = 80
@@ -368,7 +402,7 @@ Public Class fRelatorioEstoque
         Dim coluna2 As New Paragraph("Código", fonte)
         Dim coluna3 As New Paragraph("Descricao", fonte)
         Dim coluna4 As New Paragraph("Referencia", fonte)
-        Dim coluna5 As New Paragraph("Item", fonte)
+        Dim coluna5 As New Paragraph("Numeração", fonte)
         Dim coluna6 As New Paragraph("Cor", fonte)
         Dim coluna7 As New Paragraph("Valor Compra", fonte)
         Dim coluna8 As New Paragraph("Valor Venda", fonte)
@@ -462,6 +496,7 @@ Public Class fRelatorioEstoque
         CarregarComboGrupo()
         CarregarComboFornecedor()
         CarregarComboFabricante()
+        CarregarComboNumeracao()
 
     End Sub
 

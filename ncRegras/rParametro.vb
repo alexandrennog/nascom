@@ -10,7 +10,7 @@ Namespace nsParametro
 
     Public Class rParametro
 
-        '-- Métodos de controle ( Várias chamadas; Controle de transação )
+        '-- Mï¿½todos de controle ( Vï¿½rias chamadas; Controle de transaï¿½ï¿½o )
 
         Public Function Listar() As ColecaoParametro
 
@@ -137,6 +137,31 @@ Namespace nsParametro
             End Try
 
             Consultar = retorno
+
+        End Function
+
+        Public Function ListarNumeracoes() As List(Of String)
+
+            Dim retorno As List(Of String)
+            Dim persistencia As pParametro
+
+            Try
+
+                persistencia = New pParametro
+                retorno = persistencia.ListarNumeracoes()
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarNumeracoes Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
+
+            End Try
+
+            ListarNumeracoes = retorno
 
         End Function
 

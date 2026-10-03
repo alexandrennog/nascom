@@ -941,6 +941,11 @@ Public Class mdiPrincipal
         formulario = fRelatorioGrupoProduto
         AbrirTela()
     End Sub
+    Public Sub CarregarRelatorioVendasFabricante()
+        FecharTela()
+        formulario = fRelatorioVendasFabricante
+        AbrirTela()
+    End Sub
     Public Sub CarregarTransferencia()
         FecharTela()
         formulario = fRelatorioTransferencia

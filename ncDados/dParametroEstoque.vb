@@ -13,6 +13,7 @@ Namespace nsdParametroEstoque
         Private _valor As String
         Private _dataCadastroInicio As String
         Private _dataCadastroFim As String
+        Private _numeracao As String
 
         Public Property cidFornecedor() As Nullable(Of Integer)
             Get
@@ -75,6 +76,16 @@ Namespace nsdParametroEstoque
             End Get
             Set(ByVal value As String)
                 _dataCadastroFim = value
+            End Set
+        End Property
+
+        ' Filtro por numeração/tamanho (coluna e.item da view v_estoque), Nothing/vazio = sem filtro
+        Public Property numeracao() As String
+            Get
+                Return _numeracao
+            End Get
+            Set(ByVal value As String)
+                _numeracao = value
             End Set
         End Property
 

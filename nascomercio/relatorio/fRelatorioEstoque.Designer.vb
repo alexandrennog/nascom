@@ -42,6 +42,8 @@ Partial Class fRelatorioEstoque
         Me.txtDataCadastroFim = New System.Windows.Forms.MaskedTextBox()
         Me.lstEstoque = New System.Windows.Forms.ListView()
         Me.btnPrint = New System.Windows.Forms.Button()
+        Me.lblNumeracao = New System.Windows.Forms.Label()
+        Me.cboNumeracao = New System.Windows.Forms.ComboBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -257,6 +259,26 @@ Partial Class fRelatorioEstoque
         Me.txtDataCadastroFim.TabIndex = 250
         Me.txtDataCadastroFim.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
         '
+        'lblNumeracao
+        '
+        Me.lblNumeracao.AutoSize = True
+        Me.lblNumeracao.BackColor = System.Drawing.Color.Transparent
+        Me.lblNumeracao.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblNumeracao.Location = New System.Drawing.Point(380, 175)
+        Me.lblNumeracao.Name = "lblNumeracao"
+        Me.lblNumeracao.Size = New System.Drawing.Size(123, 18)
+        Me.lblNumeracao.TabIndex = 251
+        Me.lblNumeracao.Text = "Numeração:"
+        '
+        'cboNumeracao
+        '
+        Me.cboNumeracao.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboNumeracao.FormattingEnabled = True
+        Me.cboNumeracao.Location = New System.Drawing.Point(508, 171)
+        Me.cboNumeracao.Name = "cboNumeracao"
+        Me.cboNumeracao.Size = New System.Drawing.Size(90, 21)
+        Me.cboNumeracao.TabIndex = 252
+        '
         'lstEstoque
         '
         Me.lstEstoque.HideSelection = False
@@ -292,6 +314,8 @@ Partial Class fRelatorioEstoque
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1011, 634)
         Me.Controls.Add(Me.btnPrint)
+        Me.Controls.Add(Me.lblNumeracao)
+        Me.Controls.Add(Me.cboNumeracao)
         Me.Controls.Add(Me.lstEstoque)
         Me.Controls.Add(Me.cboGrupo)
         Me.Controls.Add(Me.lblGrupo)
@@ -345,4 +369,6 @@ Partial Class fRelatorioEstoque
     Friend WithEvents txtDataCadastroFim As System.Windows.Forms.MaskedTextBox
     Friend WithEvents lstEstoque As ListView
     Friend WithEvents btnPrint As Button
+    Friend WithEvents lblNumeracao As System.Windows.Forms.Label
+    Friend WithEvents cboNumeracao As System.Windows.Forms.ComboBox
 End Class
