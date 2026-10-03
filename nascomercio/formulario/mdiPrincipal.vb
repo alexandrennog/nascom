@@ -1175,6 +1175,73 @@ Public Class mdiPrincipal
         Catch ex As Exception
             MessageBox.Show("Imagem de fundo não encontrada: 'fundo.jpg'.")
         End Try
+
+        VerificarCertificadoDigital()
+    End Sub
+
+    ' Avisa logo na abertura do sistema se o certificado digital (usado pra emitir NFC-e)
+    ' está vencido ou perto de vencer. Antes, isso só aparecia como um erro confuso de
+    ' "falha ao emitir NFC-e" durante uma venda de verdade, com o cliente na frente do
+    ' caixa — agora quem abre o sistema no começo do dia já fica ciente.
+    '
+    ' Roda em segundo plano (Task.Run) porque essa checagem consulta o banco e abre o
+    ' arquivo do certificado — rodar direto aqui no Load travava a abertura da tela
+    ' (relatado como "ficou mais lento pra abrir"). O resultado volta pra thread da UI
+    ' via Me.Invoke antes de mostrar qualquer MessageBox.
+    Private Sub VerificarCertificadoDigital()
+        Task.Run(
+            Sub()
+                Dim status As LibNF65.NFCe65.StatusCertificado = Nothing
+                Dim erroInesperado As Exception = Nothing
+
+                Try
+                    status = LibNF65.NFCe65.VerificarValidadeCertificado()
+                Catch ex As Exception
+                    erroInesperado = ex
+                End Try
+
+                Try
+                    If Me.IsDisposed OrElse Not Me.IsHandleCreated Then
+                        Return
+                    End If
+
+                    Me.Invoke(
+                        Sub()
+                            If erroInesperado IsNot Nothing Then
+                                ' Diferente de antes: um erro inesperado aqui agora APARECE,
+                                ' em vez de ser escondido silenciosamente — senão a gente
+                                ' nunca fica sabendo que a checagem nem rodou direito.
+                                MessageBox.Show(
+                                    "Falha inesperada ao verificar o certificado digital: " & erroInesperado.Message,
+                                    "Certificado digital", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                Return
+                            End If
+
+                            If Not status.Existe Then
+                                MessageBox.Show(
+                                    status.MensagemErro & vbCrLf & vbCrLf &
+                                    "Sem o certificado digital configurado corretamente, as vendas não vão conseguir emitir NFC-e.",
+                                    "Certificado digital", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                Return
+                            End If
+
+                            If Not status.Valido Then
+                                MessageBox.Show(
+                                    "O certificado digital está VENCIDO desde " & status.DataValidade.Value.ToString("dd/MM/yyyy") & "." & vbCrLf & vbCrLf &
+                                    "As vendas NÃO vão conseguir emitir NFC-e até que o certificado seja renovado. Avise o responsável com urgência.",
+                                    "Certificado digital vencido", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            ElseIf status.DiasParaVencer <= 30 Then
+                                MessageBox.Show(
+                                    "O certificado digital vence em " & status.DiasParaVencer & " dia(s), em " & status.DataValidade.Value.ToString("dd/MM/yyyy") & "." & vbCrLf & vbCrLf &
+                                    "Providencie a renovação antes dessa data para não parar a emissão de NFC-e.",
+                                    "Certificado digital perto de vencer", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            End If
+                        End Sub)
+                Catch
+                    ' A janela pode já ter sido fechada nesse meio tempo (ex.: usuário saiu
+                    ' do sistema rápido) — nesse caso não há onde mostrar o aviso mesmo.
+                End Try
+            End Sub)
     End Sub
 
     Private Sub btoSobre_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSobre.Click

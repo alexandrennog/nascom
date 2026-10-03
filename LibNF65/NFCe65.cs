@@ -185,6 +185,7 @@ namespace LibNF65
             // de reaproveitar sempre o mesmo objeto), pelo mesmo motivo aplicado à autorização mais
             // abaixo: não há garantia de que o objeto da biblioteca suporte ser executado de novo.
             ConsultaCadastro consultaCadastro = null;
+            XmlNFe.RetConsCad resultado;
             try
             {
                 ExecutarComRetentativas(() =>
@@ -209,15 +210,34 @@ namespace LibNF65
                         throw new Exception($"Consulta de cadastro na SEFAZ não retornou o cadastro do emitente (CStat {cStatConsulta}: {xMotivoConsulta}).");
                     }
                 }, "consultar cadastro na SEFAZ", aoTentarNovamente, aoAguardar);
+
+                resultado = consultaCadastro.Result;
+
+                // Sucesso: guarda uma cópia local dos dados cadastrais do emitente (nome,
+                // endereço, IE, CNAE, regime tributário). Esses dados raramente mudam, então
+                // essa cópia serve de backup para quando a consulta falhar mais tarde.
+                SalvarCacheCadastroEmitente(resultado);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Falha ao consultar cadastro na SEFAZ: {ex.Message}", ex);
+                // A consulta de cadastro na SEFAZ é só uma CONSULTA — ela não autoriza a nota,
+                // só confirma dados cadastrais do emitente (nome, endereço, IE, CNAE, regime).
+                // Esse serviço específico já se mostrou instável tanto em homologação quanto em
+                // produção (erro HTTP 403, sem relação com o certificado nem com os dados da
+                // venda). Em vez de travar a venda inteira por causa de uma consulta que não
+                // autoriza nada, usamos o último cadastro que já tivemos sucesso em buscar da
+                // própria SEFAZ. A validade fiscal real da nota continua 100% dependente da
+                // autorização da SEFAZ mais abaixo (NFeAutorizacao) — se aquela falhar, a venda
+                // continua sendo avisada como "sem nota emitida", normalmente.
+                resultado = CarregarCacheCadastroEmitente();
+
+                if (resultado == null)
+                {
+                    throw new Exception($"Falha ao consultar cadastro na SEFAZ: {ex.Message}", ex);
+                }
             }
 
             // 4. Interpretando o resultado
-            var resultado = consultaCadastro.Result; // Retorno do objeto
-            var retornoWs = consultaCadastro.RetornoWSString; // XML raw
 
             string cUF = resultado.InfCons.CUF.ToString(); // Código da UF do emitente (SP = 35)
             DateTime dhEmi = DateTime.Now; // Data e hora de emissão
@@ -550,7 +570,31 @@ namespace LibNF65
             IInfProtRepository repository = new InfProtRepository();
 
             var infoProdutoService = new InfoProdutoService();
-            return infoProdutoService.GetPixConfig(repository);
+            var config = infoProdutoService.GetPixConfig(repository);
+
+            // O caminho/senha do certificado digital é uma informação de MÁQUINA LOCAL
+            // (onde o .pfx está salvo nesse computador), então, se o app.config desta
+            // instalação tiver "CertificadoArquivo"/"CertificadoSenha" preenchidos, eles
+            // têm prioridade sobre o valor gravado no banco (tabela pixconfig). Lojas que
+            // ainda não tiverem essas chaves no app.config continuam usando o valor do
+            // banco normalmente (fallback) — nada quebra para quem já está em produção.
+            if (config != null)
+            {
+                var certificadoArquivoConfig = ConfigurationManager.AppSettings["CertificadoArquivo"];
+                var certificadoSenhaConfig = ConfigurationManager.AppSettings["CertificadoSenha"];
+
+                if (!string.IsNullOrWhiteSpace(certificadoArquivoConfig))
+                {
+                    config.PathCertificate = certificadoArquivoConfig;
+                }
+
+                if (!string.IsNullOrWhiteSpace(certificadoSenhaConfig))
+                {
+                    config.PassCertificate = certificadoSenhaConfig;
+                }
+            }
+
+            return config;
         }
 
         public static PixConfig ConsultarConfig()
@@ -558,6 +602,59 @@ namespace LibNF65
             PixConfig config = GetPixConfig();
 
             return config;
+        }
+
+        // Status da validade do certificado digital configurado (mesmo arquivo/senha
+        // usados para emitir a NFC-e — ver GetPixConfig). Criado depois de um caso real
+        // em que um certificado vencido só aparecia pro usuário como um erro genérico de
+        // "falha ao emitir NFC-e" / 403 da SEFAZ na hora de uma venda, sem nenhum aviso
+        // antes disso. VerificarValidadeCertificado() é pra ser chamado na ABERTURA do
+        // sistema, pra avisar com antecedência em vez de só durante uma venda.
+        public class StatusCertificado
+        {
+            public bool Existe { get; set; }
+            public bool Valido { get; set; }
+            public int DiasParaVencer { get; set; }
+            public DateTime? DataValidade { get; set; }
+            public string MensagemErro { get; set; }
+        }
+
+        public static StatusCertificado VerificarValidadeCertificado()
+        {
+            var status = new StatusCertificado();
+
+            try
+            {
+                var pixConfig = GetPixConfig();
+                var caminho = pixConfig?.PathCertificate;
+                var senha = pixConfig?.PassCertificate;
+
+                if (string.IsNullOrWhiteSpace(caminho) || !File.Exists(caminho))
+                {
+                    status.Existe = false;
+                    status.MensagemErro = $"Certificado digital não encontrado em '{caminho}'.";
+                    return status;
+                }
+
+                status.Existe = true;
+
+                using (var cert = new X509Certificate2(caminho, senha))
+                {
+                    status.DataValidade = cert.NotAfter;
+                    status.DiasParaVencer = (int)(cert.NotAfter.Date - DateTime.Now.Date).TotalDays;
+                    status.Valido = DateTime.Now >= cert.NotBefore && DateTime.Now <= cert.NotAfter;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Não deixamos essa verificação derrubar a abertura do sistema — se der
+                // erro (ex.: senha incorreta), só registramos a mensagem pra tela decidir
+                // se avisa o usuário ou não.
+                status.Existe = false;
+                status.MensagemErro = $"Não foi possível verificar o certificado digital: {ex.Message}";
+            }
+
+            return status;
         }
 
         public static void Reimprimir(string chaveAcesso)
@@ -594,6 +691,64 @@ namespace LibNF65
         public static string GerarIdLote()
         {
             return DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        }
+
+        // Caminho do arquivo local onde guardamos a última resposta bem-sucedida da
+        // ConsultaCadastro da SEFAZ (nome, endereço, IE, CNAE, regime tributário do
+        // emitente). Serve de backup para quando essa consulta específica falhar
+        // (ver comentário em GerarNF) — não tem nenhuma relação com a autorização da
+        // nota em si, só com esses dados cadastrais.
+        private static string CaminhoCacheCadastroEmitente()
+        {
+            return ConfigurationManager.AppSettings["pathRelatorio"] + "cadastro_emitente_cache.xml";
+        }
+
+        // Usamos XmlSerializer (não Newtonsoft.Json) de propósito aqui: RetConsCad é uma
+        // classe gerada a partir do schema oficial da NFe, com atributos específicos de
+        // XML (XmlElement, ShouldSerializeXxx, etc.) que o Newtonsoft não reconhece —
+        // serializar isso como JSON arriscava salvar um cache incompleto/incorreto sem
+        // avisar ninguém. XmlSerializer é o mesmo mecanismo que a própria Unimake usa
+        // pra interpretar a resposta da SEFAZ, então o cache fica fiel ao original.
+        private static void SalvarCacheCadastroEmitente(XmlNFe.RetConsCad retConsCad)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(XmlNFe.RetConsCad));
+                using (var writer = new StreamWriter(CaminhoCacheCadastroEmitente(), false, Encoding.UTF8))
+                {
+                    serializer.Serialize(writer, retConsCad);
+                }
+            }
+            catch
+            {
+                // Falha ao salvar o cache não pode impedir a venda/emissão de seguir
+                // normalmente — é só uma otimização de resiliência, não é crítico.
+            }
+        }
+
+        private static XmlNFe.RetConsCad CarregarCacheCadastroEmitente()
+        {
+            try
+            {
+                var caminho = CaminhoCacheCadastroEmitente();
+                if (!File.Exists(caminho))
+                {
+                    return null;
+                }
+
+                var serializer = new XmlSerializer(typeof(XmlNFe.RetConsCad));
+                using (var reader = new StreamReader(caminho, Encoding.UTF8))
+                {
+                    return (XmlNFe.RetConsCad)serializer.Deserialize(reader);
+                }
+            }
+            catch
+            {
+                // Cache corrompido/ilegível: trata como se não existisse, para cair no
+                // erro original (falha ao consultar cadastro na SEFAZ) em vez de
+                // propagar um erro de desserialização confuso.
+                return null;
+            }
         }
 
         private static DarumaFrameworkSat RecuperarConfiguracao()
