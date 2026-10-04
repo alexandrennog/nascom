@@ -316,6 +316,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <TextAlign>Right</TextAlign>
                       </Style>
                       <ZIndex>2</ZIndex>
                       <CanGrow>true</CanGrow>
@@ -332,6 +333,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <TextAlign>Right</TextAlign>
                       </Style>
                       <ZIndex>1</ZIndex>
                       <CanGrow>true</CanGrow>
@@ -348,6 +350,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <TextAlign>Right</TextAlign>
                       </Style>
                       <CanGrow>true</CanGrow>
                       <Value>=Fields!total_valor.Value</Value>
@@ -441,6 +444,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <TextAlign>Right</TextAlign>
                       </Style>
                       <ZIndex>23</ZIndex>
                       <CanGrow>true</CanGrow>
@@ -458,6 +462,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <TextAlign>Right</TextAlign>
                       </Style>
                       <ZIndex>22</ZIndex>
                       <CanGrow>true</CanGrow>
@@ -475,6 +480,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <TextAlign>Right</TextAlign>
                       </Style>
                       <ZIndex>21</ZIndex>
                       <CanGrow>true</CanGrow>
