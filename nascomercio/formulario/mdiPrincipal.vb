@@ -1,3 +1,4 @@
+Imports System.Configuration
 Imports System.Threading.Tasks
 Imports System.Windows.Forms
 Imports NasLibackup
@@ -1181,7 +1182,92 @@ Public Class mdiPrincipal
             MessageBox.Show("Imagem de fundo não encontrada: 'fundo.jpg'.")
         End Try
 
+        If EhVersaoTeste() Then
+            Me.Text = Me.Text & " - VERSÃO EM TESTE"
+            CriarFaixaVersaoTeste()
+        End If
+
         VerificarCertificadoDigital()
+    End Sub
+
+    ' Controla a faixa "VERSÃO EM TESTE" (abaixo) e o aviso no título da janela, usados
+    ' numa instalação piloto para o cliente não confundir com o sistema oficial em uso.
+    ' Por padrão (chave ausente) considera-se TESTE -- assim uma instalação piloto nova
+    ' já nasce com o aviso, sem precisar lembrar de configurar nada. Só para de aparecer
+    ' quando, no lançamento da versão oficial, alguém adicionar explicitamente a chave
+    ' VERSAO_OFICIAL=SIM no app.config dessa instalação.
+    Private Function EhVersaoTeste() As Boolean
+        Return ConfigurationManager.AppSettings("VERSAO_OFICIAL") <> "SIM"
+    End Function
+
+    Private faixaVersaoTestePanel As Panel
+    Private Const FaixaPivoX As Single = 100
+    Private Const FaixaPivoY As Single = 42
+    Private Const FaixaComprimento As Single = 240
+    Private Const FaixaEspessura As Single = 24
+    Private Const FaixaPainelLado As Integer = 160
+
+    ' Fita vermelha diagonal no canto superior direito da tela, pra quem estiver testando uma
+    ' versão piloto não confundir com o sistema oficial em produção.
+    '
+    ' É um Panel PRÓPRIO (não desenhado direto no Form_Paint) porque esse é um formulário MDI:
+    ' a área onde as telas filhas (vendas, caixa, etc.) aparecem é controlada por um MdiClient
+    ' interno que cobre quase toda a janela por cima do que é desenhado no Paint do próprio
+    ' Form -- por isso a primeira versão (desenhada ali) ficava "meio invisível", só aparecia
+    ' numa tirinha bem fina. Um Panel adicionado direto em Me.Controls e trazido pra frente com
+    ' BringToFront() fica acima do MdiClient (e, portanto, acima de qualquer tela filha aberta).
+    '
+    ' O Panel é recortado (Region) na forma exata da faixa giradas 45 graus -- fora dela, o
+    ' painel não desenha nada, deixando a tela por trás visível normalmente.
+    Private Sub CriarFaixaVersaoTeste()
+        faixaVersaoTestePanel = New Panel()
+        faixaVersaoTestePanel.Size = New Size(FaixaPainelLado, FaixaPainelLado)
+        faixaVersaoTestePanel.Location = New Point(Me.ClientSize.Width - FaixaPainelLado, 0)
+        faixaVersaoTestePanel.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        AddHandler faixaVersaoTestePanel.Paint, AddressOf FaixaVersaoTeste_Paint
+
+        Dim retanguloFaixa As New RectangleF(-FaixaComprimento / 2, -FaixaEspessura / 2, FaixaComprimento, FaixaEspessura)
+        Using caminho As New Drawing2D.GraphicsPath()
+            caminho.AddRectangle(retanguloFaixa)
+            Using matriz As New Drawing2D.Matrix()
+                matriz.Translate(FaixaPivoX, FaixaPivoY)
+                matriz.Rotate(45)
+                caminho.Transform(matriz)
+            End Using
+            faixaVersaoTestePanel.Region = New Region(caminho)
+        End Using
+
+        Me.Controls.Add(faixaVersaoTestePanel)
+        faixaVersaoTestePanel.BringToFront()
+    End Sub
+
+    Private Sub FaixaVersaoTeste_Paint(ByVal sender As Object, ByVal e As PaintEventArgs)
+        Dim g As Graphics = e.Graphics
+        g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        g.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
+
+        ' Preenche o painel inteiro -- a Region (definida em CriarFaixaVersaoTeste) já recorta
+        ' isso só na forma da faixa, então só aparece mesmo dentro dela.
+        Using pincelFundo As New SolidBrush(Color.FromArgb(255, 204, 0, 0))
+            g.FillRectangle(pincelFundo, faixaVersaoTestePanel.ClientRectangle)
+        End Using
+
+        Dim estadoGrafico As Drawing2D.GraphicsState = g.Save()
+        Try
+            g.TranslateTransform(FaixaPivoX, FaixaPivoY)
+            g.RotateTransform(45)
+
+            Dim formatoTexto As New StringFormat()
+            formatoTexto.Alignment = StringAlignment.Center
+            formatoTexto.LineAlignment = StringAlignment.Center
+            Using fonte As New Font("Segoe UI", 8, FontStyle.Bold)
+                Using pincelTexto As New SolidBrush(Color.White)
+                    g.DrawString("VERSÃO EM TESTE", fonte, pincelTexto, New PointF(0, 0), formatoTexto)
+                End Using
+            End Using
+        Finally
+            g.Restore(estadoGrafico)
+        End Try
     End Sub
 
     ' Avisa logo na abertura do sistema se o certificado digital (usado pra emitir NFC-e)
