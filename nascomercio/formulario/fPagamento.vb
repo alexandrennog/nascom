@@ -710,19 +710,13 @@ Public Class fPagamento
         ' Fiscal
         Dim Str_CPF As String = "", Str_Nome As String = ""
         Dim Str_Aliquota As String, Str_ValorUnit As String, Str_Codigo_Item As String, Str_Descricao As String
-
-        ' "msg" precisa estar aqui fora (não dentro de um dos Try abaixo), porque agora é
-        ' usada tanto no bloco de emissão fiscal (ECF) quanto no bloco de impressão do
-        ' comprovante em papel -- que ficaram em dois Try separados depois da mudança para a
-        ' emissão fiscal rodar sempre, independente da resposta sobre imprimir comprovante.
         Dim msg As String = "Agradecemos a preferencia - Volte sempre"
 
         objImpressao = New ncComum.Impressao()
 
-        ' A emissão fiscal (ECF/SAT/NFC-e) precisa acontecer SEMPRE, independente do cliente
-        ' querer ou não o comprovante impresso -- é essa nota que vale fiscalmente e vai para
-        ' o contador. A pergunta "Deseja emitir comprovante de venda?" (mais abaixo) controla
-        ' só a impressão extra em papel, nunca a emissão fiscal em si.
+        ' Se o operador responder "Não", não emite a NFC-e e também não imprime comprovante
+        ' nenhum -- a venda fica só registrada no sistema, sem nota fiscal.
+        If MessageBox.Show("Deseja emitir comprovante de venda?", "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
         Try
                 ' Mensagem final fita
                 dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Mensagem)
@@ -1215,9 +1209,6 @@ Public Class fPagamento
             MessageBox.Show("Erro ao emitir nota fiscal: " & ex.Message)
         End Try
 
-        ' Pergunta se quer uma via extra impressa em papel comum -- isso é só a impressão,
-        ' nunca afeta a nota fiscal, que já foi emitida (ou tentada) acima, sempre.
-        If MessageBox.Show("Deseja emitir comprovante de venda?", "NasComercio", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
             Try
                 If ConfigurationManager.AppSettings("FISCAL") <> "ECF" AndAlso ConfigurationManager.AppSettings("FISCAL") <> "SAT" Then
 
