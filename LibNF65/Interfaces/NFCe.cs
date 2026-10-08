@@ -491,7 +491,13 @@ namespace LibNF65
                         UCom = "UN",
                         QCom = produto.quantidade,
                         VUnCom = Math.Round(produto.valor, 4, MidpointRounding.AwayFromZero),
-                        VProd = Math.Round((double)produto.valor, 4, MidpointRounding.AwayFromZero),
+                        // VProd é o valor TOTAL do item (VUnCom x QCom), não o valor unitário.
+                        // Antes estava igual a VUnCom sozinho -- funcionava "por acaso" quando a
+                        // quantidade era 1 (multiplicar por 1 não muda nada), mas em qualquer venda
+                        // com quantidade > 1 a SEFAZ rejeitava com o erro 629 ("Valor do Produto
+                        // difere do produto Valor Unitário de Comercialização e Quantidade
+                        // Comercial"), porque VProd não batia com VUnCom x QCom.
+                        VProd = Math.Round((double)(produto.valor * produto.quantidade), 4, MidpointRounding.AwayFromZero),
                         CEANTrib = "SEM GTIN",
                         UTrib = "UN",
                         QTrib = produto.quantidade,

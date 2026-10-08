@@ -1323,7 +1323,10 @@ Public Class fPagamento
             novoItem.descricao = item.descricao
             novoItem.referencia = item.referencia
             novoItem.aliquota = item.aliquota
-            novoItem.valorTributacao = Double.Parse(item.valor.ToString()) * (Double.Parse(item.aliquota) / 100)
+            ' valorTributacao é o total estimado de tributos do ITEM (vTotTrib na NFC-e), não só
+            ' do valor unitário -- precisa multiplicar pela quantidade, senão subestima o valor em
+            ' qualquer item vendido com quantidade > 1 (mesmo bug de origem do VProd em NFCe.cs).
+            novoItem.valorTributacao = Double.Parse(item.valor.ToString()) * Double.Parse(item.quantidade.ToString()) * (Double.Parse(item.aliquota) / 100)
             listaDestino.Add(novoItem)
         Next
 

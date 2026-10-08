@@ -178,11 +178,16 @@ namespace LibNF65
                     // Código do produto
                     ImprimirTexto(g, $"    Cód: {produto.Codigo}", fontePequena, MARGEM);
 
-                    decimal quantidade = produto.Quantidade / 100m;
+                    // Quantidade/ValorUnitario/ValorTotal já vêm em decimal.Parse(...) direto dos
+                    // nós qCom/vUnCom/vProd do XML (ex.: "2.0000", "64.9000") -- a NFC-e NUNCA usa
+                    // centavos inteiros nesses campos, então dividir por 100 aqui só distorcia os
+                    // valores impressos no cupom (2 virava "0,020", R$64,90 virava "R$0,65" etc.),
+                    // mesmo com a nota autorizada corretamente pela SEFAZ.
+                    decimal quantidade = produto.Quantidade;
 
-                    decimal unitario = produto.ValorUnitario / 100m;
+                    decimal unitario = produto.ValorUnitario;
 
-                    decimal total = produto.ValorTotal / 100m;
+                    decimal total = produto.ValorTotal;
 
                     // Quantidade, Unitário e Total
                     string linhaValor = $"    {quantidade:N3} {produto.Unidade} x {unitario:N2} = {total:N2}";
@@ -193,9 +198,12 @@ namespace LibNF65
 
                 DesenharLinha(g);
 
-                decimal _quantidade = nfce.QuantidadeTotal / 100m;
-                decimal _valorTotal = nfce.ValorProdutos / 100m;
-                decimal _valorDesconto = nfce.ValorDesconto / 100m;
+                // Mesmo motivo acima: nenhum desses valores está em centavos, não precisa
+                // dividir por 100 (isso fazia "Qtd. Total de Itens" sair sempre "0" e os
+                // totais saírem 100x menores do que o valor real da nota).
+                decimal _quantidade = nfce.QuantidadeTotal;
+                decimal _valorTotal = nfce.ValorProdutos;
+                decimal _valorDesconto = nfce.ValorDesconto;
 
                 // Totais
                 ImprimirCentralizado(g, "TOTAIS", fonteTitulo);
