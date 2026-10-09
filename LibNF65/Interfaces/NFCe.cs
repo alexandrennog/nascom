@@ -266,7 +266,14 @@ namespace LibNF65
             var nfe = new XmlNFe.NFe();
             nfe.InfNFe = new List<XmlNFe.InfNFe>();
 
-            double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor, 2, MidpointRounding.AwayFromZero));
+            // valorTotal alimenta ICMSTot.VProd e ICMSTot.VNF (o total da nota) -- precisa ser a
+            // soma do valor TOTAL de cada item (valor unitário x quantidade), não só do valor
+            // unitário. Antes estava igual ao outro bug do VProd por item (addProdutos, mais
+            // abaixo): "funcionava por acaso" com quantidade 1, mas em qualquer venda com algum
+            // item de quantidade > 1 o total da nota ficava menor que a soma real dos itens,
+            // arriscando rejeição da SEFAZ por divergência entre o total da nota e o total dos
+            // itens/pagamentos.
+            double valorTotal = dVendaProdutos.Sum(x => Math.Round((double)x.valor * (double)x.quantidade, 2, MidpointRounding.AwayFromZero));
             double valorTotalTributos = dVendaProdutos.Sum(x => Math.Round((double)x.valorTributacao, 2, MidpointRounding.AwayFromZero));
 
             

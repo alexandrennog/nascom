@@ -179,7 +179,15 @@ Public Class fPagamento
         'Mostra informa��es de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
-        VerificarAlcada()
+        ' VerificarAlcada() pede a senha do gerente quando o desconto passa do limite permitido
+        ' pro vendedor. Esse Sub trata o Leave de TODOS os campos de pagamento (dinheiro, pix,
+        ' cart�es, etc), n�o s� do campo de desconto -- ent�o, numa venda com desconto acima do
+        ' limite, ele rodava de novo a cada TAB/clique entre os campos de pagamento, pedindo a
+        ' senha do gerente repetidamente mesmo sem o operador ter tocado no desconto de novo.
+        ' S� faz sentido reautorizar quando o PR�PRIO campo de desconto � alterado.
+        If sender Is txtDesconto Then
+            VerificarAlcada()
+        End If
         formataCampos()
     End Sub
     Private Sub VerificarAlcada()

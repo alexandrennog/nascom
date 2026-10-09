@@ -83,7 +83,7 @@ Public Class fCaixa
                 HabilitarGridParaEdicao(_excVenda)
             End If
 
-            If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVIÇO") = "SIM" Then
+            If System.Configuration.ConfigurationManager.AppSettings("ORDEM_SERVIï¿½O") = "SIM" Then
                 lblOS.Visible = True
                 lblOS1.Visible = True
                 btnOS.Visible = True
@@ -99,7 +99,7 @@ Public Class fCaixa
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos parâmetros.")
+            MessageBox.Show("Erro na consulta dos parï¿½metros.")
 
         End Try
 
@@ -148,7 +148,7 @@ Public Class fCaixa
             txtControle.ReadOnly = True
             txtControle.TabStop = False
         Else
-            lblTitulo.Text = "ORÇAMENTO"
+            lblTitulo.Text = "ORï¿½AMENTO"
         End If
 
         If System.Configuration.ConfigurationManager.AppSettings("FISCAL") <> "NAO" Then
@@ -188,7 +188,7 @@ Public Class fCaixa
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Condição.")
+            MessageBox.Show("Erro na consulta dos dados de Condiï¿½ï¿½o.")
 
         End Try
     End Sub
@@ -229,7 +229,7 @@ Public Class fCaixa
     Private Sub NovaVenda()
 
         If CDec(lblTroca.Text) > 0.0 Or CDec(lblDefeitos.Text) > 0.0 Then
-            MessageBox.Show("Finalize o processo de troca ou devolução!")
+            MessageBox.Show("Finalize o processo de troca ou devoluï¿½ï¿½o!")
         Else
             Me.limpaCampos()
 
@@ -254,7 +254,7 @@ Public Class fCaixa
                     End If
                 End If
 
-                If Me.lblMsg.Text = "TROCA" Or Me.lblMsg.Text = "DEVOLUÇÃO" Then
+                If Me.lblMsg.Text = "TROCA" Or Me.lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
                     Me.txtControle.Text = (mdiPrincipal.RetornaNumeroControle() + 10).ToString()
                     Me.txtCodigo.Focus()
                 Else
@@ -270,14 +270,14 @@ Public Class fCaixa
                 End If
             Else
                 If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "VENDAS" Then
-                    Me.lblMsg.Text = "PRÉ VENDA"
+                    Me.lblMsg.Text = "PRï¿½ VENDA"
                     Me.lblTitulo.Text = "VENDAS"
                     If Me.lblMsg.Tag = False Then
                         GravaPreVenda()
                     End If
                 Else
-                    Me.lblMsg.Text = "ORÇAMENTO"
-                    Me.lblTitulo.Text = "ORÇAMENTO"
+                    Me.lblMsg.Text = "ORï¿½AMENTO"
+                    Me.lblTitulo.Text = "ORï¿½AMENTO"
                 End If
                 Me.txtCodigo.Focus()
             End If
@@ -295,7 +295,7 @@ Public Class fCaixa
                 Exit Sub
             End If
         Else
-            MessageBox.Show("Tecle F10 para nova venda ou Digite o número da venda.")
+            MessageBox.Show("Tecle F10 para nova venda ou Digite o nï¿½mero da venda.")
             Exit Sub
         End If
 
@@ -338,7 +338,7 @@ Public Class fCaixa
             retornoItem = regrasItem.Consultar(dadosItem)
 
             If Not IsNothing(retornoItem) Then
-                If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLUÇÃO" Then
+                If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
                     estoque = 1
                 Else
                     estoque = regrasItem.fConsultarEstoque(codigo)
@@ -353,7 +353,7 @@ Public Class fCaixa
 
                         'If lblMsg.Text = "TROCA" Then
                         'regrasItem.AlterarEstoque(codigo, CInt(IIf(txtQuantidade.Visible, txtQuantidade.Text, 1)))
-                        'ElseIf lblMsg.Text = "DEVOLUÇÃO" Then
+                        'ElseIf lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
                         '  'nada
                         'Else
                         '  regrasItem.AlterarEstoque(codigo, -(CInt(IIf(txtQuantidade.Visible, txtQuantidade.Text, 1))))
@@ -371,10 +371,10 @@ Public Class fCaixa
                             linha.Cells(4).Value = CDec(IIf(txtQuantidade.Visible, txtQuantidade.Text, 1)).ToString("N")
                             linha.Cells(5).Value = CDec(dadosProduto.valorVenda).ToString("N")
 
-                            If Not lblMsg.Text = "TROCA" And Not lblMsg.Text = "DEVOLUÇÃO" Then
+                            If Not lblMsg.Text = "TROCA" And Not lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
                                 If dadosProduto.estoqueMinimo.HasValue Then
                                     If dadosProduto.estoqueMinimo.Value > (estoque - CDec(IIf(txtQuantidade.Visible, txtQuantidade.Text, 1))) Then
-                                        MessageBox.Show("Estoque mínimo: " & dadosProduto.estoqueMinimo.Value.ToString)
+                                        MessageBox.Show("Estoque mï¿½nimo: " & dadosProduto.estoqueMinimo.Value.ToString)
                                     End If
                                 End If
                             End If
@@ -384,7 +384,7 @@ Public Class fCaixa
                         CalculaTotais()
                         Me.txtCodigo.Focus()
                     Else
-                        MessageBox.Show("Produto não econtrado")
+                        MessageBox.Show("Produto nï¿½o econtrado")
                         txtCodigo.Text = ""
                     End If
                 Else
@@ -392,7 +392,7 @@ Public Class fCaixa
                     txtCodigo.Text = ""
                 End If
             Else
-                MessageBox.Show("Código não econtrado")
+                MessageBox.Show("Cï¿½digo nï¿½o econtrado")
                 txtCodigo.Text = ""
             End If
         Catch ex As Exception
@@ -411,12 +411,12 @@ Public Class fCaixa
 
         If lblMsg.Text = "TROCA" Then
             lblTroca.Text = 0.ToString("N")
-        ElseIf lblMsg.Text = "DEVOLUÇÃO" Then
+        ElseIf lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
             lblDefeitos.Text = 0.ToString("N")
         End If
 
         If Me.txtControle.Text <> "F10 Nova Venda" And txtControle.Text <> "" Then
-            ' Exclui histórico
+            ' Exclui histï¿½rico
             itemVenda.controle = txtControle.Text
             preVenda.Excluir(itemVenda)
 
@@ -435,7 +435,7 @@ Public Class fCaixa
                     ' troca
                     lblTroca.Text = CDec(CDec(lblTroca.Text) + linha.Cells(5).Value).ToString("N")
                     ' Entra estoque
-                ElseIf lblMsg.Text = "DEVOLUÇÃO" Then
+                ElseIf lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
                     ' devolucao
                     lblDefeitos.Text = CDec(CDec(lblDefeitos.Text) + linha.Cells(5).Value).ToString("N")
                     ' Sai Estoque
@@ -449,7 +449,7 @@ Public Class fCaixa
             Next
             If lblMsg.Text = "TROCA" Then
                 lblTroca.Text = CDec(CDec(lblTroca.Text) - CDec(txtDesconto.Text)).ToString("N")
-            ElseIf lblMsg.Text = "DEVOLUÇÃO" Then
+            ElseIf lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
                 lblDefeitos.Text = CDec(CDec(lblDefeitos.Text) - CDec(txtDesconto.Text)).ToString("N")
             Else
                 lblTotal.Text = CDec(CDec(lblSubtotal.Text) - CDec(txtDesconto.Text)).ToString("N")
@@ -603,7 +603,7 @@ Public Class fCaixa
 
         limpaCampos()
 
-        ' Abre janela de pré-venda
+        ' Abre janela de prï¿½-venda
         janela.StartPosition = FormStartPosition.CenterParent
         janela.ShowDialog()
 
@@ -670,7 +670,7 @@ Public Class fCaixa
     Private Sub ExcluirPreVenda()
 
         If dtgProdutos.Rows.Count <= 0 OrElse
-            MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+            MessageBox.Show("Confirma EXCLUSï¿½O das informaï¿½ï¿½es?", "EXCLUSï¿½O", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
 
             If dtgProdutos.Rows.Count > 0 And System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
                 Dim acessoGerente As New fAcessoGerente()
@@ -699,16 +699,16 @@ Public Class fCaixa
         'Next
 
         If txtControle.Text.Equals("") Then
-            MessageBox.Show("Digite o número da venda para excluir!", "Nascomercio")
+            MessageBox.Show("Digite o nï¿½mero da venda para excluir!", "Nascomercio")
         Else
             ' exclui prevenda e seus produtos
             dadosVenda.controle = txtControle.Text
             preVenda.Excluir(dadosVenda)
 
-            'GravarLog(Me.lblVendedor.Text, "Venda excluída [" & txtControle.Text & "]")
+            'GravarLog(Me.lblVendedor.Text, "Venda excluï¿½da [" & txtControle.Text & "]")
             If dtgProdutos.Rows.Count > 0 Then
-                MessageBox.Show("Venda excluída: " & txtControle.Text)
-                GravarLog(mdiPrincipal.gUsuario.usuario, "Venda excluída: " & txtControle.Text)
+                MessageBox.Show("Venda excluï¿½da: " & txtControle.Text)
+                GravarLog(mdiPrincipal.gUsuario.usuario, "Venda excluï¿½da: " & txtControle.Text)
             End If
         End If
     End Sub
@@ -725,7 +725,7 @@ Public Class fCaixa
             If dtgProdutos.Rows.Count <= 0 Then
                 objImpressao = New ncComum.Impressao()
 
-                GravarLog(Me.cboVendedor.Text, "Emissão de vale [" & (CDec(lblTroca.Text) + CDec(lblDefeitos.Text)).ToString("C") & "]")
+                GravarLog(Me.cboVendedor.Text, "Emissï¿½o de vale [" & (CDec(lblTroca.Text) + CDec(lblDefeitos.Text)).ToString("C") & "]")
 
                 Try
                     ' Inclui vale para contabilizar no fechamento
@@ -838,7 +838,7 @@ Public Class fCaixa
         clientes = New ColecaoCliente
 
         If txtIdCliente.Text = "" Then
-            MessageBox.Show("Informe um código")
+            MessageBox.Show("Informe um cï¿½digo")
             Exit Sub
         End If
 
@@ -851,7 +851,7 @@ Public Class fCaixa
 
         If clientes Is Nothing Then
 
-            MessageBox.Show("Não existe cliente com esse código!")
+            MessageBox.Show("Nï¿½o existe cliente com esse cï¿½digo!")
             txtIdCliente.Focus()
             txtIdCliente.Select()
             txtIdCliente.Text = ""
@@ -949,17 +949,17 @@ Public Class fCaixa
     End Sub
 
     Private Sub Devolucao()
-        lblMsg.Text = "DEVOLUÇÃO"
+        lblMsg.Text = "DEVOLUï¿½ï¿½O"
         NovaVenda()
     End Sub
 
     Private Sub FinalizaVenda()
         Dim produto As dVendaProduto
-        If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLUÇÃO" Then
+        If lblMsg.Text = "TROCA" Or lblMsg.Text = "DEVOLUï¿½ï¿½O" Then
             If Me.Tag = True Then
                 Me.lblMsg.Text = "VENDA DIRETA"
             Else
-                Me.lblMsg.Text = "PRÉ VENDA"
+                Me.lblMsg.Text = "PRï¿½ VENDA"
             End If
             'Carregar lista de trocas
             For Each linha As DataGridViewRow In dtgProdutos.Rows
@@ -979,7 +979,7 @@ Public Class fCaixa
             If dtgProdutos.Rows.Count > 0 Then
                 GravaPreVenda()
                 CalculaTotais()
-                If Me.lblMsg.Text = "PRÉ VENDA" Or Me.lblMsg.Text = "ORÇAMENTO" Then
+                If Me.lblMsg.Text = "PRï¿½ VENDA" Or Me.lblMsg.Text = "ORï¿½AMENTO" Then
                     'CarregaPagamentoPreVenda()
                     ImprimePrevenda()
                     mdiPrincipal.FecharTelaLogin()
@@ -990,7 +990,7 @@ Public Class fCaixa
                 If Me.Tag = True Then
                     Me.lblMsg.Text = "VENDA DIRETA"
                 Else
-                    Me.lblMsg.Text = "PRÉ VENDA"
+                    Me.lblMsg.Text = "PRï¿½ VENDA"
                 End If
                 NovaVenda()
                 ' MessageBox.Show("Nenhum produto vendido")
@@ -1024,8 +1024,8 @@ Public Class fCaixa
                     objImpressao.Write("")
                     objImpressao.Write("Loja:" & lblLoja.Text)
                     objImpressao.Write("------------------------------------------------")
-                    If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "ORÇAMENTO" Then
-                        objImpressao.Write("ORÇAMENTO em:" & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle:" & txtControle.Text)
+                    If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "ORï¿½AMENTO" Then
+                        objImpressao.Write("ORï¿½AMENTO em:" & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle:" & txtControle.Text)
                     Else
                         objImpressao.Write("Venda em:" & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & " Controle:" & txtControle.Text)
                     End If
@@ -1078,7 +1078,7 @@ Public Class fCaixa
                 SelecionarClientes()
             Case Keys.F2 ' Selecionar produto
                 SelecionarProdutos()
-            Case Keys.F3 ' Pagamento de crediário
+            Case Keys.F3 ' Pagamento de crediï¿½rio
                 PagamentoCrediario()
             Case Keys.F4
                 Dim acessoGerente As New fAcessoGerente()
@@ -1118,6 +1118,21 @@ Public Class fCaixa
                     AbrirCaixa()
                 End If
         End Select
+
+        ' Esta tela tem Me.KeyPreview = True (ver fCaixa.Designer.vb), entï¿½o toda tecla passa
+        ' primeiro por aqui (via MyBase.KeyDown) antes de chegar no controle que estï¿½ com o foco.
+        ' Sem marcar e.Handled, a tecla continuava o caminho normal e chegava TAMBï¿½M no KeyDown
+        ' do prï¿½prio controle focado -- que, pra vï¿½rios campos (txtParcelas/txtDesconto/
+        ' cboCondicao, listados direto no Handles acima; e txtCliente/txtControle/txtCodigo/
+        ' txtQuantidade, que tï¿½m um Sub prï¿½prio que chama fCaixa_KeyDown de novo manualmente),
+        ' faz esse MESMO Select Case rodar UMA SEGUNDA VEZ pro mesmo aperto de tecla. Pra teclas
+        ' que abrem uma tela (F1, F2, F9, etc.), isso faz a tela abrir duas vezes seguidas,
+        ' pedindo a mesma informaï¿½ï¿½o de novo -- exatamente o que foi reportado (F9 pedindo o
+        ' vendedor duas vezes). Sï¿½ marcamos como tratada a tecla que realmente caiu em algum
+        ' Case acima, pra nï¿½o atrapalhar a digitaï¿½ï¿½o normal de texto/nï¿½meros nos campos.
+        If e.KeyCode = Keys.Escape OrElse (e.KeyCode >= Keys.F1 AndAlso e.KeyCode <= Keys.F12) Then
+            e.Handled = True
+        End If
     End Sub
 
 
@@ -1145,7 +1160,7 @@ Public Class fCaixa
         ' Vendedor
         Dim dadosVendedor As New ncDados.nsUsuario.dUsuario
         Dim vendedor As New ncRegras.nsUsuario.rUsuario
-        ' Condição 
+        ' Condiï¿½ï¿½o 
         Dim dadosCondicao As New ncDados.nsCondicao.dCondicao
         Dim condicao As New ncRegras.nsCondicao.rCondicao
 
@@ -1360,12 +1375,12 @@ Public Class fCaixa
                     If dtgProdutos.Rows.Count > 0 Then
                         dadosUsuario = regraUsuario.ConsultarPorCid(mdiPrincipal.gUsuario.cid)
                         If IsNothing(dadosUsuario) Then
-                            MessageBox.Show("Erro ao consultar usuário")
+                            MessageBox.Show("Erro ao consultar usuï¿½rio")
                         Else
                             If Not dadosUsuario.descontoPedido.HasValue Then
                                 dadosUsuario.descontoPedido = 0
                             End If
-                            If lblMsg.Text = "DEVOLUÇÃO" Or lblMsg.Text = "TROCA" Then
+                            If lblMsg.Text = "DEVOLUï¿½ï¿½O" Or lblMsg.Text = "TROCA" Then
                                 CalculaTotais()
                                 txtDesconto.Text = CDec(txtDesconto.Text).ToString("N")
                             Else
@@ -1466,7 +1481,7 @@ Public Class fCaixa
     Private Sub dtgProdutos_UserDeletingRow(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewRowCancelEventArgs) Handles dtgProdutos.UserDeletingRow
 
         If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" And _lojaGrande Then
-            If MessageBox.Show("Confirma EXCLUSÃO das informações?", "EXCLUSÃO", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
+            If MessageBox.Show("Confirma EXCLUSï¿½O das informaï¿½ï¿½es?", "EXCLUSï¿½O", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
                 Dim acessoGerente As New fAcessoGerente()
                 acessoGerente.ShowDialog()
                 If Not acessoGerente.gRetorno Then

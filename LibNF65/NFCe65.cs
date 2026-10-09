@@ -340,7 +340,18 @@ namespace LibNF65
                                 // não é chamado nesse caminho; se essa nota específica precisar ser
                                 // cancelada depois, pode ser necessário consultar a SEFAZ manualmente
                                 // para obter o número do protocolo.
-                                Imprimir(chaveAcesso);
+                                //
+                                // Mesmo motivo do outro ponto desta classe: a nota já está autorizada,
+                                // uma falha ao imprimir aqui não pode derrubar o GerarNF e fazer o
+                                // chamador achar que a emissão falhou.
+                                try
+                                {
+                                    Imprimir(chaveAcesso);
+                                }
+                                catch
+                                {
+                                    // Cupom pode ser reimpresso depois com Reimprimir(chaveAcesso).
+                                }
                                 MoverArquivo(chaveAcesso, true);
                                 return chaveAcesso;
                             }
@@ -430,7 +441,26 @@ namespace LibNF65
                     // Antes, Imprimir(chaveAcesso) era chamado incondicionalmente,
                     // então uma nota REJEITADA pela SEFAZ ainda assim gerava um
                     // cupom impresso para o cliente — problema fiscal sério.
-                    Imprimir(chaveAcesso);
+                    //
+                    // A impressão fica isolada no seu próprio try/catch: a nota JÁ FOI
+                    // autorizada pela SEFAZ neste ponto, é fiscalmente válida independente
+                    // do que acontecer na impressão do DANFE a seguir. Antes, se a
+                    // impressora estivesse desligada/desconectada e Imprimir() lançasse uma
+                    // exceção, ela subia sem ser pega aqui dentro, interrompia o GerarNF
+                    // ANTES do MoverArquivo/return, e o chamador (fPagamento.vb) tratava a
+                    // venda como "falha ao emitir NFC-e" -- quando na verdade a nota existe
+                    // e é válida, só o papel não saiu. O XML ficava "perdido" na pasta raiz
+                    // (nunca movido para NFs\OK), arriscando reemissão duplicada depois.
+                    try
+                    {
+                        Imprimir(chaveAcesso);
+                    }
+                    catch
+                    {
+                        // Falha ao imprimir o DANFE não pode invalidar uma nota já
+                        // autorizada -- ver comentário acima. O cupom pode ser reimpresso
+                        // depois com Reimprimir(chaveAcesso), já existente nesta classe.
+                    }
                     MoverArquivo(chaveAcesso, true);
                     return chaveAcesso;
                 default:

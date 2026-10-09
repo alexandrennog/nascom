@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace LibNF65
@@ -101,6 +102,13 @@ namespace LibNF65
             printDoc.DefaultPageSettings.Margins = new Margins(MARGEM, MARGEM, MARGEM, MARGEM);
         }
 
+        // printDoc.Print() usa GDI/driver de impressão do Windows e não tem timeout próprio --
+        // se a impressora do DANFE estiver desligada/desconectada, a chamada pode ficar
+        // bloqueada indefinidamente, travando a tela do caixa (mesmo problema encontrado em
+        // ncComum/impressao.vb). Por isso ela roda numa thread separada com um limite de tempo:
+        // se não responder a tempo, desiste e lança um erro claro em vez de travar a tela.
+        private const int TimeoutImpressaoMs = 8000;
+
         public void Imprimir(string nomeImpressora = null)
         {
             try
@@ -110,7 +118,19 @@ namespace LibNF65
                     printDoc.PrinterSettings.PrinterName = nomeImpressora;
                 }
 
-                printDoc.Print();
+                var tarefa = Task.Run(() => printDoc.Print());
+
+                if (!tarefa.Wait(TimeoutImpressaoMs))
+                {
+                    throw new Exception($"A impressora não respondeu em {TimeoutImpressaoMs / 1000} segundos ao tentar imprimir a NFC-e. Verifique se ela está ligada e conectada.");
+                }
+
+                if (tarefa.IsFaulted)
+                {
+                    // Propaga a falha real (não seria correto reportar timeout se a operação
+                    // terminou dentro do prazo mas lançou uma exceção por outro motivo).
+                    throw tarefa.Exception.InnerException ?? tarefa.Exception;
+                }
             }
             catch (Exception ex)
             {
@@ -224,7 +244,11 @@ namespace LibNF65
 
                 foreach (var pagamento in nfce.Pagamentos)
                 {
-                    decimal _valor = pagamento.Valor / 100m;
+                    // pagamento.Valor já vem em reais (vPag do XML é parseado direto com
+                    // decimal.Parse, sem conversão de centavos -- mesmo bug dos outros campos
+                    // corrigidos acima: dividir por 100 de novo deixava "Dinheiro: R$ 17,00"
+                    // aparecer como "R$ 0,17" no cupom impresso).
+                    decimal _valor = pagamento.Valor;
                     ImprimirTexto(g, $"{pagamento.FormaPagamento}: R$ {_valor:N2}", fonteNormal, MARGEM);
                 }
 
