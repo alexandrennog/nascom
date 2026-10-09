@@ -89,7 +89,7 @@ Public Class Impressao
             _diretorio = "c:\nascomercio\"
             _arquivo = "c:\nascomercio\print.txt"
 
-            'SE A PASTA N�O EXISTIR, CRIA.
+            'SE A PASTA NÃO EXISTIR, CRIA.
             If Not IO.Directory.Exists(_diretorio) Then
                 IO.Directory.CreateDirectory(_diretorio)
             End If
@@ -125,7 +125,7 @@ Public Class Impressao
         Dim codutf As System.Text.Encoding
 
         If _porta.Substring(0, 3) = "USB" Or _porta.Substring(0, 3) = "LAZ" Or _porta.Substring(0, 3) = "ELG" Then
-            codutf = System.Text.Encoding.GetEncoding("ISO-8859-1") 'selecionando codifica��o
+            codutf = System.Text.Encoding.GetEncoding("ISO-8859-1") 'selecionando codificação
             Dim fluxoTexto As IO.StreamWriter 'carregando streamwriter
             fluxoTexto = New IO.StreamWriter(_arquivo, True, codutf) 'instancia streamwriter
             Dim texto As String

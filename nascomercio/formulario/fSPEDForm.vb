@@ -520,7 +520,7 @@ Public Class fSPEDForm
             MessageBox.Show("Leiaute salvo")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na grava��o dos dados de Arquivo.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravação dos dados de Arquivo.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -549,7 +549,7 @@ Public Class fSPEDForm
             MessageBox.Show("Entidade salva")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na grava��o dos dados de Entidade.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravação dos dados de Entidade.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -573,10 +573,10 @@ Public Class fSPEDForm
 
             _rEnderecoContato.Salvar(_dEnderecoContato)
 
-            MessageBox.Show("Endere�o salvo")
+            MessageBox.Show("Endereço salvo")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na grava��o dos dados de EnderecoContato.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravação dos dados de EnderecoContato.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -602,10 +602,10 @@ Public Class fSPEDForm
 
                 CarregarInfoUnidadeMedida()
             Else
-                MessageBox.Show("C�digo j� cadastrado.", "EFD", MessageBoxButtons.OK)
+                MessageBox.Show("Código já cadastrado.", "EFD", MessageBoxButtons.OK)
             End If
         Catch ex As Exception
-            MessageBox.Show("Erro na grava��o dos dados de UnidadeMedida.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravação dos dados de UnidadeMedida.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -640,7 +640,7 @@ Public Class fSPEDForm
             MessageBox.Show("Contabilidade salva")
 
         Catch ex As Exception
-            MessageBox.Show("Erro na grava��o dos dados de Contabilidade.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na gravação dos dados de Contabilidade.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -669,7 +669,7 @@ Public Class fSPEDForm
 
             CarregarInfoUnidadeMedida()
         Catch ex As Exception
-            MessageBox.Show("Erro na exclus�o dos dados de Unidade de Medida.", "EFD", MessageBoxButtons.OK)
+            MessageBox.Show("Erro na exclusão dos dados de Unidade de Medida.", "EFD", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -714,7 +714,7 @@ Public Class fSPEDForm
 
         arquivo = New System.IO.StreamWriter(arquivoNome)
 
-        '-- Registro 0000 -- ABERTURA DO ARQUIVO DIGITAL E IDENTIFICA��O DA ENTIDADE
+        '-- Registro 0000 -- ABERTURA DO ARQUIVO DIGITAL E IDENTIFICAÇÃO DA ENTIDADE
         If _dArquivo.reg0000 IsNot Nothing Then
             linha = "|" & RetornarTexto(_dArquivo.reg0000.reg, 4) & "|" &
               RetornarTexto(_dArquivo.reg0000.cod_ver, 3) & "|" &
@@ -804,7 +804,7 @@ Public Class fSPEDForm
             Next
         End If
 
-        '-- Registro 0190 -- IDENTIFICA��O DAS UNIDADES DE MEDIDA
+        '-- Registro 0190 -- IDENTIFICAÇÃO DAS UNIDADES DE MEDIDA
         If _dArquivo.col0190 IsNot Nothing Then
             For Each item As dReg0190 In _dArquivo.col0190
                 linha = "|" &
@@ -815,7 +815,7 @@ Public Class fSPEDForm
             Next
         End If
 
-        '-- Registro 0200 -- TABELA DE IDENTIFICA��O DO ITEM (PRODUTO E SERVI�OS)
+        '-- Registro 0200 -- TABELA DE IDENTIFICAÇÃO DO ITEM (PRODUTO E SERVIÇOS)
         If _dArquivo.col0200 IsNot Nothing Then
             For Each item As dReg0200 In _dArquivo.col0200
                 linha = "|" &
@@ -851,7 +851,7 @@ Public Class fSPEDForm
             arquivo.WriteLine(linha)
         End If
 
-        '-- Registro C100 -- NOTA FISCAL (C�DIGO 01), NOTA FISCAL AVULSA (C�DIGO 1B), NOTA FISCAL DE PRODUTOR (C�DIGO 04) E NF-e (C�DIGO 55).
+        '-- Registro C100 -- NOTA FISCAL (CÓDIGO 01), NOTA FISCAL AVULSA (CÓDIGO 1B), NOTA FISCAL DE PRODUTOR (CÓDIGO 04) E NF-e (CÓDIGO 55).
         If _dArquivo.colC100 IsNot Nothing Then
             For Each item As dRegC100 In _dArquivo.colC100
                 _tipoEmissao = ""
@@ -912,7 +912,7 @@ Public Class fSPEDForm
                     RetornarTexto(item.vl_cofins_st) & "|"
 
                 arquivo.WriteLine(linha)
-                '-- Registro C170 -- ITENS DO DOCUMENTO (C�DIGO 01, 1B, 04 e 55).
+                '-- Registro C170 -- ITENS DO DOCUMENTO (CÓDIGO 01, 1B, 04 e 55).
                 For Each itemNota As dRegC170 In _dArquivo.colC170
                     If item.num_doc = itemNota.num_doc Then
                         linha = "|" &
@@ -961,7 +961,7 @@ Public Class fSPEDForm
             Next
         End If
 
-        '-- Registro C190 -- REGISTRO ANAL�TICO DO DOCUMENTO (C�DIGO 01, 1B, 04 E 55).
+        '-- Registro C190 -- REGISTRO ANALÍTICO DO DOCUMENTO (CÓDIGO 01, 1B, 04 E 55).
         If _dArquivo.regC190 IsNot Nothing Then
             linha = "|" &
               RetornarTexto(_dArquivo.regC190.reg, 4) & "|" &
@@ -1013,7 +1013,7 @@ Public Class fSPEDForm
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO E100: PER�ODO DA APURA��O DO ICMS.
+        ''-- REGISTRO E100: PERÍODO DA APURAÇÃO DO ICMS.
         If _dArquivo.regE100 IsNot Nothing Then
             linha = "|" &
                 RetornarTexto(_dArquivo.regE100.reg, 4) & "|" &
@@ -1022,7 +1022,7 @@ Public Class fSPEDForm
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO E110: APURA��O DO ICMS � OPERA��ES PR�PRIAS.
+        ''-- REGISTRO E110: APURAÇÃO DO ICMS – OPERAÇÕES PRÓPRIAS.
         If _dArquivo.regE110 IsNot Nothing Then
             linha = "|" &
                 RetornarTexto(_dArquivo.regE110.reg, 4) & "|" &
@@ -1075,7 +1075,7 @@ Public Class fSPEDForm
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO H005: TOTAIS DO INVENT�RIO
+        ''-- REGISTRO H005: TOTAIS DO INVENTÁRIO
         If _dArquivo.regH005 IsNot Nothing Then
             linha = "|" &
                 RetornarTexto(_dArquivo.regH005.reg, 4) & "|" &
@@ -1090,7 +1090,7 @@ Public Class fSPEDForm
             arquivo.WriteLine(linha)
         End If
 
-        ''-- REGISTRO H010: INVENT�RIO.
+        ''-- REGISTRO H010: INVENTÁRIO.
         If _dArquivo.colH010 IsNot Nothing Then
             For Each item As dRegH010 In _dArquivo.colH010
                 linha = "|" & _

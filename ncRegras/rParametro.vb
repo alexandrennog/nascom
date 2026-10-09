@@ -10,7 +10,7 @@ Namespace nsParametro
 
     Public Class rParametro
 
-        '-- M�todos de controle ( V�rias chamadas; Controle de transa��o )
+        '-- Métodos de controle ( Várias chamadas; Controle de transação )
 
         Public Function Listar() As ColecaoParametro
 

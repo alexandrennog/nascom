@@ -138,7 +138,7 @@ Public Class fRelatorioCrediario
 
     Catch ex As Exception
 
-      MessageBox.Show("Erro na consulta do Credi�rio [" & Me.ToString() & "]")
+      MessageBox.Show("Erro na consulta do Crediário [" & Me.ToString() & "]")
 
     End Try
 

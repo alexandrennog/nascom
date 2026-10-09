@@ -26,7 +26,7 @@ Namespace nsAcessoBD
             Catch ex As Exception
 
                 con = Nothing
-                Throw New ExcecaoNascomercio("Problema na conex�o com o banco de dados! " & vbCrLf & vbCrLf & ex.Message, ex)
+                Throw New ExcecaoNascomercio("Problema na conexão com o banco de dados! " & vbCrLf & vbCrLf & ex.Message, ex)
 
             End Try
 
@@ -78,7 +78,7 @@ Namespace nsAcessoBD
                 Catch ex As Exception
 
                     If ex.Message.ToUpper().Contains("FOREIGN KEY") Then
-                        Throw New ExcecaoNascomercio("N�O FOI POSS�VEL EXCLUIR POR EXISTIR REGISTROS RELACIONADOS: " & ex.Message, ex)
+                        Throw New ExcecaoNascomercio("NÃO FOI POSSÍVEL EXCLUIR POR EXISTIR REGISTROS RELACIONADOS: " & ex.Message, ex)
                     Else
                         Throw New ExcecaoNascomercio("Erro ao executar comando [" & Me.ToString() & "] - " & ex.Message, ex)
                     End If
@@ -231,10 +231,10 @@ Namespace nsAcessoBD
                             cmd.CommandText = comandoSQL
                             cmd.CommandTimeout = timeoutSegundos.Value
 
-                            ' aplica timeout customizado se informado; caso contrario mant�m o padr�o da conex�o
+                            ' aplica timeout customizado se informado; caso contrario mantém o padrão da conexão
                             If timeoutSegundos.HasValue Then
                                 If timeoutSegundos.Value < 0 Then
-                                    Throw New ArgumentException("O timeout n�o pode ser negativo.", NameOf(timeoutSegundos))
+                                    Throw New ArgumentException("O timeout não pode ser negativo.", NameOf(timeoutSegundos))
                                 End If
 
                             End If

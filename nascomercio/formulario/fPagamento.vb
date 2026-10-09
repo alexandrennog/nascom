@@ -63,7 +63,7 @@ Public Class fPagamento
 
 
     ''' <summary>
-    ''' Mostra informa��es de valores recebidos e troco
+    ''' Mostra informações de valores recebidos e troco
     ''' </summary>
     ''' <remarks></remarks>
     Private Sub calculaRecebido()
@@ -176,15 +176,15 @@ Public Class fPagamento
                                                                                                txtVale.Leave,
                                                                                                txtDesconto.Leave,
                                                                                                txtPix.Leave
-        'Mostra informa��es de valores recebidos e troco
+        'Mostra informações de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         ' VerificarAlcada() pede a senha do gerente quando o desconto passa do limite permitido
         ' pro vendedor. Esse Sub trata o Leave de TODOS os campos de pagamento (dinheiro, pix,
-        ' cart�es, etc), n�o s� do campo de desconto -- ent�o, numa venda com desconto acima do
+        ' cartões, etc), não só do campo de desconto -- então, numa venda com desconto acima do
         ' limite, ele rodava de novo a cada TAB/clique entre os campos de pagamento, pedindo a
         ' senha do gerente repetidamente mesmo sem o operador ter tocado no desconto de novo.
-        ' S� faz sentido reautorizar quando o PR�PRIO campo de desconto � alterado.
+        ' Só faz sentido reautorizar quando o PRÓPRIO campo de desconto é alterado.
         If sender Is txtDesconto Then
             VerificarAlcada()
         End If
@@ -202,7 +202,7 @@ Public Class fPagamento
 
             dadosUsuario = regraUsuario.ConsultarPorCid(mdiPrincipal.gUsuario.cid)
             If IsNothing(dadosUsuario) Then
-                MessageBox.Show("Erro ao consultar usu�rio")
+                MessageBox.Show("Erro ao consultar usuário")
             Else
                 If Not dadosUsuario.descontoPedido.HasValue Then
                     dadosUsuario.descontoPedido = 0
@@ -292,7 +292,7 @@ Public Class fPagamento
                 If txtCliente.Tag <> 1 Then
 
                     If Me.txtCliente.ForeColor = Color.Red And Not EhAdmin() Then
-                        MessageBox.Show("Cliente com pend�ncias!")
+                        MessageBox.Show("Cliente com pendências!")
                         acessoGerente = New fAcessoGerente()
                         acessoGerente.ShowDialog()
                         If Not acessoGerente.gRetorno Then
@@ -345,7 +345,7 @@ Public Class fPagamento
 
                     Catch ex As Exception
 
-                        MessageBox.Show("Erro na consulta dos par�metros.")
+                        MessageBox.Show("Erro na consulta dos parâmetros.")
 
                     End Try
 
@@ -356,7 +356,7 @@ Public Class fPagamento
                 End If
 
                 If Not retornoCrediario Then
-                    MessageBox.Show("Incluir Credi�rio!")
+                    MessageBox.Show("Incluir Crediário!")
                 End If
 
             End If
@@ -487,7 +487,7 @@ Public Class fPagamento
             MessageBox.Show(nex.Message)
 
         Catch ex As Exception
-            MessageBox.Show("Erro na consulta do credi�rio.")
+            MessageBox.Show("Erro na consulta do crediário.")
 
         End Try
 
@@ -653,7 +653,7 @@ Public Class fPagamento
 
         objImpressao = New ncComum.Impressao()
 
-        GravarLog(mdiPrincipal.gUsuario.usuario, "Emiss�o de vale [" & (CDec(lblTroco.Text)).ToString("C") & "]")
+        GravarLog(mdiPrincipal.gUsuario.usuario, "Emissão de vale [" & (CDec(lblTroco.Text)).ToString("C") & "]")
 
         lblVale.Text = lblTroco.Text
         lblTroco.Text = 0.ToString("N")
@@ -750,7 +750,7 @@ Public Class fPagamento
 
                     ' ECF - Impressora Fiscal
 
-                    'se n�o informou cpf pergunta
+                    'se não informou cpf pergunta
                     If String.IsNullOrEmpty(Str_CPF) And Len(Str_CPF) = 11 Then
                         Str_CPF = InputBox("Deseja informar o CPF ?").Trim()
                         Do While Not ValidaCpf(Str_CPF)
@@ -816,7 +816,7 @@ Public Class fPagamento
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
                     End If
                     If CDec(txtCrediario.Text) > 0.001 Then
-                        Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Credi�rio", txtCrediario.Text)
+                        Declaracoes.iRetorno = Declaracoes.iCFEfetuarPagamentoFormatado_ECF_Daruma("Crediário", txtCrediario.Text)
                         Declaracoes.TrataRetorno(Declaracoes.iRetorno)
                     End If
                     If CDec(txtTroca.Text) > 0.001 Then
@@ -844,10 +844,10 @@ Public Class fPagamento
 
                 ElseIf ConfigurationManager.AppSettings("FISCAL") = "SAT" Then
 
-                    ' SAT - Cupom Eletr�nico
+                    ' SAT - Cupom Eletrônico
                     Try
 
-                        'se n�o informou cpf pergunta
+                        'se não informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
                             Str_CPF = InputBox("Deseja informar o CPF/CNPJ ?").Trim()
                             If Str_CPF.Length > 11 Then
@@ -916,22 +916,22 @@ Public Class fPagamento
                             End If
                         End If
                         If CDec(txtCartaoDebito.Text) > 0.001 Then
-                            '04 - Cart�o de D�bito
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cart�o de D�bito", txtCartaoDebito.Text.Replace(".", ""), "")
+                            '04 - Cartão de Débito
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartão de Débito", txtCartaoDebito.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
                         End If
                         If CDec(txtCartaoCredito.Text) > 0.001 Then
-                            '03 - Cart�o de Cr�dito
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cart�o de Cr�dito", txtCartaoCredito.Text.Replace(".", ""), "")
+                            '03 - Cartão de Crédito
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cartão de Crédito", txtCartaoCredito.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
                         End If
                         If CDec(txtCrediario.Text) > 0.001 Then
-                            '05 - Cr�dito Loja
-                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Cr�dito Loja", txtCrediario.Text.Replace(".", ""), "")
+                            '05 - Crédito Loja
+                            Declaracoes.iRetorno = Declaracoes.aCFEfetuarPagamento_SAT_Daruma("Crédito Loja", txtCrediario.Text.Replace(".", ""), "")
                             If Declaracoes.iRetorno <> 1 Then
                                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
                             End If
@@ -975,14 +975,14 @@ Public Class fPagamento
                     End Try
                 ElseIf ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
 
-                    ' SAT - Cupom Eletr�nico
+                    ' SAT - Cupom Eletrônico
                     Try
 
-                        'se n�o informou cpf pergunta
+                        'se não informou cpf pergunta
                         If String.IsNullOrEmpty(Str_CPF) Then
                             Dim resposta As String = InputBox("Deseja informar o CPF/CNPJ? (deixe em branco para ignorar)").Trim()
 
-                            ' Se o usu�rio n�o quiser informar, simplesmente seguimos.
+                            ' Se o usuário não quiser informar, simplesmente seguimos.
                             If String.IsNullOrEmpty(resposta) Then
                                 Str_CPF = ""
                             Else
@@ -990,13 +990,13 @@ Public Class fPagamento
 
                                 ' Decide se valida como CNPJ ou CPF apenas se for informado.
                                 If Str_CPF.Length > 11 Then
-                                    ' Valida��o de CNPJ
+                                    ' Validação de CNPJ
                                     While Not ValidaCnpj(Str_CPF)
                                         Str_CPF = InputBox("CNPJ incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
                                         If String.IsNullOrEmpty(Str_CPF) Then Exit While
                                     End While
                                 Else
-                                    ' Valida��o de CPF
+                                    ' Validação de CPF
                                     While Not ValidaCpf(Str_CPF)
                                         Str_CPF = InputBox("CPF incorreto. Informe novamente ou deixe em branco para cancelar.").Trim()
                                         If String.IsNullOrEmpty(Str_CPF) Then Exit While
@@ -1039,34 +1039,34 @@ Public Class fPagamento
                             meiosPagamentos.Add(pagamentoMeio)
                         End If
                         If CDec(txtCartaoDebito.Text) > 0.001 Then
-                            '04 - Cart�o de D�bito
+                            '04 - Cartão de Débito
 
                             Dim cartaoDebito As String = txtCartaoDebito.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "04"
-                            pagamentoMeio.DescricaoPagamento = "Cart�o de D�bito"
+                            pagamentoMeio.DescricaoPagamento = "Cartão de Débito"
                             pagamentoMeio.Valor = cartaoDebito
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If
                         If CDec(txtCartaoCredito.Text) > 0.001 Then
-                            '03 - Cart�o de Cr�dito
+                            '03 - Cartão de Crédito
 
                             Dim cartaoCredito As String = txtCartaoCredito.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "03"
-                            pagamentoMeio.DescricaoPagamento = "Cart�o de Cr�dito"
+                            pagamentoMeio.DescricaoPagamento = "Cartão de Crédito"
                             pagamentoMeio.Valor = cartaoCredito
                             meiosPagamentos.Add(pagamentoMeio)
 
                         End If
                         If CDec(txtCrediario.Text) > 0.001 Then
-                            '05 - Cr�dito Loja
+                            '05 - Crédito Loja
 
                             Dim crediarioPagamento As String = txtCrediario.Text.Replace(".", "")
                             Dim pagamentoMeio As New MeioPagamentoNascom()
                             pagamentoMeio.CodigoPagamento = "05"
-                            pagamentoMeio.DescricaoPagamento = "Cr�dito Loja"
+                            pagamentoMeio.DescricaoPagamento = "Crédito Loja"
                             pagamentoMeio.Valor = crediarioPagamento
                             meiosPagamentos.Add(pagamentoMeio)
 
@@ -1297,7 +1297,7 @@ Public Class fPagamento
                 MessageBox.Show("Erro ao imprimir: " & ex.Message)
             End Try
         Else
-            MessageBox.Show("Venda conclu�da em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
+            MessageBox.Show("Venda concluída em: " & Now.ToString("dd/MM/yyyy") & " " & Now.ToString("HH:mm:ss") & "    Controle: " & controle.ToString())
         End If
     End Sub
     Private Shared Async Function CarregarCertificadoAsync(caminhoCertificado As String,
@@ -1414,7 +1414,7 @@ Public Class fPagamento
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro na consulta dos dados de Condi��o.")
+            MessageBox.Show("Erro na consulta dos dados de Condição.")
 
         End Try
     End Sub
@@ -1629,7 +1629,7 @@ Public Class fPagamento
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs)
-        'Declare um vari�vel do tipo Timer: 
+        'Declare uma variável do tipo Timer:
         Dim tempo As New System.Timers.Timer(50000) '5000 = 5 segundos
 
         'Adicione um handler para capturar o evento tick do timer: 
@@ -1638,7 +1638,7 @@ Public Class fPagamento
         'Adicione a sub que representa o evento tick do timer:
 
 
-        'Por �ltimo, no load do formul�rio, habilite o timer:
+        'Por último, no load do formulário, habilite o timer:
         tempo.Enabled = True
     End Sub
 
@@ -1661,7 +1661,7 @@ Public Class fPagamento
                                                                 txtDesconto.Leave
 
 
-        'Mostra informa��es de valores recebidos e troco
+        'Mostra informações de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         formataCampos()
@@ -1672,7 +1672,7 @@ Public Class fPagamento
         If btnPix.Text = "Cobrar" Then
 
             If txtPix.Text = "0,00" Or txtPix.Text = "0" Then
-                MessageBox.Show("� preciso informar um valor para a cobran�a")
+                MessageBox.Show("É preciso informar um valor para a cobrança")
                 txtPix.Select()
             Else
                 Cadastrar()
@@ -1681,7 +1681,7 @@ Public Class fPagamento
             End If
 
 
-        ElseIf btnPix.Text = "Nova Cobran�a" Then
+        ElseIf btnPix.Text = "Nova Cobrança" Then
             Cadastrar()
             btnPix.Text = "Cobrar"
             btnPix.Image = nascomercio.My.Resources.Resources.cobrar
@@ -1768,7 +1768,7 @@ Public Class fPagamento
             colecaoPIX = regras.Consultar(dados)
 
             If colecaoPIX Is Nothing Then
-                MessageBox.Show("N�o h� �tens na lista.")
+                MessageBox.Show("Não há itens na lista.")
                 Exit Sub
             End If
 
@@ -1856,7 +1856,7 @@ Public Class fPagamento
                                                                 txtDesconto.Leave
 
 
-        'Mostra informa��es de valores recebidos e troco
+        'Mostra informações de valores recebidos e troco
         verificaCampos()
         recalculaRecebido()
         formataCampos()
@@ -1886,7 +1886,7 @@ Public Class fPagamento
         clientes = New ColecaoCliente
 
         If txtIdCliente.Text = "" Then
-            MessageBox.Show("Informe um c�digo")
+            MessageBox.Show("Informe um código")
             Exit Sub
         End If
 
@@ -1899,7 +1899,7 @@ Public Class fPagamento
 
         If clientes Is Nothing Then
 
-            MessageBox.Show("N�o existe cliente com esse c�digo!")
+            MessageBox.Show("Não existe cliente com esse código!")
             txtIdCliente.Focus()
             txtIdCliente.Select()
             txtIdCliente.Text = ""

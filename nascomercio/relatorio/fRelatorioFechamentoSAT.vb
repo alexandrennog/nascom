@@ -45,7 +45,7 @@ Partial Public Class fRelatorioFechamentoSAT
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("Relat�rio de Vendas SAT", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relatório de Vendas SAT", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -296,7 +296,7 @@ Partial Public Class fRelatorioFechamentoSAT
         '    altura = ((((qtdeLinhasRelatorio + contadorRelatorio) Mod qtdeLinhasRelatorio) + 1) * alturaLinha) + margemSup
 
         '    If contadorRelatorio = 1 Then
-        '        e.Graphics.DrawString("Relat�rio de Fechamento Fiscal", New Font("Arial", 14, FontStyle.Bold), Brushes.Red, margemEsq, 8)
+        '        e.Graphics.DrawString("Relatório de Fechamento Fiscal", New Font("Arial", 14, FontStyle.Bold), Brushes.Red, margemEsq, 8)
         '    End If
 
         '    e.Graphics.DrawString(linhasRelatorio(contadorRelatorio), fonteNormal, Brushes.Black, margemEsq, altura)
@@ -308,7 +308,7 @@ Partial Public Class fRelatorioFechamentoSAT
         '    End If
         'Loop
 
-        'e.Graphics.DrawString("P�gina " + paginaAtual.ToString(), New Font("Arial", 10, FontStyle.Bold), Brushes.Black, 720, 1050)
+        'e.Graphics.DrawString("Página " + paginaAtual.ToString(), New Font("Arial", 10, FontStyle.Bold), Brushes.Black, 720, 1050)
         'paginaAtual = paginaAtual + 1
 
         'If contadorRelatorio >= linhasRelatorio.Length Then

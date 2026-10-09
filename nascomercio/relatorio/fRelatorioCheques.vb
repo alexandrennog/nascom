@@ -135,6 +135,6 @@ Public Class fRelatorioCheques
 
     regrasCheques.Baixar()
 
-    MessageBox.Show("Cheques baixados at� a data corrente!")
+    MessageBox.Show("Cheques baixados até a data corrente!")
   End Sub
 End Class
