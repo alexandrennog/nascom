@@ -715,6 +715,14 @@ Public Class fPagamento
         Dim objImpressao As ncComum.Impressao
         Dim qtdImpressao As Integer = 1
 
+        ' Declarada aqui (no topo da Sub) de propósito, não lá dentro do bloco ElseIf
+        ' FISCAL = "ONLINE": em VB.NET uma Dim dentro de um If/ElseIf só é visível
+        ' DENTRO daquele bloco -- fora dele (como no bloco do cupom normal, mais abaixo)
+        ' o compilador não reconhece "chave" (erro BC30451). Precisa estar visível nos
+        ' dois lugares: onde é atribuída (dentro do ElseIf ONLINE) e onde é lida depois
+        ' (na condição do cupom normal, que verifica se a NFC-e foi emitida com sucesso).
+        Dim chave As String = Nothing
+
         ' Fiscal
         Dim Str_CPF As String = "", Str_Nome As String = ""
         Dim Str_Aliquota As String, Str_ValorUnit As String, Str_Codigo_Item As String, Str_Descricao As String
@@ -1135,7 +1143,6 @@ Public Class fPagamento
                         ' recebe um aviso claro caso as 3 tentativas falhem (normalmente indisponibilidade
                         ' ou lentidão da SEFAZ).
                         Dim tituloOriginalPagamento As String = Me.Text
-                        Dim chave As String = Nothing
                         Dim erroEmissaoNFCe As Exception = Nothing
                         ' Distingue "SEFAZ rejeitou a nota" (erro fiscal real nos dados, precisa de
                         ' correção antes de reemitir) de "falha ao comunicar com a SEFAZ" (site fora
@@ -1158,6 +1165,17 @@ Public Class fPagamento
                                 End Sub,
                                 Sub()
                                     Application.DoEvents()
+                                End Sub,
+                                Sub(exImpressao)
+                                    ' A nota já foi autorizada normalmente (GerarNF só chama isso depois
+                                    ' de confirmar CStat 100) -- só o papel do cupom fiscal não saiu.
+                                    ' Antes isso era engolido em silêncio dentro do GerarNF e o operador
+                                    ' não tinha como saber que faltava reimprimir.
+                                    MessageBox.Show(
+                                        "A NFC-e foi autorizada normalmente, mas o CUPOM FISCAL não pôde ser impresso." & vbCrLf & vbCrLf &
+                                        "Detalhe: " & exImpressao.Message & vbCrLf & vbCrLf &
+                                        "A venda está válida -- reimprima o cupom depois na tela de Consulta de Caixa.",
+                                        "Falha ao imprimir cupom fiscal", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                                 End Sub)
                         Catch exRejeicao As NFCeRejeitadaException
                             ' A SEFAZ processou a nota e REJEITOU (CStat diferente de 100) — não é
@@ -1218,7 +1236,18 @@ Public Class fPagamento
         End Try
 
             Try
-                If ConfigurationManager.AppSettings("FISCAL") <> "ECF" AndAlso ConfigurationManager.AppSettings("FISCAL") <> "SAT" Then
+                ' O cupom normal (recibo simples) é só uma via alternativa pro cliente levar
+                ' algo caso a NFC-e NÃO tenha sido emitida/autorizada -- quando a SEFAZ aprova,
+                ' o comprovante válido é só o cupom fiscal (DANFE com QR Code), que já foi
+                ' impresso dentro do GerarNF logo acima. Antes essa condição só olhava o modo
+                ' FISCAL (ECF/SAT têm impressora fiscal própria, então ficavam de fora), mas em
+                ' modo ONLINE o cupom normal imprimia SEMPRE, mesmo com a NFC-e autorizada --
+                ' ou seja, os dois cupons disparavam em sequência pra mesma impressora térmica
+                ' a cada venda aprovada, disputando a porta/driver e travando (timeout de 8s) o
+                ' que tentasse imprimir por último. Por isso: só imprime o cupom normal quando
+                ' "chave" (a chave de acesso da NFC-e) está vazia -- ou seja, SEFAZ não aprovou
+                ' (ou o modo não é ONLINE e nenhuma NFC-e foi tentada).
+                If ConfigurationManager.AppSettings("FISCAL") <> "ECF" AndAlso ConfigurationManager.AppSettings("FISCAL") <> "SAT" AndAlso String.IsNullOrEmpty(chave) Then
 
                     For i As Integer = 1 To qtdImpressao
                         objImpressao.StartWrite(System.Configuration.ConfigurationManager.AppSettings("CUPOM"))

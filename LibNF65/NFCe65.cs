@@ -133,7 +133,7 @@ namespace LibNF65
             }
         }
 
-        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, Action<int, int> aoTentarNovamente = null, Action aoAguardar = null)
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, Action<int, int> aoTentarNovamente = null, Action aoAguardar = null, Action<Exception> aoFalharImpressao = null)
         {
             // chaveAcesso agora é variável LOCAL, não mais campo estático da classe.
             // Antes, "static string chaveAcesso" era um estado global compartilhado por
@@ -348,9 +348,15 @@ namespace LibNF65
                                 {
                                     Imprimir(chaveAcesso);
                                 }
-                                catch
+                                catch (Exception exImpressao)
                                 {
-                                    // Cupom pode ser reimpresso depois com Reimprimir(chaveAcesso).
+                                    // Cupom pode ser reimpresso depois com Reimprimir(chaveAcesso) --
+                                    // mas o operador precisa SABER que isso é necessário. Antes esse
+                                    // catch era vazio: a nota saía válida e ninguém percebia que o
+                                    // cupom fiscal não saiu do papel, então a reimpressão nunca
+                                    // acontecia. aoFalharImpressao avisa o chamador sem derrubar a
+                                    // venda nem a emissão, que já estão OK neste ponto.
+                                    aoFalharImpressao?.Invoke(exImpressao);
                                 }
                                 MoverArquivo(chaveAcesso, true);
                                 return chaveAcesso;
@@ -455,11 +461,15 @@ namespace LibNF65
                     {
                         Imprimir(chaveAcesso);
                     }
-                    catch
+                    catch (Exception exImpressao)
                     {
                         // Falha ao imprimir o DANFE não pode invalidar uma nota já
                         // autorizada -- ver comentário acima. O cupom pode ser reimpresso
                         // depois com Reimprimir(chaveAcesso), já existente nesta classe.
+                        // Mas, igual ao outro ponto desta classe, o operador precisa ser
+                        // avisado -- senão a venda segue normal e ninguém percebe que o
+                        // cupom fiscal não imprimiu.
+                        aoFalharImpressao?.Invoke(exImpressao);
                     }
                     MoverArquivo(chaveAcesso, true);
                     return chaveAcesso;
