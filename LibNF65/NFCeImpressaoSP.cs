@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Threading.Tasks;
+using System.Globalization;
+using System.Threading;
 using System.Xml;
 
 namespace LibNF65
@@ -107,6 +108,14 @@ namespace LibNF65
         // bloqueada indefinidamente, travando a tela do caixa (mesmo problema encontrado em
         // ncComum/impressao.vb). Por isso ela roda numa thread separada com um limite de tempo:
         // se não responder a tempo, desiste e lança um erro claro em vez de travar a tela.
+        //
+        // IMPORTANTE: tem que ser uma Thread dedicada com ApartmentState.STA, NÃO um
+        // Task.Run/ThreadPool (que roda em MTA). PrintDocument.Print() usa GDI+/spooler do
+        // Windows e precisa de uma thread STA pra funcionar de forma confiável -- rodar numa
+        // thread MTA do pool (como estava antes, com Task.Run) fazia a impressão da NFC-e
+        // simplesmente não sair (ou falhar/travar de forma inconsistente dependendo do driver),
+        // enquanto a versão antiga, que chamava printDoc.Print() direto na thread chamadora
+        // (STA por padrão no WinForms), imprimia normalmente.
         private const int TimeoutImpressaoMs = 8000;
 
         public void Imprimir(string nomeImpressora = null)
@@ -118,18 +127,32 @@ namespace LibNF65
                     printDoc.PrinterSettings.PrinterName = nomeImpressora;
                 }
 
-                var tarefa = Task.Run(() => printDoc.Print());
+                Exception erroImpressao = null;
+                var threadImpressao = new Thread(() =>
+                {
+                    try
+                    {
+                        printDoc.Print();
+                    }
+                    catch (Exception ex)
+                    {
+                        erroImpressao = ex;
+                    }
+                });
+                threadImpressao.SetApartmentState(ApartmentState.STA);
+                threadImpressao.IsBackground = true;
+                threadImpressao.Start();
 
-                if (!tarefa.Wait(TimeoutImpressaoMs))
+                if (!threadImpressao.Join(TimeoutImpressaoMs))
                 {
                     throw new Exception($"A impressora não respondeu em {TimeoutImpressaoMs / 1000} segundos ao tentar imprimir a NFC-e. Verifique se ela está ligada e conectada.");
                 }
 
-                if (tarefa.IsFaulted)
+                if (erroImpressao != null)
                 {
                     // Propaga a falha real (não seria correto reportar timeout se a operação
                     // terminou dentro do prazo mas lançou uma exceção por outro motivo).
-                    throw tarefa.Exception.InnerException ?? tarefa.Exception;
+                    throw erroImpressao;
                 }
             }
             catch (Exception ex)
@@ -491,10 +514,17 @@ namespace LibNF65
                         Item = int.Parse(det.Attributes["nItem"]?.Value ?? "0"),
                         Codigo = prod.SelectSingleNode("nfe:cProd", nsmgr)?.InnerText,
                         Descricao = prod.SelectSingleNode("nfe:xProd", nsmgr)?.InnerText,
-                        Quantidade = decimal.Parse(prod.SelectSingleNode("nfe:qCom", nsmgr)?.InnerText ?? "0"),
+                        // CultureInfo.InvariantCulture é obrigatório aqui: os nós numéricos do XML da
+                        // NFe/NFC-e (qCom/vUnCom/vProd/...) SEMPRE usam "." como separador decimal,
+                        // independente da cultura configurada no Windows da máquina. Sem isso,
+                        // decimal.Parse usa a cultura corrente (pt-BR), onde "." é separador de
+                        // milhar -- "4.5000" virava 45000 em vez de 4,50 (e o mesmo pra quantidade
+                        // e pro total), inflando os valores impressos no cupom em ~100x tanto na
+                        // emissão original quanto na reimpressão (as duas chamam este ParseXML).
+                        Quantidade = decimal.Parse(prod.SelectSingleNode("nfe:qCom", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture),
                         Unidade = prod.SelectSingleNode("nfe:uCom", nsmgr)?.InnerText,
-                        ValorUnitario = decimal.Parse(prod.SelectSingleNode("nfe:vUnCom", nsmgr)?.InnerText ?? "0"),
-                        ValorTotal = decimal.Parse(prod.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0")
+                        ValorUnitario = decimal.Parse(prod.SelectSingleNode("nfe:vUnCom", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture),
+                        ValorTotal = decimal.Parse(prod.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture)
                     };
                     nfce.Produtos.Add(produto);
                 }
@@ -504,9 +534,9 @@ namespace LibNF65
             XmlNode total = doc.SelectSingleNode("//nfe:total/nfe:ICMSTot", nsmgr);
             if (total != null)
             {
-                nfce.ValorProdutos = decimal.Parse(total.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0");
-                nfce.ValorDesconto = decimal.Parse(total.SelectSingleNode("nfe:vDesc", nsmgr)?.InnerText ?? "0");
-                nfce.ValorTotal = decimal.Parse(total.SelectSingleNode("nfe:vNF", nsmgr)?.InnerText ?? "0");
+                nfce.ValorProdutos = decimal.Parse(total.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
+                nfce.ValorDesconto = decimal.Parse(total.SelectSingleNode("nfe:vDesc", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
+                nfce.ValorTotal = decimal.Parse(total.SelectSingleNode("nfe:vNF", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
             }
 
             nfce.QuantidadeTotal = nfce.Produtos.Count;
@@ -516,7 +546,7 @@ namespace LibNF65
             foreach (XmlNode pag in pagamentos)
             {
                 string tPag = pag.SelectSingleNode("nfe:tPag", nsmgr)?.InnerText;
-                decimal vPag = decimal.Parse(pag.SelectSingleNode("nfe:vPag", nsmgr)?.InnerText ?? "0");
+                decimal vPag = decimal.Parse(pag.SelectSingleNode("nfe:vPag", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
 
                 nfce.Pagamentos.Add(new NFCeModel.Pagamento
                 {
