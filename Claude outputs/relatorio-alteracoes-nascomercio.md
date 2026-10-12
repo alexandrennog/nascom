@@ -1,5 +1,115 @@
 # Relatório de Alterações — Nascomercio
 
+## 12/10/2026 — Varredura de acentuação corrompida + bugs de impressão da NFC-e (CALCEAKI/SAPATEK)
+
+**Escopo:** praticamente todo o projeto (varredura) + `LibNF65` (impressão/emissão da NFC-e) + `nascomercio/formulario/fCaixa.vb` e `fPagamento.vb`.
+
+### 1. Varredura completa de acentuação corrompida (mojibake)
+
+**Motivação:** diversos textos no sistema apareciam com o acento trocado por um caractere inválido (`�`, U+FFFD) — provavelmente de uma conversão de codificação malfeita em algum momento no histórico do repositório. Pedido explícito do usuário para varrer o projeto inteiro de uma vez, não só os arquivos que apareciam na tela.
+
+**O que foi feito:** scan de todos os 394 arquivos `.vb`/`.cs` do projeto (excluindo apenas `*.Designer.vb` gerados automaticamente) procurando o caractere `�`. Encontradas e corrigidas **211 ocorrências em 11 arquivos**:
+
+- `ncComum/impressao.vb` (2), `ncComum/acessobd.vb` (4), `ncRegras/rParametro.vb` (1)
+- `nascomercio/relatorio/fRelatorioCheques.vb` (1), `fCaixaConsulta.vb` (1), `fRelatorioCrediario.vb` (1), `fRelatorioFechamentoSAT.vb` (3)
+- `nascomercio/formulario/mdiPrincipal.vb` (4), `fSPEDForm.vb` (39, em 18 pontos — nomes de registro do EFD/SPED e mensagens de erro)
+- `nascomercio/formulario/fPagamento.vb` (69, em 26 pontos)
+- `nascomercio/formulario/fCaixa.vb` (77 — o maior do lote)
+
+**Achado relevante, não só cosmético:** em `fCaixa.vb`, a chave `AppSettings("ORDEM_SERVI�O")` não batia com a chave `"ORDEM_SERVIÇO"` usada no `app.config` e em `mdiPrincipal.vb` — ou seja, essa configuração nunca era lida corretamente. Corrigida junto com o resto da varredura.
+
+**Verificação final:** novo scan após todas as correções confirmou **0 ocorrências restantes** em todo o projeto.
+
+### 2. Botão "Cancelar" (F7) limpava a tela mesmo sem confirmação
+
+**Sintoma relatado:** no caixa, apertar F7 limpava a pré-venda mesmo quando o operador respondia "Não" à confirmação de exclusão, ou cancelava/errava a senha do gerente.
+
+**Causa:** em `fCaixa.vb`, `ExcluirPreVenda()` chamava `NovaVenda()` (limpa a tela) **fora** do bloco `If` que checava a confirmação e a senha do gerente — ou seja, rodava sempre, incondicionalmente.
+
+**Correção:** `EfetivaExclusaoPreVenda()` virou uma `Function` que devolve `True`/`False` conforme a exclusão realmente aconteceu. `NovaVenda()` agora só é chamado quando essa função devolve `True`, dentro dos dois ramos (com e sem exigência de senha de gerente).
+
+### 3. Cupom fiscal (DANFE) com valores inflados ~100x
+
+**Sintoma relatado:** um item vendido a R$ 4,50 saía impresso no cupom fiscal como R$ 450,00 (e a quantidade de "1,000" como "100,000").
+
+**Causa:** `NFCeImpressaoSP.ParseXML` (`LibNF65`), usado tanto na impressão logo após a venda quanto na reimpressão, lia os valores do XML da NFC-e com `decimal.Parse(...)` sem especificar cultura. O XML sempre grava números com "." como separador decimal (ex. `"4.50"`), mas na cultura pt-BR do Windows da máquina "." é separador de milhar — `decimal.Parse` acabava lendo `"4.50"` como `450`.
+
+**Correção:** `CultureInfo.InvariantCulture` adicionado aos 7 pontos de `decimal.Parse` dessa função (quantidade, valor unitário e total do item; valor dos produtos, desconto e total da nota; valor do pagamento).
+
+### 4. Cupom fiscal (DANFE) não imprimia na hora da venda, mas reimpressão funcionava
+
+**Sintoma relatado:** ao finalizar uma venda com a NFC-e aprovada pela SEFAZ, o cupom fiscal não saía e aparecia erro de timeout de 8s ("impressora não respondeu"); indo em Consulta de Caixa → Reimprimir, a mesma nota imprimia normalmente.
+
+**Duas causas encontradas, uma em cima da outra:**
+
+a) **Impressão rodando em thread errada.** Uma correção anterior (desta mesma sessão, antes de hoje) tinha envolvido `printDoc.Print()` num `Task.Run(...)` pra evitar que a tela travasse caso a impressora não respondesse. Só que `PrintDocument.Print()` (API de impressão do Windows/GDI+) precisa rodar numa thread **STA**, e `Task.Run` usa o ThreadPool, que roda em **MTA** — causando falha inconsistente. Corrigido trocando por uma `Thread` dedicada com `ApartmentState.STA` explícito, mantendo o mesmo timeout de 8s como proteção.
+
+b) **Causa raiz real: dois cupons disputando a mesma impressora.** Confirmado com o usuário que a regra de negócio é: SEFAZ aprovou → imprime **só** o cupom fiscal (DANFE com QR Code); SEFAZ deu erro → imprime **só** o cupom normal (recibo simples), como alternativa pro cliente. O código, porém, imprimia os dois **sempre** em modo `FISCAL=ONLINE` — o cupom fiscal dentro do `GerarNF` e, logo em seguida, no mesmo clique, o cupom normal (`ncComum/impressao.vb`, escrita direta na porta) — os dois disputando a mesma impressora térmica e travando o segundo a disparar. Corrigido em `fPagamento.vb`: a condição que decide se imprime o cupom normal agora inclui `AndAlso String.IsNullOrEmpty(chave)` (só imprime quando a NFC-e **não** foi emitida com sucesso).
+
+**Erro de compilação introduzido e corrigido no mesmo dia:** a correção do item (b) quebrou o build (`BC30451 "chave" não está declarado`), porque a variável `chave` estava declarada dentro do bloco `ElseIf FISCAL = "ONLINE"` — em VB.NET isso limita o escopo a esse bloco, não ao procedimento inteiro (diferente do VB6/VBA). Corrigido movendo a declaração de `chave` para o topo da `Sub Imprime`, visível em toda a função.
+
+### 5. Aviso ao operador quando o cupom fiscal falha ao imprimir (feito, ainda não implantado a pedido do usuário)
+
+Dentro de `GerarNF` (`NFCe65.cs`), a impressão do DANFE sempre ficou isolada num `try/catch` vazio de propósito — uma falha de impressão não pode invalidar uma nota já autorizada pela SEFAZ. O efeito colateral: o operador nunca ficava sabendo que o cupom não saiu. Adicionado um parâmetro opcional `aoFalharImpressao` (callback), chamado nos dois pontos onde a impressão falhava em silêncio, e conectado em `fPagamento.vb` pra mostrar um aviso não bloqueante ("A NFC-e foi autorizada normalmente, mas o CUPOM FISCAL não pôde ser impresso... reimprima depois na tela de Consulta de Caixa"). **A pedido do usuário, essa parte específica ainda não foi testada/implantada** — fica pronta no código-fonte pra quando ele quiser subir.
+
+### 6. Erro ao gerar a NFC-e por falta de código do município/UF (loja CALCEAKI)
+
+**Sintoma relatado:** emissão de NFC-e falhando direto na SEFAZ em algumas lojas, com o código do município do fato gerador vindo como 0 — tópico que tinha ficado pausado numa sessão anterior.
+
+**Causa:** o `app.config` não tinha as chaves `CodigoMunicipio` (código IBGE da cidade da loja) e `UF` (sigla do estado), usadas pela emissão da NFC-e quando a SEFAZ não devolve esse dado junto com o cadastro do emitente.
+
+**Correção:** adicionadas as duas chaves no `app.config`, com comentário explicando o propósito de cada uma e lembrando de ajustar por loja quando não for São Paulo capital. Confirmado por comparação direta entre o `app.config` da versão antiga em produção e o da versão nova.
+
+### 7. Aviso de certificado digital vencido ou próximo de vencer
+
+**Motivação:** certificado vencido só aparecia pro operador como erro genérico de "falha ao emitir NFC-e" / 403 da SEFAZ durante uma venda real, com o cliente no caixa.
+
+**O que foi feito:** `LibNF65/NFCe65.cs` ganhou `VerificarValidadeCertificado()` / `StatusCertificado` (verifica `NotBefore`/`NotAfter` do certificado configurado). Chamado em `mdiPrincipal.vb` (`VerificarCertificadoDigital`), em background (`Task.Run`, pra não travar a abertura da tela), logo na abertura do sistema: mostra aviso de erro se já vencido, ou de atenção se faltar 30 dias ou menos.
+
+### 8. Otimização do banco de dados — índices criados automaticamente
+
+**O que foi feito:** nova classe `ncComum/manutencaoBanco.vb` (`cManutencaoBanco`), chamada em `mdiPrincipal.vb` (`VerificarIndicesRelatorios`) na abertura do sistema. Cria (se ainda não existirem) índices em `vendas`, `vendasprodutos`, `vales` e `valesprodutos` (data+vendedor, clienteId, controle, produto) pra acelerar os relatórios de vendas. Checagem rápida decide se mostra o aviso "Otimizando banco de dados..."; criação real só roda se faltar algum índice. Seguro pra rodar em paralelo em vários terminais da mesma loja — qualquer erro (índice já existe, tabela ocupada) é ignorado sem interromper o login, por ser otimização e não requisito.
+
+### 9. Painel de Compras — reposição refinada por referência+cor
+
+**Motivação:** feedback da cliente (áudio) sobre o Painel de Compras (item do dia 17/09): a lista de "precisa repor" somava todas as cores de um produto numa linha só, continuava mostrando marca/produto descontinuado, e um item aparecia com estoque negativo (erro de lançamento).
+
+**O que foi feito:** novo script `scripts/new script/39 - dashboard_compras_reposicao_por_cor.sql`, substitui só `sp_dashboard_compras_reposicao` (a `sp_dashboard_compras_resumo` não muda). Passa a agrupar por `produtos.cid` (referência+cor) em vez de só referência, exclui fabricante/produto/cor com `situacao = 'I'`, exclui estoque negativo, e sobe o `LIMIT` de 15 para 50 (já que a mesma quantidade de produtos diferentes agora ocupa mais linhas, uma por cor).
+
+### 10. Novo relatório "Vendas por Fabricante"
+
+**O que foi feito:** relatório novo (`fRelatorioVendasFabricante.vb` + Designer/resx, `VendasFabricantes.rdlc`), no mesmo padrão dos relatórios por vendedor/fornecedor já existentes. Nova view `scripts/new script/40 - v_vendasfabricante.sql` (`v_vendasfabricante`), seguindo o padrão de `v_vendasfornecedor` (vendas + vales, agrupado por fabricante). Nota técnica no script: `quantidade`/`total_valor` convertidos explicitamente pra `SIGNED` — a coluna `UNSIGNED` original vinda de dentro de uma VIEW causava problema de binding no ReportViewer/MySqlDataAdapter (coluna Quantidade sempre em branco).
+
+### 11. Consultas por período mais rápidas em vários relatórios
+
+**O que foi feito:** pelo menos 11 telas de relatório (`fRelatorioVendas`, `fRelatorioFechamento`, `fRelatorioCrediario`, `fRelatorioCheques`, `fRelatorioVendasVendedor`, `fRelatorioVendasSintetico`, `fRelatorioVendasFornecedor`, `fRelatorioTransferencia`, `fRelatorioGrupoProduto`, `fRelatorioAuditoria`, além do novo `fRelatorioVendasFabricante`) ganharam um método `CarregarDados()` com SQL parametrizado filtrando por data direto no banco (`WHERE data BETWEEN @dataInicial AND @dataFinal`), no lugar do `TableAdapter.Fill()` genérico anterior. Também adicionado `PeriodoMuitoLargo()`: avisa e pede confirmação quando o período pedido passa de 60 dias, antes de disparar a consulta.
+
+### 12. Senha do gerente pedida repetidamente ao trocar de campo na tela de pagamento
+
+**Sintoma relatado:** com desconto acima do limite permitido pro vendedor, o sistema pedia a senha do gerente corretamente uma vez, mas voltava a pedir toda vez que o operador saía de qualquer outro campo de pagamento (dinheiro, PIX, cartão, etc.), mesmo sem tocar no desconto de novo.
+
+**Causa:** em `fPagamento.vb`, `txtDinheiro_Leave` trata o evento `Leave` de TODOS os campos de pagamento (não só o de desconto) e chamava `VerificarAlcada()` incondicionalmente.
+
+**Correção:** `VerificarAlcada()` só é chamado quando `sender Is txtDesconto` — ou seja, só quando o próprio campo de desconto perde o foco.
+
+### Arquivos alterados nesta sessão
+
+- `ncComum/impressao.vb`, `ncComum/acessobd.vb`, `ncComum/manutencaoBanco.vb` (novo), `ncRegras/rParametro.vb`
+- `nascomercio/relatorio/fRelatorioCheques.vb`, `fCaixaConsulta.vb`, `fRelatorioCrediario.vb`, `fRelatorioFechamentoSAT.vb`, `fRelatorioVendas.vb`, `fRelatorioFechamento.vb`, `fRelatorioVendasVendedor.vb`, `fRelatorioVendasSintetico.vb`, `fRelatorioVendasFornecedor.vb`, `fRelatorioTransferencia.vb`, `fRelatorioGrupoProduto.vb`, `fRelatorioAuditoria.vb`, `fRelatorioVendasFabricante.vb` (novo, + Designer/resx), `fPainelCompras.vb`
+- `nascomercio/formulario/mdiPrincipal.vb`, `fSPEDForm.vb`, `fPagamento.vb`, `fCaixa.vb`
+- `LibNF65/NFCeImpressaoSP.cs`, `LibNF65/NFCe65.cs`
+- `nascomercio/app.config` (`CodigoMunicipio`, `UF`, `CertificadoArquivo`, `CertificadoSenha`)
+- `scripts/new script/39 - dashboard_compras_reposicao_por_cor.sql`, `40 - v_vendasfabricante.sql` (novos)
+
+### Pendente
+
+- Testar/implantar o aviso de falha de impressão (item 5) quando o usuário decidir — código já confirmado consistente (assinatura de `GerarNF` com 9 parâmetros, lambda em `fPagamento.vb` fechando certo), só falta o Rebuild + atualização da versão na loja.
+- Confirmar nas lojas que usam impressora não-USB/LAZ/ELG (porta COM/UNC direta) se o problema de timeout do cupom normal em si (quando a SEFAZ erra) é de configuração de porta/impressora física, não de código — ficou registrado numa conversa anterior com a loja CALCEAKI mas não foi resolvido em código (não dá pra resolver em código: é conectividade/config física).
+
+**Já instalado e confirmado em uso na loja (itens 4(b) e 3 acima):** a correção que impede o cupom normal de imprimir junto com o fiscal quando a SEFAZ aprova.
+
+---
+
 ## 17/09/2026 — Unificação da Curva ABC e novo Painel de Compras
 
 **Motivação:** retorno da cliente (áudio) reclamando que os relatórios não respondem direto perguntas como "qual marca mais vendeu", "quantos pares por marca" (faltava soma) e "o que preciso comprar mais". Investigando o relatório de Curva ABC por Fabricante que já existia, apareceram dois problemas de fundo — corrigidos aqui — e a partir da correção deu pra construir a tela que ela pediu.
