@@ -42,6 +42,7 @@ Partial Class fProdutoEntradaSaidaFiltro
     Me.btoPesquisar = New System.Windows.Forms.Button
     Me.btoSair = New System.Windows.Forms.Button
     Me.btoBalanco = New System.Windows.Forms.Button
+    Me.btoPedidosCompra = New System.Windows.Forms.Button
     Me.Panel1 = New System.Windows.Forms.Panel
     CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SuspendLayout()
@@ -288,6 +289,26 @@ Partial Class fProdutoEntradaSaidaFiltro
     Me.btoBalanco.TextAlign = System.Drawing.ContentAlignment.BottomCenter
     Me.btoBalanco.UseVisualStyleBackColor = False
     '
+    'btoPedidosCompra
+    '
+    Me.btoPedidosCompra.BackColor = System.Drawing.Color.Transparent
+    Me.btoPedidosCompra.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+    Me.btoPedidosCompra.FlatAppearance.BorderSize = 0
+    Me.btoPedidosCompra.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+    Me.btoPedidosCompra.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+    Me.btoPedidosCompra.ForeColor = System.Drawing.Color.Black
+    Me.btoPedidosCompra.Image = Global.nascomercio.My.Resources.Resources.fornecedores
+    Me.btoPedidosCompra.ImageAlign = System.Drawing.ContentAlignment.TopCenter
+    Me.btoPedidosCompra.Location = New System.Drawing.Point(623, 162)
+    Me.btoPedidosCompra.Margin = New System.Windows.Forms.Padding(0)
+    Me.btoPedidosCompra.Name = "btoPedidosCompra"
+    Me.btoPedidosCompra.Size = New System.Drawing.Size(98, 76)
+    Me.btoPedidosCompra.TabIndex = 214
+    Me.btoPedidosCompra.TabStop = False
+    Me.btoPedidosCompra.Text = "Pedidos de Compra <F7>"
+    Me.btoPedidosCompra.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+    Me.btoPedidosCompra.UseVisualStyleBackColor = False
+    '
     'Panel1
     '
     Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -302,6 +323,7 @@ Partial Class fProdutoEntradaSaidaFiltro
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
     Me.ClientSize = New System.Drawing.Size(730, 323)
+    Me.Controls.Add(Me.btoPedidosCompra)
     Me.Controls.Add(Me.btoBalanco)
     Me.Controls.Add(Me.btoPesquisar)
     Me.Controls.Add(Me.btoSair)
@@ -357,5 +379,6 @@ Partial Class fProdutoEntradaSaidaFiltro
   Friend WithEvents btoPesquisar As System.Windows.Forms.Button
     Friend WithEvents btoSair As System.Windows.Forms.Button
   Friend WithEvents btoBalanco As System.Windows.Forms.Button
+  Friend WithEvents btoPedidosCompra As System.Windows.Forms.Button
   Friend WithEvents Panel1 As System.Windows.Forms.Panel
 End Class

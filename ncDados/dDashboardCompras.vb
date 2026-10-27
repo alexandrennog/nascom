@@ -37,4 +37,40 @@ Namespace nsDashboardCompras
         Inherits List(Of dDashboardReposicaoItem)
     End Class
 
+    ' Compras x Vendas x Estoque (script "42 - painel_compras_x_vendas.sql"):
+    ' uma linha por referencia + cor (ou por tamanho). comprado = entradas de
+    ' estoque no periodo, vendido = vendas + vales no periodo, estoque = hoje.
+    Public Class dDashboardCompraVendaItem
+
+        Public Property fabricante As String
+        Public Property produtoCid As Integer
+        Public Property referencia As String
+        Public Property descricao As String
+        Public Property cor As String
+        Public Property tamanho As String
+        Public Property comprado As Integer
+        Public Property vendido As Integer
+        Public Property estoque As Integer
+
+        ' % vendido = vendido / (vendido + estoque de hoje). Nao usa o
+        ' "comprado" no denominador porque a venda do periodo pode ser de
+        ' mercadoria comprada antes dele; vendido + estoque e o que havia
+        ' disponivel. Estoque negativo (erro de lancamento) conta como 0.
+        ' Devolve Nothing quando nao ha base para calcular.
+        Public ReadOnly Property percentualVendido As Nullable(Of Decimal)
+            Get
+                Dim base As Integer = vendido + Math.Max(0, estoque)
+                If base <= 0 Then
+                    Return Nothing
+                End If
+                Return Math.Round(CDec(vendido) * 100D / CDec(base), 1)
+            End Get
+        End Property
+
+    End Class
+
+    Public Class ColecaoDashboardCompraVenda
+        Inherits List(Of dDashboardCompraVendaItem)
+    End Class
+
 End Namespace

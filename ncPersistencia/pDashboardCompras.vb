@@ -126,6 +126,66 @@ Namespace nsDashboardCompras
 
         End Function
 
+        ' Compras x Vendas x Estoque (procedure do script 42). fabricante_cid
+        ' Nothing = todos; porTamanho = uma linha por tamanho em vez de por
+        ' referencia + cor.
+        Public Function ListarComprasVendas(ByVal dataIni As String, ByVal dataFim As String,
+                                            ByVal fabricante_cid As Nullable(Of Integer),
+                                            ByVal porTamanho As Boolean) As ColecaoDashboardCompraVenda
+
+            Dim retorno As New ColecaoDashboardCompraVenda
+            Dim acessoBanco As cAcessoBD
+            Dim ds As DataSet
+            Dim dt As DataTable
+            Dim item As dDashboardCompraVendaItem
+            Dim comandoSQL As String
+            Dim sqlFabricante As String = "NULL"
+
+            Try
+
+                acessoBanco = New cAcessoBD
+
+                If fabricante_cid.HasValue AndAlso fabricante_cid.Value > 0 Then
+                    sqlFabricante = fabricante_cid.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                End If
+
+                comandoSQL = "CALL sp_dashboard_compras_x_vendas(" &
+                    DataSqlSegura(dataIni) & ", " &
+                    DataSqlSegura(dataFim) & ", " &
+                    sqlFabricante & ", " &
+                    If(porTamanho, "1", "0") & ")"
+
+                ds = acessoBanco.ExecutarDSLongo(comandoSQL, 300)
+
+                If Not ds Is Nothing AndAlso ds.Tables.Count > 0 Then
+                    dt = ds.Tables(ds.Tables.Count - 1)
+
+                    For Each row As DataRow In dt.Rows
+                        item = New dDashboardCompraVendaItem
+                        item.fabricante = cFuncoes.RetornarTexto(row("fabricante"))
+                        item.produtoCid = cFuncoes.RetornarInteiro(row("produto_cid")).GetValueOrDefault()
+                        item.referencia = cFuncoes.RetornarTexto(row("referencia"))
+                        item.descricao = cFuncoes.RetornarTexto(row("descricao"))
+                        item.cor = cFuncoes.RetornarTexto(row("cor"))
+                        item.tamanho = cFuncoes.RetornarTexto(row("tamanho"))
+                        item.comprado = CInt(cFuncoes.RetornarDecimal(row("comprado")).GetValueOrDefault())
+                        item.vendido = CInt(cFuncoes.RetornarDecimal(row("vendido")).GetValueOrDefault())
+                        item.estoque = CInt(cFuncoes.RetornarDecimal(row("estoque")).GetValueOrDefault())
+
+                        retorno.Add(item)
+                    Next
+                End If
+
+            Catch ex As Exception
+
+                Throw New ExcecaoNascomercio("Erro em ListarComprasVendas DashboardCompras [" & Me.ToString() & "] - " & ex.Message, ex)
+
+            End Try
+
+            ListarComprasVendas = retorno
+
+        End Function
+
         ' Converte uma data no formato ddMMyyyy (8 digitos, sem separador - o que
         ' cFuncoes.FormatarData devolve a partir de um texto "dd/MM/yyyy") direto para
         ' um literal SQL seguro ('yyyy-MM-dd'), ou NULL se vier vazia/invalida.

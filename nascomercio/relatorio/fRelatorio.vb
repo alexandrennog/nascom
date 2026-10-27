@@ -84,6 +84,10 @@ Public Class fRelatorio
             mdiPrincipal.CarregarRelVendasABC()
         ElseIf rbtPainelCompras.Checked Then
             mdiPrincipal.CarregarPainelCompras()
+        ElseIf rbtPedidosCompra.Checked Then
+            mdiPrincipal.CarregarRelatorioPedidosCompra()
+        ElseIf rbtComprasVendas.Checked Then
+            mdiPrincipal.CarregarRelatorioComprasVendas()
         End If
 
     End Sub
@@ -143,6 +147,10 @@ Public Class fRelatorio
                 rbtLeituraX.Visible = True
                 rbtReducaoZ.Visible = True
                 rbtCobrancaPIX.Visible = True
+                ' Pedidos de Compra: so gerente/administrador (mesma regra do
+                ' botao na tela de Inventario)
+                rbtPedidosCompra.Visible = False
+                rbtComprasVendas.Visible = False
                 If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ECF" Then
                     rbtLeituraX.Visible = True
                     rbtReducaoZ.Visible = True

@@ -57,6 +57,8 @@ Partial Class fRelatorio
         Me.rbtVendasNFe = New System.Windows.Forms.RadioButton()
         Me.rbtVendasABC = New System.Windows.Forms.RadioButton()
         Me.rbtPainelCompras = New System.Windows.Forms.RadioButton()
+        Me.rbtPedidosCompra = New System.Windows.Forms.RadioButton()
+        Me.rbtComprasVendas = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -543,12 +545,46 @@ Partial Class fRelatorio
         Me.rbtPainelCompras.Text = "Painel de Compras"
         Me.rbtPainelCompras.UseVisualStyleBackColor = True
         '
+        'rbtPedidosCompra
+        '
+        ' Relatorio novo (27/10/2026): Pedidos de Compra x Entregas, logo abaixo
+        ' do Painel de Compras na mesma coluna (X=842).
+        Me.rbtPedidosCompra.AutoSize = True
+        Me.rbtPedidosCompra.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtPedidosCompra.Location = New System.Drawing.Point(842, 489)
+        Me.rbtPedidosCompra.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.rbtPedidosCompra.Name = "rbtPedidosCompra"
+        Me.rbtPedidosCompra.Size = New System.Drawing.Size(220, 33)
+        Me.rbtPedidosCompra.TabIndex = 114
+        Me.rbtPedidosCompra.TabStop = True
+        Me.rbtPedidosCompra.Text = "Pedidos x Entregas"
+        Me.rbtPedidosCompra.UseVisualStyleBackColor = True
+        '
+        'rbtComprasVendas
+        '
+        ' Relatorio novo (27/10/2026): Compras x Vendas x Estoque. Fica na linha de
+        ' "Categorias" (Y=597) e nao na de "SPED / EFD" (Y=543), porque o texto
+        ' do SPED e comprido e invade a 3a coluna. Textos curtos nesta coluna: a
+        ' tela so tem ~300 de largura a partir de X=842.
+        Me.rbtComprasVendas.AutoSize = True
+        Me.rbtComprasVendas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtComprasVendas.Location = New System.Drawing.Point(842, 597)
+        Me.rbtComprasVendas.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.rbtComprasVendas.Name = "rbtComprasVendas"
+        Me.rbtComprasVendas.Size = New System.Drawing.Size(210, 33)
+        Me.rbtComprasVendas.TabIndex = 115
+        Me.rbtComprasVendas.TabStop = True
+        Me.rbtComprasVendas.Text = "Compras x Vendas"
+        Me.rbtComprasVendas.UseVisualStyleBackColor = True
+        '
         'fRelatorio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1144, 828)
+        Me.Controls.Add(Me.rbtComprasVendas)
+        Me.Controls.Add(Me.rbtPedidosCompra)
         Me.Controls.Add(Me.rbtPainelCompras)
         Me.Controls.Add(Me.rbtVendasABC)
         Me.Controls.Add(Me.rbtVendasNFe)
@@ -634,4 +670,6 @@ Partial Class fRelatorio
     Friend WithEvents rbtVendasNFe As RadioButton
     Friend WithEvents rbtVendasABC As RadioButton
     Friend WithEvents rbtPainelCompras As RadioButton
+    Friend WithEvents rbtPedidosCompra As RadioButton
+    Friend WithEvents rbtComprasVendas As RadioButton
 End Class

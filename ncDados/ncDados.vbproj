@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="dCurvaABC.vb" />
     <Compile Include="dDashboardCompras.vb" />
+    <Compile Include="dPedidoCompra.vb" />
     <Compile Include="dVendasNfe.vb" />
     <Compile Include="dBasennf.vb" />
     <Compile Include="dCaixa.vb" />

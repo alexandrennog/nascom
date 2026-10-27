@@ -660,6 +660,30 @@
     <Compile Include="relatorio\fPainelCompras.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="relatorio\fRelatorioPedidosCompra.Designer.vb">
+      <DependentUpon>fRelatorioPedidosCompra.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioComprasVendas.Designer.vb">
+      <DependentUpon>fRelatorioComprasVendas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioComprasVendas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="relatorio\fRelatorioPedidosCompra.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formulario\fPedidoCompraLista.Designer.vb">
+      <DependentUpon>fPedidoCompraLista.vb</DependentUpon>
+    </Compile>
+    <Compile Include="formulario\fPedidoCompraLista.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formulario\fPedidoCompraForm.Designer.vb">
+      <DependentUpon>fPedidoCompraForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="formulario\fPedidoCompraForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="relatorio\fRelatorioGrade.Designer.vb">
       <DependentUpon>fRelatorioGrade.vb</DependentUpon>
     </Compile>
@@ -1285,6 +1309,23 @@
     <EmbeddedResource Include="relatorio\GrupoProduto.rdlc" />
     <EmbeddedResource Include="relatorio\VendasFornecedores.rdlc" />
     <EmbeddedResource Include="relatorio\VendasFabricantes.rdlc" />
+    <EmbeddedResource Include="relatorio\PedidosCompra.rdlc" />
+    <EmbeddedResource Include="relatorio\ComprasVendas.rdlc" />
+    <EmbeddedResource Include="relatorio\fRelatorioComprasVendas.resx">
+      <DependentUpon>fRelatorioComprasVendas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="relatorio\fRelatorioPedidosCompra.resx">
+      <DependentUpon>fRelatorioPedidosCompra.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formulario\fPedidoCompraLista.resx">
+      <DependentUpon>fPedidoCompraLista.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formulario\fPedidoCompraForm.resx">
+      <DependentUpon>fPedidoCompraForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioGrade.resx">
       <SubType>Designer</SubType>
       <DependentUpon>fRelatorioGrade.vb</DependentUpon>

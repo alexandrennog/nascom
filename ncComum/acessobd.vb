@@ -278,6 +278,76 @@ Namespace nsAcessoBD
 
         End Function
 
+        ' Executa varios comandos numa unica conexao e numa unica transacao:
+        ' ou grava tudo, ou nao grava nada (usado pelo Pedido de Compra, que
+        ' grava cabecalho + itens juntos).
+        '
+        ' comandoPrincipal (opcional): executado primeiro; o ID gerado por ele
+        ' (LAST_INSERT_ID) substitui o texto "marcadorCID" em todos os comandos
+        ' seguintes - e assim que os itens de um pedido novo recebem o numero do
+        ' pedido que acabou de ser criado. Devolve esse ID (ou 0 se nao houver
+        ' comandoPrincipal).
+        '
+        ' Assinatura so com String/List(Of String)/Integer de proposito: sem
+        ' nenhum tipo do MySql.Data visivel de fora do ncComum (ver comentario do
+        ' ExecutarDSLongo acima sobre a MissingMethodException entre projetos).
+        Public Function ExecutarTransacao(ByVal comandoPrincipal As String, ByVal comandos As List(Of String), ByVal marcadorCID As String) As Integer
+
+            Dim novoCID As Integer = 0
+
+            Using conexao As MySqlConnection = ConectarBD()
+
+                If conexao Is Nothing Then
+                    Throw New ExcecaoNascomercio("Problema na conexão com o banco de dados!")
+                End If
+
+                Dim transacao As MySqlTransaction = conexao.BeginTransaction()
+
+                Try
+
+                    If Not String.IsNullOrEmpty(comandoPrincipal) Then
+                        Using cmd As New MySqlCommand(comandoPrincipal, conexao, transacao)
+                            cmd.CommandType = CommandType.Text
+                            cmd.ExecuteNonQuery()
+                            novoCID = CInt(cmd.LastInsertedId)
+                        End Using
+                    End If
+
+                    If Not comandos Is Nothing Then
+                        For Each comandoSQL As String In comandos
+                            If Not String.IsNullOrEmpty(comandoSQL) Then
+                                If Not String.IsNullOrEmpty(marcadorCID) Then
+                                    comandoSQL = comandoSQL.Replace(marcadorCID, novoCID.ToString())
+                                End If
+
+                                Using cmd As New MySqlCommand(comandoSQL, conexao, transacao)
+                                    cmd.CommandType = CommandType.Text
+                                    cmd.ExecuteNonQuery()
+                                End Using
+                            End If
+                        Next
+                    End If
+
+                    transacao.Commit()
+
+                Catch ex As Exception
+
+                    Try
+                        transacao.Rollback()
+                    Catch
+                        ' a conexao pode ter caido; o rollback acontece no servidor de qualquer forma
+                    End Try
+
+                    Throw New ExcecaoNascomercio("Erro ao gravar (nada foi salvo) [" & Me.ToString() & "] - " & ex.Message, ex)
+
+                End Try
+
+            End Using
+
+            Return novoCID
+
+        End Function
+
     End Class
 
 End Namespace

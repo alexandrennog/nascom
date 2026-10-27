@@ -61,6 +61,18 @@ Namespace nsDashboardCompras
 
         End Function
 
+        Public Function ListarComprasVendas(ByVal dataIni As String, ByVal dataFim As String,
+                                            ByVal fabricante_cid As Nullable(Of Integer),
+                                            ByVal porTamanho As Boolean) As ColecaoDashboardCompraVenda
+            Try
+                Return New pDashboardCompras().ListarComprasVendas(dataIni, dataFim, fabricante_cid, porTamanho)
+            Catch nex As ExcecaoNascomercio
+                Throw
+            Catch ex As Exception
+                Throw New ExcecaoNascomercio("Erro em ListarComprasVendas DashboardCompras [" & Me.ToString() & "] - " & ex.Message, ex)
+            End Try
+        End Function
+
     End Class
 
 End Namespace

@@ -1147,6 +1147,37 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
 
+    ' Pedidos de Compra por fabricante (script "41 - pedido_compra.sql" precisa
+    ' estar aplicado no banco da loja). Acesso pelo botao "Pedidos de Compra
+    ' <F7>" na tela de Inventario de Produtos (fProdutoEntradaSaidaFiltro).
+    Public Sub CarregarPedidoCompraLista()
+        FecharTela()
+        formulario = fPedidoCompraLista
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarPedidoCompraForm()
+        FecharTela()
+        formulario = fPedidoCompraForm
+        AbrirTela()
+    End Sub
+
+    ' Relatorio "Pedidos de Compra x Entregas" (radio button em Relatorios e
+    ' botao "Relatorio <F8>" na lista de pedidos)
+    Public Sub CarregarRelatorioPedidosCompra()
+        FecharTela()
+        formulario = fRelatorioPedidosCompra
+        AbrirTela()
+    End Sub
+
+    ' Relatorio "Compras x Vendas x Estoque" (radio button em Relatorios; script
+    ' "42 - painel_compras_x_vendas.sql" precisa estar aplicado no banco da loja)
+    Public Sub CarregarRelatorioComprasVendas()
+        FecharTela()
+        formulario = fRelatorioComprasVendas
+        AbrirTela()
+    End Sub
+
     Private Sub btoCaixa_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoCaixa.Click
         If System.Configuration.ConfigurationManager.AppSettings("TIPO_TERMINAL") = "CAIXA" Then
             CarregarCaixa(True)
