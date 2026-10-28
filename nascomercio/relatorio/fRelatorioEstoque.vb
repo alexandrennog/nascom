@@ -263,17 +263,17 @@ Public Class fRelatorioEstoque
 
         For Each item As dEstoque In dadosParametro
             li = New ListViewItem
-            li.Text = item.Fabricante.ToString
-            li.SubItems.Add(item.CID)
-            li.SubItems.Add(item.Descricao)
-            li.SubItems.Add(item.Referencia.ToString())
-            li.SubItems.Add(item.Item.ToString())
-            li.SubItems.Add(item.Cor.ToString())
+            li.Text = Texto(item.Fabricante)
+            li.SubItems.Add(Texto(item.CID))
+            li.SubItems.Add(Texto(item.Descricao))
+            li.SubItems.Add(Texto(item.Referencia))
+            li.SubItems.Add(Texto(item.Item))
+            li.SubItems.Add(Texto(item.Cor))
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorCompra))
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorVenda))
             li.SubItems.Add(item.Valor.ToString())
-            li.SubItems.Add(item.ValorCompra * item.Valor)
-            li.SubItems.Add(item.ValorVenda * item.Valor)
+            li.SubItems.Add((item.ValorCompra * item.Valor).ToString())
+            li.SubItems.Add((item.ValorVenda * item.Valor).ToString())
             Me.lstEstoque.Items.Add(li)
 
             totalEstoqueGeral += item.Valor
@@ -440,12 +440,12 @@ Public Class fRelatorioEstoque
         Dim infoFont2 = FontFactory.GetFont("Kalinga", 8, New iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000")))
 
         For Each item As dEstoque In dadosParametro
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Fabricante.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.CID.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Descricao.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Referencia.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Item.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Cor.ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Fabricante), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.CID), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Descricao), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Referencia), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Item), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Cor), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorCompra.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorVenda.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk((item.Valor).ToString(), infoFont2))))
@@ -482,6 +482,16 @@ Public Class fRelatorioEstoque
 
 
     End Sub
+
+    ' Produto sem fabricante/referencia (campo vazio no banco) vinha como Nothing
+    ' e o .ToString() derrubava a tela com "Referencia de objeto nao definida
+    ' para uma instancia de um objeto". Vazio aparece em branco.
+    Private Shared Function Texto(ByVal valor As Object) As String
+        If valor Is Nothing OrElse IsDBNull(valor) Then
+            Return String.Empty
+        End If
+        Return valor.ToString()
+    End Function
 
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()

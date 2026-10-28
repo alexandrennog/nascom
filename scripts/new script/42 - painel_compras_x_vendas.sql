@@ -1,6 +1,5 @@
 -- =============================================================================
--- Relatorio Compras x Vendas x Estoque (Relatorios > "Compras x Vendas x Estoque",
--- tela fRelatorioComprasVendas)
+-- Painel de Compras - Compras x Vendas x Estoque
 -- =============================================================================
 -- Pedido da cliente (audio de 27/10/2026): cruzar o que entrou de compra no
 -- estoque com o que foi vendido e com o que sobrou, por marca/produto, para
