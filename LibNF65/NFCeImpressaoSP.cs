@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Globalization;
+using System.Threading;
 using System.Xml;
 
 namespace LibNF65
@@ -101,6 +103,21 @@ namespace LibNF65
             printDoc.DefaultPageSettings.Margins = new Margins(MARGEM, MARGEM, MARGEM, MARGEM);
         }
 
+        // printDoc.Print() usa GDI/driver de impressão do Windows e não tem timeout próprio --
+        // se a impressora do DANFE estiver desligada/desconectada, a chamada pode ficar
+        // bloqueada indefinidamente, travando a tela do caixa (mesmo problema encontrado em
+        // ncComum/impressao.vb). Por isso ela roda numa thread separada com um limite de tempo:
+        // se não responder a tempo, desiste e lança um erro claro em vez de travar a tela.
+        //
+        // IMPORTANTE: tem que ser uma Thread dedicada com ApartmentState.STA, NÃO um
+        // Task.Run/ThreadPool (que roda em MTA). PrintDocument.Print() usa GDI+/spooler do
+        // Windows e precisa de uma thread STA pra funcionar de forma confiável -- rodar numa
+        // thread MTA do pool (como estava antes, com Task.Run) fazia a impressão da NFC-e
+        // simplesmente não sair (ou falhar/travar de forma inconsistente dependendo do driver),
+        // enquanto a versão antiga, que chamava printDoc.Print() direto na thread chamadora
+        // (STA por padrão no WinForms), imprimia normalmente.
+        private const int TimeoutImpressaoMs = 8000;
+
         public void Imprimir(string nomeImpressora = null)
         {
             try
@@ -110,7 +127,33 @@ namespace LibNF65
                     printDoc.PrinterSettings.PrinterName = nomeImpressora;
                 }
 
-                printDoc.Print();
+                Exception erroImpressao = null;
+                var threadImpressao = new Thread(() =>
+                {
+                    try
+                    {
+                        printDoc.Print();
+                    }
+                    catch (Exception ex)
+                    {
+                        erroImpressao = ex;
+                    }
+                });
+                threadImpressao.SetApartmentState(ApartmentState.STA);
+                threadImpressao.IsBackground = true;
+                threadImpressao.Start();
+
+                if (!threadImpressao.Join(TimeoutImpressaoMs))
+                {
+                    throw new Exception($"A impressora não respondeu em {TimeoutImpressaoMs / 1000} segundos ao tentar imprimir a NFC-e. Verifique se ela está ligada e conectada.");
+                }
+
+                if (erroImpressao != null)
+                {
+                    // Propaga a falha real (não seria correto reportar timeout se a operação
+                    // terminou dentro do prazo mas lançou uma exceção por outro motivo).
+                    throw erroImpressao;
+                }
             }
             catch (Exception ex)
             {
@@ -178,11 +221,16 @@ namespace LibNF65
                     // Código do produto
                     ImprimirTexto(g, $"    Cód: {produto.Codigo}", fontePequena, MARGEM);
 
-                    decimal quantidade = produto.Quantidade / 100m;
+                    // Quantidade/ValorUnitario/ValorTotal já vêm em decimal.Parse(...) direto dos
+                    // nós qCom/vUnCom/vProd do XML (ex.: "2.0000", "64.9000") -- a NFC-e NUNCA usa
+                    // centavos inteiros nesses campos, então dividir por 100 aqui só distorcia os
+                    // valores impressos no cupom (2 virava "0,020", R$64,90 virava "R$0,65" etc.),
+                    // mesmo com a nota autorizada corretamente pela SEFAZ.
+                    decimal quantidade = produto.Quantidade;
 
-                    decimal unitario = produto.ValorUnitario / 100m;
+                    decimal unitario = produto.ValorUnitario;
 
-                    decimal total = produto.ValorTotal / 100m;
+                    decimal total = produto.ValorTotal;
 
                     // Quantidade, Unitário e Total
                     string linhaValor = $"    {quantidade:N3} {produto.Unidade} x {unitario:N2} = {total:N2}";
@@ -193,9 +241,12 @@ namespace LibNF65
 
                 DesenharLinha(g);
 
-                decimal _quantidade = nfce.QuantidadeTotal / 100m;
-                decimal _valorTotal = nfce.ValorProdutos / 100m;
-                decimal _valorDesconto = nfce.ValorDesconto / 100m;
+                // Mesmo motivo acima: nenhum desses valores está em centavos, não precisa
+                // dividir por 100 (isso fazia "Qtd. Total de Itens" sair sempre "0" e os
+                // totais saírem 100x menores do que o valor real da nota).
+                decimal _quantidade = nfce.QuantidadeTotal;
+                decimal _valorTotal = nfce.ValorProdutos;
+                decimal _valorDesconto = nfce.ValorDesconto;
 
                 // Totais
                 ImprimirCentralizado(g, "TOTAIS", fonteTitulo);
@@ -216,7 +267,11 @@ namespace LibNF65
 
                 foreach (var pagamento in nfce.Pagamentos)
                 {
-                    decimal _valor = pagamento.Valor / 100m;
+                    // pagamento.Valor já vem em reais (vPag do XML é parseado direto com
+                    // decimal.Parse, sem conversão de centavos -- mesmo bug dos outros campos
+                    // corrigidos acima: dividir por 100 de novo deixava "Dinheiro: R$ 17,00"
+                    // aparecer como "R$ 0,17" no cupom impresso).
+                    decimal _valor = pagamento.Valor;
                     ImprimirTexto(g, $"{pagamento.FormaPagamento}: R$ {_valor:N2}", fonteNormal, MARGEM);
                 }
 
@@ -459,10 +514,17 @@ namespace LibNF65
                         Item = int.Parse(det.Attributes["nItem"]?.Value ?? "0"),
                         Codigo = prod.SelectSingleNode("nfe:cProd", nsmgr)?.InnerText,
                         Descricao = prod.SelectSingleNode("nfe:xProd", nsmgr)?.InnerText,
-                        Quantidade = decimal.Parse(prod.SelectSingleNode("nfe:qCom", nsmgr)?.InnerText ?? "0"),
+                        // CultureInfo.InvariantCulture é obrigatório aqui: os nós numéricos do XML da
+                        // NFe/NFC-e (qCom/vUnCom/vProd/...) SEMPRE usam "." como separador decimal,
+                        // independente da cultura configurada no Windows da máquina. Sem isso,
+                        // decimal.Parse usa a cultura corrente (pt-BR), onde "." é separador de
+                        // milhar -- "4.5000" virava 45000 em vez de 4,50 (e o mesmo pra quantidade
+                        // e pro total), inflando os valores impressos no cupom em ~100x tanto na
+                        // emissão original quanto na reimpressão (as duas chamam este ParseXML).
+                        Quantidade = decimal.Parse(prod.SelectSingleNode("nfe:qCom", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture),
                         Unidade = prod.SelectSingleNode("nfe:uCom", nsmgr)?.InnerText,
-                        ValorUnitario = decimal.Parse(prod.SelectSingleNode("nfe:vUnCom", nsmgr)?.InnerText ?? "0"),
-                        ValorTotal = decimal.Parse(prod.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0")
+                        ValorUnitario = decimal.Parse(prod.SelectSingleNode("nfe:vUnCom", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture),
+                        ValorTotal = decimal.Parse(prod.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture)
                     };
                     nfce.Produtos.Add(produto);
                 }
@@ -472,9 +534,9 @@ namespace LibNF65
             XmlNode total = doc.SelectSingleNode("//nfe:total/nfe:ICMSTot", nsmgr);
             if (total != null)
             {
-                nfce.ValorProdutos = decimal.Parse(total.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0");
-                nfce.ValorDesconto = decimal.Parse(total.SelectSingleNode("nfe:vDesc", nsmgr)?.InnerText ?? "0");
-                nfce.ValorTotal = decimal.Parse(total.SelectSingleNode("nfe:vNF", nsmgr)?.InnerText ?? "0");
+                nfce.ValorProdutos = decimal.Parse(total.SelectSingleNode("nfe:vProd", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
+                nfce.ValorDesconto = decimal.Parse(total.SelectSingleNode("nfe:vDesc", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
+                nfce.ValorTotal = decimal.Parse(total.SelectSingleNode("nfe:vNF", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
             }
 
             nfce.QuantidadeTotal = nfce.Produtos.Count;
@@ -484,7 +546,7 @@ namespace LibNF65
             foreach (XmlNode pag in pagamentos)
             {
                 string tPag = pag.SelectSingleNode("nfe:tPag", nsmgr)?.InnerText;
-                decimal vPag = decimal.Parse(pag.SelectSingleNode("nfe:vPag", nsmgr)?.InnerText ?? "0");
+                decimal vPag = decimal.Parse(pag.SelectSingleNode("nfe:vPag", nsmgr)?.InnerText ?? "0", CultureInfo.InvariantCulture);
 
                 nfce.Pagamentos.Add(new NFCeModel.Pagamento
                 {

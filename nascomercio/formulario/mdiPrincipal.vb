@@ -1,3 +1,4 @@
+Imports System.Configuration
 Imports System.Threading.Tasks
 Imports System.Windows.Forms
 Imports NasLibackup
@@ -15,7 +16,7 @@ Imports ncRegras.nsUsuarioPerfil
 
 Public Class mdiPrincipal
 
-    '-- Par�metros globais
+    '-- Parâmetros globais
     Public gUsuario As New dUsuario
     Public gLoja As New dLoja
     Public formulario As New Form
@@ -42,7 +43,7 @@ Public Class mdiPrincipal
         regraParametro = New rParametro()
         dadosParametro = regraParametro.Consultar(cConstantes.Parametros.ChaveSistema)
 
-        ' Verificar se existe chave de acesso/valida��o
+        ' Verificar se existe chave de acesso/validação
         If Not IsNothing(dadosParametro) Then
             If Not String.IsNullOrEmpty(dadosParametro.valor) Then
                 If dadosParametro.valor.Trim() <> "" Then
@@ -79,7 +80,22 @@ Public Class mdiPrincipal
     End Sub
 
     Public Sub Iniciar()
+        VerificarIndicesRelatorios()
         CarregarUsuario()
+    End Sub
+
+    ' Cria (uma unica vez, por loja) os indices que aceleram os relatorios de vendas.
+    ' So mostra o aviso na execucao em que realmente falta algum indice; nas proximas
+    ' vezes, a checagem e rapida e nada aparece. Nunca interrompe o login por causa disso.
+    Private Sub VerificarIndicesRelatorios()
+        Try
+            If ncComum.nsManutencaoBanco.cManutencaoBanco.ExisteIndicePendente() Then
+                MessageBox.Show("Otimizando banco de dados, isso pode levar alguns instantes." & vbCrLf & "Isso acontece apenas uma vez.", "Nascomercio", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ncComum.nsManutencaoBanco.cManutencaoBanco.CriarIndicesPendentes()
+            End If
+        Catch ex As Exception
+            ' Indice e otimizacao, nao requisito - nunca interrompe o login por causa disso.
+        End Try
     End Sub
     Public Async Function CarregarBackupAutomaticoAsync() As Task
         Await ExecutarBackup()
@@ -104,10 +120,10 @@ Public Class mdiPrincipal
         Dim regraParametro As New rParametro
         Dim dadosParametro As dParametro
 
-        '1- verificando quantos elementos o array possui , se possuir mais de um ent�o existe duas inst�ncias
+        '1- verificando quantos elementos o array possui , se possuir mais de um então existe duas instâncias
         emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).Length
 
-        '2- verificando o limite superior do array , se for  maior que zero ent�o existe duas inst�ncias
+        '2- verificando o limite superior do array , se for  maior que zero então existe duas instâncias
         'emExecucao = Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName).GetUpperBound(0) > 0
 
         dadosParametro = regraParametro.Consultar(cConstantes.Parametros.Instancias)
@@ -926,6 +942,11 @@ Public Class mdiPrincipal
         formulario = fRelatorioGrupoProduto
         AbrirTela()
     End Sub
+    Public Sub CarregarRelatorioVendasFabricante()
+        FecharTela()
+        formulario = fRelatorioVendasFabricante
+        AbrirTela()
+    End Sub
     Public Sub CarregarTransferencia()
         FecharTela()
         formulario = fRelatorioTransferencia
@@ -1099,8 +1120,61 @@ Public Class mdiPrincipal
         AbrirTela()
     End Sub
     Public Sub CarregarRelVendasABC()
+        ' Desativado temporariamente (28/09/2026) a pedido da cliente: o
+        ' relatorio de Curva ABC estava dando erro ao abrir. Em vez de deixar
+        ' o operador cair numa tela quebrada, o menu agora mostra um aviso
+        ' controlado. Nao apaguei a tela (fRelatorioVendasABC) nem o menu em
+        ' si - so a chamada que abriria a tela, pra ser facil reverter assim
+        ' que o problema real for identificado e corrigido.
+        MessageBox.Show("O Relatório de Curva ABC está temporariamente indisponível para manutenção." & vbCrLf & vbCrLf &
+                         "Assim que for corrigido, este aviso será removido.",
+                         "Relatório indisponível",
+                         MessageBoxButtons.OK,
+                         MessageBoxIcon.Information)
+
+        'FecharTela()
+        'formulario = fRelatorioVendasABC
+        'AbrirTela()
+    End Sub
+
+    ' Painel de Compras: ticket medio, marca campea e oportunidades de reposicao
+    ' numa unica tela (script "38 - dashboard_compras.sql" precisa estar aplicado
+    ' no banco da loja). Acessivel pelo radio button "Painel de Compras" em
+    ' Relatorios (fRelatorio.vb / fRelatorio.Designer.vb).
+    Public Sub CarregarPainelCompras()
         FecharTela()
-        formulario = fRelatorioVendasABC
+        formulario = fPainelCompras
+        AbrirTela()
+    End Sub
+
+    ' Pedidos de Compra por fabricante (script "41 - pedido_compra.sql" precisa
+    ' estar aplicado no banco da loja). Acesso pelo botao "Pedidos de Compra
+    ' <F7>" na tela de Inventario de Produtos (fProdutoEntradaSaidaFiltro).
+    Public Sub CarregarPedidoCompraLista()
+        FecharTela()
+        formulario = fPedidoCompraLista
+        AbrirTela()
+    End Sub
+
+    Public Sub CarregarPedidoCompraForm()
+        FecharTela()
+        formulario = fPedidoCompraForm
+        AbrirTela()
+    End Sub
+
+    ' Relatorio "Pedidos de Compra x Entregas" (radio button em Relatorios e
+    ' botao "Relatorio <F8>" na lista de pedidos)
+    Public Sub CarregarRelatorioPedidosCompra()
+        FecharTela()
+        formulario = fRelatorioPedidosCompra
+        AbrirTela()
+    End Sub
+
+    ' Relatorio "Compras x Vendas x Estoque" (radio button em Relatorios; script
+    ' "42 - painel_compras_x_vendas.sql" precisa estar aplicado no banco da loja)
+    Public Sub CarregarRelatorioComprasVendas()
+        FecharTela()
+        formulario = fRelatorioComprasVendas
         AbrirTela()
     End Sub
 
@@ -1138,6 +1212,158 @@ Public Class mdiPrincipal
         Catch ex As Exception
             MessageBox.Show("Imagem de fundo não encontrada: 'fundo.jpg'.")
         End Try
+
+        If EhVersaoTeste() Then
+            Me.Text = Me.Text & " - VERSÃO EM TESTE"
+            CriarFaixaVersaoTeste()
+        End If
+
+        VerificarCertificadoDigital()
+    End Sub
+
+    ' Controla a faixa "VERSÃO EM TESTE" (abaixo) e o aviso no título da janela, usados
+    ' numa instalação piloto para o cliente não confundir com o sistema oficial em uso.
+    ' Por padrão (chave ausente) considera-se TESTE -- assim uma instalação piloto nova
+    ' já nasce com o aviso, sem precisar lembrar de configurar nada. Só para de aparecer
+    ' quando, no lançamento da versão oficial, alguém adicionar explicitamente a chave
+    ' VERSAO_OFICIAL=SIM no app.config dessa instalação.
+    Private Function EhVersaoTeste() As Boolean
+        Return ConfigurationManager.AppSettings("VERSAO_OFICIAL") <> "SIM"
+    End Function
+
+    Private faixaVersaoTestePanel As Panel
+    Private Const FaixaPivoX As Single = 100
+    Private Const FaixaPivoY As Single = 42
+    Private Const FaixaComprimento As Single = 240
+    Private Const FaixaEspessura As Single = 24
+    Private Const FaixaPainelLado As Integer = 160
+
+    ' Fita vermelha diagonal no canto superior direito da tela, pra quem estiver testando uma
+    ' versão piloto não confundir com o sistema oficial em produção.
+    '
+    ' É um Panel PRÓPRIO (não desenhado direto no Form_Paint) porque esse é um formulário MDI:
+    ' a área onde as telas filhas (vendas, caixa, etc.) aparecem é controlada por um MdiClient
+    ' interno que cobre quase toda a janela por cima do que é desenhado no Paint do próprio
+    ' Form -- por isso a primeira versão (desenhada ali) ficava "meio invisível", só aparecia
+    ' numa tirinha bem fina. Um Panel adicionado direto em Me.Controls e trazido pra frente com
+    ' BringToFront() fica acima do MdiClient (e, portanto, acima de qualquer tela filha aberta).
+    '
+    ' O Panel é recortado (Region) na forma exata da faixa giradas 45 graus -- fora dela, o
+    ' painel não desenha nada, deixando a tela por trás visível normalmente.
+    Private Sub CriarFaixaVersaoTeste()
+        faixaVersaoTestePanel = New Panel()
+        faixaVersaoTestePanel.Size = New Size(FaixaPainelLado, FaixaPainelLado)
+        faixaVersaoTestePanel.Location = New Point(Me.ClientSize.Width - FaixaPainelLado, 0)
+        faixaVersaoTestePanel.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        AddHandler faixaVersaoTestePanel.Paint, AddressOf FaixaVersaoTeste_Paint
+
+        Dim retanguloFaixa As New RectangleF(-FaixaComprimento / 2, -FaixaEspessura / 2, FaixaComprimento, FaixaEspessura)
+        Using caminho As New Drawing2D.GraphicsPath()
+            caminho.AddRectangle(retanguloFaixa)
+            Using matriz As New Drawing2D.Matrix()
+                matriz.Translate(FaixaPivoX, FaixaPivoY)
+                matriz.Rotate(45)
+                caminho.Transform(matriz)
+            End Using
+            faixaVersaoTestePanel.Region = New Region(caminho)
+        End Using
+
+        Me.Controls.Add(faixaVersaoTestePanel)
+        faixaVersaoTestePanel.BringToFront()
+    End Sub
+
+    Private Sub FaixaVersaoTeste_Paint(ByVal sender As Object, ByVal e As PaintEventArgs)
+        Dim g As Graphics = e.Graphics
+        g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        g.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
+
+        ' Preenche o painel inteiro -- a Region (definida em CriarFaixaVersaoTeste) já recorta
+        ' isso só na forma da faixa, então só aparece mesmo dentro dela.
+        Using pincelFundo As New SolidBrush(Color.FromArgb(255, 204, 0, 0))
+            g.FillRectangle(pincelFundo, faixaVersaoTestePanel.ClientRectangle)
+        End Using
+
+        Dim estadoGrafico As Drawing2D.GraphicsState = g.Save()
+        Try
+            g.TranslateTransform(FaixaPivoX, FaixaPivoY)
+            g.RotateTransform(45)
+
+            Dim formatoTexto As New StringFormat()
+            formatoTexto.Alignment = StringAlignment.Center
+            formatoTexto.LineAlignment = StringAlignment.Center
+            Using fonte As New Font("Segoe UI", 8, FontStyle.Bold)
+                Using pincelTexto As New SolidBrush(Color.White)
+                    g.DrawString("VERSÃO EM TESTE", fonte, pincelTexto, New PointF(0, 0), formatoTexto)
+                End Using
+            End Using
+        Finally
+            g.Restore(estadoGrafico)
+        End Try
+    End Sub
+
+    ' Avisa logo na abertura do sistema se o certificado digital (usado pra emitir NFC-e)
+    ' está vencido ou perto de vencer. Antes, isso só aparecia como um erro confuso de
+    ' "falha ao emitir NFC-e" durante uma venda de verdade, com o cliente na frente do
+    ' caixa — agora quem abre o sistema no começo do dia já fica ciente.
+    '
+    ' Roda em segundo plano (Task.Run) porque essa checagem consulta o banco e abre o
+    ' arquivo do certificado — rodar direto aqui no Load travava a abertura da tela
+    ' (relatado como "ficou mais lento pra abrir"). O resultado volta pra thread da UI
+    ' via Me.Invoke antes de mostrar qualquer MessageBox.
+    Private Sub VerificarCertificadoDigital()
+        Task.Run(
+            Sub()
+                Dim status As LibNF65.NFCe65.StatusCertificado = Nothing
+                Dim erroInesperado As Exception = Nothing
+
+                Try
+                    status = LibNF65.NFCe65.VerificarValidadeCertificado()
+                Catch ex As Exception
+                    erroInesperado = ex
+                End Try
+
+                Try
+                    If Me.IsDisposed OrElse Not Me.IsHandleCreated Then
+                        Return
+                    End If
+
+                    Me.Invoke(
+                        Sub()
+                            If erroInesperado IsNot Nothing Then
+                                ' Diferente de antes: um erro inesperado aqui agora APARECE,
+                                ' em vez de ser escondido silenciosamente — senão a gente
+                                ' nunca fica sabendo que a checagem nem rodou direito.
+                                MessageBox.Show(
+                                    "Falha inesperada ao verificar o certificado digital: " & erroInesperado.Message,
+                                    "Certificado digital", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                Return
+                            End If
+
+                            If Not status.Existe Then
+                                MessageBox.Show(
+                                    status.MensagemErro & vbCrLf & vbCrLf &
+                                    "Sem o certificado digital configurado corretamente, as vendas não vão conseguir emitir NFC-e.",
+                                    "Certificado digital", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                Return
+                            End If
+
+                            If Not status.Valido Then
+                                MessageBox.Show(
+                                    "O certificado digital está VENCIDO desde " & status.DataValidade.Value.ToString("dd/MM/yyyy") & "." & vbCrLf & vbCrLf &
+                                    "As vendas NÃO vão conseguir emitir NFC-e até que o certificado seja renovado. Avise o responsável com urgência.",
+                                    "Certificado digital vencido", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                            ElseIf status.DiasParaVencer <= 30 Then
+                                MessageBox.Show(
+                                    "O certificado digital vence em " & status.DiasParaVencer & " dia(s), em " & status.DataValidade.Value.ToString("dd/MM/yyyy") & "." & vbCrLf & vbCrLf &
+                                    "Providencie a renovação antes dessa data para não parar a emissão de NFC-e.",
+                                    "Certificado digital perto de vencer", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                            End If
+                        End Sub)
+                Catch
+                    ' A janela pode já ter sido fechada nesse meio tempo (ex.: usuário saiu
+                    ' do sistema rápido) — nesse caso não há onde mostrar o aviso mesmo.
+                End Try
+            End Sub)
     End Sub
 
     Private Sub btoSobre_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSobre.Click

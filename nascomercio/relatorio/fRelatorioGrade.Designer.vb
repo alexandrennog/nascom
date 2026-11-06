@@ -38,6 +38,12 @@ Partial Class fRelatorioGrade
         Me.Label1 = New System.Windows.Forms.Label
         Me.chkOrdem = New System.Windows.Forms.CheckBox
         Me.Label4 = New System.Windows.Forms.Label
+        Me.lblDataEntrada = New System.Windows.Forms.Label
+        Me.txtDataEntradaInicio = New System.Windows.Forms.MaskedTextBox
+        Me.lblDataEntradaAte = New System.Windows.Forms.Label
+        Me.txtDataEntradaFim = New System.Windows.Forms.MaskedTextBox
+        Me.lblFiltrarVenda = New System.Windows.Forms.Label
+        Me.chkFiltrarVenda = New System.Windows.Forms.CheckBox
         Me.PrintPreviewDialog1 = New System.Windows.Forms.PrintPreviewDialog
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument
         Me.pbGrade = New System.Windows.Forms.ProgressBar
@@ -225,7 +231,73 @@ Partial Class fRelatorioGrade
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(133, 18)
         Me.Label4.TabIndex = 241
-        Me.Label4.Text = "Ordem Alfabética:"
+        Me.Label4.Text = "Ordem AlfabÃ©tica:"
+        '
+        'lblDataEntrada
+        '
+        Me.lblDataEntrada.AutoSize = True
+        Me.lblDataEntrada.BackColor = System.Drawing.Color.Transparent
+        Me.lblDataEntrada.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblDataEntrada.Location = New System.Drawing.Point(520, 100)
+        Me.lblDataEntrada.Name = "lblDataEntrada"
+        Me.lblDataEntrada.Size = New System.Drawing.Size(103, 18)
+        Me.lblDataEntrada.TabIndex = 243
+        Me.lblDataEntrada.Text = "Entrada de:"
+        '
+        'txtDataEntradaInicio
+        '
+        Me.txtDataEntradaInicio.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtDataEntradaInicio.Culture = New System.Globalization.CultureInfo("")
+        Me.txtDataEntradaInicio.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.txtDataEntradaInicio.Location = New System.Drawing.Point(627, 98)
+        Me.txtDataEntradaInicio.Mask = "00/00/0000"
+        Me.txtDataEntradaInicio.Name = "txtDataEntradaInicio"
+        Me.txtDataEntradaInicio.Size = New System.Drawing.Size(78, 18)
+        Me.txtDataEntradaInicio.TabIndex = 244
+        Me.txtDataEntradaInicio.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
+        '
+        'lblDataEntradaAte
+        '
+        Me.lblDataEntradaAte.AutoSize = True
+        Me.lblDataEntradaAte.BackColor = System.Drawing.Color.Transparent
+        Me.lblDataEntradaAte.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblDataEntradaAte.Location = New System.Drawing.Point(714, 100)
+        Me.lblDataEntradaAte.Name = "lblDataEntradaAte"
+        Me.lblDataEntradaAte.Size = New System.Drawing.Size(35, 18)
+        Me.lblDataEntradaAte.TabIndex = 245
+        Me.lblDataEntradaAte.Text = "ate:"
+        '
+        'txtDataEntradaFim
+        '
+        Me.txtDataEntradaFim.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtDataEntradaFim.Culture = New System.Globalization.CultureInfo("")
+        Me.txtDataEntradaFim.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.txtDataEntradaFim.Location = New System.Drawing.Point(753, 98)
+        Me.txtDataEntradaFim.Mask = "00/00/0000"
+        Me.txtDataEntradaFim.Name = "txtDataEntradaFim"
+        Me.txtDataEntradaFim.Size = New System.Drawing.Size(78, 18)
+        Me.txtDataEntradaFim.TabIndex = 246
+        Me.txtDataEntradaFim.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
+        '
+        'lblFiltrarVenda
+        '
+        Me.lblFiltrarVenda.AutoSize = True
+        Me.lblFiltrarVenda.BackColor = System.Drawing.Color.Transparent
+        Me.lblFiltrarVenda.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblFiltrarVenda.Location = New System.Drawing.Point(838, 100)
+        Me.lblFiltrarVenda.Name = "lblFiltrarVenda"
+        Me.lblFiltrarVenda.Size = New System.Drawing.Size(58, 18)
+        Me.lblFiltrarVenda.TabIndex = 247
+        Me.lblFiltrarVenda.Text = "Venda:"
+        '
+        'chkFiltrarVenda
+        '
+        Me.chkFiltrarVenda.AutoSize = True
+        Me.chkFiltrarVenda.Location = New System.Drawing.Point(899, 102)
+        Me.chkFiltrarVenda.Name = "chkFiltrarVenda"
+        Me.chkFiltrarVenda.Size = New System.Drawing.Size(15, 14)
+        Me.chkFiltrarVenda.TabIndex = 248
+        Me.chkFiltrarVenda.UseVisualStyleBackColor = True
         '
         'PrintPreviewDialog1
         '
@@ -257,6 +329,12 @@ Partial Class fRelatorioGrade
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(954, 596)
         Me.Controls.Add(Me.pbGrade)
+        Me.Controls.Add(Me.chkFiltrarVenda)
+        Me.Controls.Add(Me.lblFiltrarVenda)
+        Me.Controls.Add(Me.txtDataEntradaFim)
+        Me.Controls.Add(Me.lblDataEntradaAte)
+        Me.Controls.Add(Me.txtDataEntradaInicio)
+        Me.Controls.Add(Me.lblDataEntrada)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.chkOrdem)
         Me.Controls.Add(Me.cboGrupo)
@@ -301,6 +379,12 @@ Partial Class fRelatorioGrade
   Friend WithEvents Label1 As System.Windows.Forms.Label
   Friend WithEvents chkOrdem As System.Windows.Forms.CheckBox
   Friend WithEvents Label4 As System.Windows.Forms.Label
+  Friend WithEvents lblDataEntrada As System.Windows.Forms.Label
+  Friend WithEvents txtDataEntradaInicio As System.Windows.Forms.MaskedTextBox
+  Friend WithEvents lblDataEntradaAte As System.Windows.Forms.Label
+  Friend WithEvents txtDataEntradaFim As System.Windows.Forms.MaskedTextBox
+  Friend WithEvents lblFiltrarVenda As System.Windows.Forms.Label
+  Friend WithEvents chkFiltrarVenda As System.Windows.Forms.CheckBox
   Private WithEvents PrintPreviewDialog1 As System.Windows.Forms.PrintPreviewDialog
   Private WithEvents PrintDocument1 As System.Drawing.Printing.PrintDocument
   Friend WithEvents pbGrade As System.Windows.Forms.ProgressBar

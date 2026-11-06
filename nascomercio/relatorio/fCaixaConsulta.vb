@@ -235,7 +235,7 @@ Public Class fCaixaConsulta
         End If
 
         If Me.txtControle.Text <> "F10 Nova Venda" And txtControle.Text <> "" Then
-            ' Exclui hist�rico
+            ' Exclui histórico
             itemVenda.controle = txtControle.Text
 
             For Each linha As DataGridViewRow In dtgProdutos.Rows

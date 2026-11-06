@@ -7,6 +7,8 @@ Imports ncComum.nsLog.cLog
 Imports ncComum.nsExcecao
 Imports ncDados.nsNotaFiscalFornecedor
 Imports ncRegras.nsNotaFiscalFornecedor
+Imports ncDados.nsPedidoCompra
+Imports ncRegras.nsPedidoCompra
 
 Public Class fProdutoEntradaSaidaEstoque
 
@@ -148,6 +150,11 @@ Public Class fProdutoEntradaSaidaEstoque
         Dim nfColecao As ColecaoNotaFiscalFornecedor
         Dim notaFiscalNumero As String = Nothing
         Dim notaFiscalSerie As String = Nothing
+        Dim regraPedido As New rPedidoCompra
+        Dim totalBaixado As Integer = 0
+        Dim totalSemPedido As Integer = 0
+        Dim pedidosBaixados As New List(Of String)
+        Dim erroBaixa As String = Nothing
 
 
         If MessageBox.Show("Confirma atualização de estoque?", "Estoque", MessageBoxButtons.YesNo, MessageBoxIcon.Information) = Windows.Forms.DialogResult.Yes Then
@@ -214,12 +221,39 @@ Public Class fProdutoEntradaSaidaEstoque
 
                             '-- Atualizar Estoque
                             regraPI.AlterarEstoque(codigoBarras, quantidade)
+
+                            '-- Baixa automatica no Pedido de Compra em aberto mais antigo
+                            '-- deste produto/tamanho (script 41 - pedido_compra.sql).
+                            '-- Falha aqui NAO desfaz a entrada de estoque: so avisa no final.
+                            If erroBaixa Is Nothing Then
+                                Try
+                                    Dim baixa As dPedidoCompraBaixa = regraPedido.Baixar(Me.produto_cid, codigoBarras, CInt(quantidade), notaFiscalNumero, notaFiscalSerie, mdiPrincipal.gUsuario.cid)
+                                    totalBaixado += baixa.quantidadeBaixada
+                                    totalSemPedido += baixa.quantidadeSemPedido
+                                    If Not String.IsNullOrEmpty(baixa.pedidos) Then
+                                        For Each pedido As String In baixa.pedidos.Split(New String() {", "}, StringSplitOptions.RemoveEmptyEntries)
+                                            If Not pedidosBaixados.Contains(pedido) Then
+                                                pedidosBaixados.Add(pedido)
+                                            End If
+                                        Next
+                                    End If
+                                Catch exBaixa As Exception
+                                    erroBaixa = exBaixa.Message
+                                End Try
+                            End If
                         End If
                     End If
                 Next
 
                 MontarGradeCaracteristicas()
                 CarregarItens()
+
+                If Not erroBaixa Is Nothing Then
+                    MessageBox.Show("O estoque foi atualizado normalmente, mas não foi possível dar baixa nos Pedidos de Compra:" & vbCrLf & vbCrLf & erroBaixa, "Pedidos de Compra", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                ElseIf totalBaixado > 0 Then
+                    MessageBox.Show(totalBaixado & " par(es) baixado(s) no(s) pedido(s) de compra: " & String.Join(", ", pedidosBaixados.ToArray()) & "." &
+                                    If(totalSemPedido > 0, vbCrLf & totalSemPedido & " par(es) entraram sem pedido em aberto.", ""), "Pedidos de Compra", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
 
             End If
         End If

@@ -20,7 +20,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar EfdTipoAtividade [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar EfdTipoAtividade [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -52,7 +52,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar EfdTipoAtividade [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar EfdTipoAtividade [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

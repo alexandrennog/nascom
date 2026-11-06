@@ -65,7 +65,7 @@ Namespace nsContasPagar
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar ContasPagar [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar ContasPagar [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -163,7 +163,7 @@ Namespace nsContasPagar
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar ContasPagar [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar ContasPagar [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -202,7 +202,7 @@ Namespace nsContasPagar
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir ContasPagar [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir ContasPagar [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -242,7 +242,7 @@ Namespace nsContasPagar
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Importar ContasPagar [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Importar ContasPagar [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -280,7 +280,7 @@ Namespace nsContasPagar
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar ContasPagar [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar ContasPagar [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -306,7 +306,7 @@ Namespace nsContasPagar
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir ContasPagar [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir ContasPagar [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

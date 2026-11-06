@@ -62,7 +62,7 @@ Namespace nsUsuario
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Usuario [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Usuario [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -163,7 +163,7 @@ Namespace nsUsuario
       Catch ex As Exception
         retorno = Nothing
         Throw ex
-        Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -237,7 +237,7 @@ Namespace nsUsuario
             Catch ex As Exception
                 retorno = Nothing
                 Throw ex
-                Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Usuario [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -275,7 +275,7 @@ Namespace nsUsuario
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Usuario [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Usuario [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -313,7 +313,7 @@ Namespace nsUsuario
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Usuario [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Usuario [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -339,7 +339,7 @@ Namespace nsUsuario
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Usuario [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Usuario [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

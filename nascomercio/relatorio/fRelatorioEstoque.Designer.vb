@@ -36,8 +36,14 @@ Partial Class fRelatorioEstoque
         Me.chkEstoque = New System.Windows.Forms.CheckBox()
         Me.cboGrupo = New System.Windows.Forms.ComboBox()
         Me.lblGrupo = New System.Windows.Forms.Label()
+        Me.lblDataCadastro = New System.Windows.Forms.Label()
+        Me.txtDataCadastroInicio = New System.Windows.Forms.MaskedTextBox()
+        Me.lblDataCadastroAte = New System.Windows.Forms.Label()
+        Me.txtDataCadastroFim = New System.Windows.Forms.MaskedTextBox()
         Me.lstEstoque = New System.Windows.Forms.ListView()
         Me.btnPrint = New System.Windows.Forms.Button()
+        Me.lblNumeracao = New System.Windows.Forms.Label()
+        Me.cboNumeracao = New System.Windows.Forms.ComboBox()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -63,7 +69,7 @@ Partial Class fRelatorioEstoque
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(221, 24)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "Relat�rio de Estoque"
+        Me.lblTitulo.Text = "Relatório de Estoque"
         '
         'btoFiltro
         '
@@ -207,10 +213,76 @@ Partial Class fRelatorioEstoque
         Me.lblGrupo.TabIndex = 244
         Me.lblGrupo.Text = "Grupo:"
         '
+        'lblDataCadastro
+        '
+        Me.lblDataCadastro.AutoSize = True
+        Me.lblDataCadastro.BackColor = System.Drawing.Color.Transparent
+        Me.lblDataCadastro.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblDataCadastro.Location = New System.Drawing.Point(10, 175)
+        Me.lblDataCadastro.Name = "lblDataCadastro"
+        Me.lblDataCadastro.Size = New System.Drawing.Size(130, 18)
+        Me.lblDataCadastro.TabIndex = 247
+        Me.lblDataCadastro.Text = "Cadastro de:"
+        '
+        'txtDataCadastroInicio
+        '
+        Me.txtDataCadastroInicio.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtDataCadastroInicio.Culture = New System.Globalization.CultureInfo("")
+        Me.txtDataCadastroInicio.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.txtDataCadastroInicio.Location = New System.Drawing.Point(141, 173)
+        Me.txtDataCadastroInicio.Mask = "00/00/0000"
+        Me.txtDataCadastroInicio.Name = "txtDataCadastroInicio"
+        Me.txtDataCadastroInicio.Size = New System.Drawing.Size(78, 18)
+        Me.txtDataCadastroInicio.TabIndex = 248
+        Me.txtDataCadastroInicio.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
+        '
+        'lblDataCadastroAte
+        '
+        Me.lblDataCadastroAte.AutoSize = True
+        Me.lblDataCadastroAte.BackColor = System.Drawing.Color.Transparent
+        Me.lblDataCadastroAte.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblDataCadastroAte.Location = New System.Drawing.Point(228, 175)
+        Me.lblDataCadastroAte.Name = "lblDataCadastroAte"
+        Me.lblDataCadastroAte.Size = New System.Drawing.Size(35, 18)
+        Me.lblDataCadastroAte.TabIndex = 249
+        Me.lblDataCadastroAte.Text = "ate:"
+        '
+        'txtDataCadastroFim
+        '
+        Me.txtDataCadastroFim.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtDataCadastroFim.Culture = New System.Globalization.CultureInfo("")
+        Me.txtDataCadastroFim.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.txtDataCadastroFim.Location = New System.Drawing.Point(267, 173)
+        Me.txtDataCadastroFim.Mask = "00/00/0000"
+        Me.txtDataCadastroFim.Name = "txtDataCadastroFim"
+        Me.txtDataCadastroFim.Size = New System.Drawing.Size(78, 18)
+        Me.txtDataCadastroFim.TabIndex = 250
+        Me.txtDataCadastroFim.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals
+        '
+        'lblNumeracao
+        '
+        Me.lblNumeracao.AutoSize = True
+        Me.lblNumeracao.BackColor = System.Drawing.Color.Transparent
+        Me.lblNumeracao.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold)
+        Me.lblNumeracao.Location = New System.Drawing.Point(380, 175)
+        Me.lblNumeracao.Name = "lblNumeracao"
+        Me.lblNumeracao.Size = New System.Drawing.Size(123, 18)
+        Me.lblNumeracao.TabIndex = 251
+        Me.lblNumeracao.Text = "Numeração:"
+        '
+        'cboNumeracao
+        '
+        Me.cboNumeracao.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.cboNumeracao.FormattingEnabled = True
+        Me.cboNumeracao.Location = New System.Drawing.Point(508, 171)
+        Me.cboNumeracao.Name = "cboNumeracao"
+        Me.cboNumeracao.Size = New System.Drawing.Size(90, 21)
+        Me.cboNumeracao.TabIndex = 252
+        '
         'lstEstoque
         '
         Me.lstEstoque.HideSelection = False
-        Me.lstEstoque.Location = New System.Drawing.Point(13, 173)
+        Me.lstEstoque.Location = New System.Drawing.Point(13, 209)
         Me.lstEstoque.Name = "lstEstoque"
         Me.lstEstoque.Size = New System.Drawing.Size(914, 401)
         Me.lstEstoque.TabIndex = 245
@@ -240,11 +312,17 @@ Partial Class fRelatorioEstoque
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(1011, 598)
+        Me.ClientSize = New System.Drawing.Size(1011, 634)
         Me.Controls.Add(Me.btnPrint)
+        Me.Controls.Add(Me.lblNumeracao)
+        Me.Controls.Add(Me.cboNumeracao)
         Me.Controls.Add(Me.lstEstoque)
         Me.Controls.Add(Me.cboGrupo)
         Me.Controls.Add(Me.lblGrupo)
+        Me.Controls.Add(Me.lblDataCadastro)
+        Me.Controls.Add(Me.txtDataCadastroInicio)
+        Me.Controls.Add(Me.lblDataCadastroAte)
+        Me.Controls.Add(Me.txtDataCadastroFim)
         Me.Controls.Add(Me.chkEstoque)
         Me.Controls.Add(Me.txtProduto)
         Me.Controls.Add(Me.Label2)
@@ -265,7 +343,7 @@ Partial Class fRelatorioEstoque
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Relat�rio de Estoque"
+        Me.Text = "Relatório de Estoque"
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -285,6 +363,12 @@ Partial Class fRelatorioEstoque
     Friend WithEvents chkEstoque As System.Windows.Forms.CheckBox
     Friend WithEvents cboGrupo As ComboBox
     Friend WithEvents lblGrupo As Label
+    Friend WithEvents lblDataCadastro As System.Windows.Forms.Label
+    Friend WithEvents txtDataCadastroInicio As System.Windows.Forms.MaskedTextBox
+    Friend WithEvents lblDataCadastroAte As System.Windows.Forms.Label
+    Friend WithEvents txtDataCadastroFim As System.Windows.Forms.MaskedTextBox
     Friend WithEvents lstEstoque As ListView
     Friend WithEvents btnPrint As Button
+    Friend WithEvents lblNumeracao As System.Windows.Forms.Label
+    Friend WithEvents cboNumeracao As System.Windows.Forms.ComboBox
 End Class

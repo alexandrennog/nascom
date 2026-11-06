@@ -22,7 +22,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -41,7 +41,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -114,7 +114,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Selecionar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Selecionar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -136,7 +136,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -158,7 +158,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -180,7 +180,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -216,7 +216,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fListar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fListar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -250,7 +250,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -284,7 +284,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -305,7 +305,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fIncluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fIncluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -326,7 +326,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fAlterar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fAlterar NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -347,7 +347,7 @@ Namespace nsNotaFiscalFornecedor
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fExcluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fExcluir NotaFiscalFornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

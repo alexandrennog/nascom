@@ -20,7 +20,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar EfdPerfilArquivoFiscal [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar EfdPerfilArquivoFiscal [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -57,7 +57,7 @@ Namespace nsEFD
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar EfdPerfilArquivoFiscal [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar EfdPerfilArquivoFiscal [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

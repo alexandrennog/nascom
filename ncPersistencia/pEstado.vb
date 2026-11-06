@@ -56,7 +56,7 @@ Namespace nsEstado
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Estado [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Estado [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -133,7 +133,7 @@ Namespace nsEstado
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Estado [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Estado [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -164,7 +164,7 @@ Namespace nsEstado
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Estado [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Estado [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -195,7 +195,7 @@ Namespace nsEstado
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Estado [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Estado [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -221,7 +221,7 @@ Namespace nsEstado
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Estado [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Estado [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

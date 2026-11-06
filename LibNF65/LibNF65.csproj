@@ -12,11 +12,27 @@
     <FileAlignment>512</FileAlignment>
     <OutputPath>bin\\Debug\\</OutputPath>
   </PropertyGroup>
+  <!-- Corrigido em 03/10/2026: estava x64 aqui, mas o nascomercio.vbproj (o
+       .exe que referencia esse LibNF65) e' sempre x86, em Debug e em
+       Release. Com Debug em x64, rodar o projeto pelo Visual Studio
+       (F5, que usa a config Debug por padrao) ia dar erro de
+       incompatibilidade de arquitetura (BadImageFormatException) assim
+       que qualquer tela chamasse algo do LibNF65 - ou seja, na hora de
+       testar uma venda com NFC-e/SAT. Troquei pra x86, igual ao Release
+       e igual ao nascomercio.vbproj. -->
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\\Debug\\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  <!-- Corrigido em 03/10/2026: essa segunda condicao estava copiada igual a
+       de cima ("Debug"), entao builds em modo Release nunca caiam aqui - o
+       MSBuild ficava sem PlatformTarget definido (cai no AnyCPU/MSIL padrao)
+       e sem OutputPath proprio (ficava usando bin\Debug\ mesmo). E' bem
+       provavel que seja essa a causa do aviso de build "incompatibilidade
+       de arquitetura MSIL / x86" na referencia ao LibNF65.dll: o
+       nascomercio.vbproj (x86) espera encontrar um LibNF65.dll x86 dentro
+       de bin\Release\, mas esse .dll nunca era gerado la' do jeito certo. -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\\Release\\</OutputPath>
   </PropertyGroup>

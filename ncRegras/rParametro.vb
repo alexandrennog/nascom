@@ -10,7 +10,7 @@ Namespace nsParametro
 
     Public Class rParametro
 
-        '-- Métodos de controle ( Várias chamadas; Controle de transação )
+        '-- MÃ©todos de controle ( VÃ¡rias chamadas; Controle de transaÃ§Ã£o )
 
         Public Function Listar() As ColecaoParametro
 
@@ -38,7 +38,7 @@ Namespace nsParametro
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -56,12 +56,12 @@ Namespace nsParametro
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -79,12 +79,12 @@ Namespace nsParametro
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -127,16 +127,41 @@ Namespace nsParametro
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
             Consultar = retorno
+
+        End Function
+
+        Public Function ListarNumeracoes() As List(Of String)
+
+            Dim retorno As List(Of String)
+            Dim persistencia As pParametro
+
+            Try
+
+                persistencia = New pParametro
+                retorno = persistencia.ListarNumeracoes()
+
+            Catch nex As ExcecaoNascomercio
+
+                Throw
+
+            Catch ex As Exception
+
+                retorno = Nothing
+                Throw New ExcecaoNascomercio("Erro em ListarNumeracoes Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
+
+            End Try
+
+            ListarNumeracoes = retorno
 
         End Function
 
@@ -156,7 +181,7 @@ Namespace nsParametro
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -180,7 +205,7 @@ Namespace nsParametro
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -204,7 +229,7 @@ Namespace nsParametro
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -238,12 +263,12 @@ Namespace nsParametro
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -276,12 +301,12 @@ Namespace nsParametro
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar Parametro [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar Parametro [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

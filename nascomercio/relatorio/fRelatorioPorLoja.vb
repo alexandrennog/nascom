@@ -27,10 +27,6 @@ Public Class fRelatorioPorLoja
 
         parametros(1) = New Microsoft.Reporting.WinForms.ReportParameter
         parametros(1).Name = "DataFinal"
-        DateTime.TryParse(txtDataFinal.Text, dadosVenda.DataFim.AddDays(1))
-        If dadosVenda.DataFim = DateTime.MinValue Then
-            dadosVenda.DataFim = DateTime.Now
-        End If
         parametros(1).Values.Add(ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text))
         dadosVenda.DataFim = ncComum.nsFuncoes.cFuncoes.FormatarDataBarras(txtDataFinal.Text)
 
@@ -110,6 +106,14 @@ Public Class fRelatorioPorLoja
         regrasLoja = New rLoja()
 
         gLoja = regrasLoja.Consultar(1)
+
+        If gLoja Is Nothing Then
+            ' Antes, se o cadastro de loja com cid=1 não existisse (ou não pudesse
+            ' ser consultado), "gLoja.nomeFantasia" logo abaixo estourava
+            ' NullReferenceException sem explicação nenhuma - aparecia como um erro
+            ' genérico pro operador, sem dizer o motivo real.
+            Throw New Exception("Não foi possível carregar os dados da loja para gerar o relatório (cadastro de loja não encontrado).")
+        End If
 
         Dim fonteLoja As Font
         fonteLoja = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 16)

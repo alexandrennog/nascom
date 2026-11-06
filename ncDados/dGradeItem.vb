@@ -157,6 +157,42 @@ Namespace nsGradeItem
       End Set
     End Property
 
+    ' Filtro por periodo de entrada no estoque (logestoque.data), formato AAAA-MM-DD ou Nothing/vazio = sem filtro
+    ' (sem filtro preserva o comportamento antigo: mostra somente a ultima entrada de cada produto)
+    Private _dataEntradaInicio As String
+    Private _dataEntradaFim As String
+
+    Public Property dataEntradaInicio() As String
+      Get
+        Return _dataEntradaInicio
+      End Get
+      Set(ByVal value As String)
+        _dataEntradaInicio = value
+      End Set
+    End Property
+
+    Public Property dataEntradaFim() As String
+      Get
+        Return _dataEntradaFim
+      End Get
+      Set(ByVal value As String)
+        _dataEntradaFim = value
+      End Set
+    End Property
+
+    ' Quando marcado, o periodo dataEntradaInicio/dataEntradaFim tambem filtra a ULT. VENDA
+    ' (data da ultima venda). Desmarcado (padrao) = ULT. VENDA continua sem filtro de periodo.
+    Private _filtrarVenda As Boolean
+
+    Public Property filtrarVenda() As Boolean
+      Get
+        Return _filtrarVenda
+      End Get
+      Set(ByVal value As Boolean)
+        _filtrarVenda = value
+      End Set
+    End Property
+
   End Class
 
 End Namespace

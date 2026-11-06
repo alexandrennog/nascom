@@ -19,6 +19,7 @@ Public Class fProdutoEntradaSaidaFiltro
     Private Sub ExibirInformacoesTela()
         If mdiPrincipal.gUsuario.usuarioPerfil_codigo = "c" Then
             btoBalanco.Visible = False
+            btoPedidosCompra.Visible = False
         End If
     End Sub
     Private Sub LimparCampos()
@@ -157,6 +158,10 @@ Public Class fProdutoEntradaSaidaFiltro
                 Pesquisar()
             Case Keys.F8
                 CarregarProdutoBalancoFiltro()
+            Case Keys.F7
+                If btoPedidosCompra.Visible Then
+                    CarregarPedidoCompraLista()
+                End If
         End Select
     End Sub
 
@@ -166,6 +171,16 @@ Public Class fProdutoEntradaSaidaFiltro
 
     Private Sub CarregarProdutoBalancoFiltro()
         mdiPrincipal.CarregarProdutoBalancoFiltro()
+    End Sub
+
+    ' Pedidos de Compra por fabricante (lista -> cadastro do pedido). A baixa
+    ' dos pedidos e automatica quando a mercadoria entra pela Entrada de Estoque.
+    Private Sub btoPedidosCompra_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoPedidosCompra.Click
+        CarregarPedidoCompraLista()
+    End Sub
+
+    Private Sub CarregarPedidoCompraLista()
+        mdiPrincipal.CarregarPedidoCompraLista()
     End Sub
 
 End Class

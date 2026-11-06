@@ -19,7 +19,7 @@ Namespace nsRegras
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Situacao [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Situacao [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -38,7 +38,7 @@ Namespace nsRegras
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Situacao Financeira [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Situacao Financeira [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -70,7 +70,7 @@ Namespace nsRegras
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar Situacao [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar Situacao [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -101,7 +101,7 @@ Namespace nsRegras
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar Situacao [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar Situacao [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

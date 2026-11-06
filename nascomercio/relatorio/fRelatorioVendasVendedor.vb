@@ -6,8 +6,60 @@ Public Class fRelatorioVendasVendedor
 
   Public filtro As dFabricante
 
+  Private Function PeriodoMuitoLargo() As Boolean
+    Dim dataInicial As DateTime
+    Dim dataFinal As DateTime
+
+    If Not DateTime.TryParse(txtDataInicial.Text, dataInicial) OrElse Not DateTime.TryParse(txtDataFinal.Text, dataFinal) Then
+      Return False
+    End If
+
+    Dim dias As Double = (dataFinal - dataInicial).TotalDays
+
+    If dias > 60 Then
+      Dim resposta = MessageBox.Show(
+        "O período selecionado (" & Math.Round(dias).ToString() & " dias) é bem largo e a consulta pode demorar bastante." & vbCrLf & vbCrLf &
+        "Deseja continuar mesmo assim?",
+        "Período largo", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+      Return resposta <> Windows.Forms.DialogResult.Yes
+    End If
+
+    Return False
+  End Function
+
+  Private Sub CarregarDados()
+    Me.nascomercioDataSet.v_vendassintetico.Clear()
+
+    Using conexao As New MySql.Data.MySqlClient.MySqlConnection(Global.nascomercio.My.MySettings.Default.nascomercioConnectionString)
+      ' Nota: o relatório VendasVendedor.rdlc filtra pelo campo "nome" (não "vendedor") ao aplicar
+      ' o parâmetro Vendedor — comportamento existente do relatório, preservado aqui.
+      Dim sql As String = "SELECT controle, data, valorvenda, desconto, vendedor, nome, troca, defeito, vale, valeEmitido FROM v_vendassintetico WHERE data BETWEEN @dataInicial AND @dataFinal"
+
+      If txtVendedor.Text.Trim() <> "" Then
+        sql &= " AND nome LIKE @vendedor"
+      End If
+
+      Using comando As New MySql.Data.MySqlClient.MySqlCommand(sql, conexao)
+        comando.Parameters.AddWithValue("@dataInicial", ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataInicial.Text))
+        comando.Parameters.AddWithValue("@dataFinal", ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataFinal.Text))
+
+        If txtVendedor.Text.Trim() <> "" Then
+          comando.Parameters.AddWithValue("@vendedor", "%" & txtVendedor.Text.Trim() & "%")
+        End If
+
+        Using adapter As New MySql.Data.MySqlClient.MySqlDataAdapter(comando)
+          adapter.Fill(Me.nascomercioDataSet.v_vendassintetico)
+        End Using
+      End Using
+    End Using
+  End Sub
 
   Private Sub Filtrar()
+    If PeriodoMuitoLargo() Then
+      Exit Sub
+    End If
+
     Dim parametros(3) As Microsoft.Reporting.WinForms.ReportParameter
 
     parametros(0) = New Microsoft.Reporting.WinForms.ReportParameter
@@ -32,7 +84,7 @@ Public Class fRelatorioVendasVendedor
     parametros(3).Values.Add(mdiPrincipal.lblLoja.Text)
 
     Try
-      Me.v_vendassinteticoTableAdapter.Fill(Me.nascomercioDataSet.v_vendassintetico)
+      CarregarDados()
       rptRelatorio.LocalReport.SetParameters(parametros)
       rptRelatorio.RefreshReport()
     Catch ex As Exception

@@ -85,7 +85,7 @@ Public Class pPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Consultar Pix[" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Consultar Pix[" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -154,7 +154,7 @@ Public Class pPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Consultar Pix[" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Consultar Pix[" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -219,7 +219,7 @@ Public Class pPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Consultar Pix[" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Consultar Pix[" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -275,7 +275,7 @@ Public Class pPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Incluir Pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Incluir Pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -305,7 +305,7 @@ Public Class pPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Incluir Pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Incluir Pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 
@@ -340,7 +340,7 @@ Public Class pPix
         Catch ex As Exception
 
             retorno = Nothing
-            Throw New ExcecaoNascomercio("Erro em Alterar Configuração pix [" & Me.ToString() & "] - " & ex.Message)
+            Throw New ExcecaoNascomercio("Erro em Alterar Configuração pix [" & Me.ToString() & "] - " & ex.Message, ex)
 
         End Try
 

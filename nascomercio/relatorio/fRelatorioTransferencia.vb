@@ -10,7 +10,57 @@ Public Class fRelatorioTransferencia
 
     Public filtro As dFabricante
 
+    Private Function PeriodoMuitoLargo() As Boolean
+        Dim dataInicial As DateTime
+        Dim dataFinal As DateTime
+
+        If Not DateTime.TryParse(txtDataInicial.Text, dataInicial) OrElse Not DateTime.TryParse(txtDataFinal.Text, dataFinal) Then
+            Return False
+        End If
+
+        Dim dias As Double = (dataFinal - dataInicial).TotalDays
+
+        If dias > 60 Then
+            Dim resposta = MessageBox.Show(
+                "O período selecionado (" & Math.Round(dias).ToString() & " dias) é bem largo e a consulta pode demorar bastante." & vbCrLf & vbCrLf &
+                "Deseja continuar mesmo assim?",
+                "Período largo", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+            Return resposta <> Windows.Forms.DialogResult.Yes
+        End If
+
+        Return False
+    End Function
+
+    Private Sub CarregarDados()
+        Me.nascomercioDataSet.v_transferencia.Clear()
+
+        Using conexao As New MySql.Data.MySqlClient.MySqlConnection(Global.nascomercio.My.MySettings.Default.nascomercioConnectionString)
+            Dim sql As String = "SELECT v_transferencia.* FROM v_transferencia WHERE data BETWEEN @dataInicial AND @dataFinal"
+
+            If txtProduto.Text.Trim() <> "" Then
+                sql &= " AND descricao LIKE @produto"
+            End If
+
+            Using comando As New MySql.Data.MySqlClient.MySqlCommand(sql, conexao)
+                comando.Parameters.AddWithValue("@dataInicial", ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataInicial.Text))
+                comando.Parameters.AddWithValue("@dataFinal", ncComum.nsFuncoes.cFuncoes.FormatarDataUniversal(txtDataFinal.Text))
+
+                If txtProduto.Text.Trim() <> "" Then
+                    comando.Parameters.AddWithValue("@produto", "%" & txtProduto.Text.Trim() & "%")
+                End If
+
+                Using adapter As New MySql.Data.MySqlClient.MySqlDataAdapter(comando)
+                    adapter.Fill(Me.nascomercioDataSet.v_transferencia)
+                End Using
+            End Using
+        End Using
+    End Sub
+
     Private Sub Filtrar()
+        If PeriodoMuitoLargo() Then
+            Exit Sub
+        End If
 
         Dim parametros(3) As Microsoft.Reporting.WinForms.ReportParameter
 
@@ -38,6 +88,7 @@ Public Class fRelatorioTransferencia
         rptRelatorio.LocalReport.SetParameters(parametros)
 
         Try
+            CarregarDados()
             rptRelatorio.RefreshReport()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
@@ -57,8 +108,7 @@ Public Class fRelatorioTransferencia
         Me.txtDataInicial.Text = Today.AddMonths(-1).ToString("dd/MM/yyyy")
         Me.txtDataFinal.Text = Today.ToString("dd/MM/yyyy")
 
-        'TODO: This line of code loads data into the 'nascomercioDataSet.v_transferencia' table. You can move, or remove it, as needed.
-        Me.v_transferenciaTableAdapter.Fill(Me.nascomercioDataSet.v_transferencia)
+        CarregarDados()
     End Sub
 
     Private Sub fFabricanteLista_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

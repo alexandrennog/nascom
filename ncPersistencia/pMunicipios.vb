@@ -57,7 +57,7 @@ Namespace nsMunicipios
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar municipios [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar municipios [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -125,7 +125,7 @@ Namespace nsMunicipios
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar municipios [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar municipios [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -200,7 +200,7 @@ Namespace nsMunicipios
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar municipios [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar municipios [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -231,7 +231,7 @@ Namespace nsMunicipios
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir municipios [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir municipios [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -263,7 +263,7 @@ Namespace nsMunicipios
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Importar municipios [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Importar municipios [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -295,7 +295,7 @@ Namespace nsMunicipios
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar municipios [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar municipios [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -321,7 +321,7 @@ Namespace nsMunicipios
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir municipios [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir municipios [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

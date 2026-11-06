@@ -81,7 +81,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -138,7 +138,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ListarVendasNfe Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -159,27 +159,47 @@ Namespace nsVenda
 
                 acessoBanco = New cAcessoBD
 
-                If tipo = "V" Then
-                    acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores('{dataIni}','{dataFim}')")
-                    comandoSQL = " select * from ranking_resultado_valor;"
-                Else
-                    ds = acessoBanco.ExecutarDSLongo($"call sp_curva_abc_fornecedores_quantidade('{dataIni}','{dataFim}')")
-                    comandoSQL = " select * from ranking_resultado_quantidade;"
-                End If
+                ' Unificado: sp_curva_abc_por_fabricante (script "37 - curva_abc_unificada.sql")
+                ' reaproveita o mesmo calculo usado na Curva ABC por produto (sp_curva_abc) e
+                ' devolve o resultado ja agrupado por fabricante, sem passar por tabelas
+                ' intermediarias (as antigas sp_curva_abc_fornecedores* liam de
+                ' ranking_resultado_valor/quantidade, que nao existiam em nenhum script - e a
+                ' variante "quantidade" nem chegou a ser implementada de verdade).
+                '
+                ' dataIni/dataFim chegam aqui no formato ddMMyyyy (e o que
+                ' cFuncoes.FormatarData devolve a partir do texto "dd/MM/yyyy" da tela -
+                ' mesmo padrao ja usado por fRelatorioVendasABC). NAO usar
+                ' cFuncoes.PersistirData aqui: ela espera o texto CRU da tela (com "/"), e
+                ' encadear FormatarData -> PersistirData devolve "NULL" silenciosamente,
+                ' porque FormatarData muda o formato de saida dependendo se a entrada tem
+                ' "/" ou nao. DataSqlSegura (abaixo) faz a conversao direta e seguramente
+                ' a partir do ddMMyyyy, sem passar por esse caminho.
+                ' "tipo" so pode virar 'V' ou 'Q' - fecha a brecha de SQL injection que
+                ' existia aqui.
+                comandoSQL = "CALL sp_curva_abc_por_fabricante(" &
+                    DataSqlSegura(dataIni) & ", " &
+                    DataSqlSegura(dataFim) & ", '" & If(tipo = "V", "V", "Q") & "')"
 
-                ds = acessoBanco.ExecutarDS(comandoSQL)
+                ds = acessoBanco.ExecutarDSLongo(comandoSQL, 300)
 
+                ' sp_curva_abc_por_fabricante faz "CALL sp_curva_abc(...)" por dentro, e
+                ' sp_curva_abc termina com um SELECT proprio (linha final do script 33).
+                ' O MySQL manda esse SELECT interno como um resultset A PARTE, antes do
+                ' resultset final de sp_curva_abc_por_fabricante - entao ds.Tables(0) aqui
+                ' seria o resultado BRUTO por produto (colunas erradas: referencia,
+                ' faturamento, etc.), nao o agrupado por fabricante que a gente quer.
+                ' O resultset certo e sempre o ULTIMO devolvido, nao o primeiro.
                 If Not ds Is Nothing Then
                         If ds.Tables.Count > 0 Then
-                            dt = ds.Tables(0)
+                            dt = ds.Tables(ds.Tables.Count - 1)
 
                             If dt.Rows.Count > 0 Then
                                 retorno = New ColecaodVendasABC
 
                                 For Each row In dt.Rows
                                     item = New dCurvaAbc
-                                    item.PeriodoIni = cFuncoes.RetornarTexto(row("data_inicio"))
-                                    item.PeriodoFim = cFuncoes.RetornarTexto(row("data_fim"))
+                                    item.PeriodoIni = cFuncoes.RetornarTexto(row("periodo_inicio"))
+                                    item.PeriodoFim = cFuncoes.RetornarTexto(row("periodo_fim"))
                                     item.Fabricante = cFuncoes.RetornarTexto(row("fabricante"))
                                     item.valor = cFuncoes.RetornarTexto(row("valor"))
                                     item.PercReceita = cFuncoes.RetornarTexto(row("individual"))
@@ -202,13 +222,38 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ListarVendasABC Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ListarVendasABC Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
             ListarVendasABC = retorno
 
         End Function
+
+        ' Converte uma data no formato ddMMyyyy (8 digitos, sem separador - o que
+        ' cFuncoes.FormatarData devolve a partir de um texto "dd/MM/yyyy") direto para
+        ' um literal SQL seguro ('yyyy-MM-dd'), ou NULL se vier vazia/invalida.
+        ' ParseExact so aceita exatamente esse formato - qualquer outra coisa vira NULL,
+        ' o que tambem fecha qualquer brecha de SQL injection por essa via.
+        Private Function DataSqlSegura(ByVal dataDDMMAAAA As String) As String
+
+            Dim dataConvertida As DateTime
+
+            If String.IsNullOrWhiteSpace(dataDDMMAAAA) OrElse dataDDMMAAAA.Length <> 8 Then
+                Return "NULL"
+            End If
+
+            If DateTime.TryParseExact(dataDDMMAAAA, "ddMMyyyy",
+                                       System.Globalization.CultureInfo.InvariantCulture,
+                                       System.Globalization.DateTimeStyles.None,
+                                       dataConvertida) Then
+                Return "'" & dataConvertida.ToString("yyyy-MM-dd") & "'"
+            End If
+
+            Return "NULL"
+
+        End Function
+
         Public Function Consultar(ByVal dados As dVenda) As ColecaoVenda
 
             Dim retorno As ColecaoVenda
@@ -300,7 +345,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -402,7 +447,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -443,7 +488,7 @@ Namespace nsVenda
                     If ds.Tables.Count > 0 Then
                         dt = ds.Tables(0)
 
-                        If dt.Rows.Count > 0 And ds.Tables(0).Rows(0).ItemArray(1) > -1 Then
+                        If dt.Rows.Count > 0 AndAlso ds.Tables(0).Rows(0).ItemArray(1) > -1 Then
                             retorno = New ColecaoVendasPorVendedor
 
                             For Each row In dt.Rows
@@ -471,7 +516,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -508,7 +553,7 @@ Namespace nsVenda
                     If ds.Tables.Count > 0 Then
                         dt = ds.Tables(0)
 
-                        If dt.Rows.Count > 0 And ds.Tables(0).Rows(0).ItemArray(0) > -1 Then
+                        If dt.Rows.Count > 0 AndAlso ds.Tables(0).Rows(0).ItemArray(0) > -1 Then
                             retorno = New ColecaoVendasPorVendedor
 
                             For Each row In dt.Rows
@@ -536,7 +581,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -635,7 +680,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -729,7 +774,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -819,7 +864,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarUltimaVenda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarUltimaVenda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -869,7 +914,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarMax Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarMax Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -928,7 +973,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -985,7 +1030,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1012,7 +1057,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1069,7 +1114,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Vale [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1119,7 +1164,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1149,7 +1194,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1176,7 +1221,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar basennf [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar basennf [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1202,7 +1247,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1228,7 +1273,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Vale [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Vale [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -1324,7 +1369,7 @@ Namespace nsVenda
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

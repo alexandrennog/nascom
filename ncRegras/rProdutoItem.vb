@@ -24,7 +24,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -43,7 +43,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -62,7 +62,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -81,7 +81,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em ConsultarUltimoCodigoBarras ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em ConsultarUltimoCodigoBarras ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -109,7 +109,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Selecionar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Selecionar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -128,7 +128,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -147,7 +147,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -177,7 +177,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em ConsultarPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em ConsultarPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -199,7 +199,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -225,7 +225,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -247,7 +247,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -297,7 +297,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em AlterarEstoque ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em AlterarEstoque ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -319,7 +319,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -341,7 +341,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em ExcluirPorPoduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em ExcluirPorPoduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -368,7 +368,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em ExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em ExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -404,7 +404,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fListar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fListar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -438,7 +438,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -459,7 +459,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultarUltimoItem ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultarUltimoItem ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -480,7 +480,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultarUltimoCodigoBarras ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultarUltimoCodigoBarras ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -506,7 +506,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = 0
-                Throw New ExcecaoNascomercio("Erro em fConsultarEstoque ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultarEstoque ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -540,7 +540,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -574,7 +574,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -595,7 +595,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fIncluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fIncluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -616,7 +616,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fAlterar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fAlterar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -637,7 +637,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -658,7 +658,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -684,7 +684,7 @@ Namespace nsProduto
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em fExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em fExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

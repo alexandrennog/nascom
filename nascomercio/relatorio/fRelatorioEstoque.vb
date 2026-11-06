@@ -20,6 +20,7 @@ Imports QRCoder.PayloadGenerator.SwissQrCode
 Imports System.Security.Cryptography
 Imports Newtonsoft.Json.Linq
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports ncComum.nsFuncoes
 
 Public Class fRelatorioEstoque
 
@@ -121,6 +122,36 @@ Public Class fRelatorioEstoque
         End Try
     End Sub
 
+    Private Sub CarregarComboNumeracao()
+        Dim regras As rParametro
+        Dim lista As List(Of String)
+
+        Try
+
+            cboNumeracao.DataSource = Nothing
+            cboNumeracao.Items.Clear()
+
+            regras = New rParametro()
+            lista = regras.ListarNumeracoes()
+
+            If Not lista Is Nothing Then
+                lista.Insert(0, String.Empty)
+
+                cboNumeracao.DataSource = lista
+                cboNumeracao.Refresh()
+            End If
+
+        Catch nex As ExcecaoNascomercio
+
+            MessageBox.Show(nex.Message)
+
+        Catch ex As Exception
+
+            MessageBox.Show("Erro na consulta dos dados de Numera√ß√£o.")
+
+        End Try
+    End Sub
+
     Private Sub Filtrar()
 
         Dim dadosParametro As ColecaoParametroEstoque
@@ -134,6 +165,10 @@ Public Class fRelatorioEstoque
 
         If Not String.IsNullOrEmpty(txtProduto.Text) Then
             dados.descricao = txtProduto.Text
+        End If
+
+        If Not String.IsNullOrEmpty(cboNumeracao.Text.Trim()) Then
+            dados.numeracao = cboNumeracao.Text.Trim()
         End If
 
         If Not String.IsNullOrEmpty(cboFornecedor.Text) Then
@@ -160,12 +195,38 @@ Public Class fRelatorioEstoque
             dados.valor = 0
         End If
 
+        If Not String.IsNullOrEmpty(txtDataCadastroInicio.Text.Trim()) Then
+            If Not cFuncoes.ValidarData(txtDataCadastroInicio.Text) Then
+                MessageBox.Show("Data inicial de cadastro invalida!", "Relatorio de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                txtDataCadastroInicio.Focus()
+                Exit Sub
+            End If
+            dados.dataCadastroInicio = cFuncoes.FormatarData(txtDataCadastroInicio.Text)
+        End If
+
+        If Not String.IsNullOrEmpty(txtDataCadastroFim.Text.Trim()) Then
+            If Not cFuncoes.ValidarData(txtDataCadastroFim.Text) Then
+                MessageBox.Show("Data final de cadastro invalida!", "Relatorio de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                txtDataCadastroFim.Focus()
+                Exit Sub
+            End If
+            dados.dataCadastroFim = cFuncoes.FormatarData(txtDataCadastroFim.Text)
+        End If
+
+        If Not String.IsNullOrEmpty(dados.dataCadastroInicio) And Not String.IsNullOrEmpty(dados.dataCadastroFim) Then
+            If dados.dataCadastroFim < dados.dataCadastroInicio Then
+                MessageBox.Show("Data final de cadastro nao pode ser anterior a data inicial!", "Relatorio de Estoque", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                txtDataCadastroInicio.Focus()
+                Exit Sub
+            End If
+        End If
+
 
         regraParametro = New rParametro()
         dadosParametro = regraParametro.fConsultarEstoque(dados)
 
         Me.lstEstoque.Clear()
-        ' Consultar chave de acesso/validaÁ„o
+        ' Consultar chave de acesso/valida√ß√£o
         If IsNothing(dadosParametro) Then
             Exit Sub
         End If
@@ -177,10 +238,10 @@ Public Class fRelatorioEstoque
         Me.lstEstoque.Items.Clear()
 
         Me.lstEstoque.Columns.Add("Fabricante").Width = 160
-        Me.lstEstoque.Columns.Add("CÛdigo").Width = 80
-        Me.lstEstoque.Columns.Add("DescriÁ„o").Width = 200
-        Me.lstEstoque.Columns.Add("ReferÍncia").Width = 80
-        Me.lstEstoque.Columns.Add("item").Width = 80
+        Me.lstEstoque.Columns.Add("C√≥digo").Width = 80
+        Me.lstEstoque.Columns.Add("Descri√ß√£o").Width = 200
+        Me.lstEstoque.Columns.Add("Refer√™ncia").Width = 80
+        Me.lstEstoque.Columns.Add("Numera√ß√£o").Width = 80
         Me.lstEstoque.Columns.Add("Cor").Width = 80
         Me.lstEstoque.Columns.Add("ValorCompra").Width = 80
         Me.lstEstoque.Columns.Add("ValorVenda").Width = 80
@@ -195,21 +256,47 @@ Public Class fRelatorioEstoque
 
         Dim refAux As Brush
 
+        ' Quantidade total do estoque somada (soma da coluna "Estoque" de todas as
+        ' linhas) - pedido do usuario, pra nao precisar contar/somar manualmente
+        ' o que ja aparece na tela.
+        Dim totalEstoqueGeral As Integer = 0
+
         For Each item As dEstoque In dadosParametro
             li = New ListViewItem
-            li.Text = item.Fabricante.ToString
-            li.SubItems.Add(item.CID)
-            li.SubItems.Add(item.Descricao)
-            li.SubItems.Add(item.Referencia.ToString())
-            li.SubItems.Add(item.Item.ToString())
-            li.SubItems.Add(item.Cor.ToString())
+            li.Text = Texto(item.Fabricante)
+            li.SubItems.Add(Texto(item.CID))
+            li.SubItems.Add(Texto(item.Descricao))
+            li.SubItems.Add(Texto(item.Referencia))
+            li.SubItems.Add(Texto(item.Item))
+            li.SubItems.Add(Texto(item.Cor))
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorCompra))
             li.SubItems.Add(String.Format("{0:0,0.00}", item.ValorVenda))
             li.SubItems.Add(item.Valor.ToString())
-            li.SubItems.Add(item.ValorCompra * item.Valor)
-            li.SubItems.Add(item.ValorVenda * item.Valor)
+            li.SubItems.Add((item.ValorCompra * item.Valor).ToString())
+            li.SubItems.Add((item.ValorVenda * item.Valor).ToString())
             Me.lstEstoque.Items.Add(li)
+
+            totalEstoqueGeral += item.Valor
         Next
+
+        Dim liTotalGeral As New ListViewItem
+        liTotalGeral.Text = "Total"
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add(totalEstoqueGeral.ToString())
+        liTotalGeral.SubItems.Add("")
+        liTotalGeral.SubItems.Add("")
+        ' System.Drawing.Font, nao iTextSharp.text.Font - este arquivo importa os
+        ' dois (iTextSharp.text e' usado pro PDF), entao "Font" sozinho fica
+        ' ambiguo e o compilador tenta usar um construtor do Font do iTextSharp
+        ' (que espera BaseFont/FontFamily, nao um Font pra herdar estilo).
+        liTotalGeral.Font = New System.Drawing.Font(Me.lstEstoque.Font, FontStyle.Bold)
+        Me.lstEstoque.Items.Add(liTotalGeral)
 
         'PintarList()
 
@@ -275,7 +362,7 @@ Public Class fRelatorioEstoque
         Dim fonteTitulo As Font
         fonteTitulo = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 22)
 
-        Dim paragrafoTitulo As New Paragraph("RelatÛrio de Estoque", fonteTitulo)
+        Dim paragrafoTitulo As New Paragraph("Relat√≥rio de Estoque", fonteTitulo)
         paragrafoTitulo.Alignment = Element.ALIGN_CENTER
         paragrafoTitulo.SpacingBefore = 20
         paragrafoTitulo.SpacingAfter = 20
@@ -312,10 +399,10 @@ Public Class fRelatorioEstoque
         fonte = FontFactory.GetFont(BaseFont.TIMES_ROMAN, 12)
 
         Dim coluna1 As New Paragraph("Fabricante", fonte)
-        Dim coluna2 As New Paragraph("CÛdigo", fonte)
+        Dim coluna2 As New Paragraph("C√≥digo", fonte)
         Dim coluna3 As New Paragraph("Descricao", fonte)
         Dim coluna4 As New Paragraph("Referencia", fonte)
-        Dim coluna5 As New Paragraph("Item", fonte)
+        Dim coluna5 As New Paragraph("Numera√ß√£o", fonte)
         Dim coluna6 As New Paragraph("Cor", fonte)
         Dim coluna7 As New Paragraph("Valor Compra", fonte)
         Dim coluna8 As New Paragraph("Valor Venda", fonte)
@@ -353,12 +440,12 @@ Public Class fRelatorioEstoque
         Dim infoFont2 = FontFactory.GetFont("Kalinga", 8, New iTextSharp.text.BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000")))
 
         For Each item As dEstoque In dadosParametro
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Fabricante.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.CID.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Descricao.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Referencia.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Item.ToString(), infoFont2))))
-            table.AddCell(New PdfPCell(New Phrase(New Chunk(item.Cor.ToString(), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Fabricante), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.CID), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Descricao), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Referencia), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Item), infoFont2))))
+            table.AddCell(New PdfPCell(New Phrase(New Chunk(Texto(item.Cor), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorCompra.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk(item.ValorVenda.ToString(), infoFont2))))
             table.AddCell(New PdfPCell(New Phrase(New Chunk((item.Valor).ToString(), infoFont2))))
@@ -396,6 +483,16 @@ Public Class fRelatorioEstoque
 
     End Sub
 
+    ' Produto sem fabricante/referencia (campo vazio no banco) vinha como Nothing
+    ' e o .ToString() derrubava a tela com "Referencia de objeto nao definida
+    ' para uma instancia de um objeto". Vazio aparece em branco.
+    Private Shared Function Texto(ByVal valor As Object) As String
+        If valor Is Nothing OrElse IsDBNull(valor) Then
+            Return String.Empty
+        End If
+        Return valor.ToString()
+    End Function
+
     Private Sub btoSair_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btoSair.Click
         Me.Close()
     End Sub
@@ -409,6 +506,7 @@ Public Class fRelatorioEstoque
         CarregarComboGrupo()
         CarregarComboFornecedor()
         CarregarComboFabricante()
+        CarregarComboNumeracao()
 
     End Sub
 

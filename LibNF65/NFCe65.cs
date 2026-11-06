@@ -29,6 +29,28 @@ using XmlNFe = Unimake.Business.DFe.Xml.NFe;
 
 namespace LibNF65
 {
+    // Lançada quando a SEFAZ processa a NFC-e e a REJEITA (erro fiscal real nos dados da
+    // nota — CFOP inválido, cadastro divergente, etc), em contraste com uma falha de
+    // COMUNICAÇÃO (timeout, SEFAZ fora do ar). Antes, GerarNF devolvia a chaveAcesso
+    // normalmente nesse caso, então uma nota rejeitada era tratada pelo chamador exatamente
+    // como uma nota autorizada (venda salva como se a nota fosse válida). Ter um tipo de
+    // exceção próprio permite que a tela de pagamento diferencie os dois cenários e avise o
+    // operador com uma mensagem apropriada para cada um.
+    public class NFCeRejeitadaException : Exception
+    {
+        public string ChaveAcesso { get; }
+        public int CStat { get; }
+        public string XMotivo { get; }
+
+        public NFCeRejeitadaException(string chaveAcesso, int cStat, string xMotivo)
+            : base($"NFC-e {chaveAcesso} rejeitada pela SEFAZ ({cStat}): {xMotivo}")
+        {
+            ChaveAcesso = chaveAcesso;
+            CStat = cStat;
+            XMotivo = xMotivo;
+        }
+    }
+
     public class NFCe65
     {
         // Pasta base ABSOLUTA para os XMLs das NFC-e.
@@ -50,7 +72,68 @@ namespace LibNF65
         private static string CaminhoArquivoNOK(string chave) =>
             System.IO.Path.Combine(PastaBase, "NOK", chave + ".xml");
 
-        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp)
+        // Número de tentativas ao comunicar com a SEFAZ (consulta de cadastro e
+        // autorização da NFC-e) antes de desistir e sinalizar falha definitiva.
+        private const int MaxTentativasSefaz = 3;
+        private static readonly TimeSpan EsperaEntreTentativas = TimeSpan.FromSeconds(3);
+
+        // Executa uma chamada à SEFAZ com novas tentativas automáticas em caso de falha de
+        // comunicação (timeout, indisponibilidade, lentidão, etc). Antes de cada nova tentativa,
+        // invoca aoTentarNovamente (quando informado) para que a camada de UI possa avisar o
+        // operador de que está tentando novamente, antes de aguardar um pouco e tentar de novo.
+        // Erros que não são de comunicação (ex.: assinatura digital, validação de schema) não
+        // passam por aqui — não adianta tentar de novo, o resultado seria sempre o mesmo.
+        private static void ExecutarComRetentativas(Action acao, string nomeOperacao, Action<int, int> aoTentarNovamente, Action aoAguardar)
+        {
+            Exception ultimoErro = null;
+
+            for (int tentativa = 1; tentativa <= MaxTentativasSefaz; tentativa++)
+            {
+                try
+                {
+                    acao();
+                    return; // sucesso
+                }
+                catch (Exception ex)
+                {
+                    ultimoErro = ex;
+
+                    if (tentativa < MaxTentativasSefaz)
+                    {
+                        aoTentarNovamente?.Invoke(tentativa + 1, MaxTentativasSefaz);
+                        Aguardar(EsperaEntreTentativas, aoAguardar);
+                    }
+                }
+            }
+
+            throw new Exception($"Não foi possível {nomeOperacao} após {MaxTentativasSefaz} tentativas. Último erro: {ultimoErro.Message}", ultimoErro);
+        }
+
+        // Espera o tempo informado em pequenos pedaços (em vez de um único Thread.Sleep
+        // corrido), chamando aoAguardar a cada pedaço. Isso permite que a camada de UI
+        // (ex.: Application.DoEvents em WinForms) mantenha a tela respondendo/repintando
+        // durante a espera, em vez de deixar a janela parecer travada ("Não Responde").
+        // Sem aoAguardar informado, cai no comportamento simples de Thread.Sleep.
+        private static void Aguardar(TimeSpan tempo, Action aoAguardar)
+        {
+            if (aoAguardar == null)
+            {
+                System.Threading.Thread.Sleep(tempo);
+                return;
+            }
+
+            var passo = TimeSpan.FromMilliseconds(150);
+            var restante = tempo;
+            while (restante > TimeSpan.Zero)
+            {
+                var espera = restante < passo ? restante : passo;
+                System.Threading.Thread.Sleep(espera);
+                restante -= espera;
+                aoAguardar();
+            }
+        }
+
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, Action<int, int> aoTentarNovamente = null, Action aoAguardar = null, Action<Exception> aoFalharImpressao = null)
         {
             // chaveAcesso agora é variável LOCAL, não mais campo estático da classe.
             // Antes, "static string chaveAcesso" era um estado global compartilhado por
@@ -84,7 +167,7 @@ namespace LibNF65
             var infCons = new InfCons
             {
                 CNPJ = ConfigurationManager.AppSettings["CNPJ"],
-                UF = UFBrasil.SP
+                UF = NasNFCe.ObterUFConfigurada()
             };
 
             var consCad = new ConsCad
@@ -98,19 +181,63 @@ namespace LibNF65
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             // 3. Executando a consulta
-            var consultaCadastro = new ConsultaCadastro(consCad, configuracao);
+            // Uma nova instância é criada a cada tentativa dentro do laço de retentativas (em vez
+            // de reaproveitar sempre o mesmo objeto), pelo mesmo motivo aplicado à autorização mais
+            // abaixo: não há garantia de que o objeto da biblioteca suporte ser executado de novo.
+            ConsultaCadastro consultaCadastro = null;
+            XmlNFe.RetConsCad resultado;
             try
             {
-                consultaCadastro.Executar();
+                ExecutarComRetentativas(() =>
+                {
+                    consultaCadastro = new ConsultaCadastro(consCad, configuracao);
+                    consultaCadastro.Executar();
+
+                    // A chamada pode "ter sucesso" do ponto de vista de comunicação (sem lançar
+                    // exceção) mas a SEFAZ responder com o cadastro vazio quando o serviço de
+                    // consulta está temporariamente indisponível (ex.: CStat 108/109 - serviço
+                    // paralisado). Nesse caso InfCad vem sem nenhuma ocorrência. Antes, o código
+                    // seguia adiante com esse resultado vazio e estourava NullReferenceException
+                    // mais tarde em RecuperarProdutos, ao tentar ler o endereço do emitente de uma
+                    // lista vazia — falha que não passava pelas retentativas, porque acontecia
+                    // depois que ExecutarComRetentativas já tinha dado esta chamada como sucesso.
+                    // Agora, tratamos o cadastro vazio como falha retentável, para que caia no
+                    // mesmo mecanismo de nova tentativa usado para falha de comunicação.
+                    if (consultaCadastro.Result?.InfCons?.InfCad == null || !consultaCadastro.Result.InfCons.InfCad.Any())
+                    {
+                        var cStatConsulta = consultaCadastro.Result?.InfCons?.CStat;
+                        var xMotivoConsulta = consultaCadastro.Result?.InfCons?.XMotivo;
+                        throw new Exception($"Consulta de cadastro na SEFAZ não retornou o cadastro do emitente (CStat {cStatConsulta}: {xMotivoConsulta}).");
+                    }
+                }, "consultar cadastro na SEFAZ", aoTentarNovamente, aoAguardar);
+
+                resultado = consultaCadastro.Result;
+
+                // Sucesso: guarda uma cópia local dos dados cadastrais do emitente (nome,
+                // endereço, IE, CNAE, regime tributário). Esses dados raramente mudam, então
+                // essa cópia serve de backup para quando a consulta falhar mais tarde.
+                SalvarCacheCadastroEmitente(resultado);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Falha ao consultar cadastro na SEFAZ: {ex.Message}", ex);
+                // A consulta de cadastro na SEFAZ é só uma CONSULTA — ela não autoriza a nota,
+                // só confirma dados cadastrais do emitente (nome, endereço, IE, CNAE, regime).
+                // Esse serviço específico já se mostrou instável tanto em homologação quanto em
+                // produção (erro HTTP 403, sem relação com o certificado nem com os dados da
+                // venda). Em vez de travar a venda inteira por causa de uma consulta que não
+                // autoriza nada, usamos o último cadastro que já tivemos sucesso em buscar da
+                // própria SEFAZ. A validade fiscal real da nota continua 100% dependente da
+                // autorização da SEFAZ mais abaixo (NFeAutorizacao) — se aquela falhar, a venda
+                // continua sendo avisada como "sem nota emitida", normalmente.
+                resultado = CarregarCacheCadastroEmitente();
+
+                if (resultado == null)
+                {
+                    throw new Exception($"Falha ao consultar cadastro na SEFAZ: {ex.Message}", ex);
+                }
             }
 
             // 4. Interpretando o resultado
-            var resultado = consultaCadastro.Result; // Retorno do objeto
-            var retornoWs = consultaCadastro.RetornoWSString; // XML raw
 
             string cUF = resultado.InfCons.CUF.ToString(); // Código da UF do emitente (SP = 35)
             DateTime dhEmi = DateTime.Now; // Data e hora de emissão
@@ -171,19 +298,113 @@ namespace LibNF65
 
             System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            var autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
-            try
+            // Uma nova instância do serviço é criada a cada tentativa (em vez de reaproveitar o
+            // mesmo objeto entre elas) — não temos garantia de que o objeto da biblioteca Unimake
+            // suporte ser executado mais de uma vez. O conteúdo efetivamente enviado (xml, com a
+            // mesma chave de acesso e IdLote) continua idêntico entre as tentativas de qualquer
+            // forma, então isso não muda o que é submetido à SEFAZ.
+            ServicoNFCe.Autorizacao autorizacao = null;
+
+            bool autorizacaoRespondida = false;
+            Exception ultimoErroAutorizacao = null;
+
+            for (int tentativa = 1; tentativa <= MaxTentativasSefaz && !autorizacaoRespondida; tentativa++)
             {
-                autorizacao.Executar();
+                try
+                {
+                    if (tentativa > 1)
+                    {
+                        // Antes de reenviar, verifica se a tentativa anterior já foi autorizada do
+                        // lado da SEFAZ — a chamada pode ter dado erro no CLIENTE (timeout, conexão
+                        // caiu) depois que a SEFAZ já tinha processado e autorizado a nota. Reenviar
+                        // a mesma chave nesse caso arrisca uma rejeição por duplicidade em cima de
+                        // uma nota que já é fiscalmente válida.
+                        string statusExistente = null;
+                        try
+                        {
+                            statusExistente = ConsultarCupomNFCe(chaveAcesso, x509Cert);
+                        }
+                        catch
+                        {
+                            // A própria consulta de status falhou (ex.: SEFAZ ainda indisponível) —
+                            // segue e tenta reenviar normalmente.
+                        }
+
+                        if (!string.IsNullOrEmpty(statusExistente))
+                        {
+                            var cStatTexto = statusExistente.Split('-')[0].Trim();
+                            if (int.TryParse(cStatTexto, out int cStatExistente) && cStatExistente == 100)
+                            {
+                                // Já autorizada — não reenvia. Observação: sem os dados completos do
+                                // protocolo (NProt/DigVal) aqui, infoProdutoService.AdicionarInfoProduto
+                                // não é chamado nesse caminho; se essa nota específica precisar ser
+                                // cancelada depois, pode ser necessário consultar a SEFAZ manualmente
+                                // para obter o número do protocolo.
+                                //
+                                // Mesmo motivo do outro ponto desta classe: a nota já está autorizada,
+                                // uma falha ao imprimir aqui não pode derrubar o GerarNF e fazer o
+                                // chamador achar que a emissão falhou.
+                                try
+                                {
+                                    Imprimir(chaveAcesso);
+                                }
+                                catch (Exception exImpressao)
+                                {
+                                    // Cupom pode ser reimpresso depois com Reimprimir(chaveAcesso) --
+                                    // mas o operador precisa SABER que isso é necessário. Antes esse
+                                    // catch era vazio: a nota saía válida e ninguém percebia que o
+                                    // cupom fiscal não saiu do papel, então a reimpressão nunca
+                                    // acontecia. aoFalharImpressao avisa o chamador sem derrubar a
+                                    // venda nem a emissão, que já estão OK neste ponto.
+                                    aoFalharImpressao?.Invoke(exImpressao);
+                                }
+                                MoverArquivo(chaveAcesso, true);
+                                return chaveAcesso;
+                            }
+                        }
+                    }
+
+                    autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
+                    autorizacao.Executar();
+
+                    // CStat 108/109 significam "serviço da SEFAZ paralisado" (momentaneamente ou
+                    // sem previsão) — a SEFAZ respondeu, mas está temporariamente fora do ar, não
+                    // é uma rejeição fiscal real da nota. Antes, esses códigos caíam no switch mais
+                    // abaixo junto com qualquer outro CStat diferente de 100 e eram tratados como
+                    // NFCeRejeitadaException — instruindo o operador a corrigir dados que não têm
+                    // nada de errado, e sem tentar de novo. Tratamos como falha retentável aqui
+                    // (mesmo caminho da falha de comunicação), então uma instabilidade passageira
+                    // da SEFAZ tem chance de se resolver sozinha nas próximas tentativas.
+                    var cStatResposta = autorizacao.Result?.ProtNFe?.InfProt?.CStat;
+                    if (cStatResposta == 108 || cStatResposta == 109)
+                    {
+                        throw new Exception($"SEFAZ temporariamente indisponível (CStat {cStatResposta}: {autorizacao.Result?.ProtNFe?.InfProt?.XMotivo}).");
+                    }
+
+                    autorizacaoRespondida = true;
+                }
+                catch (Exception ex)
+                {
+                    ultimoErroAutorizacao = ex;
+
+                    if (tentativa < MaxTentativasSefaz)
+                    {
+                        aoTentarNovamente?.Invoke(tentativa + 1, MaxTentativasSefaz);
+                        Aguardar(EsperaEntreTentativas, aoAguardar);
+                    }
+                }
             }
-            catch (Exception ex)
+
+            if (!autorizacaoRespondida)
             {
-                // Falha de comunicação com a SEFAZ (timeout, indisponibilidade, etc).
-                // Não sabemos se a nota foi ou não autorizada do lado da SEFAZ, então
-                // movemos para NOK para que seja tratada manualmente (consulta de
-                // situação / reenvio), em vez de deixar o XML "solto" na pasta raiz.
+                // Falha de comunicação com a SEFAZ mesmo após as tentativas automáticas
+                // (timeout, indisponibilidade, lentidão, etc), e a consulta de status entre
+                // tentativas também não confirmou autorização. Não sabemos com certeza se a
+                // nota foi ou não autorizada do lado da SEFAZ, então movemos para NOK para que
+                // seja tratada manualmente (consulta de situação / reenvio), em vez de deixar o
+                // XML "solto" na pasta raiz.
                 MoverArquivo(chaveAcesso, false);
-                throw new Exception($"Falha ao comunicar com a SEFAZ para autorizar a NFC-e {chaveAcesso}: {ex.Message}", ex);
+                throw new Exception($"Falha ao comunicar com a SEFAZ para autorizar a NFC-e {chaveAcesso} (após {MaxTentativasSefaz} tentativas): {ultimoErroAutorizacao?.Message}", ultimoErroAutorizacao);
             }
 
             // A partir daqui, só seguimos se realmente recebemos um protocolo de
@@ -193,9 +414,13 @@ namespace LibNF65
             // ficava esquecido na pasta raiz sem aviso nenhum ao operador do caixa.
             if (autorizacao.Result?.ProtNFe == null)
             {
+                // Antes, esse caso mostrava um MessageBox aqui dentro da biblioteca e MESMO
+                // ASSIM devolvia chaveAcesso ao chamador — que enxergava isso como sucesso
+                // (chave não-nula) e salvava a venda com essa chave como se fosse uma nota
+                // válida. Agora lança, para que o chamador trate como falha de emissão (igual
+                // às outras falhas) em vez de gravar uma nota sem protocolo como se fosse boa.
                 MoverArquivo(chaveAcesso, false);
-                MessageBox.Show($"A SEFAZ não retornou um protocolo de autorização para a NFC-e {chaveAcesso}. Verifique a situação da nota antes de liberar o cupom.");
-                return chaveAcesso;
+                throw new Exception($"A SEFAZ não retornou um protocolo de autorização para a NFC-e {chaveAcesso}. Verifique a situação da nota antes de liberar o cupom.");
             }
 
             var infProt = autorizacao.Result.ProtNFe.InfProt;
@@ -222,16 +447,45 @@ namespace LibNF65
                     // Antes, Imprimir(chaveAcesso) era chamado incondicionalmente,
                     // então uma nota REJEITADA pela SEFAZ ainda assim gerava um
                     // cupom impresso para o cliente — problema fiscal sério.
-                    Imprimir(chaveAcesso);
+                    //
+                    // A impressão fica isolada no seu próprio try/catch: a nota JÁ FOI
+                    // autorizada pela SEFAZ neste ponto, é fiscalmente válida independente
+                    // do que acontecer na impressão do DANFE a seguir. Antes, se a
+                    // impressora estivesse desligada/desconectada e Imprimir() lançasse uma
+                    // exceção, ela subia sem ser pega aqui dentro, interrompia o GerarNF
+                    // ANTES do MoverArquivo/return, e o chamador (fPagamento.vb) tratava a
+                    // venda como "falha ao emitir NFC-e" -- quando na verdade a nota existe
+                    // e é válida, só o papel não saiu. O XML ficava "perdido" na pasta raiz
+                    // (nunca movido para NFs\OK), arriscando reemissão duplicada depois.
+                    try
+                    {
+                        Imprimir(chaveAcesso);
+                    }
+                    catch (Exception exImpressao)
+                    {
+                        // Falha ao imprimir o DANFE não pode invalidar uma nota já
+                        // autorizada -- ver comentário acima. O cupom pode ser reimpresso
+                        // depois com Reimprimir(chaveAcesso), já existente nesta classe.
+                        // Mas, igual ao outro ponto desta classe, o operador precisa ser
+                        // avisado -- senão a venda segue normal e ninguém percebe que o
+                        // cupom fiscal não imprimiu.
+                        aoFalharImpressao?.Invoke(exImpressao);
+                    }
                     MoverArquivo(chaveAcesso, true);
-                    break;
+                    return chaveAcesso;
                 default:
-                    MessageBox.Show($"Ocorreu um erro ao comunicar com a SEFAZ {infProt.CStat}: {infProt.XMotivo}");
+                    // A SEFAZ respondeu e REJEITOU a nota (CStat diferente de 100 — erro
+                    // fiscal real nos dados, não falha de comunicação). Antes, esse caso só
+                    // mostrava um MessageBox aqui dentro da biblioteca e devolvia chaveAcesso
+                    // do mesmo jeito, então o chamador (fPagamento.vb) via uma chave não-nula
+                    // e tratava a venda como se a nota tivesse sido emitida com sucesso —
+                    // salvando uma nota REJEITADA no banco como se fosse válida. Agora lança
+                    // uma exceção específica (NFCeRejeitadaException), para o chamador poder
+                    // diferenciar "SEFAZ rejeitou a nota" de "falha ao comunicar com a SEFAZ"
+                    // e tratar (e avisar o operador) de forma correta em cada caso.
                     MoverArquivo(chaveAcesso, false);
-                    break;
+                    throw new NFCeRejeitadaException(chaveAcesso, infProt.CStat, infProt.XMotivo);
             }
-
-            return chaveAcesso;
         }
 
         private static void CriarDiretorios()
@@ -291,35 +545,52 @@ namespace LibNF65
 
         public static bool CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)
         {
-            bool retorno = false;
             IInfProtRepository repository = new InfProtRepository();
 
             var infoProdutoService = new InfoProdutoService();
             var ret = infoProdutoService.BuscarPorChNFe(chave, repository);
 
+            if (ret == null)
+            {
+                // Antes, "ret" nulo (chave não encontrada no cadastro local de protocolos)
+                // estourava NullReferenceException logo abaixo em ret.NProt, sem nenhuma
+                // mensagem explicando o motivo real — parecia um erro genérico/travamento.
+                throw new Exception($"Não foi possível cancelar a NFC-e {chave}: nota não encontrada no cadastro local de protocolos (NProt).");
+            }
+
             var objNFCe = new NasNFCe();
             var retCancelamento = objNFCe.EventoCancelamentoNFCe(chave, x509Cert, ret.NProt);
 
-            if (retCancelamento.Result.CStat == 128) //Lote de evento processado com sucesso
+            if (retCancelamento?.Result == null)
             {
-                switch (retCancelamento.Result.RetEvento[0].InfEvento.CStat)
-                {
-                    case 135: //Evento homologado
-                        infoProdutoService.UpdateEvent(chave, retCancelamento.Result.RetEvento[0].InfEvento.XEvento, ret.NProt, repository);
-                        retorno = true;
-                        break;
-                    case 155: //Evento homologado fora do prazo permitido
-                        infoProdutoService.UpdateEvent(chave, retCancelamento.Result.RetEvento[0].InfEvento.XEvento, ret.NProt, repository);
-                        retorno = true;
-                        break;
-
-                    default:
-                        //Tratamentos necessários quando o evento é rejeitado
-                        break;
-                }
+                throw new Exception($"A SEFAZ não retornou resposta para o cancelamento da NFC-e {chave}.");
             }
 
-            return retorno;
+            if (retCancelamento.Result.CStat != 128) //Lote de evento não processado
+            {
+                // Antes, qualquer CStat de lote diferente de 128 simplesmente pulava todo o
+                // bloco e devolvia "false" sem explicação nenhuma ao chamador.
+                throw new Exception($"Falha ao cancelar a NFC-e {chave}: lote de evento não processado pela SEFAZ (CStat {retCancelamento.Result.CStat}).");
+            }
+
+            var infEvento = retCancelamento.Result.RetEvento[0].InfEvento;
+
+            switch (infEvento.CStat)
+            {
+                case 135: //Evento homologado
+                case 155: //Evento homologado fora do prazo permitido
+                    infoProdutoService.UpdateEvent(chave, infEvento.XEvento, ret.NProt, repository);
+                    return true;
+
+                default:
+                    // Evento de cancelamento REJEITADO pela SEFAZ (ex.: prazo de cancelamento
+                    // expirado, evento já registrado, chave inválida). Antes disso era um
+                    // "return false" silencioso — nem o código nem o motivo da rejeição
+                    // chegavam a quem chamou o método, então o operador não tinha como saber
+                    // POR QUE o cancelamento falhou. Agora lançamos com o código e a descrição
+                    // devolvidos pela SEFAZ para esse evento.
+                    throw new Exception($"A SEFAZ rejeitou o cancelamento da NFC-e {chave} (CStat {infEvento.CStat}): {infEvento.XEvento}");
+            }
         }
 
         public static void Imprimir(string chaveAcesso)
@@ -339,7 +610,31 @@ namespace LibNF65
             IInfProtRepository repository = new InfProtRepository();
 
             var infoProdutoService = new InfoProdutoService();
-            return infoProdutoService.GetPixConfig(repository);
+            var config = infoProdutoService.GetPixConfig(repository);
+
+            // O caminho/senha do certificado digital é uma informação de MÁQUINA LOCAL
+            // (onde o .pfx está salvo nesse computador), então, se o app.config desta
+            // instalação tiver "CertificadoArquivo"/"CertificadoSenha" preenchidos, eles
+            // têm prioridade sobre o valor gravado no banco (tabela pixconfig). Lojas que
+            // ainda não tiverem essas chaves no app.config continuam usando o valor do
+            // banco normalmente (fallback) — nada quebra para quem já está em produção.
+            if (config != null)
+            {
+                var certificadoArquivoConfig = ConfigurationManager.AppSettings["CertificadoArquivo"];
+                var certificadoSenhaConfig = ConfigurationManager.AppSettings["CertificadoSenha"];
+
+                if (!string.IsNullOrWhiteSpace(certificadoArquivoConfig))
+                {
+                    config.PathCertificate = certificadoArquivoConfig;
+                }
+
+                if (!string.IsNullOrWhiteSpace(certificadoSenhaConfig))
+                {
+                    config.PassCertificate = certificadoSenhaConfig;
+                }
+            }
+
+            return config;
         }
 
         public static PixConfig ConsultarConfig()
@@ -347,6 +642,59 @@ namespace LibNF65
             PixConfig config = GetPixConfig();
 
             return config;
+        }
+
+        // Status da validade do certificado digital configurado (mesmo arquivo/senha
+        // usados para emitir a NFC-e — ver GetPixConfig). Criado depois de um caso real
+        // em que um certificado vencido só aparecia pro usuário como um erro genérico de
+        // "falha ao emitir NFC-e" / 403 da SEFAZ na hora de uma venda, sem nenhum aviso
+        // antes disso. VerificarValidadeCertificado() é pra ser chamado na ABERTURA do
+        // sistema, pra avisar com antecedência em vez de só durante uma venda.
+        public class StatusCertificado
+        {
+            public bool Existe { get; set; }
+            public bool Valido { get; set; }
+            public int DiasParaVencer { get; set; }
+            public DateTime? DataValidade { get; set; }
+            public string MensagemErro { get; set; }
+        }
+
+        public static StatusCertificado VerificarValidadeCertificado()
+        {
+            var status = new StatusCertificado();
+
+            try
+            {
+                var pixConfig = GetPixConfig();
+                var caminho = pixConfig?.PathCertificate;
+                var senha = pixConfig?.PassCertificate;
+
+                if (string.IsNullOrWhiteSpace(caminho) || !File.Exists(caminho))
+                {
+                    status.Existe = false;
+                    status.MensagemErro = $"Certificado digital não encontrado em '{caminho}'.";
+                    return status;
+                }
+
+                status.Existe = true;
+
+                using (var cert = new X509Certificate2(caminho, senha))
+                {
+                    status.DataValidade = cert.NotAfter;
+                    status.DiasParaVencer = (int)(cert.NotAfter.Date - DateTime.Now.Date).TotalDays;
+                    status.Valido = DateTime.Now >= cert.NotBefore && DateTime.Now <= cert.NotAfter;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Não deixamos essa verificação derrubar a abertura do sistema — se der
+                // erro (ex.: senha incorreta), só registramos a mensagem pra tela decidir
+                // se avisa o usuário ou não.
+                status.Existe = false;
+                status.MensagemErro = $"Não foi possível verificar o certificado digital: {ex.Message}";
+            }
+
+            return status;
         }
 
         public static void Reimprimir(string chaveAcesso)
@@ -383,6 +731,64 @@ namespace LibNF65
         public static string GerarIdLote()
         {
             return DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        }
+
+        // Caminho do arquivo local onde guardamos a última resposta bem-sucedida da
+        // ConsultaCadastro da SEFAZ (nome, endereço, IE, CNAE, regime tributário do
+        // emitente). Serve de backup para quando essa consulta específica falhar
+        // (ver comentário em GerarNF) — não tem nenhuma relação com a autorização da
+        // nota em si, só com esses dados cadastrais.
+        private static string CaminhoCacheCadastroEmitente()
+        {
+            return ConfigurationManager.AppSettings["pathRelatorio"] + "cadastro_emitente_cache.xml";
+        }
+
+        // Usamos XmlSerializer (não Newtonsoft.Json) de propósito aqui: RetConsCad é uma
+        // classe gerada a partir do schema oficial da NFe, com atributos específicos de
+        // XML (XmlElement, ShouldSerializeXxx, etc.) que o Newtonsoft não reconhece —
+        // serializar isso como JSON arriscava salvar um cache incompleto/incorreto sem
+        // avisar ninguém. XmlSerializer é o mesmo mecanismo que a própria Unimake usa
+        // pra interpretar a resposta da SEFAZ, então o cache fica fiel ao original.
+        private static void SalvarCacheCadastroEmitente(XmlNFe.RetConsCad retConsCad)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(XmlNFe.RetConsCad));
+                using (var writer = new StreamWriter(CaminhoCacheCadastroEmitente(), false, Encoding.UTF8))
+                {
+                    serializer.Serialize(writer, retConsCad);
+                }
+            }
+            catch
+            {
+                // Falha ao salvar o cache não pode impedir a venda/emissão de seguir
+                // normalmente — é só uma otimização de resiliência, não é crítico.
+            }
+        }
+
+        private static XmlNFe.RetConsCad CarregarCacheCadastroEmitente()
+        {
+            try
+            {
+                var caminho = CaminhoCacheCadastroEmitente();
+                if (!File.Exists(caminho))
+                {
+                    return null;
+                }
+
+                var serializer = new XmlSerializer(typeof(XmlNFe.RetConsCad));
+                using (var reader = new StreamReader(caminho, Encoding.UTF8))
+                {
+                    return (XmlNFe.RetConsCad)serializer.Deserialize(reader);
+                }
+            }
+            catch
+            {
+                // Cache corrompido/ilegível: trata como se não existisse, para cair no
+                // erro original (falha ao consultar cadastro na SEFAZ) em vez de
+                // propagar um erro de desserialização confuso.
+                return null;
+            }
         }
 
         private static DarumaFrameworkSat RecuperarConfiguracao()

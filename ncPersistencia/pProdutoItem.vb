@@ -56,7 +56,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -135,7 +135,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -227,7 +227,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -287,7 +287,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = 0
-                Throw New ExcecaoNascomercio("Erro em Consultar Estoque [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Estoque [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -342,7 +342,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -387,7 +387,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarUltimoItem ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarUltimoItem ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -434,7 +434,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ConsultarUltimoItem ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ConsultarUltimoItem ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -466,7 +466,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -496,7 +496,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -526,7 +526,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -554,7 +554,7 @@ Namespace nsProduto
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em ExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em ExcluirPorProduto ProdutoItem [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

@@ -26,7 +26,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Listar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Listar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -44,12 +44,12 @@ Namespace nsCaixa
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -66,12 +66,12 @@ Namespace nsCaixa
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -117,7 +117,7 @@ Namespace nsCaixa
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
@@ -167,12 +167,12 @@ Namespace nsCaixa
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Consultar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Consultar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -194,7 +194,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Incluir Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Incluir Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -216,7 +216,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Alterar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Alterar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -238,7 +238,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em Excluir Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em Excluir Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -274,7 +274,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fListar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fListar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -307,12 +307,12 @@ Namespace nsCaixa
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -340,12 +340,12 @@ Namespace nsCaixa
 
             Catch nex As ExcecaoNascomercio
 
-                Throw nex
+                Throw
 
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fConsultar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fConsultar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -366,7 +366,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fIncluir Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fIncluir Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -387,7 +387,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fAlterar Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fAlterar Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 
@@ -408,7 +408,7 @@ Namespace nsCaixa
             Catch ex As Exception
 
                 retorno = Nothing
-                Throw New ExcecaoNascomercio("Erro em fExcluir Caixa [" & Me.ToString() & "] - " & ex.Message)
+                Throw New ExcecaoNascomercio("Erro em fExcluir Caixa [" & Me.ToString() & "] - " & ex.Message, ex)
 
             End Try
 

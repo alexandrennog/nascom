@@ -38,7 +38,15 @@ Partial Class fRelatorioBalanco
         Me.txtDataInicial = New System.Windows.Forms.MaskedTextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.v_BalancoTableAdapter = New nascomercio.nascomercioDataSetTableAdapters.v_transferenciaTableAdapter()
+        ' Adicionado em 28/09/2026: faltava esse BindingSource - sem ele, o
+        ' ReportDataSource1 la embaixo ficava com Value = Nothing, e era isso
+        ' que dava o erro "An error occurred during local report processing /
+        ' nascomercioDataSet_v_transferencia" toda vez que a tela abria.
+        ' Mesmo padrao usado nos outros relatorios (ex: v_vendasBindingSource
+        ' no relatorio de Categoria de produtos).
+        Me.v_BalancoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.v_BalancoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -70,7 +78,7 @@ Partial Class fRelatorioBalanco
         Me.lblTitulo.Name = "lblTitulo"
         Me.lblTitulo.Size = New System.Drawing.Size(188, 24)
         Me.lblTitulo.TabIndex = 136
-        Me.lblTitulo.Text = "RelatÛrio BalanÁo"
+        Me.lblTitulo.Text = "Relat√≥rio Balan√ßo"
         '
         'btoFiltro
         '
@@ -120,9 +128,15 @@ Partial Class fRelatorioBalanco
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSair.UseVisualStyleBackColor = False
         '
+        'v_BalancoBindingSource
+        '
+        Me.v_BalancoBindingSource.DataMember = "v_transferencia"
+        Me.v_BalancoBindingSource.DataSource = Me.nascomercioDataSet
+        '
         'rptRelatorio
         '
         ReportDataSource1.Name = "nascomercioDataSet_v_transferencia"
+        ReportDataSource1.Value = Me.v_BalancoBindingSource
         Me.rptRelatorio.LocalReport.DataSources.Add(ReportDataSource1)
         Me.rptRelatorio.LocalReport.ReportEmbeddedResource = "nascomercio.Balanco.rdlc"
         Me.rptRelatorio.Location = New System.Drawing.Point(12, 122)
@@ -171,7 +185,7 @@ Partial Class fRelatorioBalanco
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(30, 18)
         Me.Label1.TabIndex = 244
-        Me.Label1.Text = "atÈ"
+        Me.Label1.Text = "at√©"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtDataInicial
@@ -194,7 +208,7 @@ Partial Class fRelatorioBalanco
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(90, 18)
         Me.Label4.TabIndex = 242
-        Me.Label4.Text = "PerÌodo: de"
+        Me.Label4.Text = "Per√≠odo: de"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'v_BalancoTableAdapter
@@ -227,8 +241,9 @@ Partial Class fRelatorioBalanco
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "RelatÛrio de Estoque"
+        Me.Text = "Relat√≥rio de Balan√ßo"
         CType(Me.nascomercioDataSet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.v_BalancoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -247,5 +262,6 @@ Partial Class fRelatorioBalanco
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents nascomercioDataSet As nascomercio.nascomercioDataSet
     Friend WithEvents v_BalancoTableAdapter As nascomercio.nascomercioDataSetTableAdapters.v_transferenciaTableAdapter
+    Friend WithEvents v_BalancoBindingSource As System.Windows.Forms.BindingSource
     Private WithEvents rptRelatorio As Microsoft.Reporting.WinForms.ReportViewer
 End Class

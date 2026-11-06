@@ -35,7 +35,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Referencia [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Referencia [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -69,7 +69,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Produtos [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Produtos [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -77,7 +77,7 @@ Namespace nsGradeItem
 
     End Function
 
-    Public Function ConsultarItens(ByVal pProdutoCid As Integer) As ColecaoGradeItem
+    Public Function ConsultarItens(ByVal pProdutoCid As Integer, Optional ByVal pFiltro As dGradeItem = Nothing) As ColecaoGradeItem
 
       Dim retorno As ColecaoGradeItem
       Dim persistencia As pGradeItem
@@ -88,7 +88,7 @@ Namespace nsGradeItem
         retorno = New ColecaoGradeItem
 
         persistencia = New pGradeItem
-        retornoPersistencia = persistencia.ConsultarItens(pProdutoCid)
+        retornoPersistencia = persistencia.ConsultarItens(pProdutoCid, pFiltro)
 
         If Not retornoPersistencia Is Nothing Then
           If retornoPersistencia.Count > 0 Then
@@ -103,7 +103,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Itens [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Itens [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -133,7 +133,7 @@ Namespace nsGradeItem
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Ultima Venda [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Ultima Venda [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

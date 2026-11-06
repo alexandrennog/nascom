@@ -71,7 +71,7 @@ Namespace nsFornecedor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Listar Fornecedor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Listar Fornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -201,7 +201,7 @@ Namespace nsFornecedor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Consultar Fornecedor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Consultar Fornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -246,7 +246,7 @@ Namespace nsFornecedor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Incluir Fornecedor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Incluir Fornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -291,7 +291,7 @@ Namespace nsFornecedor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Importar Fornecedor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Importar Fornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -335,7 +335,7 @@ Namespace nsFornecedor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Alterar Fornecedor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Alterar Fornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 
@@ -361,7 +361,7 @@ Namespace nsFornecedor
       Catch ex As Exception
 
         retorno = Nothing
-        Throw New ExcecaoNascomercio("Erro em Excluir Fornecedor [" & Me.ToString() & "] - " & ex.Message)
+        Throw New ExcecaoNascomercio("Erro em Excluir Fornecedor [" & Me.ToString() & "] - " & ex.Message, ex)
 
       End Try
 

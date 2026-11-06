@@ -25,7 +25,7 @@
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
-      <Prompt>Fabricante</Prompt>
+      <Prompt>Categoria</Prompt>
     </ReportParameter>
     <ReportParameter Name="Loja">
       <DataType>String</DataType>
@@ -478,7 +478,7 @@ FROM            v_vendas</CommandText>
                       </Style>
                       <ZIndex>21</ZIndex>
                       <CanGrow>true</CanGrow>
-                      <Value>Fabricante</Value>
+                      <Value>Categoria</Value>
                     </Textbox>
                   </ReportItems>
                 </TableCell>
