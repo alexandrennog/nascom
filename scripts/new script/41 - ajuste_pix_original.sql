@@ -1,0 +1,3 @@
+﻿ALTER TABLE `nascomercio`.`vendas` MODIFY COLUMN `Original` DECIMAL(10,2) NOT NULL DEFAULT '0.00';
+ALTER TABLE `nascomercio`.`vales` MODIFY COLUMN `Original` DECIMAL(10,2) NOT NULL DEFAULT '0.00';
+
