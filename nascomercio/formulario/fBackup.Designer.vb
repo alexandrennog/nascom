@@ -34,6 +34,11 @@ Partial Class fBackup
         Me.imgLogo = New System.Windows.Forms.PictureBox()
         Me.btoSair = New System.Windows.Forms.Button()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.lblNuvemTitulo = New System.Windows.Forms.Label()
+        Me.lblUltimoBackup = New System.Windows.Forms.Label()
+        Me.btoBackupNuvem = New System.Windows.Forms.Button()
+        Me.btoRelatorioBackups = New System.Windows.Forms.Button()
+        Me.lblProgresso = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -123,9 +128,14 @@ Partial Class fBackup
         Me.Panel1.Controls.Add(Me.txtBanco)
         Me.Panel1.Controls.Add(Me.btoBanco)
         Me.Panel1.Controls.Add(Me.btoRestaurar)
+        Me.Panel1.Controls.Add(Me.lblNuvemTitulo)
+        Me.Panel1.Controls.Add(Me.lblUltimoBackup)
+        Me.Panel1.Controls.Add(Me.btoBackupNuvem)
+        Me.Panel1.Controls.Add(Me.btoRelatorioBackups)
+        Me.Panel1.Controls.Add(Me.lblProgresso)
         Me.Panel1.Location = New System.Drawing.Point(2, 1)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(575, 212)
+        Me.Panel1.Size = New System.Drawing.Size(575, 356)
         Me.Panel1.TabIndex = 20
         '
         'imgLogo
@@ -158,6 +168,61 @@ Partial Class fBackup
         Me.btoSair.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btoSair.UseVisualStyleBackColor = False
         '
+        'lblNuvemTitulo
+        '
+        ' Backup local + nuvem (biblioteca NasLibackup). Os dados da AWS e do
+        ' e-mail de falha ficam no app.config (chaves Backup...).
+        Me.lblNuvemTitulo.AutoSize = True
+        Me.lblNuvemTitulo.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold)
+        Me.lblNuvemTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.lblNuvemTitulo.Location = New System.Drawing.Point(8, 170)
+        Me.lblNuvemTitulo.Name = "lblNuvemTitulo"
+        Me.lblNuvemTitulo.Size = New System.Drawing.Size(230, 19)
+        Me.lblNuvemTitulo.TabIndex = 21
+        Me.lblNuvemTitulo.Text = "Backup local + nuvem (AWS)"
+        '
+        'lblUltimoBackup
+        '
+        Me.lblUltimoBackup.BackColor = System.Drawing.Color.White
+        Me.lblUltimoBackup.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblUltimoBackup.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Bold)
+        Me.lblUltimoBackup.Location = New System.Drawing.Point(9, 196)
+        Me.lblUltimoBackup.Name = "lblUltimoBackup"
+        Me.lblUltimoBackup.Padding = New System.Windows.Forms.Padding(4)
+        Me.lblUltimoBackup.Size = New System.Drawing.Size(553, 80)
+        Me.lblUltimoBackup.TabIndex = 22
+        Me.lblUltimoBackup.Text = "-"
+        '
+        'btoBackupNuvem
+        '
+        Me.btoBackupNuvem.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.btoBackupNuvem.Location = New System.Drawing.Point(9, 282)
+        Me.btoBackupNuvem.Name = "btoBackupNuvem"
+        Me.btoBackupNuvem.Size = New System.Drawing.Size(272, 38)
+        Me.btoBackupNuvem.TabIndex = 23
+        Me.btoBackupNuvem.Text = "Fazer backup agora (local + nuvem)"
+        Me.btoBackupNuvem.UseVisualStyleBackColor = True
+        '
+        'btoRelatorioBackups
+        '
+        Me.btoRelatorioBackups.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold)
+        Me.btoRelatorioBackups.Location = New System.Drawing.Point(290, 282)
+        Me.btoRelatorioBackups.Name = "btoRelatorioBackups"
+        Me.btoRelatorioBackups.Size = New System.Drawing.Size(272, 38)
+        Me.btoRelatorioBackups.TabIndex = 24
+        Me.btoRelatorioBackups.Text = "Relatório de Backups"
+        Me.btoRelatorioBackups.UseVisualStyleBackColor = True
+        '
+        'lblProgresso
+        '
+        Me.lblProgresso.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Italic)
+        Me.lblProgresso.ForeColor = System.Drawing.Color.DimGray
+        Me.lblProgresso.Location = New System.Drawing.Point(9, 326)
+        Me.lblProgresso.Name = "lblProgresso"
+        Me.lblProgresso.Size = New System.Drawing.Size(553, 22)
+        Me.lblProgresso.TabIndex = 25
+        Me.lblProgresso.Text = ""
+        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
@@ -167,7 +232,7 @@ Partial Class fBackup
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(577, 216)
+        Me.ClientSize = New System.Drawing.Size(577, 360)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "fBackup"
@@ -190,4 +255,9 @@ Partial Class fBackup
   Friend WithEvents btoSair As System.Windows.Forms.Button
   Friend WithEvents imgLogo As System.Windows.Forms.PictureBox
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents lblNuvemTitulo As System.Windows.Forms.Label
+    Friend WithEvents lblUltimoBackup As System.Windows.Forms.Label
+    Friend WithEvents btoBackupNuvem As System.Windows.Forms.Button
+    Friend WithEvents btoRelatorioBackups As System.Windows.Forms.Button
+    Friend WithEvents lblProgresso As System.Windows.Forms.Label
 End Class

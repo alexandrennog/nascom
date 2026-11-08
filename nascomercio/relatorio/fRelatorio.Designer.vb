@@ -59,6 +59,7 @@ Partial Class fRelatorio
         Me.rbtPainelCompras = New System.Windows.Forms.RadioButton()
         Me.rbtPedidosCompra = New System.Windows.Forms.RadioButton()
         Me.rbtComprasVendas = New System.Windows.Forms.RadioButton()
+        Me.rbtBackups = New System.Windows.Forms.RadioButton()
         CType(Me.imgLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -539,10 +540,10 @@ Partial Class fRelatorio
         Me.rbtPainelCompras.Location = New System.Drawing.Point(842, 435)
         Me.rbtPainelCompras.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtPainelCompras.Name = "rbtPainelCompras"
-        Me.rbtPainelCompras.Size = New System.Drawing.Size(254, 33)
+        Me.rbtPainelCompras.Size = New System.Drawing.Size(150, 33)
         Me.rbtPainelCompras.TabIndex = 113
         Me.rbtPainelCompras.TabStop = True
-        Me.rbtPainelCompras.Text = "Painel de Compras"
+        Me.rbtPainelCompras.Text = "Curva ABC"
         Me.rbtPainelCompras.UseVisualStyleBackColor = True
         '
         'rbtPedidosCompra
@@ -577,12 +578,27 @@ Partial Class fRelatorio
         Me.rbtComprasVendas.Text = "Compras x Vendas"
         Me.rbtComprasVendas.UseVisualStyleBackColor = True
         '
+        'rbtBackups
+        '
+        ' Relatorio de Backups (local + nuvem), 3a coluna, linha de "Vendas com Pix"
+        Me.rbtBackups.AutoSize = True
+        Me.rbtBackups.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rbtBackups.Location = New System.Drawing.Point(842, 651)
+        Me.rbtBackups.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.rbtBackups.Name = "rbtBackups"
+        Me.rbtBackups.Size = New System.Drawing.Size(110, 33)
+        Me.rbtBackups.TabIndex = 116
+        Me.rbtBackups.TabStop = True
+        Me.rbtBackups.Text = "Backups"
+        Me.rbtBackups.UseVisualStyleBackColor = True
+        '
         'fRelatorio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(200, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1144, 828)
+        Me.Controls.Add(Me.rbtBackups)
         Me.Controls.Add(Me.rbtComprasVendas)
         Me.Controls.Add(Me.rbtPedidosCompra)
         Me.Controls.Add(Me.rbtPainelCompras)
@@ -672,4 +688,5 @@ Partial Class fRelatorio
     Friend WithEvents rbtPainelCompras As RadioButton
     Friend WithEvents rbtPedidosCompra As RadioButton
     Friend WithEvents rbtComprasVendas As RadioButton
+    Friend WithEvents rbtBackups As RadioButton
 End Class

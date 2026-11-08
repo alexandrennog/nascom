@@ -88,6 +88,8 @@ Public Class fRelatorio
             mdiPrincipal.CarregarRelatorioPedidosCompra()
         ElseIf rbtComprasVendas.Checked Then
             mdiPrincipal.CarregarRelatorioComprasVendas()
+        ElseIf rbtBackups.Checked Then
+            mdiPrincipal.CarregarRelatorioBackups()
         End If
 
     End Sub
@@ -151,6 +153,7 @@ Public Class fRelatorio
                 ' botao na tela de Inventario)
                 rbtPedidosCompra.Visible = False
                 rbtComprasVendas.Visible = False
+                rbtBackups.Visible = False
                 If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ECF" Then
                     rbtLeituraX.Visible = True
                     rbtReducaoZ.Visible = True

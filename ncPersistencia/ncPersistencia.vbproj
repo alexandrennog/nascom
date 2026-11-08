@@ -74,6 +74,7 @@
     <Compile Include="pEfdUnidadeMedida.vb" />
     <Compile Include="pDashboardCompras.vb" />
     <Compile Include="pPedidoCompra.vb" />
+    <Compile Include="pBackupNuvem.vb" />
     <Compile Include="pGiro.vb" />
     <Compile Include="pGradeItem.vb" />
     <Compile Include="pGrupo.vb" />
