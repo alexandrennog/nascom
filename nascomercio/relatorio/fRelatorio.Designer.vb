@@ -93,7 +93,7 @@ Partial Class fRelatorio
         '
         Me.rbtFechamento.AutoSize = True
         Me.rbtFechamento.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtFechamento.Location = New System.Drawing.Point(102, 112)
+        Me.rbtFechamento.Location = New System.Drawing.Point(100, 112)
         Me.rbtFechamento.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtFechamento.Name = "rbtFechamento"
         Me.rbtFechamento.Size = New System.Drawing.Size(249, 33)
@@ -119,7 +119,7 @@ Partial Class fRelatorio
         '
         Me.rbtMaisVendidos.AutoSize = True
         Me.rbtMaisVendidos.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtMaisVendidos.Location = New System.Drawing.Point(102, 166)
+        Me.rbtMaisVendidos.Location = New System.Drawing.Point(100, 165)
         Me.rbtMaisVendidos.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtMaisVendidos.Name = "rbtMaisVendidos"
         Me.rbtMaisVendidos.Size = New System.Drawing.Size(222, 33)
@@ -132,7 +132,7 @@ Partial Class fRelatorio
         '
         Me.rbtCrediario.AutoSize = True
         Me.rbtCrediario.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtCrediario.Location = New System.Drawing.Point(102, 435)
+        Me.rbtCrediario.Location = New System.Drawing.Point(100, 430)
         Me.rbtCrediario.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtCrediario.Name = "rbtCrediario"
         Me.rbtCrediario.Size = New System.Drawing.Size(150, 33)
@@ -145,7 +145,7 @@ Partial Class fRelatorio
         '
         Me.rbtClientes.AutoSize = True
         Me.rbtClientes.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtClientes.Location = New System.Drawing.Point(102, 489)
+        Me.rbtClientes.Location = New System.Drawing.Point(100, 483)
         Me.rbtClientes.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtClientes.Name = "rbtClientes"
         Me.rbtClientes.Size = New System.Drawing.Size(131, 33)
@@ -158,7 +158,7 @@ Partial Class fRelatorio
         '
         Me.rbtNegativar.AutoSize = True
         Me.rbtNegativar.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtNegativar.Location = New System.Drawing.Point(102, 543)
+        Me.rbtNegativar.Location = New System.Drawing.Point(100, 536)
         Me.rbtNegativar.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtNegativar.Name = "rbtNegativar"
         Me.rbtNegativar.Size = New System.Drawing.Size(246, 33)
@@ -171,7 +171,7 @@ Partial Class fRelatorio
         '
         Me.rbtVendasPendentes.AutoSize = True
         Me.rbtVendasPendentes.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasPendentes.Location = New System.Drawing.Point(102, 274)
+        Me.rbtVendasPendentes.Location = New System.Drawing.Point(100, 271)
         Me.rbtVendasPendentes.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasPendentes.Name = "rbtVendasPendentes"
         Me.rbtVendasPendentes.Size = New System.Drawing.Size(250, 33)
@@ -184,7 +184,7 @@ Partial Class fRelatorio
         '
         Me.rbtCheques.AutoSize = True
         Me.rbtCheques.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtCheques.Location = New System.Drawing.Point(102, 382)
+        Me.rbtCheques.Location = New System.Drawing.Point(100, 377)
         Me.rbtCheques.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtCheques.Name = "rbtCheques"
         Me.rbtCheques.Size = New System.Drawing.Size(139, 33)
@@ -197,7 +197,7 @@ Partial Class fRelatorio
         '
         Me.rbtAuditoria.AutoSize = True
         Me.rbtAuditoria.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtAuditoria.Location = New System.Drawing.Point(465, 328)
+        Me.rbtAuditoria.Location = New System.Drawing.Point(465, 324)
         Me.rbtAuditoria.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtAuditoria.Name = "rbtAuditoria"
         Me.rbtAuditoria.Size = New System.Drawing.Size(240, 33)
@@ -210,7 +210,7 @@ Partial Class fRelatorio
         '
         Me.rbtGrade.AutoSize = True
         Me.rbtGrade.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtGrade.Location = New System.Drawing.Point(465, 166)
+        Me.rbtGrade.Location = New System.Drawing.Point(465, 165)
         Me.rbtGrade.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtGrade.Name = "rbtGrade"
         Me.rbtGrade.Size = New System.Drawing.Size(107, 33)
@@ -223,7 +223,7 @@ Partial Class fRelatorio
         '
         Me.rdbVendasSintetico.AutoSize = True
         Me.rdbVendasSintetico.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdbVendasSintetico.Location = New System.Drawing.Point(102, 220)
+        Me.rdbVendasSintetico.Location = New System.Drawing.Point(100, 218)
         Me.rdbVendasSintetico.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rdbVendasSintetico.Name = "rdbVendasSintetico"
         Me.rdbVendasSintetico.Size = New System.Drawing.Size(231, 33)
@@ -236,7 +236,7 @@ Partial Class fRelatorio
         '
         Me.rbtSPED.AutoSize = True
         Me.rbtSPED.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtSPED.Location = New System.Drawing.Point(465, 543)
+        Me.rbtSPED.Location = New System.Drawing.Point(100, 748)
         Me.rbtSPED.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtSPED.Name = "rbtSPED"
         Me.rbtSPED.Size = New System.Drawing.Size(494, 33)
@@ -249,7 +249,7 @@ Partial Class fRelatorio
         '
         Me.rbtNFe.AutoSize = True
         Me.rbtNFe.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtNFe.Location = New System.Drawing.Point(465, 489)
+        Me.rbtNFe.Location = New System.Drawing.Point(465, 483)
         Me.rbtNFe.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtNFe.Name = "rbtNFe"
         Me.rbtNFe.Size = New System.Drawing.Size(356, 33)
@@ -262,7 +262,7 @@ Partial Class fRelatorio
         '
         Me.rbtConsultaVendas.AutoSize = True
         Me.rbtConsultaVendas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtConsultaVendas.Location = New System.Drawing.Point(465, 382)
+        Me.rbtConsultaVendas.Location = New System.Drawing.Point(465, 377)
         Me.rbtConsultaVendas.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtConsultaVendas.Name = "rbtConsultaVendas"
         Me.rbtConsultaVendas.Size = New System.Drawing.Size(232, 33)
@@ -327,7 +327,7 @@ Partial Class fRelatorio
         '
         Me.rdbVendasFabricantes.AutoSize = True
         Me.rdbVendasFabricantes.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdbVendasFabricantes.Location = New System.Drawing.Point(465, 274)
+        Me.rdbVendasFabricantes.Location = New System.Drawing.Point(465, 271)
         Me.rdbVendasFabricantes.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rdbVendasFabricantes.Name = "rdbVendasFabricantes"
         Me.rdbVendasFabricantes.Size = New System.Drawing.Size(283, 33)
@@ -340,7 +340,7 @@ Partial Class fRelatorio
         '
         Me.rbtTransferencia.AutoSize = True
         Me.rbtTransferencia.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtTransferencia.Location = New System.Drawing.Point(465, 435)
+        Me.rbtTransferencia.Location = New System.Drawing.Point(465, 430)
         Me.rbtTransferencia.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtTransferencia.Name = "rbtTransferencia"
         Me.rbtTransferencia.Size = New System.Drawing.Size(206, 33)
@@ -353,7 +353,7 @@ Partial Class fRelatorio
         '
         Me.rbtVendasVendedor.AutoSize = True
         Me.rbtVendasVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasVendedor.Location = New System.Drawing.Point(102, 328)
+        Me.rbtVendasVendedor.Location = New System.Drawing.Point(100, 324)
         Me.rbtVendasVendedor.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasVendedor.Name = "rbtVendasVendedor"
         Me.rbtVendasVendedor.Size = New System.Drawing.Size(259, 33)
@@ -366,7 +366,7 @@ Partial Class fRelatorio
         '
         Me.rbtReducaoZ.AutoSize = True
         Me.rbtReducaoZ.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtReducaoZ.Location = New System.Drawing.Point(630, 597)
+        Me.rbtReducaoZ.Location = New System.Drawing.Point(465, 589)
         Me.rbtReducaoZ.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtReducaoZ.Name = "rbtReducaoZ"
         Me.rbtReducaoZ.Size = New System.Drawing.Size(160, 33)
@@ -379,7 +379,7 @@ Partial Class fRelatorio
         '
         Me.rbtLeituraX.AutoSize = True
         Me.rbtLeituraX.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtLeituraX.Location = New System.Drawing.Point(465, 597)
+        Me.rbtLeituraX.Location = New System.Drawing.Point(465, 536)
         Me.rbtLeituraX.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtLeituraX.Name = "rbtLeituraX"
         Me.rbtLeituraX.Size = New System.Drawing.Size(141, 33)
@@ -392,7 +392,7 @@ Partial Class fRelatorio
         '
         Me.rbtCategoria.AutoSize = True
         Me.rbtCategoria.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtCategoria.Location = New System.Drawing.Point(102, 597)
+        Me.rbtCategoria.Location = New System.Drawing.Point(100, 589)
         Me.rbtCategoria.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtCategoria.Name = "rbtCategoria"
         Me.rbtCategoria.Size = New System.Drawing.Size(161, 33)
@@ -405,7 +405,7 @@ Partial Class fRelatorio
         '
         Me.rbtBalanco.AutoSize = True
         Me.rbtBalanco.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtBalanco.Location = New System.Drawing.Point(465, 220)
+        Me.rbtBalanco.Location = New System.Drawing.Point(465, 218)
         Me.rbtBalanco.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtBalanco.Name = "rbtBalanco"
         Me.rbtBalanco.Size = New System.Drawing.Size(131, 33)
@@ -418,7 +418,7 @@ Partial Class fRelatorio
         '
         Me.rbtSAT.AutoSize = True
         Me.rbtSAT.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtSAT.Location = New System.Drawing.Point(102, 651)
+        Me.rbtSAT.Location = New System.Drawing.Point(100, 642)
         Me.rbtSAT.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtSAT.Name = "rbtSAT"
         Me.rbtSAT.Size = New System.Drawing.Size(175, 33)
@@ -431,7 +431,7 @@ Partial Class fRelatorio
         '
         Me.rbtPix.AutoSize = True
         Me.rbtPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtPix.Location = New System.Drawing.Point(465, 651)
+        Me.rbtPix.Location = New System.Drawing.Point(465, 642)
         Me.rbtPix.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtPix.Name = "rbtPix"
         Me.rbtPix.Size = New System.Drawing.Size(221, 33)
@@ -444,7 +444,7 @@ Partial Class fRelatorio
         '
         Me.rbtCrediarioPix.AutoSize = True
         Me.rbtCrediarioPix.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtCrediarioPix.Location = New System.Drawing.Point(100, 711)
+        Me.rbtCrediarioPix.Location = New System.Drawing.Point(100, 695)
         Me.rbtCrediarioPix.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtCrediarioPix.Name = "rbtCrediarioPix"
         Me.rbtCrediarioPix.Size = New System.Drawing.Size(279, 33)
@@ -457,7 +457,7 @@ Partial Class fRelatorio
         '
         Me.rbtCobrancaPIX.AutoSize = True
         Me.rbtCobrancaPIX.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtCobrancaPIX.Location = New System.Drawing.Point(465, 711)
+        Me.rbtCobrancaPIX.Location = New System.Drawing.Point(465, 695)
         Me.rbtCobrancaPIX.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtCobrancaPIX.Name = "rbtCobrancaPIX"
         Me.rbtCobrancaPIX.Size = New System.Drawing.Size(260, 33)
@@ -470,7 +470,7 @@ Partial Class fRelatorio
         '
         Me.rbtVendasPorLoja.AutoSize = True
         Me.rbtVendasPorLoja.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasPorLoja.Location = New System.Drawing.Point(842, 328)
+        Me.rbtVendasPorLoja.Location = New System.Drawing.Point(842, 324)
         Me.rbtVendasPorLoja.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasPorLoja.Name = "rbtVendasPorLoja"
         Me.rbtVendasPorLoja.Size = New System.Drawing.Size(214, 33)
@@ -483,7 +483,7 @@ Partial Class fRelatorio
         '
         Me.rbtVendasPorVendedor.AutoSize = True
         Me.rbtVendasPorVendedor.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasPorVendedor.Location = New System.Drawing.Point(842, 274)
+        Me.rbtVendasPorVendedor.Location = New System.Drawing.Point(842, 271)
         Me.rbtVendasPorVendedor.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasPorVendedor.Name = "rbtVendasPorVendedor"
         Me.rbtVendasPorVendedor.Size = New System.Drawing.Size(285, 33)
@@ -496,7 +496,7 @@ Partial Class fRelatorio
         '
         Me.rbtVendasNFe.AutoSize = True
         Me.rbtVendasNFe.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasNFe.Location = New System.Drawing.Point(842, 382)
+        Me.rbtVendasNFe.Location = New System.Drawing.Point(842, 377)
         Me.rbtVendasNFe.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasNFe.Name = "rbtVendasNFe"
         Me.rbtVendasNFe.Size = New System.Drawing.Size(167, 33)
@@ -509,7 +509,7 @@ Partial Class fRelatorio
         '
         Me.rbtVendasABC.AutoSize = True
         Me.rbtVendasABC.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtVendasABC.Location = New System.Drawing.Point(842, 435)
+        Me.rbtVendasABC.Location = New System.Drawing.Point(842, 642)
         Me.rbtVendasABC.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtVendasABC.Name = "rbtVendasABC"
         Me.rbtVendasABC.Size = New System.Drawing.Size(253, 33)
@@ -517,30 +517,16 @@ Partial Class fRelatorio
         Me.rbtVendasABC.TabStop = True
         Me.rbtVendasABC.Text = "Vendas Curva ABC"
         Me.rbtVendasABC.UseVisualStyleBackColor = True
-        ' Escondido (28/09/2026) a pedido da cliente - so o visual, ate o
-        ' relatorio de Curva ABC ser corrigido. O controle e o Sub que ele
-        ' aciona (mdiPrincipal.CarregarRelVendasABC) continuam existindo, so
-        ' nao aparecem/nao dao pra clicar - facil reverter depois bastando
-        ' tirar esta linha.
         Me.rbtVendasABC.Visible = False
         '
         'rbtPainelCompras
         '
         Me.rbtPainelCompras.AutoSize = True
         Me.rbtPainelCompras.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        ' Resolvido o conflito de merge (28/09/2026): o commit mais recente
-        ' (origin/iago) reorganizou o "Painel de Compras" pra essa coluna
-        ' (X=842), junto com Vendas por Vendedor/Loja/Nfe/ABC - por isso
-        ' ficou com Location/Margin diferentes do que eu tinha colocado
-        ' antes (quando ele ainda estava numa posicao antiga, X=536).
-        ' Mantive a posicao/Margin desse commit mais novo, mas ajustei o Y de
-        ' 489 para 435: como o "Vendas Curva ABC" logo acima (mesma coluna)
-        ' continua oculto (Visible = False), 435 e' a posicao que ele deixou
-        ' vaga - usar 489 deixaria um buraco duplo no meio da coluna.
-        Me.rbtPainelCompras.Location = New System.Drawing.Point(842, 435)
+        Me.rbtPainelCompras.Location = New System.Drawing.Point(842, 430)
         Me.rbtPainelCompras.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtPainelCompras.Name = "rbtPainelCompras"
-        Me.rbtPainelCompras.Size = New System.Drawing.Size(150, 33)
+        Me.rbtPainelCompras.Size = New System.Drawing.Size(162, 33)
         Me.rbtPainelCompras.TabIndex = 113
         Me.rbtPainelCompras.TabStop = True
         Me.rbtPainelCompras.Text = "Curva ABC"
@@ -548,14 +534,12 @@ Partial Class fRelatorio
         '
         'rbtPedidosCompra
         '
-        ' Relatorio novo (27/10/2026): Pedidos de Compra x Entregas, logo abaixo
-        ' do Painel de Compras na mesma coluna (X=842).
         Me.rbtPedidosCompra.AutoSize = True
         Me.rbtPedidosCompra.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtPedidosCompra.Location = New System.Drawing.Point(842, 489)
+        Me.rbtPedidosCompra.Location = New System.Drawing.Point(842, 483)
         Me.rbtPedidosCompra.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtPedidosCompra.Name = "rbtPedidosCompra"
-        Me.rbtPedidosCompra.Size = New System.Drawing.Size(220, 33)
+        Me.rbtPedidosCompra.Size = New System.Drawing.Size(261, 33)
         Me.rbtPedidosCompra.TabIndex = 114
         Me.rbtPedidosCompra.TabStop = True
         Me.rbtPedidosCompra.Text = "Pedidos x Entregas"
@@ -563,16 +547,12 @@ Partial Class fRelatorio
         '
         'rbtComprasVendas
         '
-        ' Relatorio novo (27/10/2026): Compras x Vendas x Estoque. Fica na linha de
-        ' "Categorias" (Y=597) e nao na de "SPED / EFD" (Y=543), porque o texto
-        ' do SPED e comprido e invade a 3a coluna. Textos curtos nesta coluna: a
-        ' tela so tem ~300 de largura a partir de X=842.
         Me.rbtComprasVendas.AutoSize = True
         Me.rbtComprasVendas.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtComprasVendas.Location = New System.Drawing.Point(842, 597)
+        Me.rbtComprasVendas.Location = New System.Drawing.Point(842, 536)
         Me.rbtComprasVendas.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtComprasVendas.Name = "rbtComprasVendas"
-        Me.rbtComprasVendas.Size = New System.Drawing.Size(210, 33)
+        Me.rbtComprasVendas.Size = New System.Drawing.Size(252, 33)
         Me.rbtComprasVendas.TabIndex = 115
         Me.rbtComprasVendas.TabStop = True
         Me.rbtComprasVendas.Text = "Compras x Vendas"
@@ -580,13 +560,12 @@ Partial Class fRelatorio
         '
         'rbtBackups
         '
-        ' Relatorio de Backups (local + nuvem), 3a coluna, linha de "Vendas com Pix"
         Me.rbtBackups.AutoSize = True
         Me.rbtBackups.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtBackups.Location = New System.Drawing.Point(842, 651)
+        Me.rbtBackups.Location = New System.Drawing.Point(842, 589)
         Me.rbtBackups.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rbtBackups.Name = "rbtBackups"
-        Me.rbtBackups.Size = New System.Drawing.Size(110, 33)
+        Me.rbtBackups.Size = New System.Drawing.Size(137, 33)
         Me.rbtBackups.TabIndex = 116
         Me.rbtBackups.TabStop = True
         Me.rbtBackups.Text = "Backups"
