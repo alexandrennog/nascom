@@ -137,8 +137,9 @@ UPDATE basennf b
    AND v.chave REGEXP '^[0-9]{44}$';
 
 -- 3. Retorno da SEFAZ guardado na infprot (protocolo, data, motivo, cancelamento)
+--    So a linha da autorizacao (100/150): a infprot tambem guarda tentativas rejeitadas
 UPDATE basennf b
-  JOIN infprot i ON i.chnfe = b.chnfe
+  JOIN infprot i ON i.chnfe = b.chnfe AND i.cstat IN (100, 150)
    SET b.protocolo       = IFNULL(b.protocolo, i.nprot),
        b.cStat           = IFNULL(b.cStat, i.cstat),
        b.mensagem        = IFNULL(b.mensagem, i.xmotivo),

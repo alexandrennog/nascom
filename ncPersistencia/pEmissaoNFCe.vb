@@ -67,10 +67,12 @@ Namespace nsNFCe
             End Try
         End Sub
 
-        ' Autorizada: protocolo, data e retorno vem da infprot (gravada pela LibNF65)
+        ' Autorizada: protocolo, data e retorno vem da infprot (gravada pela LibNF65).
+        ' So a linha da AUTORIZACAO (100/150): a mesma chave pode ter tambem a linha
+        ' de uma tentativa rejeitada (reemissao no mesmo numero/mes gera a mesma chave).
         Public Sub FinalizarAutorizada(ByVal seqNFe As Integer, ByVal chave As String, ByVal caminhoXml As String)
             Dim acessoBanco As New cAcessoBD
-            Dim prot As String = " FROM infprot i WHERE i.chnfe = " & SqlTexto(chave) & " ORDER BY i.dhrecbto DESC LIMIT 1) "
+            Dim prot As String = " FROM infprot i WHERE i.chnfe = " & SqlTexto(chave) & " AND i.cstat IN (100, 150) ORDER BY i.dhrecbto DESC LIMIT 1) "
 
             Try
                 acessoBanco.ExecutarINT(
@@ -110,15 +112,18 @@ Namespace nsNFCe
         End Sub
 
         ' Resultado de uma consulta da chave na SEFAZ (nota que ja estava autorizada,
-        ' ou cancelada). Campos vazios nao apagam o que ja estava gravado.
+        ' ou cancelada). Campos vazios nao apagam o que ja estava gravado; chave so
+        ' troca quando informada (nota que ja existia na SEFAZ com outra chave).
         Public Sub AtualizarPelaConsulta(ByVal seqNFe As Integer, ByVal situacao As String, ByVal cStat As Nullable(Of Integer),
                                          ByVal mensagem As String, ByVal protocolo As String,
-                                         ByVal dataAutorizacao As Nullable(Of DateTime), ByVal caminhoXml As String)
+                                         ByVal dataAutorizacao As Nullable(Of DateTime), ByVal caminhoXml As String,
+                                         Optional ByVal chave As String = Nothing)
             Dim acessoBanco As New cAcessoBD
 
             Try
                 acessoBanco.ExecutarINT(
                     " UPDATE basennf SET " &
+                    "        chnfe = IFNULL(" & SqlTexto(chave) & ", chnfe), " &
                     "        situacao = " & SqlTexto(situacao) & ", " &
                     "        cStat = " & SqlInteiro(cStat) & ", " &
                     "        mensagem = " & SqlTexto(mensagem) & ", " &

@@ -394,9 +394,10 @@ Public Class fNFCeEmissoes
                 Return True
         End Select
         ' Caixa: precisa da senha do gerente (mesma regra de outras operacoes fiscais)
-        Dim acessoGerente As New fAcessoGerente()
-        acessoGerente.ShowDialog()
-        Return acessoGerente.gRetorno
+        Using acessoGerente As New fAcessoGerente()
+            acessoGerente.ShowDialog()
+            Return acessoGerente.gRetorno
+        End Using
     End Function
 
     Private Sub Reemitir()
@@ -431,6 +432,10 @@ Public Class fNFCeEmissoes
         Dim tituloOriginal As String = mdiPrincipal.Text
         Dim resultado As NFCeReemissao.Resultado = Nothing
         ocupado = True
+        ' Bloqueia tambem o menu principal: durante as novas tentativas a tela
+        ' processa eventos (DoEvents) e um clique no menu fecharia esta tela no meio
+        ' da emissao
+        mdiPrincipal.Enabled = False
         Me.Enabled = False
         Cursor.Current = Cursors.WaitCursor
 
@@ -456,6 +461,7 @@ Public Class fNFCeEmissoes
             mdiPrincipal.Text = tituloOriginal
             Cursor.Current = Cursors.Default
             Me.Enabled = True
+            mdiPrincipal.Enabled = True
             ocupado = False
         End Try
 

@@ -669,7 +669,10 @@ namespace LibNF65
                     {
                         IInfProtRepository repository = new InfProtRepository();
                         var infoProdutoService = new InfoProdutoService();
-                        if (infoProdutoService.BuscarPorChNFe(chaveAcesso, repository) == null)
+                        // grava se ainda não houver o protocolo da AUTORIZAÇÃO (pode existir
+                        // só a linha de uma tentativa rejeitada com a mesma chave)
+                        var existente = infoProdutoService.BuscarPorChNFe(chaveAcesso, repository);
+                        if (existente == null || !(existente.CStat == 100 || existente.CStat == 150))
                         {
                             infoProdutoService.AdicionarInfoProduto(new InfoProduto
                             {

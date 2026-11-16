@@ -328,8 +328,9 @@ Public Class NFCeReemissao
                                          "(ou já foi resolvida). Atualize o relatório.")
         End If
 
-        regras.TentarRegistrarChave(seq, chaveExistente, situacao.CaminhoXml)
-        regras.AtualizarPelaConsulta(seq, "A", situacao.CStat, situacao.XMotivo, situacao.Protocolo, situacao.DataAutorizacao, situacao.CaminhoXml)
+        ' chave + situacao no mesmo UPDATE (nunca "autorizada" com a chave antiga)
+        regras.AtualizarPelaConsulta(seq, "A", situacao.CStat, situacao.XMotivo, situacao.Protocolo, situacao.DataAutorizacao,
+                                     situacao.CaminhoXml, chaveExistente)
         regras.GravarChaveNaVenda(item.controle.Value, chaveExistente)
 
         r.sucesso = True

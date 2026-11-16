@@ -212,9 +212,11 @@ Namespace nsNFCe
 
         Public Sub AtualizarPelaConsulta(ByVal seqNFe As Integer, ByVal situacao As String, ByVal cStat As Nullable(Of Integer),
                                          ByVal mensagem As String, ByVal protocolo As String,
-                                         ByVal dataAutorizacao As Nullable(Of DateTime), ByVal caminhoXml As String)
+                                         ByVal dataAutorizacao As Nullable(Of DateTime), ByVal caminhoXml As String,
+                                         Optional ByVal chave As String = Nothing)
             Try
-                Call New pEmissaoNFCe().AtualizarPelaConsulta(seqNFe, situacao, cStat, Cortar(mensagem), protocolo, dataAutorizacao, caminhoXml)
+                Call New pEmissaoNFCe().AtualizarPelaConsulta(seqNFe, situacao, cStat, Cortar(mensagem), protocolo, dataAutorizacao, caminhoXml,
+                                                              If(dEmissaoNFCe.ChaveValida(chave), chave, Nothing))
             Catch nex As ExcecaoNascomercio
                 Throw
             Catch ex As Exception
