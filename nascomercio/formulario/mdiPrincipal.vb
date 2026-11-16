@@ -1126,6 +1126,12 @@ ew script# - backup_nuvem.sql"" no MySQL desta loja.")
         formulario = fRelatorioFechamentoSAT
         AbrirTela()
     End Sub
+    ' Historico de emissao da NFC-e (no lugar de "Vendas SAT" quando FISCAL = ONLINE)
+    Public Sub CarregarNFCeEmissoes()
+        FecharTela()
+        formulario = fNFCeEmissoes
+        AbrirTela()
+    End Sub
     Public Sub CarregarRelatorioGrade()
         FecharTela()
         formulario = fRelatorioGrade

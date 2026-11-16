@@ -75,6 +75,7 @@
     <Compile Include="pDashboardCompras.vb" />
     <Compile Include="pPedidoCompra.vb" />
     <Compile Include="pBackupNuvem.vb" />
+    <Compile Include="pEmissaoNFCe.vb" />
     <Compile Include="pGiro.vb" />
     <Compile Include="pGradeItem.vb" />
     <Compile Include="pGrupo.vb" />

@@ -667,6 +667,14 @@
     <Compile Include="formulario\fNotificacao.vb">
       <SubType>Form</SubType>
     </Compile>
+    <!-- NFC-e Emitidas: historico de emissao + reemissao (script 44) -->
+    <Compile Include="formulario\cNFCeReemissao.vb" />
+    <Compile Include="relatorio\fNFCeEmissoes.Designer.vb">
+      <DependentUpon>fNFCeEmissoes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="relatorio\fNFCeEmissoes.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="relatorio\fRelatorioBackups.Designer.vb">
       <DependentUpon>fRelatorioBackups.vb</DependentUpon>
     </Compile>
@@ -1322,6 +1330,10 @@
     <EmbeddedResource Include="relatorio\PedidosCompra.rdlc" />
     <EmbeddedResource Include="relatorio\ComprasVendas.rdlc" />
     <EmbeddedResource Include="relatorio\Backups.rdlc" />
+    <EmbeddedResource Include="relatorio\NFCeEmissoes.rdlc" />
+    <EmbeddedResource Include="relatorio\fNFCeEmissoes.resx">
+      <DependentUpon>fNFCeEmissoes.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="relatorio\fRelatorioBackups.resx">
       <DependentUpon>fRelatorioBackups.vb</DependentUpon>
     </EmbeddedResource>

@@ -67,7 +67,12 @@ Public Class fRelatorio
                 MessageBox.Show(Declaracoes.TrataRetorno(Declaracoes.iRetorno))
             End If
         ElseIf rbtSAT.Checked Then
-            mdiPrincipal.CarregarVendaSAT()
+            ' Mesmo lugar no menu: SAT -> "Vendas SAT"; NFC-e (ONLINE) -> "NFC-e Emitidas"
+            If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
+                mdiPrincipal.CarregarNFCeEmissoes()
+            Else
+                mdiPrincipal.CarregarVendaSAT()
+            End If
         ElseIf rbtPix.Checked Then
             mdiPrincipal.CarregarRelPix()
         ElseIf rbtCrediarioPix.Checked Then
@@ -168,6 +173,16 @@ Public Class fRelatorio
                     rbtReducaoZ.Visible = False
                 End If
         End Select
+
+        ' NFC-e (FISCAL = ONLINE): no lugar do "Vendas SAT" fica o relatorio
+        ' "NFC-e Emitidas" (historico de emissao, falhas e reemissao)
+        If System.Configuration.ConfigurationManager.AppSettings("FISCAL") = "ONLINE" Then
+            Select Case mdiPrincipal.gUsuario.usuarioPerfil_codigo
+                Case "a", "g", "c"
+                    rbtSAT.Text = "NFC-e Emitidas"
+                    rbtSAT.Visible = True
+            End Select
+        End If
 
 
     End Sub

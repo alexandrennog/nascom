@@ -79,6 +79,7 @@
     <Compile Include="rDashboardCompras.vb" />
     <Compile Include="rPedidoCompra.vb" />
     <Compile Include="rBackupNuvem.vb" />
+    <Compile Include="rEmissaoNFCe.vb" />
     <Compile Include="rGiro.vb" />
     <Compile Include="rGradeItem.vb" />
     <Compile Include="rGrupo.vb" />
