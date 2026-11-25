@@ -1133,8 +1133,20 @@ Public Class fPagamento
 
                         End If
 
-                        dados.chnfe = "temporario"
-                        Dim nNF = novaVenda.IncluirnNF(dados)
+                        ' Numero da NFC-e. Com o historico (script 44) o numero ja nasce ligado
+                        ' a venda, com data/hora, terminal e usuario - e o que alimenta o
+                        ' relatorio "NFC-e Emitidas" e a reemissao. Sem o script (ou se der
+                        ' qualquer erro ao gravar o historico), pega o numero do jeito antigo.
+                        Dim historicoNFCe As New ncRegras.nsNFCe.rEmissaoNFCe
+                        Dim chaveGerada As String = Nothing
+                        Dim nNF As Integer = historicoNFCe.TentarReservar(controle, CDec(lblTotal.Text), Str_CPF,
+                                                                          ConfigurationManager.AppSettings("NOME_TERMINAL"), Environment.MachineName,
+                                                                          mdiPrincipal.gUsuario.cid, mdiPrincipal.gUsuario.nomeCompleto)
+                        Dim usaHistoricoNFCe As Boolean = (nNF > 0)
+                        If Not usaHistoricoNFCe Then
+                            dados.chnfe = "temporario"
+                            nNF = novaVenda.IncluirnNF(dados)
+                        End If
                         Dim lista = ConverterLista(dadosVendaProdutos.ToList)
 
                         ' Emissão da NFC-e com nova tentativa automática (dentro de GerarNF) em caso
@@ -1176,6 +1188,14 @@ Public Class fPagamento
                                         "Detalhe: " & exImpressao.Message & vbCrLf & vbCrLf &
                                         "A venda está válida -- reimprima o cupom depois na tela de Consulta de Caixa.",
                                         "Falha ao imprimir cupom fiscal", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                                End Sub,
+                                Sub(chaveNova)
+                                    ' Chave gerada e XML gravado (antes de ir para a SEFAZ): ja fica no
+                                    ' historico, para a nota poder ser consultada/reemitida se cair no meio
+                                    chaveGerada = chaveNova
+                                    If usaHistoricoNFCe Then
+                                        historicoNFCe.TentarRegistrarChave(nNF, chaveNova, NFCe65.LocalizarXml(chaveNova))
+                                    End If
                                 End Sub)
                         Catch exRejeicao As NFCeRejeitadaException
                             ' A SEFAZ processou a nota e REJEITOU (CStat diferente de 100) — não é
@@ -1195,6 +1215,9 @@ Public Class fPagamento
                             dados.chnfe = chave
                             dados.SeqNFe = nNF
                             regraVenda.AlterarBaseNnf(dados)
+                            If usaHistoricoNFCe Then
+                                historicoNFCe.TentarFinalizarAutorizada(nNF, chave, NFCe65.LocalizarXml(chave))
+                            End If
                         Else
                             ' Falha definitiva (seja por rejeição da SEFAZ, seja por falha de
                             ' comunicação mesmo após as tentativas automáticas dentro de GerarNF).
@@ -1203,9 +1226,26 @@ Public Class fPagamento
                             ' em vez de ficar com "temporario" para sempre e sem nenhum rastro.
                             Try
                                 regraVenda.Alterar(controle.ToString(), "FALHA_EMISSAO")
-                                dados.chnfe = "FALHA_EMISSAO"
-                                dados.SeqNFe = nNF
-                                regraVenda.AlterarBaseNnf(dados)
+                                If usaHistoricoNFCe Then
+                                    ' Historico: guarda a chave gerada (para consultar/reemitir depois),
+                                    ' o motivo e onde ficou o XML - nao troca a chave por FALHA_EMISSAO
+                                    Dim chaveFalha As String = chaveGerada
+                                    Dim cStatFalha As Nullable(Of Integer) = Nothing
+                                    Dim rejeicao As NFCeRejeitadaException = TryCast(erroEmissaoNFCe, NFCeRejeitadaException)
+                                    If rejeicao IsNot Nothing Then
+                                        cStatFalha = rejeicao.CStat
+                                        If String.IsNullOrEmpty(chaveFalha) Then
+                                            chaveFalha = rejeicao.ChaveAcesso
+                                        End If
+                                    End If
+                                    historicoNFCe.TentarFinalizarSemSucesso(nNF, notaRejeitadaPelaSefaz, cStatFalha,
+                                                                             If(erroEmissaoNFCe IsNot Nothing, erroEmissaoNFCe.Message, "Erro desconhecido."),
+                                                                             chaveFalha, NFCe65.LocalizarXml(chaveFalha))
+                                Else
+                                    dados.chnfe = "FALHA_EMISSAO"
+                                    dados.SeqNFe = nNF
+                                    regraVenda.AlterarBaseNnf(dados)
+                                End If
                             Catch
                                 ' Uma falha aqui não pode mascarar o aviso abaixo ao operador.
                             End Try
@@ -1221,7 +1261,7 @@ Public Class fPagamento
                                 MessageBox.Show(
                                     "Não foi possível emitir a NFC-e desta venda (controle " & controle.ToString() & "), mesmo após 3 tentativas." & vbCrLf & vbCrLf &
                                     "Isso normalmente acontece quando o site da SEFAZ está fora do ar ou muito lento no momento." & vbCrLf & vbCrLf &
-                                    "A venda foi registrada, mas SEM nota fiscal emitida. Avise o responsável para reemitir a nota assim que a SEFAZ estiver disponível." & vbCrLf & vbCrLf &
+                                    "A venda foi registrada, mas SEM nota fiscal emitida. Avise o responsável para reemitir a nota assim que a SEFAZ estiver disponível (Relatórios > NFC-e Emitidas > Reemitir)." & vbCrLf & vbCrLf &
                                     "Detalhe técnico: " & If(erroEmissaoNFCe IsNot Nothing, erroEmissaoNFCe.Message, "erro desconhecido"),
                                     "Falha ao emitir NFC-e", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                             End If
@@ -1363,7 +1403,10 @@ Public Class fPagamento
             ' valorTributacao é o total estimado de tributos do ITEM (vTotTrib na NFC-e), não só
             ' do valor unitário -- precisa multiplicar pela quantidade, senão subestima o valor em
             ' qualquer item vendido com quantidade > 1 (mesmo bug de origem do VProd em NFCe.cs).
-            novoItem.valorTributacao = Double.Parse(item.valor.ToString()) * Double.Parse(item.quantidade.ToString()) * (Double.Parse(item.aliquota) / 100)
+            ' Produto sem aliquota cadastrada: tributos aproximados = 0 (antes o Double.Parse
+            ' estourava e a NFC-e inteira falhava - na venda e na reemissao)
+            Dim aliquotaItem As String = If(String.IsNullOrWhiteSpace(item.aliquota), "0", item.aliquota.Trim())
+            novoItem.valorTributacao = Double.Parse(item.valor.ToString()) * Double.Parse(item.quantidade.ToString()) * (Double.Parse(aliquotaItem) / 100)
             listaDestino.Add(novoItem)
         Next
 
@@ -1540,7 +1583,7 @@ Public Class fPagamento
         Dim regras As rPix
 
         regras = New rPix
-        Dim pagamentos = New ColecaoPix
+        Dim cidPix As Integer
         Dim dados As New dPix
 
 
@@ -1548,10 +1591,12 @@ Public Class fPagamento
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
             dados.Controle = lblControle.Text
-            pagamentos = regras.fIncluir(dados)
+            ' fIncluir devolve o cid do PIX gravado (antes ia para uma variavel
+            ' declarada como ColecaoPix - so compilava com Option Infer desligado)
+            cidPix = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
-            picQRCode.Tag = pagamentos
+            picQRCode.Tag = cidPix
 
 
         Catch ex As Exception
@@ -1571,10 +1616,9 @@ Public Class fPagamento
             dados.Original = txtValorPIX.Text
             dados.Observacao = txtObs.Text
             dados.Controle = lblControle.Text
-            Dim arPix = regras.Consultar(dados)
+            Dim arPix As ColecaoPix = regras.Consultar(dados)
 
-            If Not arPix Is Nothing Then
-                arPix = arPix.ToArray()
+            If arPix IsNot Nothing AndAlso arPix.Count > 0 Then
                 dados = arPix(0)
                 txtPix.Text = dados.Original
                 txtValorPIX.Text = dados.Original

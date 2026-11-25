@@ -141,9 +141,9 @@ Partial Class fPainelCompras
         Me.lblTitulo.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblTitulo.Location = New System.Drawing.Point(12, 14)
         Me.lblTitulo.Name = "lblTitulo"
-        Me.lblTitulo.Size = New System.Drawing.Size(150, 25)
+        Me.lblTitulo.Size = New System.Drawing.Size(110, 25)
         Me.lblTitulo.TabIndex = 0
-        Me.lblTitulo.Text = "Painel de Compras"
+        Me.lblTitulo.Text = "Curva ABC"
         '
         'pnlResumo
         '
@@ -325,7 +325,7 @@ Partial Class fPainelCompras
         Me.MinimumSize = New System.Drawing.Size(600, 400)
         Me.Name = "fPainelCompras"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Painel de Compras"
+        Me.Text = "Curva ABC"
         Me.pnlTopo.ResumeLayout(False)
         Me.pnlTopo.PerformLayout()
         Me.pnlResumo.ResumeLayout(False)

@@ -219,7 +219,7 @@ Public Class fPix
         Dim regras As rPix
 
         regras = New rPix
-        Dim pagamentos = New ColecaoPix
+        Dim cidPix As Integer
         Dim dados As New dPix
 
         Try
@@ -227,10 +227,12 @@ Public Class fPix
             dados.Observacao = txtObs.Text
             dados.Controle = Me.Tag
             dados.TxId = txtTxId.Text
-            pagamentos = regras.fIncluir(dados)
+            ' fIncluir devolve o cid do PIX gravado (antes ia para uma variavel
+            ' declarada como ColecaoPix - so compilava com Option Infer desligado)
+            cidPix = regras.fIncluir(dados)
             txtTxId.Text = "PIX Cadastrado!"
             txtStatus.Text = "A Cobrar"
-            picQRCode.Tag = pagamentos
+            picQRCode.Tag = cidPix
 
 
         Catch ex As Exception
@@ -251,10 +253,9 @@ Public Class fPix
             dados.TxId = txtTxId.Text
             dados.Observacao = txtObs.Text
             dados.Controle = fPagamento.lblControle.Text
-            Dim arPix = regras.Consultar(dados)
+            Dim arPix As ColecaoPix = regras.Consultar(dados)
 
-            If Not arPix Is Nothing Then
-                arPix = arPix.ToArray()
+            If arPix IsNot Nothing AndAlso arPix.Count > 0 Then
                 dados = arPix(0)
                 txtValorPIX.Text = dados.Original
                 txtTxId.Text = dados.TxId

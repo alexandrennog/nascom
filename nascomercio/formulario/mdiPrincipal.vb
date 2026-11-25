@@ -2,6 +2,8 @@ Imports System.Configuration
 Imports System.Threading.Tasks
 Imports System.Windows.Forms
 Imports NasLibackup
+Imports ncDados.nsBackupNuvem
+Imports ncRegras.nsBackupNuvem
 Imports ncComum.nsConstantes
 Imports ncComum.nsExcecao
 Imports ncComum.nsLog.cLog
@@ -97,14 +99,181 @@ Public Class mdiPrincipal
             ' Indice e otimizacao, nao requisito - nunca interrompe o login por causa disso.
         End Try
     End Sub
+    ' Backup automatico depois do login (BACKUPAUTOMATICO = SIM no app.config).
+    ' Roda em segundo plano (o sistema continua usavel) e nunca mostra erro na
+    ' tela do caixa: falha vai para o historico (Relatorio de Backups), para o
+    ' log e para o e-mail do suporte, se configurado.
     Public Async Function CarregarBackupAutomaticoAsync() As Task
-        Await ExecutarBackup()
+        Try
+            Await ExecutarBackupNuvemAsync(True)
+        Catch ex As Exception
+            Try
+                GravarLog("", "Backup automático não executado: " & ex.Message)
+            Catch
+            End Try
+        End Try
     End Function
-    Private Async Function ExecutarBackup() As Task
-        ' TODO: NasLibackup não disponível nesta cópia do projeto — backup automático desativado temporariamente
-        'Await Libackup.RotinaDeCriarBackup()
-        Await Task.CompletedTask
 
+    ' BACKUPAUTOMATICO diferente de SIM: avisa o cliente (notificacao no canto)
+    ' que o backup esta desativado e que ele deve falar com o suporte.
+    ' So no computador que faz o backup (o que tem o MySQL): nos caixas o backup
+    ' nunca roda mesmo, entao o aviso la so atrapalharia.
+    Public Sub AvisarBackupDesativado()
+        Try
+            Dim motivo As String = ""
+            If Not Libackup.PodeFazerBackupNesteComputador(motivo) Then
+                Exit Sub
+            End If
+
+            Notificacao.Aviso("Backup desativado",
+                              "O backup automático do banco de dados está desativado. Talvez o seu plano não inclua essa modalidade. Fale com o suporte para saber mais.",
+                              15)
+        Catch
+            ' aviso nunca pode atrapalhar o login
+        End Try
+    End Sub
+
+    ' Backup local + nuvem (biblioteca NasLibackup) com registro no historico
+    ' (tabela backupnuvem, script "43 - backup_nuvem.sql").
+    '   automatico = True : so roda uma vez por dia por loja (o primeiro
+    '                       terminal que abrir o sistema faz; os outros pulam)
+    '   automatico = False: botao "Fazer backup agora" da tela de Backup
+    ' Situacao devolvida: S, P, F (ver ResultadoBackup), A = ja tinha backup
+    ' rodando neste computador, J = o automatico de hoje ja foi feito,
+    ' N = este computador nao tem o MySQL (so no automatico).
+    Public Async Function ExecutarBackupNuvemAsync(ByVal automatico As Boolean) As Task(Of ResultadoBackup)
+        Dim regras As New rBackupNuvem
+        Dim cid As Integer
+        Dim resultado As ResultadoBackup = Nothing
+
+        If Libackup.EmAndamento Then
+            Return New ResultadoBackup With {.Situacao = "A", .Inicio = Now, .Fim = Now,
+                                             .Mensagem = "Já existe um backup em andamento neste computador. Aguarde terminar."}
+        End If
+
+        ' So o computador com o MySQL (mysqldump) faz backup. Nos caixas o
+        ' automatico nem tenta; no botao manual o motivo aparece na tela.
+        Dim motivo As String = ""
+        If Not Libackup.PodeFazerBackupNesteComputador(motivo) Then
+            If automatico Then
+                Return New ResultadoBackup With {.Situacao = "N", .Inicio = Now, .Fim = Now, .Mensagem = motivo}
+            End If
+            Throw New ExcecaoNascomercio("Este computador não consegue fazer o backup." & vbCrLf & vbCrLf & motivo)
+        End If
+
+        If Not regras.TabelaExiste() Then
+            Throw New ExcecaoNascomercio("O histórico de backups ainda não existe neste banco." & vbCrLf &
+                                         "Rode o script ""scripts
+ew script# - backup_nuvem.sql"" no MySQL desta loja.")
+        End If
+
+        Dim terminal As String = ConfigurationManager.AppSettings("NOME_TERMINAL")
+        If String.IsNullOrWhiteSpace(terminal) Then
+            terminal = Environment.MachineName
+        End If
+
+        cid = regras.Iniciar(automatico, terminal, Environment.MachineName, gUsuario.cid, gUsuario.nomeCompleto)
+        If cid = 0 Then
+            Return New ResultadoBackup With {.Situacao = "J", .Inicio = Now, .Fim = Now,
+                                             .Mensagem = "O backup automático de hoje já foi feito (ou está sendo feito) em outro terminal, ou já falhou " &
+                                                         rBackupNuvem.MaximoFalhasAutomaticasPorDia & " vezes hoje."}
+        End If
+
+        ' Aviso no canto da tela enquanto o backup roda (o usuario segue trabalhando)
+        Dim aviso As fNotificacao = Notificacao.EmAndamento("Backup do banco de dados",
+            "Estamos fazendo o backup do banco de dados em segundo plano. Pode continuar usando o sistema normalmente.")
+
+        Try
+            resultado = Await Libackup.RotinaDeCriarBackup(MontarConexaoBackup())
+        Catch ex As Exception
+            resultado = New ResultadoBackup With {.Situacao = "F", .Etapa = "configuracao", .Inicio = Now, .Fim = Now, .Mensagem = ex.Message}
+        End Try
+
+        If resultado.Situacao = "A" Then
+            ' Outro backup comecou neste computador entre a verificacao e agora
+            resultado.Situacao = "F"
+            resultado.Mensagem = "Ignorado: já havia outro backup em andamento neste computador."
+        End If
+
+        Dim historico As New dBackupNuvem
+        historico.cid = cid
+        historico.situacao = resultado.Situacao
+        historico.etapa = resultado.Etapa
+        historico.arquivo = resultado.ArquivoLocal
+        historico.bytesBanco = resultado.BytesBanco
+        historico.bytesZip = resultado.BytesZip
+        historico.enviadoNuvem = resultado.EnviadoNuvem
+        historico.bucket = resultado.Bucket
+        historico.chaveNuvem = resultado.ChaveNuvem
+        historico.arquivosApagados = resultado.ArquivosApagados
+        historico.emailEnviado = resultado.EmailEnviado
+        historico.mensagem = resultado.Mensagem
+
+        Try
+            regras.Finalizar(historico)
+        Finally
+            AvisarFimDoBackup(aviso, resultado, automatico)
+        End Try
+
+        Return resultado
+    End Function
+
+    ' Troca o aviso "em andamento" pelo resultado. No backup manual a tela de
+    ' Backup ja mostra o resultado numa mensagem, entao o aviso so fecha.
+    Private Sub AvisarFimDoBackup(ByVal aviso As fNotificacao, ByVal resultado As ResultadoBackup, ByVal automatico As Boolean)
+        If Not automatico Then
+            If aviso IsNot Nothing Then
+                aviso.Fechar()
+            End If
+            Exit Sub
+        End If
+
+        Dim suporte As String = If(resultado.EmailEnviado, "O suporte já foi avisado.", "Avise o suporte.")
+        Dim titulo As String
+        Dim mensagem As String
+        Dim tipo As TipoNotificacao
+        Dim segundos As Integer
+
+        Select Case resultado.Situacao
+            Case "S"
+                titulo = "Backup concluído"
+                mensagem = "O backup do banco de dados foi salvo neste computador e na nuvem."
+                tipo = TipoNotificacao.Sucesso
+                segundos = 6
+            Case "P"
+                titulo = "Backup salvo só no computador"
+                mensagem = "O backup foi salvo neste computador, mas o envio para a nuvem falhou. " & suporte
+                tipo = TipoNotificacao.Aviso
+                segundos = 12
+            Case Else
+                titulo = "Backup não concluído"
+                mensagem = "Não foi possível fazer o backup do banco de dados. " & suporte
+                tipo = TipoNotificacao.Erro
+                segundos = 12
+        End Select
+
+        ' Se o usuario fechou o aviso "em andamento" (clique), mostra o resultado num novo
+        If aviso Is Nothing OrElse aviso.IsDisposed Then
+            Notificacao.Mostrar(titulo, mensagem, tipo, segundos)
+        Else
+            aviso.Atualizar(titulo, mensagem, tipo, segundos)
+        End If
+    End Sub
+
+    ' Mesma connection string que o sistema usa (app.config, "nascomercio"),
+    ' com a senha descriptografada do mesmo jeito que o cAcessoBD faz.
+    Private Function MontarConexaoBackup() As String
+        Dim conexao As String = ConfigurationManager.ConnectionStrings("nascomercio").ConnectionString
+        Dim builder As New System.Data.Common.DbConnectionStringBuilder()
+        builder.ConnectionString = conexao
+
+        If builder.ContainsKey("Password") Then
+            Dim cripto As New ncComum.criptografia()
+            Dim senhaCripto As String = builder("Password").ToString()
+            builder("Password") = Split(cripto.Descriptografar(senhaCripto), vbNullChar)(0)
+        End If
+
+        Return builder.ConnectionString
     End Function
 
     Private Function CarregarUsuario() As Boolean
@@ -957,6 +1126,12 @@ Public Class mdiPrincipal
         formulario = fRelatorioFechamentoSAT
         AbrirTela()
     End Sub
+    ' Historico de emissao da NFC-e (no lugar de "Vendas SAT" quando FISCAL = ONLINE)
+    Public Sub CarregarNFCeEmissoes()
+        FecharTela()
+        formulario = fNFCeEmissoes
+        AbrirTela()
+    End Sub
     Public Sub CarregarRelatorioGrade()
         FecharTela()
         formulario = fRelatorioGrade
@@ -1175,6 +1350,14 @@ Public Class mdiPrincipal
     Public Sub CarregarRelatorioComprasVendas()
         FecharTela()
         formulario = fRelatorioComprasVendas
+        AbrirTela()
+    End Sub
+
+    ' Relatorio de Backups (historico do backup local + nuvem; script
+    ' "43 - backup_nuvem.sql"). Aberto por Relatorios e pela tela de Backup.
+    Public Sub CarregarRelatorioBackups()
+        FecharTela()
+        formulario = fRelatorioBackups
         AbrirTela()
     End Sub
 

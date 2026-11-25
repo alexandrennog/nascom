@@ -133,7 +133,12 @@ namespace LibNF65
             }
         }
 
-        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, Action<int, int> aoTentarNovamente = null, Action aoAguardar = null, Action<Exception> aoFalharImpressao = null)
+        // aoGerarChave: chamado assim que a chave é gerada e o XML gravado no disco (ANTES de
+        // enviar para a SEFAZ) - o nascomercio usa para guardar no histórico (basennf) a chave
+        // e o caminho do XML, mesmo que a emissão falhe depois.
+        // imprimir: false = não imprime o cupom fiscal (reemissão pelo relatório de NFC-e,
+        // quando o cliente já foi embora). O padrão continua imprimindo, como sempre.
+        public static string GerarNF(List<ProdutoVendido> produtos, X509Certificate2 x509Cert, List<MeioPagamentoNascom> meiosPagamentos, string cpf, string controle, int nNFTemp, Action<int, int> aoTentarNovamente = null, Action aoAguardar = null, Action<Exception> aoFalharImpressao = null, Action<string> aoGerarChave = null, bool imprimir = true)
         {
             // chaveAcesso agora é variável LOCAL, não mais campo estático da classe.
             // Antes, "static string chaveAcesso" era um estado global compartilhado por
@@ -264,6 +269,18 @@ namespace LibNF65
             xmlDoc.LoadXml(xmlString.InnerXml);
             xmlDoc.Save(CaminhoArquivo(chaveAcesso));
 
+            // Avisa o chamador da chave (histórico) - um erro lá não pode impedir a emissão
+            if (aoGerarChave != null)
+            {
+                try
+                {
+                    aoGerarChave(chaveAcesso);
+                }
+                catch
+                {
+                }
+            }
+
             try
             {
                 if (!AssinaturaDigital.EstaAssinado(xmlDoc, "infNFe"))
@@ -346,7 +363,10 @@ namespace LibNF65
                                 // chamador achar que a emissão falhou.
                                 try
                                 {
-                                    Imprimir(chaveAcesso);
+                                    if (imprimir)
+                                    {
+                                        Imprimir(chaveAcesso);
+                                    }
                                 }
                                 catch (Exception exImpressao)
                                 {
@@ -459,7 +479,10 @@ namespace LibNF65
                     // (nunca movido para NFs\OK), arriscando reemissão duplicada depois.
                     try
                     {
-                        Imprimir(chaveAcesso);
+                        if (imprimir)
+                        {
+                            Imprimir(chaveAcesso);
+                        }
                     }
                     catch (Exception exImpressao)
                     {
@@ -541,6 +564,141 @@ namespace LibNF65
                 // raiz (PastaBase) em vez de ser perdido.
                 MessageBox.Show($"Atenção: a NFC-e {chaveAcesso} foi processada, mas houve falha ao mover o arquivo XML para a pasta {(sucesso ? "OK" : "NOK")}: {ex.Message}");
             }
+        }
+
+        // Onde está o XML desta chave NESTE computador: NFs\OK, NFs\NOK ou a raiz de NFs.
+        // Devolve "" quando não existe aqui (cada caixa grava na pasta NFs dele).
+        public static string LocalizarXml(string chaveAcesso)
+        {
+            if (string.IsNullOrWhiteSpace(chaveAcesso))
+            {
+                return "";
+            }
+
+            foreach (var caminho in new[] { CaminhoArquivoOK(chaveAcesso), CaminhoArquivoNOK(chaveAcesso), CaminhoArquivo(chaveAcesso) })
+            {
+                try
+                {
+                    if (File.Exists(caminho))
+                    {
+                        return caminho;
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return "";
+        }
+
+        // Pasta onde este computador grava os XMLs das NFC-e
+        public static string PastaXml()
+        {
+            return PastaBase;
+        }
+
+        // Resultado da consulta de uma chave na SEFAZ (ver ConsultarSituacao)
+        public class SituacaoNFCe
+        {
+            public int CStat { get; set; }
+            public string XMotivo { get; set; }
+            public string Protocolo { get; set; }
+            public DateTime? DataAutorizacao { get; set; }
+            public string CaminhoXml { get; set; }
+
+            // 100 = autorizada | 150 = autorizada fora de prazo
+            public bool Autorizada { get { return CStat == 100 || CStat == 150; } }
+
+            // 101 = cancelada | 151 = cancelada fora de prazo | 135/155 = evento de cancelamento
+            public bool Cancelada { get { return CStat == 101 || CStat == 151 || CStat == 135 || CStat == 155; } }
+
+            // 217 = NF-e não consta na base de dados da SEFAZ (nunca foi autorizada)
+            public bool NaoExiste { get { return CStat == 217; } }
+        }
+
+        // Consulta a situação de uma chave na SEFAZ. Usada antes de reemitir uma NFC-e que
+        // falhou: a comunicação pode ter caído DEPOIS de a SEFAZ autorizar a nota - nesse caso
+        // ela já vale e não pode ser emitida de novo. Quando está autorizada, grava o protocolo
+        // na infprot (se ainda não estiver lá) e move o XML para NFs\OK.
+        // Lança exceção se não conseguir falar com a SEFAZ.
+        public static SituacaoNFCe ConsultarSituacao(string chaveAcesso, X509Certificate2 x509Cert)
+        {
+            var xml = new XmlNFe.ConsSitNFe
+            {
+                Versao = "4.00",
+                TpAmb = ConfigurationManager.AppSettings["TipoAmbiente"] == "1" ? TipoAmbiente.Producao : TipoAmbiente.Homologacao,
+                ChNFe = chaveAcesso
+            };
+
+            var configuracao = new Unimake.Business.DFe.Servicos.Configuracao
+            {
+                TipoDFe = TipoDFe.NFCe,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoDigital = x509Cert
+            };
+
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            var consulta = new ServicoNFCe.ConsultaProtocolo(xml, configuracao);
+            consulta.Executar();
+
+            if (consulta.Result == null)
+            {
+                throw new Exception($"A SEFAZ não respondeu à consulta da NFC-e {chaveAcesso}.");
+            }
+
+            var situacao = new SituacaoNFCe
+            {
+                CStat = consulta.Result.CStat,
+                XMotivo = consulta.Result.XMotivo
+            };
+
+            var infProt = consulta.Result.ProtNFe?.InfProt;
+            if (infProt != null)
+            {
+                situacao.Protocolo = infProt.NProt;
+                situacao.DataAutorizacao = infProt.DhRecbto.DateTime;
+            }
+
+            if (situacao.Autorizada)
+            {
+                if (infProt != null)
+                {
+                    try
+                    {
+                        IInfProtRepository repository = new InfProtRepository();
+                        var infoProdutoService = new InfoProdutoService();
+                        // grava se ainda não houver o protocolo da AUTORIZAÇÃO (pode existir
+                        // só a linha de uma tentativa rejeitada com a mesma chave)
+                        var existente = infoProdutoService.BuscarPorChNFe(chaveAcesso, repository);
+                        if (existente == null || !(existente.CStat == 100 || existente.CStat == 150))
+                        {
+                            infoProdutoService.AdicionarInfoProduto(new InfoProduto
+                            {
+                                ChNFe = chaveAcesso,
+                                VerAplic = infProt.VerAplic,
+                                DhRecbto = infProt.DhRecbto.DateTime,
+                                NProt = infProt.NProt,
+                                DigVal = infProt.DigVal,
+                                CStat = infProt.CStat,
+                                XMotivo = infProt.XMotivo,
+                                CMsg = infProt.CMsg?.ToString(),
+                                XMsg = infProt.XMsg
+                            }, repository);
+                        }
+                    }
+                    catch
+                    {
+                        // o protocolo também fica no histórico (basennf); a infprot é só para o cancelamento
+                    }
+                }
+
+                MoverArquivo(chaveAcesso, true);
+            }
+
+            situacao.CaminhoXml = LocalizarXml(chaveAcesso);
+            return situacao;
         }
 
         public static bool CancelarNFe(string chave, X509Certificate2 x509Cert, string nProt)

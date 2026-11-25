@@ -156,3 +156,6 @@ $RECYCLE.BIN/
 .DS_Store
 /.vs/nascomercio/v15/Server/sqlite3
 /.vs/nascomercio
+
+# Chaves secretas do backup (AWS) - nunca no Git
+backup.segredos.config

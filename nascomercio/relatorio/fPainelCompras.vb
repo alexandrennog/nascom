@@ -3,7 +3,7 @@ Imports ncDados.nsDashboardCompras
 Imports ncComum.nsExcecao
 Imports ncComum.nsFuncoes
 
-' Painel de Compras: responde direto (sem precisar interpretar um relatorio
+' Curva ABC (antigo "Painel de Compras" - so o nome mudou em 08/11/2026): responde direto (sem precisar interpretar um relatorio
 ' cru) o que a cliente pediu - ticket medio, marca campea e o que precisa
 ' repor. Usa as procedures sp_dashboard_compras_resumo e
 ' sp_dashboard_compras_reposicao (script "38 - dashboard_compras.sql").
@@ -86,12 +86,12 @@ Public Class fPainelCompras
 
         Catch nex As ExcecaoNascomercio
 
-            MessageBox.Show("Erro ao carregar o painel de compras: " & nex.Message,
+            MessageBox.Show("Erro ao carregar a Curva ABC: " & nex.Message,
                              "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         Catch ex As Exception
 
-            MessageBox.Show("Erro inesperado no painel de compras: " & ex.Message,
+            MessageBox.Show("Erro inesperado na Curva ABC: " & ex.Message,
                              "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
         End Try

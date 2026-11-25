@@ -83,7 +83,12 @@ namespace LibNF65
 
         public InfoProduto GetByChNFe(string chNFe)
         {
-            const string sql = "SELECT * FROM infprot WHERE ChNFe = @ChNFe";
+            // A mesma chave pode ter mais de uma linha: o GerarNF grava a resposta da
+            // SEFAZ também quando ela REJEITA, e a reemissão no mesmo número/mês gera a
+            // mesma chave. Quem lê isto (cancelamento) precisa do protocolo da
+            // AUTORIZAÇÃO: autorizada (100/150) primeiro, depois a mais recente.
+            const string sql = "SELECT * FROM infprot WHERE ChNFe = @ChNFe " +
+                               "ORDER BY (cstat IN (100, 150)) DESC, dhrecbto DESC";
 
             using (IDbConnection dbConnection = Connection)
             {

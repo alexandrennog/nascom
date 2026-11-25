@@ -93,6 +93,9 @@ Public Class fAcesso
 
                         If backupAutomatico = "SIM" Then
                             Await mdiPrincipal.CarregarBackupAutomaticoAsync()
+                        Else
+                            ' Backup automatico desligado no app.config: avisa o cliente
+                            mdiPrincipal.AvisarBackupDesativado()
                         End If
 
                     End If

@@ -140,6 +140,8 @@ Public Class fCaixaConsulta
 
                 Dim ret = NFCe65.CancelarNFe(chave, certificadoCarregado, "")
                 If ret = True Then
+                    ' Historico de NFC-e (relatorio "NFC-e Emitidas"): marca como cancelada
+                    Call New ncRegras.nsNFCe.rEmissaoNFCe().TentarMarcarCancelada(chave, "Cancelada em " & Now.ToString("dd/MM/yyyy HH:mm") & " por " & mdiPrincipal.gUsuario.usuario & ".")
                     MessageBox.Show("NFe cancelada com sucesso.")
                     GravarLog(mdiPrincipal.gUsuario.usuario, "NFe cancelada com sucesso. Chave: " & chave)
                 Else
